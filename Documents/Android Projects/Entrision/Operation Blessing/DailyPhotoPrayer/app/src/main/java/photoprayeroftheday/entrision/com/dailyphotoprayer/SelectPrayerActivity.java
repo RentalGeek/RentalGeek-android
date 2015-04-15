@@ -1,5 +1,6 @@
 package photoprayeroftheday.entrision.com.dailyphotoprayer;
 
+import android.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,13 +13,17 @@ public class SelectPrayerActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_prayer);
+
+        getSupportActionBar().setCustomView(R.layout.header);
+        //setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_select_prayer, menu);
+        getLayoutInflater().inflate(R.layout.header, null);
         return true;
     }
 

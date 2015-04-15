@@ -3,5 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:background">@color/blue</item>
+        <item name="logo">@drawable/header</item>
+        <item name="android:windowTitleSize">200dip</item>
     </style>
 </resources>

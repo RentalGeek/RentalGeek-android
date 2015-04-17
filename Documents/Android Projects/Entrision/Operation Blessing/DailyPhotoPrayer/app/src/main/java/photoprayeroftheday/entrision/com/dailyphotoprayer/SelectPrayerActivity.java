@@ -35,9 +35,9 @@ public class SelectPrayerActivity extends ActionBarActivity {
         array.add("day 6");
 
         // setup the gridview
-        GridView gridView = (GridView) findViewById(R.id.grid);
+        //GridView gridView = (GridView) findViewById(R.id.grid);
 
-        gridView.setAdapter(new GridViewAdapter(this, array));
+        //gridView.setAdapter(new GridViewAdapter(this, array));
 
     }
 

@@ -29,7 +29,7 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="200dp" >
+        android:layout_height="200dp">
 
         <ImageView
              android:layout_width="fill_parent"
@@ -43,7 +43,10 @@
             android:textColor="@color/white"
             android:textSize="14sp"
             android:singleLine="true"
-            android:text="TODAY'S PRAYER" />
+            android:text="TODAY'S PRAYER"
+            android:gravity="right"
+            android:background="#07000000"
+            android:layout_alignParentBottom="true"/>
     </RelativeLayout>
 
     <!-- rest of the week views -->
@@ -62,14 +65,32 @@
             android:gravity="center"
             android:background="#ffffff">
 
-            <ImageView
-                android:id="@+id/imageView1"
-                android:layout_height="wrap_content"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:src="@drawable/hawks"
-                android:adjustViewBounds="true"
-                android:padding="5dp"
-                android:background="#ffffff"/>
+                android:layout_height="wrap_content"
+                android:background="#ffffff">
+
+                <ImageView
+                    android:id="@+id/imageView1"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:src="@drawable/hawks"
+                    android:adjustViewBounds="true"
+                    android:padding="5dp"
+                    android:background="#ffffff"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    android:singleLine="true"
+                    android:text="day 1 prayer"
+                    android:gravity="right"
+                    android:background="#07000000"
+                    android:layout_alignParentBottom="true"/>
+
+            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/imageView2"

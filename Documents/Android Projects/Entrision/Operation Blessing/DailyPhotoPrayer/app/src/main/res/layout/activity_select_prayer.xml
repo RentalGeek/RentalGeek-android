@@ -11,6 +11,7 @@
     android:layout_alignParentBottom="true"
     android:background="#ffffff">
 
+    <!-- header -->
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="50dp">
@@ -24,12 +25,28 @@
             android:layout_marginLeft="20dip"/>
     </LinearLayout>
 
-    <ImageView
-         android:layout_width="fill_parent"
-         android:layout_height="200dip"
-         android:id="@+id/imageView"
-         android:background="@android:color/holo_red_dark" />
+    <!-- today's image -->
 
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="200dp" >
+
+        <ImageView
+             android:layout_width="fill_parent"
+             android:layout_height="200dip"
+             android:id="@+id/imageView"
+             android:background="@android:color/holo_red_dark" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="20dp"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:singleLine="true"
+            android:text="TODAY'S PRAYER" />
+    </RelativeLayout>
+
+    <!-- rest of the week views -->
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
@@ -118,131 +135,6 @@
                 android:background="#ffffff"/>
         </LinearLayout>
     </LinearLayout>
-<!--
-    <GridView
-        android:id="@+id/grid"
-        android:numColumns="2"
-        android:gravity="center"
-        android:stretchMode="columnWidth"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
-        -->
-<!--
-    <GridLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@android:color/holo_blue_light"
-        android:columnCount="3"
-        android:rowCount="3"
-        android:useDefaultMargins="true"
-        android:alignmentMode="alignBounds">
 
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_column="0"
-            android:layout_row="0"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:src="@drawable/hawks"
-            android:adjustViewBounds="true"/>
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_column="1"
-            android:layout_row="0"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:src="@drawable/hawks"
-            android:adjustViewBounds="true"/>
-        <ImageView
-            android:id="@+id/imageView3"
-            android:background="@android:color/holo_red_light"
-            android:layout_column="0"
-            android:layout_row="1"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"/>
-
-        <ImageView
-            android:id="@+id/imageView4"
-            android:background="@android:color/holo_green_dark"
-            android:layout_column="1"
-            android:layout_row="1"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-         />
-        <ImageView
-            android:id="@+id/imageView5"
-            android:background="@android:color/holo_green_dark"
-            android:layout_column="0"
-            android:layout_row="2"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"/>
-
-        <ImageView
-            android:id="@+id/imageView6"
-            android:background="@android:color/holo_red_light"
-            android:layout_column="1"
-            android:layout_row="2"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"/>
-    </GridLayout>
-
-    <TableLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@android:color/holo_blue_light">
-
-        <TableRow
-            android:id="@+id/tableRow1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dip">
-
-            <ImageView
-                android:id="@+id/imageView1"
-                android:src="@drawable/hawks"
-                android:adjustViewBounds="true" />
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:src="@drawable/hawks"
-                android:adjustViewBounds="true" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow2"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dip">
-
-            <ImageView
-                android:id="@+id/imageView3"
-                android:background="@android:color/holo_red_light" />
-
-            <ImageView
-                android:id="@+id/imageView4"
-                android:background="@android:color/holo_green_dark" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow3"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dip">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageVie5"
-                android:background="@android:color/holo_green_dark" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView6"
-                android:background="@android:color/holo_red_light" />
-        </TableRow>
-
-    </TableLayout> -->
 </LinearLayout>
 

@@ -11,6 +11,19 @@
     android:layout_alignParentBottom="true"
     android:background="#ffffff">
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:src="@drawable/header"
+            android:adjustViewBounds="true"
+            android:layout_marginTop="7dip"
+            android:layout_marginLeft="20dip"/>
+    </LinearLayout>
+
     <ImageView
          android:layout_width="fill_parent"
          android:layout_height="200dip"
@@ -18,7 +31,7 @@
          android:background="@android:color/holo_red_dark" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
         android:layout_weight="1"
@@ -29,7 +42,8 @@
             android:layout_height="0dp"
             android:orientation="horizontal"
             android:layout_weight="1"
-            android:gravity="center">
+            android:gravity="center"
+            android:background="#ffffff">
 
             <ImageView
                 android:id="@+id/imageView1"
@@ -55,7 +69,8 @@
             android:layout_height="0dp"
             android:orientation="horizontal"
             android:layout_weight="1"
-            android:gravity="center">
+            android:gravity="center"
+            android:background="#ffffff">
 
             <ImageView
                 android:id="@+id/imageView3"

@@ -1,5 +1,6 @@
 package photoprayeroftheday.entrision.com.dailyphotoprayer;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -12,32 +13,12 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 
 
-public class SelectPrayerActivity extends ActionBarActivity {
+public class SelectPrayerActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_prayer);
-
-        /*
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("");
-        actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setLogo(R.drawable.header);
-*/
-        // set up the array
-        ArrayList array = new ArrayList();
-        array.add("day 1");
-        array.add("day 2");
-        array.add("day 3");
-        array.add("day 4");
-        array.add("day 5");
-        array.add("day 6");
-
-        // setup the gridview
-        //GridView gridView = (GridView) findViewById(R.id.grid);
-
-        //gridView.setAdapter(new GridViewAdapter(this, array));
 
     }
 

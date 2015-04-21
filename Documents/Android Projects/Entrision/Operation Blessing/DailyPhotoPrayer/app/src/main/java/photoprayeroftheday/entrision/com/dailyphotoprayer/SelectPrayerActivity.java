@@ -2,11 +2,14 @@ package photoprayeroftheday.entrision.com.dailyphotoprayer;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
 
@@ -19,6 +22,19 @@ public class SelectPrayerActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_prayer);
+
+        View todayImage = findViewById(R.id.todayImage);
+
+        todayImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SelectPrayerActivity.this, SinglePrayerActivity.class);
+
+                // TODO -  add in intent extra
+                SelectPrayerActivity.this.startActivity(intent);
+            }
+        });
+
 
     }
 
@@ -38,5 +54,25 @@ public class SelectPrayerActivity extends Activity {
         int id = item.getItemId();
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class APIPrayer extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+        }
     }
 }

@@ -16,20 +16,24 @@ import android.widget.ImageView;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 
 public class SelectPrayerActivity extends Activity implements APIPrayer {
 
-    private PrayerDataSource dataSource;
     private int foundPrayers;
     private int dayCount;
     private boolean prayerSearchFinished;
     private PrayerEvent prayerEvent;
+    private ArrayList<Prayer> prayers;
+
+    private Calendar calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,37 +44,14 @@ public class SelectPrayerActivity extends Activity implements APIPrayer {
         dayCount = 0;
         prayerSearchFinished = false;
         prayerEvent = new PrayerEvent(this, this);
-
-        //dataSource = new PrayerDataSource(this);
-        //dataSource.open();
+        prayers = new ArrayList<Prayer>();
 
         // get today's date
-        Calendar calendar = Calendar.getInstance();
+        calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String date = dateFormat.format(calendar.getTime());
 
         prayerEvent.getPrayerForDate(date);
-/*
-        // cycle through dates until we have 7 or have gone back 30 days
-        for (int i=0; i < 29; i++) {
-            Prayer prayer;
-            String date = dateFormat.format(calendar.getTime());
-
-            // check the database for the prayer
-            prayer = dataSource.getPrayerForDate(date);
-
-            // check the API for the prayer
-            if (prayer == null) {
-                // call the API to get prayers
-                new PrayerWorker().execute(this.getString(R.string.baseAddress), date);
-            }
-
-            // load into view
-
-            // set the current day
-            calendar.add(Calendar.DAY_OF_YEAR, -1);
-        }
-*/
 
         // click handlers
         View todayImage = findViewById(R.id.todayImage);
@@ -88,14 +69,32 @@ public class SelectPrayerActivity extends Activity implements APIPrayer {
 
     public void apiCallFinished(Prayer foundPrayer) {
         // check to see if there is a prayer
+        if (foundPrayer != null) {
+            // add it to the array
+            prayers.add(foundPrayers, foundPrayer);
+            foundPrayers++;
+        }
 
-        // if so add it to the array
+        dayCount--;
 
         // if we have not met the terminate criteria:
+        if (dayCount > -30 && foundPrayers < 7) {
+            // change the date
+            // set the current day
+            calendar.add(Calendar.DAY_OF_YEAR, -1);
 
-        // change the date
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String date = dateFormat.format(calendar.getTime());
 
-        // make call again
+            // make call again
+            prayerEvent.getPrayerForDate(date);
+        } else {
+            populateUI();
+        }
+    }
+
+    public void populateUI() {
+
     }
 
 }

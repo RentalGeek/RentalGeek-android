@@ -25,6 +25,8 @@ public class PrayerEvent {
         // check the database for the prayer
         prayer = dataSource.getPrayerForDate(date);
 
+        dataSource.close();
+
         // check the API for the prayer
         if (prayer == null) {
             // call the API to get prayers

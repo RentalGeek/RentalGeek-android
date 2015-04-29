@@ -7,22 +7,72 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
-public class SelectPrayerActivity extends Activity {
+public class SelectPrayerActivity extends Activity implements APIPrayer {
+
+    private PrayerDataSource dataSource;
+    private int foundPrayers;
+    private int dayCount;
+    private boolean prayerSearchFinished;
+    private PrayerEvent prayerEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_prayer);
 
+        foundPrayers = 0;
+        dayCount = 0;
+        prayerSearchFinished = false;
+        prayerEvent = new PrayerEvent(this, this);
+
+        //dataSource = new PrayerDataSource(this);
+        //dataSource.open();
+
+        // get today's date
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String date = dateFormat.format(calendar.getTime());
+
+        prayerEvent.getPrayerForDate(date);
+/*
+        // cycle through dates until we have 7 or have gone back 30 days
+        for (int i=0; i < 29; i++) {
+            Prayer prayer;
+            String date = dateFormat.format(calendar.getTime());
+
+            // check the database for the prayer
+            prayer = dataSource.getPrayerForDate(date);
+
+            // check the API for the prayer
+            if (prayer == null) {
+                // call the API to get prayers
+                new PrayerWorker().execute(this.getString(R.string.baseAddress), date);
+            }
+
+            // load into view
+
+            // set the current day
+            calendar.add(Calendar.DAY_OF_YEAR, -1);
+        }
+*/
+
+        // click handlers
         View todayImage = findViewById(R.id.todayImage);
 
         todayImage.setOnClickListener(new View.OnClickListener() {
@@ -34,45 +84,18 @@ public class SelectPrayerActivity extends Activity {
                 SelectPrayerActivity.this.startActivity(intent);
             }
         });
-
-
     }
 
+    public void apiCallFinished(Prayer foundPrayer) {
+        // check to see if there is a prayer
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getLayoutInflater().inflate(R.layout.header, null);
-        return true;
+        // if so add it to the array
+
+        // if we have not met the terminate criteria:
+
+        // change the date
+
+        // make call again
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private class APIPrayer extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... params) {
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-        }
-
-        @Override
-        protected void onPreExecute() {
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-        }
-    }
 }

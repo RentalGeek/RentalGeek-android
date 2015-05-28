@@ -7,7 +7,7 @@ public class PrayerEvent {
     private PrayerDataSource dataSource;
     private APIPrayer api;
     private boolean apiCallFinished;
-    private Activity caller;
+    public Activity caller;
 
     public PrayerEvent (APIPrayer prayer, Activity parent) {
         api = prayer;

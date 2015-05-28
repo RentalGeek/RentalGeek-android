@@ -1,5 +1,9 @@
 package photoprayeroftheday.entrision.com.dailyphotoprayer;
 
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
 import org.json.JSONArray;
@@ -7,6 +11,8 @@ import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -30,6 +36,7 @@ public class PrayerWorker extends AsyncTask<Object, Void, Prayer> {
             String photoURL = null;
             String location = null;
             String prayerText = null;
+            Bitmap image = null;
 
             while((line = reader.readLine()) != null) {
                 JSONArray json = new JSONArray(line);
@@ -41,8 +48,27 @@ public class PrayerWorker extends AsyncTask<Object, Void, Prayer> {
                 prayerText = object.getString("prayer");
             }
 
-            if (prayerText != null) {
+            if (photoURL != null) {
+                URL imageURL = new URL(photoURL);
+                HttpURLConnection imageConn = (HttpURLConnection) imageURL.openConnection();
+                imageConn.setDoInput(true);
+                imageConn.connect();
 
+                InputStream is = conn.getInputStream();
+                image = BitmapFactory.decodeStream(is);
+
+                ContextWrapper cw = new ContextWrapper(caller.caller);
+                FileOutputStream file = cw.openFileOutput (date + ".png", Context.MODE_PRIVATE);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                image.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                file.write(stream.toByteArray());
+                file.close();
+            }
+
+            if (prayerText != null) {
+                Prayer prayer = new Prayer();
+                prayer.setValues(date, location, prayerText);
+                return prayer;
             }
 
         } catch(Exception e) {

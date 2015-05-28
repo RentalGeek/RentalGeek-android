@@ -1,5 +1,6 @@
 package photoprayeroftheday.entrision.com.dailyphotoprayer;
 
+import android.graphics.Bitmap;
 import android.media.Image;
 
 public class Prayer {
@@ -7,7 +8,6 @@ public class Prayer {
     private String date;
     private String location;
     private String prayer;
-    private byte[] photo;
 
     public String getDate() {
         return date;
@@ -21,14 +21,10 @@ public class Prayer {
         return prayer;
     }
 
-    public byte[] getPhoto() {
-        return photo;
-    }
 
-    public void setValues(String date, String loc, String pray, byte[] image) {
+    public void setValues(String date, String loc, String pray) {
         this.date = date;
         this.location = loc;
         this.prayer = pray;
-        this.photo = image;
     }
 }

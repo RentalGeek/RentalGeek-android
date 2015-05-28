@@ -39,7 +39,7 @@ public class PrayerDataSource {
         Cursor cursor = database.query("prayers", columns, "prayer_id = " + insertID, null, null, null, null);
         cursor.moveToFirst();
         Prayer newPrayer = new Prayer();
-        newPrayer.setValues(cursor.getString(0), cursor.getString(1), cursor.getString(2), null);
+        newPrayer.setValues(cursor.getString(0), cursor.getString(1), cursor.getString(2));
 
         cursor.close();
         return newPrayer;
@@ -48,12 +48,12 @@ public class PrayerDataSource {
     public Prayer getPrayerForDate(String date) {
         Prayer prayer = new Prayer();
 
-        String[] columns = {"date", "location", "prayer", "photo"};
+        String[] columns = {"date", "location", "prayer"};
         Cursor cursor = database.query("prayers", columns, "date = " + date, null, null, null, null);
 
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
-            prayer.setValues(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getBlob(3));
+            prayer.setValues(cursor.getString(0), cursor.getString(1), cursor.getString(2));
         } else {
             prayer = null;
         }

@@ -15,7 +15,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + "(prayer_id integer primary key autoincrement, "
             + "location text not null, "
             + "date text not null, "
-            + "photo blob not null, "
             + "prayer text not null);";
 
     public DatabaseHelper(Context context) {

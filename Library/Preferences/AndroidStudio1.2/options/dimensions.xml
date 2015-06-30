@@ -26,10 +26,10 @@
     <location key="Vcs.Push.Dialog.1440.0.1920.1080" x="2102" y="267" />
     <location key="SettingsEditor.1440.0.1920.1080" x="1882" y="208" />
     <location key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog.1440.0.1920.1080" x="1555" y="132" />
-    <size key="GridCell.Tab.0.left.1440.0.1920.1080" width="1738" height="107" />
-    <size key="GridCell.Tab.0.center.1440.0.1920.1080" width="1738" height="107" />
-    <size key="GridCell.Tab.0.right.1440.0.1920.1080" width="1738" height="107" />
-    <size key="GridCell.Tab.0.bottom.1440.0.1920.1080" width="1738" height="107" />
+    <size key="GridCell.Tab.0.left.1440.0.1920.1080" width="0" height="0" />
+    <size key="GridCell.Tab.0.center.1440.0.1920.1080" width="0" height="0" />
+    <size key="GridCell.Tab.0.right.1440.0.1920.1080" width="0" height="0" />
+    <size key="GridCell.Tab.0.bottom.1440.0.1920.1080" width="0" height="0" />
     <size key="GridCell.Tab.1.left.1440.0.1920.1080" width="1738" height="107" />
     <size key="GridCell.Tab.1.center.1440.0.1920.1080" width="1738" height="107" />
     <size key="GridCell.Tab.1.right.1440.0.1920.1080" width="1738" height="107" />
@@ -61,6 +61,7 @@
     <size key="GridCell.Tab.3.right.1440.0.1920.1080" width="1738" height="107" />
     <size key="GridCell.Tab.3.bottom.1440.0.1920.1080" width="1738" height="107" />
     <size key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog.1440.0.1920.1080" width="1580" height="761" />
+    <size key="Vcs.Push.Dialog.1440.0.1920.1080" width="1042" height="559" />
     <extendedState key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog.0" state="300" />
     <extendedState key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" state="0" />
   </component>

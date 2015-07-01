@@ -9,7 +9,7 @@
     <location key="#Gradle.1440.0.1920.1080" x="2042" y="210" />
     <location key="FileChooserDialogImpl.1440.0.1920.1080" x="1972" y="286" />
     <location key="AndroidExtendedDeviceChooserDialog.1440.0.1920.1080" x="2050" y="322" />
-    <location key="com.intellij.ide.util.TipDialog.1440.0.1920.1080" x="2005" y="356" />
+    <location key="com.intellij.ide.util.TipDialog.1440.0.1920.1080" x="438" y="264" />
     <location key="OptionsEditor.1440.0.1920.1080" x="1675" y="106" />
     <location key="#Updates.1440.0.1920.1080" x="1882" y="429" />
     <location key="WELCOME_SCREEN.1440.0.1920.1080" x="2399" y="300" />
@@ -30,10 +30,10 @@
     <size key="GridCell.Tab.0.center.1440.0.1920.1080" width="0" height="0" />
     <size key="GridCell.Tab.0.right.1440.0.1920.1080" width="0" height="0" />
     <size key="GridCell.Tab.0.bottom.1440.0.1920.1080" width="0" height="0" />
-    <size key="GridCell.Tab.1.left.1440.0.1920.1080" width="1738" height="107" />
-    <size key="GridCell.Tab.1.center.1440.0.1920.1080" width="1738" height="107" />
-    <size key="GridCell.Tab.1.right.1440.0.1920.1080" width="1738" height="107" />
-    <size key="GridCell.Tab.1.bottom.1440.0.1920.1080" width="1738" height="107" />
+    <size key="GridCell.Tab.1.left.1440.0.1920.1080" width="1878" height="272" />
+    <size key="GridCell.Tab.1.center.1440.0.1920.1080" width="1878" height="272" />
+    <size key="GridCell.Tab.1.right.1440.0.1920.1080" width="1878" height="272" />
+    <size key="GridCell.Tab.1.bottom.1440.0.1920.1080" width="1878" height="272" />
     <size key="GridCell.Tab.0.left.0.0.1440.900" width="1738" height="107" />
     <size key="GridCell.Tab.0.center.0.0.1440.900" width="1738" height="107" />
     <size key="GridCell.Tab.0.right.0.0.1440.900" width="1738" height="107" />
@@ -44,10 +44,10 @@
     <size key="GridCell.Tab.1.bottom.0.0.1440.900" width="1738" height="107" />
     <size key="com.intellij.ide.passwordSafe.impl.providers.masterKey.ResetPasswordDialog.1440.0.1920.1080" width="431" height="148" />
     <size key="javadoc.popup.1440.0.1920.1080" width="500" height="124" />
-    <size key="GridCell.Tab.2.left.1440.0.1920.1080" width="1738" height="107" />
-    <size key="GridCell.Tab.2.center.1440.0.1920.1080" width="1738" height="107" />
-    <size key="GridCell.Tab.2.right.1440.0.1920.1080" width="1738" height="107" />
-    <size key="GridCell.Tab.2.bottom.1440.0.1920.1080" width="1738" height="107" />
+    <size key="GridCell.Tab.2.left.1440.0.1920.1080" width="1878" height="272" />
+    <size key="GridCell.Tab.2.center.1440.0.1920.1080" width="1878" height="272" />
+    <size key="GridCell.Tab.2.right.1440.0.1920.1080" width="1878" height="272" />
+    <size key="GridCell.Tab.2.bottom.1440.0.1920.1080" width="1878" height="272" />
     <size key="GridCell.Tab.2.left.0.0.1440.900" width="1738" height="107" />
     <size key="GridCell.Tab.2.center.0.0.1440.900" width="1738" height="107" />
     <size key="GridCell.Tab.2.right.0.0.1440.900" width="1738" height="107" />
@@ -56,10 +56,10 @@
     <size key="GridCell.Tab.3.center.0.0.1440.900" width="1738" height="107" />
     <size key="GridCell.Tab.3.right.0.0.1440.900" width="1738" height="107" />
     <size key="GridCell.Tab.3.bottom.0.0.1440.900" width="1738" height="107" />
-    <size key="GridCell.Tab.3.left.1440.0.1920.1080" width="1738" height="107" />
-    <size key="GridCell.Tab.3.center.1440.0.1920.1080" width="1738" height="107" />
-    <size key="GridCell.Tab.3.right.1440.0.1920.1080" width="1738" height="107" />
-    <size key="GridCell.Tab.3.bottom.1440.0.1920.1080" width="1738" height="107" />
+    <size key="GridCell.Tab.3.left.1440.0.1920.1080" width="1878" height="272" />
+    <size key="GridCell.Tab.3.center.1440.0.1920.1080" width="1878" height="272" />
+    <size key="GridCell.Tab.3.right.1440.0.1920.1080" width="1878" height="272" />
+    <size key="GridCell.Tab.3.bottom.1440.0.1920.1080" width="1878" height="272" />
     <size key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog.1440.0.1920.1080" width="1580" height="761" />
     <size key="Vcs.Push.Dialog.1440.0.1920.1080" width="1042" height="559" />
     <extendedState key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog.0" state="300" />

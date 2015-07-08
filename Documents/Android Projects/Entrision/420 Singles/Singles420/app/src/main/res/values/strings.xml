@@ -3,6 +3,17 @@
 
     <string name="email_hint">Email Address</string>
     <string name="password_hint">Password</string>
+    <string name="confirm_password_hint">Confirm Password</string>
+    <string name="first_name_hint">First Name</string>
+    <string name="last_name_hint">Last Name</string>
+    <string name="zipcode_hint">Zipcode</string>
     <string name="action_settings"></string>
+    <string name="dob_hint">Date of Birth</string>
     <string name="base_address">http://104.236.150.41/api/v1/</string>
+
+    <string name="gender_hint">Gender</string>
+    <string-array name="gender">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
 </resources>

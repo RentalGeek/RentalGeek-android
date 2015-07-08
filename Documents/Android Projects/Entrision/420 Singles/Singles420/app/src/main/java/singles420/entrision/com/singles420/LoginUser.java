@@ -1,5 +1,6 @@
 package singles420.entrision.com.singles420;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import org.json.JSONObject;
@@ -12,10 +13,16 @@ import java.net.URL;
 
 public class LoginUser extends AsyncTask <String, Void, String> {
 
+    private Context context;
+
+    public LoginUser(Context cont) {
+        context = cont;
+    }
+
     @Override
     protected String doInBackground(String... params) {
         try {
-            URL url = new URL("@strings/base_address"+"sessions");
+            URL url = new URL(context.getResources().getString(R.string.base_address)+"sessions");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
 
@@ -45,10 +52,12 @@ public class LoginUser extends AsyncTask <String, Void, String> {
                 br.close();
                 System.out.println(sb.toString());
             }
-        }
-        catch(Exception e) {
 
         }
+        catch(Exception e) {
+            System.out.print(e);
+        }
+
         return "";
 
     }

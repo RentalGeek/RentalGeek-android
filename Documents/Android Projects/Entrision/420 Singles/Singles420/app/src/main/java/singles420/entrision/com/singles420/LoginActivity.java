@@ -1,6 +1,8 @@
 package singles420.entrision.com.singles420;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -28,7 +30,25 @@ public class LoginActivity extends Activity {
 
         if (!inputError) {
             String[] params = { emailAddress.getText().toString(), password.getText().toString() };
-            LoginUser user = (LoginUser) new LoginUser().execute(params);
+            LoginUser user = (LoginUser) new LoginUser(this).execute(params);
+        } else {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+            // set title
+            alertDialogBuilder.setTitle("Input Error");
+
+            // set dialog message
+            alertDialogBuilder
+                    .setMessage("Please enter your email address and password")
+                    .setCancelable(false)
+                    .setPositiveButton("OK",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog,int id) {
+                            dialog.cancel();
+                        }
+                    });
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
         }
     }
     /*

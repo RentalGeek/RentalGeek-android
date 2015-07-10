@@ -29,4 +29,13 @@
         <item name="android:layout_gravity">center_horizontal</item>
         <item name="android:background">@color/yellow</item>
     </style>
+
+    <style name="ClearButtonStyle">
+        <item name="android:layout_width">250dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
 </resources>

@@ -136,9 +136,9 @@ public class LoginActivity extends Activity {
             System.out.println("ERROR - " + e);
         }
     }
-    /*
-SharedPreferences prefs = this.getSharedPreferences(
-      "com.example.app", Context.MODE_PRIVATE);
 
-     */
+    public void joinButtonPressed(View view) {
+        Intent myIntent = new Intent(this, SignupActivity.class);
+        this.startActivity(myIntent);
+    }
 }

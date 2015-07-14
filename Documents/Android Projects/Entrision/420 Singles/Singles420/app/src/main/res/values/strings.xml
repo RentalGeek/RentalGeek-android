@@ -11,6 +11,7 @@
     <string name="dob_hint">Date of Birth</string>
     <string name="base_address">http://104.236.150.41/api/v1/</string>
     <string name="prefsFile">com.420Singles.preferences</string>
+    <string name="facebook_app_id">687771387915564</string>
 
     <string name="gender_hint">Gender</string>
     <string-array name="gender">

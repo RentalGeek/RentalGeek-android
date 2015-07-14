@@ -82,6 +82,7 @@
             android:src="@drawable/person_icon"/>
 
         <Spinner
+            android:id="@+id/gender"
             android:layout_width="250dp"
             android:layout_height="50dp"
             android:entries="@array/gender"
@@ -106,7 +107,7 @@
             android:id="@+id/dob"
             style="@style/EditTextStyle"
             android:hint="@string/dob_hint"
-            android:inputType="text"/>
+            android:inputType="date"/>
     </LinearLayout>
 
     <LinearLayout

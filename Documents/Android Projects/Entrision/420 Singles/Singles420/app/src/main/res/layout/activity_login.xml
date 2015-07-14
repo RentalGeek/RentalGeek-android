@@ -64,6 +64,13 @@
         style="@style/ButtonStyle"
         android:onClick="loginButtonPressed"/>
 
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/facebook_login_button"
+        android:layout_width="240dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp" />
+
     <Button
         android:id="@+id/join_button"
         android:layout_marginTop="20dp"

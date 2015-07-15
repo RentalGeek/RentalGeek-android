@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -16,18 +17,11 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-
-import org.apache.http.Header;
-import org.apache.http.entity.ByteArrayEntity;
-import org.json.JSONObject;
-
-import java.net.HttpURLConnection;
 
 public class LoginActivity extends Activity {
 
     CallbackManager callbackManager;
+    AccessToken facebookAccessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +40,14 @@ public class LoginActivity extends Activity {
             callbackManager = CallbackManager.Factory.create();
 
             LoginButton loginButton = (LoginButton) this.findViewById(R.id.facebook_login_button);
-            loginButton.setReadPermissions("user_friends");
+            loginButton.setReadPermissions("email");
 
             LoginManager.getInstance().registerCallback(callbackManager,
                     new FacebookCallback<LoginResult>() {
                         @Override
                         public void onSuccess(LoginResult loginResult) {
-                           loginFaceBookUser(loginResult.getAccessToken().getUserId());
+                            //loginFaceBookUser(loginResult.getAccessToken().getUserId());
+                            APIHelper.getInstance().facebookLogin(loginResult);
                         }
 
                         @Override
@@ -88,9 +83,12 @@ public class LoginActivity extends Activity {
         }
 
         if (!inputError) {
-            String[] params = { emailAddress.getText().toString(), password.getText().toString() };
-            //LoginUser user = (LoginUser) new LoginUser(this).execute(params);
-
+            try {
+                APIHelper.getInstance().loginUser(emailAddress.getText().toString(), password.getText().toString());
+            } catch(Exception e) {
+                Log.w("****420 *****", e);
+            }
+            /*
             AsyncHttpClient client = new AsyncHttpClient();
             try {
                 JSONObject jsonParams = new JSONObject();
@@ -113,7 +111,8 @@ public class LoginActivity extends Activity {
                         if (statusCode == HttpURLConnection.HTTP_OK) {
                             try {
                                 String jsonString = new String(response, "UTF-8");
-                                setUserInfo(jsonString);
+                                Utilities.UserUtility userUtil = new Utilities.UserUtility();
+                                userUtil.setUserInfo(getApplicationContext(), jsonString);
 
                             } catch(Exception e) {
 
@@ -135,7 +134,7 @@ public class LoginActivity extends Activity {
             } catch (Exception e) {
 
             }
-
+*/
         } else {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
@@ -157,31 +156,14 @@ public class LoginActivity extends Activity {
         }
     }
 
-    public void setUserInfo(String jsonString) {
-        try {
-            JSONObject jsonObject = new JSONObject(jsonString);
-            JSONObject userObject = jsonObject.getJSONObject("user");
-            Integer userID = (Integer) userObject.get("id");
-            String token = (String) userObject.get("authentication_token");
-
-            Utilities.UserUtility userUtil = new Utilities.UserUtility();
-            userUtil.setUserID(userID, this);
-            userUtil.setAuthorizationToken(token, this);
-
-            Intent myIntent = new Intent(this, SinglesActivity.class);
-            //myIntent.putExtra("key", value); //Optional parameters
-            this.startActivity(myIntent);
-        } catch (Exception e) {
-            Log.w("**** 420 SINGLES ****", e);
-        }
-    }
-
     public void joinButtonPressed(View view) {
         Intent myIntent = new Intent(this, SignupActivity.class);
         this.startActivity(myIntent);
     }
 
     public void loginFaceBookUser(String token) {
+        //APIHelper.getInstance().facebookLogin();
+        /*
         AsyncHttpClient client = new AsyncHttpClient();
         try {
             JSONObject jsonParams = new JSONObject();
@@ -203,7 +185,8 @@ public class LoginActivity extends Activity {
                     if (statusCode == HttpURLConnection.HTTP_OK) {
                         try {
                             String jsonString = new String(response, "UTF-8");
-                            setUserInfo(jsonString);
+                            Utilities.UserUtility userUtil = new Utilities.UserUtility();
+                            userUtil.setUserInfo(getApplicationContext(), jsonString);
 
                         } catch(Exception e) {
 
@@ -213,8 +196,14 @@ public class LoginActivity extends Activity {
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                    // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-                    Log.w("**** 420 SINGLES ****", e);
+                    // the user is not known to the database, so we sign them up using facebook data
+                    new GraphRequest( AccessToken.getCurrentAccessToken(), "/me", null, HttpMethod.GET,
+                            new GraphRequest.Callback() {
+                                public void onCompleted(GraphResponse response) {
+
+                                }
+                            }
+                    ).executeAsync();
                 }
 
                 @Override
@@ -226,5 +215,6 @@ public class LoginActivity extends Activity {
         } catch (Exception e) {
             Log.w("**** 420 SINGLES ****", e);
         }
+        */
     }
 }

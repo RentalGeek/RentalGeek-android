@@ -3,6 +3,9 @@ package singles420.entrision.com.singles420;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
+
+import org.json.JSONObject;
 
 public class Utilities {
 
@@ -33,6 +36,21 @@ public class Utilities {
             Integer userID = prefs.getInt("userID", -1);
 
             return userID;
+        }
+
+        public void setUserInfo(Context context, String jsonString) {
+            try {
+                JSONObject jsonObject = new JSONObject(jsonString);
+                JSONObject userObject = jsonObject.getJSONObject("user");
+                Integer userID = (Integer) userObject.get("id");
+                String token = (String) userObject.get("authentication_token");
+
+                setUserID(userID, context);
+                setAuthorizationToken(token, context);
+
+            } catch (Exception e) {
+                Log.w("**** 420 SINGLES ****", e);
+            }
         }
     }
 }

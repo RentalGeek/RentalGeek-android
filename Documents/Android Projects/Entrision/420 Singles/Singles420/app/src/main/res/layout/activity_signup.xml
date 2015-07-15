@@ -58,27 +58,6 @@
             android:layout_height="20dp"
             android:layout_marginTop="15dp"
             android:layout_marginRight="5dp"
-            android:src="@drawable/zip_icon"/>
-
-        <EditText
-            android:id="@+id/zipcode"
-            style="@style/EditTextStyle"
-            android:hint="@string/zipcode_hint"
-            android:inputType="text"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:paddingTop="20dp"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:gravity="center_horizontal">
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="5dp"
             android:src="@drawable/person_icon"/>
 
         <Spinner

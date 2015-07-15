@@ -2,24 +2,41 @@ package singles420.entrision.com.singles420;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import java.util.Calendar;
 
-public class SignupActivity extends Activity {
+public class SignupActivity extends Activity implements LocationListener {
 
+    protected LocationManager locationManager;
+    protected LocationListener locationListener;
     EditText birthDate;
+    EditText firstName;
+    EditText lastName;
+    EditText emailAddress;
+    EditText password;
+    EditText confirmPassword;
+    Spinner gender;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
         TextWatcher tw = new TextWatcher() {
             private String current = "";
@@ -82,37 +99,69 @@ public class SignupActivity extends Activity {
         birthDate = (EditText) findViewById(R.id.dob);
         birthDate.addTextChangedListener(tw);
 
+        firstName = (EditText) findViewById(R.id.first_name);
+        lastName = (EditText) findViewById(R.id.last_name);
+        emailAddress = (EditText) findViewById(R.id.email_address);
+        password = (EditText) findViewById(R.id.password);
+        confirmPassword = (EditText) findViewById(R.id.confirm_password);
+        gender = (Spinner) findViewById(R.id.gender);
+
     }
 
     public void signupButtonPressed(View view) {
         Boolean inputError = false;
-        String errorMessage = "";
-        EditText firstName = (EditText) findViewById(R.id.first_name);
-        EditText lastName = (EditText) findViewById(R.id.last_name);
-        EditText zipcode = (EditText) findViewById(R.id.zipcode);
-        //EditText birthDate = (EditText) findViewById(R.id.dob);
-        EditText emailAddress = (EditText) findViewById(R.id.email_address);
-        EditText password = (EditText) findViewById(R.id.password);
-        EditText confirmPassword = (EditText) findViewById(R.id.confirm_password);
-        Spinner gender = (Spinner) findViewById(R.id.gender);
+        String errorMessage = "Please enter values in the fields:\n";
 
         if (firstName.getText().toString().matches("")) {
             inputError = true;
+            errorMessage = errorMessage + "First Name\n";
         }
 
         if (lastName.getText().toString().matches("")) {
             inputError = true;
+            errorMessage = errorMessage + "Last Name\n";
         }
 
         if (emailAddress.getText().toString().matches("")) {
             inputError = true;
+            errorMessage = errorMessage + "Email Address\n";
         }
 
         if (password.getText().toString().matches("")) {
             inputError = true;
+            errorMessage = errorMessage + "Password\n";
+        }
+
+        if (confirmPassword.getText().toString().matches("")) {
+            inputError = true;
+            errorMessage = errorMessage + "Confirm Password\n";
+        }
+
+        if (!password.getText().toString().matches("") && !confirmPassword.getText().toString().matches("")) {
+            if (!password.getText().toString().matches(confirmPassword.getText().toString())) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+                // set title
+                alertDialogBuilder.setTitle("Password Error");
+
+                // set dialog message
+                alertDialogBuilder
+                        .setMessage("The passwords entered do not match.")
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+            }
         }
 
         if (!inputError) {
+
+            APIHelper.getInstance().signUpUser(firstName.getText().toString(), lastName.getText().toString(), gender.getSelectedItem().toString().toLowerCase(), birthDate.getText().toString(), emailAddress.getText().toString(), password.getText().toString(), "");
 
         } else {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
@@ -136,4 +185,22 @@ public class SignupActivity extends Activity {
     }
 
 
+    @Override
+    public void onLocationChanged(Location location) {
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        Log.d("Latitude","disable");
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        Log.d("Latitude","enable");
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        Log.d("Latitude","status");
+    }
 }

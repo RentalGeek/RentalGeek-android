@@ -2,7 +2,15 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+        <item name="android:spinnerItemStyle">@style/FTSSpinnerItem</item>
+    </style>
+
+    <style name="FTSSpinnerItem" parent="android:Widget.TextView.SpinnerItem">
+        <item name="android:textAppearance">@style/FTSTextAppearanceSpinnerItem</item>
+    </style>
+
+    <style name="FTSTextAppearanceSpinnerItem" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
+        <item name="android:textColor">#FFF</item>
     </style>
 
     <style name="EditTextStyle">

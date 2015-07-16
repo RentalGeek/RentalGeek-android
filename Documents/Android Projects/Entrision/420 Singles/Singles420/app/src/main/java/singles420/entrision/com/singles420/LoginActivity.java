@@ -88,53 +88,7 @@ public class LoginActivity extends Activity {
             } catch(Exception e) {
                 Log.w("****420 *****", e);
             }
-            /*
-            AsyncHttpClient client = new AsyncHttpClient();
-            try {
-                JSONObject jsonParams = new JSONObject();
-                JSONObject emailParams = new JSONObject();
-                emailParams.put("email", emailAddress.getText().toString());
-                emailParams.put("password", password.getText().toString());
-                jsonParams.put("user", emailParams);
 
-
-                ByteArrayEntity entity = new ByteArrayEntity(jsonParams.toString().getBytes("UTF-8"));
-                client.post(this, this.getResources().getString(R.string.base_address) + "sessions", entity, "application/json",new AsyncHttpResponseHandler() {
-
-                    @Override
-                    public void onStart() {
-                        // called before request is started
-                    }
-
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                        if (statusCode == HttpURLConnection.HTTP_OK) {
-                            try {
-                                String jsonString = new String(response, "UTF-8");
-                                Utilities.UserUtility userUtil = new Utilities.UserUtility();
-                                userUtil.setUserInfo(getApplicationContext(), jsonString);
-
-                            } catch(Exception e) {
-
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                        // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-                    }
-
-                    @Override
-                    public void onRetry(int retryNo) {
-                        // called when request is retried
-                    }
-                });
-
-            } catch (Exception e) {
-
-            }
-*/
         } else {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
@@ -161,60 +115,5 @@ public class LoginActivity extends Activity {
         this.startActivity(myIntent);
     }
 
-    public void loginFaceBookUser(String token) {
-        //APIHelper.getInstance().facebookLogin();
-        /*
-        AsyncHttpClient client = new AsyncHttpClient();
-        try {
-            JSONObject jsonParams = new JSONObject();
-            JSONObject fbParams = new JSONObject();
-            fbParams.put("facebook_auth_token", token);
-            jsonParams.put("user", fbParams);
 
-
-            ByteArrayEntity entity = new ByteArrayEntity(jsonParams.toString().getBytes("UTF-8"));
-            client.post(this, this.getResources().getString(R.string.base_address) + "facebook_authentication", entity, "application/json",new AsyncHttpResponseHandler() {
-
-                @Override
-                public void onStart() {
-                    // called before request is started
-                }
-
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                    if (statusCode == HttpURLConnection.HTTP_OK) {
-                        try {
-                            String jsonString = new String(response, "UTF-8");
-                            Utilities.UserUtility userUtil = new Utilities.UserUtility();
-                            userUtil.setUserInfo(getApplicationContext(), jsonString);
-
-                        } catch(Exception e) {
-
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                    // the user is not known to the database, so we sign them up using facebook data
-                    new GraphRequest( AccessToken.getCurrentAccessToken(), "/me", null, HttpMethod.GET,
-                            new GraphRequest.Callback() {
-                                public void onCompleted(GraphResponse response) {
-
-                                }
-                            }
-                    ).executeAsync();
-                }
-
-                @Override
-                public void onRetry(int retryNo) {
-                    // called when request is retried
-                }
-            });
-
-        } catch (Exception e) {
-            Log.w("**** 420 SINGLES ****", e);
-        }
-        */
-    }
 }

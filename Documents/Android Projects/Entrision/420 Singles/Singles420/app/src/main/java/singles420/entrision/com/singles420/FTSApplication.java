@@ -6,6 +6,7 @@ import android.app.Application;
  * Created by travis on 7/14/15.
  */
 public class FTSApplication extends Application {
+
     @Override
     public void onCreate()
     {
@@ -19,4 +20,6 @@ public class FTSApplication extends Application {
         APIHelper.getInstance();
         APIHelper.getInstance().setContext(this.getApplicationContext());
     }
+
 }
+

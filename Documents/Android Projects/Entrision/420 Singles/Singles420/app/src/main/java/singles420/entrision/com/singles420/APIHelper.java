@@ -273,4 +273,56 @@ public class APIHelper {
         return suggestions;
     }
 
+    public void updateUserLocation(String latitude, String longitude) {
+        Utilities.UserUtility userUtility = new Utilities.UserUtility();
+
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        client.addHeader("Authorization", "Token token="+userUtility.getAuthorizationToken(context));
+        client.addHeader("X-User-Email", userUtility.getUserEmail(context));
+
+        try {
+            JSONObject jsonParams = new JSONObject();
+            JSONObject locParams = new JSONObject();
+            locParams.put("lat", latitude);
+            locParams.put("lng", locParams);
+            jsonParams.put("user", locParams);
+
+            ByteArrayEntity entity = new ByteArrayEntity(jsonParams.toString().getBytes("UTF-8"));
+            client.patch(context, context.getResources().getString(R.string.base_address) + "users/" + userUtility.getUserID(context), entity, "application/json", new AsyncHttpResponseHandler() {
+
+                @Override
+                public void onStart() {
+                    // called before request is started
+                }
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                    try {
+                        String jsonString = new String(response, "UTF-8");
+                        Log.d("*** 420 location update", jsonString);
+                    } catch (Exception e) {
+
+                    }
+
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                    // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+                    Log.w("***** 420 location error", e.toString());
+                }
+
+                @Override
+                public void onRetry(int retryNo) {
+                    // called when request is retried
+                }
+            });
+
+
+        } catch (Exception e) {
+
+        }
+
+    }
 }

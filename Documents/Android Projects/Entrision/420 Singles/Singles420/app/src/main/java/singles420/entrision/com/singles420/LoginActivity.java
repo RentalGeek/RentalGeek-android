@@ -2,8 +2,11 @@ package singles420.entrision.com.singles420;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,12 +25,19 @@ public class LoginActivity extends Activity {
 
     CallbackManager callbackManager;
     AccessToken facebookAccessToken;
+    LocationManager locationMangaer;
+    LocationListener locationListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
+
+        locationMangaer = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationListener = new FTSLocationListener();
+
+        locationMangaer.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
 
         Utilities.UserUtility userUtil = new Utilities.UserUtility();
         String token = userUtil.getAuthorizationToken(this);

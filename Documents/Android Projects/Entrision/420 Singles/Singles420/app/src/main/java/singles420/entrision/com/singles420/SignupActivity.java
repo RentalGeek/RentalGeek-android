@@ -2,25 +2,18 @@ package singles420.entrision.com.singles420;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import java.util.Calendar;
 
-public class SignupActivity extends Activity implements LocationListener {
+public class SignupActivity extends Activity {
 
-    protected LocationManager locationManager;
-    protected LocationListener locationListener;
     EditText birthDate;
     EditText firstName;
     EditText lastName;
@@ -34,9 +27,6 @@ public class SignupActivity extends Activity implements LocationListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
         TextWatcher tw = new TextWatcher() {
             private String current = "";
@@ -184,23 +174,4 @@ public class SignupActivity extends Activity implements LocationListener {
         }
     }
 
-
-    @Override
-    public void onLocationChanged(Location location) {
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-        Log.d("Latitude","disable");
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-        Log.d("Latitude","enable");
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-        Log.d("Latitude","status");
-    }
 }

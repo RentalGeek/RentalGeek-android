@@ -37,6 +37,10 @@
             android:label="@string/app_name" >
         </activity>
         <activity
+            android:name=".PersonInfoActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"

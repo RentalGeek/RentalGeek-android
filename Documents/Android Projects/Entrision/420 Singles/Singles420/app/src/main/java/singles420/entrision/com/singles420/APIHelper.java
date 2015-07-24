@@ -39,6 +39,12 @@ public class APIHelper {
         context = c;
     }
 
+    /*******************************************************
+     *
+     * Login & Sign up
+     *
+     ********************************************************/
+
     public void loginUser(String emailAddress, String password) {
         AsyncHttpClient client = new AsyncHttpClient();
         try {
@@ -224,6 +230,12 @@ public class APIHelper {
         }
     }
 
+    /*******************************************************
+     *
+     * User Location
+     *
+     ********************************************************/
+
     public void updateUserLocation(String latitude, String longitude) {
         Utilities.UserUtility userUtility = new Utilities.UserUtility();
 
@@ -261,7 +273,7 @@ public class APIHelper {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                     // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-                    Log.w("***** 420 location error", e.toString());
+                    Log.d("*** 420 location error", e.toString());
                 }
 
                 @Override
@@ -275,5 +287,56 @@ public class APIHelper {
 
         }
 
+    }
+
+    /*******************************************************
+     *
+     * Suggestion Response
+     *
+     ********************************************************/
+
+    public void sendSuggestionResponse(String response, int userID) {
+        AsyncHttpClient client = new AsyncHttpClient();
+        try {
+            JSONObject jsonParams = new JSONObject();
+            JSONObject responseParams = new JSONObject();
+            responseParams.put("suggestion_id", userID);
+            responseParams.put("answer", response);
+
+            jsonParams.put("response", responseParams);
+
+            ByteArrayEntity entity = new ByteArrayEntity(jsonParams.toString().getBytes("UTF-8"));
+            client.post(context, context.getResources().getString(R.string.base_address) + "responses", entity, "application/json", new AsyncHttpResponseHandler() {
+
+                @Override
+                public void onStart() {
+                    // called before request is started
+                }
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                    try {
+
+                    } catch (Exception e) {
+                        Log.d("*** 420 ", e.toString());
+                    }
+
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                    // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+                    Log.d("***** 420 *****", e.toString());
+                }
+
+                @Override
+                public void onRetry(int retryNo) {
+                    // called when request is retried
+                }
+            });
+
+        } catch (Exception e) {
+            Log.w("***** 420 *****", e);
+        }
     }
 }

@@ -25,4 +25,5 @@ dependencies {
     compile 'com.loopj.android:android-async-http:1.4.7'
     compile 'com.facebook.android:facebook-android-sdk:4.1.0'
     compile 'com.android.support:support-v4:18.0.+'
+    compile 'com.lorentzos.swipecards:library:1.0.9'
 }

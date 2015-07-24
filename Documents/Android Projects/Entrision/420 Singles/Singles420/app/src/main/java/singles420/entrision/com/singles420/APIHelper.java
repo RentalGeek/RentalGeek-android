@@ -224,55 +224,6 @@ public class APIHelper {
         }
     }
 
-    public String getSuggestionsForUser() {
-        String suggestions = "";
-        Utilities.UserUtility userUtility = new Utilities.UserUtility();
-
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.addHeader("Authorization", "Token token="+userUtility.getAuthorizationToken(context));
-        client.addHeader("X-User-Email", userUtility.getUserEmail(context));
-
-        String url = context.getResources().getString(R.string.base_address) + "suggestions";
-        try {
-
-            client.get(context.getResources().getString(R.string.base_address) + "suggestions", new AsyncHttpResponseHandler() {
-
-                @Override
-                public void onStart() {
-                    // called before request is started
-                }
-
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                    try {
-                        String jsonString = new String(response, "UTF-8");
-                        Log.d("*** 420 ******", jsonString);
-                    } catch (Exception e) {
-
-                    }
-
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                    // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-                    Log.w("***** 420 *****", e.toString());
-                }
-
-                @Override
-                public void onRetry(int retryNo) {
-                    // called when request is retried
-                }
-            });
-
-
-        } catch (Exception e) {
-
-        }
-
-        return suggestions;
-    }
-
     public void updateUserLocation(String latitude, String longitude) {
         Utilities.UserUtility userUtility = new Utilities.UserUtility();
 

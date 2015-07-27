@@ -49,13 +49,14 @@ public class SwipeCardAdapter extends ArrayAdapter<Person> {
 
         holder.name.setText(person.firstName);
         holder.location.setText(person.location);
-/*
+
         if (person.images.length > 0) {
             new URLImage(holder.image).execute(person.images[0]);
         } else {
-            holder.image.setBackgroundResource(R.drawable.no_photo);
+            holder.image.setImageResource(R.drawable.no_photo);
+
         }
-*/
+
         return row;
     }
 

@@ -35,10 +35,10 @@
     <size key="GridCell.Tab.0.center.1440.0.1920.1080" width="0" height="0" />
     <size key="GridCell.Tab.0.right.1440.0.1920.1080" width="0" height="0" />
     <size key="GridCell.Tab.0.bottom.1440.0.1920.1080" width="0" height="0" />
-    <size key="GridCell.Tab.1.left.1440.0.1920.1080" width="1878" height="210" />
-    <size key="GridCell.Tab.1.center.1440.0.1920.1080" width="1878" height="210" />
-    <size key="GridCell.Tab.1.right.1440.0.1920.1080" width="1878" height="210" />
-    <size key="GridCell.Tab.1.bottom.1440.0.1920.1080" width="1878" height="210" />
+    <size key="GridCell.Tab.1.left.1440.0.1920.1080" width="1878" height="212" />
+    <size key="GridCell.Tab.1.center.1440.0.1920.1080" width="1878" height="212" />
+    <size key="GridCell.Tab.1.right.1440.0.1920.1080" width="1878" height="212" />
+    <size key="GridCell.Tab.1.bottom.1440.0.1920.1080" width="1878" height="212" />
     <size key="GridCell.Tab.0.left.0.0.1440.900" width="1398" height="162" />
     <size key="GridCell.Tab.0.center.0.0.1440.900" width="1398" height="162" />
     <size key="GridCell.Tab.0.right.0.0.1440.900" width="1398" height="162" />
@@ -49,10 +49,10 @@
     <size key="GridCell.Tab.1.bottom.0.0.1440.900" width="1398" height="162" />
     <size key="com.intellij.ide.passwordSafe.impl.providers.masterKey.ResetPasswordDialog.1440.0.1920.1080" width="431" height="148" />
     <size key="javadoc.popup.1440.0.1920.1080" width="500" height="124" />
-    <size key="GridCell.Tab.2.left.1440.0.1920.1080" width="1878" height="210" />
-    <size key="GridCell.Tab.2.center.1440.0.1920.1080" width="1878" height="210" />
-    <size key="GridCell.Tab.2.right.1440.0.1920.1080" width="1878" height="210" />
-    <size key="GridCell.Tab.2.bottom.1440.0.1920.1080" width="1878" height="210" />
+    <size key="GridCell.Tab.2.left.1440.0.1920.1080" width="1878" height="212" />
+    <size key="GridCell.Tab.2.center.1440.0.1920.1080" width="1878" height="212" />
+    <size key="GridCell.Tab.2.right.1440.0.1920.1080" width="1878" height="212" />
+    <size key="GridCell.Tab.2.bottom.1440.0.1920.1080" width="1878" height="212" />
     <size key="GridCell.Tab.2.left.0.0.1440.900" width="1398" height="162" />
     <size key="GridCell.Tab.2.center.0.0.1440.900" width="1398" height="162" />
     <size key="GridCell.Tab.2.right.0.0.1440.900" width="1398" height="162" />
@@ -61,10 +61,10 @@
     <size key="GridCell.Tab.3.center.0.0.1440.900" width="1398" height="162" />
     <size key="GridCell.Tab.3.right.0.0.1440.900" width="1398" height="162" />
     <size key="GridCell.Tab.3.bottom.0.0.1440.900" width="1398" height="162" />
-    <size key="GridCell.Tab.3.left.1440.0.1920.1080" width="1878" height="210" />
-    <size key="GridCell.Tab.3.center.1440.0.1920.1080" width="1878" height="210" />
-    <size key="GridCell.Tab.3.right.1440.0.1920.1080" width="1878" height="210" />
-    <size key="GridCell.Tab.3.bottom.1440.0.1920.1080" width="1878" height="210" />
+    <size key="GridCell.Tab.3.left.1440.0.1920.1080" width="1878" height="212" />
+    <size key="GridCell.Tab.3.center.1440.0.1920.1080" width="1878" height="212" />
+    <size key="GridCell.Tab.3.right.1440.0.1920.1080" width="1878" height="212" />
+    <size key="GridCell.Tab.3.bottom.1440.0.1920.1080" width="1878" height="212" />
     <size key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog.1440.0.1920.1080" width="1580" height="761" />
     <size key="Vcs.Push.Dialog.1440.0.1920.1080" width="1042" height="559" />
     <size key="javadoc.popup.0.0.1440.900" width="481" height="170" />

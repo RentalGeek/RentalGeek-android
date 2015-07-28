@@ -28,8 +28,52 @@
             android:layout_height="1dp"
             android:layout_weight="1" >
         </View>
-
-
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/placeholder_image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:visibility="gone"
+        android:src="@drawable/no_photo"/>
+
+    <android.support.v4.view.ViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+
+    <TextView
+        android:id="@+id/person_name"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:textColor="#000"
+        android:typeface="sans"
+        android:textStyle="bold"
+        android:textSize="16dp"/>
+
+    <TextView
+        android:id="@+id/person_location"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="2dp"
+        android:textColor="#000"
+        android:typeface="sans"
+        android:textSize="10dp"/>
+
+    <TextView
+        android:id="@+id/person_bio"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="2dp"
+        android:textColor="#000"
+        android:typeface="sans"
+        android:textSize="12dp"/>
 
 </LinearLayout>

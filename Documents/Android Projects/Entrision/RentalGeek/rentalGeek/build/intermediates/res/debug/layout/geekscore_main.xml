@@ -1,0 +1,92 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/white"
+    android:clickable="true" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip" >
+
+        <ImageView
+            android:id="@+id/infoclick2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dip"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="3dip"
+            android:src="@drawable/infoclicklock" />
+
+        <ImageView
+            android:id="@+id/infoclick1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/infoclick2"
+            android:src="@drawable/infoclicki" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/newlogo" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/click_rent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Click to Rent"
+            android:visibility="gone"
+            android:textColor="#4181cb"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/ddt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:text="Apply for your next rental \n in a single click"
+            android:textColor="#000000"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/get_started"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dip"
+        android:background="@drawable/apptheme_btn_default_holo_light"
+        android:text="Get Started"
+        android:textColor="#ffffff" />
+
+    <Button
+        android:id="@+id/get_started_paid_already"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dip"
+        android:background="@drawable/apptheme_btn_default_holo_light"
+        android:text="@string/click_rent"
+        android:textColor="#ffffff"
+        android:visibility="gone" />
+
+</RelativeLayout><!-- From: file:/Users/travis/Documents/Android%20Projects/Entrision/RentalGeek/rentalGeek/src/main/res/layout/geekscore_main.xml -->

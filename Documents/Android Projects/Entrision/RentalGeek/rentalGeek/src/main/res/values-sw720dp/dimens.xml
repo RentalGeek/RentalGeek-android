@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="img_height">533.3333333333333dp</dimen>
+    <dimen name="ed_apply">560dp</dimen>
+    
+      <dimen name="loho_hei">400dp</dimen>
+     <dimen name="loho_wid">530dp</dimen>
+     
+</resources>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <DatePicker
+        android:id="@+id/datePicker1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+        android:spinnersShown="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" >
+
+        <Button
+            android:id="@+id/bt_ok"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/apptheme_btn_default_holo_light"
+            android:text="Ok"
+            android:textSize="12sp"
+            android:textColor="#fff" />
+
+        <Button
+            android:id="@+id/bt_cancel"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+             android:textSize="12sp"
+            android:background="@drawable/apptheme_btn_default_holo_light"
+            android:text="Cancel"
+            android:textColor="#fff" />
+    </LinearLayout>
+
+</LinearLayout><!-- From: file:/Users/travis/Documents/Android%20Projects/Entrision/RentalGeek/rentalGeek/src/main/res/layout/date_select.xml -->

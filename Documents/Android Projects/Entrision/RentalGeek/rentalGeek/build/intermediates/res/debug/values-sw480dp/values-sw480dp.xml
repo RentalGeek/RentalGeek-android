@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/Users/travis/Documents/Android%20Projects/Entrision/RentalGeek/rentalGeek/src/main/res/values-sw480dp/dimens.xml -->
+    <eat-comment/>
+    <dimen name="ed_apply">240dp</dimen>
+    <dimen name="img_height">266dp</dimen>
+    <dimen name="loho_hei">200dp</dimen>
+    <dimen name="loho_wid">266dp</dimen>
+</resources>

@@ -1,4 +1,0 @@
-<resources>
-    <string name="app_name">Daily Photo Prayer</string>
-    <string name="baseAddress">http://agile-river-1601.herokuapp.com/api/v1/</string>
-</resources>

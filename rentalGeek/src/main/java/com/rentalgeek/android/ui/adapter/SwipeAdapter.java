@@ -1,13 +1,13 @@
-package com.rentalgeek.android.tutorials;
+package com.rentalgeek.android.ui.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.rentalgeek.android.fragment.FragmentSignIn;
-import com.rentalgeek.android.fragment.FragmentTutorialGeekLink;
-import com.rentalgeek.android.fragment.FragmentTutorialGeekScore;
-import com.rentalgeek.android.fragment.FragmentTutorialGeekVision;
+import com.rentalgeek.android.ui.fragment.FragmentSignIn;
+import com.rentalgeek.android.ui.fragment.FragmentTutorialGeekLink;
+import com.rentalgeek.android.ui.fragment.FragmentTutorialGeekScore;
+import com.rentalgeek.android.ui.fragment.FragmentTutorialGeekVision;
 
 
 /**

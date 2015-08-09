@@ -28,7 +28,8 @@ import com.rentalgeek.android.geekscores.GeekScoreMain;
 import com.rentalgeek.android.geekvision.GeekVision;
 import com.rentalgeek.android.profile.Profile;
 import com.rentalgeek.android.starredprop.StarredProperties;
-import com.rentalgeek.android.tutorials.Tutorials;
+import com.rentalgeek.android.ui.activity.ActivityHome;
+import com.rentalgeek.android.ui.activity.ActivityTutorials;
 import com.rentalgeek.android.utils.StaticClass;
 import com.facebook.Session;
 import com.loopj.android.http.PersistentCookieStore;
@@ -82,22 +83,22 @@ public class SlideLeft extends LuttuBaseAbstract {
 				switch (position) {
 				case 0:
 					appPref.SaveData("map_list", "");
-					((HomeActivity) getActivity()).closedrawer();
+					((ActivityHome) getActivity()).closedrawer();
 					nextfragment(new GeekScoreMain(), false, R.id.container);
 					break;
 				case 1:
 					appPref.SaveData("map_list", "");
-					((HomeActivity) getActivity()).closedrawer();
+					((ActivityHome) getActivity()).closedrawer();
 					nextfragment(new StarredProperties(), false, R.id.container);
 					break;
 				case 2:
 					appPref.SaveData("map_list", "");
-					((HomeActivity) getActivity()).closedrawer();
+					((ActivityHome) getActivity()).closedrawer();
 					nextfragment(new GeekVision(), false, R.id.container);
 					break;
 				case 3:
 					appPref.SaveData("map_list", "");
-					((HomeActivity) getActivity()).closedrawer();
+					((ActivityHome) getActivity()).closedrawer();
 					nextfragment(new Profile(), false, R.id.container);
 					break;
 				case 4:
@@ -203,7 +204,7 @@ public class SlideLeft extends LuttuBaseAbstract {
 		appPref.deleteAll();
 		appPref.SaveData("first", "");
 		getActivity().finish();
-		Intent intent = new Intent(getActivity(),Tutorials.class);
+		Intent intent = new Intent(getActivity(),ActivityTutorials.class);
 		intent.addCategory(Intent.CATEGORY_HOME);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		// intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

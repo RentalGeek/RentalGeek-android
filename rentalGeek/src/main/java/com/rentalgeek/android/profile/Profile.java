@@ -34,7 +34,7 @@ import com.rentalgeek.android.backend.ProfilePost;
 import com.rentalgeek.android.database.ProfileTable;
 import com.rentalgeek.android.geekscores.FinalGeekScore;
 import com.rentalgeek.android.geekscores.GeekScoreMain;
-import com.rentalgeek.android.homepage.HomeActivity;
+import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.homepage.ListViewDetails;
 import com.rentalgeek.android.utils.ConnectionDetector;
 import com.rentalgeek.android.utils.StaticClass;
@@ -147,7 +147,7 @@ public class Profile extends LuttuBaseAbstract implements ValidationListener,
 	@Required(order = 17, message = "Please fill all mandatory fields")
 	@InjectView(R.id.ed_curr_home_own)
 	public EditText current_home_owner;
-	HomeActivity contexto;
+	ActivityHome contexto;
 
 	@Required(order = 18, message = "Please fill all mandatory fields")
 	@InjectView(R.id.ed_curr_own_cont)
@@ -210,7 +210,7 @@ public class Profile extends LuttuBaseAbstract implements ValidationListener,
 		appPref = new AppPrefes(getActivity(), "rentalgeek");
 		con = new ConnectionDetector(getActivity());
 		dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
-		contexto = (HomeActivity) getActivity();
+		contexto = (ActivityHome) getActivity();
 		registerOnFocusChangeListeners();
 		if (con.isConnectingToInternet()) {
 

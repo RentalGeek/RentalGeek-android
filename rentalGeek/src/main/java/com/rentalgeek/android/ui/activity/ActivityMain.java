@@ -1,4 +1,4 @@
-package com.rentalgeek.android;
+package com.rentalgeek.android.ui.activity;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -14,13 +14,12 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.activeandroid.query.Delete;
+import com.rentalgeek.android.R;
 import com.rentalgeek.android.database.PropertyTable;
-import com.rentalgeek.android.homepage.HomeActivity;
-import com.rentalgeek.android.tutorials.Tutorials;
 import com.luttu.fragmentutils.AppPrefes;
 import com.luttu.fragmentutils.LuttuBaseFragmentActivity;
 
-public class MainActivity extends LuttuBaseFragmentActivity {
+public class ActivityMain extends LuttuBaseFragmentActivity {
 
 	AppPrefes appPref;
 
@@ -49,7 +48,7 @@ public class MainActivity extends LuttuBaseFragmentActivity {
 				if (!appPref.getData("first").equals("logged")) {
 					appPref.SaveData("bysearch", "no");
 					finish();
-					Intent j = new Intent(MainActivity.this, Tutorials.class);
+					Intent j = new Intent(ActivityMain.this, ActivityTutorials.class);
 					startActivity(j);
 					overridePendingTransition(R.anim.one_, R.anim.two_);
 				} else {
@@ -59,8 +58,8 @@ public class MainActivity extends LuttuBaseFragmentActivity {
 					}
 
 					appPref.SaveData("bysearch", "no");
-					MainActivity.this.finish();
-					Intent i = new Intent(MainActivity.this, HomeActivity.class);
+					ActivityMain.this.finish();
+					Intent i = new Intent(ActivityMain.this, ActivityHome.class);
 					startActivity(i);
 					overridePendingTransition(R.anim.one_, R.anim.two_);
 

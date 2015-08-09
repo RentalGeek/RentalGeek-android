@@ -20,6 +20,7 @@ import butterknife.OnClick;
 import com.activeandroid.query.Delete;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.database.PropertyTable;
+import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.utils.ConnectionDetector;
 import com.luttu.fragmentutils.AppPrefes;
 import com.luttu.fragmentutils.LuttuBaseAbstract;
@@ -594,12 +595,12 @@ public class SlideRight extends LuttuBaseAbstract {
 		params_strings = null;
 		params_strings = "";
 
-		((HomeActivity) getActivity()).closedrawer();
+		((ActivityHome) getActivity()).closedrawer();
 	}
 
 	private void searchInmap() {
 		// TODO Auto-generated method stub
-		((HomeActivity) getActivity()).closedrawer();
+		((ActivityHome) getActivity()).closedrawer();
 		if (ed_search.getText().toString().equals("")) {
 
 			System.out.println("empty edittext");
@@ -639,7 +640,7 @@ public class SlideRight extends LuttuBaseAbstract {
 
 	private void searchInlist() {
 		// TODO Auto-generated method stub
-		((HomeActivity) getActivity()).closedrawer();
+		((ActivityHome) getActivity()).closedrawer();
 		if (ed_search.getText().toString().equals("")) {
 
 			if (price_seek.getProgress() != 0) {
@@ -681,7 +682,7 @@ public class SlideRight extends LuttuBaseAbstract {
 		removeEverything();
 		new Delete().from(PropertyTable.class).execute();
 		nextfragment(new Map(), false, R.id.container);
-		((HomeActivity)getActivity()).selectorShift();
+		((ActivityHome)getActivity()).selectorShift();
 		appPref.SaveData("map_list", "map");
 
 	}

@@ -23,7 +23,7 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.backend.ErrorApi;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.backend.LoginBackend.applicant;
-import com.rentalgeek.android.fragment.FragmentSignIn;
+import com.rentalgeek.android.ui.fragment.FragmentSignIn;
 import com.rentalgeek.android.utils.StaticClass;
 import com.facebook.Session;
 import com.google.gson.Gson;

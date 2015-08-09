@@ -20,6 +20,7 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.backend.AddStarBack;
 import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.pojos.PropertyListPojo;
+import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.utils.StaticClass;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -32,7 +33,6 @@ import com.luttu.nettoast.Style;
 import com.luttu.utils.GetSSl;
 import com.luttu.utils.GlobalFunctions;
 import com.luttu.utils.GlobalFunctions.HttpResponseHandler;
-import com.squareup.picasso.Picasso;
 
 /**
  * 
@@ -177,7 +177,7 @@ public class ItemAdapters extends ArrayAdapter<PropertyListPojo.PropertyList> {
 		if (c == null) {
 			return;
 		}
-		FragmentTransaction ft = ((HomeActivity) c).getSupportFragmentManager()
+		FragmentTransaction ft = ((ActivityHome) c).getSupportFragmentManager()
 				.beginTransaction();
 		ft.add(id, fragment);
 		if (stack)
@@ -214,7 +214,7 @@ public class ItemAdapters extends ArrayAdapter<PropertyListPojo.PropertyList> {
 										response.toString(), AddStarBack.class);
 
 								Crouton crouton = Crouton.makeText(
-										(HomeActivity) context,
+										(ActivityHome) context,
 										"Added to favorites", Style.ALERT);
 								crouton.show();
 
@@ -231,7 +231,7 @@ public class ItemAdapters extends ArrayAdapter<PropertyListPojo.PropertyList> {
 							} else {
 
 								Crouton crouton = Crouton.makeText(
-										(HomeActivity) context,
+										(ActivityHome) context,
 										"Action Failed", Style.ALERT);
 								crouton.show();
 

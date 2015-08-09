@@ -1,4 +1,4 @@
-package com.rentalgeek.android.fragment;
+package com.rentalgeek.android.ui.fragment;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -49,9 +49,9 @@ import com.rentalgeek.android.backend.GoogleBackend;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.backend.LoginBackend.applicant;
 import com.rentalgeek.android.database.ProfileTable;
-import com.rentalgeek.android.homepage.HomeActivity;
-import com.rentalgeek.android.homepage.Registration;
-import com.rentalgeek.android.activity.ActivityTutorials;
+import com.rentalgeek.android.ui.activity.ActivityHome;
+import com.rentalgeek.android.ui.activity.ActivityRegistration;
+import com.rentalgeek.android.ui.activity.ActivityTutorials;
 import com.rentalgeek.android.utils.ConnectionDetector;
 import com.rentalgeek.android.utils.StaticClass;
 
@@ -68,7 +68,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 	// G+-------------
 
 	public static final int RC_SIGN_IN = 0;
-	private static final String TAG = "MainActivity";
+	private static final String TAG = "ActivityMain";
 	ProfileTable profdets;
 	private YoYo.YoYoString animation_obj;
 
@@ -175,7 +175,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 	// @OnClick(R.id.sign_button)
 	// public void SignIn() {
 	//
-	// Intent i = new Intent(getActivity(), HomeActivity.class);
+	// Intent i = new Intent(getActivity(), ActivityHome.class);
 	// startActivity(i);
 	// getActivity().overridePendingTransition(R.anim.one_, R.anim.two_);
 	//
@@ -269,7 +269,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 		// App logs in
 		getActivity().finish();
 		appPref.SaveData("first", "logged");
-		Intent i = new Intent(getActivity(), HomeActivity.class);
+		Intent i = new Intent(getActivity(), ActivityHome.class);
 		startActivity(i);
 		getActivity().overridePendingTransition(R.anim.one_, R.anim.two_);
 
@@ -344,7 +344,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 		getActivity().finish();
 		appPref.SaveData("first", "logged");
 		signOutFromGplus();
-		Intent i = new Intent(getActivity(), HomeActivity.class);
+		Intent i = new Intent(getActivity(), ActivityHome.class);
 		startActivity(i);
 		getActivity().overridePendingTransition(R.anim.one_, R.anim.two_);
 
@@ -399,7 +399,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 		
 		getActivity().finish();
 		appPref.SaveData("first", "logged");
-		Intent i = new Intent(getActivity(), HomeActivity.class);
+		Intent i = new Intent(getActivity(), ActivityHome.class);
 		startActivity(i);
 
 	}
@@ -437,7 +437,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 			// App logs in
 			getActivity().finish();
 			appPref.SaveData("first", "logged");
-			Intent i = new Intent(getActivity(), HomeActivity.class);
+			Intent i = new Intent(getActivity(), ActivityHome.class);
 			startActivity(i);
 			getActivity().overridePendingTransition(R.anim.one_, R.anim.two_);
 
@@ -485,7 +485,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 		ed_username.setText("");
 		ed_password.setText("");
 		animation_obj = YoYo.with(Techniques.Flash).duration(1000).playOn(v);
-		Intent i = new Intent(getActivity(), Registration.class);
+		Intent i = new Intent(getActivity(), ActivityRegistration.class);
 		startActivity(i);
 		getActivity().overridePendingTransition(R.anim.one_, R.anim.two_);
 
@@ -510,7 +510,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 	@OnClick(R.id.login_aacnt)
 	public void CreateAccount(View v) {
 
-		// Intent i = new Intent(getActivity(), Registration.class);
+		// Intent i = new Intent(getActivity(), ActivityRegistration.class);
 		// startActivity(i);
 		// getActivity().overridePendingTransition(R.anim.one_, R.anim.two_);
 
@@ -724,7 +724,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 				.show();
 		// getActivity().finish();
 		// appPref.SaveData("first", "logged");
-		// Intent i = new Intent(getActivity(), HomeActivity.class);
+		// Intent i = new Intent(getActivity(), ActivityHome.class);
 		// startActivity(i);
 
 		getProfileInformation();

@@ -1,4 +1,4 @@
-package com.rentalgeek.android.homepage;
+package com.rentalgeek.android.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.rentalgeek.android.R;
 import com.luttu.fragmentutils.AppPrefes;
 import com.luttu.fragmentutils.LuttuBaseFragmentActivity;
+import com.rentalgeek.android.homepage.ListViewDetails;
+import com.rentalgeek.android.homepage.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -34,7 +36,7 @@ import butterknife.OnClick;
  *
  */
 
-public class HomeActivity extends LuttuBaseFragmentActivity {
+public class ActivityHome extends LuttuBaseFragmentActivity {
    
 	boolean doubleBackToExitPressedOnce;
 
@@ -44,7 +46,7 @@ public class HomeActivity extends LuttuBaseFragmentActivity {
 			// Bundle bundle = new Bundle();
 			// bundle.putString("msg", "restart");
 			Intent intent = new Intent(getApplicationContext(),
-					HomeActivity.class);
+					ActivityHome.class);
 			// intent.putExtras(bundle);
 			startActivity(intent);
 			finish();
@@ -241,9 +243,9 @@ public class HomeActivity extends LuttuBaseFragmentActivity {
 
 	protected void hidekey() {
 		// TODO Auto-generated method stub
-		InputMethodManager imm = (InputMethodManager) HomeActivity.this
+		InputMethodManager imm = (InputMethodManager) ActivityHome.this
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.hideSoftInputFromWindow(HomeActivity.this.getCurrentFocus()
+		imm.hideSoftInputFromWindow(ActivityHome.this.getCurrentFocus()
 				.getWindowToken(), 0);
 	}
 
@@ -262,7 +264,7 @@ public class HomeActivity extends LuttuBaseFragmentActivity {
 
 		 if (mDrawerLayout == null)
 				mDrawerLayout.closeDrawers();
-		FragmentManager fm = HomeActivity.this.getSupportFragmentManager();
+		FragmentManager fm = ActivityHome.this.getSupportFragmentManager();
 		if (fm.getBackStackEntryCount() > 0) {
 			super.onBackPressed();
 			return;

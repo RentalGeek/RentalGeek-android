@@ -16,7 +16,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.backend.LoginBackend;
-import com.rentalgeek.android.homepage.HomeActivity;
+import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.homepage.ListViewDetails;
 import com.rentalgeek.android.utils.ConnectionDetector;
 import com.rentalgeek.android.utils.StaticClass;
@@ -224,7 +224,7 @@ public class GeekScoreMain extends LuttuBaseAbstract {
 	@OnClick(R.id.get_started_paid_already)
 	public void ClickRent() {
 
-		((HomeActivity) getActivity()).selectorShift();
+		((ActivityHome) getActivity()).selectorShift();
 		appPref.SaveData("map_list", "");
 		nextfragment(new ListViewDetails(), false, R.id.container);
 	}

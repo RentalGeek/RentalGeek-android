@@ -1,4 +1,4 @@
-package com.rentalgeek.android.homepage;
+package com.rentalgeek.android.ui.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -52,7 +52,7 @@ import butterknife.OnClick;
  * @purpose Activity used to Register User to Rental Geek
  *
  */
-public class Registration extends Activity implements ValidationListener {
+public class ActivityRegistration extends Activity implements ValidationListener {
  
 	@Required(order = 1, message = "Please enter valid email")
 	@Email(order = 2, message = "Please enter valid email")
@@ -103,7 +103,7 @@ public class Registration extends Activity implements ValidationListener {
 						.fromHtml("By creating a RentalGeek account,\n you agree to our <u>Terms & Conditions</u>"));
 		validator = new Validator(this);
 		validator.setValidationListener(this);
-		load = new Loading(Registration.this);
+		load = new Loading(ActivityRegistration.this);
 		con = new ConnectionDetector(getApplicationContext());
 		appPref = new AppPrefes(getApplicationContext(), "rentalgeek");
 	}
@@ -148,7 +148,7 @@ public class Registration extends Activity implements ValidationListener {
 							appPref.SaveData("token", app.authentication_token);
 							appPref.SaveIntData("Uid", app.id);
 
-							toast("Registration Successful, Please Login to continue");
+							toast("ActivityRegistration Successful, Please Login to continue");
 
 							new CountDownTimer(1000, 1000) {
 
@@ -218,14 +218,14 @@ public class Registration extends Activity implements ValidationListener {
 	}
 
 	public void toast(String message) {
-		Crouton crouton = Crouton.makeText(Registration.this, message,
+		Crouton crouton = Crouton.makeText(ActivityRegistration.this, message,
 				Style.CONFIRM);
 		crouton.show();
 	}
 
 	@OnClick(R.id.terms_text)
 	public void infoclick1() {
-		final Dialog dialog = new Dialog(Registration.this,
+		final Dialog dialog = new Dialog(ActivityRegistration.this,
 				R.style.MyDialogInner);
 
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

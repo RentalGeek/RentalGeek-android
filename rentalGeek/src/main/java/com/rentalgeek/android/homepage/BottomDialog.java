@@ -15,6 +15,7 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.backend.AddStarBack;
 import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.homepage.Map.FragmentCallback;
+import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.utils.StaticClass;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -209,7 +210,7 @@ public class BottomDialog {
 									AddStarBack.class);
 							if (failre) {
 								Crouton crouton = Crouton.makeText(
-										(HomeActivity) context,
+										(ActivityHome) context,
 										"Added to favorites", Style.ALERT);
 								crouton.show();
 								Picasso.with(context).load(R.drawable.star_select)
@@ -224,13 +225,13 @@ public class BottomDialog {
 								{
 									if(detail.error.equals("You need to sign in or sign up before continuing."))
 									{
-										((HomeActivity) context).finish();
+										((ActivityHome) context).finish();
 									}
 								}
 								else
 								{
 									Crouton crouton = Crouton.makeText(
-											(HomeActivity) context,
+											(ActivityHome) context,
 											"To unlike a property go to favorites", Style.ALERT);
 									crouton.show();
 								}

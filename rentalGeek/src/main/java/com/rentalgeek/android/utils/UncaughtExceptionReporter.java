@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.os.Looper;
 import android.util.Log;
 
-import com.rentalgeek.android.homepage.HomeActivity;
+import com.rentalgeek.android.ui.activity.ActivityHome;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -114,7 +114,7 @@ public class UncaughtExceptionReporter implements
 //								sendIntent.putExtra(Intent.EXTRA_CC,
 //										"info@suprcall.com");
 								mContext.startActivity(sendIntent);
-								((HomeActivity) mContext).finish();
+								((ActivityHome) mContext).finish();
 
 							}
 						});

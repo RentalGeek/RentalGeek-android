@@ -1,4 +1,4 @@
-package com.rentalgeek.android.fragment;
+package com.rentalgeek.android.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -35,7 +35,7 @@ public class FragmentTutorialApplicationInstructions extends Fragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		View v = inflater.inflate(R.layout.fourth_class, container, false);
+		View v = inflater.inflate(R.layout.fragment_tutorial_appinstructions, container, false);
 		
 		volley=new VolleyForAll(getActivity(), this);
 

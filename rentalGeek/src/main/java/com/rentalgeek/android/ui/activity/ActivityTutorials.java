@@ -1,4 +1,4 @@
-package com.rentalgeek.android.activity;
+package com.rentalgeek.android.ui.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,8 +17,8 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.fragment.FragmentSignIn;
-import com.rentalgeek.android.tutorials.SwipeAdapter;
+import com.rentalgeek.android.ui.fragment.FragmentSignIn;
+import com.rentalgeek.android.ui.adapter.SwipeAdapter;
 import com.rentalgeek.android.utils.ConnectionDetector;
 import com.linkedin.platform.APIHelper;
 import com.linkedin.platform.LISession;
@@ -50,8 +50,6 @@ import java.util.TimerTask;
  */
 public class ActivityTutorials extends LuttuBaseFragmentActivity {
 
-	
-
 	// Linked in
 	private static final String TAG = ActivityTutorials.class.getSimpleName();
 	public static final String PACKAGE_MOBILE_SDK_SAMPLE_APP = "com.rentalgeek.android";
@@ -81,7 +79,7 @@ public class ActivityTutorials extends LuttuBaseFragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.tutorials);
+		setContentView(R.layout.activity_tutorials);
 		setUpdateState();
 		getKeyHash(this, PACKAGE_MOBILE_SDK_SAMPLE_APP);
 		containerlogin = (FrameLayout) findViewById(R.id.containertut);
@@ -250,7 +248,7 @@ public class ActivityTutorials extends LuttuBaseFragmentActivity {
 						// appPref.SaveData("first", "logged");
 						// finish();
 						// Intent i = new Intent(getApplicationContext(),
-						// HomeActivity.class);
+						// ActivityHome.class);
 						// startActivity(i);
 						// overridePendingTransition(R.anim.one_, R.anim.two_);
 

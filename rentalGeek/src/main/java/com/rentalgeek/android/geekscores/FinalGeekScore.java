@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.luttu.fragmentutils.AppPrefes;
 import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.homepage.HomeActivity;
+import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.homepage.ListViewDetails;
 
 import butterknife.ButterKnife;
@@ -59,7 +59,7 @@ public class FinalGeekScore extends LuttuBaseAbstract{
 		try {
 			appPref.SaveData("map_list", "");
 			nextfragment(new ListViewDetails(),false,R.id.container);
-			((HomeActivity)getActivity()).selectorShift();
+			((ActivityHome)getActivity()).selectorShift();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

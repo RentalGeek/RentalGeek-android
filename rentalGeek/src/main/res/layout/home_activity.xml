@@ -137,14 +137,14 @@
 
             <fragment
                 android:id="@+id/navigation_drawer_SlideLeft"
-                android:name="com.app.rentalgeek.homepage.SlideLeft"
+                android:name="com.rentalgeek.android.homepage.SlideLeft"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="start" />
 
             <fragment
                 android:id="@+id/navigation_drawer_SlideRight"
-                android:name="com.app.rentalgeek.homepage.SlideRight"
+                android:name="com.rentalgeek.android.homepage.SlideRight"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="end" />

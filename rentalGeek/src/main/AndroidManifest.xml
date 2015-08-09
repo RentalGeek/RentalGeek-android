@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.app.rentalgeek"
+    package="com.rentalgeek.android"
     android:versionCode="6"
     android:versionName="1.1.1"
     xmlns:tools="http://schemas.android.com/tools">
@@ -10,7 +10,7 @@
         android:targetSdkVersion="21"/>
 
     <permission
-        android:name="com.app.rentalgeek.permission.MAPS_RECEIVE"
+        android:name="com.rentalgeek.android.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" >
     </permission>
 
@@ -20,7 +20,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-    <uses-permission android:name="com.app.rentalgeek.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="com.rentalgeek.android.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
@@ -28,17 +28,17 @@
     <uses-sdk tools:overrideLibrary="com.linkedin.android.mobilesdk"/>
 
     <permission
-        android:name="com.app.rentalgeek.permission.C2D_MESSAGE"
+        android:name="com.rentalgeek.android.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.app.rentalgeek.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.rentalgeek.android.permission.C2D_MESSAGE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name="com.app.rentalgeek.RentalApplication"
+        android:name="com.rentalgeek.android.RentalApplication"
         android:allowBackup="true"
         android:icon="@drawable/appicon"
         android:label="@string/app_name"
@@ -55,15 +55,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.app.rentalgeek.tutorials.Tutorials"
+            android:name="com.rentalgeek.android.tutorials.Tutorials"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.app.rentalgeek.homepage.HomeActivity"
+            android:name="com.rentalgeek.android.homepage.HomeActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.app.rentalgeek.homepage.Registration"
+            android:name="com.rentalgeek.android.homepage.Registration"
             android:screenOrientation="portrait" >
         </activity>
         <activity

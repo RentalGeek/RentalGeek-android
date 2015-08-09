@@ -1,4 +1,4 @@
-package com.rentalgeek.android.tutorials;
+package com.rentalgeek.android.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,34 +17,32 @@ import butterknife.InjectView;
  * 
  * @author George
  * 
- * @purpose Second slide introduction
+ * @purpose Third slide introduction
  *
  */
-public class SecondClass extends Fragment {
+public class FragmentTutorialGeekLink extends Fragment {
+  
+	@InjectView(R.id.armed)
+	TextView armed;
 
- 	
-	
-	@InjectView(R.id.four_one)
-	TextView four;
-	
-	public static SecondClass newInstance() {
-		SecondClass fragment = new SecondClass();
-		
+	public static FragmentTutorialGeekLink newInstance() {
+		FragmentTutorialGeekLink fragment = new FragmentTutorialGeekLink();
+
 		return fragment;
 	}
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-			View v=inflater.inflate(R.layout.second_class, container,false);
-			ButterKnife.inject(this,v);
-			
-			four.setText(Html.fromHtml(getActivity().getResources().getString(R.string.fourthirty)));
-			return v;
-	
+		View v = inflater.inflate(R.layout.third_class, container, false);
+		
+		ButterKnife.inject(this,v);
+		armed.setText(Html.fromHtml(getActivity().getResources().getString(R.string.armed)));
+
+		return v;
+
 	}
-	
 	@Override
 	public void onDestroyView() {
 		// TODO Auto-generated method stub

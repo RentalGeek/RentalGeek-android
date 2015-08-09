@@ -1,7 +1,4 @@
-package com.rentalgeek.android.tutorials;
-
-import java.util.Arrays;
-import java.util.List;
+package com.rentalgeek.android.fragment;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -20,21 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnClick;
 
-import com.rentalgeek.android.R;
-import com.rentalgeek.android.backend.ErrorApi;
-import com.rentalgeek.android.backend.ForgotError;
-import com.rentalgeek.android.backend.GoogleBackend;
-import com.rentalgeek.android.backend.LoginBackend;
-import com.rentalgeek.android.backend.LoginBackend.applicant;
-import com.rentalgeek.android.database.ProfileTable;
-import com.rentalgeek.android.homepage.HomeActivity;
-import com.rentalgeek.android.homepage.Registration;
-import com.rentalgeek.android.utils.ConnectionDetector;
-import com.rentalgeek.android.utils.StaticClass;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.facebook.Request;
@@ -45,7 +28,6 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
-import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
@@ -60,9 +42,27 @@ import com.loopj.android.http.RequestParams;
 import com.luttu.fragmentutils.AppPrefes;
 import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.luttu.fragmentutils.VolleyForAll;
-import com.luttu.fragmentutils.VolleyOnResponseListener;
+import com.rentalgeek.android.R;
+import com.rentalgeek.android.backend.ErrorApi;
+import com.rentalgeek.android.backend.ForgotError;
+import com.rentalgeek.android.backend.GoogleBackend;
+import com.rentalgeek.android.backend.LoginBackend;
+import com.rentalgeek.android.backend.LoginBackend.applicant;
+import com.rentalgeek.android.database.ProfileTable;
+import com.rentalgeek.android.homepage.HomeActivity;
+import com.rentalgeek.android.homepage.Registration;
+import com.rentalgeek.android.activity.ActivityTutorials;
+import com.rentalgeek.android.utils.ConnectionDetector;
+import com.rentalgeek.android.utils.StaticClass;
 
-public class SignIn extends LuttuBaseAbstract implements ConnectionCallbacks,
+import java.util.Arrays;
+import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+
+public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallbacks,
 		OnConnectionFailedListener {
 
 	// G+-------------
@@ -115,8 +115,8 @@ public class SignIn extends LuttuBaseAbstract implements ConnectionCallbacks,
 
 	VolleyForAll volley;
 
-	public static SignIn newInstance() {
-		SignIn fragment = new SignIn();
+	public static FragmentSignIn newInstance() {
+		FragmentSignIn fragment = new FragmentSignIn();
 
 		return fragment;
 	}
@@ -901,7 +901,7 @@ public class SignIn extends LuttuBaseAbstract implements ConnectionCallbacks,
 	@OnClick(R.id.linked_lay)
 	public void LinkedInClick(View v) {
 		animation_obj = YoYo.with(Techniques.Flash).duration(1000).playOn(v);
-		((Tutorials) getActivity()).SignInLinkedIn();
+		((ActivityTutorials) getActivity()).SignInLinkedIn();
 	}
 
 	// The dialog which shows to send forgot password confirmation email to user

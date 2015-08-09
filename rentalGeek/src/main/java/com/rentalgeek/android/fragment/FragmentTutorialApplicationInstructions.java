@@ -1,14 +1,16 @@
-package com.rentalgeek.android.tutorials;
+package com.rentalgeek.android.fragment;
 
-import org.json.JSONObject;
-import com.rentalgeek.android.R;
-import com.luttu.fragmentutils.VolleyForAll;
-import com.luttu.fragmentutils.VolleyOnResponseListener;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.luttu.fragmentutils.VolleyForAll;
+import com.luttu.fragmentutils.VolleyOnResponseListener;
+import com.rentalgeek.android.R;
+
+import org.json.JSONObject;
 
 /**
  * 
@@ -17,14 +19,14 @@ import android.view.ViewGroup;
  * @purpose Fourtht slide introduction
  *
  */
-public class FourthClass extends Fragment implements VolleyOnResponseListener{
+public class FragmentTutorialApplicationInstructions extends Fragment implements VolleyOnResponseListener{
 	
 	VolleyForAll volley;
 	
 	 
 	
-	public static FourthClass newInstance() {
-		FourthClass fragment = new FourthClass();
+	public static FragmentTutorialApplicationInstructions newInstance() {
+		FragmentTutorialApplicationInstructions fragment = new FragmentTutorialApplicationInstructions();
 
 		return fragment;
 	}

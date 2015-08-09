@@ -23,7 +23,7 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.backend.ErrorApi;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.backend.LoginBackend.applicant;
-import com.rentalgeek.android.tutorials.SignIn;
+import com.rentalgeek.android.fragment.FragmentSignIn;
 import com.rentalgeek.android.utils.StaticClass;
 import com.facebook.Session;
 import com.google.gson.Gson;
@@ -320,7 +320,7 @@ public class VerifyAccount extends LuttuBaseAbstract implements ValidationListen
 			appPref.deleteAll();
 			appPref.SaveData("first", "");
 			getActivity().finish();
-			Intent intent = new Intent(getActivity(),SignIn.class);
+			Intent intent = new Intent(getActivity(),FragmentSignIn.class);
 			intent.addCategory(Intent.CATEGORY_HOME);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			//intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -350,7 +350,7 @@ public class VerifyAccount extends LuttuBaseAbstract implements ValidationListen
 			appPref.deleteAll();
 			appPref.SaveData("first", "");
 			getActivity().finish();
-			Intent intent = new Intent(getActivity(),SignIn.class);
+			Intent intent = new Intent(getActivity(),FragmentSignIn.class);
 			intent.addCategory(Intent.CATEGORY_HOME);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			//intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

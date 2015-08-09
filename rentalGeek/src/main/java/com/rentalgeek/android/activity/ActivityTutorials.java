@@ -1,4 +1,4 @@
-package com.rentalgeek.android.tutorials;
+package com.rentalgeek.android.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,6 +17,8 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.fragment.FragmentSignIn;
+import com.rentalgeek.android.tutorials.SwipeAdapter;
 import com.rentalgeek.android.utils.ConnectionDetector;
 import com.linkedin.platform.APIHelper;
 import com.linkedin.platform.LISession;
@@ -46,12 +48,12 @@ import java.util.TimerTask;
  * @purpose Activity which holds the introduction slides
  *
  */
-public class Tutorials extends LuttuBaseFragmentActivity {
+public class ActivityTutorials extends LuttuBaseFragmentActivity {
 
 	
 
 	// Linked in
-	private static final String TAG = Tutorials.class.getSimpleName();
+	private static final String TAG = ActivityTutorials.class.getSimpleName();
 	public static final String PACKAGE_MOBILE_SDK_SAMPLE_APP = "com.rentalgeek.android";
 
 	private static final String host = "api.linkedin.com";
@@ -135,8 +137,8 @@ public class Tutorials extends LuttuBaseFragmentActivity {
 
 		LISessionManager.getInstance(getApplicationContext()).onActivityResult(
 				this, requestCode, resultCode, data);
-		if (requestCode == SignIn.RC_SIGN_IN) {
-			SignIn fragment = (SignIn) getSupportFragmentManager()
+		if (requestCode == FragmentSignIn.RC_SIGN_IN) {
+			FragmentSignIn fragment = (FragmentSignIn) getSupportFragmentManager()
 					.findFragmentById(R.id.pager);
 			fragment.onActivityResult(requestCode, resultCode, data);
 		} else {
@@ -189,7 +191,7 @@ public class Tutorials extends LuttuBaseFragmentActivity {
 
 						APIHelper apiHelper = APIHelper
 								.getInstance(getApplicationContext());
-						apiHelper.getRequest(Tutorials.this, topCardUrl,
+						apiHelper.getRequest(ActivityTutorials.this, topCardUrl,
 								new ApiListener() {
 									@Override
 									public void onApiSuccess(ApiResponse s) {
@@ -197,7 +199,7 @@ public class Tutorials extends LuttuBaseFragmentActivity {
 										System.out.println("linked in response "
 												+ s.getResponseDataAsJson());
 
-										SignIn fragment = (SignIn) getSupportFragmentManager()
+										FragmentSignIn fragment = (FragmentSignIn) getSupportFragmentManager()
 												.findFragmentById(R.id.pager);
 										try {
 

@@ -1,13 +1,13 @@
-package com.rentalgeek.android.tutorials;
+package com.rentalgeek.android.fragment;
 
-
-import com.rentalgeek.android.R;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.rentalgeek.android.R;
 
 
 /**
@@ -17,10 +17,10 @@ import android.view.ViewGroup;
  * @purpose First slide introduction
  *
  */
-public class FirstClass extends Fragment{
+public class FragmentTutorialGeekVision extends Fragment{
 	
-	public static FirstClass newInstance() {
-		FirstClass fragment = new FirstClass();
+	public static FragmentTutorialGeekVision newInstance() {
+		FragmentTutorialGeekVision fragment = new FragmentTutorialGeekVision();
 
 
         return fragment;

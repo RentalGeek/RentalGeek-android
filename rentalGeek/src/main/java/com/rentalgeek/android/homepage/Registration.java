@@ -1,15 +1,20 @@
 package com.rentalgeek.android.homepage;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnClick;
+import android.app.Activity;
+import android.app.Dialog;
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.text.Html;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.webkit.WebView;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
-import com.rentalgeek.android.R;
-import com.rentalgeek.android.backend.RegistrationBackend;
-import com.rentalgeek.android.backend.RegistrationBackend.Applicant;
-import com.rentalgeek.android.utils.ConnectionDetector;
-import com.rentalgeek.android.utils.Loading;
-import com.rentalgeek.android.utils.StaticClass;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.gson.Gson;
@@ -29,21 +34,16 @@ import com.mobsandgeeks.saripaar.annotation.Email;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.mobsandgeeks.saripaar.annotation.TextRule;
+import com.rentalgeek.android.R;
+import com.rentalgeek.android.backend.RegistrationBackend;
+import com.rentalgeek.android.backend.RegistrationBackend.Applicant;
+import com.rentalgeek.android.utils.ConnectionDetector;
+import com.rentalgeek.android.utils.Loading;
+import com.rentalgeek.android.utils.StaticClass;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.text.Html;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.Window;
-import android.webkit.WebView;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.TextView;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * 

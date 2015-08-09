@@ -29,6 +29,7 @@ import com.luttu.utils.GetSSl;
 import com.luttu.utils.GlobalFunctions;
 import com.luttu.utils.GlobalFunctions.HttpResponseHandler;
 import com.squareup.picasso.Picasso;
+
 public class BottomDialog {
 
 	

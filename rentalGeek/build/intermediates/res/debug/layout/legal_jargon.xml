@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    android:weightSum="1" >
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.8" >
+        
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+            
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip" >
+
+                <ImageView
+                    android:id="@+id/infoclick2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="3dip"
+                    android:src="@drawable/infoclicklock" />
+
+                <ImageView
+                    android:id="@+id/infoclick1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_toLeftOf="@+id/infoclick2"
+                    android:src="@drawable/infoclicki" />
+            </RelativeLayout>
+            
+
+            <WebView
+                android:id="@+id/terms_web_main"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="right"
+        android:layout_weight="0.2"
+        android:gravity="center" >
+
+        <Button
+            android:id="@+id/continue_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/apptheme_btn_default_holo_light"
+            android:text="Continue"
+            android:textColor="#ffffff" />
+    </LinearLayout>
+
+</LinearLayout><!-- From: file:/Users/travis/Documents/Android%20Projects/Entrision/RentalGeek/rentalGeek/src/main/res/layout/legal_jargon.xml -->

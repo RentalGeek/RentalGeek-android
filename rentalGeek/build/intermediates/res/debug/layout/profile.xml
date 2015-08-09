@@ -1,0 +1,783 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dip"
+            android:layout_marginRight="20dip"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Verify Personal Information"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#000000" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dip"
+                android:layout_marginTop="10dip"
+                android:text="@string/personal_info_txt"
+                android:textColor="#000000" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dip"
+                android:layout_marginTop="10dip"
+                android:text="Personal Information"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/first_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="First Name(Mandatory)"
+                    android:textColor="@color/blue" />
+
+                <EditText
+                    android:id="@+id/ed_first_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:layout_below="@id/first_tag" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                 android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/last_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="Last Name(Mandatory)"
+                    android:textColor="@color/blue" />
+
+                <EditText
+                    android:id="@+id/ed_last_name"
+                    android:layout_width="match_parent"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/last_tag" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="20dp" >
+
+                <TextView
+                    android:id="@+id/born_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="Date of Birth (Mandatory)"
+                    android:textColor="@color/blue" />
+
+                <EditText
+                    android:id="@+id/ed_born_on"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/born_tag"
+                    android:focusable="false"
+                    android:hint="MM-DD-YYYY" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/license_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="Drivers License Number"
+                    android:textColor="@color/blue" />
+
+                <EditText
+                    android:id="@+id/ed_license"
+                    android:layout_width="match_parent"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/license_tag" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/license_state_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="Drivers License State"
+                    android:textColor="@color/blue" />
+
+                <Spinner
+                    android:id="@+id/ed_license_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/license_state_tag"
+                    android:background="@drawable/underlines"
+                    android:entries="@array/state_list"
+                    android:paddingBottom="9dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/ph_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="Phone Number (Mandatory)"
+                    android:textColor="@color/blue" />
+
+                <EditText
+                    android:id="@+id/ed_ph"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ph_tag"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:maxLength="10" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/pets_desc_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="Describe Pets (if any)"
+                    android:textColor="@color/blue" />
+
+                <EditText
+                    android:id="@+id/ed_desc_pets"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:layout_below="@id/pets_desc_tag" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/vehicle_desc_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="Vehicle Make and Model"
+                    android:textColor="@color/blue" />
+
+                <EditText
+                    android:id="@+id/ed_desc_vehicle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:layout_below="@id/vehicle_desc_tag" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/was_ecvicted"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="Have you ever been evicted? (Mandatory)"
+                    android:textColor="@color/blue" />
+
+                <Spinner
+                    android:id="@+id/ed_was_envicted"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/was_ecvicted"
+                    android:background="@drawable/underlines"
+                    android:entries="@array/tru"
+                    android:paddingBottom="5dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/evdesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/ecvicted_desc_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="Reasons for Eviction"
+                    android:textColor="@color/blue" />
+
+                <EditText
+                    android:id="@+id/ed_envicted_desc"
+                    android:layout_width="match_parent"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ecvicted_desc_tag" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/is_felon_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="Have you ever been convicted of a felony? (Mandatory)"
+                    android:textColor="@color/blue" />
+
+                <Spinner
+                    android:id="@+id/ed_felon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/is_felon_tag"
+                    android:background="@drawable/underlines"
+                    android:entries="@array/tru"
+                    android:hint="No"
+                    android:paddingBottom="5dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/is_felon_lay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/is_felon_desc_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="Please describe felony"
+                    android:textColor="@color/blue" />
+
+                <EditText
+                    android:id="@+id/ed_felon_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:layout_below="@id/is_felon_desc_tag"
+                    android:hint="" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/char_ref_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="Please provide the name of a character reference (Mandatory)"
+                    android:textColor="@color/blue" />
+
+                <EditText
+                    android:id="@+id/ed_char_ref"
+                    android:layout_width="match_parent"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/char_ref_tag" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/char_ref_contact_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="Phone Number of Character Reference (Mandatory)"
+                    android:textColor="@color/blue" />
+
+                <EditText
+                    android:id="@+id/ed_char_ref_conifo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:layout_below="@id/char_ref_contact_tag"
+                    android:inputType="phone"
+                    android:maxLength="10" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/emer_contact_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text=" Please provide emergency contact name (Mandatory)"
+                    android:textColor="@color/blue" />
+
+                <EditText
+                    android:id="@+id/ed_emer_conifo"
+                    android:layout_width="match_parent"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/emer_contact_tag" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/emer_contact_ph_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="Please provide an emergency contact phone number (Mandatory)"
+                    android:textColor="@color/blue" />
+
+                <EditText
+                    android:id="@+id/ed_emer_ph"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:layout_below="@id/emer_contact_ph_tag"
+                    android:inputType="number"
+                    android:maxLength="10" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/curr_home_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="Current home address (Mandatory)"
+                    android:textColor="@color/blue" />
+
+                <EditText
+                    android:id="@+id/ed_home_addr"
+                    android:layout_width="match_parent"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/curr_home_tag" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/curr_home_mov_in_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="Date you moved into your current address. (Mandatory)"
+                    android:textColor="@color/blue" />
+
+                <EditText
+                    android:id="@+id/ed_curr_home_mov_in"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/curr_home_mov_in_tag"
+                    android:focusable="false" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/curr_own_dis_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="Reason for moving"
+                    android:textColor="@color/blue" />
+
+                <EditText
+                    android:id="@+id/ed_curr_home_diss"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:layout_below="@id/curr_own_dis_tag" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/curr_own_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="Owner/ landlord of your current residence (Mandatory)"
+                    android:textColor="@color/blue" />
+
+                <EditText
+                    android:id="@+id/ed_curr_home_own"
+                    android:layout_width="match_parent"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/curr_own_tag" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/curr_own_cont_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="Phone number of the Owner/ Landlord of your current residence (Mandatory)"
+                    android:textColor="@color/blue" />
+
+                <EditText
+                    android:id="@+id/ed_curr_own_cont"
+                    android:layout_width="match_parent"
+                    android:imeOptions="actionNext"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/curr_own_cont_tag"
+                    android:inputType="number"
+                    android:maxLength="10" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/prev_own_stree_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="Previous home address"
+                    android:textColor="@color/blue" />
+
+                <EditText
+                    android:id="@+id/ed_prev_own_stree"
+                    android:layout_width="match_parent"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/prev_own_stree_tag" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/prev_own_movedin_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:focusable="false"
+                    android:text="Date you moved into your previous address"
+                    android:textColor="@color/blue" />
+
+                <EditText
+                    android:id="@+id/ed_prev_hme_movedin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/prev_own_movedin_tag"
+                    android:focusable="false" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/prev_own_movedout_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="Date you moved out of your previous address"
+                    android:textColor="@color/blue" />
+
+                <EditText
+                    android:id="@+id/ed_prev_hme_movedout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/prev_own_movedout_tag"
+                    android:focusable="false" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/prev_own_hme_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="Previous Home Owner"
+                    android:textColor="@color/blue" />
+
+                <EditText
+                    android:id="@+id/ed_prev_hme_own"
+                    android:layout_width="match_parent"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/prev_own_hme_tag" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/prev_own_hme_cnt_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="Phone number of the Owner/Landlord of your previous residence"
+                    android:textColor="@color/blue" />
+
+                <EditText
+                    android:id="@+id/ed_prev_hme_own_cnt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:layout_below="@id/prev_own_hme_cnt_tag"
+                    android:inputType="number"
+                    android:maxLength="10" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/empl_sta_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="Employment Status (Mandatory)"
+                    android:textColor="@color/blue" />
+
+                <Spinner
+                    android:id="@+id/ed_empl_sta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/empl_sta_tag"
+                    android:background="@drawable/underlines"
+                    android:entries="@array/empl"
+                    android:paddingBottom="5dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/empl_super_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="Current Employment Supervisor"
+                    android:textColor="@color/blue" />
+
+                <EditText
+                    android:id="@+id/ed_empl_super"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:layout_below="@id/empl_super_tag" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/cosigner_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="Cosigner Name (Mandatory)"
+                    android:textColor="@color/blue" />
+
+                <EditText
+                    android:id="@+id/ed_cosigner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:layout_below="@id/cosigner_tag" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/cosigner_email_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="Cosigner Email Address (Mandatory)"
+                    android:textColor="@color/blue" />
+
+                <EditText
+                    android:id="@+id/ed_cosigner_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:layout_below="@id/cosigner_email_tag"
+                    android:inputType="textEmailAddress" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/mov_desir_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="Desire To Move In On"
+                    android:textColor="@color/blue" />
+
+                <EditText
+                    android:id="@+id/ed_desir_mov"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/mov_desir_tag"
+                    android:focusable="false" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/profile_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="20dip"
+                android:background="@drawable/apptheme_btn_default_holo_light"
+                android:text="Submit"
+                android:textColor="#ffffff" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout><!-- From: file:/Users/travis/Documents/Android%20Projects/Entrision/RentalGeek/rentalGeek/src/main/res/layout/profile.xml -->

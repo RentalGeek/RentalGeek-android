@@ -1,2 +1,5 @@
 .idea/
 local.properties
+build/
+.gradle/
+facebookSDK/build/

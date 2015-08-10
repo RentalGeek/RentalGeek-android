@@ -32,8 +32,8 @@ import com.rentalgeek.android.backend.ErrorObj;
 import com.rentalgeek.android.backend.ProfileIdFindBackend;
 import com.rentalgeek.android.backend.ProfilePost;
 import com.rentalgeek.android.database.ProfileTable;
-import com.rentalgeek.android.geekscores.FinalGeekScore;
-import com.rentalgeek.android.geekscores.GeekScoreMain;
+import com.rentalgeek.android.ui.fragment.FragmentFinalGeekScore;
+import com.rentalgeek.android.ui.fragment.FragmentGeekScoreMain;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.fragment.FragmentListViewDetails;
 import com.rentalgeek.android.utils.ConnectionDetector;
@@ -564,7 +564,7 @@ public class Profile extends LuttuBaseAbstract implements ValidationListener,
 
 					if (appPref.getIntData("payed") == 200) {
 
-						nextfragment(new FinalGeekScore(), false,
+						nextfragment(new FragmentFinalGeekScore(), false,
 								R.id.container);
 
 					} else {
@@ -580,7 +580,7 @@ public class Profile extends LuttuBaseAbstract implements ValidationListener,
 											int id) {
 
 										dialog.cancel();
-										nextfragment(new GeekScoreMain(),
+										nextfragment(new FragmentGeekScoreMain(),
 												false, R.id.container);
 									}
 								});

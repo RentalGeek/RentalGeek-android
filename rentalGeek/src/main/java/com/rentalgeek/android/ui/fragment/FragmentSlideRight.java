@@ -1,4 +1,4 @@
-package com.rentalgeek.android.homepage;
+package com.rentalgeek.android.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,7 +35,7 @@ import butterknife.OnClick;
  * @purpose Right Slide Menu
  *
  */
-public class SlideRight extends LuttuBaseAbstract {
+public class FragmentSlideRight extends LuttuBaseAbstract {
 
 	// BedRoom Buttons
 	@InjectView(R.id.bt_studio)
@@ -88,7 +88,7 @@ public class SlideRight extends LuttuBaseAbstract {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		View v = inflater.inflate(R.layout.slideright, container, false);
+		View v = inflater.inflate(R.layout.fragment_slideright, container, false);
 		ButterKnife.inject(this, v);
 		params_strings = "";
 		con = new ConnectionDetector(getActivity());

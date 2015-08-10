@@ -1,4 +1,4 @@
-package com.rentalgeek.android.geekscores;
+package com.rentalgeek.android.ui.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -9,16 +9,16 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.webkit.WebView;
 import android.widget.TextView;
+
+import com.luttu.fragmentutils.LuttuBaseAbstract;
+import com.rentalgeek.android.R;
+import com.rentalgeek.android.utils.ConnectionDetector;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-import com.rentalgeek.android.R;
-import com.rentalgeek.android.utils.ConnectionDetector;
-import com.luttu.fragmentutils.LuttuBaseAbstract;
-import com.squareup.okhttp.Connection;
-
-public class LegalJargon extends LuttuBaseAbstract {
+public class FragmentLegalJargon extends LuttuBaseAbstract {
 
 	/**
 	 * @author george
@@ -35,7 +35,7 @@ public class LegalJargon extends LuttuBaseAbstract {
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 
-		View v = inflater.inflate(R.layout.legal_jargon, container, false);
+		View v = inflater.inflate(R.layout.fragment_legal_jargon, container, false);
 		ButterKnife.inject(this, v);
 
 		wv.loadUrl("file:///android_asset/terms.html");
@@ -68,7 +68,7 @@ public class LegalJargon extends LuttuBaseAbstract {
 		
 		if(con.isConnectingToInternet())
 		{
-			nextfragment(new LegalJargonMore(), false, R.id.container);
+			nextfragment(new FragmentLegalJargonMore(), false, R.id.container);
 		}
 		else
 		{

@@ -1,4 +1,4 @@
-package com.rentalgeek.android.geekscores;
+package com.rentalgeek.android.ui.fragment;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -6,25 +6,16 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnClick;
 
-import com.rentalgeek.android.R;
-import com.rentalgeek.android.backend.ErrorApi;
-import com.rentalgeek.android.backend.LoginBackend;
-import com.rentalgeek.android.backend.LoginBackend.applicant;
-import com.rentalgeek.android.ui.fragment.FragmentSignIn;
-import com.rentalgeek.android.utils.StaticClass;
 import com.facebook.Session;
 import com.google.gson.Gson;
 import com.loopj.android.http.PersistentCookieStore;
@@ -35,8 +26,17 @@ import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.Validator.ValidationListener;
 import com.mobsandgeeks.saripaar.annotation.Required;
+import com.rentalgeek.android.R;
+import com.rentalgeek.android.backend.ErrorApi;
+import com.rentalgeek.android.backend.LoginBackend;
+import com.rentalgeek.android.backend.LoginBackend.applicant;
+import com.rentalgeek.android.utils.StaticClass;
 
-public class VerifyAccount extends LuttuBaseAbstract implements ValidationListener{
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+
+public class FragmentVerifyAccount extends LuttuBaseAbstract implements ValidationListener{
    
 	/**
 	 * @author george
@@ -72,7 +72,7 @@ public class VerifyAccount extends LuttuBaseAbstract implements ValidationListen
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		View v = inflater.inflate(R.layout.verify_identity, container, false);
+		View v = inflater.inflate(R.layout.fragment_verify_identity, container, false);
 
 		
 		ButterKnife.inject(this,v);
@@ -165,18 +165,18 @@ public class VerifyAccount extends LuttuBaseAbstract implements ValidationListen
 
 	private void LinkedParse(String response) {
 		// TODO Auto-generated method stub
-		nextfragment(new Payment(), false, R.id.container);
+		nextfragment(new FragmentPayment(), false, R.id.container);
 	}
 
 	private void GoogleParse(String response) {
 		// TODO Auto-generated method stub
-		nextfragment(new Payment(), false, R.id.container);
+		nextfragment(new FragmentPayment(), false, R.id.container);
 		
 	}
 
 	private void FacebookParse(String response) {
 		// TODO Auto-generated method stub
-		nextfragment(new Payment(), false, R.id.container);
+		nextfragment(new FragmentPayment(), false, R.id.container);
 	}
 
 	@Override
@@ -252,7 +252,7 @@ public class VerifyAccount extends LuttuBaseAbstract implements ValidationListen
 			appPref.SaveData("Uid", appid);
 			appPref.SaveData("email", detail.applicant.email);
 			
-			nextfragment(new Payment(), false, R.id.container);
+			nextfragment(new FragmentPayment(), false, R.id.container);
 		 
 			 
 			 

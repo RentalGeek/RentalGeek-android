@@ -28,7 +28,6 @@ import com.rentalgeek.android.backend.AddStarBack.StarredProperty;
 import com.rentalgeek.android.backend.ApplyBackend;
 import com.rentalgeek.android.backend.ApplyError;
 import com.rentalgeek.android.database.PropertyTable;
-import com.rentalgeek.android.geekscores.GeekScoreMain;
 import com.rentalgeek.android.profile.Profile;
 import com.rentalgeek.android.ui.dialog.MoreAmenitiesDialog;
 import com.rentalgeek.android.utils.ConnectionDetector;
@@ -278,7 +277,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 			if (detail.message.contains("Profile")) {
 				messageProfile("Complete your profile in order to apply");
 
-			} else if (detail.message.contains("Payment")) {
+			} else if (detail.message.contains("FragmentPayment")) {
 				messagePayment(getActivity().getResources().getString(R.string.geek_go));
 
 			} else {
@@ -467,7 +466,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 					amenities.add("Accepts Checks");
 				}
 				if (prop.property_manager_accepts_online_payments) {
-					amenities.add("Online Payment");
+					amenities.add("Online FragmentPayment");
 				}
 				if (prop.property_manager_accepts_money_orders) {
 					amenities.add("Money Order");
@@ -595,7 +594,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 						public void onClick(DialogInterface dialog, int id) {
 
 							dialog.cancel();
-							nextfragment(new GeekScoreMain(), false,
+							nextfragment(new FragmentGeekScoreMain(), false,
 									R.id.container);
 						}
 					});

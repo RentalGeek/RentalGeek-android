@@ -25,7 +25,6 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.backend.ApplyBackend;
 import com.rentalgeek.android.backend.ApplyError;
 import com.rentalgeek.android.backend.StarredInnerBacked;
-import com.rentalgeek.android.geekscores.GeekScoreMain;
 import com.rentalgeek.android.profile.Profile;
 import com.rentalgeek.android.ui.dialog.MoreAmenitiesDialog;
 import com.rentalgeek.android.utils.ConnectionDetector;
@@ -268,7 +267,7 @@ public class FragmentStarredPropDetails extends LuttuBaseAbstract {
 				if (detail.message.contains("Profile")) {
 					messageProfile("Complete your profile in order to apply");
 
-				} else if (detail.message.contains("Payment")) {
+				} else if (detail.message.contains("FragmentPayment")) {
 					messagePayment("You must create your geekscore to apply");
 
 				}
@@ -408,7 +407,7 @@ public class FragmentStarredPropDetails extends LuttuBaseAbstract {
 						amenities.add("Accepts Checks");
 					}
 					if (detail.rental_offering.property_manager_accepts_online_payments) {
-						amenities.add("Online Payment");
+						amenities.add("Online FragmentPayment");
 					}
 					if (detail.rental_offering.property_manager_accepts_money_orders) {
 						amenities.add("Money Order");
@@ -544,7 +543,7 @@ public class FragmentStarredPropDetails extends LuttuBaseAbstract {
 							public void onClick(DialogInterface dialog, int id) {
 
 								dialog.cancel();
-								nextfragment(new GeekScoreMain(), false,
+								nextfragment(new FragmentGeekScoreMain(), false,
 										R.id.container);
 							}
 						});

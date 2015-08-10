@@ -1,6 +1,4 @@
-package com.rentalgeek.android.homepage;
-
-import java.util.ArrayList;
+package com.rentalgeek.android.ui.fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -17,25 +15,26 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 import com.activeandroid.query.Delete;
-import com.rentalgeek.android.R;
-import com.rentalgeek.android.database.ProfileTable;
-import com.rentalgeek.android.database.PropertyTable;
-import com.rentalgeek.android.geekscores.GeekScoreMain;
-import com.rentalgeek.android.geekvision.GeekVision;
-import com.rentalgeek.android.profile.Profile;
-import com.rentalgeek.android.ui.fragment.FragmentStarredProperties;
-import com.rentalgeek.android.ui.activity.ActivityHome;
-import com.rentalgeek.android.ui.activity.ActivityTutorials;
-import com.rentalgeek.android.utils.StaticClass;
 import com.facebook.Session;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 import com.luttu.fragmentutils.AppPrefes;
 import com.luttu.fragmentutils.LuttuBaseAbstract;
+import com.rentalgeek.android.R;
+import com.rentalgeek.android.database.ProfileTable;
+import com.rentalgeek.android.database.PropertyTable;
+import com.rentalgeek.android.geekvision.GeekVision;
+import com.rentalgeek.android.profile.Profile;
+import com.rentalgeek.android.ui.activity.ActivityHome;
+import com.rentalgeek.android.ui.activity.ActivityTutorials;
+import com.rentalgeek.android.utils.StaticClass;
+
+import java.util.ArrayList;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 /**
  * 
@@ -45,7 +44,7 @@ import com.luttu.fragmentutils.LuttuBaseAbstract;
  *
  */
 
-public class SlideLeft extends LuttuBaseAbstract {
+public class FragmentSlideLeft extends LuttuBaseAbstract {
  
 	@InjectView(R.id.slidelist)
 	ListView list;
@@ -62,7 +61,7 @@ public class SlideLeft extends LuttuBaseAbstract {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		View v = inflater.inflate(R.layout.slideleft, container, false);
+		View v = inflater.inflate(R.layout.fragment_slideleft, container, false);
 		ButterKnife.inject(this, v);
 		listitems = new ArrayList<String>();
 		appPref = new AppPrefes(getActivity(), "rentalgeek");
@@ -84,7 +83,7 @@ public class SlideLeft extends LuttuBaseAbstract {
 				case 0:
 					appPref.SaveData("map_list", "");
 					((ActivityHome) getActivity()).closedrawer();
-					nextfragment(new GeekScoreMain(), false, R.id.container);
+					nextfragment(new FragmentGeekScoreMain(), false, R.id.container);
 					break;
 				case 1:
 					appPref.SaveData("map_list", "");

@@ -1,4 +1,4 @@
-package com.rentalgeek.android.geekscores;
+package com.rentalgeek.android.ui.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -11,20 +11,21 @@ import android.view.Window;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnClick;
-import com.rentalgeek.android.R;
-import com.rentalgeek.android.backend.LoginBackend;
-import com.rentalgeek.android.ui.activity.ActivityHome;
-import com.rentalgeek.android.ui.fragment.FragmentListViewDetails;
-import com.rentalgeek.android.utils.ConnectionDetector;
-import com.rentalgeek.android.utils.StaticClass;
+
 import com.google.gson.Gson;
 import com.luttu.fragmentutils.AppPrefes;
 import com.luttu.fragmentutils.LuttuBaseAbstract;
+import com.rentalgeek.android.R;
+import com.rentalgeek.android.backend.LoginBackend;
+import com.rentalgeek.android.ui.activity.ActivityHome;
+import com.rentalgeek.android.utils.ConnectionDetector;
+import com.rentalgeek.android.utils.StaticClass;
 
-public class GeekScoreMain extends LuttuBaseAbstract {
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+
+public class FragmentGeekScoreMain extends LuttuBaseAbstract {
 
 	/**
 	 * @author george
@@ -51,7 +52,7 @@ public class GeekScoreMain extends LuttuBaseAbstract {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.geekscore_main, container, false);
+		View v = inflater.inflate(R.layout.fragment_geekscore_main, container, false);
 		ButterKnife.inject(this, v);
 		con = new ConnectionDetector(getActivity());
 		appPref = new AppPrefes(getActivity(), "rentalgeek");
@@ -110,7 +111,7 @@ public class GeekScoreMain extends LuttuBaseAbstract {
 					LoginBackend.class);
 
 			if (detail.applicant.payment) {
-				toastsuccess("Payment status: Complete");
+				toastsuccess("FragmentPayment status: Complete");
 				getStarted.setEnabled(false);
 				ddt.setVisibility(View.INVISIBLE);
 				get_started_paid_already.setVisibility(View.VISIBLE);
@@ -158,7 +159,7 @@ public class GeekScoreMain extends LuttuBaseAbstract {
 					// TODO Auto-generated method stub
 
 					dialog.dismiss();
-					nextfragment(new LegalJargon(), false, R.id.container);
+					nextfragment(new FragmentLegalJargon(), false, R.id.container);
 
 				}
 			});

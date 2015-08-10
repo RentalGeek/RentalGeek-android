@@ -1,7 +1,4 @@
-package com.rentalgeek.android.geekscores;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.rentalgeek.android.ui.fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -16,19 +13,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnClick;
 
-import com.rentalgeek.android.R;
-import com.rentalgeek.android.backend.CheckPayment;
-import com.rentalgeek.android.backend.ErrorArray;
-import com.rentalgeek.android.backend.LoginBackend;
-import com.rentalgeek.android.backend.PaymentBackend;
-import com.rentalgeek.android.ui.fragment.FragmentListViewDetails;
-import com.rentalgeek.android.profile.Profile;
-import com.rentalgeek.android.utils.ConnectionDetector;
-import com.rentalgeek.android.utils.StaticClass;
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 import com.luttu.fragmentutils.AppPrefes;
@@ -38,8 +23,23 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.mobsandgeeks.saripaar.annotation.Select;
 import com.mobsandgeeks.saripaar.annotation.TextRule;
+import com.rentalgeek.android.R;
+import com.rentalgeek.android.backend.CheckPayment;
+import com.rentalgeek.android.backend.ErrorArray;
+import com.rentalgeek.android.backend.LoginBackend;
+import com.rentalgeek.android.backend.PaymentBackend;
+import com.rentalgeek.android.profile.Profile;
+import com.rentalgeek.android.utils.ConnectionDetector;
+import com.rentalgeek.android.utils.StaticClass;
 
-public class Payment extends LuttuBaseAbstract implements
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+
+public class FragmentPayment extends LuttuBaseAbstract implements
 		Validator.ValidationListener {
 
 	/**
@@ -103,7 +103,7 @@ public class Payment extends LuttuBaseAbstract implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		View v = inflater.inflate(R.layout.card_info_dialog, container, false);
+		View v = inflater.inflate(R.layout.fragment_card_info_dialog, container, false);
 		con = new ConnectionDetector(getActivity());
 		ButterKnife.inject(this, v);
 		appPref = new AppPrefes(getActivity(), "rentalgeek");
@@ -215,7 +215,7 @@ public class Payment extends LuttuBaseAbstract implements
 		else if(value == 1)
 		{
 			try {
-				toast("Payment process failure");
+				toast("FragmentPayment process failure");
 
 				System.out.println("payment failure " + response);
 
@@ -279,7 +279,7 @@ public class Payment extends LuttuBaseAbstract implements
 
 		if (detail != null && detail.transaction != null) {
 
-			toast("Payment successfull, transaction ID"
+			toast("FragmentPayment successfull, transaction ID"
 					+ detail.transaction.transaction_id);
 			appPref.SaveIntData("payed", 200);
 
@@ -287,7 +287,7 @@ public class Payment extends LuttuBaseAbstract implements
 				profileAlert("Your payment is success. Please complete your profile in order to apply.");
 				// nextfragment(new Profile(), false, R.id.container);
 			} else {
-				nextfragment(new FinalGeekScore(), false, R.id.container);
+				nextfragment(new FragmentFinalGeekScore(), false, R.id.container);
 			}
 
 		}

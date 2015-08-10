@@ -28,7 +28,6 @@ import com.rentalgeek.android.backend.CheckPayment;
 import com.rentalgeek.android.backend.ErrorArray;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.backend.PaymentBackend;
-import com.rentalgeek.android.profile.Profile;
 import com.rentalgeek.android.utils.ConnectionDetector;
 import com.rentalgeek.android.utils.StaticClass;
 
@@ -285,7 +284,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements
 
 			if (appPref.getData("prof_id").equals("")) {
 				profileAlert("Your payment is success. Please complete your profile in order to apply.");
-				// nextfragment(new Profile(), false, R.id.container);
+				// nextfragment(new FragmentProfile(), false, R.id.container);
 			} else {
 				nextfragment(new FragmentFinalGeekScore(), false, R.id.container);
 			}
@@ -340,12 +339,12 @@ public class FragmentPayment extends LuttuBaseAbstract implements
 		builder1.setMessage(message);
 		builder1.setTitle("Alert");
 		builder1.setCancelable(false);
-		builder1.setPositiveButton("Go to Profile",
+		builder1.setPositiveButton("Go to FragmentProfile",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 
 						dialog.cancel();
-						nextfragment(new Profile(), false, R.id.container);
+						nextfragment(new FragmentProfile(), false, R.id.container);
 					}
 				});
 

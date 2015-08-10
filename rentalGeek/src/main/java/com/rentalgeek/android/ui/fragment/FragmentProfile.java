@@ -1,11 +1,5 @@
-package com.rentalgeek.android.profile;
+package com.rentalgeek.android.ui.fragment;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
@@ -24,20 +18,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnClick;
-import com.rentalgeek.android.R;
-import com.rentalgeek.android.backend.ErrorObj;
-import com.rentalgeek.android.backend.ProfileIdFindBackend;
-import com.rentalgeek.android.backend.ProfilePost;
-import com.rentalgeek.android.database.ProfileTable;
-import com.rentalgeek.android.ui.fragment.FragmentFinalGeekScore;
-import com.rentalgeek.android.ui.fragment.FragmentGeekScoreMain;
-import com.rentalgeek.android.ui.activity.ActivityHome;
-import com.rentalgeek.android.ui.fragment.FragmentListViewDetails;
-import com.rentalgeek.android.utils.ConnectionDetector;
-import com.rentalgeek.android.utils.StaticClass;
+
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 import com.luttu.fragmentutils.AppPrefes;
@@ -49,6 +30,25 @@ import com.mobsandgeeks.saripaar.annotation.Regex;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.mobsandgeeks.saripaar.annotation.Select;
 import com.mobsandgeeks.saripaar.annotation.TextRule;
+import com.rentalgeek.android.R;
+import com.rentalgeek.android.backend.ErrorObj;
+import com.rentalgeek.android.backend.ProfileIdFindBackend;
+import com.rentalgeek.android.backend.ProfilePost;
+import com.rentalgeek.android.database.ProfileTable;
+import com.rentalgeek.android.ui.activity.ActivityHome;
+import com.rentalgeek.android.utils.ConnectionDetector;
+import com.rentalgeek.android.utils.StaticClass;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * 
@@ -57,7 +57,7 @@ import com.mobsandgeeks.saripaar.annotation.TextRule;
  * @purpose Fragment which deals with the profile of a Rental geek user.
  *
  */
-public class Profile extends LuttuBaseAbstract implements ValidationListener,
+public class FragmentProfile extends LuttuBaseAbstract implements ValidationListener,
 		OnFocusChangeListener,
 		android.widget.AdapterView.OnItemSelectedListener {
 
@@ -200,7 +200,7 @@ public class Profile extends LuttuBaseAbstract implements ValidationListener,
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		View v = inflater.inflate(R.layout.profile, container, false);
+		View v = inflater.inflate(R.layout.fragment_profile, container, false);
 		ButterKnife.inject(this, v);
 		validator = new Validator(this);
 		validator.setValidationListener(this);
@@ -559,7 +559,7 @@ public class Profile extends LuttuBaseAbstract implements ValidationListener,
 
 				if (detail.profile != null) {
 					appPref.SaveData("prof_id", detail.profile.id);
-					toastsuccess("Profile Updated Successfully");
+					toastsuccess("FragmentProfile Updated Successfully");
 					hidekey();
 
 					if (appPref.getIntData("payed") == 200) {
@@ -1388,7 +1388,7 @@ public class Profile extends LuttuBaseAbstract implements ValidationListener,
 
 	}
 
-	// Auto Save Functionality in Profile
+	// Auto Save Functionality in FragmentProfile
 
 	@Override
 	public void onFocusChange(View v, boolean hasFocus) {

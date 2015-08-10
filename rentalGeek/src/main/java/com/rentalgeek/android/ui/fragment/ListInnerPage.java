@@ -28,7 +28,6 @@ import com.rentalgeek.android.backend.AddStarBack.StarredProperty;
 import com.rentalgeek.android.backend.ApplyBackend;
 import com.rentalgeek.android.backend.ApplyError;
 import com.rentalgeek.android.database.PropertyTable;
-import com.rentalgeek.android.profile.Profile;
 import com.rentalgeek.android.ui.dialog.MoreAmenitiesDialog;
 import com.rentalgeek.android.utils.ConnectionDetector;
 import com.rentalgeek.android.utils.StaticClass;
@@ -274,7 +273,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 
 		if (!detail.success) {
 
-			if (detail.message.contains("Profile")) {
+			if (detail.message.contains("FragmentProfile")) {
 				messageProfile("Complete your profile in order to apply");
 
 			} else if (detail.message.contains("FragmentPayment")) {
@@ -558,7 +557,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 						public void onClick(DialogInterface dialog, int id) {
 
 							dialog.cancel();
-							nextfragment(new Profile(), false, R.id.container);
+							nextfragment(new FragmentProfile(), false, R.id.container);
 						}
 					});
 

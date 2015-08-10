@@ -26,7 +26,6 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.database.ProfileTable;
 import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.geekvision.GeekVision;
-import com.rentalgeek.android.profile.Profile;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.activity.ActivityTutorials;
 import com.rentalgeek.android.utils.StaticClass;
@@ -98,7 +97,7 @@ public class FragmentSlideLeft extends LuttuBaseAbstract {
 				case 3:
 					appPref.SaveData("map_list", "");
 					((ActivityHome) getActivity()).closedrawer();
-					nextfragment(new Profile(), false, R.id.container);
+					nextfragment(new FragmentProfile(), false, R.id.container);
 					break;
 				case 4:
 					logout();
@@ -157,13 +156,10 @@ public class FragmentSlideLeft extends LuttuBaseAbstract {
 			View view = convertView;
 			final ViewHolder holder;
 			if (convertView == null) {
-				view = getActivity().getLayoutInflater().inflate(
-						R.layout.slide_single, parent, false);
+				view = getActivity().getLayoutInflater().inflate(R.layout.slide_single, parent, false);
 				holder = new ViewHolder();
 				holder.text = (TextView) view.findViewById(R.id.main_item);
-				holder.slide_in = (LinearLayout) view
-						.findViewById(R.id.slide_in);
-
+				holder.slide_in = (LinearLayout) view.findViewById(R.id.slide_in);
 				view.setTag(holder);
 			} else {
 				holder = (ViewHolder) view.getTag();
@@ -194,8 +190,7 @@ public class FragmentSlideLeft extends LuttuBaseAbstract {
 
 		new Delete().from(ProfileTable.class).execute();
 		new Delete().from(PropertyTable.class).execute();
-		PersistentCookieStore mCookieStore = new PersistentCookieStore(
-				getActivity());
+		PersistentCookieStore mCookieStore = new PersistentCookieStore(getActivity());
 		mCookieStore.clear();
 		Session session = Session.getActiveSession();
 		if (session != null)

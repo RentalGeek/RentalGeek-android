@@ -1,7 +1,4 @@
-package com.rentalgeek.android.homepage;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.rentalgeek.android.ui.fragment;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,25 +12,27 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
+import com.google.gson.Gson;
+import com.luttu.fragmentutils.AppPrefes;
+import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.backend.MapBackend;
 import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.pojos.PropertyListPojo;
+import com.rentalgeek.android.ui.adapter.PropertyListItemAdapter;
 import com.rentalgeek.android.utils.RandomUtils;
 import com.rentalgeek.android.utils.StaticClass;
-import com.google.gson.Gson;
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.LuttuBaseAbstract;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 /**
  * 
@@ -42,7 +41,7 @@ import com.luttu.fragmentutils.LuttuBaseAbstract;
  * @purpose Class which handles the list view , rental offerings
  *
  */
-public class ListViewDetails extends LuttuBaseAbstract {
+public class FragmentListViewDetails extends LuttuBaseAbstract {
 
 	@InjectView(R.id.slidelist) 
 	ListView list;
@@ -53,7 +52,7 @@ public class ListViewDetails extends LuttuBaseAbstract {
 	private List<PropertyListPojo.PropertyList> mainlist = new ArrayList<PropertyListPojo.PropertyList>();
 
 	// ItemAdapter adapter;
-	ItemAdapters adapters;
+	PropertyListItemAdapter adapters;
 
 	int[] fiilliste;
 	int width;
@@ -123,7 +122,7 @@ public class ListViewDetails extends LuttuBaseAbstract {
 			}
 
 			adapters = null;
-			adapters = new ItemAdapters(getActivity(), mainlist);
+			adapters = new PropertyListItemAdapter(getActivity(), mainlist);
 
 			list.setAdapter(adapters);
 

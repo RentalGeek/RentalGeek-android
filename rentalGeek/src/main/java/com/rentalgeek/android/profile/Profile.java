@@ -35,7 +35,7 @@ import com.rentalgeek.android.database.ProfileTable;
 import com.rentalgeek.android.geekscores.FinalGeekScore;
 import com.rentalgeek.android.geekscores.GeekScoreMain;
 import com.rentalgeek.android.ui.activity.ActivityHome;
-import com.rentalgeek.android.homepage.ListViewDetails;
+import com.rentalgeek.android.ui.fragment.FragmentListViewDetails;
 import com.rentalgeek.android.utils.ConnectionDetector;
 import com.rentalgeek.android.utils.StaticClass;
 import com.google.gson.Gson;
@@ -592,7 +592,7 @@ public class Profile extends LuttuBaseAbstract implements ValidationListener,
 									public void onClick(DialogInterface dialog,
 											int which) {
 										dialog.cancel();
-										nextfragment(new ListViewDetails(),
+										nextfragment(new FragmentListViewDetails(),
 												false, R.id.container);
 									}
 								});

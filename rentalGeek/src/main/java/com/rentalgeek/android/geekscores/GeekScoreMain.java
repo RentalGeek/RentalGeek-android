@@ -17,7 +17,7 @@ import butterknife.OnClick;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.ui.activity.ActivityHome;
-import com.rentalgeek.android.homepage.ListViewDetails;
+import com.rentalgeek.android.ui.fragment.FragmentListViewDetails;
 import com.rentalgeek.android.utils.ConnectionDetector;
 import com.rentalgeek.android.utils.StaticClass;
 import com.google.gson.Gson;
@@ -226,7 +226,7 @@ public class GeekScoreMain extends LuttuBaseAbstract {
 
 		((ActivityHome) getActivity()).selectorShift();
 		appPref.SaveData("map_list", "");
-		nextfragment(new ListViewDetails(), false, R.id.container);
+		nextfragment(new FragmentListViewDetails(), false, R.id.container);
 	}
 
 }

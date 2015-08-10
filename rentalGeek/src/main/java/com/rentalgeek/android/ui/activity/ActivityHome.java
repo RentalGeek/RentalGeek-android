@@ -20,8 +20,8 @@ import android.widget.Toast;
 import com.rentalgeek.android.R;
 import com.luttu.fragmentutils.AppPrefes;
 import com.luttu.fragmentutils.LuttuBaseFragmentActivity;
-import com.rentalgeek.android.homepage.ListViewDetails;
-import com.rentalgeek.android.homepage.Map;
+import com.rentalgeek.android.ui.fragment.FragmentMap;
+import com.rentalgeek.android.ui.fragment.FragmentListViewDetails;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -32,7 +32,7 @@ import butterknife.OnClick;
  * @author George
  * 
  * @purpose Base Activity which handles all the child fragments. This is the
- *          main Activity from which they we show the Map Fragment
+ *          main Activity from which they we show the FragmentMap Fragment
  *
  */
 
@@ -85,7 +85,7 @@ public class ActivityHome extends LuttuBaseFragmentActivity {
 			containerlogin = (FrameLayout) findViewById(R.id.containerlogin);
 			toplay_click_cancel = (LinearLayout) findViewById(R.id.toplay_click_cancel);
 			mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-			addfg(new Map());
+			addfg(new FragmentMap());
 
 			if (mDrawerLayout != null && mDrawerLayout instanceof DrawerLayout) {
 				mDrawerLayout = (DrawerLayout) mDrawerLayout;
@@ -217,7 +217,7 @@ public class ActivityHome extends LuttuBaseFragmentActivity {
 			closedrawer();
 			if (!appPref.getData("map_list").equals("map")) {
 				appPref.SaveData("map_list", "map");
-				addfg(new Map());
+				addfg(new FragmentMap());
 				map_selector.setVisibility(View.VISIBLE);
 				list_selector.setVisibility(View.INVISIBLE);
 			}
@@ -226,7 +226,7 @@ public class ActivityHome extends LuttuBaseFragmentActivity {
 			closedrawer();
 			if (!appPref.getData("map_list").equals("list")) {
 				appPref.SaveData("map_list", "list");
-				addfg(new ListViewDetails());
+				addfg(new FragmentListViewDetails());
 				map_selector.setVisibility(View.INVISIBLE);
 				list_selector.setVisibility(View.VISIBLE);
 			}

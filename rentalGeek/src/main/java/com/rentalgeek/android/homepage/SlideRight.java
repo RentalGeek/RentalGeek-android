@@ -13,17 +13,20 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnClick;
 
 import com.activeandroid.query.Delete;
+import com.luttu.fragmentutils.AppPrefes;
+import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.ui.activity.ActivityHome;
+import com.rentalgeek.android.ui.fragment.FragmentListViewDetails;
+import com.rentalgeek.android.ui.fragment.FragmentMap;
 import com.rentalgeek.android.utils.ConnectionDetector;
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.LuttuBaseAbstract;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * 
@@ -174,7 +177,7 @@ public class SlideRight extends LuttuBaseAbstract {
 
 		Fragment f = getActivity().getSupportFragmentManager()
 				.findFragmentById(R.id.container);
-		if (f instanceof Map) {
+		if (f instanceof FragmentMap) {
 
 			if (con.isConnectingToInternet()) {
 				searchInmap();
@@ -182,7 +185,7 @@ public class SlideRight extends LuttuBaseAbstract {
 				toast("No Connection");
 			}
 
-		} else if (f instanceof ListViewDetails) {
+		} else if (f instanceof FragmentListViewDetails) {
 
 			if (con.isConnectingToInternet()) {
 				searchInlist();
@@ -191,7 +194,7 @@ public class SlideRight extends LuttuBaseAbstract {
 			}
 
 		} else {
-			toast("Please navigate to List or Map page and search");
+			toast("Please navigate to List or FragmentMap page and search");
 		}
 
 		// if (appPref.getData("map_list").equals("map"))
@@ -204,7 +207,7 @@ public class SlideRight extends LuttuBaseAbstract {
 		// }
 		// else
 		// {
-		// toast("Please navigate to List or Map page and search");
+		// toast("Please navigate to List or FragmentMap page and search");
 		// }
 
 	}
@@ -681,7 +684,7 @@ public class SlideRight extends LuttuBaseAbstract {
 		appPref.SaveData("bysearch", "no");
 		removeEverything();
 		new Delete().from(PropertyTable.class).execute();
-		nextfragment(new Map(), false, R.id.container);
+		nextfragment(new FragmentMap(), false, R.id.container);
 		((ActivityHome)getActivity()).selectorShift();
 		appPref.SaveData("map_list", "map");
 

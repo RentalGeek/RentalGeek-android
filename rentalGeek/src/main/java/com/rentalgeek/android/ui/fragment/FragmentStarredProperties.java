@@ -1,7 +1,4 @@
-package com.rentalgeek.android.starredprop;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.rentalgeek.android.ui.fragment;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -19,19 +16,23 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 
+import com.google.gson.Gson;
+import com.luttu.fragmentutils.AppPrefes;
+import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.backend.StarredBacked;
 import com.rentalgeek.android.pojos.StarredListPojo;
 import com.rentalgeek.android.utils.ConnectionDetector;
 import com.rentalgeek.android.utils.RandomUtils;
 import com.rentalgeek.android.utils.StaticClass;
-import com.google.gson.Gson;
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 /**
  * 
@@ -40,7 +41,7 @@ import com.squareup.picasso.Picasso;
  * @purpose Fragment which handles the Starred Property List
  *
  */
-public class StarredProperties extends LuttuBaseAbstract {
+public class FragmentStarredProperties extends LuttuBaseAbstract {
  
 	@InjectView(R.id.starred_list)
 	ListView list;
@@ -64,7 +65,7 @@ public class StarredProperties extends LuttuBaseAbstract {
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		View v = inflater
-				.inflate(R.layout.starred_properties, container, false);
+				.inflate(R.layout.fragment_starred_properties, container, false);
 		ButterKnife.inject(this, v);
 		listitems = new ArrayList<Integer>();
 		con = new ConnectionDetector(getActivity());
@@ -255,7 +256,7 @@ public class StarredProperties extends LuttuBaseAbstract {
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 
-					Fragment innerlist = new StarredPropDetails();
+					Fragment innerlist = new FragmentStarredPropDetails();
 					Bundle args = new Bundle();
 
 					args.putString("star_id", holder.is_starred.getTag()

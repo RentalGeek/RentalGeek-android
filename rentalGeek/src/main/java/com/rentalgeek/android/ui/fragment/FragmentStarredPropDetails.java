@@ -1,8 +1,4 @@
-package com.rentalgeek.android.starredprop;
-
-import ir.noghteh.JustifiedTextView;
-
-import java.util.ArrayList;
+package com.rentalgeek.android.ui.fragment;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -18,25 +14,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnClick;
+import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.loopj.android.http.RequestParams;
+import com.luttu.fragmentutils.AppPrefes;
+import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.backend.ApplyBackend;
 import com.rentalgeek.android.backend.ApplyError;
 import com.rentalgeek.android.backend.StarredInnerBacked;
 import com.rentalgeek.android.geekscores.GeekScoreMain;
 import com.rentalgeek.android.profile.Profile;
+import com.rentalgeek.android.ui.dialog.MoreAmenitiesDialog;
 import com.rentalgeek.android.utils.ConnectionDetector;
 import com.rentalgeek.android.utils.StaticClass;
-import com.google.gson.Gson;
-import com.loopj.android.http.RequestParams;
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+import ir.noghteh.JustifiedTextView;
 
 /**
  * 
@@ -46,7 +47,7 @@ import com.squareup.picasso.Picasso;
  *          favorite properties
  *
  */
-public class StarredPropDetails extends LuttuBaseAbstract {
+public class FragmentStarredPropDetails extends LuttuBaseAbstract {
 
 	@InjectView(R.id.price_range_inner)
 	TextView price_range_inner;

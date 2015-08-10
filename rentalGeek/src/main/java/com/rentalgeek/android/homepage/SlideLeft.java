@@ -27,7 +27,7 @@ import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.geekscores.GeekScoreMain;
 import com.rentalgeek.android.geekvision.GeekVision;
 import com.rentalgeek.android.profile.Profile;
-import com.rentalgeek.android.starredprop.StarredProperties;
+import com.rentalgeek.android.ui.fragment.FragmentStarredProperties;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.activity.ActivityTutorials;
 import com.rentalgeek.android.utils.StaticClass;
@@ -89,7 +89,7 @@ public class SlideLeft extends LuttuBaseAbstract {
 				case 1:
 					appPref.SaveData("map_list", "");
 					((ActivityHome) getActivity()).closedrawer();
-					nextfragment(new StarredProperties(), false, R.id.container);
+					nextfragment(new FragmentStarredProperties(), false, R.id.container);
 					break;
 				case 2:
 					appPref.SaveData("map_list", "");

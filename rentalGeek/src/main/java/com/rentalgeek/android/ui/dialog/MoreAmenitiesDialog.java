@@ -1,4 +1,4 @@
-package com.rentalgeek.android.starredprop;
+package com.rentalgeek.android.ui.dialog;
 
 import android.app.Dialog;
 import android.content.Context;

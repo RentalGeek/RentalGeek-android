@@ -1,7 +1,4 @@
-package com.rentalgeek.android.homepage;
-
-import java.util.HashMap;
-import java.util.List;
+package com.rentalgeek.android.ui.fragment;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -28,11 +25,6 @@ import android.view.ViewGroup;
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
-import com.rentalgeek.android.R;
-import com.rentalgeek.android.backend.MapBackend;
-import com.rentalgeek.android.database.PropertyTable;
-import com.rentalgeek.android.utils.ConnectionDetector;
-import com.rentalgeek.android.utils.StaticClass;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
@@ -45,16 +37,25 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.luttu.fragmentutils.AppPrefes;
 import com.luttu.fragmentutils.LuttuBaseAbstract;
+import com.rentalgeek.android.R;
+import com.rentalgeek.android.backend.MapBackend;
+import com.rentalgeek.android.database.PropertyTable;
+import com.rentalgeek.android.homepage.BottomDialog;
+import com.rentalgeek.android.utils.ConnectionDetector;
+import com.rentalgeek.android.utils.StaticClass;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * 
  * @author George
  * 
- * @purpose Map fragment which handles the the map and shows the rental
+ * @purpose FragmentMap fragment which handles the the map and shows the rental
  *          offerings in the map
  *
  */
-public class Map extends LuttuBaseAbstract {
+public class FragmentMap extends LuttuBaseAbstract {
 
 	SupportMapFragment supportMapFragment;
 	GoogleMap myMap;
@@ -122,7 +123,7 @@ public class Map extends LuttuBaseAbstract {
 				try {
 					Fragment f = getActivity().getSupportFragmentManager()
 							.findFragmentById(R.id.container);
-					if (f instanceof Map) {
+					if (f instanceof FragmentMap) {
 
 						myMap.clear();
 						setmarkersFromDB();

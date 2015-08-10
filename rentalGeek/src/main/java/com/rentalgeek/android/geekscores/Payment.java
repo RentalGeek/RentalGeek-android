@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -26,18 +25,16 @@ import com.rentalgeek.android.backend.CheckPayment;
 import com.rentalgeek.android.backend.ErrorArray;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.backend.PaymentBackend;
-import com.rentalgeek.android.homepage.ListViewDetails;
+import com.rentalgeek.android.ui.fragment.FragmentListViewDetails;
 import com.rentalgeek.android.profile.Profile;
 import com.rentalgeek.android.utils.ConnectionDetector;
 import com.rentalgeek.android.utils.StaticClass;
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import com.loopj.android.http.RequestParams;
 import com.luttu.fragmentutils.AppPrefes;
 import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
-import com.mobsandgeeks.saripaar.annotation.Regex;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.mobsandgeeks.saripaar.annotation.Select;
 import com.mobsandgeeks.saripaar.annotation.TextRule;
@@ -359,7 +356,7 @@ public class Payment extends LuttuBaseAbstract implements
 					public void onClick(DialogInterface dialog, int which) {
 						// TODO Auto-generated method stub
 						dialog.cancel();
-						nextfragment(new ListViewDetails(), false,
+						nextfragment(new FragmentListViewDetails(), false,
 								R.id.container);
 					}
 				});

@@ -14,7 +14,7 @@ import com.activeandroid.query.Select;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.backend.AddStarBack;
 import com.rentalgeek.android.database.PropertyTable;
-import com.rentalgeek.android.homepage.Map.FragmentCallback;
+import com.rentalgeek.android.ui.fragment.FragmentMap.FragmentCallback;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.utils.StaticClass;
 import com.daimajia.androidanimations.library.Techniques;
@@ -37,7 +37,7 @@ public class BottomDialog {
 	/**
 	 * @author george
 	 * 
-	 * @purpose This is a dialog class, which pops Up when the user clicks on the marker in the Map
+	 * @purpose This is a dialog class, which pops Up when the user clicks on the marker in the FragmentMap
 	 */
 	
 	

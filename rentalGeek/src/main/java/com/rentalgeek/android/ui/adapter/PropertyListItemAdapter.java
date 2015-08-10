@@ -1,6 +1,4 @@
-package com.rentalgeek.android.homepage;
-
-import java.util.List;
+package com.rentalgeek.android.ui.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -16,12 +14,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.activeandroid.query.Select;
-import com.rentalgeek.android.R;
-import com.rentalgeek.android.backend.AddStarBack;
-import com.rentalgeek.android.database.PropertyTable;
-import com.rentalgeek.android.pojos.PropertyListPojo;
-import com.rentalgeek.android.ui.activity.ActivityHome;
-import com.rentalgeek.android.utils.StaticClass;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
@@ -33,6 +25,15 @@ import com.luttu.nettoast.Style;
 import com.luttu.utils.GetSSl;
 import com.luttu.utils.GlobalFunctions;
 import com.luttu.utils.GlobalFunctions.HttpResponseHandler;
+import com.rentalgeek.android.R;
+import com.rentalgeek.android.backend.AddStarBack;
+import com.rentalgeek.android.database.PropertyTable;
+import com.rentalgeek.android.ui.fragment.ListInnerPage;
+import com.rentalgeek.android.pojos.PropertyListPojo;
+import com.rentalgeek.android.ui.activity.ActivityHome;
+import com.rentalgeek.android.utils.StaticClass;
+
+import java.util.List;
 
 /**
  * 
@@ -41,7 +42,7 @@ import com.luttu.utils.GlobalFunctions.HttpResponseHandler;
  * @purpose Item Adapter class loads the each offerings to the ListView
  *
  */
-public class ItemAdapters extends ArrayAdapter<PropertyListPojo.PropertyList> {
+public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.PropertyList> {
 
 	Context context;
 	AppPrefes appPref;
@@ -154,8 +155,8 @@ public class ItemAdapters extends ArrayAdapter<PropertyListPojo.PropertyList> {
 	private LayoutInflater mInflater;
 
 	// Constructors
-	public ItemAdapters(Context context,
-			List<PropertyListPojo.PropertyList> objects) {
+	public PropertyListItemAdapter(Context context,
+								   List<PropertyListPojo.PropertyList> objects) {
 
 		super(context, 0, objects);
 		this.context = context;
@@ -164,7 +165,7 @@ public class ItemAdapters extends ArrayAdapter<PropertyListPojo.PropertyList> {
 		client = new AsyncHttpClient();
 	}
 
-	public ItemAdapters(Context context, PropertyListPojo.PropertyList[] objects) {
+	public PropertyListItemAdapter(Context context, PropertyListPojo.PropertyList[] objects) {
 		super(context, 0, objects);
 		this.mInflater = LayoutInflater.from(context);
 		this.context = context;

@@ -15,7 +15,7 @@ import com.rentalgeek.android.database.PropertyTable;
  * @purpose Application class which handles the active android operations
  *
  */
-public class RentalApplication extends Application{
+public class RentalGeekApplication extends Application{
 	
 	@Override
 	public void onCreate() {

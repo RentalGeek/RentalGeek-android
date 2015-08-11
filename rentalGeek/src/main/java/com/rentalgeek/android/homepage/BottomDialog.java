@@ -68,7 +68,7 @@ public class BottomDialog {
 	}
 
 	private void callDialog() {
-		// TODO Auto-generated method stub
+
 
 		dialog = new Dialog(context, R.style.MyDialognew);
 
@@ -105,7 +105,7 @@ public class BottomDialog {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+
 				dialog.dismiss();
 			}
 		});
@@ -115,7 +115,7 @@ public class BottomDialog {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+
 				animation_obj=YoYo.with(Techniques.Hinge).duration(1000).playOn(dialog_click);
 			 
 				
@@ -123,7 +123,7 @@ public class BottomDialog {
 
 					@Override
 					public void onTick(long millisUntilFinished) {
-						// TODO Auto-generated method stub
+
 
 					}
 
@@ -143,7 +143,7 @@ public class BottomDialog {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+
 				starProperty();
 
 			}
@@ -154,7 +154,7 @@ public class BottomDialog {
 	}
 
 	private void fetchFromDb(int id) {
-		// TODO Auto-generated method stub
+
 
 		try {
 			prop = new Select().from(PropertyTable.class).where("count = ?", id)
@@ -204,7 +204,7 @@ public class BottomDialog {
 					@Override
 					public void handle(String response, boolean failre) {
 						try {
-							// TODO Auto-generated method stub
+
 							System.out.println("dialog response "+response);
 							AddStarBack detail = (new Gson()).fromJson(response.toString(),
 									AddStarBack.class);

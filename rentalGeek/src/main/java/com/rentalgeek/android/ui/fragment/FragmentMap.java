@@ -68,7 +68,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+
 		View v = inflater.inflate(R.layout.map, container, false);
 		con = new ConnectionDetector(getActivity());
 		getActivity().registerReceiver(receiver, new IntentFilter("search"));
@@ -80,7 +80,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 	@Override
 	public void parseresult(String response, boolean success, int value) {
-		// TODO Auto-generated method stub
+
 
 		switch (value) {
 		case 1:
@@ -98,14 +98,14 @@ public class FragmentMap extends LuttuBaseAbstract {
 	}
 
 	private void BackgroundProcessing(final String response) {
-		// TODO Auto-generated method stub
+
 		System.out.println("back ground response " + response);
 		new AsyncTask<Void, Void, Void>() {
 			MapBackend detail;
 
 			@Override
 			protected void onPreExecute() {
-				// TODO Auto-generated method stub
+
 
 				try {
 					detail = (new Gson()).fromJson(response.toString(),
@@ -119,7 +119,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 			@Override
 			protected void onPostExecute(Void result) {
-				// TODO Auto-generated method stub
+
 				try {
 					Fragment f = getActivity().getSupportFragmentManager()
 							.findFragmentById(R.id.container);
@@ -139,7 +139,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 			@Override
 			protected Void doInBackground(Void... argg) {
-				// TODO Auto-generated method stub
+
 
 				if (detail.rental_offerings.size() > 0) {
 
@@ -231,7 +231,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 	}
 
 	private void SearchFilterParse(String response, boolean failre) {
-		// TODO Auto-generated method stub
+
 
 		// broadcast_flag=false;
 		System.out.println("filter parse");
@@ -327,9 +327,9 @@ public class FragmentMap extends LuttuBaseAbstract {
 	}
 
 	private void NormalMapParse(final String response, Boolean failre) {
-		// TODO Auto-generated method stub
 
-		// TODO Auto-generated method stub
+
+
 
 		System.out.println("response is " + response);
 		myMap.setMyLocationEnabled(true);
@@ -338,14 +338,14 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 			@Override
 			protected void onPreExecute() {
-				// TODO Auto-generated method stub
+
 				progressshow();
 				super.onPreExecute();
 			}
 
 			@Override
 			protected Void doInBackground(Void... params) {
-				// TODO Auto-generated method stub
+
 
 				MapBackend detail = (new Gson()).fromJson(response.toString(),
 						MapBackend.class);
@@ -436,7 +436,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 			@Override
 			protected void onPostExecute(Void result) {
-				// TODO Auto-generated method stub
+
 				try {
 					progresscancel();
 					setmarkersFromDB();
@@ -454,13 +454,13 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 	@Override
 	public void error(String response, int value) {
-		// TODO Auto-generated method stub
+
 		toast("failure");
 
 	}
 
 	private void supportmap() {
-		// TODO Auto-generated method stub
+
 		
 		
 		supportMapFragment = SupportMapFragment.newInstance();
@@ -494,7 +494,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 									@Override
 									public void onTick(long millisUntilFinished) {
-										// TODO Auto-generated method stub
+
 
 									}
 
@@ -613,7 +613,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 	}
 
 	private void setmarkersFromDB() {
-		// TODO Auto-generated method stub
+
 
 		Select select = new Select();
 		List<PropertyTable> people = select.all().from(PropertyTable.class)
@@ -687,7 +687,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 	}
 
 	private void SearchViaLocation(String location) {
-		// TODO Auto-generated method stub
+
 		broadcast_flag = true;
 		System.out.println("the search url map is " + StaticClass.headlink
 				+ "/v2/rental_offerings.json?" + location);
@@ -730,7 +730,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 	@Override
 	public void onDestroy() {
-		// TODO Auto-generated method stub
+
 
 		getActivity().unregisterReceiver(receiver);
 		super.onDestroy();

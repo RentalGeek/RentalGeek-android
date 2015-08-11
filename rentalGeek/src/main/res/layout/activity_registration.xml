@@ -61,7 +61,7 @@
             android:layout_below="@+id/confirm_password_regis"
             android:layout_marginRight="5dp"
             android:layout_marginTop="22dp"
-            android:textColor="@color/white"
+            android:textColor="@android:color/white"
             android:textSize="12sp" />
 
         <TextView
@@ -73,7 +73,7 @@
             android:layout_marginRight="40dp"
             android:layout_toRightOf="@+id/terms"
             android:text="TextView"
-            android:textColor="@color/white"
+            android:textColor="@android:color/white"
             android:textSize="12dp" />
 
         <Button

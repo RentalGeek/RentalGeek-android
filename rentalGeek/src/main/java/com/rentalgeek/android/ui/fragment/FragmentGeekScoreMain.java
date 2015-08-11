@@ -50,14 +50,12 @@ public class FragmentGeekScoreMain extends LuttuBaseAbstract {
 	AppPrefes appPref;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_geekscore_main, container, false);
 		ButterKnife.inject(this, v);
 		con = new ConnectionDetector(getActivity());
 		appPref = new AppPrefes(getActivity(), "rentalgeek");
-		click_rent.setText(Html
-				.fromHtml("<b>Click to Rent</b></font><sup>&#8482;</sup>"));
+		click_rent.setText(Html.fromHtml("<b>Click to Rent</b></font><sup>&#8482;</sup>"));
 
 		if (con.isConnectingToInternet()) {
 			CheckPaymentf();
@@ -69,46 +67,33 @@ public class FragmentGeekScoreMain extends LuttuBaseAbstract {
 	}
 
 	private void CheckPaymentf() {
-		// TODO Auto-generated method stub
-
 		// asynkhttpGet(2, StaticClass.headlink + "/v2/transactions", true);
-		asynkhttpGet(
-				3,
-				StaticClass.headlink + "/v2/applicants/"
-						+ appPref.getData("Uid"), true);
+		asynkhttpGet( 3, StaticClass.headlink + "/v2/applicants/" + appPref.getData("Uid"), true);
 
 	}
 
 	@Override
 	public void onDestroyView() {
-		// TODO Auto-generated method stub
-
 		super.onDestroyView();
-
 		ButterKnife.reset(this);
 	}
 
 	@Override
 	public void parseresult(String response, boolean success, int value) {
-		// TODO Auto-generated method stub
-
 		switch (value) {
 		case 3:
 			PaymentCheckParseNew(response);
 			break;
-
 		default:
 			break;
 		}
-
 	}
 
 	private void PaymentCheckParseNew(String response) {
-		// TODO Auto-generated method stub
+
 
 		try {
-			LoginBackend detail = (new Gson()).fromJson(response,
-					LoginBackend.class);
+			LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
 
 			if (detail.applicant.payment) {
 				toastsuccess("FragmentPayment status: Complete");
@@ -131,7 +116,7 @@ public class FragmentGeekScoreMain extends LuttuBaseAbstract {
 
 	@Override
 	public void error(String response, int value) {
-		// TODO Auto-generated method stub
+
 
 	}
 
@@ -141,11 +126,10 @@ public class FragmentGeekScoreMain extends LuttuBaseAbstract {
 	}
 
 	private void showDialog() {
-		// TODO Auto-generated method stub
+
 
 		try {
-			final Dialog dialog = new Dialog(getActivity(),
-					R.style.MyDialogInner);
+			final Dialog dialog = new Dialog(getActivity(), R.style.MyDialogInner);
 
 			dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 			dialog.setContentView(R.layout.apply_confirm_dialog);
@@ -156,17 +140,13 @@ public class FragmentGeekScoreMain extends LuttuBaseAbstract {
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
-
 					dialog.dismiss();
 					nextfragment(new FragmentLegalJargon(), false, R.id.container);
-
 				}
 			});
 
 			dialog.show();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -182,13 +162,9 @@ public class FragmentGeekScoreMain extends LuttuBaseAbstract {
 		TextView ok = (TextView) dialog.findViewById(R.id.ok_apply_dialog);
 
 		ok.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-
 				dialog.dismiss();
-
 			}
 		});
 
@@ -213,7 +189,7 @@ public class FragmentGeekScoreMain extends LuttuBaseAbstract {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+
 				dialog.dismiss();
 			}
 		});

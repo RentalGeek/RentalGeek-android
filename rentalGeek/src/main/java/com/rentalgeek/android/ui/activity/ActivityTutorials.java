@@ -117,7 +117,7 @@ public class ActivityTutorials extends LuttuBaseFragmentActivity {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				// TODO Auto-generated method stub
+
 				swipeTimer.cancel();
 				return false;
 

@@ -12,7 +12,7 @@ import com.loopj.android.http.MySSLSocketFactory;
 
 public class GetSSl {
 	public void getssl(AsyncHttpClient client) {
-		// TODO Auto-generated method stub
+
 		try {
 			KeyStore trustStore;
 			trustStore = KeyStore.getInstance(KeyStore.getDefaultType());

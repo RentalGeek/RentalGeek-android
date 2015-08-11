@@ -1,21 +1,14 @@
 package com.luttu.fragmentutils;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Date;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff.Mode;
-import android.graphics.BitmapFactory;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -33,13 +26,17 @@ import android.widget.Button;
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
-import com.luttu.fragmentutils.LuttuBaseFragmentActivity.OnBackButtonClickedListener;
 import com.luttu.gson.DetailFalse;
 import com.luttu.luttulibrary.R;
 import com.luttu.utils.GlobalFunctions;
 import com.luttu.utils.GlobalFunctions.HttpResponseHandler;
 import com.luttu.utils.ImageSmallerAction;
 import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Date;
 
 /****
  * extend LuttuBaseCamGal for camera operations.
@@ -63,7 +60,7 @@ public abstract class LuttuBaseCamGal extends LuttuBaseFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+
 		super.onCreate(savedInstanceState);
 		try {
 			LuttuBaseFragmentActivity mainActivity = (LuttuBaseFragmentActivity) getActivity();
@@ -75,7 +72,7 @@ public abstract class LuttuBaseCamGal extends LuttuBaseFragment {
 
 	public void parse(RequestParams params, final int value, String link,
 			boolean progrss) {
-		// TODO Auto-generated method stub
+
 		AsyncHttpClient client = new AsyncHttpClient();
 		if (progrss)
 			progressshow();
@@ -84,7 +81,7 @@ public abstract class LuttuBaseCamGal extends LuttuBaseFragment {
 
 					@Override
 					public void handle(String response, boolean success) {
-						// TODO Auto-generated method stub
+
 						progresscancel();
 						if (success && getActivity() != null
 								&& response != null) {
@@ -108,7 +105,7 @@ public abstract class LuttuBaseCamGal extends LuttuBaseFragment {
 	 * normal image.
 	 * */
 	public void picimage(final int round) {
-		// TODO Auto-generated method stub
+
 
 		final Dialog dialog = new Dialog(getActivity());
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -121,7 +118,7 @@ public abstract class LuttuBaseCamGal extends LuttuBaseFragment {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+
 				captureImage(round);
 				dialog.cancel();
 			}
@@ -130,7 +127,7 @@ public abstract class LuttuBaseCamGal extends LuttuBaseFragment {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+
 				galleryImage(round);
 				dialog.cancel();
 			}
@@ -173,7 +170,7 @@ public abstract class LuttuBaseCamGal extends LuttuBaseFragment {
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
+
 		System.out.println("onactivity");
 		try {
 			if (requestCode == RESULT_LOAD_IMAGE
@@ -271,7 +268,7 @@ public abstract class LuttuBaseCamGal extends LuttuBaseFragment {
 	 * save bitmap to sdcard.
 	 * */
 	public void savesdcard(final Bitmap bmp) {
-		// TODO Auto-generated method stub
+
 		progressshow();
 		File dir = new File(Environment.getExternalStorageDirectory().getPath()
 				+ "/Justask/");
@@ -284,7 +281,7 @@ public abstract class LuttuBaseCamGal extends LuttuBaseFragment {
 
 			@Override
 			protected Bitmap doInBackground(Void... params) {
-				// TODO Auto-generated method stub
+
 				String filename = Environment.getExternalStorageDirectory()
 						.getPath() + "/Justask/";
 				File newfile = new File(filename);
@@ -306,7 +303,7 @@ public abstract class LuttuBaseCamGal extends LuttuBaseFragment {
 
 			@Override
 			protected void onPostExecute(Bitmap result) {
-				// TODO Auto-generated method stub
+
 				progresscancel();
 				toastsuccess("Image saved to sdcard");
 				super.onPostExecute(result);
@@ -319,7 +316,7 @@ public abstract class LuttuBaseCamGal extends LuttuBaseFragment {
 	 * resize bitmap.
 	 * */
 	public File resize(final File f) {
-		// TODO Auto-generated method stub
+
 		File dir = new File(Environment.getExternalStorageDirectory().getPath()
 				+ "/Justask/");
 		try {
@@ -340,7 +337,7 @@ public abstract class LuttuBaseCamGal extends LuttuBaseFragment {
 
 			@Override
 			protected Bitmap doInBackground(Void... params) {
-				// TODO Auto-generated method stub
+
 				// Bitmap bitmap =
 				try {
 					Bitmap bmp = imageSmalerObj.decodeSampledBitmapFromGallery(
@@ -379,7 +376,7 @@ public abstract class LuttuBaseCamGal extends LuttuBaseFragment {
 
 			@Override
 			protected void onPostExecute(Bitmap result) {
-				// TODO Auto-generated method stub
+
 				super.onPostExecute(result);
 				progresscancel();
 				String newfilepath = file.getAbsolutePath();

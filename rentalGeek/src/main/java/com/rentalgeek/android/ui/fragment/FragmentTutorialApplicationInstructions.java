@@ -34,7 +34,7 @@ public class FragmentTutorialApplicationInstructions extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+
 		View v = inflater.inflate(R.layout.fragment_tutorial_appinstructions, container, false);
 		
 		volley=new VolleyForAll(getActivity(), this);
@@ -45,13 +45,13 @@ public class FragmentTutorialApplicationInstructions extends Fragment implements
 
 	@Override
 	public void onVolleyResponse(JSONObject result, int code) {
-		// TODO Auto-generated method stub
+
 		
 	}
 
 	@Override
 	public void onVolleyError(String result, int code) {
-		// TODO Auto-generated method stub
+
 		
 	}
 

@@ -1,13 +1,5 @@
 package com.luttu.fragmentutils;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-
-import org.apache.http.cookie.Cookie;
-import org.apache.http.impl.cookie.BasicClientCookie;
-import org.json.JSONObject;
-
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,6 +17,14 @@ import com.luttu.utils.GlobalFunctions.HttpResponseHandler;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+
+import org.apache.http.cookie.Cookie;
+import org.apache.http.impl.cookie.BasicClientCookie;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
 /****
  * extend LuttuBaseAbstract for network operations.
@@ -45,7 +45,7 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+
 		super.onCreate(savedInstanceState);
 		client = new AsyncHttpClient();
 		try {
@@ -61,7 +61,7 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 	 * */
 	public void asynkhttp(RequestParams params, final int value, String link,
 			boolean progrss) {
-		// TODO Auto-generated method stub
+
 		if (progrss)
 			progressshow();
 		new GetSSl().getssl(client);
@@ -73,7 +73,7 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 
 					@Override
 					public void handle(String response, boolean success) {
-						// TODO Auto-generated method stub
+
 						try {
 							progresscancel();
 							List<Cookie> cookies = mCookieStore.getCookies();
@@ -124,7 +124,7 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 
 					@Override
 					public void handle(String response, boolean failre) {
-						// TODO Auto-generated method stub
+
 						progresscancel();
 						if (failre && getActivity() != null) {
 							afterparse(response, value);
@@ -153,7 +153,7 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 
 					@Override
 					public void handle(String response, boolean failre) {
-						// TODO Auto-generated method stub
+
 						progresscancel();
 						if (failre && getActivity() != null) {
 							afterparse(response, value);
@@ -172,7 +172,7 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 	 * */
 	public void asynkhttpPut(RequestParams params, final int value, String link,
 			boolean progrss) {
-		// TODO Auto-generated method stub
+
 		if (progrss)
 			progressshow();
 		new GetSSl().getssl(client);
@@ -184,7 +184,7 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 
 					@Override
 					public void handle(String response, boolean success) {
-						// TODO Auto-generated method stub
+
 						progresscancel();
 						List<Cookie> cookies = mCookieStore.getCookies();
 						System.out.println("cockeui    " + cookies.size());
@@ -210,7 +210,7 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 	 * */
 	public void volley(HashMap<String, String> paramsMapAPI2, final int value,
 			String link, boolean progrss, HttpRequestType type) {
-		// TODO Auto-generated method stub
+
 		if (progrss)
 			progressshow();
 		VolleyForAll volley = new VolleyForAll(getActivity(),
@@ -218,7 +218,7 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 
 					@Override
 					public void onVolleyResponse(JSONObject result, int code) {
-						// TODO Auto-generated method stub
+
 						progresscancel();
 						if (getActivity() != null) {
 							// System.out.println(result.toString());
@@ -228,7 +228,7 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 
 					@Override
 					public void onVolleyError(String result, int code) {
-						// TODO Auto-generated method stub
+
 						progresscancel();
 						if (getActivity() != null) {
 							error(result, value);
@@ -240,7 +240,7 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 	}
 
 	private void afterparse(String response, int value) {
-		// TODO Auto-generated method stub
+
 		try {
 			DetailFalse session = (new Gson()).fromJson(response.toString(),
 					DetailFalse.class);
@@ -259,14 +259,14 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 	 * OkHttp network operation
 	 * */
 	public void okhttp(final String url, final int value, boolean progrss) {
-		// TODO Auto-generated method stub
+
 		if (progrss)
 			progressshow();
 		new AsyncTask<Void, Void, String>() {
 
 			@Override
 			protected String doInBackground(Void... params) {
-				// TODO Auto-generated method stub
+
 				OkHttpClient client = new OkHttpClient();
 
 				Request request = new Request.Builder().url(url).build();
@@ -284,7 +284,7 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 
 			@Override
 			protected void onPostExecute(String result) {
-				// TODO Auto-generated method stub
+
 				super.onPostExecute(result);
 				// System.out.println("result" + result);
 				progresscancel();
@@ -298,7 +298,7 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 	 * Receive location address
 	 * */
 	protected void locationname(Location location) {
-		// TODO Auto-generated method stub
+
 		String url = "http://maps.googleapis.com/maps/api/geocode/json?latlng="
 				+ location.getLatitude() + "," + location.getLongitude()
 				+ "&sensor=true";

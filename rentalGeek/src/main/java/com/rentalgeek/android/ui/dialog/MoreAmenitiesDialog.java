@@ -35,7 +35,7 @@ public class MoreAmenitiesDialog {
 	}
 
 	private void CallDialog(ArrayList<String> amenities) {
-		// TODO Auto-generated method stub
+
 
 		Dialog	dialog = new Dialog(context);
 

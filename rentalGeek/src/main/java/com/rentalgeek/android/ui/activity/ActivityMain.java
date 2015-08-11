@@ -34,12 +34,12 @@ public class ActivityMain extends LuttuBaseFragmentActivity {
 	}
 
 	private void timer() {
-		// TODO Auto-generated method stub
+
 		new CountDownTimer(4000, 1000) {
 
 			@Override
 			public void onTick(long millisUntilFinished) {
-				// TODO Auto-generated method stub
+
 
 			}
 
@@ -70,7 +70,7 @@ public class ActivityMain extends LuttuBaseFragmentActivity {
 	}
 
 	private void getHash() {
-		// TODO Auto-generated method stub
+
 		PackageInfo info;
 		try {
 			// info = getPackageManager().getPackageInfo("com.blacktie",

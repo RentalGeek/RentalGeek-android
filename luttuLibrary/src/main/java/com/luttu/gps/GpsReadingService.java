@@ -160,7 +160,7 @@ public class GpsReadingService extends Service implements LocationListener, Goog
 	 */
 	@Override
 	public void onDestroy() {
-		// TODO Auto-generated method stub
+
 		Log.i("info", "Service is destroyed");
 		//mLocationClient.removeLocationUpdates(this);
 		super.onDestroy();

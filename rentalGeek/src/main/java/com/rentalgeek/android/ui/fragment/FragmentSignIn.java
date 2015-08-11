@@ -138,7 +138,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+
 		View v = inflater.inflate(R.layout.sigin_latest, container, false);
 		// signin();
 		ButterKnife.inject(this, v);
@@ -163,7 +163,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 	}
 
 	private void signin(String a, String b) {
-		// TODO Auto-generated method stub
+
 		RequestParams params = new RequestParams();
 		params.put("applicant[email]", a);
 		params.put("applicant[password]", b);
@@ -183,14 +183,14 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 
 	@Override
 	public void onDestroyView() {
-		// TODO Auto-generated method stub
+
 		super.onDestroyView();
 		ButterKnife.reset(this);
 	}
 
 	@Override
 	public void parseresult(String response, boolean success, int value) {
-		// TODO Auto-generated method stub
+
 
 		switch (value) {
 		case 1:
@@ -212,13 +212,13 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 	}
 
 	private void ForgotMailSentParse(String response) {
-		// TODO Auto-generated method stub
+
 		toast("Verification email sent to your mail please check");
 
 	}
 
 	private void LinkedInParse(String response) {
-		// TODO Auto-generated method stub
+
 
 		GoogleBackend detail = (new Gson()).fromJson(response,
 				GoogleBackend.class);
@@ -276,7 +276,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 	}
 
 	private void googlePlusParse(String response) {
-		// TODO Auto-generated method stub
+
 		System.out.println("google response " + response);
 		GoogleBackend detail = (new Gson()).fromJson(response,
 				GoogleBackend.class);
@@ -351,7 +351,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 	}
 
 	private void FaceBookLogin(String response) {
-		// TODO Auto-generated method stub
+
 		GoogleBackend detail = (new Gson()).fromJson(response,
 				GoogleBackend.class);
 
@@ -405,7 +405,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 	}
 
 	private void NormalLogin(String response) {
-		// TODO Auto-generated method stub
+
 
 		try {
 
@@ -448,7 +448,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 
 	@Override
 	public void error(String response, int value) {
-		// TODO Auto-generated method stub
+
 
 		try {
 			if (value == 5) {
@@ -626,7 +626,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 	};
 
 	private void fblogin(String response, boolean success) {
-		// TODO Auto-generated method stub
+
 		System.out.println("Login.parseresult()" + response + success);
 		if (Session.getActiveSession() != null) {
 			Session.getActiveSession().closeAndClearTokenInformation();
@@ -694,7 +694,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 
 	@Override
 	public void onConnectionFailed(ConnectionResult result) {
-		// TODO Auto-generated method stub
+
 
 		if (!result.hasResolution()) {
 			GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(),
@@ -718,7 +718,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 
 	@Override
 	public void onConnected(Bundle arg0) {
-		// TODO Auto-generated method stub
+
 		mSignInClicked = false;
 		Toast.makeText(getActivity(), "User is connected!", Toast.LENGTH_LONG)
 				.show();
@@ -734,7 +734,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 
 	@Override
 	public void onConnectionSuspended(int arg0) {
-		// TODO Auto-generated method stub
+
 		mGoogleApiClient.connect();
 	}
 
@@ -830,7 +830,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 
 	private void callGooglePlusLink(String personName, String personPhotoUrl,
 			String id, String email) {
-		// TODO Auto-generated method stub
+
 
 		RequestParams params = new RequestParams();
 		params.put("provider[uid]", id);
@@ -845,7 +845,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 
 	public void callLinkedPlusLink(String personName, String personPhotoUrl,
 			String id, String email) {
-		// TODO Auto-generated method stub
+
 
 		RequestParams params = new RequestParams();
 		params.put("provider[uid]", id);
@@ -921,7 +921,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+
 
 				if (Validate(emailForgot)) {
 					dialog.dismiss();
@@ -938,7 +938,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 
 	// forgot password API call
 	private void callForgotPassword(String email) {
-		// TODO Auto-generated method stub
+
 		RequestParams params = new RequestParams();
 		params.put("user[email]", email);
 

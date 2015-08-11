@@ -63,7 +63,7 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+
 		View v = inflater
 				.inflate(R.layout.fragment_starred_properties, container, false);
 		ButterKnife.inject(this, v);
@@ -82,7 +82,7 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 	}
 
 	private void fetchFromServer() {
-		// TODO Auto-generated method stub
+
 
 		asynkhttpGet(2, StaticClass.headlink + "/v2/starred_properties.json",
 				true);
@@ -91,7 +91,7 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 
 	@Override
 	public void parseresult(String response, boolean success, int value) {
-		// TODO Auto-generated method stub
+
 		switch (value) {
 		case 1:
 			removeStar(response);
@@ -106,7 +106,7 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 
 	private void loadList(String response) {
 		try {
-			// TODO Auto-generated method stub
+
 			System.out.println("starred response " + response);
 
 			StarredBacked detail = (new Gson()).fromJson(response.toString(),
@@ -158,7 +158,7 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 	}
 
 	private void removeStar(String response) {
-		// TODO Auto-generated method stub
+
 
 		toast("Property removed");
 
@@ -166,13 +166,13 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 
 	@Override
 	public void error(String response, int value) {
-		// TODO Auto-generated method stub
+
 
 	}
 
 	@Override
 	public void onDestroyView() {
-		// TODO Auto-generated method stub
+
 		super.onDestroyView();
 		getActivity().unregisterReceiver(receiver);
 		ButterKnife.reset(this);
@@ -240,7 +240,7 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
+
 
 					RemoveStar(holder.is_starred.getTag().toString());
 					mainlist.remove(position);
@@ -254,7 +254,7 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
+
 
 					Fragment innerlist = new FragmentStarredPropDetails();
 					Bundle args = new Bundle();
@@ -297,7 +297,7 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 	}
 
 	private void RemoveStar(String id) {
-		// TODO Auto-generated method stub
+
 
 		asynkhttpDelete(1, StaticClass.headlink + "/v2/starred_properties/"
 				+ id, true);

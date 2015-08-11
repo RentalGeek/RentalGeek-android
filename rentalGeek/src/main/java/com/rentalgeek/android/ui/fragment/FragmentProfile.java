@@ -199,7 +199,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+
 		View v = inflater.inflate(R.layout.fragment_profile, container, false);
 		ButterKnife.inject(this, v);
 		validator = new Validator(this);
@@ -271,7 +271,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 
 	@Override
 	public void parseresult(String response, boolean success, int value) {
-		// TODO Auto-generated method stub
+
 
 		switch (value) {
 		case 1:
@@ -291,7 +291,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 	// setting profile data to view
 	private void setProfileData(String response) {
 		try {
-			// TODO Auto-generated method stub
+
 
 			// setting the values from the server
 			response = response.replaceAll("null", " \" \"");
@@ -443,7 +443,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 	}
 
 	private void setProfdetailsFromLocalDb() {
-		// TODO Auto-generated method stub
+
 
 		com.activeandroid.query.Select select = new com.activeandroid.query.Select();
 		List<ProfileTable> profs = select.all().from(ProfileTable.class)
@@ -551,7 +551,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 	// parsing patch user response
 	private void patchedUserParse(String response) {
 		try {
-			// TODO Auto-generated method stub
+
 			ProfileIdFindBackend detail = (new Gson()).fromJson(response,
 					ProfileIdFindBackend.class);
 
@@ -611,7 +611,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 	// parsing create user response
 	private void createUserParse(String response) {
 		try {
-			// TODO Auto-generated method stub
+
 
 			ProfileIdFindBackend detail = (new Gson()).fromJson(response,
 					ProfileIdFindBackend.class);
@@ -635,7 +635,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 	// Calling Patch request to update the profile
 	private void callPatchUpdateLink(String id) {
 		try {
-			// TODO Auto-generated method stub
+
 
 			String url = StaticClass.headlink + "/v2/profiles/" + id;
 			iseveryThing = false;
@@ -853,7 +853,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 
 	@Override
 	public void error(String response, int value) {
-		// TODO Auto-generated method stub
+
 
 		if (value == 2 || value == 1) {
 			try {
@@ -881,7 +881,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 	}
 
 	private void toasts(List<String> born_on) {
-		// TODO Auto-generated method stub
+
 		try {
 			showAlert(born_on.get(0));
 		} catch (IndexOutOfBoundsException e) {
@@ -893,7 +893,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 
 	private List getErroList(
 			List<com.rentalgeek.android.backend.ErrorArray.Error> al) {
-		// TODO Auto-generated method stub
+
 
 		List<String> list = new ArrayList<String>();
 
@@ -908,7 +908,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 	}
 
 	private void alertList(List<String> add) {
-		// TODO Auto-generated method stub
+
 
 		AlertDialog.Builder builderSingle = new AlertDialog.Builder(
 				getActivity());
@@ -933,7 +933,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 	// Check on validation fail
 	@Override
 	public void onValidationFailed(View failedView, Rule<?> failedRule) {
-		// TODO Auto-generated method stub
+
 		String message = failedRule.getFailureMessage();
 		if (failedView instanceof EditText) {
 			failedView.requestFocus();
@@ -951,7 +951,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 	// After validation success
 	@Override
 	public void onValidationSucceeded() {
-		// TODO Auto-generated method stub
+
 
 		if (con.isConnectingToInternet()) {
 			if (appPref.getData("prof_id").equals("")) {
@@ -979,7 +979,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 	}
 
 	private void wasEverEnvicted() {
-		// TODO Auto-generated method stub
+
 
 		ed_was_envicted
 				.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -1011,7 +1011,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 	}
 
 	private void isFelon() {
-		// TODO Auto-generated method stub
+
 
 		edFelon.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
@@ -1253,7 +1253,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 
 	// fetch user profile info
 	private void fetchProfileData() {
-		// TODO Auto-generated method stub
+
 
 		String url = StaticClass.headlink + "/v2/profiles";
 
@@ -1273,7 +1273,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 
 	// check phone number
 	private boolean isPhoneValid(int len) {
-		// TODO Auto-generated method stub
+
 		if (len == 10) {
 			return true;
 		} else
@@ -1282,7 +1282,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 	}
 
 	private void dialogDatepicker(final EditText edit, final View viewv) {
-		// TODO Auto-generated method stub
+
 		final Dialog dialog = new Dialog(getActivity());
 		dialog.setContentView(R.layout.date_select);
 		final DatePicker datePicker = (DatePicker) dialog
@@ -1295,7 +1295,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+
 				int month = datePicker.getMonth() + 1;
 				String val = String.format("%02d-%02d-%d", month,
 						datePicker.getDayOfMonth(), datePicker.getYear());
@@ -1338,7 +1338,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+
 				dialog.cancel();
 			}
 		});
@@ -1354,7 +1354,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 					@Override
 					public void onDateSet(DatePicker view, int year,
 							int monthOfYear, int dayOfMonth) {
-						// TODO Auto-generated method stub
+
 
 					}
 
@@ -1364,7 +1364,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 	}
 
 	private void showAlert(String message) {
-		// TODO Auto-generated method stub
+
 
 		try {
 			AlertDialog.Builder builder1 = new AlertDialog.Builder(
@@ -1392,7 +1392,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 
 	@Override
 	public void onFocusChange(View v, boolean hasFocus) {
-		// TODO Auto-generated method stub
+
 
 		if (v instanceof EditText) {
 
@@ -1524,7 +1524,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View v, int position,
 			long id) {
-		// TODO Auto-generated method stub
+
 		System.out.println("the value of state  onItemSelected  "
 				+ parent.getSelectedItem());
 		if (parent instanceof Spinner
@@ -1554,7 +1554,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 
 	@Override
 	public void onNothingSelected(AdapterView<?> parent) {
-		// TODO Auto-generated method stub
+
 
 	}
 

@@ -31,7 +31,7 @@ public class FragmentFinalGeekScore extends LuttuBaseAbstract{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+
 		View v=inflater.inflate(R.layout.fragment_message_geek_score, container,false);
 		
 		appPref=new AppPrefes(getActivity(), "rentalgeek");
@@ -42,13 +42,13 @@ public class FragmentFinalGeekScore extends LuttuBaseAbstract{
 	
 	@Override
 	public void parseresult(String response, boolean success, int value) {
-		// TODO Auto-generated method stub
+
 		
 	}
 
 	@Override
 	public void error(String response, int value) {
-		// TODO Auto-generated method stub
+
 		
 	}
 	
@@ -66,7 +66,7 @@ public class FragmentFinalGeekScore extends LuttuBaseAbstract{
 	}
 	
 	public void addfg(Fragment fragment) {
-		// TODO Auto-generated method stub
+
 		try {
 			getActivity().getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, fragment).commitAllowingStateLoss();
@@ -91,7 +91,7 @@ public class FragmentFinalGeekScore extends LuttuBaseAbstract{
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+
 				
 				dialog.dismiss();
 				 
@@ -124,7 +124,7 @@ public class FragmentFinalGeekScore extends LuttuBaseAbstract{
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+
 				dialog.dismiss();
 			}
 		});

@@ -19,7 +19,7 @@ public class RentalGeekApplication extends Application{
 	
 	@Override
 	public void onCreate() {
-		// TODO Auto-generated method stub
+
 		super.onCreate();
 		
 		initializeDB();
@@ -28,7 +28,7 @@ public class RentalGeekApplication extends Application{
 	
 	@SuppressWarnings("unchecked")
 	private void initializeDB() {
-		// TODO Auto-generated method stub
+
 		Configuration.Builder configurationBuilder = new Configuration.Builder(
 				this);
 		configurationBuilder.addModelClasses(PropertyTable.class);

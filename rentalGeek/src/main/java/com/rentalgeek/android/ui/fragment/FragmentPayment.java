@@ -92,7 +92,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+
 		super.onCreate(savedInstanceState);
 		validator = new Validator(this);
 		validator.setValidationListener(this);
@@ -101,7 +101,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+
 		View v = inflater.inflate(R.layout.fragment_card_info_dialog, container, false);
 		con = new ConnectionDetector(getActivity());
 		ButterKnife.inject(this, v);
@@ -118,7 +118,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements
 	}
 
 	private void KeyListener() {
-		// TODO Auto-generated method stub
+
 
 		edCvv.setOnEditorActionListener(new OnEditorActionListener() {
 
@@ -138,7 +138,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements
 	}
 
 	private void CheckPaymentf() {
-		// TODO Auto-generated method stub
+
 
 		// asynkhttpGet(2, StaticClass.headlink + "/v2/transactions", true);
 		asynkhttpGet(
@@ -150,7 +150,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements
 
 	@Override
 	public void parseresult(String response, boolean success, int value) {
-		// TODO Auto-generated method stub
+
 		switch (value) {
 		case 1:
 			paymentParse(response);
@@ -167,7 +167,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements
 	}
 
 	private void PaymentCheckParseNew(String response) {
-		// TODO Auto-generated method stub
+
 
 		try {
 			LoginBackend detail = (new Gson()).fromJson(response,
@@ -188,7 +188,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements
 	}
 
 	public void PaymentCheckParse(String response) {
-		// TODO Auto-generated method stub
+
 
 		System.out.println("the payment check response " + response);
 
@@ -205,7 +205,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public void error(String response, int value) {
-		// TODO Auto-generated method stub
+
 		
 		if(value==3)
 		{
@@ -218,8 +218,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements
 
 				System.out.println("payment failure " + response);
 
-				ErrorArray details = (new Gson()).fromJson(response,
-						ErrorArray.class);
+				ErrorArray details = (new Gson()).fromJson(response, ErrorArray.class);
 
 				if (details.errors != null && details.errors.size() > 0) {
 					alertList(details.errors.get(0).message);
@@ -234,9 +233,8 @@ public class FragmentPayment extends LuttuBaseAbstract implements
 
 	}
 
-	private List getErroList(
-			List<com.rentalgeek.android.backend.ErrorArray.Error> al) {
-		// TODO Auto-generated method stub
+	private List getErroList(List<com.rentalgeek.android.backend.ErrorArray.Error> al) {
+
 
 		List<String> list = new ArrayList<String>();
 
@@ -251,7 +249,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements
 	}
 
 	private void alertList(String add) {
-		// TODO Auto-generated method stub
+
 
 		AlertDialog.Builder builderSingle = new AlertDialog.Builder(
 				getActivity());
@@ -273,13 +271,11 @@ public class FragmentPayment extends LuttuBaseAbstract implements
 
 	public void paymentParse(String response) {
 
-		PaymentBackend detail = (new Gson()).fromJson(response,
-				PaymentBackend.class);
+		PaymentBackend detail = (new Gson()).fromJson(response, PaymentBackend.class);
 
 		if (detail != null && detail.transaction != null) {
 
-			toast("FragmentPayment successfull, transaction ID"
-					+ detail.transaction.transaction_id);
+			toast("FragmentPayment successfull, transaction ID" + detail.transaction.transaction_id);
 			appPref.SaveIntData("payed", 200);
 
 			if (appPref.getData("prof_id").equals("")) {
@@ -295,7 +291,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements
 
 	@Override
 	public void onValidationFailed(View failedView, Rule<?> failedRule) {
-		// TODO Auto-generated method stub
+
 		String message = failedRule.getFailureMessage();
 		if (failedView instanceof EditText) {
 			failedView.requestFocus();
@@ -308,13 +304,13 @@ public class FragmentPayment extends LuttuBaseAbstract implements
 
 	@Override
 	public void onValidationSucceeded() {
-		// TODO Auto-generated method stub
+
 		makePayment();
 
 	}
 
 	private void makePayment() {
-		// TODO Auto-generated method stub
+
 
 		String url = StaticClass.headlink + "/v2/transactions";
 
@@ -339,7 +335,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements
 		builder1.setMessage(message);
 		builder1.setTitle("Alert");
 		builder1.setCancelable(false);
-		builder1.setPositiveButton("Go to FragmentProfile",
+		builder1.setPositiveButton("Go to Profile",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 
@@ -353,7 +349,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
+
 						dialog.cancel();
 						nextfragment(new FragmentListViewDetails(), false,
 								R.id.container);

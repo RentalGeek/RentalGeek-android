@@ -28,7 +28,7 @@ public class FragmentTutorialGeekVision extends Fragment{
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+
 		super.onCreate(savedInstanceState);
 	}
 	
@@ -36,7 +36,7 @@ public class FragmentTutorialGeekVision extends Fragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+
 		View v=inflater.inflate(R.layout.fragment_tutorial_geekvision, container,false);
 		
 		return v;

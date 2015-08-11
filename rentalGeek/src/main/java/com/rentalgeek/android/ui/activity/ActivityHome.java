@@ -66,7 +66,7 @@ public class ActivityHome extends LuttuBaseFragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle arg0) {
-		// TODO Auto-generated method stub
+
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(arg0);
 
@@ -127,13 +127,13 @@ public class ActivityHome extends LuttuBaseFragmentActivity {
 	}
 
 	public void addfg(Fragment fragment) {
-		// TODO Auto-generated method stub
+
 		getSupportFragmentManager().beginTransaction()
 				.add(R.id.container, fragment).commitAllowingStateLoss();
 	}
 
 	public void Left() {
-		// TODO Auto-generated method stub
+
 		if (mDrawerLayout == null) {
 			mDrawerLayout.openDrawer(Gravity.START);
 		} else {
@@ -142,7 +142,7 @@ public class ActivityHome extends LuttuBaseFragmentActivity {
 	}
 
 	public void Right() {
-		// TODO Auto-generated method stub
+
 		if (mDrawerLayout == null) {
 			mDrawerLayout.openDrawer(Gravity.END);
 		} else {
@@ -151,7 +151,7 @@ public class ActivityHome extends LuttuBaseFragmentActivity {
 	}
 
 	public void closedrawer() {
-		// TODO Auto-generated method stub
+
 		// if (mDrawerLayout == null)
 		// mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerLayout.closeDrawers();
@@ -159,7 +159,7 @@ public class ActivityHome extends LuttuBaseFragmentActivity {
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
+
 		super.onActivityResult(requestCode, resultCode, data);
 		System.out.println("inside this finish 1" + requestCode);
 		if (requestCode == 1) {
@@ -235,14 +235,14 @@ public class ActivityHome extends LuttuBaseFragmentActivity {
 	}
 
 	private void setListMapSelector() {
-		// TODO Auto-generated method stub
+
 
 		appPref.SaveData("map_list", "map");
 
 	}
 
 	protected void hidekey() {
-		// TODO Auto-generated method stub
+
 		InputMethodManager imm = (InputMethodManager) ActivityHome.this
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(ActivityHome.this.getCurrentFocus()

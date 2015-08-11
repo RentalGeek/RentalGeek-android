@@ -64,7 +64,7 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+
 		View v = inflater
 				.inflate(R.layout.property_list_main, container, false);
 		ButterKnife.inject(this, v);
@@ -84,19 +84,19 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 	}
 
 	private void fetchFromDB() {
-		// TODO Auto-generated method stub
+
 
 		new AsyncTask<Void, Void, Void>() {
 
 			@Override
 			protected Void doInBackground(Void... params) {
-				// TODO Auto-generated method stub
+
 				return null;
 			}
 
 			@Override
 			protected void onPostExecute(Void result) {
-				// TODO Auto-generated method stub
+
 				super.onPostExecute(result);
 			}
 
@@ -134,7 +134,7 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 
 	@Override
 	public void parseresult(String response, boolean success, int value) {
-		// TODO Auto-generated method stub
+
 
 		switch (value) {
 		case 1:
@@ -148,10 +148,10 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 	}
 
 	private void ParseLocation(String response) {
-		// TODO Auto-generated method stub
+
 
 		try {
-			// TODO Auto-generated method stub
+
 
 			MapBackend detail = (new Gson()).fromJson(response.toString(),
 					MapBackend.class);
@@ -249,13 +249,13 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 
 	@Override
 	public void error(String response, int value) {
-		// TODO Auto-generated method stub
+
 
 	}
 
 	@Override
 	public void onDestroyView() {
-		// TODO Auto-generated method stub
+
 		super.onDestroyView();
 		ButterKnife.reset(this);
 		getActivity().unregisterReceiver(receiver);
@@ -322,7 +322,7 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 	};
 
 	private void SearchViaLocationList(String loc) {
-		// TODO Auto-generated method stub
+
 
 		if (!loc.equals("")) {
 			System.out.println("the search url list is " + StaticClass.headlink
@@ -337,7 +337,7 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
+
 		super.onResume();
 
 	}

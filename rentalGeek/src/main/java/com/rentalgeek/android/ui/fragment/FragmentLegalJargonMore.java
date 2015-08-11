@@ -33,7 +33,7 @@ public class FragmentLegalJargonMore extends LuttuBaseAbstract {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+
 
 		View v = inflater.inflate(R.layout.fragment_legal_jargon_more, container, false);
 		ButterKnife.inject(this, v);
@@ -44,20 +44,20 @@ public class FragmentLegalJargonMore extends LuttuBaseAbstract {
 
 	@Override
 	public void parseresult(String response, boolean success, int value) {
-		// TODO Auto-generated method stub
+
 
 	}
 
 	@Override
 	public void onDestroyView() {
-		// TODO Auto-generated method stub
+
 		super.onDestroyView();
 		ButterKnife.reset(this);
 	}
 
 	@Override
 	public void error(String response, int value) {
-		// TODO Auto-generated method stub
+
 
 	}
 
@@ -87,7 +87,7 @@ public class FragmentLegalJargonMore extends LuttuBaseAbstract {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+
 
 				dialog.dismiss();
 
@@ -115,7 +115,7 @@ public class FragmentLegalJargonMore extends LuttuBaseAbstract {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+
 				dialog.dismiss();
 			}
 		});

@@ -122,7 +122,7 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+
 				appPref.SaveIntData("listp", position);
 				System.out.println("the clicked pos " + position);
 				Fragment innerlist = new ListInnerPage();
@@ -138,7 +138,7 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+
 
 				if (item.starred) {
 					DislikeMe(item.id, position);
@@ -174,7 +174,7 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 	}
 
 	public void addfragment(Fragment fragment, boolean stack, int id, Context c) {
-		// TODO Auto-generated method stub
+
 		if (c == null) {
 			return;
 		}
@@ -206,7 +206,7 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 					@Override
 					public void handle(String response, boolean failre) {
 						try {
-							// TODO Auto-generated method stub
+
 							System.out.println("dialog response " + response);
 
 							if (failre) {
@@ -266,7 +266,7 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 
 						@Override
 						public void handle(String response, boolean failre) {
-							// TODO Auto-generated method stub
+
 							System.out.println("remove star response "+response);
 							if (failre && context != null) {
 								propobj.starred = false;

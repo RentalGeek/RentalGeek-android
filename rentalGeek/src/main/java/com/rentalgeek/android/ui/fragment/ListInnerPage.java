@@ -101,7 +101,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+
 		View v = inflater.inflate(R.layout.listview_inner, container, false);
 		ButterKnife.inject(this, v);
 		appPref = new AppPrefes(getActivity(), "rentalgeek");
@@ -123,7 +123,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 
 	private void FetchDataFromDB(int id) {
 		try {
-			// TODO Auto-generated method stub
+
 
 			prop = new Select().from(PropertyTable.class)
 					.where("count = ?", id).executeSingle();
@@ -169,7 +169,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 
 	@Override
 	public void parseresult(String response, boolean success, int value) {
-		// TODO Auto-generated method stub
+
 
 		switch (value) {
 		case 1:
@@ -189,7 +189,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 	}
 
 	private void ApplyParse(String response) {
-		// TODO Auto-generated method stub
+
 		System.out.println("the apply response id " + response);
 
 		ApplyBackend detail = (new Gson()).fromJson(response.toString(),
@@ -207,7 +207,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 	}
 
 	private void removeStar(String response) {
-		// TODO Auto-generated method stub
+
 
 		System.out.println("star response " + response);
 		like_tag.setText("Like");
@@ -226,7 +226,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 	}
 
 	private void addStar(String response) {
-		// TODO Auto-generated method stub
+
 		System.out.println("star response " + response);
 		AddStarBack detail = (new Gson()).fromJson(response.toString(),
 				AddStarBack.class);
@@ -252,7 +252,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 
 	@Override
 	public void error(String response, int value) {
-		// TODO Auto-generated method stub
+
 		System.out.println("error apply " + value + " res " + response);
 		switch (value) {
 		case 1:
@@ -266,10 +266,9 @@ public class ListInnerPage extends LuttuBaseAbstract {
 	}
 
 	private void ErrorApply(String response) {
-		// TODO Auto-generated method stub
 
-		ApplyError detail = (new Gson()).fromJson(response.toString(),
-				ApplyError.class);
+
+		ApplyError detail = (new Gson()).fromJson(response.toString(), ApplyError.class);
 
 		if (!detail.success) {
 
@@ -287,7 +286,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 	}
 
 	private void ErroraddStar(String response) {
-		// TODO Auto-generated method stub
+
 
 		AddStarBack detail = (new Gson()).fromJson(response.toString(),
 				AddStarBack.class);
@@ -299,7 +298,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 
 	@Override
 	public void onDestroyView() {
-		// TODO Auto-generated method stub
+
 		super.onDestroyView();
 		ButterKnife.reset(this);
 	}
@@ -390,7 +389,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 
 			@Override
 			protected Void doInBackground(Void... params) {
-				// TODO Auto-generated method stub
+
 
 				if (prop.buzzer_intercom) {
 					amenities.add("Buzzer Intercom");
@@ -476,7 +475,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 
 			@Override
 			protected void onPostExecute(Void result) {
-				// TODO Auto-generated method stub
+
 				super.onPostExecute(result);
 				if (amenities.size() == 1) {
 					am0.setText(amenities.get(0));
@@ -544,7 +543,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 
 	// go to profile dialog
 	private void messageProfile(String message) {
-		// TODO Auto-generated method stub
+
 
 		try {
 			AlertDialog.Builder builder1 = new AlertDialog.Builder(
@@ -566,7 +565,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							// TODO Auto-generated method stub
+
 						}
 					});
 			AlertDialog alert11 = builder1.create();
@@ -580,7 +579,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 
 	// go to payment dialog
 	private void messagePayment(String message) {
-		// TODO Auto-generated method stub
+
 
 		try {
 			AlertDialog.Builder builder1 = new AlertDialog.Builder(
@@ -603,7 +602,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							// TODO Auto-generated method stub
+
 						}
 					});
 			AlertDialog alert11 = builder1.create();

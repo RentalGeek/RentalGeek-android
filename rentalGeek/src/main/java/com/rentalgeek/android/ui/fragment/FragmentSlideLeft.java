@@ -59,7 +59,7 @@ public class FragmentSlideLeft extends LuttuBaseAbstract {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+
 		View v = inflater.inflate(R.layout.fragment_slideleft, container, false);
 		ButterKnife.inject(this, v);
 		listitems = new ArrayList<String>();
@@ -115,19 +115,19 @@ public class FragmentSlideLeft extends LuttuBaseAbstract {
 
 	@Override
 	public void parseresult(String response, boolean success, int value) {
-		// TODO Auto-generated method stub
+
 
 	}
 
 	@Override
 	public void error(String response, int value) {
-		// TODO Auto-generated method stub
+
 
 	}
 
 	@Override
 	public void onDestroyView() {
-		// TODO Auto-generated method stub
+
 		super.onDestroyView();
 		ButterKnife.reset(this);
 	}
@@ -151,8 +151,7 @@ public class FragmentSlideLeft extends LuttuBaseAbstract {
 		}
 
 		@Override
-		public View getView(final int position, View convertView,
-				ViewGroup parent) {
+		public View getView(final int position, View convertView, ViewGroup parent) {
 			View view = convertView;
 			final ViewHolder holder;
 			if (convertView == null) {
@@ -178,13 +177,13 @@ public class FragmentSlideLeft extends LuttuBaseAbstract {
 	}
 
 	public void addfg(Fragment fragment) {
-		// TODO Auto-generated method stub
+
 		getActivity().getSupportFragmentManager().beginTransaction()
 				.add(R.id.container, fragment).commitAllowingStateLoss();
 	}
 
 	private void logout() {
-		// TODO Auto-generated method stub
+
 
 		// CallLogoutLink();
 
@@ -208,7 +207,7 @@ public class FragmentSlideLeft extends LuttuBaseAbstract {
 	}
 
 	private void CallLogoutLink() {
-		// TODO Auto-generated method stub
+
 
 		RequestParams params = new RequestParams();
 		params.put("applicant[id]", appPref.getData("Uid"));
@@ -220,7 +219,7 @@ public class FragmentSlideLeft extends LuttuBaseAbstract {
 	}
 
 	private void showLogoutAlert() {
-		// TODO Auto-generated method stub
+
 
 		AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity(),
 				(R.style.MyDialog));

@@ -59,7 +59,7 @@ public class ImageSmallerAction {
 
 	private int calculateInSampleSize(Options option, int reqWidth,
 			int reqHeight) {
-		// TODO Auto-generated method stub
+
 		int imageHeight = option.outHeight;
 		int imageWidth = option.outWidth;
 		int inSampleSize = 1;

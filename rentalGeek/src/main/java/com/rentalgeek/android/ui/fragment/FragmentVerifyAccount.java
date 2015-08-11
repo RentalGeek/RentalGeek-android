@@ -71,7 +71,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+
 		View v = inflater.inflate(R.layout.fragment_verify_identity, container, false);
 
 		
@@ -90,7 +90,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 	}
 	
 	private void CheckWhichLogin() {
-		// TODO Auto-generated method stub
+
 		
 		if(appPref.getData("socialid_link").equals(""))
 		{
@@ -115,13 +115,13 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 	}
 
 	private void actionDonekeyListener() {
-		// TODO Auto-generated method stub
+
 		
 		verify_password.setOnEditorActionListener(new OnEditorActionListener() {
 			
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				// TODO Auto-generated method stub
+
 				
 				if (actionId  != EditorInfo.IME_ACTION_DONE)
 					return false;
@@ -135,14 +135,14 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 
 	@Override
 	public void onDestroyView() {
-		// TODO Auto-generated method stub
+
 		super.onDestroyView();
 		ButterKnife.reset(this);
 	}
 
 	@Override
 	public void parseresult(String response, boolean success, int value) {
-		// TODO Auto-generated method stub
+
 
 		
 		switch (value) {
@@ -164,24 +164,24 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 	}
 
 	private void LinkedParse(String response) {
-		// TODO Auto-generated method stub
+
 		nextfragment(new FragmentPayment(), false, R.id.container);
 	}
 
 	private void GoogleParse(String response) {
-		// TODO Auto-generated method stub
+
 		nextfragment(new FragmentPayment(), false, R.id.container);
 		
 	}
 
 	private void FacebookParse(String response) {
-		// TODO Auto-generated method stub
+
 		nextfragment(new FragmentPayment(), false, R.id.container);
 	}
 
 	@Override
 	public void error(String response, int value) {
-		// TODO Auto-generated method stub
+
 		
 		ErrorApi detail = (new Gson()).fromJson(response,
 				ErrorApi.class);
@@ -195,7 +195,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 
 	@Override
 	public void onValidationFailed(View failedView, Rule<?> failedRule) {
-		// TODO Auto-generated method stub
+
 		String message = failedRule.getFailureMessage();
 		if (failedView instanceof EditText) {
 			failedView.requestFocus();
@@ -209,14 +209,14 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 
 	@Override
 	public void onValidationSucceeded() {
-		// TODO Auto-generated method stub
+
 		
 		callNormalLogin();
 		
 	}
 	
 	private void callNormalLogin() {
-		// TODO Auto-generated method stub
+
 		
 		RequestParams params = new RequestParams();
 		params.put("applicant[email]", appPref.getData("email"));
@@ -234,7 +234,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 	}
 	
 	private void NormalLogin(String response) {
-		// TODO Auto-generated method stub
+
 
 		try {
 
@@ -405,7 +405,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+
 				
 				dialog.dismiss();
 				 
@@ -438,7 +438,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+
 				dialog.dismiss();
 			}
 		});

@@ -34,7 +34,7 @@ public class FragmentTutorialGeekLink extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+
 		View v = inflater.inflate(R.layout.fragment_tutorial_geeklink, container, false);
 		
 		ButterKnife.inject(this,v);
@@ -45,7 +45,7 @@ public class FragmentTutorialGeekLink extends Fragment {
 	}
 	@Override
 	public void onDestroyView() {
-		// TODO Auto-generated method stub
+
 		super.onDestroyView();
 		ButterKnife.reset(this);
 	}

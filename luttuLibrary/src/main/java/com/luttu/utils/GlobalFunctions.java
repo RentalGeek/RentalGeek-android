@@ -20,7 +20,7 @@ public class GlobalFunctions {
 		httpClient.post(url, params, new AsyncHttpResponseHandler() {
 			@Override
 			public void onFailure(Throwable arg0, String failureResponse) {
-				// TODO Auto-generated method stub
+
 				super.onFailure(arg0, failureResponse);
 				System.out.println("fail" + failureResponse + "url is" + url);
 				handler.handle(failureResponse, false);
@@ -44,7 +44,7 @@ public class GlobalFunctions {
 		httpClient.get(url, new AsyncHttpResponseHandler() {
 			@Override
 			public void onFailure(Throwable arg0, String failureResponse) {
-				// TODO Auto-generated method stub
+
 
 				super.onFailure(arg0, failureResponse);
 				System.out.println("failureResponse==" + failureResponse
@@ -72,7 +72,7 @@ public class GlobalFunctions {
 			@Override
 			public void onFailure(int statusCode, Header[] headers,
 					Throwable error, String failureResponse) {
-				// TODO Auto-generated method stub
+
 				super.onFailure(statusCode, headers, error, failureResponse);
 
 				handler.handle(failureResponse, false);
@@ -80,7 +80,7 @@ public class GlobalFunctions {
 
 			@Override
 			public void onSuccess(String response) {
-				// TODO Auto-generated method stub
+
 				super.onSuccess(response);
 				handler.handle(response, true);
 			}
@@ -97,7 +97,7 @@ public class GlobalFunctions {
 		httpClient.put(url, params, new AsyncHttpResponseHandler() {
 			@Override
 			public void onFailure(Throwable arg0, String failureResponse) {
-				// TODO Auto-generated method stub
+
 				super.onFailure(arg0, failureResponse);
 				System.out.println("fail" + failureResponse + "url is" + url);
 				handler.handle(failureResponse, false);

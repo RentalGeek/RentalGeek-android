@@ -87,7 +87,7 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+
 		View v = inflater.inflate(R.layout.fragment_slideright, container, false);
 		ButterKnife.inject(this, v);
 		params_strings = "";
@@ -99,7 +99,7 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 	}
 
 	private void PriceSeek() {
-		// TODO Auto-generated method stub
+
 
 		price_seek.setOnTouchListener(new ListView.OnTouchListener() {
 			@Override
@@ -127,20 +127,20 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
+
 
 			}
 
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
+
 
 			}
 
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
-				// TODO Auto-generated method stub
+
 
 				sb = null;
 				sb = new StringBuilder();
@@ -155,19 +155,19 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 
 	@Override
 	public void parseresult(String response, boolean success, int value) {
-		// TODO Auto-generated method stub
+
 
 	}
 
 	@Override
 	public void error(String response, int value) {
-		// TODO Auto-generated method stub
+
 
 	}
 
 	@Override
 	public void onDestroyView() {
-		// TODO Auto-generated method stub
+
 		super.onDestroyView();
 		ButterKnife.reset(this);
 	}
@@ -213,7 +213,7 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 	}
 
 	private Integer checkRange(int range) {
-		// TODO Auto-generated method stub
+
 		if (range > 0 && range <= 10)
 			return 100;
 		else if (range > 10 && range <= 20)
@@ -378,7 +378,7 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 	}
 
 	private boolean compareColor(String first_color, String second_color) {
-		// TODO Auto-generated method stub
+
 
 		if (first_color.equals(second_color)) {
 			return true;
@@ -390,13 +390,13 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 	}
 
 	private void replaceWord(String string) {
-		// TODO Auto-generated method stub
+
 		params_strings = params_strings.replaceAll(string, "");
 
 	}
 
 	private void replaceTag(int i) {
-		// TODO Auto-generated method stub
+
 
 		switch (i) {
 		case 1:
@@ -439,7 +439,7 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 	}
 
 	private void replaceBedroomTag(int i) {
-		// TODO Auto-generated method stub
+
 
 		switch (i) {
 
@@ -540,7 +540,7 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 	}
 
 	private void removeColor(Button b) {
-		// TODO Auto-generated method stub
+
 
 		b.setTag("#4181cb");
 		b.setBackgroundColor(getActivity().getResources()
@@ -549,7 +549,7 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 
 	// remove after search
 	private void removeEverything() {
-		// TODO Auto-generated method stub
+
 
 		ed_search.setText("");
 
@@ -602,7 +602,7 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 	}
 
 	private void searchInmap() {
-		// TODO Auto-generated method stub
+
 		((ActivityHome) getActivity()).closedrawer();
 		if (ed_search.getText().toString().equals("")) {
 
@@ -642,7 +642,7 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 	}
 
 	private void searchInlist() {
-		// TODO Auto-generated method stub
+
 		((ActivityHome) getActivity()).closedrawer();
 		if (ed_search.getText().toString().equals("")) {
 

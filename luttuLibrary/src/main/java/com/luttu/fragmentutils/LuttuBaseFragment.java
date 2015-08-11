@@ -30,7 +30,7 @@ public class LuttuBaseFragment extends Fragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+
 		super.onCreate(savedInstanceState);
 		init();
 	}
@@ -41,7 +41,7 @@ public class LuttuBaseFragment extends Fragment {
 	 * 
 	 * */
 	private void init() {
-		// TODO Auto-generated method stub
+
 		try {
 			LuttuBaseFragmentActivity mainActivity = (LuttuBaseFragmentActivity) getActivity();
 			appPrefes = mainActivity.appPrefes;
@@ -59,7 +59,7 @@ public class LuttuBaseFragment extends Fragment {
 	 * 
 	 * */
 	protected void progressshow() {
-		// TODO Auto-generated method stub
+
 		if (containerlogin != null) {
 			containerlogin.setVisibility(View.VISIBLE);
 			if(toplay_click_cancel!=null)
@@ -82,7 +82,7 @@ public class LuttuBaseFragment extends Fragment {
 	 * 
 	 * */
 	protected void hidekey() {
-		// TODO Auto-generated method stub
+
 		InputMethodManager imm = (InputMethodManager) getActivity()
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(getActivity().getCurrentFocus()
@@ -95,7 +95,7 @@ public class LuttuBaseFragment extends Fragment {
 	 * 
 	 * */
 	protected void progresscancel() {
-		// TODO Auto-generated method stub
+
 		if (containerlogin != null) {
 			if(toplay_click_cancel!=null)
 			{
@@ -111,7 +111,7 @@ public class LuttuBaseFragment extends Fragment {
 	 * 
 	 * */
 	protected boolean checkvalidate(EditText... editTexts) {
-		// TODO Auto-generated method stub
+
 		for (int i = 0; i < editTexts.length; i++) {
 			if (editTexts[i].getText().toString().equals("")) {
 				toast(editTexts[i].getTag().toString());
@@ -127,7 +127,7 @@ public class LuttuBaseFragment extends Fragment {
 	 * 
 	 * */
 	protected void clearfocus(EditText... editTexts) {
-		// TODO Auto-generated method stub
+
 		for (int i = 0; i < editTexts.length; i++) {
 			if (editTexts[i].getText().toString().equals("")) {
 				editTexts[i].clearFocus();
@@ -151,7 +151,7 @@ public class LuttuBaseFragment extends Fragment {
 	 * 
 	 * */
 	protected boolean checkpassword(EditText editText, EditText editText1) {
-		// TODO Auto-generated method stub
+
 		String pass1 = editText.getText().toString();
 		String pass2 = editText1.getText().toString();
 		if (pass1.equals(pass2)) {
@@ -188,7 +188,7 @@ public class LuttuBaseFragment extends Fragment {
 	 * 
 	 * */
 	public void nextfragment(Fragment fragment, boolean stack, int id) {
-		// TODO Auto-generated method stub
+
 		if (getActivity() == null) {
 			return;
 		}
@@ -208,7 +208,7 @@ public class LuttuBaseFragment extends Fragment {
 	 * 
 	 * */
 	public void nextchildfragment(Fragment fragment, boolean stack, int id) {
-		// TODO Auto-generated method stub
+
 		if (getActivity() == null) {
 			return;
 		}
@@ -225,7 +225,7 @@ public class LuttuBaseFragment extends Fragment {
 	 * 
 	 * */
 	public void nextfragmentanimation(Fragment fragment, boolean stack, int id) {
-		// TODO Auto-generated method stub
+
 		if (getActivity() == null) {
 			return;
 		}
@@ -245,7 +245,7 @@ public class LuttuBaseFragment extends Fragment {
 	 * 
 	 * */
 	public void addfragment(Fragment fragment, boolean stack, int id) {
-		// TODO Auto-generated method stub
+
 		if (getActivity() == null) {
 			return;
 		}
@@ -265,7 +265,7 @@ public class LuttuBaseFragment extends Fragment {
 	 * 
 	 * */
 	protected void changefont(TextView textView, String font) {
-		// TODO Auto-generated method stub
+
 		Typeface mFont = Typeface.createFromAsset(getActivity().getAssets(),
 				font);
 		textView.setTypeface(mFont);
@@ -277,7 +277,7 @@ public class LuttuBaseFragment extends Fragment {
 	 * 
 	 * */
 	protected void normaltoast(String msg) {
-		// TODO Auto-generated method stub
+
 		Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
 	}
 
@@ -287,7 +287,7 @@ public class LuttuBaseFragment extends Fragment {
 	 * 
 	 * */
 	protected void toastsuccess(String msg) {
-		// TODO Auto-generated method stub
+
 		Crouton crouton = Crouton.makeText(getActivity(), msg, Style.CONFIRM);
 		crouton.show();
 	}
@@ -298,7 +298,7 @@ public class LuttuBaseFragment extends Fragment {
 	 * 
 	 * */
 	protected void log(String message) {
-		// TODO Auto-generated method stub
+
 		Log.d("SICS", message);
 	}
 
@@ -319,7 +319,7 @@ public class LuttuBaseFragment extends Fragment {
 	 * 
 	 * */
 	protected void onback() {
-		// TODO Auto-generated method stub
+
 		try {
 			LuttuBaseFragmentActivity mainActivity = (LuttuBaseFragmentActivity) getActivity();
 			mainActivity.backpress();

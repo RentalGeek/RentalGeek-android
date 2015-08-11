@@ -26,7 +26,7 @@ public class GeekVision extends LuttuBaseAbstract{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+
 		View v= inflater.inflate(R.layout.geekvision, container,false);
 		ButterKnife.inject(this,v);
 		return v;
@@ -34,13 +34,13 @@ public class GeekVision extends LuttuBaseAbstract{
 
 	@Override
 	public void parseresult(String response, boolean success, int value) {
-		// TODO Auto-generated method stub
+
 		
 	}
 
 	@Override
 	public void error(String response, int value) {
-		// TODO Auto-generated method stub
+
 		
 	}
 	

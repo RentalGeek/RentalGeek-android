@@ -20,7 +20,7 @@ public class LuttuBaseFragmentActivity extends FragmentActivity implements
 
 	@Override
 	protected void onCreate(Bundle arg0) {
-		// TODO Auto-generated method stub
+
 		super.onCreate(arg0);
 		appPrefes = new AppPrefes(this, "justask");
 		NetworkChangeReceiver.internet = this;
@@ -39,14 +39,14 @@ public class LuttuBaseFragmentActivity extends FragmentActivity implements
 
 	@Override
 	public void net() {
-		// TODO Auto-generated method stub
+
 		System.out.println("inside net interface");
 		showBuiltInCrouton();
 	}
 
 	@Override
 	public void onBackPressed() {
-		// TODO Auto-generated method stub
+
 		if (backButtonClickedListener != null)
 			backButtonClickedListener.onBackButtonClicked();
 		else
@@ -58,7 +58,7 @@ public class LuttuBaseFragmentActivity extends FragmentActivity implements
 	}
 
 	public void backpress() {
-		// TODO Auto-generated method stub
+
 		super.onBackPressed();
 	}
 }

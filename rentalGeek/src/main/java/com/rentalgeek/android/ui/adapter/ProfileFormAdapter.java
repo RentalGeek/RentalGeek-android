@@ -10,18 +10,10 @@ import com.rentalgeek.android.ui.fragment.FragmentTutorialGeekScore;
 import com.rentalgeek.android.ui.fragment.FragmentTutorialGeekVision;
 
 
-/**
- * 
- * @author George
- * 
- * @purpose Adapter class which handles the introduction Sliders
- *
- */
-public class SwipeAdapter extends FragmentPagerAdapter {
+public class ProfileFormAdapter extends FragmentPagerAdapter {
 
-	public SwipeAdapter(FragmentManager fm) {
+	public ProfileFormAdapter(FragmentManager fm) {
 		super(fm);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -29,7 +21,7 @@ public class SwipeAdapter extends FragmentPagerAdapter {
 
 		switch (position) {
 		case 0: // Fragment # 0 - This will show FirstFragment
-			return FragmentTutorialGeekVision.newInstance();
+			return FragmentProfileFormFirst.newInstance();
 
 		case 1: // Fragment # 0 - This will show FirstFragment different title
 			return FragmentTutorialGeekScore.newInstance();

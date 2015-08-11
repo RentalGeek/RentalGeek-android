@@ -107,7 +107,7 @@ public class FragmentStarredPropDetails extends LuttuBaseAbstract {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+
 
 		View v = inflater.inflate(R.layout.listview_inner, container, false);
 		ButterKnife.inject(this, v);
@@ -130,13 +130,13 @@ public class FragmentStarredPropDetails extends LuttuBaseAbstract {
 
 	@Override
 	public void onDestroyView() {
-		// TODO Auto-generated method stub
+
 		super.onDestroyView();
 		ButterKnife.reset(this);
 	}
 
 	private void detailsFetchServer(String id) {
-		// TODO Auto-generated method stub
+
 
 		String url = StaticClass.headlink + "/v2/rental_offerings/" + id;
 
@@ -146,7 +146,7 @@ public class FragmentStarredPropDetails extends LuttuBaseAbstract {
 
 	@Override
 	public void parseresult(String response, boolean success, int value) {
-		// TODO Auto-generated method stub
+
 
 		switch (value) {
 		case 1:
@@ -165,7 +165,7 @@ public class FragmentStarredPropDetails extends LuttuBaseAbstract {
 	}
 
 	private void ApplyParse(String response) {
-		// TODO Auto-generated method stub
+
 		System.out.println("the apply response id " + response);
 
 		ApplyBackend detail = (new Gson()).fromJson(response.toString(),
@@ -185,7 +185,7 @@ public class FragmentStarredPropDetails extends LuttuBaseAbstract {
 
 	private void DetailsParse(String response) {
 		try {
-			// TODO Auto-generated method stub
+
 			System.out.println("response inner list fav " + response);
 			detail = (new Gson()).fromJson(response.toString(),
 					StarredInnerBacked.class);
@@ -239,7 +239,7 @@ public class FragmentStarredPropDetails extends LuttuBaseAbstract {
 
 	@Override
 	public void error(String response, int value) {
-		// TODO Auto-generated method stub
+
 		System.out.println("the response " + response);
 		switch (value) {
 		case 3:
@@ -255,7 +255,7 @@ public class FragmentStarredPropDetails extends LuttuBaseAbstract {
 	}
 
 	private void ErrorApply(String response) {
-		// TODO Auto-generated method stub
+
 
 		try {
 			ApplyError detail = (new Gson()).fromJson(response.toString(),
@@ -303,7 +303,7 @@ public class FragmentStarredPropDetails extends LuttuBaseAbstract {
 	}
 
 	private void removeStar(String response) {
-		// TODO Auto-generated method stub
+
 
 		toast("Property removed");
 		Picasso.with(getActivity()).load(R.drawable.star).into(star_img);
@@ -312,7 +312,7 @@ public class FragmentStarredPropDetails extends LuttuBaseAbstract {
 	}
 
 	private void goBack() {
-		// TODO Auto-generated method stub
+
 		Intent refreshIntent = new Intent("dislikeref");
 		Bundle args = new Bundle();
 		args.putString("remove_params", like_tag.getTag().toString().trim());
@@ -332,7 +332,7 @@ public class FragmentStarredPropDetails extends LuttuBaseAbstract {
 
 				@Override
 				protected Void doInBackground(Void... params) {
-					// TODO Auto-generated method stub
+
 					if (detail.rental_offering.buzzer_intercom) {
 						amenities.add("Buzzer Intercom");
 					}
@@ -493,7 +493,7 @@ public class FragmentStarredPropDetails extends LuttuBaseAbstract {
 	
 	// go to profile dialog
 		private void messageProfile(String message) {
-			// TODO Auto-generated method stub
+
 
 			try {
 				AlertDialog.Builder builder1 = new AlertDialog.Builder(
@@ -515,7 +515,7 @@ public class FragmentStarredPropDetails extends LuttuBaseAbstract {
 
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
-								// TODO Auto-generated method stub
+
 							}
 						});
 				AlertDialog alert11 = builder1.create();
@@ -529,7 +529,7 @@ public class FragmentStarredPropDetails extends LuttuBaseAbstract {
 
 		// go to payment dialog
 		private void messagePayment(String message) {
-			// TODO Auto-generated method stub
+
 
 			try {
 				AlertDialog.Builder builder1 = new AlertDialog.Builder(
@@ -552,7 +552,7 @@ public class FragmentStarredPropDetails extends LuttuBaseAbstract {
 
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
-								// TODO Auto-generated method stub
+
 							}
 						});
 				AlertDialog alert11 = builder1.create();

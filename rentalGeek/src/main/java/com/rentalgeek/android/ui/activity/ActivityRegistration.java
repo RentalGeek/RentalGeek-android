@@ -93,14 +93,13 @@ public class ActivityRegistration extends Activity implements ValidationListener
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.registration);
+		setContentView(R.layout.activity_registration);
 		ButterKnife.inject(this);
 		terms_text.setSingleLine(false);
-		terms_text
-				.setText(Html
-						.fromHtml("By creating a RentalGeek account,\n you agree to our <u>Terms & Conditions</u>"));
+		terms_text.setText(Html
+				.fromHtml("By creating a RentalGeek account,\n you agree to our <u>Terms & Conditions</u>"));
 		validator = new Validator(this);
 		validator.setValidationListener(this);
 		load = new Loading(ActivityRegistration.this);
@@ -115,7 +114,7 @@ public class ActivityRegistration extends Activity implements ValidationListener
 	}
 
 	private void callRegisterApi(String a, String b, String c) {
-		// TODO Auto-generated method stub
+
 
 		prog.setVisibility(View.VISIBLE);
 		System.out.println("params " + a + " " + b + " " + c);
@@ -132,7 +131,7 @@ public class ActivityRegistration extends Activity implements ValidationListener
 
 					@Override
 					public void handle(String response, boolean failre) {
-						// TODO Auto-generated method stub
+
 
 						RegistrationBackend detail = null;
 						try {
@@ -154,7 +153,7 @@ public class ActivityRegistration extends Activity implements ValidationListener
 
 								@Override
 								public void onTick(long millisUntilFinished) {
-									// TODO Auto-generated method stub
+
 
 								}
 
@@ -187,7 +186,7 @@ public class ActivityRegistration extends Activity implements ValidationListener
 
 	@Override
 	public void onValidationFailed(View failedView, Rule<?> failedRule) {
-		// TODO Auto-generated method stub
+
 		String message = failedRule.getFailureMessage();
 		if (failedView instanceof EditText) {
 			failedView.requestFocus();
@@ -201,7 +200,7 @@ public class ActivityRegistration extends Activity implements ValidationListener
 
 	@Override
 	public void onValidationSucceeded() {
-		// TODO Auto-generated method stub
+
 
 		if (terms.isChecked()) {
 			if (con.isConnectingToInternet()) {
@@ -241,7 +240,7 @@ public class ActivityRegistration extends Activity implements ValidationListener
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+
 				dialog.dismiss();
 			}
 		});

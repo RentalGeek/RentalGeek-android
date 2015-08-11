@@ -43,13 +43,13 @@ public class Loading  {
 	}
 	
 	public void Diashow() {
-		// TODO Auto-generated method stub
+
 		dialog.show();
 		img.startAnimation(rotation);
 	}
 
 	public void Diacancel() {
-		// TODO Auto-generated method stub
+
 		
 		dialog.dismiss();
 	

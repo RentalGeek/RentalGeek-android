@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.luttu.fragmentutils.AppPrefes;
 import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.utils.ConnectionDetector;
@@ -68,7 +69,7 @@ public class FragmentGeekScoreMain extends LuttuBaseAbstract {
 
 	private void CheckPaymentf() {
 		// asynkhttpGet(2, StaticClass.headlink + "/v2/transactions", true);
-		asynkhttpGet( 3, StaticClass.headlink + "/v2/applicants/" + appPref.getData("Uid"), true);
+		asynkhttpGet( 3, ApiManager.getApplicants(appPref.getData("Uid")), true);
 
 	}
 

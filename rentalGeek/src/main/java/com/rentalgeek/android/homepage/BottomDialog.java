@@ -196,7 +196,7 @@ public class BottomDialog {
 		params.put("starred_property[applicant_id]", Uid);
 		params.put("starred_property[rental_offering_id]", suid);
 
-		String url = ApiManager.getStarredPrpoerties();
+		String url = ApiManager.getStarredPrpoertiesUrl("");
 
 		GlobalFunctions.postApiCall(context, url, params, client,
 				new HttpResponseHandler() {

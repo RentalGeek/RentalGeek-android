@@ -35,6 +35,7 @@ import com.mobsandgeeks.saripaar.annotation.Password;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.RegistrationBackend;
 import com.rentalgeek.android.backend.RegistrationBackend.Applicant;
 import com.rentalgeek.android.utils.ConnectionDetector;
@@ -126,12 +127,11 @@ public class ActivityRegistration extends Activity implements ValidationListener
 		params.put("applicant[password]", b);
 		params.put("applicant[confirm_password]", c);
 
-		GlobalFunctions.postApiCall(this, StaticClass.regis_link, params,
+		GlobalFunctions.postApiCall(this, ApiManager.regis_link, params,
 				client, new HttpResponseHandler() {
 
 					@Override
 					public void handle(String response, boolean failre) {
-
 
 						RegistrationBackend detail = null;
 						try {

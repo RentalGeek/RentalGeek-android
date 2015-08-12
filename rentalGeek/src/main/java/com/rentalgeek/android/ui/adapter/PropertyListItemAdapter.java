@@ -26,12 +26,12 @@ import com.luttu.utils.GetSSl;
 import com.luttu.utils.GlobalFunctions;
 import com.luttu.utils.GlobalFunctions.HttpResponseHandler;
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.AddStarBack;
 import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.ui.fragment.ListInnerPage;
 import com.rentalgeek.android.pojos.PropertyListPojo;
 import com.rentalgeek.android.ui.activity.ActivityHome;
-import com.rentalgeek.android.utils.StaticClass;
 
 import java.util.List;
 
@@ -198,7 +198,7 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 		params.put("starred_property[applicant_id]", Uid);
 		params.put("starred_property[rental_offering_id]", itemid + "");
 
-		String url = StaticClass.headlink + "/v2/starred_properties";
+		String url = ApiManager.getStarredPrpoertiesUrl("");
 
 		GlobalFunctions.postApiCall(context, url, params, client,
 				new HttpResponseHandler() {
@@ -259,8 +259,7 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 			mCookieStore = new PersistentCookieStore(context);
 			client.setCookieStore(mCookieStore);
 
-			String links = StaticClass.headlink + "/v2/starred_properties/"
-					+ propy.starred_property_id;
+			String links = ApiManager.getStarredPrpoertiesUrl(propy.starred_property_id);
 			GlobalFunctions.deleteApiCall(context, links, client,
 					new HttpResponseHandler() {
 

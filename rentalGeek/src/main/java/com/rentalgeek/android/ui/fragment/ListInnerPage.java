@@ -23,6 +23,7 @@ import com.loopj.android.http.RequestParams;
 import com.luttu.fragmentutils.AppPrefes;
 import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.AddStarBack;
 import com.rentalgeek.android.backend.AddStarBack.StarredProperty;
 import com.rentalgeek.android.backend.ApplyBackend;
@@ -316,9 +317,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 					System.out.println("inside starred click");
 					if (prop.starred_property_id != null) {
 
-						asynkhttpDelete(2, StaticClass.headlink
-								+ "/v2/starred_properties/"
-								+ prop.starred_property_id, true);
+						asynkhttpDelete(2, ApiManager.getStarredPrpoertiesUrlgetStarredPrpoertiesUrl(prop.starred_property_id), true);
 					}
 				} else {
 
@@ -334,8 +333,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 					params.put("starred_property[applicant_id]", Uid);
 					params.put("starred_property[rental_offering_id]", suid);
 
-					asynkhttp(params, 1, StaticClass.headlink
-							+ "/v2/starred_properties", true);
+					asynkhttp(params, 1, ApiManager.getStarredPrpoertiesUrlgetStarredPrpoertiesUrl(""), true);
 
 				}
 
@@ -354,18 +352,16 @@ public class ListInnerPage extends LuttuBaseAbstract {
 
 		if (con.isConnectingToInternet()) {
 			// show animation
-			animation_obj = YoYo.with(Techniques.Flash).duration(1000)
-					.playOn(apply);
+			animation_obj = YoYo.with(Techniques.Flash).duration(1000).playOn(apply);
 
 			RequestParams params = new RequestParams();
 			params.put("apply[applicable_id]", appPref.getData("Uid"));
 			params.put("apply[rental_offering_id]", String.valueOf(prop.uid));
 			params.put("apply[applicable_type]", "Applicant");
 
-			System.out.println("prop id is " + prop.uid + " applicant id is "
-					+ appPref.getData("Uid"));
+			System.out.println("prop id is " + prop.uid + " applicant id is " + appPref.getData("Uid"));
 
-			asynkhttp(params, 3, StaticClass.headlink + "/v2/applies", true);
+			asynkhttp(params, 3, ApiManager.getApplyUrl(), true);
 		} else {
 			toast("No Connection");
 		}

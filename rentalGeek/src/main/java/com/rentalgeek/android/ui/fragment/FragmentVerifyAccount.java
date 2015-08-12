@@ -27,6 +27,7 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.Validator.ValidationListener;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.ErrorApi;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.backend.LoginBackend.applicant;
@@ -221,9 +222,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 		RequestParams params = new RequestParams();
 		params.put("applicant[email]", appPref.getData("email"));
 		params.put("applicant[password]", verify_password.getText().toString().trim());
-		asynkhttp(params, 1,
-				StaticClass.headlink+"/applicants/sign_in.json",
-				true);
+		asynkhttp(params, 1, ApiManager.getSignin(), true);
 		
 	}
 
@@ -270,8 +269,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 		params.put("provider[provider]", "Facebook");
 		params.put("provider[email]", appPref.getData("socialemail_fb"));
 		params.put("provider[name]",  appPref.getData("socialname_fb"));
-		asynkhttp(params, 2, StaticClass.headlink
-				+ "/v2/sessions/add_providers", true);
+		asynkhttp(params, 2, ApiManager.getAddProvider(""), true);
 
 	}
 	
@@ -283,8 +281,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 		params.put("provider[provider]", "Google+");
 		params.put("provider[email]", appPref.getData("socialemail_goog"));
 		params.put("provider[name]",  appPref.getData("socialname_goog"));
-		asynkhttp(params, 3, StaticClass.headlink
-				+ "/v2/sessions/add_providers", true);
+		asynkhttp(params, 3, ApiManager.getAddProvider(""), true);
 
 	}
 	
@@ -296,8 +293,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 		params.put("provider[provider]", "LinkedIn+");
 		params.put("provider[email]", appPref.getData("socialemail_link"));
 		params.put("provider[name]",  appPref.getData("socialname_link"));
-		asynkhttp(params, 4, StaticClass.headlink
-				+ "/v2/sessions/add_providers", true);
+		asynkhttp(params, 4, ApiManager.getAddProvider(""), true);
 
 	}
 

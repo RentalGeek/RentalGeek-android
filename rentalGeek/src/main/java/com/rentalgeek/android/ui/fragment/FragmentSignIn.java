@@ -43,6 +43,7 @@ import com.luttu.fragmentutils.AppPrefes;
 import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.luttu.fragmentutils.VolleyForAll;
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.ErrorApi;
 import com.rentalgeek.android.backend.ForgotError;
 import com.rentalgeek.android.backend.GoogleBackend;
@@ -167,8 +168,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 		RequestParams params = new RequestParams();
 		params.put("applicant[email]", a);
 		params.put("applicant[password]", b);
-		asynkhttp(params, 1, StaticClass.headlink + "/applicants/sign_in.json",
-				true);
+		asynkhttp(params, 1, ApiManager.getSignin(), true);
 
 	}
 
@@ -838,8 +838,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 		params.put("provider[email]", email);
 		params.put("provider[name]", personName);
 		params.put("provider[linkedIn_image]", personPhotoUrl);
-		asynkhttp(params, 3, StaticClass.headlink
-				+ "/v2/sessions/add_providers", true);
+		asynkhttp(params, 3, ApiManager.getAddProvider(""), true);
 
 	}
 
@@ -853,8 +852,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 		params.put("provider[email]", email);
 		params.put("provider[name]", personName);
 		params.put("provider[google_image]", personPhotoUrl);
-		asynkhttp(params, 4, StaticClass.headlink
-				+ "/v2/sessions/add_providers", true);
+		asynkhttp(params, 4, ApiManager.getAddProvider(""), true);
 
 	}
 
@@ -867,8 +865,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 		params.put("provider[email]", email);
 		params.put("provider[name]", personName);
 		params.put("provider[facebook_image]", personPhotoUrl);
-		asynkhttp(params, 2, StaticClass.headlink
-				+ "/v2/sessions/add_providers", true);
+		asynkhttp(params, 2, ApiManager.getAddProvider(""), true);
 
 	}
 
@@ -942,7 +939,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 		RequestParams params = new RequestParams();
 		params.put("user[email]", email);
 
-		String url = StaticClass.headlink + "/applicants/password";
+		String url = ApiManager.getApplicantPassword();
 
 		asynkhttp(params, 5, url, true);
 

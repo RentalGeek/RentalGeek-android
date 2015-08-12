@@ -24,6 +24,7 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.mobsandgeeks.saripaar.annotation.Select;
 import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.CheckPayment;
 import com.rentalgeek.android.backend.ErrorArray;
 import com.rentalgeek.android.backend.LoginBackend;
@@ -145,8 +146,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements
 		// asynkhttpGet(2, StaticClass.headlink + "/v2/transactions", true);
 		asynkhttpGet(
 				3,
-				StaticClass.headlink + "/v2/applicants/"
-						+ appPref.getData("Uid"), true);
+				ApiManager.getApplicants(appPref.getData("Uid")), true);
 
 	}
 
@@ -314,7 +314,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements
 	private void makePayment() {
 
 
-		String url = StaticClass.headlink + "/v2/transactions";
+		String url = ApiManager.getTransactions();
 
 		RequestParams params = new RequestParams();
 		params.put("card[name_on_card]", cardName.getText().toString().trim());

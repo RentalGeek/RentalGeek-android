@@ -31,6 +31,7 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.mobsandgeeks.saripaar.annotation.Select;
 import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.ErrorObj;
 import com.rentalgeek.android.backend.ProfileIdFindBackend;
 import com.rentalgeek.android.backend.ProfilePost;
@@ -637,7 +638,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 		try {
 
 
-			String url = StaticClass.headlink + "/v2/profiles/" + id;
+			String url = ApiManager.getProfile(id);
 			iseveryThing = false;
 
 			final RequestParams params = new RequestParams();
@@ -1228,7 +1229,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 
 			params.put("profile[applicant_id]", appPref.getData("Uid"));
 
-			String url = StaticClass.headlink + "/v2/profiles";
+			String url = ApiManager.getProfile("");
 
 			if (con.isConnectingToInternet()) {
 
@@ -1254,11 +1255,8 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 	// fetch user profile info
 	private void fetchProfileData() {
 
-
-		String url = StaticClass.headlink + "/v2/profiles";
-
+		String url = ApiManager.getProfile("");
 		asynkhttpGet(3, url, true);
-
 	}
 
 	// email checking function
@@ -1266,8 +1264,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 		if (target == null) {
 			return false;
 		} else {
-			return android.util.Patterns.EMAIL_ADDRESS.matcher(target)
-					.matches();
+			return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
 		}
 	}
 

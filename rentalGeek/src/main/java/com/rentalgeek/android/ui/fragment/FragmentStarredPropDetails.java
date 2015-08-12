@@ -22,12 +22,12 @@ import com.loopj.android.http.RequestParams;
 import com.luttu.fragmentutils.AppPrefes;
 import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.ApplyBackend;
 import com.rentalgeek.android.backend.ApplyError;
 import com.rentalgeek.android.backend.StarredInnerBacked;
 import com.rentalgeek.android.ui.dialog.MoreAmenitiesDialog;
 import com.rentalgeek.android.utils.ConnectionDetector;
-import com.rentalgeek.android.utils.StaticClass;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -136,12 +136,8 @@ public class FragmentStarredPropDetails extends LuttuBaseAbstract {
 	}
 
 	private void detailsFetchServer(String id) {
-
-
-		String url = StaticClass.headlink + "/v2/rental_offerings/" + id;
-
+		String url = ApiManager.getPropertySearchUrl(id);
 		asynkhttpGet(1, url, true);
-
 	}
 
 	@Override
@@ -295,11 +291,12 @@ public class FragmentStarredPropDetails extends LuttuBaseAbstract {
 
 	@OnClick({R.id.like,R.id.star_img})
 	public void Dislike() {
-		log("the tag in unstar " + StaticClass.headlink
-				+ "/v2/starred_properties/" + like_tag.getTag().toString());
 
-		asynkhttpDelete(2, StaticClass.headlink + "/v2/starred_properties/"
-				+ like_tag.getTag().toString(), true);
+		String url = ApiManager.getStarredPrpoertiesUrl(like_tag.getTag().toString());
+
+		log("the tag in unstar " + url);
+
+		asynkhttpDelete(2, url, true);
 	}
 
 	private void removeStar(String response) {
@@ -460,7 +457,7 @@ public class FragmentStarredPropDetails extends LuttuBaseAbstract {
 				String.valueOf(detail.rental_offering.id));
 		params.put("apply[applicable_type]", "Applicant");
 
-		asynkhttp(params, 3, StaticClass.headlink + "/v2/applies", true);
+		asynkhttp(params, 3, ApiManager.getApplyUrl(), true);
 	}
 	
 	private void setAminities() {

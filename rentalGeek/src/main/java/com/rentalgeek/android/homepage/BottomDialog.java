@@ -11,12 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.activeandroid.query.Select;
-import com.rentalgeek.android.R;
-import com.rentalgeek.android.backend.AddStarBack;
-import com.rentalgeek.android.database.PropertyTable;
-import com.rentalgeek.android.ui.fragment.FragmentMap.FragmentCallback;
-import com.rentalgeek.android.ui.activity.ActivityHome;
-import com.rentalgeek.android.utils.StaticClass;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.gson.Gson;
@@ -29,6 +23,12 @@ import com.luttu.nettoast.Style;
 import com.luttu.utils.GetSSl;
 import com.luttu.utils.GlobalFunctions;
 import com.luttu.utils.GlobalFunctions.HttpResponseHandler;
+import com.rentalgeek.android.R;
+import com.rentalgeek.android.api.ApiManager;
+import com.rentalgeek.android.backend.AddStarBack;
+import com.rentalgeek.android.database.PropertyTable;
+import com.rentalgeek.android.ui.activity.ActivityHome;
+import com.rentalgeek.android.ui.fragment.FragmentMap.FragmentCallback;
 import com.squareup.picasso.Picasso;
 
 public class BottomDialog {
@@ -196,7 +196,7 @@ public class BottomDialog {
 		params.put("starred_property[applicant_id]", Uid);
 		params.put("starred_property[rental_offering_id]", suid);
 
-		String url = StaticClass.headlink + "/v2/starred_properties";
+		String url = ApiManager.getStarredPrpoerties();
 
 		GlobalFunctions.postApiCall(context, url, params, client,
 				new HttpResponseHandler() {

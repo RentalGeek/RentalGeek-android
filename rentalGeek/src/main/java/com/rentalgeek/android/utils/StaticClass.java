@@ -19,6 +19,6 @@ public class StaticClass {
 	
 	
 	//main server links
-	public static String headlink = "https://api.rentalgeek.com/rgapi";
-	public static String regis_link = "https://api.rentalgeek.com/rgapi/applicants.json";
+//	public static String headlink = "http://104.236.100.21";
+//	public static String regis_link = "https://api.rentalgeek.com/rgapi/applicants.json";
 }

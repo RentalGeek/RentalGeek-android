@@ -28,6 +28,8 @@ import com.rentalgeek.android.backend.CheckPayment;
 import com.rentalgeek.android.backend.ErrorArray;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.backend.PaymentBackend;
+import com.rentalgeek.android.ui.Navigation;
+import com.rentalgeek.android.ui.activity.ActivityCreateProfile;
 import com.rentalgeek.android.utils.ConnectionDetector;
 import com.rentalgeek.android.utils.StaticClass;
 
@@ -340,7 +342,8 @@ public class FragmentPayment extends LuttuBaseAbstract implements
 					public void onClick(DialogInterface dialog, int id) {
 
 						dialog.cancel();
-						nextfragment(new FragmentProfile(), false, R.id.container);
+						//nextfragment(new FragmentProfile(), false, R.id.container);
+                        Navigation.navigateActivity(getActivity(), ActivityCreateProfile.class);
 					}
 				});
 

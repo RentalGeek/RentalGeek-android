@@ -38,6 +38,7 @@ import com.google.gson.JsonSyntaxException;
 import com.luttu.fragmentutils.AppPrefes;
 import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.MapBackend;
 import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.homepage.BottomDialog;
@@ -527,11 +528,8 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 	public void showPropertyInMap() {
 		// progressshow();
-
-		String url = StaticClass.headlink + "/v2/rental_offerings.json";
-
+		String url = ApiManager.getPropertySearchUrl("");
 		asynkhttpGet(1, url, true);
-
 	}
 
 	private void drawMarker(LatLng point, int bedroom_count, String y,
@@ -689,13 +687,12 @@ public class FragmentMap extends LuttuBaseAbstract {
 	private void SearchViaLocation(String location) {
 
 		broadcast_flag = true;
-		System.out.println("the search url map is " + StaticClass.headlink
-				+ "/v2/rental_offerings.json?" + location);
+
+		String url = ApiManager.getPropertySearchUrl(location);
+
+		System.out.println("the search url map is " + url);
 
 		if (!location.equals("")) {
-
-			String url = StaticClass.headlink + "/v2/rental_offerings.json?"
-					+ location;
 			asynkhttpGet(2, url, true);
 		} else {
 			toast("Select Filters");
@@ -738,10 +735,8 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 	public void showPropertyInMapBackground() {
 		// progressshow();
-		String url = StaticClass.headlink + "/v2/rental_offerings.json";
-
+		String url = ApiManager.getPropertySearchUrl("");
 		asynkhttpGet(3, url, false);
-
 	}
 
 }

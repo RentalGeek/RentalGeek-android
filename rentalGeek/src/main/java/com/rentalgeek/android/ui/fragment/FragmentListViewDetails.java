@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.luttu.fragmentutils.AppPrefes;
 import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.MapBackend;
 import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.pojos.PropertyListPojo;
@@ -325,11 +326,12 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 
 
 		if (!loc.equals("")) {
-			System.out.println("the search url list is " + StaticClass.headlink
-					+ "/v2/rental_offerings.json?" + loc);
 
-			asynkhttpGet(1, StaticClass.headlink + "/v2/rental_offerings.json?"
-					+ loc, true);
+			String url = ApiManager.getPropertySearchUrl(loc);
+
+			System.out.println("the search url list is " + url);
+
+			asynkhttpGet(1, url, true);
 
 		}
 

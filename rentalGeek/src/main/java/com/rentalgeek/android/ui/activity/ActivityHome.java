@@ -20,7 +20,6 @@ import android.widget.Toast;
 import com.luttu.fragmentutils.AppPrefes;
 import com.luttu.fragmentutils.LuttuBaseFragmentActivity;
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.ui.fragment.FragmentListViewDetails;
 import com.rentalgeek.android.ui.fragment.FragmentMap;
 
@@ -43,21 +42,6 @@ public class ActivityHome extends LuttuBaseFragmentActivity {
 
 	boolean doubleBackToExitPressedOnce;
 
-	private Thread.UncaughtExceptionHandler handler = new Thread.UncaughtExceptionHandler() {
-		public void uncaughtException(Thread thread, Throwable ex) {
-
-			AppLogger.log(TAG, ex);
-			// Bundle bundle = new Bundle();
-			// bundle.putString("msg", "restart");
-//			Intent intent = new Intent(getApplicationContext(), ActivityHome.class);
-//			// intent.putExtras(bundle);
-//			startActivity(intent);
-//			finish();
-//			android.os.Process.killProcess(android.os.Process.myPid());
-//			System.exit(10);
-		}
-	};
-
 	private DrawerLayout mDrawerLayout;
 	AppPrefes appPref;
 
@@ -78,13 +62,7 @@ public class ActivityHome extends LuttuBaseFragmentActivity {
 		if (arg0 == null) {
 			setContentView(R.layout.home_activity);
 			ButterKnife.inject(this);
-			 Thread.getDefaultUncaughtExceptionHandler();
-			 Thread.setDefaultUncaughtExceptionHandler(handler);
-			
-//			 Thread.setDefaultUncaughtExceptionHandler(new
-//					 UncaughtExceptionReporter(this));
-			 
-			 
+
 			containerlogin = (FrameLayout) findViewById(R.id.containerlogin);
 			toplay_click_cancel = (LinearLayout) findViewById(R.id.toplay_click_cancel);
 			mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);

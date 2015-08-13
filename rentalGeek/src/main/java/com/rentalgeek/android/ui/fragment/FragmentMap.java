@@ -150,11 +150,9 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 						image_url = "";
 
-						if (detail.rental_offerings.get(i).primary_property_photo_url
-								.size() > 0) {
+						if (!ListUtils.isNullOrEmpty(detail.rental_offerings.get(i).primary_property_photo_url)) {
 
-							for (int j = 0; j < detail.rental_offerings.get(i).primary_property_photo_url
-									.size(); j++) {
+							for (int j = 0; j < detail.rental_offerings.get(i).primary_property_photo_url.size(); j++) {
 								image_url = detail.rental_offerings.get(i).primary_property_photo_url
 										.get(0).photo_full_url;
 

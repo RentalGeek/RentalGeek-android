@@ -29,10 +29,10 @@ import com.rentalgeek.android.backend.CheckPayment;
 import com.rentalgeek.android.backend.ErrorArray;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.backend.PaymentBackend;
+import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityCreateProfile;
 import com.rentalgeek.android.utils.ConnectionDetector;
-import com.rentalgeek.android.utils.StaticClass;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,16 +41,9 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class FragmentPayment extends LuttuBaseAbstract implements
-		Validator.ValidationListener {
+public class FragmentPayment extends LuttuBaseAbstract implements Validator.ValidationListener {
 
-	/**
-	 * @author george
-	 * 
-	 * @purpose This class helps the user to pay the Rental geek authority for
-	 *          applying to the property. In the back-end we use brain tree
-	 *          payment gateway for payment
-	 */
+	private static final String TAG = "FragmentPayment";
 
 	private Validator validator;
 	AppPrefes appPref;
@@ -102,8 +95,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		View v = inflater.inflate(R.layout.fragment_card_info_dialog, container, false);
 		con = new ConnectionDetector(getActivity());
@@ -121,7 +113,6 @@ public class FragmentPayment extends LuttuBaseAbstract implements
 	}
 
 	private void KeyListener() {
-
 
 		edCvv.setOnEditorActionListener(new OnEditorActionListener() {
 
@@ -142,11 +133,8 @@ public class FragmentPayment extends LuttuBaseAbstract implements
 
 	private void CheckPaymentf() {
 
-
 		// asynkhttpGet(2, StaticClass.headlink + "/v2/transactions", true);
-		asynkhttpGet(
-				3,
-				ApiManager.getApplicants(appPref.getData("Uid")), true);
+		asynkhttpGet(3, ApiManager.getApplicants(appPref.getData("Uid")), true);
 
 	}
 
@@ -183,8 +171,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements
 
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			AppLogger.log(TAG, e);
 		}
 
 	}
@@ -194,8 +181,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements
 
 		System.out.println("the payment check response " + response);
 
-		CheckPayment detail = (new Gson()).fromJson(response,
-				CheckPayment.class);
+		CheckPayment detail = (new Gson()).fromJson(response, CheckPayment.class);
 
 		if (detail.transactions.size() > 0) {
 			toastsuccess("You have already paid");
@@ -226,8 +212,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements
 					alertList(details.errors.get(0).message);
 				}
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				AppLogger.log(TAG, e);
 			}
 		}
 		

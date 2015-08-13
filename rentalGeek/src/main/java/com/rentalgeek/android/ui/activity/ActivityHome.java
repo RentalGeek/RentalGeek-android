@@ -17,11 +17,12 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.rentalgeek.android.R;
 import com.luttu.fragmentutils.AppPrefes;
 import com.luttu.fragmentutils.LuttuBaseFragmentActivity;
-import com.rentalgeek.android.ui.fragment.FragmentMap;
+import com.rentalgeek.android.R;
+import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.ui.fragment.FragmentListViewDetails;
+import com.rentalgeek.android.ui.fragment.FragmentMap;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -37,21 +38,23 @@ import butterknife.OnClick;
  */
 
 public class ActivityHome extends LuttuBaseFragmentActivity {
-   
+
+    private static final String TAG = "ActivityHome";
+
 	boolean doubleBackToExitPressedOnce;
 
 	private Thread.UncaughtExceptionHandler handler = new Thread.UncaughtExceptionHandler() {
 		public void uncaughtException(Thread thread, Throwable ex) {
 
+			AppLogger.log(TAG, ex);
 			// Bundle bundle = new Bundle();
 			// bundle.putString("msg", "restart");
-			Intent intent = new Intent(getApplicationContext(),
-					ActivityHome.class);
-			// intent.putExtras(bundle);
-			startActivity(intent);
-			finish();
-			android.os.Process.killProcess(android.os.Process.myPid());
-			System.exit(10);
+//			Intent intent = new Intent(getApplicationContext(), ActivityHome.class);
+//			// intent.putExtras(bundle);
+//			startActivity(intent);
+//			finish();
+//			android.os.Process.killProcess(android.os.Process.myPid());
+//			System.exit(10);
 		}
 	};
 

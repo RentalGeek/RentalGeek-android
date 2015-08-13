@@ -43,6 +43,7 @@ import com.rentalgeek.android.backend.MapBackend;
 import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.homepage.BottomDialog;
 import com.rentalgeek.android.utils.ConnectionDetector;
+import com.rentalgeek.android.utils.ListUtils;
 import com.rentalgeek.android.utils.StaticClass;
 
 import java.util.HashMap;
@@ -357,8 +358,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 						image_url = "";
 
-						if (detail.rental_offerings.get(i).primary_property_photo_url
-								.size() > 0) {
+						if (!ListUtils.isNullOrEmpty(detail.rental_offerings.get(i).primary_property_photo_url)) {
 
 							for (int j = 0; j < detail.rental_offerings.get(i).primary_property_photo_url
 									.size(); j++) {

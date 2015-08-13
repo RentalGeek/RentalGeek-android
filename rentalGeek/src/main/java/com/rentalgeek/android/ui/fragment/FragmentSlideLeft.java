@@ -23,12 +23,12 @@ import com.loopj.android.http.RequestParams;
 import com.luttu.fragmentutils.AppPrefes;
 import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.database.ProfileTable;
 import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.geekvision.GeekVision;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.activity.ActivityTutorials;
-import com.rentalgeek.android.utils.StaticClass;
 
 import java.util.ArrayList;
 
@@ -213,8 +213,7 @@ public class FragmentSlideLeft extends LuttuBaseAbstract {
 		params.put("applicant[id]", appPref.getData("Uid"));
 		// params.put("applicant[email]", a);
 		// params.put("applicant[password]", b);
-		asynkhttp(params, 1,
-				StaticClass.headlink + "/applicants/sign_out.json", true);
+		asynkhttp(params, 1, ApiManager.getSignOut(), true);
 
 	}
 

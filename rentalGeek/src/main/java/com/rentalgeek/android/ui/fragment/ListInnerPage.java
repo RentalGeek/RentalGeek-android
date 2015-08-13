@@ -31,7 +31,6 @@ import com.rentalgeek.android.backend.ApplyError;
 import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.ui.dialog.MoreAmenitiesDialog;
 import com.rentalgeek.android.utils.ConnectionDetector;
-import com.rentalgeek.android.utils.StaticClass;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -317,7 +316,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 					System.out.println("inside starred click");
 					if (prop.starred_property_id != null) {
 
-						asynkhttpDelete(2, ApiManager.getStarredPrpoertiesUrlgetStarredPrpoertiesUrl(prop.starred_property_id), true);
+						asynkhttpDelete(2, ApiManager.getStarredPrpoertiesUrl(prop.starred_property_id), true);
 					}
 				} else {
 
@@ -333,7 +332,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 					params.put("starred_property[applicant_id]", Uid);
 					params.put("starred_property[rental_offering_id]", suid);
 
-					asynkhttp(params, 1, ApiManager.getStarredPrpoertiesUrlgetStarredPrpoertiesUrl(""), true);
+					asynkhttp(params, 1, ApiManager.getStarredPrpoertiesUrl(""), true);
 
 				}
 

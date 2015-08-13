@@ -89,7 +89,7 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyB_MOy44BAPZNpJukzZZ7HJqBat0y3f060" />
+            android:value="AIzaSyCpQ8H48Hx-GH6jpn5x-89PCz1T3gFgOvU" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/app_id" />
@@ -98,6 +98,9 @@
      
 
         <service android:name=".GCMIntentService" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="46b01a6239e2aa8d4bc6ccdc17a0961adc142556" />
     </application>
 
 </manifest>

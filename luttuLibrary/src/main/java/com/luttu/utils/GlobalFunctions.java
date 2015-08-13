@@ -1,11 +1,13 @@
 package com.luttu.utils;
 
 
-import org.apache.http.Header;
 import android.content.Context;
+
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+
+import org.apache.http.Header;
 
 public class GlobalFunctions {
 
@@ -47,8 +49,7 @@ public class GlobalFunctions {
 
 
 				super.onFailure(arg0, failureResponse);
-				System.out.println("failureResponse==" + failureResponse
-						+ "url ==" + url);
+				System.out.println("failureResponse==" + failureResponse + "url ==" + url);
 				// errorToast(context);
 
 				handler.handle(failureResponse, false);

@@ -3,59 +3,63 @@ package com.rentalgeek.android.api;
 
 import android.text.TextUtils;
 
-import com.rentalgeek.android.utils.StaticClass;
-
 public class ApiManager {
 
     // Default host
-    public static String API_HOST = "http://104.236.100.21";
+    public static String API_HOST = "http://staging.rentalgeek.com/api/v1";
 
-    public static String regis_link = API_HOST + "/applicants.json";
-
+    public static String regis_link = API_HOST + "/users.json";
+    // "api/"
     public static String getApplicants(String uid) {
-        String url = API_HOST + "/v1/applicants/" + uid;
+        String url = API_HOST + "/users/" + uid;
         return url;
     }
 
     public static String getPropertySearchUrl(String location) {
-        String url = API_HOST + "/v1/rental_offerings.json?" + location;
+        String url = API_HOST + "/rental_offerings.json?" + location;
         return url;
     }
 
     public static String getApplyUrl() {
-        String url = API_HOST + "/v2/applies";
+        String url = API_HOST + "/applies";
         return url;
     }
 
     public static String getStarredPrpoertiesUrl(String starredPropertyId) {
-        String url = API_HOST + "/v1/starred_properties";
+        String url = API_HOST + "/starred_properties";
         if (TextUtils.isEmpty(starredPropertyId)) return url;
         return String.format("%s/%s", url, starredPropertyId);
     }
 
     public static String getAddProvider(String providerId) {
-        String url = API_HOST + "/v1/sessions/add_providers";
+        String url = API_HOST + "/sessions/add_providers";
         return url;
     }
 
     public static String getApplicantPassword() {
-        String url = API_HOST + "/applicants/password";
+        String url = API_HOST + "/users/password";
         return url;
     }
 
     public static String getSignin() {
-        String url = API_HOST + "/applicants/sign_in.json";
+        String url = API_HOST + "/users/sign_in.json";
+        return url;
+    }
+
+    public static String getSignOut() {
+        String url = API_HOST + "/users/sign_out.json";
         return url;
     }
 
     public static String getTransactions() {
-        String url = API_HOST + "/v1/transactions";
+        String url = API_HOST + "/transactions";
         return url;
     }
 
     public static String getProfile(String id) {
-        String url = API_HOST + "/v1/profiles";
+        String url = API_HOST + "/profiles";
         if (TextUtils.isEmpty(id)) return url;
         return String.format("%s/%s", url, id);
     }
+
 }

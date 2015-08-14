@@ -17,17 +17,11 @@ public class ProfileFormAdapter extends FragmentPagerAdapter {
 	public Fragment getItem(int position) {
 
 		switch (position) {
-		case 0: // Fragment # 0 - This will show FirstFragment
-			return FragmentProfileForm.newInstance();
-
-		case 1: // Fragment # 0 - This will show FirstFragment different title
-			return FragmentProfileForm.newInstance();
-
-		case 2: // Fragment # 1 - This will show SecondFragment
-			return FragmentProfileForm.newInstance();
-
-		case 3: // Fragment # 1 - This will show SecondFragment
-			return FragmentProfileForm.newInstance();
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+			return FragmentProfileForm.newInstance(position);
 
 		default:
 			return null;

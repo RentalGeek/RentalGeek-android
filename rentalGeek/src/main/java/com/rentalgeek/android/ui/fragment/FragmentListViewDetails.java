@@ -26,6 +26,7 @@ import com.rentalgeek.android.backend.MapBackend;
 import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.pojos.PropertyListPojo;
 import com.rentalgeek.android.ui.adapter.PropertyListItemAdapter;
+import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.RandomUtils;
 import com.rentalgeek.android.utils.StaticClass;
 
@@ -331,7 +332,7 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 
 			System.out.println("the search url list is " + url);
 
-			asynkhttpGet(1, url, appPref.getData("authentication_token"), true);
+			asynkhttpGet(1, url, AppPreferences.getAuthToken(), true);
 
 		}
 

@@ -19,6 +19,7 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.ui.activity.ActivityHome;
+import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ConnectionDetector;
 
 import butterknife.ButterKnife;
@@ -68,7 +69,7 @@ public class FragmentGeekScoreMain extends LuttuBaseAbstract {
 
 	private void CheckPaymentf() {
 		// asynkhttpGet(2, StaticClass.headlink + "/v2/transactions", true);
-		asynkhttpGet( 3, ApiManager.getApplicants(appPref.getData("Uid")), appPref.getData("authentication_token"), true);
+		asynkhttpGet( 3, ApiManager.getApplicants(appPref.getData("Uid")), AppPreferences.getAuthToken(), true);
 
 	}
 

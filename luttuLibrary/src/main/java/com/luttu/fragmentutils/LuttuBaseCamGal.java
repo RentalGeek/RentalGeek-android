@@ -96,6 +96,11 @@ public abstract class LuttuBaseCamGal extends LuttuBaseFragment {
 							toast("Connection error");
 						}
 					}
+
+					@Override
+					public void onAuthenticationFailed() {
+
+					}
 				});
 	}
 

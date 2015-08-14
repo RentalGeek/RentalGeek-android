@@ -32,6 +32,7 @@ import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.ui.fragment.ListInnerPage;
 import com.rentalgeek.android.pojos.PropertyListPojo;
 import com.rentalgeek.android.ui.activity.ActivityHome;
+import com.rentalgeek.android.ui.preference.AppPreferences;
 
 import java.util.List;
 
@@ -200,7 +201,7 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 
 		String url = ApiManager.getStarredPrpoertiesUrl("");
 
-		GlobalFunctions.postApiCall(context, url, params, appPref.getData("authentication_token"), client,
+		GlobalFunctions.postApiCall(context, url, params, AppPreferences.getAuthToken(), client,
 				new HttpResponseHandler() {
 
 					@Override
@@ -243,6 +244,11 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 						}
 
 					}
+
+					@Override
+					public void onAuthenticationFailed() {
+
+					}
 				});
 
 	}
@@ -260,7 +266,7 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 			client.setCookieStore(mCookieStore);
 
 			String links = ApiManager.getStarredPrpoertiesUrl(propy.starred_property_id);
-			GlobalFunctions.deleteApiCall(context, links, appPref.getData("authentication_token"), client,
+			GlobalFunctions.deleteApiCall(context, links, AppPreferences.getAuthToken(), client,
 					new HttpResponseHandler() {
 
 						@Override
@@ -276,6 +282,11 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 							} else if (context != null) {
 
 							}
+
+						}
+
+						@Override
+						public void onAuthenticationFailed() {
 
 						}
 					});

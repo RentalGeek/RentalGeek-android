@@ -31,6 +31,7 @@ import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.ErrorApi;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.backend.LoginBackend.user;
+import com.rentalgeek.android.ui.preference.AppPreferences;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -221,7 +222,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 		RequestParams params = new RequestParams();
 		params.put("user[email]", appPref.getData("email"));
 		params.put("user[password]", verify_password.getText().toString().trim());
-		asynkhttp(params, 1, ApiManager.getSignin(), appPref.getData("authentication_token"), true);
+		asynkhttp(params, 1, ApiManager.getSignin(), AppPreferences.getAuthToken(), true);
 		
 	}
 
@@ -266,7 +267,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 		params.put("provider[provider]", "Facebook");
 		params.put("provider[email]", appPref.getData("socialemail_fb"));
 		params.put("provider[name]",  appPref.getData("socialname_fb"));
-		asynkhttp(params, 2, ApiManager.getAddProvider(""), appPref.getData("authentication_token"), true);
+		asynkhttp(params, 2, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
 
 	}
 	
@@ -278,7 +279,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 		params.put("provider[provider]", "Google+");
 		params.put("provider[email]", appPref.getData("socialemail_goog"));
 		params.put("provider[name]", appPref.getData("socialname_goog"));
-		asynkhttp(params, 3, ApiManager.getAddProvider(""), appPref.getData("authentication_token"), true);
+		asynkhttp(params, 3, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
 
 	}
 	
@@ -290,7 +291,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 		params.put("provider[provider]", "LinkedIn+");
 		params.put("provider[email]", appPref.getData("socialemail_link"));
 		params.put("provider[name]",  appPref.getData("socialname_link"));
-		asynkhttp(params, 4, ApiManager.getAddProvider(""), appPref.getData("authentication_token"), true);
+		asynkhttp(params, 4, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
 
 	}
 

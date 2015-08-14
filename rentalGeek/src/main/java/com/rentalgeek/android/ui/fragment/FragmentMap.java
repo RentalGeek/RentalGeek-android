@@ -43,6 +43,7 @@ import com.rentalgeek.android.backend.MapBackend;
 import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.homepage.BottomDialog;
 import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ConnectionDetector;
 import com.rentalgeek.android.utils.ListUtils;
 import com.rentalgeek.android.utils.StaticClass;
@@ -502,7 +503,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 	public void showPropertyInMap() {
 		// progressshow();
 		String url = ApiManager.getPropertySearchUrl("");
-		asynkhttpGet(1, url, appPref.getData("authentication_token"), true);
+		asynkhttpGet(1, url, AppPreferences.getAuthToken(), true);
 	}
 
 	private void drawMarker(LatLng point, int bedroom_count, String y,
@@ -666,7 +667,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 		System.out.println("the search url map is " + url);
 
 		if (!location.equals("")) {
-			asynkhttpGet(2, url, appPref.getData("authentication_token"), true);
+			asynkhttpGet(2, url, AppPreferences.getAuthToken(), true);
 		} else {
 			toast("Select Filters");
 		}
@@ -709,7 +710,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 	public void showPropertyInMapBackground() {
 		// progressshow();
 		String url = ApiManager.getPropertySearchUrl("");
-		asynkhttpGet(3, url, appPref.getData("authentication_token"), false);
+		asynkhttpGet(3, url, AppPreferences.getAuthToken(), false);
 	}
 
 }

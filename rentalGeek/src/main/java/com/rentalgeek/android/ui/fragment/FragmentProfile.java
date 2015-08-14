@@ -38,6 +38,7 @@ import com.rentalgeek.android.backend.ProfilePost;
 import com.rentalgeek.android.database.ProfileTable;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.ui.activity.ActivityHome;
+import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ConnectionDetector;
 
 import java.text.SimpleDateFormat;
@@ -837,7 +838,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 				if (!iseveryThing) {
 					// call a patch update from this position after creating a
 					// profile
-					asynkhttpPut(params, 2, url, appPref.getData("authentication_token"), true);
+					asynkhttpPut(params, 2, url, AppPreferences.getAuthToken(), true);
 				} else {
 					iseveryThing = false;
 				}
@@ -1236,7 +1237,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 				if (!iseveryThing) {
 					// call a patch update from this position after creating a
 					// profile
-					asynkhttp(params, 1, url, appPref.getData("authentication_token"), true);
+					asynkhttp(params, 1, url, AppPreferences.getAuthToken(), true);
 				} else {
 					toast("No Connection");
 					iseveryThing = false;
@@ -1256,7 +1257,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 	private void fetchProfileData() {
 
 		String url = ApiManager.getProfile("");
-		asynkhttpGet(3, url, appPref.getData("authentication_token"), true);
+		asynkhttpGet(3, url, AppPreferences.getAuthToken(), true);
 	}
 
 	// email checking function

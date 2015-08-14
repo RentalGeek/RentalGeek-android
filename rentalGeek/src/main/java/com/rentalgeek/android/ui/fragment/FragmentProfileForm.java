@@ -3,14 +3,11 @@ package com.rentalgeek.android.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.luttu.fragmentutils.AppPrefes;
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.utils.ConnectionDetector;
 
 import butterknife.ButterKnife;
 
@@ -28,15 +25,15 @@ public class FragmentProfileForm extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_geekscore_main, container, false);
         ButterKnife.inject(this, v);
-        con = new ConnectionDetector(getActivity());
-        appPref = new AppPrefes(getActivity(), "rentalgeek");
-        click_rent.setText(Html.fromHtml("<b>Click to Rent</b></font><sup>&#8482;</sup>"));
-
-        if (con.isConnectingToInternet()) {
-            CheckPaymentf();
-        } else {
-            toast("Please check you internet connection");
-        }
+//        con = new ConnectionDetector(getActivity());
+//        appPref = new AppPrefes(getActivity(), "rentalgeek");
+//        click_rent.setText(Html.fromHtml("<b>Click to Rent</b></font><sup>&#8482;</sup>"));
+//
+//        if (con.isConnectingToInternet()) {
+//            CheckPaymentf();
+//        } else {
+//            toast("Please check you internet connection");
+//        }
 
         return v;
     }

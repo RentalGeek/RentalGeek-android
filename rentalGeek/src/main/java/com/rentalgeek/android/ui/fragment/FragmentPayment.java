@@ -32,6 +32,7 @@ import com.rentalgeek.android.backend.PaymentBackend;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityCreateProfile;
+import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ConnectionDetector;
 
 import java.util.ArrayList;
@@ -134,7 +135,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements Validator.Vali
 	private void CheckPaymentf() {
 
 		// asynkhttpGet(2, StaticClass.headlink + "/v2/transactions", true);
-		asynkhttpGet(3, ApiManager.getApplicants(appPref.getData("Uid")), appPref.getData("authentication_token"),  true);
+		asynkhttpGet(3, ApiManager.getApplicants(appPref.getData("Uid")), AppPreferences.getAuthToken(),  true);
 
 	}
 
@@ -309,7 +310,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements Validator.Vali
 		params.put("card[yyyy]", edYYYY.getSelectedItem().toString().trim());
 		params.put("card[user_id]", appPref.getData("Uid"));
 
-		asynkhttp(params, 1, url, appPref.getData("authentication_token"), true);
+		asynkhttp(params, 1, url, AppPreferences.getAuthToken(), true);
 	}
 
 	@OnClick(R.id.verify_card)

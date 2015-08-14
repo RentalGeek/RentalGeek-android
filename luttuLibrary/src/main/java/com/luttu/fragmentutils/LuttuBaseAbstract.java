@@ -96,6 +96,11 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 							e.printStackTrace();
 						}
 					}
+
+					@Override
+					public void onAuthenticationFailed() {
+
+					}
 				});
 	}
 
@@ -135,6 +140,11 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 						}
 					}
 
+					@Override
+					public void onAuthenticationFailed() {
+
+					}
+
 				});
 
 	}
@@ -162,6 +172,11 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 							error(response, value);
 							// toast("Connection error" + response);
 						}
+
+					}
+
+					@Override
+					public void onAuthenticationFailed() {
 
 					}
 				});
@@ -202,6 +217,11 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 							error(response, value);
 							// toast("Connection error" + response);
 						}
+					}
+
+					@Override
+					public void onAuthenticationFailed() {
+
 					}
 				});
 	}

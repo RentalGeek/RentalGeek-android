@@ -29,6 +29,7 @@ import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.geekvision.GeekVision;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.activity.ActivityTutorials;
+import com.rentalgeek.android.ui.preference.AppPreferences;
 
 import java.util.ArrayList;
 
@@ -213,7 +214,7 @@ public class FragmentSlideLeft extends LuttuBaseAbstract {
 		params.put("user[id]", appPref.getData("Uid"));
 		// params.put("user[email]", a);
 		// params.put("user[password]", b);
-		asynkhttp(params, 1, ApiManager.getSignOut(), appPref.getData("authentication_token"), true);
+		asynkhttp(params, 1, ApiManager.getSignOut(), AppPreferences.getAuthToken(), true);
 
 	}
 

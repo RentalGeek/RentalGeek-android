@@ -27,6 +27,7 @@ import com.rentalgeek.android.backend.ApplyBackend;
 import com.rentalgeek.android.backend.ApplyError;
 import com.rentalgeek.android.backend.StarredInnerBacked;
 import com.rentalgeek.android.ui.dialog.MoreAmenitiesDialog;
+import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ConnectionDetector;
 import com.squareup.picasso.Picasso;
 
@@ -137,7 +138,7 @@ public class FragmentStarredPropDetails extends LuttuBaseAbstract {
 
 	private void detailsFetchServer(String id) {
 		String url = ApiManager.getPropertySearchUrl(id);
-		asynkhttpGet(1, url, appPref.getData("authentication_token"), true);
+		asynkhttpGet(1, url, AppPreferences.getAuthToken(), true);
 	}
 
 	@Override
@@ -296,7 +297,7 @@ public class FragmentStarredPropDetails extends LuttuBaseAbstract {
 
 		log("the tag in unstar " + url);
 
-		asynkhttpDelete(2, url, appPref.getData("authentication_token"), true);
+		asynkhttpDelete(2, url, AppPreferences.getAuthToken(), true);
 	}
 
 	private void removeStar(String response) {
@@ -457,7 +458,7 @@ public class FragmentStarredPropDetails extends LuttuBaseAbstract {
 				String.valueOf(detail.rental_offering.id));
 		params.put("apply[applicable_type]", "Applicant");
 
-		asynkhttp(params, 3, ApiManager.getApplyUrl(), appPref.getData("authentication_token"), true);
+		asynkhttp(params, 3, ApiManager.getApplyUrl(), AppPreferences.getAuthToken(), true);
 	}
 	
 	private void setAminities() {

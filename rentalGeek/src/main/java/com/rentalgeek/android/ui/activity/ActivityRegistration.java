@@ -39,6 +39,7 @@ import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.RegistrationBackend;
 import com.rentalgeek.android.backend.RegistrationBackend.Applicant;
 import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ConnectionDetector;
 import com.rentalgeek.android.utils.Loading;
 
@@ -122,7 +123,7 @@ public class ActivityRegistration extends Activity implements ValidationListener
 		params.put("user[password]", b);
 		params.put("user[confirm_password]", c);
 
-		GlobalFunctions.postApiCall(this, ApiManager.regis_link, params, appPref.getData("authentication_token"),
+		GlobalFunctions.postApiCall(this, ApiManager.regis_link, params, AppPreferences.getAuthToken(),
 				client, new HttpResponseHandler() {
 
 					@Override
@@ -160,6 +161,11 @@ public class ActivityRegistration extends Activity implements ValidationListener
 							else
 								toast("No Connection");
 						}
+
+					}
+
+					@Override
+					public void onAuthenticationFailed() {
 
 					}
 				});

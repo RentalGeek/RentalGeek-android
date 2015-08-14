@@ -17,6 +17,7 @@ public class GlobalFunctions {
 
 	public interface HttpResponseHandler {
 		void handle(String response, boolean failre);
+		void onAuthenticationFailed();
 	}
 
 	public static void postApiCall(final Context context, final String url,
@@ -24,7 +25,7 @@ public class GlobalFunctions {
 			final HttpResponseHandler handler) {
 
         if (!TextUtils.isEmpty(authToken)) {
-            httpClient.addHeader("Authorization", String.format("Token token=%s"));
+            httpClient.addHeader("Authorization", String.format("Token token=%s", authToken));
         }
 
 		httpClient.post(url, params, new AsyncHttpResponseHandler() {
@@ -52,7 +53,7 @@ public class GlobalFunctions {
 		// httpClient.get(context, url, headers, params, responseHandler);
 
         if (!TextUtils.isEmpty(authToken)) {
-            httpClient.addHeader("Authorization", String.format("Token token=%s"));
+            httpClient.addHeader("Authorization", String.format("Token token=%s", authToken));
         }
 
 		httpClient.get(url, new AsyncHttpResponseHandler() {
@@ -63,7 +64,7 @@ public class GlobalFunctions {
                     HttpResponseException hre = (HttpResponseException) arg0;
                     int statusCode = hre.getStatusCode();
                     if (statusCode == HttpURLConnection.HTTP_FORBIDDEN) {
-
+						handler.onAuthenticationFailed();
                     }
                 }
 				super.onFailure(arg0, failureResponse);
@@ -88,7 +89,7 @@ public class GlobalFunctions {
 			AsyncHttpClient httpClient, final HttpResponseHandler handler) {
 
         if (!TextUtils.isEmpty(authToken)) {
-            httpClient.addHeader("Authorization", String.format("Token token=%s"));
+            httpClient.addHeader("Authorization", String.format("Token token=%s", authToken));
         }
 
 		httpClient.delete(url, new AsyncHttpResponseHandler() {
@@ -119,7 +120,7 @@ public class GlobalFunctions {
 			final HttpResponseHandler handler) {
 
         if (!TextUtils.isEmpty(authToken)) {
-            httpClient.addHeader("Authorization", String.format("Token token=%s"));
+            httpClient.addHeader("Authorization", String.format("Token token=%s", authToken));
         }
 
 		httpClient.put(url, params, new AsyncHttpResponseHandler() {

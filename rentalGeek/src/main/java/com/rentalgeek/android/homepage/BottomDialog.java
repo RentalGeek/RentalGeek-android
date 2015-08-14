@@ -29,6 +29,7 @@ import com.rentalgeek.android.backend.AddStarBack;
 import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.fragment.FragmentMap.FragmentCallback;
+import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.squareup.picasso.Picasso;
 
 public class BottomDialog {
@@ -198,7 +199,7 @@ public class BottomDialog {
 
 		String url = ApiManager.getStarredPrpoertiesUrl("");
 
-		GlobalFunctions.postApiCall(context, url, params, appPref.getData("authentication_token"), client,
+		GlobalFunctions.postApiCall(context, url, params, AppPreferences.getAuthToken(), client,
 				new HttpResponseHandler() {
 
 					@Override
@@ -240,6 +241,11 @@ public class BottomDialog {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+
+					}
+
+					@Override
+					public void onAuthenticationFailed() {
 
 					}
 				});

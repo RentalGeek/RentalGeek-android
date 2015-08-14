@@ -38,23 +38,18 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.RegistrationBackend;
 import com.rentalgeek.android.backend.RegistrationBackend.Applicant;
+import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.utils.ConnectionDetector;
 import com.rentalgeek.android.utils.Loading;
-import com.rentalgeek.android.utils.StaticClass;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-/**
- * 
- * @author George
- * 
- * @purpose Activity used to Register User to Rental Geek
- *
- */
 public class ActivityRegistration extends Activity implements ValidationListener {
- 
+
+	private static final String TAG = "ActivityRegistration";
+
 	@Required(order = 1, message = "Please enter valid email")
 	@Email(order = 2, message = "Please enter valid email")
 	@InjectView(R.id.email_add_regis)
@@ -123,11 +118,11 @@ public class ActivityRegistration extends Activity implements ValidationListener
 		AsyncHttpClient client = new AsyncHttpClient();
 		new GetSSl().getssl(client);
 		RequestParams params = new RequestParams();
-		params.put("applicant[email]", a);
-		params.put("applicant[password]", b);
-		params.put("applicant[confirm_password]", c);
+		params.put("user[email]", a);
+		params.put("user[password]", b);
+		params.put("user[confirm_password]", c);
 
-		GlobalFunctions.postApiCall(this, ApiManager.regis_link, params,
+		GlobalFunctions.postApiCall(this, ApiManager.regis_link, params, appPref.getData("authentication_token"),
 				client, new HttpResponseHandler() {
 
 					@Override
@@ -135,12 +130,10 @@ public class ActivityRegistration extends Activity implements ValidationListener
 
 						RegistrationBackend detail = null;
 						try {
-							detail = (new Gson()).fromJson(response.toString(),
-									RegistrationBackend.class);
+							detail = (new Gson()).fromJson(response.toString(), RegistrationBackend.class);
 
 							prog.setVisibility(View.INVISIBLE);
-							System.out.println("the registration response "
-									+ response);
+							System.out.println("the registration response " + response);
 
 							Applicant app = detail.applicant;
 
@@ -152,10 +145,7 @@ public class ActivityRegistration extends Activity implements ValidationListener
 							new CountDownTimer(1000, 1000) {
 
 								@Override
-								public void onTick(long millisUntilFinished) {
-
-
-								}
+								public void onTick(long millisUntilFinished) { }
 
 								@Override
 								public void onFinish() {
@@ -164,9 +154,8 @@ public class ActivityRegistration extends Activity implements ValidationListener
 							}.start();
 
 						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-							if (detail != null)
+							AppLogger.log(TAG, e);
+							if (detail != null && detail.error != null)
 								toast(detail.error.toString());
 							else
 								toast("No Connection");

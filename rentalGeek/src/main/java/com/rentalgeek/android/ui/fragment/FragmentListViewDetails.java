@@ -331,7 +331,7 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 
 			System.out.println("the search url list is " + url);
 
-			asynkhttpGet(1, url, true);
+			asynkhttpGet(1, url, appPref.getData("authentication_token"), true);
 
 		}
 

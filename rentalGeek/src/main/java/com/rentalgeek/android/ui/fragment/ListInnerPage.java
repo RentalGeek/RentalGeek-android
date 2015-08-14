@@ -40,13 +40,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import ir.noghteh.JustifiedTextView;
 
-/**
- * 
- * @author George
- * 
- * @purpose Rental offering inner page which shows the details of each property
- *
- */
+
 public class ListInnerPage extends LuttuBaseAbstract {
 	@InjectView(R.id.main_image)
 	ImageView main_image;
@@ -228,8 +222,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 	private void addStar(String response) {
 
 		System.out.println("star response " + response);
-		AddStarBack detail = (new Gson()).fromJson(response.toString(),
-				AddStarBack.class);
+		AddStarBack detail = (new Gson()).fromJson(response.toString(), AddStarBack.class);
 
 		StarredProperty session;
 		session = detail.starred_property;
@@ -316,7 +309,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 					System.out.println("inside starred click");
 					if (prop.starred_property_id != null) {
 
-						asynkhttpDelete(2, ApiManager.getStarredPrpoertiesUrl(prop.starred_property_id), true);
+						asynkhttpDelete(2, ApiManager.getStarredPrpoertiesUrl(prop.starred_property_id), appPref.getData("authentication_token"), true);
 					}
 				} else {
 
@@ -324,15 +317,15 @@ public class ListInnerPage extends LuttuBaseAbstract {
 					RequestParams params = new RequestParams();
 
 					System.out.println("prop id is " + prop.uid
-							+ " applicant id is " + appPref.getData("Uid"));
+							+ " user id is " + appPref.getData("Uid"));
 					String Uid = appPref.getData("Uid");
 					String suid = "" + prop.uid;
 					System.out.println("Uid" + Uid);
 					System.out.println("Uid" + suid);
-					params.put("starred_property[applicant_id]", Uid);
+					params.put("starred_property[user_id]", Uid);
 					params.put("starred_property[rental_offering_id]", suid);
 
-					asynkhttp(params, 1, ApiManager.getStarredPrpoertiesUrl(""), true);
+					asynkhttp(params, 1, ApiManager.getStarredPrpoertiesUrl(""), appPref.getData("authentication_token"), true);
 
 				}
 
@@ -358,9 +351,9 @@ public class ListInnerPage extends LuttuBaseAbstract {
 			params.put("apply[rental_offering_id]", String.valueOf(prop.uid));
 			params.put("apply[applicable_type]", "Applicant");
 
-			System.out.println("prop id is " + prop.uid + " applicant id is " + appPref.getData("Uid"));
+			System.out.println("prop id is " + prop.uid + " user id is " + appPref.getData("Uid"));
 
-			asynkhttp(params, 3, ApiManager.getApplyUrl(), true);
+			asynkhttp(params, 3, ApiManager.getApplyUrl(), appPref.getData("authentication_token"), true);
 		} else {
 			toast("No Connection");
 		}

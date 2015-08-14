@@ -5,7 +5,7 @@ public class StarredListPojo {
 	public class StarredList
 	{
 		public String id;
-		public String applicant_id;
+		public String user_id;
 		public String rental_offering_id;
 		public String property_address;
 		public String bedroom_count;
@@ -17,14 +17,14 @@ public class StarredListPojo {
 		public String sold_out;
 		
 		
-		public StarredList(String id, String applicant_id,
+		public StarredList(String id, String user_id,
 				String rental_offering_id, String property_address,
 				String bedroom_count, String full_bathroom_count,
 				String square_footage_floor, String monthly_rent_floor,
 				String salesy_description, String image, String sold_out) {
 			super();
 			this.id = id;
-			this.applicant_id = applicant_id;
+			this.user_id = user_id;
 			this.rental_offering_id = rental_offering_id;
 			this.property_address = property_address;
 			this.bedroom_count = bedroom_count;

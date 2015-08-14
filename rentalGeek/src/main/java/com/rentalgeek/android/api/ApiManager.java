@@ -3,8 +3,11 @@ package com.rentalgeek.android.api;
 
 import android.text.TextUtils;
 
+import com.rentalgeek.android.backend.LoginBackend;
+
 public class ApiManager {
 
+    public static LoginBackend.user currentUser;
     // Default host
     public static String API_HOST = "http://staging.rentalgeek.com/api/v1";
 

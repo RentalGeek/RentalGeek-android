@@ -29,25 +29,25 @@ public class AddStarBack {
 
 	public class Errors {
 
-		@SerializedName("applicant_id")
+		@SerializedName("user_id")
 		@Expose
-		private List<String> applicantId = new ArrayList<String>();
+		private List<String> userId = new ArrayList<String>();
 
 		/**
 		 * 
-		 * @return The applicantId
+		 * @return The userId
 		 */
 		public List<String> getApplicantId() {
-			return applicantId;
+			return userId;
 		}
 
 		/**
 		 * 
-		 * @param applicantId
-		 *            The applicant_id
+		 * @param userId
+		 *            The user_id
 		 */
 		public void setApplicantId(List<String> applicantId) {
-			this.applicantId = applicantId;
+			this.userId = userId;
 		}
 
 	}

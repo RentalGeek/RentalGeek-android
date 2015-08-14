@@ -18,8 +18,7 @@ public class AppPrefes {
 	private Editor prefsEditor;
 
 	public AppPrefes(Context context, String Preferncename) {
-		this.appSharedPrefs = context.getSharedPreferences(Preferncename,
-				Activity.MODE_PRIVATE);
+		this.appSharedPrefs = context.getSharedPreferences(Preferncename, Activity.MODE_PRIVATE);
 		this.prefsEditor = appSharedPrefs.edit();
 	}
 

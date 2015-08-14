@@ -48,13 +48,11 @@ import com.rentalgeek.android.backend.ErrorApi;
 import com.rentalgeek.android.backend.ForgotError;
 import com.rentalgeek.android.backend.GoogleBackend;
 import com.rentalgeek.android.backend.LoginBackend;
-import com.rentalgeek.android.backend.LoginBackend.applicant;
 import com.rentalgeek.android.database.ProfileTable;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.activity.ActivityRegistration;
 import com.rentalgeek.android.ui.activity.ActivityTutorials;
 import com.rentalgeek.android.utils.ConnectionDetector;
-import com.rentalgeek.android.utils.StaticClass;
 
 import java.util.Arrays;
 import java.util.List;
@@ -143,13 +141,11 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 		View v = inflater.inflate(R.layout.sigin_latest, container, false);
 		// signin();
 		ButterKnife.inject(this, v);
-		create_aacnt.setText(Html
-				.fromHtml("Not a member? <u>Create Account</u>"));
+		create_aacnt.setText(Html.fromHtml("Not a member? <u>Create Account</u>"));
 
 		// facebook essentials
 		authButton.setFragment(this);
-		authButton.setReadPermissions(Arrays.asList("public_profile", "email",
-				"user_birthday"));
+		authButton.setReadPermissions(Arrays.asList("public_profile", "email", "user_birthday"));
 
 		// google plus initialization
 		mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
@@ -166,9 +162,9 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 	private void signin(String a, String b) {
 
 		RequestParams params = new RequestParams();
-		params.put("applicant[email]", a);
-		params.put("applicant[password]", b);
-		asynkhttp(params, 1, ApiManager.getSignin(), true);
+		params.put("user[email]", a);
+		params.put("user[password]", b);
+		asynkhttp(params, 1, ApiManager.getSignin(), appPref.getData("authentication_token"), true);
 
 	}
 
@@ -410,26 +406,27 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 		try {
 
 			System.out.println("responseresponse" + response);
-			LoginBackend detail = (new Gson()).fromJson(response,
-					LoginBackend.class);
+			LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
 
-			applicant appin = detail.applicant;
-			log("my id is " + appin.id);
-			log("my id is " + detail.applicant.id);
+			appPref.SaveData("authentication_token", detail.user.authentication_token);
 
-			String appid = String.valueOf(detail.applicant.id);
+			ApiManager.currentUser = detail.user;
+			//log("my id is " + ApiManager.currentUser.id);
+			log("my id is " + detail.user.id);
+
+			String appid = String.valueOf(detail.user.id);
 			System.out.println("my id is " + appid);
 
 			appPref.SaveData("norm_log", "true");
 			appPref.SaveData("Uid", appid);
-			appPref.SaveData("email", detail.applicant.email);
+			appPref.SaveData("email", detail.user.email);
 
-			if (detail.applicant.payment) {
+			if (detail.user.payment) {
 				appPref.SaveIntData("payed", 200);
 			}
 
-			if (detail.applicant.profile_id != null) {
-				appPref.SaveData("prof_id", detail.applicant.profile_id);
+			if (detail.user.profile_id != null) {
+				appPref.SaveData("prof_id", detail.user.profile_id);
 			} else {
 				appPref.SaveData("prof_id", "");
 			}
@@ -838,7 +835,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 		params.put("provider[email]", email);
 		params.put("provider[name]", personName);
 		params.put("provider[linkedIn_image]", personPhotoUrl);
-		asynkhttp(params, 3, ApiManager.getAddProvider(""), true);
+		asynkhttp(params, 3, ApiManager.getAddProvider(""), appPref.getData("authentication_token"), true);
 
 	}
 
@@ -852,7 +849,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 		params.put("provider[email]", email);
 		params.put("provider[name]", personName);
 		params.put("provider[google_image]", personPhotoUrl);
-		asynkhttp(params, 4, ApiManager.getAddProvider(""), true);
+		asynkhttp(params, 4, ApiManager.getAddProvider(""), appPref.getData("authentication_token"), true);
 
 	}
 
@@ -865,7 +862,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 		params.put("provider[email]", email);
 		params.put("provider[name]", personName);
 		params.put("provider[facebook_image]", personPhotoUrl);
-		asynkhttp(params, 2, ApiManager.getAddProvider(""), true);
+		asynkhttp(params, 2, ApiManager.getAddProvider(""), appPref.getData("authentication_token"), true);
 
 	}
 
@@ -941,7 +938,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 
 		String url = ApiManager.getApplicantPassword();
 
-		asynkhttp(params, 5, url, true);
+		asynkhttp(params, 5, url, appPref.getData("authentication_token"), true);
 
 	}
 

@@ -193,12 +193,12 @@ public class BottomDialog {
 		String suid = "" + prop.uid;
 		System.out.println("Uid" + Uid);
 		System.out.println("Uid" + suid);
-		params.put("starred_property[applicant_id]", Uid);
+		params.put("starred_property[user_id]", Uid);
 		params.put("starred_property[rental_offering_id]", suid);
 
 		String url = ApiManager.getStarredPrpoertiesUrl("");
 
-		GlobalFunctions.postApiCall(context, url, params, client,
+		GlobalFunctions.postApiCall(context, url, params, appPref.getData("authentication_token"), client,
 				new HttpResponseHandler() {
 
 					@Override

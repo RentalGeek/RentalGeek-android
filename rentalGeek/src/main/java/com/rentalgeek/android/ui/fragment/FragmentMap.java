@@ -42,6 +42,7 @@ import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.MapBackend;
 import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.homepage.BottomDialog;
+import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.utils.ConnectionDetector;
 import com.rentalgeek.android.utils.ListUtils;
 import com.rentalgeek.android.utils.StaticClass;
@@ -49,15 +50,9 @@ import com.rentalgeek.android.utils.StaticClass;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * 
- * @author George
- * 
- * @purpose FragmentMap fragment which handles the the map and shows the rental
- *          offerings in the map
- *
- */
 public class FragmentMap extends LuttuBaseAbstract {
+
+	private static final String TAG = "FragmentMap";
 
 	SupportMapFragment supportMapFragment;
 	GoogleMap myMap;
@@ -68,14 +63,13 @@ public class FragmentMap extends LuttuBaseAbstract {
 	HashMap<String, Integer> mMarkers = new HashMap<String, Integer>();
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		View v = inflater.inflate(R.layout.map, container, false);
 		con = new ConnectionDetector(getActivity());
 		getActivity().registerReceiver(receiver, new IntentFilter("search"));
 		supportmap();
-		appPref=new AppPrefes(getActivity(), "rentalgeek");
+		appPref = new AppPrefes(getActivity(), "rentalgeek");
 
 		return v;
 	}
@@ -101,20 +95,19 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 	private void BackgroundProcessing(final String response) {
 
-		System.out.println("back ground response " + response);
+		AppLogger.log(TAG, "back ground response " + response);
+
 		new AsyncTask<Void, Void, Void>() {
+
 			MapBackend detail;
 
 			@Override
 			protected void onPreExecute() {
 
-
 				try {
-					detail = (new Gson()).fromJson(response.toString(),
-							MapBackend.class);
+					detail = (new Gson()).fromJson(response.toString(), MapBackend.class);
 				} catch (JsonSyntaxException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					AppLogger.log(TAG, e);
 				}
 				super.onPreExecute();
 			}
@@ -123,25 +116,20 @@ public class FragmentMap extends LuttuBaseAbstract {
 			protected void onPostExecute(Void result) {
 
 				try {
-					Fragment f = getActivity().getSupportFragmentManager()
-							.findFragmentById(R.id.container);
+					Fragment f = getActivity().getSupportFragmentManager().findFragmentById(R.id.container);
 					if (f instanceof FragmentMap) {
-
 						myMap.clear();
 						setmarkersFromDB();
-
 					}
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+                    AppLogger.log(TAG, e);
 				}
 
 				super.onPostExecute(result);
 			}
 
 			@Override
-			protected Void doInBackground(Void... argg) {
-
+			protected Void doInBackground(Void... arg) {
 
 				if (detail.rental_offerings.size() > 0) {
 
@@ -212,9 +200,8 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 							ActiveAndroid.setTransactionSuccessful();
 						} catch (Exception e) {
-							// TODO Auto-generated catch block
 							progresscancel();
-							e.printStackTrace();
+                            AppLogger.log(TAG, e);
 						} finally {
 							ActiveAndroid.endTransaction();
 						}
@@ -311,8 +298,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 					ActiveAndroid.setTransactionSuccessful();
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+                    AppLogger.log(TAG, e);
 				} finally {
 					ActiveAndroid.endTransaction();
 				}
@@ -326,12 +312,10 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 	}
 
-	private void NormalMapParse(final String response, Boolean failre) {
+	private void NormalMapParse(final String response, Boolean failure) {
 
+		AppLogger.log(TAG, "response is " + response);
 
-
-
-		System.out.println("response is " + response);
 		myMap.setMyLocationEnabled(true);
 
 		new AsyncTask<Void, Void, Void>() {
@@ -440,8 +424,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 					progresscancel();
 					setmarkersFromDB();
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					AppLogger.log(TAG, e);
 				}
 
 				super.onPostExecute(result);
@@ -453,18 +436,13 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 	@Override
 	public void error(String response, int value) {
-
 		toast("failure");
-
 	}
 
 	private void supportmap() {
 
-		
-		
 		supportMapFragment = SupportMapFragment.newInstance();
-		FragmentTransaction fragmentTransaction = getChildFragmentManager()
-				.beginTransaction();
+		FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
 		fragmentTransaction.add(R.id.map, supportMapFragment);
 		fragmentTransaction.commit();
 
@@ -486,14 +464,12 @@ public class FragmentMap extends LuttuBaseAbstract {
 					if (con.isConnectingToInternet()) {
 
 						try {
-							if (new Select().from(PropertyTable.class)
-									.execute().size() > 0) {
+							if (new Select().from(PropertyTable.class).execute().size() > 0) {
 
 								new CountDownTimer(1000, 1000) {
 
 									@Override
 									public void onTick(long millisUntilFinished) {
-
 
 									}
 
@@ -518,8 +494,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+            AppLogger.log(TAG, e);
 		}
 
 	}
@@ -527,7 +502,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 	public void showPropertyInMap() {
 		// progressshow();
 		String url = ApiManager.getPropertySearchUrl("");
-		asynkhttpGet(1, url, true);
+		asynkhttpGet(1, url, appPref.getData("authentication_token"), true);
 	}
 
 	private void drawMarker(LatLng point, int bedroom_count, String y,
@@ -691,7 +666,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 		System.out.println("the search url map is " + url);
 
 		if (!location.equals("")) {
-			asynkhttpGet(2, url, true);
+			asynkhttpGet(2, url, appPref.getData("authentication_token"), true);
 		} else {
 			toast("Select Filters");
 		}
@@ -734,7 +709,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 	public void showPropertyInMapBackground() {
 		// progressshow();
 		String url = ApiManager.getPropertySearchUrl("");
-		asynkhttpGet(3, url, false);
+		asynkhttpGet(3, url, appPref.getData("authentication_token"), false);
 	}
 
 }

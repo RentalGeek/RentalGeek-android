@@ -134,7 +134,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements Validator.Vali
 	private void CheckPaymentf() {
 
 		// asynkhttpGet(2, StaticClass.headlink + "/v2/transactions", true);
-		asynkhttpGet(3, ApiManager.getApplicants(appPref.getData("Uid")), true);
+		asynkhttpGet(3, ApiManager.getApplicants(appPref.getData("Uid")), appPref.getData("authentication_token"),  true);
 
 	}
 
@@ -163,7 +163,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements Validator.Vali
 			LoginBackend detail = (new Gson()).fromJson(response,
 					LoginBackend.class);
 
-			if (detail.applicant.payment) {
+			if (detail.user.payment) {
 				toastsuccess("You have already paid");
 				appPref.SaveData("hasPay", "yes");
 				verify_card.setEnabled(false);
@@ -307,9 +307,9 @@ public class FragmentPayment extends LuttuBaseAbstract implements Validator.Vali
 		params.put("card[cvv]", edCvv.getText().toString().trim());
 		params.put("card[mm]", ed_mm.getSelectedItem().toString().trim());
 		params.put("card[yyyy]", edYYYY.getSelectedItem().toString().trim());
-		params.put("card[applicant_id]", appPref.getData("Uid"));
+		params.put("card[user_id]", appPref.getData("Uid"));
 
-		asynkhttp(params, 1, url, true);
+		asynkhttp(params, 1, url, appPref.getData("authentication_token"), true);
 	}
 
 	@OnClick(R.id.verify_card)

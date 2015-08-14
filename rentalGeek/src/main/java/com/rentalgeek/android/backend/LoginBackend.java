@@ -2,9 +2,9 @@ package com.rentalgeek.android.backend;
 
 public class LoginBackend {
 
-	public applicant applicant;
+	public user user;
 
-	public class applicant {
+	public class user {
 		public String id;
 		public String full_name;
 		public String first_name;

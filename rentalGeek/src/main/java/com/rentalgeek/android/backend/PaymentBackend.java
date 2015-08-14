@@ -9,7 +9,7 @@ public class PaymentBackend {
 	{
 		   public String id;
 	       public String transaction_id;
-	       public String applicant_id;
+	       public String user_id;
 	       public String created_at;
 	       public String amount;
 	       public String card_type;

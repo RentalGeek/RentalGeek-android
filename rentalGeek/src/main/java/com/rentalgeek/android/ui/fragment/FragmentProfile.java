@@ -36,9 +36,9 @@ import com.rentalgeek.android.backend.ErrorObj;
 import com.rentalgeek.android.backend.ProfileIdFindBackend;
 import com.rentalgeek.android.backend.ProfilePost;
 import com.rentalgeek.android.database.ProfileTable;
+import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.utils.ConnectionDetector;
-import com.rentalgeek.android.utils.StaticClass;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -830,14 +830,14 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 				params.put("profile[desires_to_move_in_on]", dateString5);
 			}
 
-			params.put("profile[applicant_id]", appPref.getData("Uid"));
+			params.put("profile[user_id]", appPref.getData("Uid"));
 
 			if (con.isConnectingToInternet()) {
 
 				if (!iseveryThing) {
 					// call a patch update from this position after creating a
 					// profile
-					asynkhttpPut(params, 2, url, true);
+					asynkhttpPut(params, 2, url, appPref.getData("authentication_token"), true);
 				} else {
 					iseveryThing = false;
 				}
@@ -886,9 +886,9 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 		try {
 			showAlert(born_on.get(0));
 		} catch (IndexOutOfBoundsException e) {
-			// TODO: handle exception
+			AppLogger.log(e);
 		} catch (NullPointerException e) {
-			// TODO: handle exception
+			AppLogger.log(e);
 		}
 	}
 
@@ -1227,7 +1227,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 				params.put("profile[desires_to_move_in_on]", dateString2);
 			}
 
-			params.put("profile[applicant_id]", appPref.getData("Uid"));
+			params.put("profile[user_id]", appPref.getData("Uid"));
 
 			String url = ApiManager.getProfile("");
 
@@ -1236,7 +1236,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 				if (!iseveryThing) {
 					// call a patch update from this position after creating a
 					// profile
-					asynkhttp(params, 1, url, true);
+					asynkhttp(params, 1, url, appPref.getData("authentication_token"), true);
 				} else {
 					toast("No Connection");
 					iseveryThing = false;
@@ -1256,7 +1256,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 	private void fetchProfileData() {
 
 		String url = ApiManager.getProfile("");
-		asynkhttpGet(3, url, true);
+		asynkhttpGet(3, url, appPref.getData("authentication_token"), true);
 	}
 
 	// email checking function

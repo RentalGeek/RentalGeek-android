@@ -137,7 +137,7 @@ public class FragmentStarredPropDetails extends LuttuBaseAbstract {
 
 	private void detailsFetchServer(String id) {
 		String url = ApiManager.getPropertySearchUrl(id);
-		asynkhttpGet(1, url, true);
+		asynkhttpGet(1, url, appPref.getData("authentication_token"), true);
 	}
 
 	@Override
@@ -296,7 +296,7 @@ public class FragmentStarredPropDetails extends LuttuBaseAbstract {
 
 		log("the tag in unstar " + url);
 
-		asynkhttpDelete(2, url, true);
+		asynkhttpDelete(2, url, appPref.getData("authentication_token"), true);
 	}
 
 	private void removeStar(String response) {
@@ -457,7 +457,7 @@ public class FragmentStarredPropDetails extends LuttuBaseAbstract {
 				String.valueOf(detail.rental_offering.id));
 		params.put("apply[applicable_type]", "Applicant");
 
-		asynkhttp(params, 3, ApiManager.getApplyUrl(), true);
+		asynkhttp(params, 3, ApiManager.getApplyUrl(), appPref.getData("authentication_token"), true);
 	}
 	
 	private void setAminities() {

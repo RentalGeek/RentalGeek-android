@@ -30,8 +30,7 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.ErrorApi;
 import com.rentalgeek.android.backend.LoginBackend;
-import com.rentalgeek.android.backend.LoginBackend.applicant;
-import com.rentalgeek.android.utils.StaticClass;
+import com.rentalgeek.android.backend.LoginBackend.user;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -220,9 +219,9 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 
 		
 		RequestParams params = new RequestParams();
-		params.put("applicant[email]", appPref.getData("email"));
-		params.put("applicant[password]", verify_password.getText().toString().trim());
-		asynkhttp(params, 1, ApiManager.getSignin(), true);
+		params.put("user[email]", appPref.getData("email"));
+		params.put("user[password]", verify_password.getText().toString().trim());
+		asynkhttp(params, 1, ApiManager.getSignin(), appPref.getData("authentication_token"), true);
 		
 	}
 
@@ -234,22 +233,20 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 	
 	private void NormalLogin(String response) {
 
-
 		try {
 
 			System.out.println("responseresponse" + response);
-			LoginBackend detail = (new Gson()).fromJson(response,
-					LoginBackend.class);
+			LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
 
-			applicant appin = detail.applicant;
+			user appin = detail.user;
 			log("my id is " + appin.id);
-			log("my id is " + detail.applicant.id);
+			log("my id is " + detail.user.id);
 
-			String appid = String.valueOf(detail.applicant.id);
+			String appid = String.valueOf(detail.user.id);
 			System.out.println("my id is " + appid);
 
 			appPref.SaveData("Uid", appid);
-			appPref.SaveData("email", detail.applicant.email);
+			appPref.SaveData("email", detail.user.email);
 			
 			nextfragment(new FragmentPayment(), false, R.id.container);
 		 
@@ -269,7 +266,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 		params.put("provider[provider]", "Facebook");
 		params.put("provider[email]", appPref.getData("socialemail_fb"));
 		params.put("provider[name]",  appPref.getData("socialname_fb"));
-		asynkhttp(params, 2, ApiManager.getAddProvider(""), true);
+		asynkhttp(params, 2, ApiManager.getAddProvider(""), appPref.getData("authentication_token"), true);
 
 	}
 	
@@ -280,8 +277,8 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 		params.put("provider[uid]", appPref.getData("socialid_goog"));
 		params.put("provider[provider]", "Google+");
 		params.put("provider[email]", appPref.getData("socialemail_goog"));
-		params.put("provider[name]",  appPref.getData("socialname_goog"));
-		asynkhttp(params, 3, ApiManager.getAddProvider(""), true);
+		params.put("provider[name]", appPref.getData("socialname_goog"));
+		asynkhttp(params, 3, ApiManager.getAddProvider(""), appPref.getData("authentication_token"), true);
 
 	}
 	
@@ -293,7 +290,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 		params.put("provider[provider]", "LinkedIn+");
 		params.put("provider[email]", appPref.getData("socialemail_link"));
 		params.put("provider[name]",  appPref.getData("socialname_link"));
-		asynkhttp(params, 4, ApiManager.getAddProvider(""), true);
+		asynkhttp(params, 4, ApiManager.getAddProvider(""), appPref.getData("authentication_token"), true);
 
 	}
 

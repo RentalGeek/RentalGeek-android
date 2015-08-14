@@ -59,7 +59,7 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 	/****
 	 * AsyncHttpClient network operation
 	 * */
-	public void asynkhttp(RequestParams params, final int value, String link,
+	public void asynkhttp(RequestParams params, final int value, String link, final String authToken,
 			boolean progrss) {
 
 		if (progrss)
@@ -68,7 +68,7 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 		mCookieStore = new PersistentCookieStore(getActivity());
 		client.setCookieStore(mCookieStore);
 
-		GlobalFunctions.postApiCall(getActivity(), link, params, client,
+		GlobalFunctions.postApiCall(getActivity(), link, params, authToken, client,
 				new HttpResponseHandler() {
 
 					@Override
@@ -104,22 +104,23 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 	 * AsyncHttpClient network operation
 	 */
 
-	public void asynkhttpGet(final int value, String link, boolean progrss) {
-		if (progrss)
-			progressshow();
+	public void asynkhttpGet(final int value, String link, final String authToken, boolean progrss) {
+
+		if (progrss) progressshow();
+
+        System.out.println("get:"+link);
+
 		AsyncHttpClient client = new AsyncHttpClient();
 		new GetSSl().getssl(client);
-		PersistentCookieStore myCookieStore = new PersistentCookieStore(
-				getActivity());
+		PersistentCookieStore myCookieStore = new PersistentCookieStore(getActivity());
 		client.setCookieStore(myCookieStore);
-		BasicClientCookie newCookie = new BasicClientCookie("cookiesare",
-				"awesome");
+		BasicClientCookie newCookie = new BasicClientCookie("cookiesare", "awesome");
 		newCookie.setVersion(1);
 		newCookie.setDomain("dev.rentalgeek.com");
 		newCookie.setPath("/");
 		myCookieStore.addCookie(newCookie);
 
-		GlobalFunctions.getApiCall(getActivity(), link, client,
+		GlobalFunctions.getApiCall(getActivity(), link, authToken, client,
 				new HttpResponseHandler() {
 
 					@Override
@@ -141,14 +142,14 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 	/*****
 	 * AsyncHttp Delete method
 	 */
-	public void asynkhttpDelete(final int value, String link, boolean progrss) {
+	public void asynkhttpDelete(final int value, String link, final String authToken, boolean progrss) {
 	
 		if (progrss)
 			progressshow();
 		new GetSSl().getssl(client);
 		mCookieStore = new PersistentCookieStore(getActivity());
 		client.setCookieStore(mCookieStore);
-		GlobalFunctions.deleteApiCall(getActivity(), link, client,
+		GlobalFunctions.deleteApiCall(getActivity(), link, authToken, client,
 				new HttpResponseHandler() {
 
 					@Override
@@ -170,7 +171,7 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 	/****
 	 * AsyncHttpClient PUT operation
 	 * */
-	public void asynkhttpPut(RequestParams params, final int value, String link,
+	public void asynkhttpPut(RequestParams params, final int value, String link, final String authToken,
 			boolean progrss) {
 
 		if (progrss)
@@ -179,7 +180,7 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 		mCookieStore = new PersistentCookieStore(getActivity());
 		client.setCookieStore(mCookieStore);
 
-		GlobalFunctions.putApiCall(getActivity(), link, params, client,
+		GlobalFunctions.putApiCall(getActivity(), link, params, authToken, client,
 				new HttpResponseHandler() {
 
 					@Override

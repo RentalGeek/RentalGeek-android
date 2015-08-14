@@ -195,12 +195,12 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 
 		String Uid = appPref.getData("Uid");
 		System.out.println("" + Uid + " rental offering id " + itemid);
-		params.put("starred_property[applicant_id]", Uid);
+		params.put("starred_property[user_id]", Uid);
 		params.put("starred_property[rental_offering_id]", itemid + "");
 
 		String url = ApiManager.getStarredPrpoertiesUrl("");
 
-		GlobalFunctions.postApiCall(context, url, params, client,
+		GlobalFunctions.postApiCall(context, url, params, appPref.getData("authentication_token"), client,
 				new HttpResponseHandler() {
 
 					@Override
@@ -260,7 +260,7 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 			client.setCookieStore(mCookieStore);
 
 			String links = ApiManager.getStarredPrpoertiesUrl(propy.starred_property_id);
-			GlobalFunctions.deleteApiCall(context, links, client,
+			GlobalFunctions.deleteApiCall(context, links, appPref.getData("authentication_token"), client,
 					new HttpResponseHandler() {
 
 						@Override

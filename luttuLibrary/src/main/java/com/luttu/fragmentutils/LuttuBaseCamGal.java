@@ -70,18 +70,17 @@ public abstract class LuttuBaseCamGal extends LuttuBaseFragment {
 		}
 	}
 
-	public void parse(RequestParams params, final int value, String link,
+	public void parse(RequestParams params, final int value, String link, final String authToken,
 			boolean progrss) {
 
 		AsyncHttpClient client = new AsyncHttpClient();
 		if (progrss)
 			progressshow();
-		GlobalFunctions.postApiCall(getActivity(), link, params, client,
+		GlobalFunctions.postApiCall(getActivity(), link, params, authToken, client,
 				new HttpResponseHandler() {
 
 					@Override
 					public void handle(String response, boolean success) {
-
 						progresscancel();
 						if (success && getActivity() != null
 								&& response != null) {

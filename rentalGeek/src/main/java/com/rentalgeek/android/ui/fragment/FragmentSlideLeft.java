@@ -210,10 +210,10 @@ public class FragmentSlideLeft extends LuttuBaseAbstract {
 
 
 		RequestParams params = new RequestParams();
-		params.put("applicant[id]", appPref.getData("Uid"));
-		// params.put("applicant[email]", a);
-		// params.put("applicant[password]", b);
-		asynkhttp(params, 1, ApiManager.getSignOut(), true);
+		params.put("user[id]", appPref.getData("Uid"));
+		// params.put("user[email]", a);
+		// params.put("user[password]", b);
+		asynkhttp(params, 1, ApiManager.getSignOut(), appPref.getData("authentication_token"), true);
 
 	}
 

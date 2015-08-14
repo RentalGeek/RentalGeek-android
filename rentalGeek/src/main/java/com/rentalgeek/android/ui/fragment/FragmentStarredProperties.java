@@ -26,7 +26,6 @@ import com.rentalgeek.android.backend.StarredBacked;
 import com.rentalgeek.android.pojos.StarredListPojo;
 import com.rentalgeek.android.utils.ConnectionDetector;
 import com.rentalgeek.android.utils.RandomUtils;
-import com.rentalgeek.android.utils.StaticClass;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -85,7 +84,7 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 	private void fetchFromServer() {
 
 
-		asynkhttpGet(2, ApiManager.getStarredPrpoertiesUrl(""),//StaticClass.headlink + "/v2/starred_properties.json",
+		asynkhttpGet(2, ApiManager.getStarredPrpoertiesUrl(""), appPref.getData("authentication_token"),//StaticClass.headlink + "/v2/starred_properties.json",
 				true);
 
 	}
@@ -134,7 +133,7 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 					
 					mainlist.add(item.new StarredList(
 							detail.starred_properties.get(i).id,
-							detail.starred_properties.get(i).applicant_id,
+							detail.starred_properties.get(i).user_id,
 							detail.starred_properties.get(i).rental_offering_id,
 							detail.starred_properties.get(i).property_address,
 							detail.starred_properties.get(i).bedroom_count,
@@ -298,7 +297,7 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 	}
 
 	private void RemoveStar(String id) {
-		asynkhttpDelete(1, ApiManager.getStarredPrpoertiesUrl(id), true);
+		asynkhttpDelete(1, ApiManager.getStarredPrpoertiesUrl(id), appPref.getData("authentication_token"), true);
 	}
 
 	// Broadcast that refreshes the list view

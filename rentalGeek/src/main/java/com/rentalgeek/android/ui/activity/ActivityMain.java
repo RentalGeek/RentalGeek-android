@@ -1,8 +1,5 @@
 package com.rentalgeek.android.ui.activity;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -14,10 +11,13 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.activeandroid.query.Delete;
-import com.rentalgeek.android.R;
-import com.rentalgeek.android.database.PropertyTable;
 import com.luttu.fragmentutils.AppPrefes;
 import com.luttu.fragmentutils.LuttuBaseFragmentActivity;
+import com.rentalgeek.android.R;
+import com.rentalgeek.android.database.PropertyTable;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class ActivityMain extends LuttuBaseFragmentActivity {
 
@@ -75,8 +75,7 @@ public class ActivityMain extends LuttuBaseFragmentActivity {
 		try {
 			// info = getPackageManager().getPackageInfo("com.blacktie",
 			// PackageManager.GET_SIGNATURES);
-			info = getPackageManager().getPackageInfo("com.rentalgeek.android",
-					PackageManager.GET_SIGNATURES);
+			info = getPackageManager().getPackageInfo("com.rentalgeek.android", PackageManager.GET_SIGNATURES);
 			for (Signature signature : info.signatures) {
 				MessageDigest md;
 				md = MessageDigest.getInstance("SHA");

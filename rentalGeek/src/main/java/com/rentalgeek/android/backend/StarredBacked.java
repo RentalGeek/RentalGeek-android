@@ -11,7 +11,7 @@ public class StarredBacked {
 
 	public class Star {
 		public String id;
-		public String applicant_id;
+		public String user_id;
 		public String rental_offering_id;
 		public String property_address;
 		public String bedroom_count;

@@ -1,7 +1,7 @@
 package com.luttu.fragmentutils;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -11,7 +11,7 @@ import com.luttu.nettoast.Style;
 import com.luttu.utils.NetworkChangeReceiver;
 import com.luttu.utils.NetworkChangeReceiver.Internet;
 
-public class LuttuBaseFragmentActivity extends FragmentActivity implements Internet {
+public class LuttuBaseActionbarActivity extends ActionBarActivity implements Internet {
 
 	public AppPrefes appPrefes;
 	public FrameLayout containerlogin;

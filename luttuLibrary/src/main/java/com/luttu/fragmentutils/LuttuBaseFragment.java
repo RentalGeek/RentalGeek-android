@@ -70,7 +70,7 @@ public class LuttuBaseFragment extends Fragment {
 		} else {
 			init();
 
-			containerlogin.setVisibility(View.VISIBLE);
+			//containerlogin.setVisibility(View.VISIBLE);
 		}
 		
 		

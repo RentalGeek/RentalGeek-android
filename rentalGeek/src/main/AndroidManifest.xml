@@ -67,6 +67,7 @@
         </activity>
         <activity
             android:name=".ui.activity.ActivityCreateProfile"
+            android:theme="@style/CustomActionBarTheme"
             android:screenOrientation="portrait" >
         </activity>
         <activity

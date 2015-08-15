@@ -18,7 +18,9 @@ import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.LoginBackend;
-import com.rentalgeek.android.ui.activity.ActivityHome;
+import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.ui.Navigation;
+import com.rentalgeek.android.ui.activity.ActivityCreateProfile;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ConnectionDetector;
 
@@ -28,12 +30,8 @@ import butterknife.OnClick;
 
 public class FragmentGeekScoreMain extends LuttuBaseAbstract {
 
-	/**
-	 * @author george
-	 * 
-	 * @purpose This page introduces the user to the geek score application
-	 *          process
-	 */
+	private static final String TAG = "FragmentGeekScoreMain";
+
 	@InjectView(R.id.click_rent)
 	TextView click_rent;
 
@@ -56,6 +54,7 @@ public class FragmentGeekScoreMain extends LuttuBaseAbstract {
 		ButterKnife.inject(this, v);
 		con = new ConnectionDetector(getActivity());
 		appPref = new AppPrefes(getActivity(), "rentalgeek");
+
 		click_rent.setText(Html.fromHtml("<b>Click to Rent</b></font><sup>&#8482;</sup>"));
 
 		if (con.isConnectingToInternet()) {
@@ -68,9 +67,7 @@ public class FragmentGeekScoreMain extends LuttuBaseAbstract {
 	}
 
 	private void CheckPaymentf() {
-		// asynkhttpGet(2, StaticClass.headlink + "/v2/transactions", true);
 		asynkhttpGet( 3, ApiManager.getApplicants(appPref.getData("Uid")), AppPreferences.getAuthToken(), true);
-
 	}
 
 	@Override
@@ -97,7 +94,7 @@ public class FragmentGeekScoreMain extends LuttuBaseAbstract {
 			LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
 
 			if (detail.user.payment) {
-				toastsuccess("FragmentPayment status: Complete");
+				toastsuccess("Payment status: Complete");
 				getStarted.setEnabled(false);
 				ddt.setVisibility(View.INVISIBLE);
 				get_started_paid_already.setVisibility(View.VISIBLE);
@@ -109,8 +106,7 @@ public class FragmentGeekScoreMain extends LuttuBaseAbstract {
 
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			AppLogger.log(TAG, e);
 		}
 
 	}
@@ -202,9 +198,10 @@ public class FragmentGeekScoreMain extends LuttuBaseAbstract {
 	@OnClick(R.id.get_started_paid_already)
 	public void ClickRent() {
 
-		((ActivityHome) getActivity()).selectorShift();
-		appPref.SaveData("map_list", "");
-		nextfragment(new FragmentListViewDetails(), false, R.id.container);
+//		((ActivityHome) getActivity()).selectorShift();
+//		appPref.SaveData("map_list", "");
+//		nextfragment(new FragmentListViewDetails(), false, R.id.container);
+        Navigation.navigateActivity(getActivity(), ActivityCreateProfile.class);
 	}
 
 }

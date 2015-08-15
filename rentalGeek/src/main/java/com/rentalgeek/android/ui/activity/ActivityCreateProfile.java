@@ -6,7 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.luttu.fragmentutils.LuttuBaseFragmentActivity;
+import com.luttu.fragmentutils.LuttuBaseActionbarActivity;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.rentalgeek.android.R;
@@ -14,7 +14,7 @@ import com.rentalgeek.android.ui.adapter.ProfileFormAdapter;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.viewpagerindicator.PageIndicator;
 
-public class ActivityCreateProfile extends LuttuBaseFragmentActivity implements Validator.ValidationListener {
+public class ActivityCreateProfile extends LuttuBaseActionbarActivity implements Validator.ValidationListener {
 
     private static final String TAG = ActivityCreateProfile.class.getSimpleName();
 

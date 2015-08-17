@@ -31,6 +31,13 @@ public class ActivityCreateProfile extends LuttuBaseActionbarActivity implements
        // con = new ConnectionDetector(getApplicationContext());
         mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);
+        mPager.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
+
        // appPref = new AppPrefes(thisActivity, "rentalgeek");
         mIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
         mIndicator.setViewPager(mPager);
@@ -46,6 +53,10 @@ public class ActivityCreateProfile extends LuttuBaseActionbarActivity implements
             }
         });
 
+    }
+
+    public void flipPager(int position) {
+        mPager.setCurrentItem(position, false);
     }
 
     @Override

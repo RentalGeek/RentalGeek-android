@@ -84,6 +84,7 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
     private static final String TYPE_AUTOCOMPLETE = "/autocomplete";
     private static final String OUT_JSON = "/json";
 
+    // Browser key required for these requests
     private static final String API_KEY = "AIzaSyDuVB1GHSKyz51m1w4VGs_XTyxVlK01INY";
 
     // View Injection and View Validations
@@ -766,9 +767,14 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
 
                 break;
             case 4:
-                if (!current_home_street_address.getText().toString().trim().equals(""))
-                    params.put("profile[current_home_street]",
-                            current_home_street_address.getText().toString().trim());
+                if (!current_home_street_address.getText().toString().trim().equals("")) {
+                    //params.put("profile[current_home_street]", current_home_street_address.getText().toString().trim());
+                    params.put("profile[current_home_street]", String.format("%s %s", Common.streetNumber, Common.streetName));
+                    params.put("profile[current_home_city]", Common.city);
+                    params.put("profile[current_home_state]", Common.state);
+                    params.put("profile[current_home_zipcode]", Common.zip);
+
+                }
 
                 if (!current_home_moved_in_on.getText().toString().trim()
                         .equals("")) {
@@ -1167,8 +1173,7 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
                 toast("No Connection");
             }
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            AppLogger.log(TAG, e);
         }
 
     }
@@ -1450,19 +1455,107 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         String str = (String) adapterView.getItemAtPosition(position);
+        String ref = (resultRefs != null && resultRefs.size() > position) ? resultRefs.get(position) : "";
         Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
+
+        String place = getPlaceDetails(ref);
     }
 
+    ArrayList<String> resultRefs = null;
 
-    public static ArrayList<String> autocomplete(String input) {
+
+    public String getPlaceDetails(String ref) {
+
+        HttpURLConnection conn = null;
+        StringBuilder jsonResults = new StringBuilder();
+
+        try {
+            URL url = new URL(getPlaceDetailsUrl(ref));
+
+            System.out.println("URL: "+url);
+            conn = (HttpURLConnection) url.openConnection();
+            InputStreamReader in = new InputStreamReader(conn.getInputStream());
+
+            // Load the results into a StringBuilder
+            int read;
+            char[] buff = new char[1024];
+            while ((read = in.read(buff)) != -1) {
+                jsonResults.append(buff, 0, read);
+            }
+        } catch (MalformedURLException e) {
+            AppLogger.log(TAG, e);
+            return "";
+        } catch (IOException e) {
+            AppLogger.log(TAG, e);
+            return "";
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+
+        try {
+
+            // Create a JSON object hierarchy from the results
+            JSONObject jsonObj = new JSONObject(jsonResults.toString());
+
+            JSONObject result = jsonObj.getJSONObject("result");
+            JSONArray addressComponents = result.getJSONArray("address_components");
+
+            Common.streetNumber = getAddressComponent(addressComponents, "street_number");
+            Common.streetName = getAddressComponent(addressComponents, "route");
+            Common.city = getAddressComponent(addressComponents, "locality");
+            Common.state = getAddressComponent(addressComponents, "administrative_area_level_1");
+            Common.zip = getAddressComponent(addressComponents, "postal_code");
+//            JSONArray predsJsonArray = jsonObj.getJSONArray("predictions");
+//
+//            // Extract the Place descriptions from the results
+//            resultList = new ArrayList<String>(predsJsonArray.length());
+//            resultRefs = new ArrayList<String>(predsJsonArray.length());
+//
+//            for (int i = 0; i < predsJsonArray.length(); i++) {
+//                System.out.println(predsJsonArray.getJSONObject(i).getString("description"));
+//                System.out.println("============================================================");
+//                resultList.add(predsJsonArray.getJSONObject(i).getString("description"));
+//                resultRefs.add(predsJsonArray.getJSONObject(i).getString("reference"));
+//            }
+        } catch (JSONException e) {
+            AppLogger.log(TAG, e);
+        }
+
+        return "";
+    }
+
+    public String getAddressComponent(JSONArray addressComponents, String type) {
+        if (addressComponents == null || addressComponents.length() == 0) return "";
+        try {
+            for (int i=0; i<addressComponents.length(); i++) {
+                JSONObject jsonObject = addressComponents.getJSONObject(i);
+                JSONArray typesObject = jsonObject.getJSONArray("types");
+                for (int j=0; j<typesObject.length();j++) {
+                    String typeValue = typesObject.getString(j);
+                    if (typeValue.equals(type)) {
+                        return jsonObject.getString("long_name");
+                    }
+                }
+            }
+        } catch (Exception e) {
+            AppLogger.log(TAG, e);
+        }
+        return "";
+    }
+
+    public ArrayList<String> autocomplete(String input) {
         ArrayList<String> resultList = null;
 
         HttpURLConnection conn = null;
         StringBuilder jsonResults = new StringBuilder();
+
         try {
             StringBuilder sb = new StringBuilder(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON);
             sb.append("?key=" + API_KEY);
             sb.append("&components=country:us");
+            sb.append("&types=address");
             sb.append("&input=" + URLEncoder.encode(input, "utf8"));
 
             URL url = new URL(sb.toString());
@@ -1497,10 +1590,13 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
 
             // Extract the Place descriptions from the results
             resultList = new ArrayList<String>(predsJsonArray.length());
+            resultRefs = new ArrayList<String>(predsJsonArray.length());
+
             for (int i = 0; i < predsJsonArray.length(); i++) {
                 System.out.println(predsJsonArray.getJSONObject(i).getString("description"));
                 System.out.println("============================================================");
                 resultList.add(predsJsonArray.getJSONObject(i).getString("description"));
+                resultRefs.add(predsJsonArray.getJSONObject(i).getString("reference"));
             }
         } catch (JSONException e) {
             AppLogger.log(TAG, e);
@@ -1554,6 +1650,29 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
             };
             return filter;
         }
+    }
+
+    private String getPlaceDetailsUrl(String ref){
+
+        // Obtain browser key from https://code.google.com/apis/console
+        String key = "key="+API_KEY;
+
+        // reference of place
+        String reference = "reference="+ref;
+
+        // Sensor enabled
+        String sensor = "sensor=false";
+
+        // Building the parameters to the web service
+        String parameters = reference+"&"+sensor+"&"+key;
+
+        // Output format
+        String output = "json";
+
+        // Building the url to the web service
+        String url = "https://maps.googleapis.com/maps/api/place/details/"+output+"?"+parameters;
+
+        return url;
     }
 
 }

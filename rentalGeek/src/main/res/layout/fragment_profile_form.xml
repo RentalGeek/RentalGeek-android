@@ -70,12 +70,35 @@
                 android:layout_marginLeft="20dip"
                 android:layout_marginRight="20dip"
                 android:id="@+id/layoutForm1"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                     android:layout_marginTop="20dp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:id="@+id/first_tag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="First Name(Mandatory)"
+                        android:textColor="@color/blue"
+                        android:layout_marginLeft="5dp" />
+
+                    <EditText
+                        android:id="@+id/ed_first_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:singleLine="true"
+                        android:layout_below="@id/first_tag" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                     android:layout_marginTop="5dp"
                     android:layout_weight="1" >
 
                     <TextView
@@ -116,29 +139,6 @@
                         android:layout_below="@id/born_tag"
                         android:focusable="false"
                         android:hint="MM-DD-YYYY" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginTop="5dp">
-
-                    <TextView
-                        android:id="@+id/first_tag"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="First Name(Mandatory)"
-                        android:textColor="@color/blue"
-                        android:layout_marginLeft="5dp" />
-
-                    <EditText
-                        android:id="@+id/ed_first_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"
-                        android:singleLine="true"
-                        android:layout_below="@id/first_tag" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -491,16 +491,26 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dip"
-                        android:text="Current home address (Mandatory)"
+                        android:text="Current home address (Mandatory) "
                         android:textColor="@color/blue" />
 
-                    <EditText
+                    <AutoCompleteTextView
                         android:id="@+id/ed_home_addr"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:imeOptions="actionNext"
                         android:singleLine="true"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/curr_home_tag" />
+                        android:layout_below="@id/curr_home_tag"
+                        android:text="Please enter your place" >
+
+                    </AutoCompleteTextView>
+                    <!--<EditText-->
+                        <!--android:id="@+id/ed_home_addr"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:imeOptions="actionNext"-->
+                        <!--android:singleLine="true"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@id/curr_home_tag" />-->
                 </RelativeLayout>
 
                 <RelativeLayout

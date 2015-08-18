@@ -4,6 +4,7 @@ package com.rentalgeek.android.ui.fragment;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,12 +13,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
@@ -44,6 +49,16 @@ import com.rentalgeek.android.utils.ConnectionDetector;
 import com.rentalgeek.android.utils.ListUtils;
 import com.rentalgeek.android.utils.StringUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -58,15 +73,22 @@ import butterknife.OnClick;
 
 public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.ValidationListener,
         View.OnFocusChangeListener,
-        android.widget.AdapterView.OnItemSelectedListener {
+        android.widget.AdapterView.OnItemSelectedListener,
+        AdapterView.OnItemClickListener {
 
     private static final String TAG = "FragmentProfileForm";
 
     private int position;
 
+    private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api/place";
+    private static final String TYPE_AUTOCOMPLETE = "/autocomplete";
+    private static final String OUT_JSON = "/json";
+
+    private static final String API_KEY = "AIzaSyDuVB1GHSKyz51m1w4VGs_XTyxVlK01INY";
 
     // View Injection and View Validations
     boolean iseveryThing;
+
 
     @InjectView(R.id.evdesc)
     RelativeLayout evdesc;
@@ -165,7 +187,7 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
 
     @Required(order = 15, message = "Please fill all mandatory fields")
     @InjectView(R.id.ed_home_addr)
-    public EditText current_home_street_address;
+    public AutoCompleteTextView current_home_street_address;
 
     @Required(order = 16, message = "Please fill")
     @InjectView(R.id.ed_curr_home_mov_in)
@@ -239,6 +261,7 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         position = getArguments().getInt(Common.KEY_POSITION);
+
     }
 
     @Override
@@ -249,6 +272,10 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
         appPref = new AppPrefes(getActivity(), "rentalgeek");
         validator = new Validator(this);
         validator.setValidationListener(this);
+
+        current_home_street_address.setAdapter(new GooglePlacesAutocompleteAdapter(getActivity(), R.layout.list_item));
+        current_home_street_address.setOnItemClickListener(this);
+
         wasEverEnvicted();
         isFelon();
 
@@ -508,69 +535,70 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
         if (profs.size() > 0) {
             try {
 
-                ed_first_name.setText(profs.get(0).firstname);
-                ed_last_name.setText(profs.get(0).lastname);
-                edBornOn.setText(profs.get(0).born_on);
-                edLicense.setText(profs.get(0).drivers_license_number);
-                edPh.setText(profs.get(0).phone_number);
-                edDescPets.setText(profs.get(0).pets_description);
-                edDescVehicle.setText(profs.get(0).vehicles_description);
-                character_reference_name.setText(profs.get(0).character_reference_name);
-                character_reference_contact_info.setText(profs.get(0).character_reference_contact_info);
-                emergency_contact_name.setText(profs.get(0).emergency_contact_name);
-                emergency_contact_phone_number.setText(profs.get(0).emergency_contact_phone_number);
-                current_home_street_address.setText(profs.get(0).current_home_street_address);
-                current_home_moved_in_on.setText(profs.get(0).current_home_moved_in_on);
-                edCurrHomeDiss.setText(profs.get(0).current_home_dissatisfaction_explanation);
-                current_home_owner.setText(profs.get(0).current_home_owner);
-                current_home_owner_contact_info.setText(profs.get(0).current_home_owner_contact_info);
-                previous_home_street_address.setText(profs.get(0).previous_home_street_address);
-                previous_home_owner.setText(profs.get(0).previous_home_owner);
-                previous_home_owner_contact_info.setText(profs.get(0).previous_home_owner_contact_info);
-                current_employment_supervisor.setText(profs.get(0).current_employment_supervisor);
-                cosigner_name.setText(profs.get(0).cosigner_name);
-                cosigner_email_address.setText(profs.get(0).cosigner_email_address);
-                emergency_contact_phone_number.setText(profs.get(0).emergency_contact_phone_number);
-                desires_to_move_in_on.setText(profs.get(0).desires_to_move_in_on);
-                previous_home_moved_in_on.setText(profs.get(0).previous_home_moved_in_on);
-                previous_home_moved_out.setText(profs.get(0).previous_home_moved_out);
+                if (ed_first_name != null) ed_first_name.setText(profs.get(0).firstname);
+                if (ed_last_name != null) ed_last_name.setText(profs.get(0).lastname);
+                if (edBornOn != null) edBornOn.setText(profs.get(0).born_on);
+                if (edLicense != null) edLicense.setText(profs.get(0).drivers_license_number);
+
+                if (edPh != null) edPh.setText(profs.get(0).phone_number);
+                if (edDescPets != null) edDescPets.setText(profs.get(0).pets_description);
+                if (edDescVehicle != null) edDescVehicle.setText(profs.get(0).vehicles_description);
+                if (character_reference_name != null) character_reference_name.setText(profs.get(0).character_reference_name);
+                if (character_reference_contact_info != null) character_reference_contact_info.setText(profs.get(0).character_reference_contact_info);
+                if (emergency_contact_name != null) emergency_contact_name.setText(profs.get(0).emergency_contact_name);
+                if (emergency_contact_phone_number != null) emergency_contact_phone_number.setText(profs.get(0).emergency_contact_phone_number);
+                if (current_home_street_address != null) current_home_street_address.setText(profs.get(0).current_home_street_address);
+                if (current_home_moved_in_on != null) current_home_moved_in_on.setText(profs.get(0).current_home_moved_in_on);
+                if (edCurrHomeDiss != null) edCurrHomeDiss.setText(profs.get(0).current_home_dissatisfaction_explanation);
+                if (current_home_owner != null) current_home_owner.setText(profs.get(0).current_home_owner);
+                if (current_home_owner_contact_info != null) current_home_owner_contact_info.setText(profs.get(0).current_home_owner_contact_info);
+                if (previous_home_street_address != null) previous_home_street_address.setText(profs.get(0).previous_home_street_address);
+                if (previous_home_owner != null) previous_home_owner.setText(profs.get(0).previous_home_owner);
+                if (previous_home_owner_contact_info != null) previous_home_owner_contact_info.setText(profs.get(0).previous_home_owner_contact_info);
+                if (current_employment_supervisor != null) current_employment_supervisor.setText(profs.get(0).current_employment_supervisor);
+                if (cosigner_name != null) cosigner_name.setText(profs.get(0).cosigner_name);
+                if (cosigner_email_address != null) cosigner_email_address.setText(profs.get(0).cosigner_email_address);
+                if (emergency_contact_phone_number != null) emergency_contact_phone_number.setText(profs.get(0).emergency_contact_phone_number);
+                if (desires_to_move_in_on != null) desires_to_move_in_on.setText(profs.get(0).desires_to_move_in_on);
+                if (previous_home_moved_in_on != null) previous_home_moved_in_on.setText(profs.get(0).previous_home_moved_in_on);
+                if (previous_home_moved_out != null)  previous_home_moved_out.setText(profs.get(0).previous_home_moved_out);
 
                 System.out.println("employment status seeting" + profs.get(0).employment_status);
                 if (profs.get(0).employment_status != null && profs.get(0).employment_status.equals("employed")) {
-                    employment_status.setSelection(1);
+                    if (employment_status != null) employment_status.setSelection(1);
                 } else {
-                    employment_status.setSelection(2);
+                    if (employment_status != null) employment_status.setSelection(2);
                 }
 
                 if (StringUtils.isNotNullAndEquals(profs.get(0).is_felon, "No")) {
-                    edFelon.setSelection(2);
+                    if (edFelon != null) edFelon.setSelection(2);
                 } else {
-                    edFelon.setSelection(1);
+                    if (edFelon != null) edFelon.setSelection(1);
                 }
 
-                edFelonDesc.setText(profs.get(0).is_felon_explanation);
+                if (edFelonDesc != null) edFelonDesc.setText(profs.get(0).is_felon_explanation);
 
                 if (StringUtils.isNotNullAndEquals(profs.get(0).was_ever_evicted, "No")) {
-                    ed_was_envicted.setSelection(2);
+                    if (ed_was_envicted != null) ed_was_envicted.setSelection(2);
                     System.out.println("was ever evicted no" + profs.get(0).was_ever_evicted);
                 } else {
                     System.out.println("was ever evicted yes" + profs.get(0).was_ever_evicted);
-                    ed_was_envicted.setSelection(1);
+                    if (ed_was_envicted != null) ed_was_envicted.setSelection(1);
                 }
 
-                edEnvicted.setText(profs.get(0).was_ever_evicted_explanation);
+                if (edEnvicted != null)  edEnvicted.setText(profs.get(0).was_ever_evicted_explanation);
 
                 ArrayAdapter<CharSequence> adapter = ArrayAdapter
                         .createFromResource(getActivity(), R.array.state_list,
                                 android.R.layout.simple_spinner_item);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-                ed_license_state.setAdapter(adapter);
+                if (ed_license_state != null) ed_license_state.setAdapter(adapter);
                 System.out.println("the value of state out " + profs.get(0).drivers_license_state);
                 if (!profs.get(0).drivers_license_state.equals(null)) {
                     System.out.println("the value of state " + profs.get(0).drivers_license_state);
                     int spinnerPostion = adapter.getPosition(profs.get(0).drivers_license_state);
-                    ed_license_state.setSelection(spinnerPostion);
+                    if (ed_license_state != null) ed_license_state.setSelection(spinnerPostion);
                     spinnerPostion = 0;
                 }
             } catch (Exception e) {
@@ -653,10 +681,7 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
 
     }
 
-    private RequestParams buildRequestParams() throws ParseException {
-
-        final RequestParams params = new RequestParams();
-
+    private RequestParams buildParams(int position, RequestParams params) throws ParseException {
         switch(position) {
             case 1:
                 if(!ed_first_name.getText().toString().equals(""))
@@ -742,7 +767,7 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
                 break;
             case 4:
                 if (!current_home_street_address.getText().toString().trim().equals(""))
-                    params.put("profile[current_home_street_address]",
+                    params.put("profile[current_home_street]",
                             current_home_street_address.getText().toString().trim());
 
                 if (!current_home_moved_in_on.getText().toString().trim()
@@ -851,7 +876,24 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
         }
 
         return params;
+    }
 
+    private RequestParams buildRequestParams(boolean getAll) throws ParseException {
+
+        RequestParams params = new RequestParams();
+
+        if (getAll) {
+            params = buildParams(1, params);
+            params = buildParams(2, params);
+            params = buildParams(3, params);
+            params = buildParams(4, params);
+            params = buildParams(5, params);
+            params = buildParams(6, params);
+        } else {
+            params = buildParams(position, params);
+        }
+
+        return params;
     }
 
     // Calling Patch request to update the profile
@@ -861,8 +903,7 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
             String url = ApiManager.getProfile(id);
             iseveryThing = false;
 
-            final RequestParams params = buildRequestParams();
-
+            RequestParams params = buildRequestParams(false);
 
             params.put("profile[user_id]", appPref.getData("Uid"));
 
@@ -880,8 +921,7 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
                 toast("No Connection");
             }
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            AppLogger.log(TAG, e);
         }
 
     }
@@ -1012,7 +1052,11 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
                 ActivityCreateProfile activity = (ActivityCreateProfile) getActivity();
                 activity.flipPager(position);
             } else {
-
+                if (con.isConnectingToInternet()) {
+                    createProfile();
+                } else {
+                    toast("No Connection");
+                }
             }
 
         } else {
@@ -1102,7 +1146,7 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
     // Create profile params and Api call
     public void createProfile() {
         try {
-            final RequestParams params =  buildRequestParams();
+            final RequestParams params =  buildRequestParams(true);
 
             params.put("profile[user_id]", appPref.getData("Uid"));
 
@@ -1401,6 +1445,115 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
     public void onNothingSelected(AdapterView<?> parent) {
 
 
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        String str = (String) adapterView.getItemAtPosition(position);
+        Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
+    }
+
+
+    public static ArrayList<String> autocomplete(String input) {
+        ArrayList<String> resultList = null;
+
+        HttpURLConnection conn = null;
+        StringBuilder jsonResults = new StringBuilder();
+        try {
+            StringBuilder sb = new StringBuilder(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON);
+            sb.append("?key=" + API_KEY);
+            sb.append("&components=country:us");
+            sb.append("&input=" + URLEncoder.encode(input, "utf8"));
+
+            URL url = new URL(sb.toString());
+
+            System.out.println("URL: "+url);
+            conn = (HttpURLConnection) url.openConnection();
+            InputStreamReader in = new InputStreamReader(conn.getInputStream());
+
+            // Load the results into a StringBuilder
+            int read;
+            char[] buff = new char[1024];
+            while ((read = in.read(buff)) != -1) {
+                jsonResults.append(buff, 0, read);
+            }
+        } catch (MalformedURLException e) {
+            AppLogger.log(TAG, e);
+            return resultList;
+        } catch (IOException e) {
+            AppLogger.log(TAG, e);
+            return resultList;
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+
+        try {
+
+            // Create a JSON object hierarchy from the results
+            JSONObject jsonObj = new JSONObject(jsonResults.toString());
+            JSONArray predsJsonArray = jsonObj.getJSONArray("predictions");
+
+            // Extract the Place descriptions from the results
+            resultList = new ArrayList<String>(predsJsonArray.length());
+            for (int i = 0; i < predsJsonArray.length(); i++) {
+                System.out.println(predsJsonArray.getJSONObject(i).getString("description"));
+                System.out.println("============================================================");
+                resultList.add(predsJsonArray.getJSONObject(i).getString("description"));
+            }
+        } catch (JSONException e) {
+            AppLogger.log(TAG, e);
+        }
+
+        return resultList;
+    }
+
+    class GooglePlacesAutocompleteAdapter extends ArrayAdapter<String> implements Filterable {
+        private ArrayList<String> resultList;
+
+        public GooglePlacesAutocompleteAdapter(Context context, int textViewResourceId) {
+            super(context, textViewResourceId);
+        }
+
+        @Override
+        public int getCount() {
+            return resultList.size();
+        }
+
+        @Override
+        public String getItem(int index) {
+            return resultList.get(index);
+        }
+
+        @Override
+        public Filter getFilter() {
+            Filter filter = new Filter() {
+                @Override
+                protected FilterResults performFiltering(CharSequence constraint) {
+                    FilterResults filterResults = new FilterResults();
+                    if (constraint != null) {
+                        // Retrieve the autocomplete results.
+                        resultList = autocomplete(constraint.toString());
+
+                        // Assign the data to the FilterResults
+                        filterResults.values = resultList;
+                        filterResults.count = resultList.size();
+                    }
+                    return filterResults;
+                }
+
+                @Override
+                protected void publishResults(CharSequence constraint, Filter.FilterResults results) {
+                    if (results != null && results.count > 0) {
+                        notifyDataSetChanged();
+                    } else {
+                        notifyDataSetInvalidated();
+                    }
+                }
+            };
+            return filter;
+        }
     }
 
 }

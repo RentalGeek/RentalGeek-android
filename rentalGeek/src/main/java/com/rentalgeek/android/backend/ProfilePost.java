@@ -62,6 +62,7 @@ public class ProfilePost {
 		public String victig_url;
 		public String desires_to_move_in_on;
 		public String roommates_description;
+		public String geek_score;
 	}
 
 }

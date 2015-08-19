@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.luttu.fragmentutils.AppPrefes;
 import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 
 import butterknife.ButterKnife;
@@ -21,11 +23,7 @@ import butterknife.OnClick;
 
 public class FragmentFinalGeekScore extends LuttuBaseAbstract{
 
-	/**
-	 * @author george
-	 * 
-	 * @purpose Shows that the user is eligible for applying to the property if and only if he has completed his profile
-	 */
+	private static final String TAG = "FragmentFinalGeekScore";
 	
 	AppPrefes appPref;
 	@Override
@@ -57,11 +55,11 @@ public class FragmentFinalGeekScore extends LuttuBaseAbstract{
 	{
 		try {
 			appPref.SaveData("map_list", "");
-			nextfragment(new FragmentListViewDetails(),false,R.id.container);
-			((ActivityHome)getActivity()).selectorShift();
+            Navigation.navigateActivity(getActivity(), ActivityHome.class, true);
+//			nextfragment(new FragmentListViewDetails(),false,R.id.container);
+//			((ActivityHome)getActivity()).selectorShift();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			AppLogger.log(TAG, e);
 		}
 	}
 	
@@ -71,8 +69,7 @@ public class FragmentFinalGeekScore extends LuttuBaseAbstract{
 			getActivity().getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, fragment).commitAllowingStateLoss();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			AppLogger.log(TAG, e);
 		}
 	}
 	
@@ -91,21 +88,14 @@ public class FragmentFinalGeekScore extends LuttuBaseAbstract{
 			
 			@Override
 			public void onClick(View v) {
-
-				
 				dialog.dismiss();
-				 
-				
 			}
 		});
 
 		dialog.show();
 
 	}
-	
-	
-	
-	
+
 	@OnClick(R.id.infoclick1)
 	public void infoclick1()
 	{

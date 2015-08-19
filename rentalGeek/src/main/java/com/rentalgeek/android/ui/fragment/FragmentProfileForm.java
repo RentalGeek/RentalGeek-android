@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +43,9 @@ import com.rentalgeek.android.backend.ProfilePost;
 import com.rentalgeek.android.database.ProfileTable;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.ui.Common;
+import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityCreateProfile;
+import com.rentalgeek.android.ui.activity.ActivityFinalGeekScore;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ConnectionDetector;
@@ -62,6 +65,7 @@ import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -86,10 +90,6 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
 
     // Browser key required for these requests
     private static final String API_KEY = "AIzaSyDuVB1GHSKyz51m1w4VGs_XTyxVlK01INY";
-
-    // View Injection and View Validations
-    boolean iseveryThing;
-
 
     @InjectView(R.id.evdesc)
     RelativeLayout evdesc;
@@ -240,12 +240,15 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
     public EditText desires_to_move_in_on;
 
     private Validator validator;
+
     AppPrefes appPref;
     ConnectionDetector con;
 
     ProfileTable profdets;
 
     private DatePickerDialog toDatePickerDialog;
+
+    protected GooglePlacesAutocompleteAdapter placesAdapter;
 
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
@@ -274,8 +277,11 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
         validator = new Validator(this);
         validator.setValidationListener(this);
 
-        current_home_street_address.setAdapter(new GooglePlacesAutocompleteAdapter(getActivity(), R.layout.list_item));
+        placesAdapter = new GooglePlacesAutocompleteAdapter(getActivity(), R.layout.list_item);
+        current_home_street_address.setAdapter(placesAdapter);
         current_home_street_address.setOnItemClickListener(this);
+        current_home_street_address.setValidator(new AutoValidator());
+        current_home_street_address.setOnFocusChangeListener(new FocusListener());
 
         wasEverEnvicted();
         isFelon();
@@ -405,123 +411,132 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
         try {
             // setting the values from the server
             response = response.replaceAll("null", " \" \"");
-            System.out.println("profile get response " + response);
-            ProfilePost detail = (new Gson()).fromJson(response,
-                    ProfilePost.class);
+            AppLogger.log(TAG, "profile get response " + response);
+            ProfilePost detail = (new Gson()).fromJson(response, ProfilePost.class);
 
-            if (detail != null) {
-                if (detail.profiles != null && detail.profiles.size() > 0) {
-
-                    System.out.println("profile id " + detail.profiles.get(0).id);
-                    appPref.SaveData("prof_id", detail.profiles.get(0).id);
-                    System.out.println("profile born_on " + detail.profiles.get(0).born_on);
-
-                    ed_first_name.setText(detail.profiles.get(0).first_name);
-                    ed_last_name.setText(detail.profiles.get(0).last_name);
-
-                    if (!detail.profiles.get(0).born_on.equals(" ")) {
-                        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(detail.profiles.get(0).born_on);
-                        String dateString = new SimpleDateFormat("MM-dd-yyyy").format(date);
-                        edBornOn.setText(dateString);
-                    }
-
-                    edLicense.setText(detail.profiles.get(0).drivers_license_number);
-
-                    ArrayAdapter<CharSequence> adapter = ArrayAdapter
-                            .createFromResource(getActivity(),
-                                    R.array.state_list,
-                                    android.R.layout.simple_spinner_item);
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    ed_license_state.setAdapter(adapter);
-                    if (!detail.profiles.get(0).drivers_license_state.equals(null)) {
-                        int spinnerPostion = adapter.getPosition(detail.profiles.get(0).drivers_license_state);
-                        ed_license_state.setSelection(spinnerPostion);
-                        spinnerPostion = 0;
-                    }
-                    edPh.setText(detail.profiles.get(0).phone_number);
-
-                    edDescPets.setText(detail.profiles.get(0).pets_description);
-                    edDescVehicle.setText(detail.profiles.get(0).vehicles_description);
-
-                    if (detail.profiles.get(0).was_ever_evicted.equals("false")) {
-                        ed_was_envicted.setSelection(2);
-                    } else {
-                        ed_was_envicted.setSelection(1);
-                    }
-
-                    edEnvicted.setText(detail.profiles.get(0).was_ever_evicted_explanation);
-
-                    if (detail.profiles.get(0).is_felon.equals("false")) {
-                        edFelon.setSelection(2);
-                    } else {
-                        edFelon.setSelection(1);
-                    }
-                    edFelonDesc.setText(detail.profiles.get(0).is_felon_explanation);
-                    character_reference_name.setText(detail.profiles.get(0).character_reference_name);
-                    character_reference_contact_info.setText(detail.profiles.get(0).character_reference_contact_info);
-                    emergency_contact_name.setText(detail.profiles.get(0).emergency_contact_name);
-                    emergency_contact_phone_number.setText(detail.profiles.get(0).emergency_contact_phone_number);
-                    current_home_street_address.setText(detail.profiles.get(0).current_home_street_address);
-
-                    if (!detail.profiles.get(0).current_home_moved_in_on.equals(" ")) {
-                        Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse(detail.profiles.get(0).current_home_moved_in_on);
-                        String dateString2 = new SimpleDateFormat("MM-dd-yyyy").format(date2);
-                        current_home_moved_in_on.setText(dateString2);
-                    }
-
-                    edCurrHomeDiss.setText(detail.profiles.get(0).current_home_dissatisfaction_explanation);
-                    current_home_owner.setText(detail.profiles.get(0).current_home_owner);
-                    current_home_owner_contact_info.setText(detail.profiles
-                            .get(0).current_home_owner_contact_info);
-                    previous_home_street_address
-                            .setText(detail.profiles.get(0).previous_home_street_address);
-
-                    if (!detail.profiles.get(0).previous_home_moved_in_on
-                            .equals(" ")) {
-                        Date date3 = new SimpleDateFormat("yyyy-MM-dd")
-                                .parse(detail.profiles.get(0).previous_home_moved_in_on);
-                        String dateString3 = new SimpleDateFormat("MM-dd-yyyy")
-                                .format(date3);
-                        previous_home_moved_in_on.setText(dateString3);
-                    }
-
-                    if (!detail.profiles.get(0).previous_home_moved_out.equals(" ")) {
-                        Date date4 = new SimpleDateFormat("yyyy-MM-dd").parse(detail.profiles.get(0).previous_home_moved_out);
-                        String dateString4 = new SimpleDateFormat("MM-dd-yyyy")
-                                .format(date4);
-                        previous_home_moved_out.setText(dateString4);
-                    }
-
-                    previous_home_owner
-                            .setText(detail.profiles.get(0).previous_home_owner);
-                    previous_home_owner_contact_info.setText(detail.profiles
-                            .get(0).previous_home_owner_contact_info);
-                    if (detail.profiles.get(0).employment_status
-                            .equals("employed")) {
-                        employment_status.setSelection(1);
-                    } else {
-                        employment_status.setSelection(2);
-                    }
-                    current_employment_supervisor.setText(detail.profiles
-                            .get(0).current_employment_supervisor);
-
-                    cosigner_name.setText(detail.profiles.get(0).cosigner_name);
-
-                    cosigner_email_address.setText(detail.profiles.get(0).cosigner_email_address);
-
-                    if (!detail.profiles.get(0).desires_to_move_in_on
-                            .equals(" ")) {
-                        Date date5 = new SimpleDateFormat("yyyy-MM-dd")
-                                .parse(detail.profiles.get(0).desires_to_move_in_on);
-                        String dateString5 = new SimpleDateFormat("MM-dd-yyyy")
-                                .format(date5);
-                        desires_to_move_in_on.setText(dateString5);
-                    }
-
-                } else {
-                    setProfdetailsFromLocalDb();
+            if (detail != null && detail.profiles != null && detail.profiles.size() > 0) {
+                ProfilePost.Profile profile = detail.profiles.get(0);
+                appPref.SaveData("prof_id", profile.id);
+                String geekScore = profile.geek_score;
+                if (!TextUtils.isEmpty(geekScore)) {
+                    appPref.SaveData("geek_score", geekScore);
                 }
+                Navigation.navigateActivity(getActivity(), ActivityFinalGeekScore.class);
             }
+//
+//            if (detail != null) {
+//                if (detail.profiles != null && detail.profiles.size() > 0) {
+//
+//                    System.out.println("profile id " + detail.profiles.get(0).id);
+//                    appPref.SaveData("prof_id", detail.profiles.get(0).id);
+//                    System.out.println("profile born_on " + detail.profiles.get(0).born_on);
+//
+//                    ed_first_name.setText(detail.profiles.get(0).first_name);
+//                    ed_last_name.setText(detail.profiles.get(0).last_name);
+//
+//                    if (!detail.profiles.get(0).born_on.equals(" ")) {
+//                        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(detail.profiles.get(0).born_on);
+//                        String dateString = new SimpleDateFormat("MM-dd-yyyy").format(date);
+//                        edBornOn.setText(dateString);
+//                    }
+//
+//                    edLicense.setText(detail.profiles.get(0).drivers_license_number);
+//
+//                    ArrayAdapter<CharSequence> adapter = ArrayAdapter
+//                            .createFromResource(getActivity(),
+//                                    R.array.state_list,
+//                                    android.R.layout.simple_spinner_item);
+//                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//                    ed_license_state.setAdapter(adapter);
+//                    if (!detail.profiles.get(0).drivers_license_state.equals(null)) {
+//                        int spinnerPostion = adapter.getPosition(detail.profiles.get(0).drivers_license_state);
+//                        ed_license_state.setSelection(spinnerPostion);
+//                        spinnerPostion = 0;
+//                    }
+//                    edPh.setText(detail.profiles.get(0).phone_number);
+//
+//                    edDescPets.setText(detail.profiles.get(0).pets_description);
+//                    edDescVehicle.setText(detail.profiles.get(0).vehicles_description);
+//
+//                    if (detail.profiles.get(0).was_ever_evicted.equals("false")) {
+//                        ed_was_envicted.setSelection(2);
+//                    } else {
+//                        ed_was_envicted.setSelection(1);
+//                    }
+//
+//                    edEnvicted.setText(detail.profiles.get(0).was_ever_evicted_explanation);
+//
+//                    if (detail.profiles.get(0).is_felon.equals("false")) {
+//                        edFelon.setSelection(2);
+//                    } else {
+//                        edFelon.setSelection(1);
+//                    }
+//                    edFelonDesc.setText(detail.profiles.get(0).is_felon_explanation);
+//                    character_reference_name.setText(detail.profiles.get(0).character_reference_name);
+//                    character_reference_contact_info.setText(detail.profiles.get(0).character_reference_contact_info);
+//                    emergency_contact_name.setText(detail.profiles.get(0).emergency_contact_name);
+//                    emergency_contact_phone_number.setText(detail.profiles.get(0).emergency_contact_phone_number);
+//                    current_home_street_address.setText(detail.profiles.get(0).current_home_street_address);
+//
+//                    if (!detail.profiles.get(0).current_home_moved_in_on.equals(" ")) {
+//                        Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse(detail.profiles.get(0).current_home_moved_in_on);
+//                        String dateString2 = new SimpleDateFormat("MM-dd-yyyy").format(date2);
+//                        current_home_moved_in_on.setText(dateString2);
+//                    }
+//
+//                    edCurrHomeDiss.setText(detail.profiles.get(0).current_home_dissatisfaction_explanation);
+//                    current_home_owner.setText(detail.profiles.get(0).current_home_owner);
+//                    current_home_owner_contact_info.setText(detail.profiles
+//                            .get(0).current_home_owner_contact_info);
+//                    previous_home_street_address
+//                            .setText(detail.profiles.get(0).previous_home_street_address);
+//
+//                    if (!detail.profiles.get(0).previous_home_moved_in_on
+//                            .equals(" ")) {
+//                        Date date3 = new SimpleDateFormat("yyyy-MM-dd")
+//                                .parse(detail.profiles.get(0).previous_home_moved_in_on);
+//                        String dateString3 = new SimpleDateFormat("MM-dd-yyyy")
+//                                .format(date3);
+//                        previous_home_moved_in_on.setText(dateString3);
+//                    }
+//
+//                    if (!detail.profiles.get(0).previous_home_moved_out.equals(" ")) {
+//                        Date date4 = new SimpleDateFormat("yyyy-MM-dd").parse(detail.profiles.get(0).previous_home_moved_out);
+//                        String dateString4 = new SimpleDateFormat("MM-dd-yyyy")
+//                                .format(date4);
+//                        previous_home_moved_out.setText(dateString4);
+//                    }
+//
+//                    previous_home_owner
+//                            .setText(detail.profiles.get(0).previous_home_owner);
+//                    previous_home_owner_contact_info.setText(detail.profiles
+//                            .get(0).previous_home_owner_contact_info);
+//                    if (detail.profiles.get(0).employment_status
+//                            .equals("employed")) {
+//                        employment_status.setSelection(1);
+//                    } else {
+//                        employment_status.setSelection(2);
+//                    }
+//                    current_employment_supervisor.setText(detail.profiles
+//                            .get(0).current_employment_supervisor);
+//
+//                    cosigner_name.setText(detail.profiles.get(0).cosigner_name);
+//
+//                    cosigner_email_address.setText(detail.profiles.get(0).cosigner_email_address);
+//
+//                    if (!detail.profiles.get(0).desires_to_move_in_on
+//                            .equals(" ")) {
+//                        Date date5 = new SimpleDateFormat("yyyy-MM-dd")
+//                                .parse(detail.profiles.get(0).desires_to_move_in_on);
+//                        String dateString5 = new SimpleDateFormat("MM-dd-yyyy")
+//                                .format(date5);
+//                        desires_to_move_in_on.setText(dateString5);
+//                    }
+//
+//                } else {
+//                    setProfdetailsFromLocalDb();
+//                }
+//            }
         } catch (Exception e) {
             AppLogger.log(TAG, e);
         }
@@ -622,12 +637,13 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
 
                 if (detail.profile != null) {
                     appPref.SaveData("prof_id", detail.profile.id);
-                    toastsuccess("FragmentProfile Updated Successfully");
+                    toastsuccess("Profile Updated Successfully");
                     hidekey();
 
                     if (appPref.getIntData("payed") == 200) {
 
-                        nextfragment(new FragmentFinalGeekScore(), false, R.id.container);
+                        Navigation.navigateActivity(getActivity(), ActivityFinalGeekScore.class);
+                        //nextfragment(new FragmentFinalGeekScore(), false, R.id.container);
 
                     } else {
                         AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
@@ -776,14 +792,11 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
 
                 }
 
-                if (!current_home_moved_in_on.getText().toString().trim()
-                        .equals("")) {
+                if (!current_home_moved_in_on.getText().toString().trim().equals("")) {
 
                     Date date = new SimpleDateFormat("MM-dd-yyyy")
-                            .parse(current_home_moved_in_on.getText().toString()
-                                    .trim());
-                    String dateString3 = new SimpleDateFormat("yyyy-MM-dd")
-                            .format(date);
+                            .parse(current_home_moved_in_on.getText().toString().trim());
+                    String dateString3 = new SimpleDateFormat("yyyy-MM-dd").format(date);
                     params.put("profile[current_home_moved_in_on]", dateString3);
 
                 }
@@ -856,14 +869,11 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
                             .toString().trim());
 
                 if (!cosigner_email_address.getText().toString().trim().equals("")) {
-                    if (isValidEmail(cosigner_email_address.getText().toString()
-                            .trim())) {
+                    if (isValidEmail(cosigner_email_address.getText().toString().trim())) {
                         params.put("profile[cosigner_email_address]",
                                 cosigner_email_address.getText().toString().trim());
                     } else {
-                        iseveryThing = true;
-                        cosigner_email_address
-                                .setError("Please enter a valid email");
+                        cosigner_email_address.setError("Please enter a valid email");
                         cosigner_email_address.requestFocus();
                     }
 
@@ -907,22 +917,13 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
         try {
 
             String url = ApiManager.getProfile(id);
-            iseveryThing = false;
 
             RequestParams params = buildRequestParams(false);
 
             params.put("profile[user_id]", appPref.getData("Uid"));
 
             if (con.isConnectingToInternet()) {
-
-                if (!iseveryThing) {
-                    // call a patch update from this position after creating a
-                    // profile
-                    asynkhttpPut(params, 2, url, AppPreferences.getAuthToken(), true);
-                } else {
-                    iseveryThing = false;
-                }
-
+                asynkhttpPut(params, 2, url, AppPreferences.getAuthToken(), true);
             } else {
                 toast("No Connection");
             }
@@ -1159,16 +1160,7 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
             String url = ApiManager.getProfile("");
 
             if (con.isConnectingToInternet()) {
-
-                if (!iseveryThing) {
-                    // call a patch update from this position after creating a
-                    // profile
-                    asynkhttp(params, 1, url, AppPreferences.getAuthToken(), true);
-                } else {
-                    toast("No Connection");
-                    iseveryThing = false;
-                }
-
+                asynkhttp(params, 1, url, AppPreferences.getAuthToken(), true);
             } else {
                 toast("No Connection");
             }
@@ -1457,7 +1449,6 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
         String str = (String) adapterView.getItemAtPosition(position);
         String ref = (resultRefs != null && resultRefs.size() > position) ? resultRefs.get(position) : "";
         Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
-
         String place = getPlaceDetails(ref);
     }
 
@@ -1507,18 +1498,7 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
             Common.city = getAddressComponent(addressComponents, "locality");
             Common.state = getAddressComponent(addressComponents, "administrative_area_level_1");
             Common.zip = getAddressComponent(addressComponents, "postal_code");
-//            JSONArray predsJsonArray = jsonObj.getJSONArray("predictions");
-//
-//            // Extract the Place descriptions from the results
-//            resultList = new ArrayList<String>(predsJsonArray.length());
-//            resultRefs = new ArrayList<String>(predsJsonArray.length());
-//
-//            for (int i = 0; i < predsJsonArray.length(); i++) {
-//                System.out.println(predsJsonArray.getJSONObject(i).getString("description"));
-//                System.out.println("============================================================");
-//                resultList.add(predsJsonArray.getJSONObject(i).getString("description"));
-//                resultRefs.add(predsJsonArray.getJSONObject(i).getString("reference"));
-//            }
+
         } catch (JSONException e) {
             AppLogger.log(TAG, e);
         }
@@ -1675,4 +1655,43 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
         return url;
     }
 
+
+    protected class AutoValidator implements AutoCompleteTextView.Validator {
+
+        @Override
+        public boolean isValid(CharSequence text) {
+            String[] validWords = placesAdapter.resultList.toArray(new String[placesAdapter.resultList.size()]);
+            Log.v("Test", "Checking if valid: " + text);
+            Arrays.sort(validWords);
+            if (Arrays.binarySearch(validWords, text.toString()) > 0) {
+                return true;
+            }
+
+            return false;
+        }
+
+        @Override
+        public CharSequence fixText(CharSequence invalidText) {
+            Log.v("Test", "Returning fixed text");
+
+            /* I'm just returning an empty string here, so the field will be blanked,
+             * but you could put any kind of action here, like popping up a dialog?
+             *
+             * Whatever value you return here must be in the list of valid words.
+             */
+            return "";
+        }
+    }
+
+    class FocusListener implements View.OnFocusChangeListener {
+
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            AppLogger.log("Test", "Focus changed");
+            if (v.getId() == R.id.ed_home_addr && !hasFocus) {
+                AppLogger.log(TAG, "Performing validation");
+                ((AutoCompleteTextView)v).performValidation();
+            }
+        }
+    }
 }

@@ -5,11 +5,17 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <android.support.v4.view.ViewPager
+    <com.rentalgeek.android.ui.view.NonSwipeableViewPager
         android:id="@+id/pager"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1" />
+
+    <!--<android.support.v4.view.ViewPager-->
+        <!--android:id="@+id/pager"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:layout_weight="1" />-->
 
     <com.viewpagerindicator.CirclePageIndicator
         android:id="@+id/indicator"

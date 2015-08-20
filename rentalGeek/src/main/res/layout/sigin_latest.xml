@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageView1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/editext"
         android:ems="10"
         android:hint="Email Address"
@@ -126,7 +126,6 @@
         android:layout_height="@dimen/loho_hei"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
         android:src="@drawable/logo" />
 
     <com.facebook.widget.LoginButton

@@ -11,9 +11,9 @@ import com.rentalgeek.android.ui.fragment.FragmentTutorialGeekVision;
 
 
 /**
- * 
+ *
  * @author George
- * 
+ *
  * @purpose Adapter class which handles the introduction Sliders
  *
  */

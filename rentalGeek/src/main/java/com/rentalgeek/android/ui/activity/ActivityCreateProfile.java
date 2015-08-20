@@ -11,6 +11,7 @@ import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.ui.adapter.ProfileFormAdapter;
+import com.rentalgeek.android.ui.view.NonSwipeableViewPager;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.viewpagerindicator.PageIndicator;
 
@@ -18,7 +19,7 @@ public class ActivityCreateProfile extends LuttuBaseActionbarActivity implements
 
     private static final String TAG = ActivityCreateProfile.class.getSimpleName();
 
-    ViewPager mPager;
+    NonSwipeableViewPager mPager;
     PageIndicator mIndicator;
     ProfileFormAdapter mAdapter;
 
@@ -29,7 +30,7 @@ public class ActivityCreateProfile extends LuttuBaseActionbarActivity implements
 
         mAdapter = new ProfileFormAdapter(getSupportFragmentManager());
        // con = new ConnectionDetector(getApplicationContext());
-        mPager = (ViewPager) findViewById(R.id.pager);
+        mPager = (NonSwipeableViewPager) findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);
         mPager.setOnTouchListener(new View.OnTouchListener() {
             @Override

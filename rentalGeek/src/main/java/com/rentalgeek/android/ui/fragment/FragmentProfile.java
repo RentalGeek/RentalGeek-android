@@ -38,7 +38,7 @@ import com.rentalgeek.android.backend.ProfilePost;
 import com.rentalgeek.android.database.ProfileTable;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.ui.Navigation;
-import com.rentalgeek.android.ui.activity.ActivityFinalGeekScore;
+import com.rentalgeek.android.ui.activity.ActivityGeekScore;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ConnectionDetector;
@@ -568,7 +568,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 
 					if (appPref.getIntData("payed") == 200) {
 
-						Navigation.navigateActivity(getActivity(), ActivityFinalGeekScore.class, true);
+						Navigation.navigateActivity(getActivity(), ActivityGeekScore.class, true);
 						//nextfragment(new FragmentFinalGeekScore(), false, R.id.container);
 					} else {
 						AlertDialog.Builder builder1 = new AlertDialog.Builder(

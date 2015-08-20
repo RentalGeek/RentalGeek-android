@@ -24,6 +24,7 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.MapBackend;
 import com.rentalgeek.android.database.PropertyTable;
+import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.pojos.PropertyListPojo;
 import com.rentalgeek.android.ui.adapter.PropertyListItemAdapter;
 import com.rentalgeek.android.ui.preference.AppPreferences;
@@ -36,15 +37,10 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-/**
- * 
- * @author George
- * 
- * @purpose Class which handles the list view , rental offerings
- *
- */
+
 public class FragmentListViewDetails extends LuttuBaseAbstract {
 
+	private static final String TAG = FragmentListViewDetails.class.getSimpleName();
 	@InjectView(R.id.slidelist) 
 	ListView list;
 	
@@ -64,22 +60,18 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 	TypedArray images;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-		View v = inflater
-				.inflate(R.layout.property_list_main, container, false);
+		View v = inflater.inflate(R.layout.property_list_main, container, false);
 		ButterKnife.inject(this, v);
 		appPref=new AppPrefes(getActivity(), "rentalgeek");
 		listitems = new ArrayList<Integer>();
-		getActivity().registerReceiver(likereceiver,
-				new IntentFilter("likeref"));
+		getActivity().registerReceiver(likereceiver, new IntentFilter("likeref"));
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
 		Point size = new Point();
 		display.getSize(size);
 		width = size.x;
-		getActivity()
-				.registerReceiver(receiver, new IntentFilter("searchlist"));
+		getActivity().registerReceiver(receiver, new IntentFilter("searchlist"));
 		fetchFromDB();
 
 		return v;
@@ -106,8 +98,8 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 
 		PropertyListPojo item = new PropertyListPojo();
 		Select select = new Select();
-		List<PropertyTable> propertytobj = select.all()
-				.from(PropertyTable.class).execute();
+		List<PropertyTable> propertytobj = select.all().from(PropertyTable.class).execute();
+
 		if (propertytobj.size() > 0) {
 			for (int i = 0; i < propertytobj.size(); i++) {
 
@@ -115,17 +107,17 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 						propertytobj.get(i).rental_complex_latitude,
 						propertytobj.get(i).rental_complex_longitude,
 						propertytobj.get(i).bedroom_count,
-						propertytobj.get(i).monthly_rent_floor, propertytobj
-								.get(i).monthly_rent_ceiling, propertytobj
-								.get(i).headline,
-						propertytobj.get(i).full_bathroom_count, propertytobj
-								.get(i).starred, propertytobj.get(i).uid,
+						propertytobj.get(i).monthly_rent_floor,
+						propertytobj.get(i).monthly_rent_ceiling,
+						propertytobj.get(i).headline,
+						propertytobj.get(i).full_bathroom_count,
+						propertytobj.get(i).starred,
+						propertytobj.get(i).uid,
 						propertytobj.get(i).property_image));
 			}
 
 			adapters = null;
 			adapters = new PropertyListItemAdapter(getActivity(), mainlist);
-
 			list.setAdapter(adapters);
 
 		} else {
@@ -137,12 +129,10 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 	@Override
 	public void parseresult(String response, boolean success, int value) {
 
-
 		switch (value) {
 		case 1:
 			ParseLocation(response);
 			break;
-
 		default:
 			break;
 		}
@@ -151,12 +141,8 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 
 	private void ParseLocation(String response) {
 
-
 		try {
-
-
-			MapBackend detail = (new Gson()).fromJson(response.toString(),
-					MapBackend.class);
+			MapBackend detail = (new Gson()).fromJson(response.toString(), MapBackend.class);
 			if (detail.rental_offerings.size() > 0) {
 				appPref.SaveData("bysearch", "yes");
 				StaticClass.bySearch = true;
@@ -169,12 +155,10 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 						image_url = null;
 						image_url = "";
 
-						if (detail.rental_offerings.get(i).primary_property_photo_url
-								.size() > 0) {
-
-							image_url = detail.rental_offerings.get(i).primary_property_photo_url
+						if (detail.rental_offerings.get(i).primary_property_photo_url.size() > 0) {
+							image_url = detail.rental_offerings
+                                    .get(i).primary_property_photo_url
 									.get(0).photo_full_url;
-
 						} else {
 							image_url = "missing.png";
 						}
@@ -228,8 +212,7 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 					}
 					ActiveAndroid.setTransactionSuccessful();
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					AppLogger.log(TAG, e);
 				} finally {
 					ActiveAndroid.endTransaction();
 				}
@@ -242,8 +225,7 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 			}
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			AppLogger.log(TAG, e);
 			toast("No locations found");
 		}
 
@@ -257,7 +239,6 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 
 	@Override
 	public void onDestroyView() {
-
 		super.onDestroyView();
 		ButterKnife.reset(this);
 		getActivity().unregisterReceiver(receiver);
@@ -281,7 +262,6 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 				String loc = b.getString("params");
 				System.out.println("the location si " + loc);
 				SearchViaLocationList(loc);
-
 			}
 
 		}
@@ -293,56 +273,46 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 
-			
+            try {
+                Bundle b = intent.getExtras();
+                if (b != null) {
+                    if (adapters != null) {
+                        if (mainlist != null) {
+                            int pos = appPref.getIntData("listp");
+                            System.out.println("inside on recieve POS"+pos);
 
-			Bundle b = intent.getExtras();
-			if (b != null) {
-				if (adapters != null) {
-					if (mainlist != null) {
-						int pos = appPref.getIntData("listp");
-						System.out.println("inside on recieve POS"+pos);
-						
-						
-						if(b.getBoolean("remove_params"))
-						{
-							mainlist.get(pos).setStarred(true);
-							adapters.notifyDataSetChanged();
-						}
-						else
-						{
-							mainlist.get(pos).setStarred(false);
-							adapters.notifyDataSetChanged();
-						}
-						
-					}
-				}
-
-			}
+                            if(b.getBoolean("remove_params"))
+                            {
+                                mainlist.get(pos).setStarred(true);
+                                adapters.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                mainlist.get(pos).setStarred(false);
+                                adapters.notifyDataSetChanged();
+                            }
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                AppLogger.log(TAG, e);
+            }
 
 		}
 
 	};
 
 	private void SearchViaLocationList(String loc) {
-
-
 		if (!loc.equals("")) {
-
 			String url = ApiManager.getPropertySearchUrl(loc);
-
 			System.out.println("the search url list is " + url);
-
 			asynkhttpGet(1, url, AppPreferences.getAuthToken(), true);
-
 		}
-
 	}
 
 	@Override
 	public void onResume() {
-
 		super.onResume();
-
 	}
 
 }

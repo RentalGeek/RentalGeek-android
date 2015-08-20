@@ -29,29 +29,27 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.AddStarBack;
 import com.rentalgeek.android.database.PropertyTable;
-import com.rentalgeek.android.ui.fragment.ListInnerPage;
+import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.pojos.PropertyListPojo;
 import com.rentalgeek.android.ui.activity.ActivityHome;
+import com.rentalgeek.android.ui.fragment.ListInnerPage;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 
 import java.util.List;
 
-/**
- * 
- * @author George
- * 
- * @purpose Item Adapter class loads the each offerings to the ListView
- *
- */
+
 public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.PropertyList> {
 
-	Context context;
+    private static final String TAG = PropertyListItemAdapter.class.getSimpleName();
+
+    Context context;
 	AppPrefes appPref;
 	AsyncHttpClient client;
 	PersistentCookieStore mCookieStore;
 	PropertyTable prop;
 
 	private static class ViewHolder {
+
 		public final RelativeLayout main_list;
 		public final ImageView mainImage;
 		public final ImageView isStarred;
@@ -73,20 +71,14 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 		}
 
 		public static ViewHolder create(RelativeLayout main_list) {
-			ImageView mainImage = (ImageView) main_list
-					.findViewById(R.id.main_image);
-			ImageView isStarred = (ImageView) main_list
-					.findViewById(R.id.is_starred);
-			TextView priceRange = (TextView) main_list
-					.findViewById(R.id.price_range);
-			TextView streetName = (TextView) main_list
-					.findViewById(R.id.street_name);
-			TextView bedcount = (TextView) main_list
-					.findViewById(R.id.bedcount);
-			TextView showerCount = (TextView) main_list
-					.findViewById(R.id.shower_count);
+			ImageView mainImage = (ImageView) main_list.findViewById(R.id.main_image);
+			ImageView isStarred = (ImageView) main_list.findViewById(R.id.is_starred);
+			TextView priceRange = (TextView) main_list.findViewById(R.id.price_range);
+			TextView streetName = (TextView) main_list.findViewById(R.id.street_name);
+			TextView bedcount = (TextView) main_list.findViewById(R.id.bedcount);
+			TextView showerCount = (TextView) main_list.findViewById(R.id.shower_count);
 			return new ViewHolder(main_list, mainImage, isStarred, priceRange,
-					streetName, bedcount, showerCount);
+					                streetName, bedcount, showerCount);
 		}
 	}
 
@@ -94,8 +86,7 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		final ViewHolder vh;
 		if (convertView == null) {
-			View view = mInflater.inflate(R.layout.listview_single, parent,
-					false);
+			View view = mInflater.inflate(R.layout.listview_single, parent, false);
 			vh = ViewHolder.create((RelativeLayout) view);
 			view.setTag(vh);
 		} else {
@@ -104,16 +95,15 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 
 		final PropertyListPojo.PropertyList item = getItem(position);
 
-		// TODOBind your data to the views here
 		if (item.starred) {
 			vh.isStarred.setImageResource(R.drawable.star_select);
-
 		} else {
-
 			vh.isStarred.setImageResource(R.drawable.star);
 		}
+
 		Glide.with(context).load(item.prop_image).placeholder(R.drawable.white)
 				.error(R.drawable.banner).into(vh.mainImage);
+
 		vh.streetName.setText(item.headline);
 		vh.priceRange.setText(item.monthly_rent_floor + "");
 		vh.bedcount.setText(item.bedroom_count + "");
@@ -126,6 +116,7 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 
 				appPref.SaveIntData("listp", position);
 				System.out.println("the clicked pos " + position);
+
 				Fragment innerlist = new ListInnerPage();
 				Bundle args = new Bundle();
 				args.putInt("Count", item.count);
@@ -140,11 +131,10 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 			@Override
 			public void onClick(View v) {
 
-
 				if (item.starred) {
 					DislikeMe(item.id, position);
 				} else {
-					starProperty(item.id, position);
+					starProperty(item, position);
 				}
 
 			}
@@ -179,8 +169,7 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 		if (c == null) {
 			return;
 		}
-		FragmentTransaction ft = ((ActivityHome) c).getSupportFragmentManager()
-				.beginTransaction();
+		FragmentTransaction ft = ((ActivityHome) c).getSupportFragmentManager().beginTransaction();
 		ft.add(id, fragment);
 		if (stack)
 			ft.addToBackStack(fragment.getClass().getName().toString());
@@ -188,18 +177,40 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 	}
 
 	// Call the server to like
-	public void starProperty(final int itemid, final int clickposition) {
+	public void starProperty(final PropertyListPojo.PropertyList item, final int clickposition) {
 		new GetSSl().getssl(client);
 		mCookieStore = new PersistentCookieStore(context);
 		client.setCookieStore(mCookieStore);
 		RequestParams params = new RequestParams();
 
 		String Uid = appPref.getData("Uid");
-		System.out.println("" + Uid + " rental offering id " + itemid);
+		System.out.println("" + Uid + " rental offering id " + item.id);
 		params.put("starred_property[user_id]", Uid);
-		params.put("starred_property[rental_offering_id]", itemid + "");
 
-		String url = ApiManager.getStarredPrpoertiesUrl("");
+		params.put("starred_property[rental_offering_id]", item.id + "");
+
+//        params.put("starred_property[property_address]", );
+        params.put("starred_property[bedroom_count]", item.bedroom_count);
+        params.put("starred_property[full_bathroom_count]", item.full_bathroom_count);
+//        params.put("starred_property[square_footage_floor]", );
+        params.put("starred_property[monthly_rent_floor]", item.monthly_rent_floor);
+//        params.put("starred_property[salesy_description]", );
+//        params.put("starred_property[sold_out]", );
+
+
+//                detail.starred_properties.get(i).id,
+//                detail.starred_properties.get(i).user_id,
+//                detail.starred_properties.get(i).rental_offering_id,
+//                detail.starred_properties.get(i).property_address,
+//                detail.starred_properties.get(i).bedroom_count,
+//                detail.starred_properties.get(i).full_bathroom_count,
+//                detail.starred_properties.get(i).square_footage_floor,
+//                detail.starred_properties.get(i).monthly_rent_floor,
+//                detail.starred_properties.get(i).salesy_description,
+//                image_url,
+//                detail.starred_properties.get(i).sold_out
+
+                            String url = ApiManager.getStarredPrpoertiesUrl("");
 
 		GlobalFunctions.postApiCall(context, url, params, AppPreferences.getAuthToken(), client,
 				new HttpResponseHandler() {
@@ -212,19 +223,16 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 
 							if (failre) {
 
-								AddStarBack detail = (new Gson()).fromJson(
-										response.toString(), AddStarBack.class);
+								AddStarBack detail = (new Gson()).fromJson(response.toString(), AddStarBack.class);
 
-								Crouton crouton = Crouton.makeText(
-										(ActivityHome) context,
-										"Added to favorites", Style.ALERT);
+								Crouton crouton = Crouton.makeText((ActivityHome) context, "Added to favorites", Style.ALERT);
 								crouton.show();
 
 								PropertyListPojo.PropertyList propobj = getItem(clickposition);
 								propobj.starred = true;
 
 								prop = new Select().from(PropertyTable.class)
-										.where("uid = ?", itemid)
+										.where("uid = ?", item.id)
 										.executeSingle();
 								prop.starred = true;
 								prop.starred_property_id = detail.starred_property.id;
@@ -239,8 +247,7 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 
 							}
 						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+                            AppLogger.log(TAG, e);
 						}
 
 					}
@@ -257,16 +264,21 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 	public void DislikeMe(int itemids, int clickposition) {
 
 		final PropertyListPojo.PropertyList propobj = getItem(clickposition);
-		final PropertyTable	propy = new Select().from(PropertyTable.class).where("uid = ?", itemids)
-				.executeSingle();
+		final PropertyTable	propy = new Select().from(PropertyTable.class).where("uid = ?", itemids).executeSingle();
 
 		if (propy.starred_property_id != null) {
+
 			new GetSSl().getssl(client);
 			mCookieStore = new PersistentCookieStore(context);
 			client.setCookieStore(mCookieStore);
 
-			String links = ApiManager.getStarredPrpoertiesUrl(propy.starred_property_id);
-			GlobalFunctions.deleteApiCall(context, links, AppPreferences.getAuthToken(), client,
+			String links = ApiManager.getRemoveStarredPropertyUrl("");
+
+            RequestParams params = new RequestParams();
+            params.put("starred_property[rental_offering_id]", propy.starred_property_id);
+
+
+			GlobalFunctions.postApiCall(context, links, params, AppPreferences.getAuthToken(), client,
 					new HttpResponseHandler() {
 
 						@Override

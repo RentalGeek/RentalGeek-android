@@ -37,7 +37,7 @@
         android:src="@drawable/newlogo" />
 
     <Button
-        android:id="@+id/click_rent_final"
+        android:id="@+id/click_rent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -48,14 +48,19 @@
         android:textColor="#ffffff" />
     
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textViewGeekScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentLeft="false"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_below="@+id/textView1"
-        android:text="@string/last_msg_one" />
+        android:text="123"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_centerHorizontal="true"
+        android:textSize="80dp"
+        android:textColor="@color/blue"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textView1"
@@ -64,8 +69,7 @@
         android:layout_marginBottom="20dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="CONGRATULATION!"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/blue" />
+        android:text="Your Geek Score"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>

@@ -23,9 +23,11 @@ import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.StarredBacked;
+import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.pojos.StarredListPojo;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ConnectionDetector;
+import com.rentalgeek.android.utils.ListUtils;
 import com.rentalgeek.android.utils.RandomUtils;
 import com.squareup.picasso.Picasso;
 
@@ -35,15 +37,11 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-/**
- * 
- * @author George
- * 
- * @purpose Fragment which handles the Starred Property List
- *
- */
+
 public class FragmentStarredProperties extends LuttuBaseAbstract {
- 
+
+	private static final String TAG = FragmentStarredProperties.class.getSimpleName();
+
 	@InjectView(R.id.starred_list)
 	ListView list;
 
@@ -62,17 +60,14 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 	TypedArray images;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-		View v = inflater
-				.inflate(R.layout.fragment_starred_properties, container, false);
+		View v = inflater.inflate(R.layout.fragment_starred_properties, container, false);
 		ButterKnife.inject(this, v);
 		listitems = new ArrayList<Integer>();
 		con = new ConnectionDetector(getActivity());
 		appPref = new AppPrefes(getActivity(), "rentalgeek");
-		getActivity()
-				.registerReceiver(receiver, new IntentFilter("dislikeref"));
+		getActivity().registerReceiver(receiver, new IntentFilter("dislikeref"));
 		if (con.isConnectingToInternet()) {
 			fetchFromServer();
 		} else {
@@ -84,9 +79,7 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 
 	private void fetchFromServer() {
 
-
-		asynkhttpGet(2, ApiManager.getStarredPrpoertiesUrl(""), AppPreferences.getAuthToken(),//StaticClass.headlink + "/v2/starred_properties.json",
-				true);
+		asynkhttpGet(2, ApiManager.getStarredPrpoertiesUrl(""), AppPreferences.getAuthToken(), true);
 
 	}
 
@@ -110,21 +103,19 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 
 			System.out.println("starred response " + response);
 
-			StarredBacked detail = (new Gson()).fromJson(response.toString(),
-					StarredBacked.class);
+			StarredBacked detail = (new Gson()).fromJson(response.toString(), StarredBacked.class);
+
 			if (detail.starred_properties.size() > 0) {
 
 				StarredListPojo item = new StarredListPojo();
 				for (int i = 0; i < detail.starred_properties.size(); i++) {
 
 					String image_url="";
-					if(detail.starred_properties.get(i).image.size()>0)
+					if(!ListUtils.isNullOrEmpty(detail.starred_properties.get(i).image))
 					{
-						for (int j = 0; j < detail.starred_properties.get(i).image
-								.size(); j++) {
+						for (int j = 0; j < detail.starred_properties.get(i).image.size(); j++) {
 							image_url = detail.starred_properties.get(i).image
 									.get(0).photo_full_url;
-
 						}
 					}
 					else
@@ -152,8 +143,7 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 				toast("You have no favorites");
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			AppLogger.log(TAG, e);
 		}
 
 	}

@@ -8,15 +8,14 @@ public class Navigation {
 
     private static final String TAG = "Navigation";
 
-    public static void navigateActivity(FragmentActivity context, Class activity, boolean finish) {
+    public static void navigateActivity(FragmentActivity context, Class activity, boolean clearTop) {
         if (context == null) return;
-        if (finish) context.finish();
-        navigateActivity(context, activity);
+        final Intent intent = new Intent(context, activity);
+        if (clearTop) intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
     }
 
     public static void navigateActivity(FragmentActivity context, Class activity) {
-        if (context == null) return;
-        final Intent intent = new Intent(context, activity);
-        context.startActivity(intent);
+        navigateActivity(context, activity, false);
     }
 }

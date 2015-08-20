@@ -32,7 +32,7 @@ import com.rentalgeek.android.backend.PaymentBackend;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityCreateProfile;
-import com.rentalgeek.android.ui.activity.ActivityFinalGeekScore;
+import com.rentalgeek.android.ui.activity.ActivityGeekScore;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ConnectionDetector;
 
@@ -271,7 +271,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements Validator.Vali
 				profileAlert("Your payment is success. Please complete your profile in order to apply.");
 				// nextfragment(new FragmentProfile(), false, R.id.container);
 			} else {
-				Navigation.navigateActivity(getActivity(), ActivityFinalGeekScore.class);
+				Navigation.navigateActivity(getActivity(), ActivityGeekScore.class);
 				//nextfragment(new FragmentFinalGeekScore(), false, R.id.container);
 			}
 

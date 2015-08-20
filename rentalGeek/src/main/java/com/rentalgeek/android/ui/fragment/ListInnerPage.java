@@ -317,8 +317,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 					System.out.println("inside un starred click");
 					RequestParams params = new RequestParams();
 
-					System.out.println("prop id is " + prop.uid
-							+ " user id is " + appPref.getData("Uid"));
+					System.out.println("prop id is " + prop.uid + " user id is " + appPref.getData("Uid"));
 					String Uid = appPref.getData("Uid");
 					String suid = "" + prop.uid;
 					System.out.println("Uid" + Uid);

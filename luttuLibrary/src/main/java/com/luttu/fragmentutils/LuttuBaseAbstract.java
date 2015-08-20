@@ -59,8 +59,7 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 	/****
 	 * AsyncHttpClient network operation
 	 * */
-	public void asynkhttp(RequestParams params, final int value, String link, final String authToken,
-			boolean progrss) {
+	public void asynkhttp(RequestParams params, final int value, String link, final String authToken, boolean progrss) {
 
 		if (progrss)
 			progressshow();

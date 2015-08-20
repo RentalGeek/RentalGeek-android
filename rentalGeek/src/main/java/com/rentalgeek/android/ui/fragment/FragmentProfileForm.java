@@ -45,7 +45,7 @@ import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.ui.Common;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityCreateProfile;
-import com.rentalgeek.android.ui.activity.ActivityFinalGeekScore;
+import com.rentalgeek.android.ui.activity.ActivityGeekScore;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ConnectionDetector;
@@ -421,7 +421,7 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
                 if (!TextUtils.isEmpty(geekScore)) {
                     appPref.SaveData("geek_score", geekScore);
                 }
-                Navigation.navigateActivity(getActivity(), ActivityFinalGeekScore.class);
+                Navigation.navigateActivity(getActivity(), ActivityGeekScore.class);
             }
 //
 //            if (detail != null) {
@@ -642,7 +642,7 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
 
                     if (appPref.getIntData("payed") == 200) {
 
-                        Navigation.navigateActivity(getActivity(), ActivityFinalGeekScore.class);
+                        Navigation.navigateActivity(getActivity(), ActivityGeekScore.class);
                         //nextfragment(new FragmentFinalGeekScore(), false, R.id.container);
 
                     } else {

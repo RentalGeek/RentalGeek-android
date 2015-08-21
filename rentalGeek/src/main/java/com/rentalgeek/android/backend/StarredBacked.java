@@ -7,7 +7,7 @@ public class StarredBacked {
 
 	public String error;
 
-	public List<Star> starred_properties;
+	public List<Star> rental_offerings;
 
 	public class Star {
 		public String id;
@@ -21,6 +21,7 @@ public class StarredBacked {
 		public String salesy_description;
 		public String sold_out;
 		public List<Images> image;
+		public String headline;
 	}
 
 	

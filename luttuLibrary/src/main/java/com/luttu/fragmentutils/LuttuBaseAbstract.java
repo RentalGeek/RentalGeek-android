@@ -61,8 +61,7 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 	 * */
 	public void asynkhttp(RequestParams params, final int value, String link, final String authToken, boolean progrss) {
 
-		if (progrss)
-			progressshow();
+		if (progrss) progressshow();
 		new GetSSl().getssl(client);
 		mCookieStore = new PersistentCookieStore(getActivity());
 		client.setCookieStore(mCookieStore);
@@ -79,8 +78,7 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 							System.out.println("cockeui    " + cookies.size());
 							for (Cookie c : cookies) {
 								if (c.getName().equals("_fonda_session")) {
-									System.out.println("_fonda_session"
-											+ c.getValue());
+									System.out.println("_fonda_session" + c.getValue());
 								}
 							}
 
@@ -262,14 +260,11 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 	private void afterparse(String response, int value) {
 
 		try {
-			DetailFalse session = (new Gson()).fromJson(response.toString(),
-					DetailFalse.class);
+			DetailFalse session = (new Gson()).fromJson(response.toString(), DetailFalse.class);
 			parseresult(response, true, value);
 		} catch (JsonSyntaxException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NullPointerException e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 

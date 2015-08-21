@@ -65,7 +65,6 @@ import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -356,6 +355,7 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
             profdets.uid = appPref.getData("Uid");
         }
 
+        edBornOn.setOnFocusChangeListener(this);
         edEnvicted.setOnFocusChangeListener(this);
         ed_first_name.setOnFocusChangeListener(this);
         ed_last_name.setOnFocusChangeListener(this);
@@ -685,9 +685,7 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
 
             if (detail != null) {
                 if (detail.profile != null) {
-
                     appPref.SaveData("prof_id", detail.profile.id);
-
                     System.out.println("profile id is " + detail.profile.id);
                     callPatchUpdateLink(detail.profile.id);
                 }
@@ -699,31 +697,31 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
     }
 
     private RequestParams buildParams(int position, RequestParams params) throws ParseException {
+
+        if (profdets == null) return params;
+
         switch(position) {
             case 1:
-                if(!ed_first_name.getText().toString().equals(""))
+                if(!StringUtils.isTrimEmpty(ed_first_name))
                 {
-                    params.put("profile[first_name]", ed_first_name.getText().toString().trim());
+                    params.put("profile[first_name]", StringUtils.getTrimText(ed_first_name));
                 }
 
-                if(!ed_last_name.getText().toString().equals(""))
+                if(!StringUtils.isTrimEmpty(ed_last_name))
                 {
-                    params.put("profile[last_name]", ed_last_name
-                            .getText().toString().trim());
+                    params.put("profile[last_name]", StringUtils.getTrimText(ed_last_name));
                 }
 
-                if (!edBornOn.getText().toString().trim().equals("")) {
-                    Date date = new SimpleDateFormat("MM-dd-yyyy").parse(edBornOn
-                            .getText().toString().trim());
-                    String dateString1 = new SimpleDateFormat("yyyy-MM-dd")
-                            .format(date);
+                if (!StringUtils.isTrimEmpty(profdets.born_on)) {
+                    Date date = new SimpleDateFormat("MM-dd-yyyy").parse(StringUtils.getTrim(profdets.born_on));
+                    String dateString1 = new SimpleDateFormat("yyyy-MM-dd").format(date);
 
                     params.put("profile[born_on]", dateString1);
                 }
 
-                if (!edLicense.getText().toString().trim().equals(""))
-                    params.put("profile[drivers_license_number]", edLicense
-                            .getText().toString().trim());
+                if (!StringUtils.isTrimEmpty(edLicense))
+                    params.put("profile[drivers_license_number]",
+                            StringUtils.getTrimText(edLicense));
 
                 if (!ed_license_state.getSelectedItem().toString().trim()
                         .equals("States"))
@@ -731,17 +729,14 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
                             .getSelectedItem().toString().trim());
                 break;
             case 2:
-                if (!edPh.getText().toString().trim().equals(""))
-                    params.put("profile[phone_number]", edPh.getText().toString()
-                            .trim());
+                if (!StringUtils.isTrimEmpty(edPh))
+                    params.put("profile[phone_number]", StringUtils.getTrimText(edPh));
 
-                if (!edDescPets.getText().toString().trim().equals(""))
-                    params.put("profile[pets_description]", edDescPets.getText()
-                            .toString().trim());
+                if (!StringUtils.isTrimEmpty(edDescPets))
+                    params.put("profile[pets_description]", StringUtils.getTrimText(edDescPets));
 
-                if (!edDescVehicle.getText().toString().trim().equals(""))
-                    params.put("profile[vehicles_description]", edDescVehicle
-                            .getText().toString().trim());
+                if (!StringUtils.isTrimEmpty(edDescVehicle))
+                    params.put("profile[vehicles_description]", StringUtils.getTrimText(edDescVehicle));
 
                 if (ed_was_envicted.getSelectedItem().toString().equals("Yes")) {
                     params.put("profile[was_ever_evicted]", "true");
@@ -749,9 +744,8 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
                     params.put("profile[was_ever_evicted]", "false");
                 }
 
-                if (!edEnvicted.getText().toString().trim().equals(""))
-                    params.put("profile[was_ever_evicted_explanation]", edEnvicted
-                            .getText().toString().trim());
+                if (!StringUtils.isTrimEmpty(edEnvicted))
+                    params.put("profile[was_ever_evicted_explanation]", StringUtils.getTrimText(edEnvicted));
 
                 break;
             case 3:
@@ -761,29 +755,28 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
                     params.put("profile[is_felon]", "false");
                 }
 
-                if (!edFelonDesc.getText().toString().trim().equals(""))
-                    params.put("profile[is_felon_explanation]", edFelonDesc
-                            .getText().toString().trim());
+                if (!StringUtils.isTrimEmpty(edFelonDesc))
+                    params.put("profile[is_felon_explanation]", StringUtils.getTrimText(edFelonDesc));
 
-                if (!character_reference_name.getText().toString().trim().equals(""))
+                if (!StringUtils.isTrimEmpty(character_reference_name))
                     params.put("profile[character_reference_name]",
-                            character_reference_name.getText().toString().trim());
+                            StringUtils.getTrimText(character_reference_name));
 
-                if (!character_reference_contact_info.getText().toString().trim().equals(""))
+                if (!StringUtils.isTrimEmpty(character_reference_contact_info))
                     params.put("profile[character_reference_contact_info]",
-                            character_reference_contact_info.getText().toString().trim());
+                            StringUtils.getTrimText(character_reference_contact_info));
 
-                if (!emergency_contact_name.getText().toString().trim().equals(""))
+                if (!StringUtils.isTrimEmpty(emergency_contact_name))
                     params.put("profile[emergency_contact_name]",
-                            emergency_contact_name.getText().toString().trim());
+                            StringUtils.getTrimText(emergency_contact_name));
 
-                if (!emergency_contact_phone_number.getText().toString().trim().equals(""))
+                if (!StringUtils.isTrimEmpty(emergency_contact_phone_number))
                     params.put("profile[emergency_contact_phone_number]",
-                            emergency_contact_phone_number.getText().toString().trim());
+                            StringUtils.getTrimText(emergency_contact_phone_number));
 
                 break;
             case 4:
-                if (!current_home_street_address.getText().toString().trim().equals("")) {
+                if (!StringUtils.isTrimEmpty(current_home_street_address)) {
                     //params.put("profile[current_home_street]", current_home_street_address.getText().toString().trim());
                     params.put("profile[current_home_street]", String.format("%s %s", Common.streetNumber, Common.streetName));
                     params.put("profile[current_home_city]", Common.city);
@@ -792,86 +785,74 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
 
                 }
 
-                if (!current_home_moved_in_on.getText().toString().trim().equals("")) {
+                if (!StringUtils.isTrimEmpty(current_home_moved_in_on)) {
 
                     Date date = new SimpleDateFormat("MM-dd-yyyy")
-                            .parse(current_home_moved_in_on.getText().toString().trim());
+                            .parse(StringUtils.getTrimText(current_home_moved_in_on));
                     String dateString3 = new SimpleDateFormat("yyyy-MM-dd").format(date);
                     params.put("profile[current_home_moved_in_on]", dateString3);
 
                 }
 
-                if (!edCurrHomeDiss.getText().toString().trim().equals(""))
+                if (!StringUtils.isTrimEmpty(edCurrHomeDiss))
                     params.put("profile[current_home_dissatisfaction_explanation]",
-                            edCurrHomeDiss.getText().toString().trim());
+                            StringUtils.getTrimText(edCurrHomeDiss));
 
-                if (!current_home_owner.getText().toString().trim().equals(""))
-                    params.put("profile[current_home_owner]", current_home_owner
-                            .getText().toString().trim());
+                if (!StringUtils.isTrimEmpty(current_home_owner))
+                    params.put("profile[current_home_owner]",
+                            StringUtils.getTrimText(current_home_owner));
 
-                if (!current_home_owner_contact_info.getText().toString().trim()
-                        .equals(""))
+                if (!StringUtils.isTrimEmpty(current_home_owner_contact_info))
                     params.put("profile[current_home_owner_contact_info]",
-                            current_home_owner_contact_info.getText().toString()
-                                    .trim());
+                            StringUtils.getTrimText(current_home_owner_contact_info));
                 break;
             case 5:
-                if (!previous_home_street_address.getText().toString().trim()
-                        .equals(""))
+                if (!StringUtils.isTrimEmpty(previous_home_street_address))
                     params.put("profile[previous_home_street_address]",
-                            previous_home_street_address.getText().toString()
-                                    .trim());
+                            StringUtils.getTrimText(previous_home_street_address));
 
-                if (!previous_home_moved_in_on.getText().toString().trim()
-                        .equals("")) {
+                if (!StringUtils.isTrimEmpty(previous_home_moved_in_on)) {
                     Date date = new SimpleDateFormat("MM-dd-yyyy")
-                            .parse(previous_home_moved_in_on.getText().toString()
-                                    .trim());
+                            .parse(StringUtils.getTrimText(previous_home_moved_in_on));
                     String dateString3 = new SimpleDateFormat("yyyy-MM-dd")
                             .format(date);
 
                     params.put("profile[previous_home_moved_in_on]", dateString3);
                 }
 
-                if (!previous_home_moved_out.getText().toString().trim().equals("")) {
+                if (!StringUtils.isTrimEmpty(previous_home_moved_out)) {
                     Date date = new SimpleDateFormat("MM-dd-yyyy")
-                            .parse(previous_home_moved_out.getText().toString()
-                                    .trim());
+                            .parse(StringUtils.getTrimText(previous_home_moved_out));
                     String dateString4 = new SimpleDateFormat("yyyy-MM-dd")
                             .format(date);
 
                     params.put("profile[previous_home_moved_out]", dateString4);
                 }
 
-                if (!previous_home_owner.getText().toString().trim().equals(""))
-                    params.put("profile[previous_home_owner]", previous_home_owner
-                            .getText().toString().trim());
+                if (!StringUtils.isTrimEmpty(previous_home_owner))
+                    params.put("profile[previous_home_owner]",
+                            StringUtils.getTrimText(previous_home_owner));
 
-                if (!previous_home_owner_contact_info.getText().toString().trim()
-                        .equals(""))
+                if (!StringUtils.isTrimEmpty(previous_home_owner_contact_info))
                     params.put("profile[previous_home_owner_contact_info]",
-                            previous_home_owner_contact_info.getText().toString()
-                                    .trim());
+                            StringUtils.getTrimText(previous_home_owner_contact_info));
 
                 break;
             case 6:
-                params.put("profile[employment_status]", employment_status
-                        .getSelectedItem().toString().trim());
+                params.put("profile[employment_status]", employment_status.getSelectedItem().toString().trim());
 
-                if (!current_employment_supervisor.getText().toString().trim()
-                        .equals(""))
+                if (!StringUtils.isTrimEmpty(current_employment_supervisor))
                     params.put("profile[current_employment_supervisor]",
-                            current_employment_supervisor.getText().toString()
-                                    .trim());
+                            StringUtils.getTrimText(current_employment_supervisor));
 
-                if (!cosigner_name.getText().toString().trim().equals(""))
-                    params.put("profile[cosigner_name]", cosigner_name.getText()
-                            .toString().trim());
+                if (!StringUtils.isTrimEmpty(cosigner_name))
+                    params.put("profile[cosigner_name]",
+                            StringUtils.getTrimText(cosigner_name));
 
-                if (!cosigner_email_address.getText().toString().trim().equals("")) {
-                    if (isValidEmail(cosigner_email_address.getText().toString().trim())) {
+                if (!StringUtils.isTrimEmpty(cosigner_email_address)) {
+                    if (isValidEmail(StringUtils.getTrimText(cosigner_email_address))) {
                         params.put("profile[cosigner_email_address]",
-                                cosigner_email_address.getText().toString().trim());
+                                StringUtils.getTrimText(cosigner_email_address));
                     } else {
                         cosigner_email_address.setError("Please enter a valid email");
                         cosigner_email_address.requestFocus();
@@ -879,12 +860,11 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
 
                 }
 
-                if (!desires_to_move_in_on.getText().toString().trim().equals("")) {
+                if (!StringUtils.isTrimEmpty(desires_to_move_in_on)) {
                     Date date = new SimpleDateFormat("MM-dd-yyyy")
-                            .parse(desires_to_move_in_on.getText().toString()
-                                    .trim());
-                    String dateString5 = new SimpleDateFormat("yyyy-MM-dd")
-                            .format(date);
+                            .parse(StringUtils.getTrimText(desires_to_move_in_on));
+
+                    String dateString5 = new SimpleDateFormat("yyyy-MM-dd") .format(date);
 
                     params.put("profile[desires_to_move_in_on]", dateString5);
                 }
@@ -956,6 +936,11 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
                         toasts("Previous Home Date", sess.errors.previous_home_moved_in_on);
                         break;
                     case 6:
+                        toasts("Birth Date", sess.errors.born_on);
+                        toasts("Emergency Contact", sess.errors.emergency_contact_phone_number);
+                        toasts("Current Home Move-in Date", sess.errors.current_home_moved_in_on);
+                        toasts("Previous Home Date", sess.errors.previous_home_moved_in_on);
+
                         toasts("Previous Employer Email", sess.errors.previous_employment_employer_email_address);
                         toasts("Previous Employer Phone", sess.errors.previous_employment_employer_phone_number);
                         toasts("Employer Email", sess.errors.current_employment_employer_email_address);
@@ -1085,6 +1070,12 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
     @OnClick(R.id.profile_submit)
     public void ProfileSubmit() {
         validator.validate();
+    }
+
+    @OnClick(R.id.buttonBack)
+    public void clickButtonBack() {
+        ActivityCreateProfile activity = (ActivityCreateProfile) getActivity();
+        activity.flipPager(position-2);
     }
 
     @OnClick({  R.id.ed_desir_mov,
@@ -1218,13 +1209,11 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
                         profdets.save();
                         break;
                     case R.id.ed_curr_home_mov_in:
-                        profdets.current_home_moved_in_on = edit.getText()
-                                .toString();
+                        profdets.current_home_moved_in_on = edit.getText().toString();
                         profdets.save();
                         break;
                     case R.id.ed_prev_hme_movedin:
-                        profdets.previous_home_moved_in_on = edit.getText()
-                                .toString();
+                        profdets.previous_home_moved_in_on = edit.getText().toString();
                         profdets.save();
                         break;
                     case R.id.ed_prev_hme_movedout:
@@ -1297,11 +1286,6 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
 
     }
 
-    private String getTextFieldValue(EditText field) {
-        if (field != null) return field.getText().toString().trim();
-        return "";
-    }
-
     // Auto Save Functionality in FragmentProfile
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
@@ -1313,99 +1297,98 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
             if (!hasFocus && !ed.getText().toString().equals("")) {
                 switch (v.getId()) {
                     case R.id.ed_born_on:
-                        profdets.born_on = getTextFieldValue(ed);
+                        profdets.born_on = StringUtils.getTrimText(ed);
                         profdets.save();
                         break;
                     case R.id.ed_first_name:
-                        profdets.firstname = getTextFieldValue(ed_first_name);
+                        profdets.firstname = StringUtils.getTrimText(ed_first_name);
                         profdets.save();
                         break;
                     case R.id.ed_last_name:
-                        profdets.lastname = getTextFieldValue(ed_last_name);
+                        profdets.lastname = StringUtils.getTrimText(ed_last_name);
                         profdets.save();
                         break;
                     case R.id.ed_license:
-                        profdets.drivers_license_number = getTextFieldValue(edLicense);
+                        profdets.drivers_license_number = StringUtils.getTrimText(edLicense);
                         profdets.save();
                         break;
                     case R.id.ed_ph:
-                        profdets.phone_number = getTextFieldValue(edPh);
+                        profdets.phone_number = StringUtils.getTrimText(edPh);
                         profdets.save();
                         break;
                     case R.id.ed_desc_pets:
-                        profdets.pets_description = getTextFieldValue(edDescPets);
+                        profdets.pets_description = StringUtils.getTrimText(edDescPets);
                         profdets.save();
                         break;
                     case R.id.ed_desc_vehicle:
-                        profdets.vehicles_description = getTextFieldValue(edDescVehicle);
+                        profdets.vehicles_description = StringUtils.getTrimText(edDescVehicle);
                         profdets.save();
                         break;
                     case R.id.ed_envicted_desc:
-                        profdets.was_ever_evicted_explanation = getTextFieldValue(edEnvicted);
+                        profdets.was_ever_evicted_explanation = StringUtils.getTrimText(edEnvicted);
                         profdets.save();
                         break;
                     case R.id.ed_felon_desc:
-                        profdets.is_felon_explanation = getTextFieldValue(edFelonDesc);
+                        profdets.is_felon_explanation = StringUtils.getTrimText(edFelonDesc);
                         profdets.save();
                         break;
                     case R.id.ed_char_ref:
-                        profdets.character_reference_name = getTextFieldValue(character_reference_name);
+                        profdets.character_reference_name = StringUtils.getTrimText(character_reference_name);
                         profdets.save();
                         break;
 
                     case R.id.ed_char_ref_conifo:
-                        profdets.character_reference_contact_info = getTextFieldValue(character_reference_contact_info);
+                        profdets.character_reference_contact_info = StringUtils.getTrimText(character_reference_contact_info);
                         profdets.save();
                         break;
                     case R.id.ed_emer_conifo:
-                        profdets.emergency_contact_name = getTextFieldValue(emergency_contact_name);
+                        profdets.emergency_contact_name = StringUtils.getTrimText(emergency_contact_name);
                         profdets.save();
                         break;
                     case R.id.ed_home_addr:
-                        profdets.current_home_street_address = getTextFieldValue(current_home_street_address);
+                        profdets.current_home_street_address = StringUtils.getTrimText(current_home_street_address);
                         profdets.save();
                         break;
                     case R.id.ed_curr_home_diss:
-                        profdets.current_home_dissatisfaction_explanation = getTextFieldValue(edCurrHomeDiss);
+                        profdets.current_home_dissatisfaction_explanation = StringUtils.getTrimText(edCurrHomeDiss);
                         profdets.save();
                         break;
                     case R.id.ed_curr_home_own:
-                        profdets.current_home_owner = getTextFieldValue(current_home_owner);
+                        profdets.current_home_owner = StringUtils.getTrimText(current_home_owner);
                         profdets.save();
                         break;
                     case R.id.ed_curr_own_cont:
-                        profdets.current_home_owner_contact_info = getTextFieldValue(current_home_owner_contact_info);
+                        profdets.current_home_owner_contact_info = StringUtils.getTrimText(current_home_owner_contact_info);
                         profdets.save();
                         break;
                     case R.id.ed_prev_own_stree:
-                        profdets.previous_home_street_address = getTextFieldValue(previous_home_street_address);
+                        profdets.previous_home_street_address = StringUtils.getTrimText(previous_home_street_address);
                         profdets.save();
                         break;
                     case R.id.ed_prev_hme_own:
-                        profdets.previous_home_owner = getTextFieldValue(previous_home_owner);
+                        profdets.previous_home_owner = StringUtils.getTrimText(previous_home_owner);
                         profdets.save();
                         break;
                     case R.id.ed_prev_hme_own_cnt:
-                        profdets.previous_home_owner_contact_info = getTextFieldValue(previous_home_owner_contact_info);
+                        profdets.previous_home_owner_contact_info = StringUtils.getTrimText(previous_home_owner_contact_info);
                         profdets.save();
                         break;
                     case R.id.ed_empl_super:
-                        profdets.current_employment_supervisor = getTextFieldValue(current_employment_supervisor);
+                        profdets.current_employment_supervisor = StringUtils.getTrimText(current_employment_supervisor);
                         profdets.save();
                         break;
                     case R.id.ed_cosigner:
-                        profdets.cosigner_name = getTextFieldValue(cosigner_name);
+                        profdets.cosigner_name = StringUtils.getTrimText(cosigner_name);
                         profdets.save();
                         break;
                     case R.id.ed_cosigner_email:
-                        profdets.cosigner_email_address = getTextFieldValue(cosigner_email_address);
+                        profdets.cosigner_email_address = StringUtils.getTrimText(cosigner_email_address);
                         profdets.save();
                         break;
                     case R.id.ed_emer_ph:
-                        profdets.emergency_contact_phone_number = getTextFieldValue(emergency_contact_phone_number);
+                        profdets.emergency_contact_phone_number = StringUtils.getTrimText(emergency_contact_phone_number);
                         profdets.save();
                         break;
-
                     default:
                         break;
                 }
@@ -1660,11 +1643,21 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
 
         @Override
         public boolean isValid(CharSequence text) {
-            String[] validWords = placesAdapter.resultList.toArray(new String[placesAdapter.resultList.size()]);
-            Log.v("Test", "Checking if valid: " + text);
-            Arrays.sort(validWords);
-            if (Arrays.binarySearch(validWords, text.toString()) > 0) {
-                return true;
+
+            if (!ListUtils.isNullOrEmpty(placesAdapter.resultList)) {
+                String[] validWords = placesAdapter.resultList.toArray(new String[placesAdapter.resultList.size()]);
+                Log.v("Test", "Checking if valid: " + text);
+                //Arrays.sort(validWords);
+                String searchFor = text.toString();
+                if (TextUtils.isEmpty(searchFor)) return false;
+
+                for (int i=0; i<placesAdapter.resultList.size(); i++) {
+                    String result = placesAdapter.resultList.get(i);
+                    if (searchFor.equals(result)) return true;
+                }
+//                if (Arrays.binarySearch(validWords, text.toString()) > 0) {
+//                    return true;
+//                }
             }
 
             return false;

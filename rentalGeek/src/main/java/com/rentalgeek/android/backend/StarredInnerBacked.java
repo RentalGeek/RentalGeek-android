@@ -10,7 +10,7 @@ public class StarredInnerBacked {
 	{
 		public String id;
 		public String bedroom_count;
-		public String applies_count;
+		public String applications_count;
 		public String full_bathroom_count;
 		public String half_bathroom_count;
 		public String monthly_rent_floor;

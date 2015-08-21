@@ -79,7 +79,7 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 
 	private void fetchFromServer() {
 
-		asynkhttpGet(2, ApiManager.getStarredPrpoertiesUrl(""), AppPreferences.getAuthToken(), true);
+		asynkhttpGet(2, ApiManager.getPropertySearchUrl("starred=true"), AppPreferences.getAuthToken(), true);
 
 	}
 
@@ -105,36 +105,40 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 
 			StarredBacked detail = (new Gson()).fromJson(response.toString(), StarredBacked.class);
 
-			if (detail.starred_properties.size() > 0) {
+			if (detail != null && !ListUtils.isNullOrEmpty(detail.rental_offerings)) {
 
 				StarredListPojo item = new StarredListPojo();
-				for (int i = 0; i < detail.starred_properties.size(); i++) {
+				for (int i = 0; i < detail.rental_offerings.size(); i++) {
 
 					String image_url="";
-					if(!ListUtils.isNullOrEmpty(detail.starred_properties.get(i).image))
+
+                    StarredBacked.Star star = detail.rental_offerings.get(i);
+
+                    if(!ListUtils.isNullOrEmpty(star.image))
 					{
-						for (int j = 0; j < detail.starred_properties.get(i).image.size(); j++) {
-							image_url = detail.starred_properties.get(i).image
-									.get(0).photo_full_url;
+						for (int j = 0; j < star.image.size(); j++) {
+							image_url = star.image.get(0).photo_full_url;
 						}
 					}
 					else
 					{
 						image_url="missing.png";
 					}
-					
+
+
 					mainlist.add(item.new StarredList(
-							detail.starred_properties.get(i).id,
-							detail.starred_properties.get(i).user_id,
-							detail.starred_properties.get(i).rental_offering_id,
-							detail.starred_properties.get(i).property_address,
-							detail.starred_properties.get(i).bedroom_count,
-							detail.starred_properties.get(i).full_bathroom_count,
-							detail.starred_properties.get(i).square_footage_floor,
-							detail.starred_properties.get(i).monthly_rent_floor,
-							detail.starred_properties.get(i).salesy_description,
+							star.id,
+							star.user_id,
+							star.rental_offering_id,
+							star.property_address,
+							star.bedroom_count,
+							star.full_bathroom_count,
+							star.square_footage_floor,
+							star.monthly_rent_floor,
+							star.salesy_description,
 							image_url,
-							detail.starred_properties.get(i).sold_out));
+							star.sold_out,
+                            star.headline));
 					adapter = new ItemAdapter();
 					list.setAdapter(adapter);
 				}
@@ -193,21 +197,15 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 			View view = convertView;
 			final ViewHolder holder;
 			if (convertView == null) {
-				view = getActivity().getLayoutInflater().inflate(
-						R.layout.listview_single, parent, false);
+				view = getActivity().getLayoutInflater().inflate(R.layout.listview_single, parent, false);
 				holder = new ViewHolder();
-				holder.main_image = (ImageView) view
-						.findViewById(R.id.main_image);
-				holder.street_name = (TextView) view
-						.findViewById(R.id.street_name);
-				holder.is_starred = (ImageView) view
-						.findViewById(R.id.is_starred);
+				holder.main_image = (ImageView) view.findViewById(R.id.main_image);
+				holder.street_name = (TextView) view.findViewById(R.id.street_name);
+				holder.is_starred = (ImageView) view.findViewById(R.id.is_starred);
 				holder.price = (TextView) view.findViewById(R.id.price_range);
 				holder.bed_count = (TextView) view.findViewById(R.id.bedcount);
-				holder.shower_count = (TextView) view
-						.findViewById(R.id.shower_count);
+				holder.shower_count = (TextView) view.findViewById(R.id.shower_count);
 				holder.lay = (RelativeLayout) view.findViewById(R.id.main_list);
-
 				view.setTag(holder);
 			} else {
 				holder = (ViewHolder) view.getTag();
@@ -220,18 +218,15 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 					.placeholder(R.drawable.white).error(R.drawable.banner)
 					.into(holder.main_image);
 			holder.main_image.setTag(ppp);
-			holder.street_name.setText(mainlist.get(position).property_address);
-			holder.price
-					.setText(mainlist.get(position).monthly_rent_floor + "");
+			holder.street_name.setText(mainlist.get(position).headline);
+			holder.price.setText(mainlist.get(position).monthly_rent_floor + "");
 			holder.bed_count.setText(mainlist.get(position).bedroom_count + "");
-			holder.shower_count
-					.setText(mainlist.get(position).full_bathroom_count + "");
+			holder.shower_count.setText(mainlist.get(position).full_bathroom_count + "");
 
 			holder.is_starred.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
-
 
 					RemoveStar(holder.is_starred.getTag().toString());
 					mainlist.remove(position);
@@ -246,19 +241,14 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 				@Override
 				public void onClick(View v) {
 
-
 					Fragment innerlist = new FragmentStarredPropDetails();
 					Bundle args = new Bundle();
 
-					args.putString("star_id", holder.is_starred.getTag()
-							.toString());
-					args.putString("rental_id",
-							mainlist.get(position).rental_offering_id);
+					args.putString("star_id", holder.is_starred.getTag().toString());
+					args.putString("rental_id", mainlist.get(position).rental_offering_id);
 
-					args.putString("img_pos", holder.main_image.getTag()
-							.toString());
-					System.out.println("the value  "
-							+ (Integer) holder.main_image.getTag());
+					args.putString("img_pos", holder.main_image.getTag().toString());
+					System.out.println("the value  " + (Integer) holder.main_image.getTag());
 
 					innerlist.setArguments(args);
 					appPref.SaveIntData("click_pos", position);

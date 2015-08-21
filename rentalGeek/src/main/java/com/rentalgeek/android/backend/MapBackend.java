@@ -12,7 +12,7 @@ public class MapBackend {
 	public class Offer {
 		public int id;
 		public int bedroom_count;
-		public String applies_count;
+		public String applications_count;
 		public int full_bathroom_count;
 		public String half_bathroom_count;
 		public int monthly_rent_floor;

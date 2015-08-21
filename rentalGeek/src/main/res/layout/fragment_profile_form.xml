@@ -501,7 +501,7 @@
                         android:imeOptions="actionNext"
                         android:singleLine="true"
                         android:layout_below="@id/curr_home_tag"
-                        android:text="Please enter your place" >
+                        android:hint="Please enter your address" >
 
                     </AutoCompleteTextView>
                     <!--<EditText-->

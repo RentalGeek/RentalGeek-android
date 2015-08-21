@@ -24,16 +24,15 @@ public class ApiManager {
     }
 
     public static String getApplyUrl() {
-        String url = API_HOST + "/applies";
+        String url = API_HOST + "/applications";
         return url;
     }
 
-    public static String getRemoveStarredPropertyUrl(String propertyId) {
-        String url = API_HOST + "/starred_properties/remove_star";
-        if (TextUtils.isEmpty(propertyId)) return url;
-        return String.format("%s/%s", url, propertyId);
-
-    }
+//    public static String getRemoveStarredPropertyUrl(String propertyId) {
+//        String url = API_HOST + "/starred_properties/remove_star";
+//        if (TextUtils.isEmpty(propertyId)) return url;
+//        return String.format("%s/%s", url, propertyId);
+//    }
 
     public static String getStarredPrpoertiesUrl(String starredPropertyId) {
         String url = API_HOST + "/starred_properties";

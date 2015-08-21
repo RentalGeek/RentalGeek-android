@@ -162,8 +162,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements Validator.Vali
 
 
 		try {
-			LoginBackend detail = (new Gson()).fromJson(response,
-					LoginBackend.class);
+			LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
 
 			if (detail.user.payment) {
 				toastsuccess("You have already paid");
@@ -204,7 +203,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements Validator.Vali
 		else if(value == 1)
 		{
 			try {
-				toast("FragmentPayment process failure");
+				toast("Payment process failure");
 
 				System.out.println("payment failure " + response);
 
@@ -264,7 +263,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements Validator.Vali
 
 		if (detail != null && detail.transaction != null) {
 
-			toast("FragmentPayment successfull, transaction ID" + detail.transaction.transaction_id);
+			toast("Payment successful, transaction ID" + detail.transaction.transaction_id);
 			appPref.SaveIntData("payed", 200);
 
 			if (appPref.getData("prof_id").equals("")) {

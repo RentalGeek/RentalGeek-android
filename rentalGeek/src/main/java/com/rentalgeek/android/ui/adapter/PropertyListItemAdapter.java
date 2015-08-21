@@ -208,7 +208,7 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 //                image_url,
 //                detail.starred_properties.get(i).sold_out
 
-                            String url = ApiManager.getStarredPrpoertiesUrl("");
+                            String url = ApiManager.getStarredPrpoertiesUrl(String.valueOf(item.id));
 
 		GlobalFunctions.postApiCall(context, url, params, AppPreferences.getAuthToken(), client,
 				new HttpResponseHandler() {
@@ -270,19 +270,19 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 			mCookieStore = new PersistentCookieStore(context);
 			client.setCookieStore(mCookieStore);
 
-			String links = ApiManager.getRemoveStarredPropertyUrl("");
+			String links = ApiManager.getStarredPrpoertiesUrl(propy.starred_property_id);
 
             RequestParams params = new RequestParams();
             params.put("starred_property[rental_offering_id]", propy.starred_property_id);
 
 
-			GlobalFunctions.postApiCall(context, links, params, AppPreferences.getAuthToken(), client,
+			GlobalFunctions.deleteApiCall(context, links, AppPreferences.getAuthToken(), client,
 					new HttpResponseHandler() {
 
 						@Override
 						public void handle(String response, boolean failre) {
 
-							System.out.println("remove star response "+response);
+							System.out.println("remove star response " + response);
 							if (failre && context != null) {
 								propobj.starred = false;
 								propy.starred = false;

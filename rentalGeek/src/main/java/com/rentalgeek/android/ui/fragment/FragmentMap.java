@@ -331,9 +331,8 @@ public class FragmentMap extends LuttuBaseAbstract {
 			@Override
 			protected Void doInBackground(Void... params) {
 
+				MapBackend detail = (new Gson()).fromJson(response.toString(), MapBackend.class);
 
-				MapBackend detail = (new Gson()).fromJson(response.toString(),
-						MapBackend.class);
 				if (detail.rental_offerings.size() > 0) {
 
 					new Delete().from(PropertyTable.class).execute();

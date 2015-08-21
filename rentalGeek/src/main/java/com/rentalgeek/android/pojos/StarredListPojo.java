@@ -15,13 +15,13 @@ public class StarredListPojo {
 		public String salesy_description;
 		public String image;
 		public String sold_out;
-		
+		public String headline;
 		
 		public StarredList(String id, String user_id,
 				String rental_offering_id, String property_address,
 				String bedroom_count, String full_bathroom_count,
 				String square_footage_floor, String monthly_rent_floor,
-				String salesy_description, String image, String sold_out) {
+				String salesy_description, String image, String sold_out, String headline) {
 			super();
 			this.id = id;
 			this.user_id = user_id;
@@ -34,6 +34,7 @@ public class StarredListPojo {
 			this.salesy_description = salesy_description;
 			this.image = image;
 			this.sold_out = sold_out;
+			this.headline = headline;
 		}
 		
 		

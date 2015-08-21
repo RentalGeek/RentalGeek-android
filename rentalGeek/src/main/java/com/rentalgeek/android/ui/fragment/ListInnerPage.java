@@ -29,6 +29,7 @@ import com.rentalgeek.android.backend.AddStarBack.StarredProperty;
 import com.rentalgeek.android.backend.ApplyBackend;
 import com.rentalgeek.android.backend.ApplyError;
 import com.rentalgeek.android.database.PropertyTable;
+import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.ui.dialog.MoreAmenitiesDialog;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ConnectionDetector;
@@ -43,9 +44,11 @@ import ir.noghteh.JustifiedTextView;
 
 
 public class ListInnerPage extends LuttuBaseAbstract {
+
+	private static final String TAG = "ListInnerPage";
+
 	@InjectView(R.id.main_image)
 	ImageView main_image;
-	ConnectionDetector con;
 
 	@InjectView(R.id.amen_tag)
 	TextView amen_tag;
@@ -55,35 +58,37 @@ public class ListInnerPage extends LuttuBaseAbstract {
 
 	@InjectView(R.id.apply)
 	ImageView apply;
+
 	@InjectView(R.id.like)
 	ImageView like;
 
-	PropertyTable prop;
-	AppPrefes appPref;
-
 	@InjectView(R.id.price_range_inner)
 	TextView price_range;
-	private YoYo.YoYoString animation_obj;
 
 	@InjectView(R.id.star_img)
 	ImageView star_img;
-	ArrayList<String> amenities = new ArrayList<String>();
 
 	@InjectView(R.id.like_tag)
 	TextView like_tag;
 
 	@InjectView(R.id.street_name_inner)
 	TextView street_name_inner;
+
 	@InjectView(R.id.bed_inner)
 	TextView bed_inner;
+
 	@InjectView(R.id.shower_inner)
 	TextView shower_inner;
+
 	@InjectView(R.id.am0)
 	TextView am0;
+
 	@InjectView(R.id.am1)
 	TextView am1;
+
 	@InjectView(R.id.am2)
 	TextView am2;
+
 	@InjectView(R.id.am3)
 	TextView am3;
 
@@ -91,11 +96,18 @@ public class ListInnerPage extends LuttuBaseAbstract {
 	JustifiedTextView am4;
 
 	ArrayList<String> street_name;
-	int[] fiilliste;
+    ArrayList<String> amenities = new ArrayList<String>();
+
+    ConnectionDetector con;
+    PropertyTable prop;
+    AppPrefes appPref;
+
+    private YoYo.YoYoString animation_obj;
+
+    int[] fiilliste;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		View v = inflater.inflate(R.layout.listview_inner, container, false);
 		ButterKnife.inject(this, v);
@@ -119,7 +131,6 @@ public class ListInnerPage extends LuttuBaseAbstract {
 	private void FetchDataFromDB(int id) {
 		try {
 
-
 			prop = new Select().from(PropertyTable.class)
 					.where("count = ?", id).executeSingle();
 
@@ -135,14 +146,11 @@ public class ListInnerPage extends LuttuBaseAbstract {
 			System.out.println("the starred value " + prop.starred);
 
 			if (prop.starred) {
-				Picasso.with(getActivity()).load(R.drawable.star_select)
-						.into(star_img);
+				Picasso.with(getActivity()).load(R.drawable.star_select).into(star_img);
 				Picasso.with(getActivity()).load(R.drawable.like).into(like);
-
 				like_tag.setText("Like");
 			} else {
-				Picasso.with(getActivity()).load(R.drawable.star)
-						.into(star_img);
+				Picasso.with(getActivity()).load(R.drawable.star).into(star_img);
 				like_tag.setText("Like");
 				Picasso.with(getActivity()).load(R.drawable.unlikeb).into(like);
 			}
@@ -156,15 +164,13 @@ public class ListInnerPage extends LuttuBaseAbstract {
 					+ ". You can reach the property manager at "
 					+ prop.customer_contact_email_address);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			AppLogger.log(TAG, e);
 		}
 
 	}
 
 	@Override
 	public void parseresult(String response, boolean success, int value) {
-
 
 		switch (value) {
 		case 1:
@@ -302,14 +308,13 @@ public class ListInnerPage extends LuttuBaseAbstract {
 
 		try {
 			if (con.isConnectingToInternet()) {
-				animation_obj = YoYo.with(Techniques.Flash).duration(1000)
-						.playOn(like);
+
+				animation_obj = YoYo.with(Techniques.Flash).duration(1000).playOn(like);
 
 				if (prop.starred) {
 
 					System.out.println("inside starred click");
 					if (prop.starred_property_id != null) {
-
 						asynkhttpDelete(2, ApiManager.getStarredPrpoertiesUrl(prop.starred_property_id), AppPreferences.getAuthToken(), true);
 					}
 				} else {
@@ -333,8 +338,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 				toast("No Connection");
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			AppLogger.log(TAG, e);
 		}
 
 	}

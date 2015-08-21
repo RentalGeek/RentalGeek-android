@@ -49,6 +49,7 @@ import com.rentalgeek.android.backend.ForgotError;
 import com.rentalgeek.android.backend.GoogleBackend;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.database.ProfileTable;
+import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.activity.ActivityRegistration;
 import com.rentalgeek.android.ui.activity.ActivityTutorials;
@@ -117,7 +118,6 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 
 	public static FragmentSignIn newInstance() {
 		FragmentSignIn fragment = new FragmentSignIn();
-
 		return fragment;
 	}
 
@@ -136,8 +136,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		View v = inflater.inflate(R.layout.sigin_latest, container, false);
 		// signin();
@@ -153,8 +152,6 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 				.addConnectionCallbacks(this)
 				.addOnConnectionFailedListener(this).addApi(Plus.API)
 				.addScope(Plus.SCOPE_PLUS_PROFILE).build();
-
-		// Linked in needs
 
 		return v;
 
@@ -217,8 +214,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 	private void LinkedInParse(String response) {
 
 
-		GoogleBackend detail = (new Gson()).fromJson(response,
-				GoogleBackend.class);
+		GoogleBackend detail = (new Gson()).fromJson(response, GoogleBackend.class);
 
 		// Applicant appli=detail.applicant;
 
@@ -256,8 +252,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 			
 		} else {
 			profdets = new ProfileTable();
-			profdets.uid = appPref
-					.getData("Uid");
+			profdets.uid = appPref.getData("Uid");
 			profdets.firstname=appPref.getData("socialname_link");
 			profdets.lastname=appPref.getData("sociallastname_link");
 			profdets.save();
@@ -275,8 +270,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 	private void googlePlusParse(String response) {
 
 		System.out.println("google response " + response);
-		GoogleBackend detail = (new Gson()).fromJson(response,
-				GoogleBackend.class);
+		GoogleBackend detail = (new Gson()).fromJson(response, GoogleBackend.class);
 
 		// Applicant appli=detail.applicant;
 
@@ -440,7 +434,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 			getActivity().overridePendingTransition(R.anim.one_, R.anim.two_);
 
 		} catch (Exception e) {
-			// TODO: handle exception
+            AppLogger.log(TAG, e);
 		}
 	}
 
@@ -450,8 +444,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 
 		try {
 			if (value == 5) {
-				ForgotError detail = (new Gson()).fromJson(response.toString(),
-						ForgotError.class);
+				ForgotError detail = (new Gson()).fromJson(response.toString(), ForgotError.class);
 
 				if (detail.passwords != null) {
 					toast(detail.passwords.get(0));
@@ -469,8 +462,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 				}
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			AppLogger.log(TAG, e);
 		}
 
 		System.out.println("error " + response);
@@ -695,8 +687,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 
 
 		if (!result.hasResolution()) {
-			GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(),
-					getActivity(), 0).show();
+			GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), getActivity(), 0).show();
 			return;
 		}
 
@@ -757,8 +748,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 		if (mConnectionResult.hasResolution()) {
 			try {
 				mIntentInProgress = true;
-				mConnectionResult.startResolutionForResult(getActivity(),
-						RC_SIGN_IN);
+				mConnectionResult.startResolutionForResult(getActivity(), RC_SIGN_IN);
 			} catch (SendIntentException e) {
 				mIntentInProgress = false;
 				mGoogleApiClient.connect();
@@ -788,8 +778,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 	private void getProfileInformation() {
 		try {
 			if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
-				Person currentPerson = Plus.PeopleApi
-						.getCurrentPerson(mGoogleApiClient);
+				Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
 				String personName = currentPerson.getDisplayName();
 				String personPhotoUrl = currentPerson.getImage().getUrl();
 				String personGooglePlusProfile = currentPerson.getUrl();
@@ -814,12 +803,10 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 				appPref.SaveData("socialid_goog", currentPerson.getId());
 				
 
-				callGooglePlusLink(personName, personPhotoUrl,
-						currentPerson.getId(), email);
+				callGooglePlusLink(personName, personPhotoUrl, currentPerson.getId(), email);
 
 			} else {
-				Toast.makeText(getActivity(), "Person information is null",
-						Toast.LENGTH_LONG).show();
+				Toast.makeText(getActivity(), "Person information is null  ", Toast.LENGTH_LONG).show();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -854,8 +841,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 
 	}
 
-	private void callFacebookLink(String personName, String personPhotoUrl,
-			String id, String email) {
+	private void callFacebookLink(String personName, String personPhotoUrl, String id, String email) {
 
 		RequestParams params = new RequestParams();
 		params.put("provider[uid]", id);
@@ -872,7 +858,6 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 			Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
 			mGoogleApiClient.disconnect();
 			mGoogleApiClient.connect();
-
 		}
 	}
 
@@ -890,6 +875,8 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 		animation_obj = YoYo.with(Techniques.Flash).duration(1000).playOn(v);
 		if (mConnectionResult != null) {
 			signInWithGplus();
+		} else {
+			Toast.makeText(getActivity(), "Can't connect to Google+  ", Toast.LENGTH_LONG).show();
 		}
 	}
 

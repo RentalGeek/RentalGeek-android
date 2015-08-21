@@ -146,9 +146,7 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 	private LayoutInflater mInflater;
 
 	// Constructors
-	public PropertyListItemAdapter(Context context,
-								   List<PropertyListPojo.PropertyList> objects) {
-
+	public PropertyListItemAdapter(Context context, List<PropertyListPojo.PropertyList> objects) {
 		super(context, 0, objects);
 		this.context = context;
 		this.mInflater = LayoutInflater.from(context);

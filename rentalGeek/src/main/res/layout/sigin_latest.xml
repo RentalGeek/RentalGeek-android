@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageView1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="2dp"
         android:background="@drawable/editext"
         android:ems="10"
         android:hint="Email Address"
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ed_username"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/editext"
         android:ems="10"
          android:imeOptions="actionDone"
@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/forgot_email"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/loginb"
         android:text="Sign In"
         android:textColor="#ffffff" />
@@ -73,7 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/create_aacnt"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="6dp"
         android:text="@string/or"
         android:textColor="#ffffff" />
 
@@ -91,8 +91,8 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_below="@+id/or_sig"
-        android:layout_marginTop="15dp"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp">
 
         <ImageView
             android:id="@+id/google_plus"
@@ -122,8 +122,8 @@
 
     <ImageView
         android:id="@+id/imageView1"
-        android:layout_width="@dimen/loho_wid"
-        android:layout_height="@dimen/loho_hei"
+        android:layout_width="160dp"
+        android:layout_height="120dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:src="@drawable/logo" />

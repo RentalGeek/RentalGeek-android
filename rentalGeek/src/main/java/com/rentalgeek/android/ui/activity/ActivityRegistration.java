@@ -41,6 +41,7 @@ import com.rentalgeek.android.backend.RegistrationBackend.Applicant;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ConnectionDetector;
+import com.rentalgeek.android.utils.ListUtils;
 import com.rentalgeek.android.utils.Loading;
 
 import butterknife.ButterKnife;
@@ -136,28 +137,32 @@ public class ActivityRegistration extends Activity implements ValidationListener
 							prog.setVisibility(View.INVISIBLE);
 							System.out.println("the registration response " + response);
 
-							Applicant app = detail.applicant;
+							if (detail.user != null) {
+								Applicant app = detail.user;
 
-							appPref.SaveData("token", app.authentication_token);
-							appPref.SaveIntData("Uid", app.id);
+								appPref.SaveData("token", app.authentication_token);
+								appPref.SaveIntData("Uid", app.id);
 
-							toast("ActivityRegistration Successful, Please Login to continue");
+								toast("Registration Successful, Please Login to continue");
 
-							new CountDownTimer(1000, 1000) {
+								new CountDownTimer(1000, 1000) {
 
-								@Override
-								public void onTick(long millisUntilFinished) { }
+									@Override
+									public void onTick(long millisUntilFinished) { }
 
-								@Override
-								public void onFinish() {
-									finish();
-								}
-							}.start();
+									@Override
+									public void onFinish() {
+										finish();
+									}
+								}.start();
+							} else if (detail.errors != null && !ListUtils.isNullOrEmpty(detail.errors.email)) {
+                                toast(detail.errors.email.get(0).toString());
+                            }
 
 						} catch (Exception e) {
 							AppLogger.log(TAG, e);
-							if (detail != null && detail.error != null)
-								toast(detail.error.toString());
+							if (detail != null && detail.errors != null && detail.errors.email.size() > 0)
+								toast(detail.errors.email.get(0).toString());
 							else
 								toast("No Connection");
 						}

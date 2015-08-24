@@ -17,6 +17,7 @@ import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.utils.ConnectionDetector;
+import com.rentalgeek.android.utils.StringUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -32,8 +33,8 @@ public class FragmentGeekScore extends LuttuBaseAbstract {
 //	@InjectView(R.id.get_started_paid_already)
 //	Button get_started_paid_already;
 //
-//	@InjectView(R.id.ddt)
-//	TextView ddt;
+	@InjectView(R.id.textViewGeekScore)
+	TextView textViewGeekScore;
 
 
 //	@InjectView(R.id.get_started)
@@ -42,14 +43,21 @@ public class FragmentGeekScore extends LuttuBaseAbstract {
 	AppPrefes appPref;
 	ConnectionDetector con;
 
+	String geekScore;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-		View v=inflater.inflate(R.layout.fragment_message_geek_score, container,false);
+		View v = inflater.inflate(R.layout.fragment_message_geek_score, container,false);
 
 		appPref=new AppPrefes(getActivity(), "rentalgeek");
 		ButterKnife.inject(this,v);
+
+		geekScore = appPref.getData("geek_score");
+
+        if (!StringUtils.isTrimEmpty(geekScore)) {
+            textViewGeekScore.setText(geekScore);
+        }
 
 		return v;
 	}

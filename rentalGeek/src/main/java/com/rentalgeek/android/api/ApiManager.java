@@ -9,7 +9,7 @@ public class ApiManager {
 
     public static LoginBackend.user currentUser;
     // Default host
-    public static String API_HOST = "http://staging.rentalgeek.com/api/v1";
+    public static String API_HOST = "http://api.rentalgeek.com/api/v1";
 
     public static String regis_link = API_HOST + "/users.json";
     // "api/"

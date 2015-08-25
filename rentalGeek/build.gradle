@@ -22,8 +22,8 @@ android {
         applicationId "com.rentalgeek.android"
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 1004
-        versionName '1.0.0.4'
+        versionCode 1005
+        versionName '1.0.0.5'
     }
     buildTypes {
         release {

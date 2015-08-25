@@ -723,7 +723,7 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
                     params.put("profile[drivers_license_number]",
                             StringUtils.getTrim(profdets.drivers_license_number));
 
-                if (!profdets.drivers_license_state.equals("States"))
+                if (StringUtils.isNotNullAndEquals(profdets.drivers_license_state, "States"))
                     params.put("profile[drivers_license_state]", profdets.drivers_license_state);
                 break;
             case 2:
@@ -736,7 +736,7 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
                 if (!StringUtils.isTrimEmpty(profdets.vehicles_description))
                     params.put("profile[vehicles_description]", StringUtils.getTrim(profdets.vehicles_description));
 
-                if (profdets.was_ever_evicted.equals("Yes")) {
+                if (StringUtils.isNotNullAndEquals(profdets.was_ever_evicted, "Yes")) {
                     params.put("profile[was_ever_evicted]", "true");
                 } else {
                     params.put("profile[was_ever_evicted]", "false");
@@ -820,9 +820,7 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
                 if (!StringUtils.isTrimEmpty(profdets.previous_home_moved_out)) {
                     Date date = new SimpleDateFormat("MM-dd-yyyy")
                             .parse(StringUtils.getTrim(profdets.previous_home_moved_out));
-                    String dateString4 = new SimpleDateFormat("yyyy-MM-dd")
-                            .format(date);
-
+                    String dateString4 = new SimpleDateFormat("yyyy-MM-dd").format(date);
                     params.put("profile[previous_home_moved_out]", dateString4);
                 }
 
@@ -836,7 +834,10 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
 
                 break;
             case 6:
-                params.put("profile[employment_status]", profdets.employment_status);
+                if (!StringUtils.isTrimEmpty(profdets.employment_status)) {
+                    params.put("profile[employment_status]",
+                            StringUtils.getTrim(profdets.employment_status));
+                }
 
                 if (!StringUtils.isTrimEmpty(profdets.current_employment_supervisor))
                     params.put("profile[current_employment_supervisor]",

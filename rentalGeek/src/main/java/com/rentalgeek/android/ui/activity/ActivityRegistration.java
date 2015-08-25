@@ -10,7 +10,6 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -59,8 +58,8 @@ public class ActivityRegistration extends Activity implements ValidationListener
 	
 	private YoYo.YoYoString animation_obj;
 
-	@InjectView(R.id.terms)
-	CheckBox terms;
+//	@InjectView(R.id.terms)
+//	CheckBox terms;
  
 	@InjectView(R.id.containerregis)
 	FrameLayout prog;
@@ -97,7 +96,7 @@ public class ActivityRegistration extends Activity implements ValidationListener
 		ButterKnife.inject(this);
 		terms_text.setSingleLine(false);
 		terms_text.setText(Html
-				.fromHtml("By creating a RentalGeek account,\n you agree to our <u>Terms & Conditions</u>"));
+                .fromHtml("By creating a RentalGeek account,\n you agree to our <u>Terms & Conditions</u>"));
 		validator = new Validator(this);
 		validator.setValidationListener(this);
 		load = new Loading(ActivityRegistration.this);
@@ -201,18 +200,24 @@ public class ActivityRegistration extends Activity implements ValidationListener
 	@Override
 	public void onValidationSucceeded() {
 
-
-		if (terms.isChecked()) {
-			if (con.isConnectingToInternet()) {
-				callRegisterApi(email_add_regis.getText().toString(),
-						password_regis.getText().toString(),
-						confirm_password_regis.getText().toString());
-			} else {
-				toast("No Connection");
-			}
-		} else {
-			toast("Please accept terms and conditions");
-		}
+        if (con.isConnectingToInternet()) {
+            callRegisterApi(email_add_regis.getText().toString(),
+                    password_regis.getText().toString(),
+                    confirm_password_regis.getText().toString());
+        } else {
+            toast("No Connection");
+        }
+//		if (terms.isChecked()) {
+//			if (con.isConnectingToInternet()) {
+//				callRegisterApi(email_add_regis.getText().toString(),
+//						password_regis.getText().toString(),
+//						confirm_password_regis.getText().toString());
+//			} else {
+//				toast("No Connection");
+//			}
+//		} else {
+//			toast("Please accept terms and conditions");
+//		}
 
 	}
 

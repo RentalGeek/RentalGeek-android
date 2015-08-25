@@ -67,58 +67,68 @@
         android:text="TextView"
         android:textColor="#ffffff" />
 
-    <TextView
-        android:id="@+id/or"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/create_aacnt"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="6dp"
-        android:text="@string/or"
-        android:textColor="#ffffff" />
+        android:layout_alignLeft="@+id/imageView1"
+        android:layout_alignStart="@+id/imageView1"
+        android:visibility="gone">
 
-    <TextView
-        android:id="@+id/or_sig"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/or"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:text="Sign In with "
-        android:textColor="#ffffff" />
+        <TextView
+            android:id="@+id/or"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/create_aacnt"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="6dp"
+            android:text="@string/or"
+            android:textColor="#ffffff" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_below="@+id/or_sig"
-        android:orientation="horizontal"
-        android:layout_marginTop="5dp">
+        <TextView
+            android:id="@+id/or_sig"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/or"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="Sign In with "
+            android:textColor="#ffffff" />
 
-        <ImageView
-            android:id="@+id/google_plus"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:layout_toStartOf="@+id/facebook_lays"
-            android:src="@drawable/goog_icon" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/or_sig"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
 
-        <ImageView
-            android:id="@+id/facebook_lays"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerInParent="true"
-            android:src="@drawable/face_icon" />
+            <ImageView
+                android:id="@+id/google_plus"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_toStartOf="@+id/facebook_lays"
+                android:src="@drawable/goog_icon" />
 
-        <ImageView
-            android:id="@+id/linked_lay"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/facebook_lays"
-            android:src="@drawable/link_icon" />
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/facebook_lays"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/face_icon" />
+
+            <ImageView
+                android:id="@+id/linked_lay"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/facebook_lays"
+                android:src="@drawable/link_icon" />
+        </RelativeLayout>
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/imageView1"

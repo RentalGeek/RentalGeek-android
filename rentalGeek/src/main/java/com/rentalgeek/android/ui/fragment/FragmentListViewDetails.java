@@ -30,6 +30,7 @@ import com.rentalgeek.android.ui.adapter.PropertyListItemAdapter;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.RandomUtils;
 import com.rentalgeek.android.utils.StaticClass;
+import com.rentalgeek.android.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -155,10 +156,10 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 						image_url = null;
 						image_url = "";
 
-						if (detail.rental_offerings.get(i).primary_property_photo_url.size() > 0) {
-							image_url = detail.rental_offerings
-                                    .get(i).primary_property_photo_url
-									.get(0).photo_full_url;
+						MapBackend.Offer offering = detail.rental_offerings.get(i);
+
+						if (!StringUtils.isTrimEmpty(offering.primary_property_photo_url)) {
+							image_url = offering.primary_property_photo_url;
 						} else {
 							image_url = "missing.png";
 						}

@@ -200,13 +200,10 @@ public class ActivityRegistration extends Activity implements ValidationListener
 	@Override
 	public void onValidationSucceeded() {
 
-        if (con.isConnectingToInternet()) {
-            callRegisterApi(email_add_regis.getText().toString(),
-                    password_regis.getText().toString(),
-                    confirm_password_regis.getText().toString());
-        } else {
-            toast("No Connection");
-        }
+		callRegisterApi(email_add_regis.getText().toString(),
+				password_regis.getText().toString(),
+				confirm_password_regis.getText().toString());
+
 //		if (terms.isChecked()) {
 //			if (con.isConnectingToInternet()) {
 //				callRegisterApi(email_add_regis.getText().toString(),

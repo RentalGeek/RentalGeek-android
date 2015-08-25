@@ -61,13 +61,13 @@ public class MapBackend {
 		public boolean property_manager_accepts_credit_cards_offline;
 		public boolean property_manager_accepts_online_payments;
 		public boolean property_manager_accepts_money_orders;
-		public List<Photo> primary_property_photo_url;
+		public String primary_property_photo_url;
 
-		public class Photo {
-			public String photo_thumb_url;
-			public String photo_full_url;
-			public boolean primary_photo;
-		}
+//		public class Photo {
+//			public String photo_thumb_url;
+//			public String photo_full_url;
+//			public boolean primary_photo;
+//		}
 	}
 
 }

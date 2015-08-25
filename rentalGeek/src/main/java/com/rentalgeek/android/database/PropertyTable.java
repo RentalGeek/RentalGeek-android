@@ -144,32 +144,47 @@ public class PropertyTable extends Model {
 	
 	@Column(name = "starred_property_id")
 	public String starred_property_id;
-	
-	
-	
-	
 
 	public PropertyTable(int count, int uid, Double rental_complex_latitude,
-			Double rental_complex_longitude, int bedroom_count,
-			int monthly_rent_floor, int monthly_rent_ceiling, String headline,
-			int full_bathroom_count, String rental_offering_type,
-			String customer_contact_email_address, String rental_complex_name,
-			String rental_complex_full_address,
-			String rental_complex_street_name,
-			String rental_complex_cross_street_name, boolean starred,
-			boolean buzzer_intercom, boolean central_air, boolean deck_patio,
-			boolean dishwasher, boolean doorman, boolean elevator,
-			boolean fireplace, boolean gym, boolean hardwood_floor,
-			boolean new_appliances, boolean parking_garage,
-			boolean parking_outdoor, boolean pool, boolean storage_space,
-			boolean vaulted_ceiling, boolean walkin_closet,
-			boolean washer_dryer, boolean yard_private, boolean yard_shared,
-			boolean property_manager_accepts_cash,
-			boolean property_manager_accepts_checks,
-			boolean property_manager_accepts_credit_cards_offline,
-			boolean property_manager_accepts_online_payments,
-			boolean property_manager_accepts_money_orders,
-			String property_image,String salesy_description,String starred_property_id) {
+                         Double rental_complex_longitude,
+                         int bedroom_count,
+                         int monthly_rent_floor,
+                         int monthly_rent_ceiling, String headline,
+                         int full_bathroom_count,
+                         String rental_offering_type,
+                         String customer_contact_email_address,
+                         String rental_complex_name,
+                         String rental_complex_full_address,
+                         String rental_complex_street_name,
+                         String rental_complex_cross_street_name,
+                         boolean starred,
+                         boolean buzzer_intercom,
+                         boolean central_air,
+                         boolean deck_patio,
+                         boolean dishwasher,
+                         boolean doorman,
+                         boolean elevator,
+                         boolean fireplace,
+                         boolean gym,
+                         boolean hardwood_floor,
+                         boolean new_appliances,
+                         boolean parking_garage,
+                         boolean parking_outdoor,
+                         boolean pool,
+                         boolean storage_space,
+                         boolean vaulted_ceiling,
+                         boolean walkin_closet,
+                         boolean washer_dryer,
+                         boolean yard_private,
+                         boolean yard_shared,
+                         boolean property_manager_accepts_cash,
+                         boolean property_manager_accepts_checks,
+                         boolean property_manager_accepts_credit_cards_offline,
+                         boolean property_manager_accepts_online_payments,
+                         boolean property_manager_accepts_money_orders,
+                         String property_image,
+                         String salesy_description,
+                         String starred_property_id) {
 		super();
 		this.count = count;
 		this.uid = uid;

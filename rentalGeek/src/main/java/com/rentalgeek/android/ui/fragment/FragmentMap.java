@@ -45,8 +45,8 @@ import com.rentalgeek.android.homepage.BottomDialog;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ConnectionDetector;
-import com.rentalgeek.android.utils.ListUtils;
 import com.rentalgeek.android.utils.StaticClass;
+import com.rentalgeek.android.utils.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -139,13 +139,8 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 						image_url = "";
 
-						if (!ListUtils.isNullOrEmpty(detail.rental_offerings.get(i).primary_property_photo_url)) {
-
-							for (int j = 0; j < detail.rental_offerings.get(i).primary_property_photo_url.size(); j++) {
-								image_url = detail.rental_offerings.get(i).primary_property_photo_url
-										.get(0).photo_full_url;
-
-							}
+						if (!StringUtils.isTrimEmpty(detail.rental_offerings.get(i).primary_property_photo_url)) {
+							image_url = detail.rental_offerings.get(i).primary_property_photo_url;
 						} else {
 							image_url = "missing.png";
 						}
@@ -239,12 +234,8 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 				image_url = "";
 
-				if (detail.rental_offerings.get(i).primary_property_photo_url
-						.size() > 0) {
-
-					image_url = detail.rental_offerings.get(i).primary_property_photo_url
-							.get(0).photo_full_url;
-
+				if (!StringUtils.isTrimEmpty(detail.rental_offerings.get(i).primary_property_photo_url)) {
+					image_url = detail.rental_offerings.get(i).primary_property_photo_url;
 				} else {
 					image_url = "missing.png";
 				}
@@ -340,14 +331,8 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 						image_url = "";
 
-						if (!ListUtils.isNullOrEmpty(detail.rental_offerings.get(i).primary_property_photo_url)) {
-
-							for (int j = 0; j < detail.rental_offerings.get(i).primary_property_photo_url
-									.size(); j++) {
-								image_url = detail.rental_offerings.get(i).primary_property_photo_url
-										.get(0).photo_full_url;
-
-							}
+						if (!StringUtils.isTrimEmpty(detail.rental_offerings.get(i).primary_property_photo_url)) {
+							image_url = detail.rental_offerings.get(i).primary_property_photo_url;
 						} else {
 							image_url = "missing.png";
 						}
@@ -505,8 +490,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 		asynkhttpGet(1, url, AppPreferences.getAuthToken(), true);
 	}
 
-	private void drawMarker(LatLng point, int bedroom_count, String y,
-			int mark_count) {
+	private void drawMarker(LatLng point, int bedroom_count, String y, int mark_count) {
 		// Creating an instance of MarkerOptions
 
 		MarkerOptions second = new MarkerOptions();
@@ -585,10 +569,8 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 	private void setmarkersFromDB() {
 
-
 		Select select = new Select();
-		List<PropertyTable> people = select.all().from(PropertyTable.class)
-				.execute();
+		List<PropertyTable> people = select.all().from(PropertyTable.class).execute();
 		progresscancel();
 		myMap.clear();
 		mMarkers = null;
@@ -700,8 +682,6 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 	@Override
 	public void onDestroy() {
-
-
 		getActivity().unregisterReceiver(receiver);
 		super.onDestroy();
 	}

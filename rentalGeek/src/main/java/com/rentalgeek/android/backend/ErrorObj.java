@@ -7,6 +7,7 @@ public class ErrorObj {
 	public Error errors;
 
 	public class Error {
+		public List<String> phone_number;
 		public List<String> born_on;
 		public List<String> emergency_contact_phone_number;
 		public List<String> ssn;

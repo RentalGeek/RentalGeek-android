@@ -723,7 +723,7 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
                     params.put("profile[drivers_license_number]",
                             StringUtils.getTrim(profdets.drivers_license_number));
 
-                if (StringUtils.isNotNullAndEquals(profdets.drivers_license_state, "States"))
+                if (!StringUtils.isNotNullAndEquals(profdets.drivers_license_state, "States"))
                     params.put("profile[drivers_license_state]", profdets.drivers_license_state);
                 break;
             case 2:
@@ -934,6 +934,7 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
                         toasts("Previous Home Date", sess.errors.previous_home_moved_in_on);
                         break;
                     case 6:
+                        toasts("Phone Number", sess.errors.phone_number);
                         toasts("Birth Date", sess.errors.born_on);
                         toasts("Emergency Contact", sess.errors.emergency_contact_phone_number);
                         toasts("Current Home Move-in Date", sess.errors.current_home_moved_in_on);

@@ -747,7 +747,7 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
 
                 break;
             case 3:
-                if (profdets.is_felon_explanation.equals("Yes")) {
+                if (StringUtils.isNotNullAndEquals(profdets.is_felon, "Yes")) {
                     params.put("profile[is_felon]", "true");
                 } else {
                     params.put("profile[is_felon]", "false");

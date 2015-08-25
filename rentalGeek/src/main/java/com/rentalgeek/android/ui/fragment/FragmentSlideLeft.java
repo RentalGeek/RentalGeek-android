@@ -96,9 +96,10 @@ public class FragmentSlideLeft extends LuttuBaseAbstract {
 					nextfragment(new GeekVision(), false, R.id.container);
 					break;
 				case 3:
-					appPref.SaveData("map_list", "");
-					((ActivityHome) getActivity()).closedrawer();
-					nextfragment(new FragmentProfile(), false, R.id.container);
+					logout();
+//					appPref.SaveData("map_list", "");
+//					((ActivityHome) getActivity()).closedrawer();
+//					nextfragment(new FragmentProfile(), false, R.id.container);
 					break;
 				case 4:
 					logout();

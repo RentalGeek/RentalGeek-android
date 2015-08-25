@@ -1,0 +1,92 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_list"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/img_height"
+    android:background="@android:color/white"
+    android:orientation="horizontal" >
+
+    <ImageView
+        android:id="@+id/main_image"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/img_height"
+        android:scaleType="centerCrop"
+         />
+
+    <ImageView
+        android:id="@+id/is_starred"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        android:src="@drawable/star_select" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="#774181cb" >
+
+        <TextView
+            android:id="@+id/doller"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="$"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/price_range"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="2dp"
+            android:layout_toRightOf="@id/doller"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="#ffff"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/shower_count"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:drawableLeft="@drawable/shower"
+            android:drawablePadding="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:textColor="#ffff"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/street_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="#ffff"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/bedcount"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/shower_count"
+            android:drawableLeft="@drawable/bed"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:textColor="#ffff"
+            android:textSize="17sp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

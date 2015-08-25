@@ -53,28 +53,17 @@
             android:textColor="#ffffff"
             android:textColorHint="#FFFFFF" />
 
-        <CheckBox
-            android:id="@+id/terms"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/confirm_password_regis"
-            android:layout_below="@+id/confirm_password_regis"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="22dp"
-            android:textColor="@android:color/white"
-            android:textSize="12sp" />
-
         <TextView
             android:id="@+id/terms_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/terms"
-            android:layout_alignBottom="@+id/terms"
             android:layout_marginRight="40dp"
-            android:layout_toRightOf="@+id/terms"
             android:text="TextView"
             android:textColor="@android:color/white"
-            android:textSize="12dp" />
+            android:textSize="12dp"
+            android:layout_below="@+id/confirm_password_regis"
+            android:layout_alignLeft="@+id/confirm_password_regis"
+            android:layout_marginTop="20dp" />
 
         <Button
             android:id="@+id/create_account"

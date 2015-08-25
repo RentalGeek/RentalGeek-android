@@ -188,10 +188,10 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 		params.put("starred_property[rental_offering_id]", item.id + "");
 
 //        params.put("starred_property[property_address]", );
-        params.put("starred_property[bedroom_count]", item.bedroom_count);
-        params.put("starred_property[full_bathroom_count]", item.full_bathroom_count);
+//        params.put("starred_property[bedroom_count]", item.bedroom_count);
+ //       params.put("starred_property[full_bathroom_count]", item.full_bathroom_count);
 //        params.put("starred_property[square_footage_floor]", );
-        params.put("starred_property[monthly_rent_floor]", item.monthly_rent_floor);
+ //       params.put("starred_property[monthly_rent_floor]", item.monthly_rent_floor);
 //        params.put("starred_property[salesy_description]", );
 //        params.put("starred_property[sold_out]", );
 
@@ -208,7 +208,7 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 //                image_url,
 //                detail.starred_properties.get(i).sold_out
 
-                            String url = ApiManager.getStarredPrpoertiesUrl(String.valueOf(item.id));
+                            String url = ApiManager.getStarredPrpoertiesUrl("");
 
 		GlobalFunctions.postApiCall(context, url, params, AppPreferences.getAuthToken(), client,
 				new HttpResponseHandler() {

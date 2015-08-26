@@ -20,8 +20,6 @@ import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.ui.activity.ActivityHome;
-import com.rentalgeek.android.ui.fragment.FragmentListViewDetails;
-import com.rentalgeek.android.ui.fragment.FragmentMap;
 import com.rentalgeek.android.utils.ConnectionDetector;
 
 import butterknife.ButterKnife;
@@ -685,7 +683,7 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 		removeEverything();
 		new Delete().from(PropertyTable.class).execute();
 		nextfragment(new FragmentMap(), false, R.id.container);
-		((ActivityHome)getActivity()).selectorShift();
+		((ActivityHome)getActivity()).selectorShiftIn();
 		appPref.SaveData("map_list", "map");
 
 	}

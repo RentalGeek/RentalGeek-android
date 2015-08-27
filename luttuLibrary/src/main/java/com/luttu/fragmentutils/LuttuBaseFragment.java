@@ -17,8 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.luttu.luttulibrary.R;
-import com.luttu.nettoast.Crouton;
-import com.luttu.nettoast.Style;
 
 /****
  * extend LuttuBaseFragment for fragment operations.
@@ -307,11 +305,6 @@ public class LuttuBaseFragment extends Fragment {
 	 * to show error toast.
 	 * 
 	 * */
-	protected void toast(String croutonText) {
-		Crouton crouton = Crouton.makeText(getActivity(), croutonText,
-				Style.ALERT);
-		crouton.show();
-	}
 
 	/****
 	 * 

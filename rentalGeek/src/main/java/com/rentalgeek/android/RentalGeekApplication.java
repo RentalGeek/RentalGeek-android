@@ -2,18 +2,25 @@ package com.rentalgeek.android;
 
 import android.app.Application;
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Configuration;
 import com.crashlytics.android.Crashlytics;
+import com.rentalgeek.android.bus.AppEventBus;
+import com.rentalgeek.android.bus.events.UserNotificationEvent;
 import com.rentalgeek.android.database.ProfileTable;
 import com.rentalgeek.android.database.PropertyTable;
+
+import de.greenrobot.event.EventBus;
 import io.fabric.sdk.android.Fabric;
 
 
 public class RentalGeekApplication extends Application{
 
 	public static Context context;
+
+    public static final EventBus eventBus = new EventBus();
 
 	private static Thread.UncaughtExceptionHandler mDefaultUEH;
 	private static Thread.UncaughtExceptionHandler mCaughtExceptionHandler = new Thread.UncaughtExceptionHandler() {
@@ -37,6 +44,9 @@ public class RentalGeekApplication extends Application{
         mDefaultUEH = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(mCaughtExceptionHandler);
 
+        AppEventBus.register(this);
+        /// AppEventBus.register(AppSystem.Instance);
+
 		initializeDB();
 	}
 
@@ -48,6 +58,28 @@ public class RentalGeekApplication extends Application{
 		configurationBuilder.addModelClasses(PropertyTable.class);
 		configurationBuilder.addModelClasses(ProfileTable.class);
 		ActiveAndroid.initialize(configurationBuilder.create());
+	}
+
+    public static void postUserNotification(int resId) {
+        String message = context.getString(resId);
+        eventBus.post(new UserNotificationEvent(message));
+    }
+
+    public static void postUserNotification(String message) {
+        eventBus.post(new UserNotificationEvent(message));
+    }
+
+	public static String getResourceString(int resId) {
+		return context.getString(resId);
+	}
+
+	public static String getResourceString(int resId, Object... formatArgs) {
+		return context.getString(resId, formatArgs);
+	}
+
+	public static String getStringDefault(String string, int defaultResId) {
+		if (TextUtils.isEmpty(string)) return getResourceString(defaultResId);
+		return string;
 	}
 	
 }

@@ -69,12 +69,11 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:layout_below="@+id/create_aacnt"
-        android:layout_alignLeft="@+id/imageView1"
-        android:layout_alignStart="@+id/imageView1"
-        android:visibility="gone">
+        android:layout_centerHorizontal="true">
 
         <TextView
             android:id="@+id/or"
@@ -139,7 +138,7 @@
         android:src="@drawable/logo" />
 
     <com.facebook.widget.LoginButton
-        android:id="@+id/authButton"
+        android:id="@+id/fbLoginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"

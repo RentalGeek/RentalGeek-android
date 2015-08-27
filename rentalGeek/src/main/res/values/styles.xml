@@ -18,6 +18,14 @@
         -->
         
         <item name="android:datePickerStyle">@style/MyDatePicker</item>
+        <item name="android:alertDialogStyle">@style/GeekDialog</item>
+    </style>
+
+    <style name="GeekDialog" parent="android:Theme.Dialog">
+        <!--         <item name="android:buttonStyle">@style/CargoButton</item>
+        <item name="android:windowBackground">@drawable/cargo_dialog_background</item>
+        <item name="android:textColor">@color/cargodialog_primary_text</item>
+        <item name="android:windowTitleStyle">@style/CargoDialogWindowTitle</item> -->
     </style>
 
     <style name="CustomActionBarTheme"

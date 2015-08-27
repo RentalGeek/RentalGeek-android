@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,14 +22,12 @@ import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.facebook.Request;
-import com.facebook.Request.GraphUserCallback;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.UiLifecycleHelper;
-import com.facebook.model.GraphUser;
-import com.facebook.widget.LoginButton;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
@@ -40,7 +40,6 @@ import com.google.gson.Gson;
 import com.linkedin.platform.LISessionManager;
 import com.loopj.android.http.RequestParams;
 import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.luttu.fragmentutils.VolleyForAll;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
@@ -50,11 +49,16 @@ import com.rentalgeek.android.backend.GoogleBackend;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.database.ProfileTable;
 import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.activity.ActivityRegistration;
 import com.rentalgeek.android.ui.activity.ActivityTutorials;
+import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ConnectionDetector;
+
+import org.apache.http.cookie.Cookie;
 
 import java.util.Arrays;
 import java.util.List;
@@ -63,12 +67,14 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallbacks,
+public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
 		OnConnectionFailedListener {
 
-	// G+-------------
+	CallbackManager callbackManager;
 
 	public static final int RC_SIGN_IN = 0;
+    public static final int FB_SIGN_IN = 1;
+
 	private static final String TAG = "ActivityMain";
 	ProfileTable profdets;
 	private YoYo.YoYoString animation_obj;
@@ -105,11 +111,11 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 	@InjectView(R.id.ed_username)
 	EditText ed_username;
 
-	@InjectView(R.id.authButton)
-	LoginButton authButton;
+	@InjectView(R.id.fbLoginButton)
+    LoginButton fbLoginButton;
 
-	private Session.StatusCallback statusCallback = new SessionStatusCallback();
-	private UiLifecycleHelper uiHelper;
+//	private Session.StatusCallback statusCallback = new SessionStatusCallback();
+//	private UiLifecycleHelper uiHelper;
 
 	@InjectView(R.id.ed_password)
 	EditText ed_password;
@@ -125,8 +131,9 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		uiHelper = new UiLifecycleHelper(getActivity(), callback);
-		uiHelper.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
+
 		appPref = new AppPrefes(getActivity(), "rentalgeek");
 		con = new ConnectionDetector(getActivity());
 		if (appPref.getData("first").equals("")) {
@@ -144,8 +151,25 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 		create_aacnt.setText(Html.fromHtml("Not a member? <u>Create Account</u>"));
 
 		// facebook essentials
-		authButton.setFragment(this);
-		authButton.setReadPermissions(Arrays.asList("public_profile", "email", "user_birthday"));
+        android.app.Fragment fragment = new NativeFragmentWrapper(this);
+		//fbLoginButton.setFragment(this);
+        fbLoginButton.setReadPermissions(Arrays.asList("public_profile", "email", "user_birthday"));
+		fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+			@Override
+			public void onSuccess(LoginResult loginResult) {
+				// App code
+			}
+
+			@Override
+			public void onCancel() {
+				// App code
+			}
+
+			@Override
+			public void onError(FacebookException exception) {
+				// App code
+			}
+		});
 
 		// google plus initialization
 		mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
@@ -162,7 +186,36 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 		RequestParams params = new RequestParams();
 		params.put("user[email]", a);
 		params.put("user[password]", b);
-		asynkhttp(params, 1, ApiManager.getSignin(), AppPreferences.getAuthToken(), true);
+
+        GlobalFunctions.postApiCall(getActivity(), ApiManager.getSignin(),
+                                    params, AppPreferences.getAuthToken(),
+                new GeekHttpResponseHandler() {
+
+                    @Override
+                    public void onBeforeStart() {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        //progresscancel();
+                    }
+
+                    @Override
+                    public void onSuccess(String content) {
+                        try {
+                            NormalLogin(content);
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
+                        }
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed() {
+
+                    }
+                });
+		//asynkhttp(params, 1, ApiManager.getSignin(), AppPreferences.getAuthToken(), true);
 
 	}
 
@@ -182,7 +235,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 		ButterKnife.reset(this);
 	}
 
-	@Override
+/*	@Override
 	public void parseresult(String response, boolean success, int value) {
 
 
@@ -203,16 +256,15 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 			ForgotMailSentParse(response);
 			break;
 		}
-	}
+	}*/
 
 	private void ForgotMailSentParse(String response) {
 
-		toast("Verification email sent to your mail please check");
+        DialogManager.showCrouton(getActivity(), "Verification email sent to your mail please check");
 
 	}
 
 	private void LinkedInParse(String response) {
-
 
 		GoogleBackend detail = (new Gson()).fromJson(response, GoogleBackend.class);
 
@@ -343,8 +395,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 
 	private void FaceBookLogin(String response) {
 
-		GoogleBackend detail = (new Gson()).fromJson(response,
-				GoogleBackend.class);
+		GoogleBackend detail = (new Gson()).fromJson(response, GoogleBackend.class);
 
 		// Applicant appli=detail.applicant;
 
@@ -407,7 +458,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 
 			ApiManager.currentUser = detail.user;
 			//log("my id is " + ApiManager.currentUser.id);
-			log("my id is " + detail.user.id);
+			AppLogger.log(TAG, "my id is " + detail.user.id);
 
 			String appid = String.valueOf(detail.user.id);
 			System.out.println("my id is " + appid);
@@ -438,26 +489,26 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 		}
 	}
 
-	@Override
+/*	@Override
 	public void error(String response, int value) {
 
+        FragmentActivity activity = getActivity();
 
 		try {
 			if (value == 5) {
 				ForgotError detail = (new Gson()).fromJson(response.toString(), ForgotError.class);
 
 				if (detail.passwords != null) {
-					toast(detail.passwords.get(0));
+					DialogManager.showCrouton(activity, detail.passwords.get(0));
 				}
 			} else {
 				if (response != null) {
-					ErrorApi detail = (new Gson()).fromJson(
-							response.toString(), ErrorApi.class);
+					ErrorApi detail = (new Gson()).fromJson(response.toString(), ErrorApi.class);
 
 					if (detail.message != null) {
-						toast(detail.message);
+                        DialogManager.showCrouton(activity, detail.message);
 					} else if (detail.error != null) {
-						toast(detail.error);
+                        DialogManager.showCrouton(activity, detail.error);
 					}
 				}
 			}
@@ -467,7 +518,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 
 		System.out.println("error " + response);
 
-	}
+	}*/
 
 	@OnClick(R.id.create_aacnt)
 	public void SignInButton(View v) {
@@ -511,18 +562,20 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 			ed_password.setError("Please enter password");
 		} else {
 
-			if (con.isConnectingToInternet()) {
-				signin(ed_username.getText().toString(), ed_password.getText()
-						.toString());
-			} else {
-				toast("No net connection");
-			}
+//			if (con.isConnectingToInternet()) {
+//				signin(ed_username.getText().toString(), ed_password.getText().toString());
+//			} else {
+//				DialogManager.showCrouton(getActivity(), "No net connection");
+//			}
+
+            signin(ed_username.getText().toString(), ed_password.getText().toString());
 
 		}
 
 	}
 
 	// -------------------------facebook part----------------------------
+/*
 	private class SessionStatusCallback implements Session.StatusCallback {
 		@Override
 		public void call(Session session, SessionState state,
@@ -629,23 +682,25 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 			// nextfragment(new FbLogin(), true);
 		}
 	}
+*/
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		Session session = Session.getActiveSession();
-		if (session != null && (session.isOpened() || session.isClosed())) {
-			onSessionStateChange(session, session.getState(), null);
-		}
-		uiHelper.onResume();
+//		Session session = Session.getActiveSession();
+//		if (session != null && (session.isOpened() || session.isClosed())) {
+//			onSessionStateChange(session, session.getState(), null);
+//		}
+//		uiHelper.onResume();
 	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
 		super.onActivityResult(requestCode, resultCode, data);
-		uiHelper.onActivityResult(requestCode, resultCode, data);
-		LISessionManager.getInstance(getActivity()).onActivityResult(
-				getActivity(), requestCode, resultCode, data);
+
+		//uiHelper.onActivityResult(requestCode, resultCode, data);
+		LISessionManager.getInstance(getActivity()).onActivityResult(getActivity(), requestCode, resultCode, data);
 		if (requestCode == RC_SIGN_IN) {
 			if (requestCode != Activity.RESULT_OK) {
 				mSignInClicked = false;
@@ -656,27 +711,29 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 			if (!mGoogleApiClient.isConnecting()) {
 				mGoogleApiClient.connect();
 			}
-		}
+		} else if (requestCode == FB_SIGN_IN) {
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+        }
 
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-		uiHelper.onPause();
-		signOutFromGplus();
+		//uiHelper.onPause();
+        signOutFromGplus();
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		uiHelper.onDestroy();
+		//uiHelper.onDestroy();
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		uiHelper.onSaveInstanceState(outState);
+		//uiHelper.onSaveInstanceState(outState);
 	}
 
 	// ----------------------------G+
@@ -813,10 +870,8 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 		}
 	}
 
-	private void callGooglePlusLink(String personName, String personPhotoUrl,
-			String id, String email) {
-
-
+	private void callGooglePlusLink(String personName, String personPhotoUrl, String id, String email) {
+        
 		RequestParams params = new RequestParams();
 		params.put("provider[uid]", id);
 		params.put("provider[provider]", "Google+");
@@ -866,7 +921,7 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 	@OnClick(R.id.facebook_lays)
 	public void facebookClick(View v) {
 		animation_obj = YoYo.with(Techniques.Flash).duration(1000).playOn(v);
-		authButton.performClick();
+		fbLoginButton.performClick();
 	}
 
 	@OnClick(R.id.google_plus)

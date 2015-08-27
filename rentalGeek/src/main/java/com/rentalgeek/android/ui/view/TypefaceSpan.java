@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.luttu.nettoast;
+package com.rentalgeek.android.ui.view;
 
 import android.content.Context;
 import android.graphics.Typeface;

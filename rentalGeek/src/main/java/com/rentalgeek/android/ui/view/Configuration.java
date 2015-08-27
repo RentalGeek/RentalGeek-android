@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.luttu.nettoast;
+package com.rentalgeek.android.ui.view;
 
 /**
- * Allows configuring a {@link Crouton}s behaviour aside from the actual view,
+ * Allows configuring a {@link com.luttu.nettoast.Crouton}s behaviour aside from the actual view,
  * which is defined via {@link Style}.
  * <p/>
  * This allows to re-use a {@link Style} while modifying parameters that only have to be applied
- * when the {@link Crouton} is being displayed.
+ * when the {@link com.luttu.nettoast.Crouton} is being displayed.
  *
  * @author chris
  * @since 1.8
@@ -29,23 +29,23 @@ public class Configuration {
 
 
   /**
-   * Display a {@link Crouton} for an infinite amount of time or
+   * Display a {@link com.luttu.nettoast.Crouton} for an infinite amount of time or
    * until {@link de.keyboardsurfer.android.widget.crouton.Crouton#cancel()} has been called.
    */
   public static final int DURATION_INFINITE = -1;
-  /** The default short display duration of a {@link Crouton}. */
+  /** The default short display duration of a {@link com.luttu.nettoast.Crouton}. */
   public static final int DURATION_SHORT = 3000;
-  /** The default long display duration of a {@link Crouton}. */
+  /** The default long display duration of a {@link com.luttu.nettoast.Crouton}. */
   public static final int DURATION_LONG = 5000;
 
-  /** The default {@link Configuration} of a {@link Crouton}. */
+  /** The default {@link Configuration} of a {@link com.luttu.nettoast.Crouton}. */
   public static final Configuration DEFAULT;
 
   static {
     DEFAULT = new Builder().setDuration(DURATION_SHORT).build();
   }
 
-  /** The durationInMilliseconds the {@link Crouton} will be displayed in milliseconds. */
+  /** The durationInMilliseconds the {@link com.luttu.nettoast.Crouton} will be displayed in milliseconds. */
   final int durationInMilliseconds;
   /** The resource id for the in animation. */
   final int inAnimationResId;
@@ -65,11 +65,11 @@ public class Configuration {
     private int outAnimationResId = 0;
 
     /**
-     * Set the durationInMilliseconds option of the {@link Crouton}.
+     * Set the durationInMilliseconds option of the {@link com.luttu.nettoast.Crouton}.
      *
      * @param duration
      *   The durationInMilliseconds the crouton will be displayed
-     *   {@link Crouton} in milliseconds.
+     *   {@link com.luttu.nettoast.Crouton} in milliseconds.
      *
      * @return the {@link Builder}.
      */
@@ -84,7 +84,7 @@ public class Configuration {
      *
      * @param inAnimationResId
      *   The resource identifier for the animation that's being shown
-     *   when the {@link Crouton} is going to be displayed.
+     *   when the {@link com.luttu.nettoast.Crouton} is going to be displayed.
      *
      * @return the {@link Builder}.
      */
@@ -99,7 +99,7 @@ public class Configuration {
      *
      * @param outAnimationResId
      *   The resource identifier for the animation that's being shown
-     *   when the {@link Crouton} is going to be removed.
+     *   when the {@link com.luttu.nettoast.Crouton} is going to be removed.
      *
      * @return the {@link Builder}.
      */

@@ -52,7 +52,6 @@ dependencies {
     compile project(':luttuLibrary')
     compile project(':main')
     compile project(':library')
-    compile project(':facebookSDK')
     compile project(':justifiedTextViewmaster')
     compile 'com.google.android.gms:play-services:7.5.0'
     compile 'com.android.support:appcompat-v7:22.2.1'
@@ -61,6 +60,7 @@ dependencies {
     compile files('libs/activeandroid-3.1.0-20141007.143731-1.jar')
     compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
     compile 'com.android.support:design:22.2.1'
+    compile 'de.greenrobot:eventbus:2.4.0'
     compile('com.crashlytics.sdk.android:crashlytics:2.5.1@aar') {
         transitive = true;
     }

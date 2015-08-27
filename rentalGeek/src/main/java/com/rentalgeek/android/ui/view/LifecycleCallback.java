@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
-package com.luttu.nettoast;
+package com.rentalgeek.android.ui.view;
 
-/** Provides callback methods on major lifecycle events of a {@link Crouton}. */
+import com.luttu.nettoast.*;
+
+/** Provides callback methods on major lifecycle events of a {@link com.luttu.nettoast.Crouton}. */
 public interface LifecycleCallback {
   /** Will be called when your Crouton has been displayed. */
   public void onDisplayed();
 
-  /** Will be called when your {@link Crouton} has been removed. */
+  /** Will be called when your {@link com.luttu.nettoast.Crouton} has been removed. */
   public void onRemoved();
 
   //public void onCeasarDressing();

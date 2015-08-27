@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.luttu.nettoast;
+package com.rentalgeek.android.ui.view;
 
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 
-/** Builds the default animations for showing and hiding a {@link Crouton}. */
+/** Builds the default animations for showing and hiding a {@link com.luttu.nettoast.Crouton}. */
 final class DefaultAnimationsBuilder {
   private static final long DURATION = 400;
   private static Animation slideInDownAnimation, slideOutUpAnimation;
@@ -34,7 +34,7 @@ final class DefaultAnimationsBuilder {
    * @param croutonView
    *   The croutonView which gets animated.
    *
-   * @return The default Animation for a showing {@link Crouton}.
+   * @return The default Animation for a showing {@link com.luttu.nettoast.Crouton}.
    */
   static Animation buildDefaultSlideInDownAnimation(View croutonView) {
     if (!areLastMeasuredInAnimationHeightAndCurrentEqual(croutonView) || (null == slideInDownAnimation)) {
@@ -52,7 +52,7 @@ final class DefaultAnimationsBuilder {
    * @param croutonView
    *   The croutonView which gets animated.
    *
-   * @return The default Animation for a hiding {@link Crouton}.
+   * @return The default Animation for a hiding {@link com.luttu.nettoast.Crouton}.
    */
   static Animation buildDefaultSlideOutUpAnimation(View croutonView) {
     if (!areLastMeasuredOutAnimationHeightAndCurrentEqual(croutonView) || (null == slideOutUpAnimation)) {

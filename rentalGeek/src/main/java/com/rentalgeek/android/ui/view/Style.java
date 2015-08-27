@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-package com.luttu.nettoast;
+package com.rentalgeek.android.ui.view;
 
 import android.graphics.drawable.Drawable;
 import android.view.Gravity;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 
-
-/** The style for a {@link Crouton}. */
+/** The style for a {@link com.luttu.nettoast.Crouton}. */
 public class Style {
   
   public static final int NOT_SET = -1;
@@ -52,7 +51,7 @@ public class Style {
 
   /**
    * The {@link Configuration} for this {@link Style}.
-   * It can be overridden via {@link Crouton#setConfiguration(Configuration)}.
+   * It can be overridden via {@link com.luttu.nettoast.Crouton#setConfiguration(Configuration)}.
    */
   final Configuration configuration;
 
@@ -94,28 +93,28 @@ public class Style {
    */
   final int textColorValue;
 
-  /** The height of the {@link Crouton} in pixels. */
+  /** The height of the {@link com.luttu.nettoast.Crouton} in pixels. */
   final int heightInPixels;
 
-  /** Resource ID for the height of the {@link Crouton}. */
+  /** Resource ID for the height of the {@link com.luttu.nettoast.Crouton}. */
   final int heightDimensionResId;
 
-  /** The width of the {@link Crouton} in pixels. */
+  /** The width of the {@link com.luttu.nettoast.Crouton} in pixels. */
   final int widthInPixels;
 
-  /** Resource ID for the width of the {@link Crouton}. */
+  /** Resource ID for the width of the {@link com.luttu.nettoast.Crouton}. */
   final int widthDimensionResId;
 
   /** The text's gravity as provided by {@link Gravity}. */
   final int gravity;
 
-  /** An additional image to display in the {@link Crouton}. */
+  /** An additional image to display in the {@link com.luttu.nettoast.Crouton}. */
   final Drawable imageDrawable;
 
-  /** An additional image to display in the {@link Crouton}. */
+  /** An additional image to display in the {@link com.luttu.nettoast.Crouton}. */
   final int imageResId;
 
-  /** The {@link ImageView.ScaleType} for the image to display in the {@link Crouton}. */
+  /** The {@link ImageView.ScaleType} for the image to display in the {@link com.luttu.nettoast.Crouton}. */
   final ImageView.ScaleType imageScaleType;
 
   /**
@@ -262,7 +261,7 @@ public class Style {
       fontNameResId = baseStyle.fontNameResId;
     }
     /**
-     * Set the {@link Configuration} option of the {@link Crouton}.
+     * Set the {@link Configuration} option of the {@link com.luttu.nettoast.Crouton}.
      *
      * @param configuration
      *   The {@link Configuration}.
@@ -275,7 +274,7 @@ public class Style {
     }
 
     /**
-     * Set the backgroundColorResourceId option of the {@link Crouton}.
+     * Set the backgroundColorResourceId option of the {@link com.luttu.nettoast.Crouton}.
      *
      * @param backgroundColorResourceId
      *   The backgroundColorResourceId's resource id.
@@ -289,7 +288,7 @@ public class Style {
     }
 
     /**
-     * Set the backgroundColorResourceValue option of the {@link Crouton}.
+     * Set the backgroundColorResourceValue option of the {@link com.luttu.nettoast.Crouton}.
      *
      * @param backgroundColorValue
      *   The backgroundColorResourceValue's e.g. 0xffff4444;
@@ -302,7 +301,7 @@ public class Style {
     }
 
     /**
-     * Set the backgroundDrawableResourceId option for the {@link Crouton}.
+     * Set the backgroundDrawableResourceId option for the {@link com.luttu.nettoast.Crouton}.
      *
      * @param backgroundDrawableResourceId
      *   Resource ID of a backgroundDrawableResourceId image drawable.
@@ -316,10 +315,10 @@ public class Style {
     }
 
     /**
-     * Set the heightInPixels option for the {@link Crouton}.
+     * Set the heightInPixels option for the {@link com.luttu.nettoast.Crouton}.
      *
      * @param height
-     *   The height of the {@link Crouton} in pixel. Can also be
+     *   The height of the {@link com.luttu.nettoast.Crouton} in pixel. Can also be
      *   {@link LayoutParams#MATCH_PARENT} or
      *   {@link LayoutParams#WRAP_CONTENT}.
      *
@@ -332,10 +331,10 @@ public class Style {
     }
 
     /**
-     * Set the resource id for the height option for the {@link Crouton}.
+     * Set the resource id for the height option for the {@link com.luttu.nettoast.Crouton}.
      *
      * @param heightDimensionResId
-     *   Resource ID of a dimension for the height of the {@link Crouton}.
+     *   Resource ID of a dimension for the height of the {@link com.luttu.nettoast.Crouton}.
      *
      * @return the {@link Builder}.
      */
@@ -346,10 +345,10 @@ public class Style {
     }
 
     /**
-     * Set the widthInPixels option for the {@link Crouton}.
+     * Set the widthInPixels option for the {@link com.luttu.nettoast.Crouton}.
      *
      * @param width
-     *   The width of the {@link Crouton} in pixel. Can also be
+     *   The width of the {@link com.luttu.nettoast.Crouton} in pixel. Can also be
      *   {@link LayoutParams#MATCH_PARENT} or
      *   {@link LayoutParams#WRAP_CONTENT}.
      *
@@ -362,10 +361,10 @@ public class Style {
     }
 
     /**
-     * Set the resource id for the width option for the {@link Crouton}.
+     * Set the resource id for the width option for the {@link com.luttu.nettoast.Crouton}.
      *
      * @param widthDimensionResId
-     *   Resource ID of a dimension for the width of the {@link Crouton}.
+     *   Resource ID of a dimension for the width of the {@link com.luttu.nettoast.Crouton}.
      *
      * @return the {@link Builder}.
      */
@@ -376,7 +375,7 @@ public class Style {
     }
 
     /**
-     * Set the isTileEnabled option for the {@link Crouton}.
+     * Set the isTileEnabled option for the {@link com.luttu.nettoast.Crouton}.
      *
      * @param isTileEnabled
      *   <code>true</code> if you want the backgroundResourceId to be
@@ -391,7 +390,7 @@ public class Style {
     }
 
     /**
-     * Set the textColorResourceId option for the {@link Crouton}.
+     * Set the textColorResourceId option for the {@link com.luttu.nettoast.Crouton}.
      *
      * @param textColor
      *   The resource id of the text colorResourceId.
@@ -405,7 +404,7 @@ public class Style {
     }
 
     /**
-     * Set the textColorResourceValue option of the {@link Crouton}.
+     * Set the textColorResourceValue option of the {@link com.luttu.nettoast.Crouton}.
      *
      * @param textColorValue
      *   The textColorResourceValue's e.g. 0xffff4444;
@@ -418,7 +417,7 @@ public class Style {
     }
 
     /**
-     * Set the gravity option for the {@link Crouton}.
+     * Set the gravity option for the {@link com.luttu.nettoast.Crouton}.
      *
      * @param gravity
      *   The text's gravity as provided by {@link Gravity}.
@@ -432,10 +431,10 @@ public class Style {
     }
 
     /**
-     * Set the image option for the {@link Crouton}.
+     * Set the image option for the {@link com.luttu.nettoast.Crouton}.
      *
      * @param imageDrawable
-     *   An additional image to display in the {@link Crouton}.
+     *   An additional image to display in the {@link com.luttu.nettoast.Crouton}.
      *
      * @return the {@link Builder}.
      */
@@ -446,10 +445,10 @@ public class Style {
     }
 
     /**
-     * Set the image resource option for the {@link Crouton}.
+     * Set the image resource option for the {@link com.luttu.nettoast.Crouton}.
      *
      * @param imageResId
-     *   An additional image to display in the {@link Crouton}.
+     *   An additional image to display in the {@link com.luttu.nettoast.Crouton}.
      *
      * @return the {@link Builder}.
      */

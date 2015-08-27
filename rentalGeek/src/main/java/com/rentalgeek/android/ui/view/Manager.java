@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.luttu.nettoast;
+package com.rentalgeek.android.ui.view;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -34,6 +34,7 @@ import android.view.accessibility.AccessibilityManager;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;

@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-import com.facebook.Session;
 import com.google.gson.Gson;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
@@ -31,6 +30,8 @@ import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.ErrorApi;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.backend.LoginBackend.user;
+import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 
 import butterknife.ButterKnife;
@@ -38,8 +39,10 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 public class FragmentVerifyAccount extends LuttuBaseAbstract implements ValidationListener{
-   
-	/**
+
+    private static final String TAG = "FragmentVerifyAccount";
+
+    /**
 	 * @author george
 	 * 
 	 * @purpose This class verify the user who is going to pay is acutally the orginal user 
@@ -47,9 +50,9 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 	
 	
 	
-	 @Required(order=1,message="Please enter password")
-	@InjectView(R.id.verify_account)
-	EditText verify_password;
+    @Required(order=1,message="Please enter password")
+    @InjectView(R.id.verify_account)
+    EditText verify_password;
 	 
 	 private Validator validator;
 	 AppPrefes appPref;
@@ -189,7 +192,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 		
 		if(!detail.success)
 		{
-			toast(detail.message);
+			DialogManager.showCrouton(getActivity(), detail.message);
 		}
 
 	}
@@ -254,7 +257,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 			 
 			 
 		} catch (Exception e) {
-			// TODO: handle exception
+            AppLogger.log(TAG, e);
 		}
 	}
 	
@@ -304,13 +307,16 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 		}
 		else
 		{
-			
-			toast("Session out, please login to continue");
+			DialogManager.showCrouton(getActivity(), "Session out, please login to continue");
+
 			PersistentCookieStore mCookieStore=new PersistentCookieStore(getActivity());
 			mCookieStore.clear();
-			Session session = Session.getActiveSession();
-			if(session!=null)
-			session.closeAndClearTokenInformation();
+
+			//TODO: implement this in new facebook lib
+//			Session session = Session.getActiveSession();
+//			if(session!=null)
+//			session.closeAndClearTokenInformation();
+
 			appPref.deleteAll();
 			appPref.SaveData("first", "");
 			getActivity().finish();
@@ -319,8 +325,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			//intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intent);
-			getActivity().overridePendingTransition(
-					R.anim.three_, R.anim.four_);
+			getActivity().overridePendingTransition(R.anim.three_, R.anim.four_);
 		}
 		
 	}
@@ -334,23 +339,25 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 		}
 		else
 		{
-			
-			toast("Session out, please login to continue");
+            DialogManager.showCrouton(getActivity(), "Session out, please login to continue");
+
 			PersistentCookieStore mCookieStore=new PersistentCookieStore(getActivity());
 			mCookieStore.clear();
-			Session session = Session.getActiveSession();
-			if(session!=null)
-			session.closeAndClearTokenInformation();
+
+//			Session session = Session.getActiveSession();
+//			if(session!=null)
+//			session.closeAndClearTokenInformation();
+
 			appPref.deleteAll();
 			appPref.SaveData("first", "");
+
 			getActivity().finish();
 			Intent intent = new Intent(getActivity(),FragmentSignIn.class);
 			intent.addCategory(Intent.CATEGORY_HOME);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			//intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intent);
-			getActivity().overridePendingTransition(
-					R.anim.three_, R.anim.four_);
+			getActivity().overridePendingTransition(R.anim.three_, R.anim.four_);
 		}
 	}
 	
@@ -364,8 +371,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 		}
 		else
 		{
-			
-			toast("");
+	//		toast("");
 //			PersistentCookieStore mCookieStore=new PersistentCookieStore(getActivity());
 //			mCookieStore.clear();
 //			Session session = Session.getActiveSession();
@@ -400,10 +406,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 			@Override
 			public void onClick(View v) {
 
-				
 				dialog.dismiss();
-				 
-				
 			}
 		});
 

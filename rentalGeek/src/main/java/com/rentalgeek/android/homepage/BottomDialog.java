@@ -17,19 +17,16 @@ import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.nettoast.Crouton;
-import com.rentalgeek.android.ui.view.Style;
-import com.luttu.utils.GetSSl;
-import com.rentalgeek.android.net.GlobalFunctions;
-import com.rentalgeek.android.net.GlobalFunctions.HttpResponseHandler;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.AddStarBack;
 import com.rentalgeek.android.database.PropertyTable;
+import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.fragment.FragmentMap.FragmentCallback;
 import com.rentalgeek.android.ui.preference.AppPreferences;
+import com.rentalgeek.android.ui.view.Style;
 import com.squareup.picasso.Picasso;
 
 public class BottomDialog {
@@ -185,7 +182,7 @@ public class BottomDialog {
 	}
 
 	public void starProperty() {
-		new GetSSl().getssl(client);
+		//new GetSSl().getssl(client);
 		mCookieStore = new PersistentCookieStore(context);
 		client.setCookieStore(mCookieStore); 
 		RequestParams params = new RequestParams();

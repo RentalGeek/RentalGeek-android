@@ -15,27 +15,18 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.activeandroid.query.Delete;
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.database.PropertyTable;
+import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.activity.ActivityHome;
-import com.rentalgeek.android.ui.fragment.FragmentListViewDetails;
-import com.rentalgeek.android.ui.fragment.FragmentMap;
 import com.rentalgeek.android.utils.ConnectionDetector;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-/**
- * 
- * @author George
- * 
- * @purpose Right Slide Menu
- *
- */
-public class FragmentSlideRight extends LuttuBaseAbstract {
+
+public class FragmentSlideRight extends GeekBaseFragment {
 
 	// BedRoom Buttons
 	@InjectView(R.id.bt_studio)
@@ -85,8 +76,7 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 	TextView price_range;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		View v = inflater.inflate(R.layout.fragment_slideright, container, false);
 		ButterKnife.inject(this, v);
@@ -138,9 +128,7 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 			}
 
 			@Override
-			public void onProgressChanged(SeekBar seekBar, int progress,
-					boolean fromUser) {
-
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
 				sb = null;
 				sb = new StringBuilder();
@@ -153,17 +141,6 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 
 	}
 
-	@Override
-	public void parseresult(String response, boolean success, int value) {
-
-
-	}
-
-	@Override
-	public void error(String response, int value) {
-
-
-	}
 
 	@Override
 	public void onDestroyView() {

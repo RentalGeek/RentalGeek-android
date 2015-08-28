@@ -3,12 +3,10 @@ package com.rentalgeek.android.ui.activity;
 
 import android.os.Bundle;
 
-import com.luttu.fragmentutils.LuttuBaseActionbarActivity;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.ui.fragment.FragmentSignIn;
-import com.rentalgeek.android.ui.fragment.FragmentStarredProperties;
 
-public class ActivityLogin extends LuttuBaseActionbarActivity {
+public class ActivityLogin extends GeekBaseActionBarActivity {
 
     private static final String TAG = ActivityLogin.class.getSimpleName();
 

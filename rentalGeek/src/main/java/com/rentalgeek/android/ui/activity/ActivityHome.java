@@ -17,9 +17,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.LuttuBaseFragmentActivity;
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.fragment.FragmentListViewDetails;
 import com.rentalgeek.android.ui.fragment.FragmentMap;
 
@@ -36,7 +35,7 @@ import butterknife.OnClick;
  *
  */
 
-public class ActivityHome extends LuttuBaseFragmentActivity {
+public class ActivityHome extends GeekBaseActivity {
 
     private static final String TAG = "ActivityHome";
 
@@ -63,8 +62,8 @@ public class ActivityHome extends LuttuBaseFragmentActivity {
 			setContentView(R.layout.home_activity);
 			ButterKnife.inject(this);
 
-			containerlogin = (FrameLayout) findViewById(R.id.containerlogin);
-			toplay_click_cancel = (LinearLayout) findViewById(R.id.toplay_click_cancel);
+			//toplay_click_cancel = (LinearLayout) findViewById(R.id.toplay_click_cancel);
+
 			mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 			addfg(new FragmentMap());
 
@@ -78,15 +77,12 @@ public class ActivityHome extends LuttuBaseFragmentActivity {
 
 					@Override
 					public void onDrawerOpened(View view) {
-
 						hidekey();
-
 					}
 
 					@Override
 					public void onDrawerClosed(View view) {
 						hidekey();
-
 					}
 
 					@Override
@@ -100,8 +96,8 @@ public class ActivityHome extends LuttuBaseFragmentActivity {
 			System.out.println("oncreate attach");
 			setContentView(R.layout.home_activity);
 			ButterKnife.inject(this);
-			toplay_click_cancel = (LinearLayout) findViewById(R.id.toplay_click_cancel);
-			containerlogin = (FrameLayout) findViewById(R.id.containerlogin);
+//			toplay_click_cancel = (LinearLayout) findViewById(R.id.toplay_click_cancel);
+//			containerlogin = (FrameLayout) findViewById(R.id.containerlogin);
 			mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		}
 

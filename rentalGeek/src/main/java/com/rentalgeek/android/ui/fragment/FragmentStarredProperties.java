@@ -18,13 +18,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.StarredBacked;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.pojos.StarredListPojo;
+import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ConnectionDetector;
 import com.rentalgeek.android.utils.ListUtils;
@@ -38,7 +37,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class FragmentStarredProperties extends LuttuBaseAbstract {
+public class FragmentStarredProperties extends GeekBaseFragment {
 
 	private static final String TAG = FragmentStarredProperties.class.getSimpleName();
 
@@ -83,7 +82,7 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 
 	}
 
-	@Override
+/*	@Override
 	public void parseresult(String response, boolean success, int value) {
 
 		switch (value) {
@@ -96,7 +95,7 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 			break;
 		}
 
-	}
+	}*/
 
 	private void loadList(String response) {
 		try {
@@ -159,11 +158,6 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 
 	}
 
-	@Override
-	public void error(String response, int value) {
-
-
-	}
 
 	@Override
 	public void onDestroyView() {

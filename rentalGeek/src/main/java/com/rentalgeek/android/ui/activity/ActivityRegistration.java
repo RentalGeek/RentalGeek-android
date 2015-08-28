@@ -3,7 +3,6 @@ package com.rentalgeek.android.ui.activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,7 +10,6 @@ import android.view.Window;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -45,7 +43,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class ActivityRegistration extends FragmentActivity implements ValidationListener {
+public class ActivityRegistration extends GeekBaseActivity implements ValidationListener {
 
 	private static final String TAG = "ActivityRegistration";
 
@@ -59,8 +57,8 @@ public class ActivityRegistration extends FragmentActivity implements Validation
 //	@InjectView(R.id.terms)
 //	CheckBox terms;
  
-	@InjectView(R.id.containerregis)
-	FrameLayout prog;
+//	@InjectView(R.id.containerregis)
+//	FrameLayout prog;
 
 	@InjectView(R.id.terms_text)
 	TextView terms_text;
@@ -110,7 +108,7 @@ public class ActivityRegistration extends FragmentActivity implements Validation
 	private void callRegisterApi(String a, String b, String c) {
 
 
-		prog.setVisibility(View.VISIBLE);
+		//prog.setVisibility(View.VISIBLE);
 		System.out.println("params " + a + " " + b + " " + c);
 
 		AsyncHttpClient client = new AsyncHttpClient();
@@ -125,12 +123,12 @@ public class ActivityRegistration extends FragmentActivity implements Validation
 
 					@Override
 					public void onBeforeStart() {
-
+						showProgressDialog(R.string.dialog_msg_loading);
 					}
 
 					@Override
 					public void onFinish() {
-						//progresscancel();
+						hideProgressDialog();
 					}
 
 					@Override
@@ -139,7 +137,7 @@ public class ActivityRegistration extends FragmentActivity implements Validation
 						try {
 							detail = (new Gson()).fromJson(content.toString(), RegistrationBackend.class);
 
-							prog.setVisibility(View.INVISIBLE);
+							//prog.setVisibility(View.INVISIBLE);
 							System.out.println("the registration response " + content);
 
 							if (detail.user != null) {

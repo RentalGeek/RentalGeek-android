@@ -18,15 +18,17 @@ import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.google.gson.Gson;
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.MapBackend;
 import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.pojos.PropertyListPojo;
+import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.adapter.PropertyListItemAdapter;
+import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.RandomUtils;
 import com.rentalgeek.android.utils.StaticClass;
@@ -38,7 +40,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class FragmentListViewDetails extends LuttuBaseAbstract {
+public class FragmentListViewDetails extends GeekBaseFragment {
 
 	private static final String TAG = FragmentListViewDetails.class.getSimpleName();
 	@InjectView(R.id.slidelist) 
@@ -121,12 +123,12 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 			list.setAdapter(adapters);
 
 		} else {
-			toast("No results");
+			DialogManager.showCrouton(activity, "No results");
 		}
 
 	}
 
-	@Override
+/*	@Override
 	public void parseresult(String response, boolean success, int value) {
 
 		switch (value) {
@@ -137,7 +139,7 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 			break;
 		}
 
-	}
+	}*/
 
 	private void ParseLocation(String response) {
 
@@ -232,12 +234,6 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 	}
 
 	@Override
-	public void error(String response, int value) {
-
-
-	}
-
-	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
 		ButterKnife.reset(this);
@@ -306,7 +302,34 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 		if (!loc.equals("")) {
 			String url = ApiManager.getPropertySearchUrl(loc);
 			System.out.println("the search url list is " + url);
-			asynkhttpGet(1, url, AppPreferences.getAuthToken(), true);
+			GlobalFunctions.getApiCall(getActivity(), ApiManager.getAddProvider(""), AppPreferences.getAuthToken(),
+                    new GeekHttpResponseHandler() {
+
+                        @Override
+                        public void onBeforeStart() {
+
+                        }
+
+                        @Override
+                        public void onFinish() {
+
+                        }
+
+                        @Override
+                        public void onSuccess(String content) {
+                            try {
+                                ParseLocation(content);
+                            } catch (Exception e) {
+                                AppLogger.log(TAG, e);
+                            }
+                        }
+
+                        @Override
+                        public void onAuthenticationFailed() {
+
+						}
+					});
+			// asynkhttpGet(1, url, AppPreferences.getAuthToken(), true);
 		}
 	}
 

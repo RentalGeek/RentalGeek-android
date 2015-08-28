@@ -13,13 +13,8 @@ import android.util.Base64;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.rentalgeek.android.R;
-import com.rentalgeek.android.ui.fragment.FragmentSignIn;
-import com.rentalgeek.android.ui.adapter.SwipeAdapter;
-import com.rentalgeek.android.utils.ConnectionDetector;
 import com.linkedin.platform.APIHelper;
 import com.linkedin.platform.LISession;
 import com.linkedin.platform.LISessionManager;
@@ -29,8 +24,11 @@ import com.linkedin.platform.listeners.ApiListener;
 import com.linkedin.platform.listeners.ApiResponse;
 import com.linkedin.platform.listeners.AuthListener;
 import com.linkedin.platform.utils.Scope;
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.LuttuBaseFragmentActivity;
+import com.rentalgeek.android.R;
+import com.rentalgeek.android.ui.AppPrefes;
+import com.rentalgeek.android.ui.adapter.SwipeAdapter;
+import com.rentalgeek.android.ui.fragment.FragmentSignIn;
+import com.rentalgeek.android.utils.ConnectionDetector;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.viewpagerindicator.PageIndicator;
 
@@ -48,7 +46,7 @@ import java.util.TimerTask;
  * @purpose Activity which holds the introduction slides
  *
  */
-public class ActivityTutorials extends LuttuBaseFragmentActivity {
+public class ActivityTutorials extends GeekBaseActivity {
 
 	// Linked in
 	private static final String TAG = ActivityTutorials.class.getSimpleName();
@@ -82,7 +80,7 @@ public class ActivityTutorials extends LuttuBaseFragmentActivity {
 		setContentView(R.layout.activity_tutorials);
 		setUpdateState();
 		getKeyHash(this, PACKAGE_MOBILE_SDK_SAMPLE_APP);
-		containerlogin = (FrameLayout) findViewById(R.id.containertut);
+		//containerlogin = (FrameLayout) findViewById(R.id.containertut);
 		mAdapter = new SwipeAdapter(getSupportFragmentManager());
 		con = new ConnectionDetector(getApplicationContext());
 		mPager = (ViewPager) findViewById(R.id.pager);

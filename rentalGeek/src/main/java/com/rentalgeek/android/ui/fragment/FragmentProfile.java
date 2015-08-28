@@ -21,8 +21,6 @@ import android.widget.Spinner;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.Validator.ValidationListener;
@@ -37,11 +35,12 @@ import com.rentalgeek.android.backend.ProfileIdFindBackend;
 import com.rentalgeek.android.backend.ProfilePost;
 import com.rentalgeek.android.database.ProfileTable;
 import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityGeekScore;
 import com.rentalgeek.android.ui.activity.ActivityHome;
+import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
-import com.rentalgeek.android.utils.ConnectionDetector;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -61,13 +60,14 @@ import butterknife.OnClick;
  * @purpose Fragment which deals with the profile of a Rental geek user.
  *
  */
-public class FragmentProfile extends LuttuBaseAbstract implements ValidationListener,
+public class FragmentProfile extends GeekBaseFragment implements ValidationListener,
 		OnFocusChangeListener,
 		android.widget.AdapterView.OnItemSelectedListener {
 
 	public static final String DATEPICKER_TAG = "datepicker";
+    private static final String TAG = "FragmentProfile";
 
-	// View Injection and View Validations
+    // View Injection and View Validations
 	boolean iseveryThing;
 	@InjectView(R.id.evdesc)
 	RelativeLayout evdesc;
@@ -151,7 +151,6 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 	@Required(order = 17, message = "Please fill all mandatory fields")
 	@InjectView(R.id.ed_curr_home_own)
 	public EditText current_home_owner;
-	ActivityHome contexto;
 
 	@Required(order = 18, message = "Please fill all mandatory fields")
 	@InjectView(R.id.ed_curr_own_cont)
@@ -192,7 +191,6 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 
 	private Validator validator;
 	AppPrefes appPref;
-	ConnectionDetector con;
 
 	ProfileTable profdets;
 
@@ -212,16 +210,11 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 							// selection
 		isFelon(); // hiding the is felon lay according to the selection
 		appPref = new AppPrefes(getActivity(), "rentalgeek");
-		con = new ConnectionDetector(getActivity());
 		dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
-		contexto = (ActivityHome) getActivity();
-		registerOnFocusChangeListeners();
-		if (con.isConnectingToInternet()) {
 
-			fetchProfileData();
-		} else {
-			toast("No Connection");
-		}
+		registerOnFocusChangeListeners();
+
+        fetchProfileData();
 
 		return v;
 	}
@@ -273,7 +266,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 
 	}
 
-	@Override
+/*	@Override
 	public void parseresult(String response, boolean success, int value) {
 
 
@@ -290,7 +283,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 		default:
 			break;
 		}
-	}
+	}*/
 
 	// setting profile data to view
 	private void setProfileData(String response) {
@@ -563,8 +556,8 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 
 				if (detail.profile != null) {
 					appPref.SaveData("prof_id", detail.profile.id);
-					toastsuccess("FragmentProfile Updated Successfully");
-					hidekey();
+					DialogManager.showCrouton(activity, "Profile Updated Successfully");
+					//hidekey();
 
 					if (appPref.getIntData("payed") == 200) {
 
@@ -606,8 +599,7 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 				}
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		    AppLogger.log(TAG, e);
 		}
 	}
 
@@ -834,27 +826,21 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 
 			params.put("profile[user_id]", appPref.getData("Uid"));
 
-			if (con.isConnectingToInternet()) {
+            if (!iseveryThing) {
+                // call a patch update from this position after creating a
+                // profile
+                asynkhttpPut(params, 2, url, AppPreferences.getAuthToken(), true);
+            } else {
+                iseveryThing = false;
+            }
 
-				if (!iseveryThing) {
-					// call a patch update from this position after creating a
-					// profile
-					asynkhttpPut(params, 2, url, AppPreferences.getAuthToken(), true);
-				} else {
-					iseveryThing = false;
-				}
-
-			} else {
-				toast("No Connection");
-			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			AppLogger.log(TAG, e);
 		}
 
 	}
 
-	@Override
+/*	@Override
 	public void error(String response, int value) {
 
 
@@ -875,13 +861,12 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 				toasts(sess.errors.current_home_moved_in_on);
 
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+                AppLogger.log(TAG, e);
 			}
 		} else {
 		}
 
-	}
+	}*/
 
 	private void toasts(List<String> born_on) {
 
@@ -954,18 +939,11 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 	// After validation success
 	@Override
 	public void onValidationSucceeded() {
-
-
-		if (con.isConnectingToInternet()) {
-			if (appPref.getData("prof_id").equals("")) {
-				createProfile();
-			} else {
-				callPatchUpdateLink(appPref.getData("prof_id"));
-			}
-		} else {
-			toast("No Connection");
-		}
-
+        if (appPref.getData("prof_id").equals("")) {
+            createProfile();
+        } else {
+            callPatchUpdateLink(appPref.getData("prof_id"));
+        }
 	}
 
 	// Validate view and procced
@@ -1233,23 +1211,17 @@ public class FragmentProfile extends LuttuBaseAbstract implements ValidationList
 
 			String url = ApiManager.getProfile("");
 
-			if (con.isConnectingToInternet()) {
+            if (!iseveryThing) {
+                // call a patch update from this position after creating a
+                // profile
+                asynkhttp(params, 1, url, AppPreferences.getAuthToken(), true);
+            } else {
+                toast("No Connection");
+                iseveryThing = false;
+            }
 
-				if (!iseveryThing) {
-					// call a patch update from this position after creating a
-					// profile
-					asynkhttp(params, 1, url, AppPreferences.getAuthToken(), true);
-				} else {
-					toast("No Connection");
-					iseveryThing = false;
-				}
-
-			} else {
-				toast("No Connection");
-			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			AppLogger.log(TAG, e);
 		}
 
 	}

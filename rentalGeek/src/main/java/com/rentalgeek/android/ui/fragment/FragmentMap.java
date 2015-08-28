@@ -35,14 +35,14 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.MapBackend;
 import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.homepage.BottomDialog;
 import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.ui.AppPrefes;
+import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ConnectionDetector;
 import com.rentalgeek.android.utils.ListUtils;
@@ -51,7 +51,7 @@ import com.rentalgeek.android.utils.StaticClass;
 import java.util.HashMap;
 import java.util.List;
 
-public class FragmentMap extends LuttuBaseAbstract {
+public class FragmentMap extends GeekBaseFragment {
 
 	private static final String TAG = "FragmentMap";
 
@@ -59,7 +59,6 @@ public class FragmentMap extends LuttuBaseAbstract {
 	GoogleMap myMap;
 	boolean broadcast_flag = false;
 	String image_url;
-	ConnectionDetector con;
 	AppPrefes appPref;
 	HashMap<String, Integer> mMarkers = new HashMap<String, Integer>();
 
@@ -67,7 +66,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		View v = inflater.inflate(R.layout.map, container, false);
-		con = new ConnectionDetector(getActivity());
+		//con = new ConnectionDetector(getActivity());
 		getActivity().registerReceiver(receiver, new IntentFilter("search"));
 		supportmap();
 		appPref = new AppPrefes(getActivity(), "rentalgeek");
@@ -75,7 +74,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 		return v;
 	}
 
-	@Override
+/*	@Override
 	public void parseresult(String response, boolean success, int value) {
 
 
@@ -92,7 +91,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 		default:
 			break;
 		}
-	}
+	}*/
 
 	private void BackgroundProcessing(final String response) {
 
@@ -117,6 +116,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 			protected void onPostExecute(Void result) {
 
 				try {
+					hideProgressDialog();
 					Fragment f = getActivity().getSupportFragmentManager().findFragmentById(R.id.container);
 					if (f instanceof FragmentMap) {
 						myMap.clear();
@@ -201,7 +201,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 							ActiveAndroid.setTransactionSuccessful();
 						} catch (Exception e) {
-							progresscancel();
+
                             AppLogger.log(TAG, e);
 						} finally {
 							ActiveAndroid.endTransaction();
@@ -308,7 +308,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 			setmarkersFromDB();
 		} else {
-			toast("No results");
+			DialogManager.showCrouton(activity, "No results");
 		}
 
 	}
@@ -324,7 +324,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 			@Override
 			protected void onPreExecute() {
 
-				progressshow();
+				showProgressDialog(R.string.dialog_msg_loading);
 				super.onPreExecute();
 			}
 
@@ -403,9 +403,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 							ActiveAndroid.setTransactionSuccessful();
 						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							progresscancel();
-							e.printStackTrace();
+							AppLogger.log(TAG, e);
 						} finally {
 							ActiveAndroid.endTransaction();
 						}
@@ -421,7 +419,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 			protected void onPostExecute(Void result) {
 
 				try {
-					progresscancel();
+					hideProgressDialog();
 					setmarkersFromDB();
 				} catch (Exception e) {
 					AppLogger.log(TAG, e);
@@ -434,10 +432,10 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 	}
 
-	@Override
-	public void error(String response, int value) {
-		toast("failure");
-	}
+//	@Override
+//	public void error(String response, int value) {
+//		DialogManager.showCrouton(activity, "failure");
+//	}
 
 	private void supportmap() {
 
@@ -456,39 +454,32 @@ public class FragmentMap extends LuttuBaseAbstract {
 				myMap = supportMapFragment.getMap();
 
 				if (appPref.getData("bysearch").equals("yes")) {
-					log("map jumbo search");
+					AppLogger.log(TAG, "map jumbo search");
 					setmarkersFromDB();
 					StaticClass.bySearch = false;
 				} else {
-					// log("map jumbo ");
-					if (con.isConnectingToInternet()) {
+					try {
+						if (new Select().from(PropertyTable.class).execute().size() > 0) {
 
-						try {
-							if (new Select().from(PropertyTable.class).execute().size() > 0) {
+							new CountDownTimer(1000, 1000) {
 
-								new CountDownTimer(1000, 1000) {
+								@Override
+								public void onTick(long millisUntilFinished) {
 
-									@Override
-									public void onTick(long millisUntilFinished) {
+								}
 
-									}
+								@Override
+								public void onFinish() {
+									setmarkersFromDB();
+									showPropertyInMapBackground();
+								}
+							}.start();
 
-									@Override
-									public void onFinish() {
-										setmarkersFromDB();
-										showPropertyInMapBackground();
-									}
-								}.start();
-
-							} else {
-								showPropertyInMap();
-							}
-						} catch (NullPointerException e) {
-							e.printStackTrace();
+						} else {
+							showPropertyInMap();
 						}
-
-					} else {
-						toast("No connection");
+					} catch (NullPointerException e) {
+						e.printStackTrace();
 					}
 				}
 
@@ -587,9 +578,8 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 
 		Select select = new Select();
-		List<PropertyTable> people = select.all().from(PropertyTable.class)
-				.execute();
-		progresscancel();
+		List<PropertyTable> people = select.all().from(PropertyTable.class).execute();
+
 		myMap.clear();
 		mMarkers = null;
 		mMarkers = new HashMap<String, Integer>();
@@ -613,7 +603,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 			}
 
 		} else {
-			toast("No properties");
+			DialogManager.showCrouton(activity, "No properties");
 		}
 
 		myMap.setOnMarkerClickListener(new OnMarkerClickListener() {

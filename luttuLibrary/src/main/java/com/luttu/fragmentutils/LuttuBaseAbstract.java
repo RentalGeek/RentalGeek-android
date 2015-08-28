@@ -27,9 +27,9 @@ import java.util.HashMap;
 import java.util.List;
 
 /****
- * extend LuttuBaseAbstract for network operations.
+ * extend GeekBaseFragment for network operations.
  * */
-public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
+public abstract class GeekBaseFragment extends LuttuBaseFragment {
 	/****
 	 * Receive parse response here
 	 * */

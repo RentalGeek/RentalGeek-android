@@ -11,8 +11,8 @@ import android.view.Window;
 import android.webkit.WebView;
 import android.widget.TextView;
 
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.LuttuBaseAbstract;
+
+
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.ui.Navigation;
@@ -21,7 +21,7 @@ import com.rentalgeek.android.ui.activity.ActivityHome;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class FragmentFinalGeekScore extends LuttuBaseAbstract{
+public class FragmentFinalGeekScore extends GeekBaseFragment{
 
 	private static final String TAG = "FragmentFinalGeekScore";
 	

@@ -19,8 +19,6 @@ import android.widget.TextView.OnEditorActionListener;
 import com.google.gson.Gson;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.Validator.ValidationListener;
@@ -31,6 +29,7 @@ import com.rentalgeek.android.backend.ErrorApi;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.backend.LoginBackend.user;
 import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 
@@ -38,18 +37,11 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class FragmentVerifyAccount extends LuttuBaseAbstract implements ValidationListener{
+public class FragmentVerifyAccount extends GeekBaseFragment implements ValidationListener{
 
     private static final String TAG = "FragmentVerifyAccount";
 
-    /**
-	 * @author george
-	 * 
-	 * @purpose This class verify the user who is going to pay is acutally the orginal user 
-	 */
-	
-	
-	
+
     @Required(order=1,message="Please enter password")
     @InjectView(R.id.verify_account)
     EditText verify_password;
@@ -122,14 +114,14 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 
 		
 		verify_password.setOnEditorActionListener(new OnEditorActionListener() {
-			
+
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
-				
-				if (actionId  != EditorInfo.IME_ACTION_DONE)
+
+				if (actionId != EditorInfo.IME_ACTION_DONE)
 					return false;
-				hidekey();
+				//hidekey();
 				validator.validate();
 				return true;
 			}
@@ -144,11 +136,9 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 		ButterKnife.reset(this);
 	}
 
-	@Override
+/*	@Override
 	public void parseresult(String response, boolean success, int value) {
 
-
-		
 		switch (value) {
 		case 1:
 			NormalLogin(response);
@@ -165,7 +155,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 		default:
 			break;
 		}
-	}
+	}*/
 
 	private void LinkedParse(String response) {
 
@@ -183,7 +173,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 		nextfragment(new FragmentPayment(), false, R.id.container);
 	}
 
-	@Override
+/*	@Override
 	public void error(String response, int value) {
 
 		
@@ -195,7 +185,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 			DialogManager.showCrouton(getActivity(), detail.message);
 		}
 
-	}
+	}*/
 
 	@Override
 	public void onValidationFailed(View failedView, Rule<?> failedRule) {
@@ -243,8 +233,8 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 			LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
 
 			user appin = detail.user;
-			log("my id is " + appin.id);
-			log("my id is " + detail.user.id);
+//			log("my id is " + appin.id);
+//			log("my id is " + detail.user.id);
 
 			String appid = String.valueOf(detail.user.id);
 			System.out.println("my id is " + appid);

@@ -4,13 +4,11 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 import com.luttu.fragmentutils.VolleyForAll.HttpRequestType;
-import com.luttu.gson.DetailFalse;
 import com.luttu.utils.GetSSl;
 import com.luttu.utils.GlobalFunctions;
 import com.luttu.utils.GlobalFunctions.HttpResponseHandler;
@@ -60,7 +58,6 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 	 * AsyncHttpClient network operation
 	 * */
 	public void asynkhttp(RequestParams params, final int value, String link, final String authToken, boolean progrss) {
-
 		if (progrss) progressshow();
 		new GetSSl().getssl(client);
 		mCookieStore = new PersistentCookieStore(getActivity());
@@ -68,10 +65,8 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 
 		GlobalFunctions.postApiCall(getActivity(), link, params, authToken, client,
 				new HttpResponseHandler() {
-
 					@Override
 					public void handle(String response, boolean success) {
-
 						try {
 							progresscancel();
 							List<Cookie> cookies = mCookieStore.getCookies();
@@ -107,9 +102,7 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 	 */
 
 	public void asynkhttpGet(final int value, String link, final String authToken, boolean progrss) {
-
 		if (progrss) progressshow();
-
         System.out.println("get:"+link);
 
 		AsyncHttpClient client = new AsyncHttpClient();
@@ -258,16 +251,13 @@ public abstract class LuttuBaseAbstract extends LuttuBaseFragment {
 	}
 
 	private void afterparse(String response, int value) {
-
 		try {
-			DetailFalse session = (new Gson()).fromJson(response.toString(), DetailFalse.class);
 			parseresult(response, true, value);
 		} catch (JsonSyntaxException e) {
 			e.printStackTrace();
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	/****

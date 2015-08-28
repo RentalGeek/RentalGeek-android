@@ -54,7 +54,6 @@ import java.util.List;
 public class FragmentMap extends LuttuBaseAbstract {
 
 	private static final String TAG = "FragmentMap";
-
 	SupportMapFragment supportMapFragment;
 	GoogleMap myMap;
 	boolean broadcast_flag = false;
@@ -63,10 +62,11 @@ public class FragmentMap extends LuttuBaseAbstract {
 	AppPrefes appPref;
 	HashMap<String, Integer> mMarkers = new HashMap<String, Integer>();
 	private boolean isShowingRightNow = false;
+	private View v;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.map, container, false);
+		v = inflater.inflate(R.layout.map, container, false);
 		con = new ConnectionDetector(getActivity());
 		getActivity().registerReceiver(receiver, new IntentFilter("search"));
 		supportmap();
@@ -633,6 +633,9 @@ public class FragmentMap extends LuttuBaseAbstract {
 	public void onHiddenChanged(boolean hidden) {
 		super.onHiddenChanged(hidden);
 		setIsShowingRightNow(!hidden);
+		if (isShowingRightNow() && v != null) {
+			setmarkersFromDB();
+		}
 	}
 
 	public boolean isShowingRightNow() {

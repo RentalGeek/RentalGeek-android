@@ -78,17 +78,17 @@ public class FragmentMap extends LuttuBaseAbstract {
 	@Override
 	public void parseresult(String response, boolean success, int value) {
 		switch (value) {
-		case 1:
-			NormalMapParse(response, success);
-			break;
-		case 2:
-			SearchFilterParse(response, success);
-			break;
-		case 3:
-			BackgroundProcessing(response);
-			break;
-		default:
-			break;
+			case 1:
+				NormalMapParse(response, success);
+				break;
+			case 2:
+				SearchFilterParse(response, success);
+				break;
+			case 3:
+				BackgroundProcessing(response);
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -117,7 +117,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 						setmarkersFromDB();
 					}
 				} catch (Exception e) {
-                    AppLogger.log(TAG, e);
+					AppLogger.log(TAG, e);
 				}
 
 				super.onPostExecute(result);
@@ -187,7 +187,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 							ActiveAndroid.setTransactionSuccessful();
 						} catch (Exception e) {
 							progresscancel();
-                            AppLogger.log(TAG, e);
+							AppLogger.log(TAG, e);
 						} finally {
 							ActiveAndroid.endTransaction();
 						}
@@ -278,7 +278,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 					ActiveAndroid.setTransactionSuccessful();
 				} catch (Exception e) {
-                    AppLogger.log(TAG, e);
+					AppLogger.log(TAG, e);
 				} finally {
 					ActiveAndroid.endTransaction();
 				}
@@ -451,7 +451,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 			}
 		} catch (Exception e) {
-            AppLogger.log(TAG, e);
+			AppLogger.log(TAG, e);
 		}
 	}
 
@@ -496,19 +496,19 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 		// If the text is bigger than the canvas , reduce the font size
 		if (textRect.width() >= (canvas.getWidth() - 5)) // the padding on
-															// either sides is
-															// considered as 4,
-															// so as to
-															// appropriately fit
-															// in the text
+			// either sides is
+			// considered as 4,
+			// so as to
+			// appropriately fit
+			// in the text
 			paint.setTextSize(convertToPixels(getActivity(), 8)); // Scaling
-																	// needs to
+		// needs to
 		// be used for
 		// different dpi's
 
 		// Calculate the positions
 		int xPos = (canvas.getWidth() / 2) - 2; // -2 is for regulating the x
-												// position offset
+		// position offset
 
 		// "- ((paint.descent() + paint.ascent()) / 2)" is the distance from the
 		// baseline to the center.
@@ -566,17 +566,17 @@ public class FragmentMap extends LuttuBaseAbstract {
 				BottomDialog testAsyncTask = new BottomDialog(id,
 						getActivity(), new FragmentCallback() {
 
-							@Override
-							public void onTaskDone(final int marker_value) {
-								Fragment innerlist = new ListInnerPage();
-								Bundle args = new Bundle();
+					@Override
+					public void onTaskDone(final int marker_value) {
+						Fragment innerlist = new ListInnerPage();
+						Bundle args = new Bundle();
 
-								args.putInt("Count", marker_value);
-								innerlist.setArguments(args);
+						args.putInt("Count", marker_value);
+						innerlist.setArguments(args);
 
-								addfragment(innerlist, true, R.id.container);
-							}
-						});
+						addfragment(innerlist, true, R.id.container);
+					}
+				});
 
 				return false;
 			}
@@ -589,11 +589,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 		String url = ApiManager.getPropertySearchUrl(location);
 		System.out.println("the search url map is " + url);
 
-		if (!location.equals("")) {
-			asynkhttpGet(2, url, AppPreferences.getAuthToken(), true);
-		} else {
-			toast("Select Filters");
-		}
+		asynkhttpGet(2, url, AppPreferences.getAuthToken(), true);
 	}
 
 	BroadcastReceiver receiver = new BroadcastReceiver() {

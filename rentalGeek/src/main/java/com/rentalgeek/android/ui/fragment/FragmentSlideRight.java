@@ -13,11 +13,9 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-import com.activeandroid.query.Delete;
 import com.luttu.fragmentutils.AppPrefes;
 import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.utils.ConnectionDetector;
 
@@ -96,8 +94,6 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 	}
 
 	private void PriceSeek() {
-
-
 		price_seek.setOnTouchListener(new ListView.OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
@@ -124,47 +120,34 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-
-
 			}
 
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {
-
-
 			}
 
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
-
-
 				sb = null;
 				sb = new StringBuilder();
 				sb.append("$");
 				sb.append(checkRange(progress));
 				price_range.setText(sb.toString());
 			}
-
 		});
-
 	}
 
 	@Override
 	public void parseresult(String response, boolean success, int value) {
-
-
 	}
 
 	@Override
 	public void error(String response, int value) {
-
-
 	}
 
 	@Override
 	public void onDestroyView() {
-
 		super.onDestroyView();
 		ButterKnife.reset(this);
 	}
@@ -190,7 +173,6 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 	}
 
 	private Integer checkRange(int range) {
-
 		if (range > 0 && range <= 10)
 			return 100;
 		else if (range > 10 && range <= 20)
@@ -294,87 +276,68 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 	@OnClick({ R.id.bt_bathone, R.id.bt_bathtwo, R.id.bt_baththree,
 			R.id.bt_bathfour })
 	public void Bathroom(View v) {
-
 		switch (v.getId()) {
 
 		case R.id.bt_bathone:
 			replaceTag(1);
 			if (compareColor(bt_bathone.getTag().toString(), "#4181cb")) {
-
 				params_strings = params_strings + "&search[bathroom]=1";
 				setColorBathroom(bt_bathone, bt_bathtwo, bt_baththree,
 						bt_bathfour);
 			} else {
 				replaceWord("\\&search[bathroom]=1");
 				removeColor(bt_bathtwo);
-
 			}
 			break;
 		case R.id.bt_bathtwo:
 			replaceTag(2);
 			if (compareColor(bt_bathtwo.getTag().toString(), "#4181cb")) {
-
 				params_strings = params_strings + "&search[bathroom]=2";
 				setColorBathroom(bt_bathtwo, bt_bathone, bt_baththree,
 						bt_bathfour);
 			} else {
 				replaceWord("\\&search\\[bathroom\\]=2");
 				removeColor(bt_bathtwo);
-
 			}
 			break;
 		case R.id.bt_baththree:
 			replaceTag(3);
 			if (compareColor(bt_baththree.getTag().toString(), "#4181cb")) {
-
 				params_strings = params_strings + "&search[bathroom]=3";
 				setColorBathroom(bt_baththree, bt_bathone, bt_bathtwo,
 						bt_bathfour);
 			} else {
 				replaceWord("\\&search\\[bathroom\\]=3");
 				removeColor(bt_baththree);
-
 			}
 			break;
 		case R.id.bt_bathfour:
 			replaceTag(4);
 			if (compareColor(bt_bathfour.getTag().toString(), "#4181cb")) {
-
 				params_strings = params_strings + "&search[bathroom]=4";
 				setColorBathroom(bt_bathfour, bt_bathone, bt_bathtwo,
 						bt_baththree);
 			} else {
 				replaceWord("\\&search\\[bathroom\\]=4");
 				removeColor(bt_bathfour);
-
 			}
 			break;
-
 		}
-
 	}
 
 	private boolean compareColor(String first_color, String second_color) {
-
-
 		if (first_color.equals(second_color)) {
 			return true;
 		} else {
-
 			return false;
 		}
-
 	}
 
 	private void replaceWord(String string) {
-
 		params_strings = params_strings.replaceAll(string, "");
-
 	}
 
 	private void replaceTag(int i) {
-
-
 		switch (i) {
 		case 1:
 			params_strings = params_strings.replaceAll(
@@ -416,12 +379,8 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 	}
 
 	private void replaceBedroomTag(int i) {
-
-
 		switch (i) {
-
 		case 0:
-
 			params_strings = params_strings.replaceAll(
 					"\\&search\\[bedroom\\]=1", "");
 			params_strings = params_strings.replaceAll(
@@ -431,7 +390,6 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 			params_strings = params_strings.replaceAll(
 					"\\&search\\[bedroom\\]=4", "");
 			break;
-
 		case 1:
 			params_strings = params_strings.replaceAll(
 					"\\&search\\[bedroom\\]=0", "");
@@ -474,14 +432,10 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 			break;
 		default:
 			break;
-
 		}
-
 	}
 
-	private void setColorToBedroom(Button b1, Button b2, Button b3, Button b4,
-			Button b5) {
-
+	private void setColorToBedroom(Button b1, Button b2, Button b3, Button b4, Button b5) {
 		b1.setTag("#0000A0");
 		b2.setTag("#4181cb");
 		b3.setTag("#4181cb");
@@ -517,61 +471,45 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 	}
 
 	private void removeColor(Button b) {
-
-
 		b.setTag("#4181cb");
 		b.setBackgroundColor(getActivity().getResources()
 				.getColor(R.color.blue));
 	}
 
 	// remove after search
-	private void removeEverything() {
-
-
+	private void resetFilterUI() {
 		ed_search.setText("");
-
 		price_seek.setProgress(0);
-
 		bt_bathone.setTag("#4181cb");
 		bt_bathone.setBackgroundColor(getActivity().getResources().getColor(
 				R.color.blue));
-
 		bt_bathtwo.setTag("#4181cb");
 		bt_bathtwo.setBackgroundColor(getActivity().getResources().getColor(
 				R.color.blue));
-
 		bt_bathtwo.setTag("#4181cb");
 		bt_bathtwo.setBackgroundColor(getActivity().getResources().getColor(
 				R.color.blue));
-
 		bt_baththree.setTag("#4181cb");
 		bt_baththree.setBackgroundColor(getActivity().getResources().getColor(
 				R.color.blue));
-
 		bt_bathfour.setTag("#4181cb");
 		bt_bathfour.setBackgroundColor(getActivity().getResources().getColor(
 				R.color.blue));
-
 		studio.setTag("#4181cb");
 		studio.setBackgroundColor(getActivity().getResources().getColor(
 				R.color.blue));
-
 		bt_bedone.setTag("#4181cb");
 		bt_bedone.setBackgroundColor(getActivity().getResources().getColor(
 				R.color.blue));
-
 		bt_bedtwo.setTag("#4181cb");
 		bt_bedtwo.setBackgroundColor(getActivity().getResources().getColor(
 				R.color.blue));
-
 		bt_bedthree.setTag("#4181cb");
 		bt_bedthree.setBackgroundColor(getActivity().getResources().getColor(
 				R.color.blue));
-
 		bt_bedfour.setTag("#4181cb");
 		bt_bedfour.setBackgroundColor(getActivity().getResources().getColor(
 				R.color.blue));
-
 		params_strings = null;
 		params_strings = "";
 
@@ -594,10 +532,8 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 			args.putString("params", params_strings.toString().trim());
 			refreshIntent.putExtras(args);
 			getActivity().sendBroadcast(refreshIntent);
-			removeEverything();
-
+			resetFilterUI();
 		} else {
-
 			System.out.println("no empty edittext");
 			params_strings = params_strings + "&search[location]="
 					+ ed_search.getText().toString().trim();
@@ -612,12 +548,11 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 			args.putString("params", params_strings.toString().trim());
 			refreshIntent.putExtras(args);
 			getActivity().sendBroadcast(refreshIntent);
-			removeEverything();
+			resetFilterUI();
 		}
 	}
 
 	private void searchInlist() {
-
 		((ActivityHome) getActivity()).closedrawer();
 		if (ed_search.getText().toString().equals("")) {
 
@@ -632,10 +567,9 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 			args.putString("params", params_strings.toString().trim());
 			refreshIntent.putExtras(args);
 			getActivity().sendBroadcast(refreshIntent);
-			removeEverything();
+			resetFilterUI();
 
 		} else {
-
 			if (price_seek.getProgress() != 0) {
 				params_strings = params_strings + "&search[minPrice]=100&"
 						+ "search[maxPrice]="
@@ -649,19 +583,14 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 			args.putString("params", params_strings.toString().trim());
 			refreshIntent.putExtras(args);
 			getActivity().sendBroadcast(refreshIntent);
-			removeEverything();
+			resetFilterUI();
 		}
-
 	}
 
 	@OnClick(R.id.clear_search)
 	public void ClearSearchDet() {
 		appPref.SaveData("bysearch", "no");
-		removeEverything();
-		new Delete().from(PropertyTable.class).execute();
-		nextfragment(new FragmentMap(), false, R.id.container);
-		((ActivityHome)getActivity()).highlightMapTab();
-		appPref.SaveData("map_list", "map");
-
+		resetFilterUI();
+		SearchLocation();
 	}
 }

@@ -188,7 +188,6 @@ public class LuttuBaseFragment extends Fragment {
 	 * 
 	 * */
 	public void nextfragment(Fragment fragment, boolean stack, int id) {
-
 		if (getActivity() == null) {
 			return;
 		}
@@ -208,7 +207,6 @@ public class LuttuBaseFragment extends Fragment {
 	 * 
 	 * */
 	public void nextchildfragment(Fragment fragment, boolean stack, int id) {
-
 		if (getActivity() == null) {
 			return;
 		}

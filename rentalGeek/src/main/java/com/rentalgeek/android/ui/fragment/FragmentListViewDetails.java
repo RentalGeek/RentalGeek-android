@@ -112,11 +112,11 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 	@Override
 	public void parseresult(String response, boolean success, int value) {
 		switch (value) {
-		case 1:
-			ParseLocation(response);
-			break;
-		default:
-			break;
+			case 1:
+				ParseLocation(response);
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -238,40 +238,38 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 
-            try {
-                Bundle b = intent.getExtras();
-                if (b != null) {
-                    if (adapters != null) {
-                        if (mainlist != null) {
-                            int pos = appPref.getIntData("listp");
-                            System.out.println("inside on recieve POS"+pos);
+			try {
+				Bundle b = intent.getExtras();
+				if (b != null) {
+					if (adapters != null) {
+						if (mainlist != null) {
+							int pos = appPref.getIntData("listp");
+							System.out.println("inside on recieve POS"+pos);
 
-                            if(b.getBoolean("remove_params"))
-                            {
-                                mainlist.get(pos).setStarred(true);
-                                adapters.notifyDataSetChanged();
-                            }
-                            else
-                            {
-                                mainlist.get(pos).setStarred(false);
-                                adapters.notifyDataSetChanged();
-                            }
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                AppLogger.log(TAG, e);
-            }
+							if(b.getBoolean("remove_params"))
+							{
+								mainlist.get(pos).setStarred(true);
+								adapters.notifyDataSetChanged();
+							}
+							else
+							{
+								mainlist.get(pos).setStarred(false);
+								adapters.notifyDataSetChanged();
+							}
+						}
+					}
+				}
+			} catch (Exception e) {
+				AppLogger.log(TAG, e);
+			}
 
 		}
 	};
 
 	private void SearchViaLocationList(String loc) {
-		if (!loc.equals("")) {
-			String url = ApiManager.getPropertySearchUrl(loc);
-			System.out.println("the search url list is " + url);
-			asynkhttpGet(1, url, AppPreferences.getAuthToken(), true);
-		}
+		String url = ApiManager.getPropertySearchUrl(loc);
+		System.out.println("the search url list is " + url);
+		asynkhttpGet(1, url, AppPreferences.getAuthToken(), true);
 	}
 
 	@Override

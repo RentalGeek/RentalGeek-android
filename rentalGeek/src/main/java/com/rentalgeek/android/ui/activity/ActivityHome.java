@@ -92,7 +92,6 @@ public class ActivityHome extends LuttuBaseFragmentActivity {
 			containerlogin = (FrameLayout) findViewById(R.id.containerlogin);
 			mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		}
-
 	}
 
 	public void showFragment(Fragment fragment) {
@@ -112,8 +111,6 @@ public class ActivityHome extends LuttuBaseFragmentActivity {
 
 		ft.commitAllowingStateLoss();
 	}
-
-
 
 	public void Left() {
 		if (mDrawerLayout == null) {

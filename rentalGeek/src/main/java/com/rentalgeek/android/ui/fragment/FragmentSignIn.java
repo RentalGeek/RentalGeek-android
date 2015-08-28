@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,26 +38,21 @@ import com.google.android.gms.plus.model.people.Person;
 import com.google.gson.Gson;
 import com.linkedin.platform.LISessionManager;
 import com.loopj.android.http.RequestParams;
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.VolleyForAll;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
-import com.rentalgeek.android.backend.ErrorApi;
-import com.rentalgeek.android.backend.ForgotError;
 import com.rentalgeek.android.backend.GoogleBackend;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.database.ProfileTable;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.activity.ActivityRegistration;
 import com.rentalgeek.android.ui.activity.ActivityTutorials;
 import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ConnectionDetector;
-
-import org.apache.http.cookie.Cookie;
 
 import java.util.Arrays;
 import java.util.List;
@@ -120,7 +114,7 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
 	@InjectView(R.id.ed_password)
 	EditText ed_password;
 
-	VolleyForAll volley;
+	//VolleyForAll volley;
 
 	public static FragmentSignIn newInstance() {
 		FragmentSignIn fragment = new FragmentSignIn();
@@ -878,7 +872,36 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
 		params.put("provider[email]", email);
 		params.put("provider[name]", personName);
 		params.put("provider[linkedIn_image]", personPhotoUrl);
-		asynkhttp(params, 3, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
+
+		GlobalFunctions.postApiCall(getActivity(), ApiManager.getAddProvider(""),
+				params, AppPreferences.getAuthToken(),
+				new GeekHttpResponseHandler() {
+
+					@Override
+					public void onBeforeStart() {
+
+					}
+
+					@Override
+					public void onFinish() {
+						//progresscancel();
+					}
+
+					@Override
+					public void onSuccess(String content) {
+						try {
+                            googlePlusParse(content);
+						} catch (Exception e) {
+							AppLogger.log(TAG, e);
+						}
+					}
+
+					@Override
+					public void onAuthenticationFailed() {
+
+					}
+				});
+		//asynkhttp(params, 3, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
 
 	}
 
@@ -892,7 +915,36 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
 		params.put("provider[email]", email);
 		params.put("provider[name]", personName);
 		params.put("provider[google_image]", personPhotoUrl);
-		asynkhttp(params, 4, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
+
+        GlobalFunctions.postApiCall(getActivity(), ApiManager.getAddProvider(""),
+                params, AppPreferences.getAuthToken(),
+                new GeekHttpResponseHandler() {
+
+                    @Override
+                    public void onBeforeStart() {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        //progresscancel();
+                    }
+
+                    @Override
+                    public void onSuccess(String content) {
+                        try {
+                            LinkedInParse(content);
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
+                        }
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed() {
+
+                    }
+                });
+        //asynkhttp(params, 4, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
 
 	}
 
@@ -904,7 +956,36 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
 		params.put("provider[email]", email);
 		params.put("provider[name]", personName);
 		params.put("provider[facebook_image]", personPhotoUrl);
-		asynkhttp(params, 2, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
+
+        GlobalFunctions.postApiCall(getActivity(), ApiManager.getAddProvider(""),
+                params, AppPreferences.getAuthToken(),
+                new GeekHttpResponseHandler() {
+
+                    @Override
+                    public void onBeforeStart() {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        //progresscancel();
+                    }
+
+                    @Override
+                    public void onSuccess(String content) {
+                        try {
+                            FaceBookLogin(content);
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
+                        }
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed() {
+
+                    }
+                });
+        //asynkhttp(params, 2, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
 
 	}
 
@@ -981,7 +1062,35 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
 
 		String url = ApiManager.getApplicantPassword();
 
-		asynkhttp(params, 5, url, AppPreferences.getAuthToken(), true);
+        GlobalFunctions.postApiCall(getActivity(), url,
+                params, AppPreferences.getAuthToken(),
+                new GeekHttpResponseHandler() {
+
+                    @Override
+                    public void onBeforeStart() {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        //progresscancel();
+                    }
+
+                    @Override
+                    public void onSuccess(String content) {
+                        try {
+                            ForgotMailSentParse(content);
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
+                        }
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed() {
+
+                    }
+                });
+        //asynkhttp(params, 5, url, AppPreferences.getAuthToken(), true);
 
 	}
 

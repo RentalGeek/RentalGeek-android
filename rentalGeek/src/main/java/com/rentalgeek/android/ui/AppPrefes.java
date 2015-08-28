@@ -1,7 +1,5 @@
-/**
- * 
- */
-package com.luttu.fragmentutils;
+
+package com.rentalgeek.android.ui;
 
 import android.app.Activity;
 import android.content.Context;

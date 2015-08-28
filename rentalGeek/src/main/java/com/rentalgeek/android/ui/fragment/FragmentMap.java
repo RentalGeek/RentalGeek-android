@@ -62,23 +62,21 @@ public class FragmentMap extends LuttuBaseAbstract {
 	ConnectionDetector con;
 	AppPrefes appPref;
 	HashMap<String, Integer> mMarkers = new HashMap<String, Integer>();
+	private boolean isShowingRightNow = false;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
 		View v = inflater.inflate(R.layout.map, container, false);
 		con = new ConnectionDetector(getActivity());
 		getActivity().registerReceiver(receiver, new IntentFilter("search"));
 		supportmap();
 		appPref = new AppPrefes(getActivity(), "rentalgeek");
-
+		setIsShowingRightNow(true);
 		return v;
 	}
 
 	@Override
 	public void parseresult(String response, boolean success, int value) {
-
-
 		switch (value) {
 		case 1:
 			NormalMapParse(response, success);
@@ -95,16 +93,13 @@ public class FragmentMap extends LuttuBaseAbstract {
 	}
 
 	private void BackgroundProcessing(final String response) {
-
 		AppLogger.log(TAG, "back ground response " + response);
 
 		new AsyncTask<Void, Void, Void>() {
-
 			MapBackend detail;
 
 			@Override
 			protected void onPreExecute() {
-
 				try {
 					detail = (new Gson()).fromJson(response.toString(), MapBackend.class);
 				} catch (JsonSyntaxException e) {
@@ -115,7 +110,6 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 			@Override
 			protected void onPostExecute(Void result) {
-
 				try {
 					Fragment f = getActivity().getSupportFragmentManager().findFragmentById(R.id.container);
 					if (f instanceof FragmentMap) {
@@ -131,12 +125,9 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 			@Override
 			protected Void doInBackground(Void... arg) {
-
 				if (detail.rental_offerings.size() > 0) {
-
 					new Delete().from(PropertyTable.class).execute();
 					for (int i = 0; i < detail.rental_offerings.size(); i++) {
-
 						image_url = "";
 
 						if (!StringUtils.isTrimEmpty(detail.rental_offerings.get(i).primary_property_photo_url)) {
@@ -146,7 +137,6 @@ public class FragmentMap extends LuttuBaseAbstract {
 						}
 
 						try {
-
 							ActiveAndroid.beginTransaction();
 							PropertyTable dbobj = new PropertyTable(
 									i,
@@ -214,8 +204,6 @@ public class FragmentMap extends LuttuBaseAbstract {
 	}
 
 	private void SearchFilterParse(String response, boolean failre) {
-
-
 		// broadcast_flag=false;
 		System.out.println("filter parse");
 
@@ -294,41 +282,32 @@ public class FragmentMap extends LuttuBaseAbstract {
 				} finally {
 					ActiveAndroid.endTransaction();
 				}
-
 			}
 
 			setmarkersFromDB();
 		} else {
 			toast("No results");
 		}
-
 	}
 
 	private void NormalMapParse(final String response, Boolean failure) {
-
 		AppLogger.log(TAG, "response is " + response);
-
 		myMap.setMyLocationEnabled(true);
 
 		new AsyncTask<Void, Void, Void>() {
-
 			@Override
 			protected void onPreExecute() {
-
 				progressshow();
 				super.onPreExecute();
 			}
 
 			@Override
 			protected Void doInBackground(Void... params) {
-
 				MapBackend detail = (new Gson()).fromJson(response.toString(), MapBackend.class);
 
 				if (detail.rental_offerings.size() > 0) {
-
 					new Delete().from(PropertyTable.class).execute();
 					for (int i = 0; i < detail.rental_offerings.size(); i++) {
-
 						image_url = "";
 
 						if (!StringUtils.isTrimEmpty(detail.rental_offerings.get(i).primary_property_photo_url)) {
@@ -338,7 +317,6 @@ public class FragmentMap extends LuttuBaseAbstract {
 						}
 
 						try {
-
 							ActiveAndroid.beginTransaction();
 							PropertyTable dbobj = new PropertyTable(
 									i,
@@ -394,9 +372,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 						} finally {
 							ActiveAndroid.endTransaction();
 						}
-
 					}
-
 				}
 
 				return null;
@@ -404,7 +380,6 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 			@Override
 			protected void onPostExecute(Void result) {
-
 				try {
 					progresscancel();
 					setmarkersFromDB();
@@ -416,7 +391,6 @@ public class FragmentMap extends LuttuBaseAbstract {
 			}
 
 		}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
 	}
 
 	@Override
@@ -425,12 +399,10 @@ public class FragmentMap extends LuttuBaseAbstract {
 	}
 
 	private void supportmap() {
-
 		supportMapFragment = SupportMapFragment.newInstance();
 		FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
 		fragmentTransaction.add(R.id.map, supportMapFragment);
 		fragmentTransaction.commit();
-
 	}
 
 	@Override
@@ -481,41 +453,30 @@ public class FragmentMap extends LuttuBaseAbstract {
 		} catch (Exception e) {
             AppLogger.log(TAG, e);
 		}
-
 	}
 
 	public void showPropertyInMap() {
-		// progressshow();
 		String url = ApiManager.getPropertySearchUrl("");
 		asynkhttpGet(1, url, AppPreferences.getAuthToken(), true);
 	}
 
 	private void drawMarker(LatLng point, int bedroom_count, String y, int mark_count) {
-		// Creating an instance of MarkerOptions
-
 		MarkerOptions second = new MarkerOptions();
 
 		if (bedroom_count > 4) {
 			second.icon(BitmapDescriptorFactory.fromBitmap(writeTextOnDrawable(
 					R.drawable.marker, "4+")));
-
 		} else {
 			second.icon(BitmapDescriptorFactory.fromBitmap(writeTextOnDrawable(
 					R.drawable.marker, String.valueOf(bedroom_count))));
-
 		}
 
 		second.position(point);
 		Marker mark_my = myMap.addMarker(second);
 		mMarkers.put(mark_my.getId(), mark_count);
-		// System.out
-		// .println(" the bedroom count " + bedroom_count + " mark_count "
-		// + mark_count + " marker id " + mark_my.getId());
-
 	}
 
 	private Bitmap writeTextOnDrawable(int drawableId, String text) {
-
 		Bitmap bm = BitmapFactory.decodeResource(getResources(), drawableId)
 				.copy(Bitmap.Config.ARGB_8888, true);
 
@@ -564,18 +525,15 @@ public class FragmentMap extends LuttuBaseAbstract {
 				.getDisplayMetrics().density;
 
 		return (int) ((nDP * conversionScale) + 0.5f);
-
 	}
 
 	private void setmarkersFromDB() {
-
 		Select select = new Select();
 		List<PropertyTable> people = select.all().from(PropertyTable.class).execute();
 		progresscancel();
 		myMap.clear();
 		mMarkers = null;
 		mMarkers = new HashMap<String, Integer>();
-		// mMarkers.clear();
 
 		if (people.size() > 0) {
 			for (int i = 0; i < people.size(); i++) {
@@ -593,7 +551,6 @@ public class FragmentMap extends LuttuBaseAbstract {
 						people.get(i).monthly_rent_floor + "-"
 								+ people.get(i).monthly_rent_ceiling, i);
 			}
-
 		} else {
 			toast("No properties");
 		}
@@ -602,18 +559,6 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 			@Override
 			public boolean onMarkerClick(Marker arg0) {
-				// Fragment innerlist = new ListInnerPage();
-				// Bundle args = new Bundle();
-				//
-				// args.putInt("Count", Integer.parseInt(arg0.getTitle()));
-				// innerlist.setArguments(args);
-				//
-				// nextfragment(innerlist, true, R.id.container);
-				// addfragment(innerlist, true, R.id.container);
-
-				// show dialog on click
-				// new BottomDialog(getActivity());
-
 				int id = mMarkers.get(arg0.getId());
 
 				System.out.println("the clicked marked id is " + id);
@@ -640,11 +585,8 @@ public class FragmentMap extends LuttuBaseAbstract {
 	}
 
 	private void SearchViaLocation(String location) {
-
 		broadcast_flag = true;
-
 		String url = ApiManager.getPropertySearchUrl(location);
-
 		System.out.println("the search url map is " + url);
 
 		if (!location.equals("")) {
@@ -652,14 +594,11 @@ public class FragmentMap extends LuttuBaseAbstract {
 		} else {
 			toast("Select Filters");
 		}
-
 	}
 
 	BroadcastReceiver receiver = new BroadcastReceiver() {
-
 		@Override
 		public void onReceive(Context context, Intent intent) {
-
 			System.out.println("inside on recieve ");
 
 			Bundle b = intent.getExtras();
@@ -670,7 +609,6 @@ public class FragmentMap extends LuttuBaseAbstract {
 				SearchViaLocation(loc);
 
 			}
-
 		}
 	};
 
@@ -687,9 +625,21 @@ public class FragmentMap extends LuttuBaseAbstract {
 	}
 
 	public void showPropertyInMapBackground() {
-		// progressshow();
 		String url = ApiManager.getPropertySearchUrl("");
 		asynkhttpGet(3, url, AppPreferences.getAuthToken(), false);
 	}
 
+	@Override
+	public void onHiddenChanged(boolean hidden) {
+		super.onHiddenChanged(hidden);
+		setIsShowingRightNow(!hidden);
+	}
+
+	public boolean isShowingRightNow() {
+		return isShowingRightNow;
+	}
+
+	public void setIsShowingRightNow(boolean isShowingRightNow) {
+		this.isShowingRightNow = isShowingRightNow;
+	}
 }

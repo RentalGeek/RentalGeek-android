@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.TypedArray;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -28,7 +27,6 @@ import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.pojos.PropertyListPojo;
 import com.rentalgeek.android.ui.adapter.PropertyListItemAdapter;
 import com.rentalgeek.android.ui.preference.AppPreferences;
-import com.rentalgeek.android.utils.RandomUtils;
 import com.rentalgeek.android.utils.StaticClass;
 import com.rentalgeek.android.utils.StringUtils;
 
@@ -42,28 +40,19 @@ import butterknife.InjectView;
 public class FragmentListViewDetails extends LuttuBaseAbstract {
 
 	private static final String TAG = FragmentListViewDetails.class.getSimpleName();
-	@InjectView(R.id.slidelist) 
-	ListView list;
-	
+	@InjectView(R.id.slidelist) ListView list;
 	AppPrefes appPref;
-
 	String image_url;
 	private List<PropertyListPojo.PropertyList> mainlist = new ArrayList<PropertyListPojo.PropertyList>();
-
-	// ItemAdapter adapter;
 	PropertyListItemAdapter adapters;
-
-	int[] fiilliste;
 	int width;
-
 	ArrayList<Integer> listitems;
-	ArrayList<String> street_name;
-	TypedArray images;
+	private View v;
+	private boolean showingRightNow = false;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-		View v = inflater.inflate(R.layout.property_list_main, container, false);
+		v = inflater.inflate(R.layout.property_list_main, container, false);
 		ButterKnife.inject(this, v);
 		appPref=new AppPrefes(getActivity(), "rentalgeek");
 		listitems = new ArrayList<Integer>();
@@ -79,31 +68,25 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 	}
 
 	private void fetchFromDB() {
-
-
 		new AsyncTask<Void, Void, Void>() {
-
 			@Override
 			protected Void doInBackground(Void... params) {
-
 				return null;
 			}
 
 			@Override
 			protected void onPostExecute(Void result) {
-
 				super.onPostExecute(result);
 			}
-
 		};
 
 		PropertyListPojo item = new PropertyListPojo();
 		Select select = new Select();
 		List<PropertyTable> propertytobj = select.all().from(PropertyTable.class).execute();
 
+		mainlist.clear();
 		if (propertytobj.size() > 0) {
 			for (int i = 0; i < propertytobj.size(); i++) {
-
 				mainlist.add(item.new PropertyList(propertytobj.get(i).count,
 						propertytobj.get(i).rental_complex_latitude,
 						propertytobj.get(i).rental_complex_longitude,
@@ -124,12 +107,10 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 		} else {
 			toast("No results");
 		}
-
 	}
 
 	@Override
 	public void parseresult(String response, boolean success, int value) {
-
 		switch (value) {
 		case 1:
 			ParseLocation(response);
@@ -137,11 +118,9 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 		default:
 			break;
 		}
-
 	}
 
 	private void ParseLocation(String response) {
-
 		try {
 			MapBackend detail = (new Gson()).fromJson(response.toString(), MapBackend.class);
 			if (detail.rental_offerings.size() > 0) {
@@ -152,7 +131,6 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 				ActiveAndroid.beginTransaction();
 				try {
 					for (int i = 0; i < detail.rental_offerings.size(); i++) {
-
 						image_url = null;
 						image_url = "";
 
@@ -224,19 +202,14 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 			} else {
 				toast("No results");
 			}
-
 		} catch (Exception e) {
 			AppLogger.log(TAG, e);
 			toast("No locations found");
 		}
-
 	}
 
 	@Override
-	public void error(String response, int value) {
-
-
-	}
+	public void error(String response, int value) {}
 
 	@Override
 	public void onDestroyView() {
@@ -246,18 +219,10 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 		getActivity().unregisterReceiver(likereceiver);
 	}
 
-	public Integer random() {
-		RandomUtils random = new RandomUtils();
-		return random.nextInt(0, 6);
-	}
-
 	BroadcastReceiver receiver = new BroadcastReceiver() {
-
 		@Override
 		public void onReceive(Context context, Intent intent) {
-
 			System.out.println("inside on recieve ");
-
 			Bundle b = intent.getExtras();
 			if (b != null) {
 				String loc = b.getString("params");
@@ -266,7 +231,6 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 			}
 
 		}
-
 	};
 
 	BroadcastReceiver likereceiver = new BroadcastReceiver() {
@@ -300,7 +264,6 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
             }
 
 		}
-
 	};
 
 	private void SearchViaLocationList(String loc) {
@@ -316,4 +279,20 @@ public class FragmentListViewDetails extends LuttuBaseAbstract {
 		super.onResume();
 	}
 
+	@Override
+	public void onHiddenChanged(boolean hidden) {
+		super.onHiddenChanged(hidden);
+		setShowingRightNow(!hidden);
+		if (isShowingRightNow() && v != null) {
+			fetchFromDB();
+		}
+	}
+
+	public boolean isShowingRightNow() {
+		return showingRightNow;
+	}
+
+	public void setShowingRightNow(boolean showingRightNow) {
+		this.showingRightNow = showingRightNow;
+	}
 }

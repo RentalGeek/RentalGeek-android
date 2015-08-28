@@ -2,7 +2,6 @@ package com.rentalgeek.android.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -172,42 +171,22 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 
 	@OnClick(R.id.search_loc)
 	public void SearchLocation() {
-
-		Fragment f = getActivity().getSupportFragmentManager()
-				.findFragmentById(R.id.container);
-		if (f instanceof FragmentMap) {
-
+		ActivityHome activityHome = (ActivityHome)getActivity();
+		if (activityHome.mapFragment.isShowingRightNow()) {
 			if (con.isConnectingToInternet()) {
 				searchInmap();
 			} else {
 				toast("No Connection");
 			}
-
-		} else if (f instanceof FragmentListViewDetails) {
-
+		} else if (activityHome.listFragment.isShowingRightNow()) {
 			if (con.isConnectingToInternet()) {
 				searchInlist();
 			} else {
 				toast("No Connection");
 			}
-
 		} else {
 			toast("Please navigate to List or FragmentMap page and search");
 		}
-
-		// if (appPref.getData("map_list").equals("map"))
-		// {
-		// searchInmap();
-		// }
-		// else if(appPref.getData("map_list").equals("list"))
-		// {
-		// searchInlist();
-		// }
-		// else
-		// {
-		// toast("Please navigate to List or FragmentMap page and search");
-		// }
-
 	}
 
 	private Integer checkRange(int range) {
@@ -600,10 +579,8 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 	}
 
 	private void searchInmap() {
-
 		((ActivityHome) getActivity()).closedrawer();
 		if (ed_search.getText().toString().equals("")) {
-
 			System.out.println("empty edittext");
 
 			if (price_seek.getProgress() != 0) {
@@ -683,7 +660,7 @@ public class FragmentSlideRight extends LuttuBaseAbstract {
 		removeEverything();
 		new Delete().from(PropertyTable.class).execute();
 		nextfragment(new FragmentMap(), false, R.id.container);
-		((ActivityHome)getActivity()).selectorShiftIn();
+		((ActivityHome)getActivity()).highlightMapTab();
 		appPref.SaveData("map_list", "map");
 
 	}

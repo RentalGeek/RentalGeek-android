@@ -35,30 +35,30 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.MapBackend;
 import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.homepage.BottomDialog;
 import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.ui.AppPrefes;
+import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ConnectionDetector;
+import com.rentalgeek.android.utils.ListUtils;
 import com.rentalgeek.android.utils.StaticClass;
-import com.rentalgeek.android.utils.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class FragmentMap extends LuttuBaseAbstract {
+public class FragmentMap extends GeekBaseFragment {
 
 	private static final String TAG = "FragmentMap";
+
 	SupportMapFragment supportMapFragment;
 	GoogleMap myMap;
 	boolean broadcast_flag = false;
 	String image_url;
-	ConnectionDetector con;
 	AppPrefes appPref;
 	HashMap<String, Integer> mMarkers = new HashMap<String, Integer>();
 	private boolean isShowingRightNow = false;
@@ -66,40 +66,46 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
 		v = inflater.inflate(R.layout.map, container, false);
-		con = new ConnectionDetector(getActivity());
+		//con = new ConnectionDetector(getActivity());
 		getActivity().registerReceiver(receiver, new IntentFilter("search"));
 		supportmap();
 		appPref = new AppPrefes(getActivity(), "rentalgeek");
-		setIsShowingRightNow(true);
+
 		return v;
 	}
 
-	@Override
+/*	@Override
 	public void parseresult(String response, boolean success, int value) {
+
+
 		switch (value) {
-			case 1:
-				NormalMapParse(response, success);
-				break;
-			case 2:
-				SearchFilterParse(response, success);
-				break;
-			case 3:
-				BackgroundProcessing(response);
-				break;
-			default:
-				break;
+		case 1:
+			NormalMapParse(response, success);
+			break;
+		case 2:
+			SearchFilterParse(response, success);
+			break;
+		case 3:
+			BackgroundProcessing(response);
+			break;
+		default:
+			break;
 		}
-	}
+	}*/
 
 	private void BackgroundProcessing(final String response) {
+
 		AppLogger.log(TAG, "back ground response " + response);
 
 		new AsyncTask<Void, Void, Void>() {
+
 			MapBackend detail;
 
 			@Override
 			protected void onPreExecute() {
+
 				try {
 					detail = (new Gson()).fromJson(response.toString(), MapBackend.class);
 				} catch (JsonSyntaxException e) {
@@ -110,7 +116,9 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 			@Override
 			protected void onPostExecute(Void result) {
+
 				try {
+					hideProgressDialog();
 					Fragment f = getActivity().getSupportFragmentManager().findFragmentById(R.id.container);
 					if (f instanceof FragmentMap) {
 						myMap.clear();
@@ -125,9 +133,12 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 			@Override
 			protected Void doInBackground(Void... arg) {
+
 				if (detail.rental_offerings.size() > 0) {
+
 					new Delete().from(PropertyTable.class).execute();
 					for (int i = 0; i < detail.rental_offerings.size(); i++) {
+
 						image_url = "";
 
 						if (!StringUtils.isTrimEmpty(detail.rental_offerings.get(i).primary_property_photo_url)) {
@@ -137,6 +148,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 						}
 
 						try {
+
 							ActiveAndroid.beginTransaction();
 							PropertyTable dbobj = new PropertyTable(
 									i,
@@ -186,7 +198,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 							ActiveAndroid.setTransactionSuccessful();
 						} catch (Exception e) {
-							progresscancel();
+
 							AppLogger.log(TAG, e);
 						} finally {
 							ActiveAndroid.endTransaction();
@@ -204,6 +216,8 @@ public class FragmentMap extends LuttuBaseAbstract {
 	}
 
 	private void SearchFilterParse(String response, boolean failre) {
+
+
 		// broadcast_flag=false;
 		System.out.println("filter parse");
 
@@ -282,32 +296,41 @@ public class FragmentMap extends LuttuBaseAbstract {
 				} finally {
 					ActiveAndroid.endTransaction();
 				}
+
 			}
 
 			setmarkersFromDB();
 		} else {
-			toast("No results");
+			DialogManager.showCrouton(activity, "No results");
 		}
+
 	}
 
 	private void NormalMapParse(final String response, Boolean failure) {
+
 		AppLogger.log(TAG, "response is " + response);
+
 		myMap.setMyLocationEnabled(true);
 
 		new AsyncTask<Void, Void, Void>() {
+
 			@Override
 			protected void onPreExecute() {
-				progressshow();
+
+				showProgressDialog(R.string.dialog_msg_loading);
 				super.onPreExecute();
 			}
 
 			@Override
 			protected Void doInBackground(Void... params) {
+
 				MapBackend detail = (new Gson()).fromJson(response.toString(), MapBackend.class);
 
 				if (detail.rental_offerings.size() > 0) {
+
 					new Delete().from(PropertyTable.class).execute();
 					for (int i = 0; i < detail.rental_offerings.size(); i++) {
+
 						image_url = "";
 
 						if (!StringUtils.isTrimEmpty(detail.rental_offerings.get(i).primary_property_photo_url)) {
@@ -317,6 +340,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 						}
 
 						try {
+
 							ActiveAndroid.beginTransaction();
 							PropertyTable dbobj = new PropertyTable(
 									i,
@@ -366,13 +390,13 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 							ActiveAndroid.setTransactionSuccessful();
 						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							progresscancel();
-							e.printStackTrace();
+							AppLogger.log(TAG, e);
 						} finally {
 							ActiveAndroid.endTransaction();
 						}
+
 					}
+
 				}
 
 				return null;
@@ -380,8 +404,9 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 			@Override
 			protected void onPostExecute(Void result) {
+
 				try {
-					progresscancel();
+					hideProgressDialog();
 					setmarkersFromDB();
 				} catch (Exception e) {
 					AppLogger.log(TAG, e);
@@ -391,18 +416,21 @@ public class FragmentMap extends LuttuBaseAbstract {
 			}
 
 		}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
 	}
 
-	@Override
-	public void error(String response, int value) {
-		toast("failure");
-	}
+//	@Override
+//	public void error(String response, int value) {
+//		DialogManager.showCrouton(activity, "failure");
+//	}
 
 	private void supportmap() {
+
 		supportMapFragment = SupportMapFragment.newInstance();
 		FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
 		fragmentTransaction.add(R.id.map, supportMapFragment);
 		fragmentTransaction.commit();
+
 	}
 
 	@Override
@@ -413,39 +441,32 @@ public class FragmentMap extends LuttuBaseAbstract {
 				myMap = supportMapFragment.getMap();
 
 				if (appPref.getData("bysearch").equals("yes")) {
-					log("map jumbo search");
+					AppLogger.log(TAG, "map jumbo search");
 					setmarkersFromDB();
 					StaticClass.bySearch = false;
 				} else {
-					// log("map jumbo ");
-					if (con.isConnectingToInternet()) {
+					try {
+						if (new Select().from(PropertyTable.class).execute().size() > 0) {
 
-						try {
-							if (new Select().from(PropertyTable.class).execute().size() > 0) {
+							new CountDownTimer(1000, 1000) {
 
-								new CountDownTimer(1000, 1000) {
+								@Override
+								public void onTick(long millisUntilFinished) {
 
-									@Override
-									public void onTick(long millisUntilFinished) {
+								}
 
-									}
+								@Override
+								public void onFinish() {
+									setmarkersFromDB();
+									showPropertyInMapBackground();
+								}
+							}.start();
 
-									@Override
-									public void onFinish() {
-										setmarkersFromDB();
-										showPropertyInMapBackground();
-									}
-								}.start();
-
-							} else {
-								showPropertyInMap();
-							}
-						} catch (NullPointerException e) {
-							e.printStackTrace();
+						} else {
+							showPropertyInMap();
 						}
-
-					} else {
-						toast("No connection");
+					} catch (NullPointerException e) {
+						e.printStackTrace();
 					}
 				}
 
@@ -453,30 +474,42 @@ public class FragmentMap extends LuttuBaseAbstract {
 		} catch (Exception e) {
 			AppLogger.log(TAG, e);
 		}
+
 	}
 
 	public void showPropertyInMap() {
+		// progressshow();
 		String url = ApiManager.getPropertySearchUrl("");
 		asynkhttpGet(1, url, AppPreferences.getAuthToken(), true);
 	}
 
-	private void drawMarker(LatLng point, int bedroom_count, String y, int mark_count) {
+	private void drawMarker(LatLng point, int bedroom_count, String y,
+							int mark_count) {
+		// Creating an instance of MarkerOptions
+
 		MarkerOptions second = new MarkerOptions();
 
 		if (bedroom_count > 4) {
 			second.icon(BitmapDescriptorFactory.fromBitmap(writeTextOnDrawable(
 					R.drawable.marker, "4+")));
+
 		} else {
 			second.icon(BitmapDescriptorFactory.fromBitmap(writeTextOnDrawable(
 					R.drawable.marker, String.valueOf(bedroom_count))));
+
 		}
 
 		second.position(point);
 		Marker mark_my = myMap.addMarker(second);
 		mMarkers.put(mark_my.getId(), mark_count);
+		// System.out
+		// .println(" the bedroom count " + bedroom_count + " mark_count "
+		// + mark_count + " marker id " + mark_my.getId());
+
 	}
 
 	private Bitmap writeTextOnDrawable(int drawableId, String text) {
+
 		Bitmap bm = BitmapFactory.decodeResource(getResources(), drawableId)
 				.copy(Bitmap.Config.ARGB_8888, true);
 
@@ -525,15 +558,19 @@ public class FragmentMap extends LuttuBaseAbstract {
 				.getDisplayMetrics().density;
 
 		return (int) ((nDP * conversionScale) + 0.5f);
+
 	}
 
 	private void setmarkersFromDB() {
+
+
 		Select select = new Select();
 		List<PropertyTable> people = select.all().from(PropertyTable.class).execute();
-		progresscancel();
+
 		myMap.clear();
 		mMarkers = null;
 		mMarkers = new HashMap<String, Integer>();
+		// mMarkers.clear();
 
 		if (people.size() > 0) {
 			for (int i = 0; i < people.size(); i++) {
@@ -551,14 +588,27 @@ public class FragmentMap extends LuttuBaseAbstract {
 						people.get(i).monthly_rent_floor + "-"
 								+ people.get(i).monthly_rent_ceiling, i);
 			}
+
 		} else {
-			toast("No properties");
+			DialogManager.showCrouton(activity, "No properties");
 		}
 
 		myMap.setOnMarkerClickListener(new OnMarkerClickListener() {
 
 			@Override
 			public boolean onMarkerClick(Marker arg0) {
+				// Fragment innerlist = new ListInnerPage();
+				// Bundle args = new Bundle();
+				//
+				// args.putInt("Count", Integer.parseInt(arg0.getTitle()));
+				// innerlist.setArguments(args);
+				//
+				// nextfragment(innerlist, true, R.id.container);
+				// addfragment(innerlist, true, R.id.container);
+
+				// show dialog on click
+				// new BottomDialog(getActivity());
+
 				int id = mMarkers.get(arg0.getId());
 
 				System.out.println("the clicked marked id is " + id);
@@ -585,16 +635,26 @@ public class FragmentMap extends LuttuBaseAbstract {
 	}
 
 	private void SearchViaLocation(String location) {
+
 		broadcast_flag = true;
+
 		String url = ApiManager.getPropertySearchUrl(location);
+
 		System.out.println("the search url map is " + url);
 
-		asynkhttpGet(2, url, AppPreferences.getAuthToken(), true);
+		if (!location.equals("")) {
+			asynkhttpGet(2, url, AppPreferences.getAuthToken(), true);
+		} else {
+			toast("Select Filters");
+		}
+
 	}
 
 	BroadcastReceiver receiver = new BroadcastReceiver() {
+
 		@Override
 		public void onReceive(Context context, Intent intent) {
+
 			System.out.println("inside on recieve ");
 
 			Bundle b = intent.getExtras();
@@ -605,6 +665,7 @@ public class FragmentMap extends LuttuBaseAbstract {
 				SearchViaLocation(loc);
 
 			}
+
 		}
 	};
 
@@ -616,11 +677,14 @@ public class FragmentMap extends LuttuBaseAbstract {
 
 	@Override
 	public void onDestroy() {
+
+
 		getActivity().unregisterReceiver(receiver);
 		super.onDestroy();
 	}
 
 	public void showPropertyInMapBackground() {
+		// progressshow();
 		String url = ApiManager.getPropertySearchUrl("");
 		asynkhttpGet(3, url, AppPreferences.getAuthToken(), false);
 	}

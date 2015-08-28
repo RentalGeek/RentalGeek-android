@@ -10,8 +10,8 @@ import android.view.Window;
 import android.webkit.WebView;
 import android.widget.TextView;
 
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.LuttuBaseAbstract;
+
+
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.ui.Navigation;
@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class FragmentFavoriteProperties extends LuttuBaseAbstract {
+public class FragmentFavoriteProperties extends GeekBaseFragment {
 
 	private static final String TAG = FragmentFavoriteProperties.class.getSimpleName();
 

@@ -17,16 +17,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.activeandroid.query.Delete;
-import com.facebook.Session;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.database.ProfileTable;
 import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.geekvision.GeekVision;
+import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.activity.ActivityTutorials;
 import com.rentalgeek.android.ui.preference.AppPreferences;
@@ -36,15 +34,8 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-/**
- * 
- * @author George
- * 
- * @purpose Left Slide Menu
- *
- */
 
-public class FragmentSlideLeft extends LuttuBaseAbstract {
+public class FragmentSlideLeft extends GeekBaseFragment {
  
 	@InjectView(R.id.slidelist)
 	ListView list;
@@ -115,17 +106,6 @@ public class FragmentSlideLeft extends LuttuBaseAbstract {
 		return v;
 	}
 
-	@Override
-	public void parseresult(String response, boolean success, int value) {
-
-
-	}
-
-	@Override
-	public void error(String response, int value) {
-
-
-	}
 
 	@Override
 	public void onDestroyView() {

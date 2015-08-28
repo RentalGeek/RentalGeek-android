@@ -19,21 +19,20 @@ import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.nettoast.Crouton;
-import com.rentalgeek.android.ui.view.Style;
-import com.luttu.utils.GetSSl;
-import com.rentalgeek.android.net.GlobalFunctions;
-import com.rentalgeek.android.net.GlobalFunctions.HttpResponseHandler;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.AddStarBack;
 import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.pojos.PropertyListPojo;
+import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.fragment.ListInnerPage;
 import com.rentalgeek.android.ui.preference.AppPreferences;
+import com.rentalgeek.android.ui.view.Crouton;
+import com.rentalgeek.android.ui.view.Style;
 
 import java.util.List;
 
@@ -176,7 +175,7 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 
 	// Call the server to like
 	public void starProperty(final PropertyListPojo.PropertyList item, final int clickposition) {
-		new GetSSl().getssl(client);
+		//new GetSSl().getssl(client);
 		mCookieStore = new PersistentCookieStore(context);
 		client.setCookieStore(mCookieStore);
 		RequestParams params = new RequestParams();
@@ -210,40 +209,30 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 
                             String url = ApiManager.getStarredPrpoertiesUrl("");
 
-		GlobalFunctions.postApiCall(context, url, params, AppPreferences.getAuthToken(), client,
-				new HttpResponseHandler() {
+		GlobalFunctions.postApiCall(context, url, params, AppPreferences.getAuthToken(),
+				new GeekHttpResponseHandler() {
 
-					@Override
-					public void handle(String response, boolean failre) {
+                    @Override
+                    public void onSuccess(String content) {
 						try {
 
-							System.out.println("dialog response " + response);
+							System.out.println("dialog response " + content);
 
-							if (failre) {
+                            AddStarBack detail = (new Gson()).fromJson(content.toString(), AddStarBack.class);
 
-								AddStarBack detail = (new Gson()).fromJson(response.toString(), AddStarBack.class);
+                            Crouton crouton = Crouton.makeText((ActivityHome) context, "Added to favorites", Style.ALERT);
+                            crouton.show();
 
-								Crouton crouton = Crouton.makeText((ActivityHome) context, "Added to favorites", Style.ALERT);
-								crouton.show();
+                            PropertyListPojo.PropertyList propobj = getItem(clickposition);
+                            propobj.starred = true;
 
-								PropertyListPojo.PropertyList propobj = getItem(clickposition);
-								propobj.starred = true;
+                            prop = new Select().from(PropertyTable.class)
+                                    .where("uid = ?", item.id)
+                                    .executeSingle();
+                            prop.starred = true;
+                            prop.starred_property_id = detail.starred_property.id;
+                            prop.save();
 
-								prop = new Select().from(PropertyTable.class)
-										.where("uid = ?", item.id)
-										.executeSingle();
-								prop.starred = true;
-								prop.starred_property_id = detail.starred_property.id;
-								prop.save();
-								notifyDataSetChanged();
-							} else {
-
-								Crouton crouton = Crouton.makeText(
-										(ActivityHome) context,
-										"Action Failed", Style.ALERT);
-								crouton.show();
-
-							}
 						} catch (Exception e) {
                             AppLogger.log(TAG, e);
 						}
@@ -266,7 +255,7 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 
 		if (propy.starred_property_id != null) {
 
-			new GetSSl().getssl(client);
+			//new GetSSl().getssl(client);
 			mCookieStore = new PersistentCookieStore(context);
 			client.setCookieStore(mCookieStore);
 
@@ -276,30 +265,36 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
             params.put("starred_property[rental_offering_id]", propy.starred_property_id);
 
 
-			GlobalFunctions.deleteApiCall(context, links, AppPreferences.getAuthToken(), client,
-					new HttpResponseHandler() {
+			GlobalFunctions.deleteApiCall(context, links, AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
+                @Override
+                public void onBeforeStart() {
 
-						@Override
-						public void handle(String response, boolean failre) {
+                }
 
-							System.out.println("remove star response " + response);
-							if (failre && context != null) {
-								propobj.starred = false;
-								propy.starred = false;
-								propy.save();
-								propy.starred_property_id = null;
-								notifyDataSetChanged();
-							} else if (context != null) {
+                @Override
+                public void onFinish() {
 
-							}
+                }
 
-						}
+                @Override
+                public void onSuccess(String content) {
+                    try {
+                        propobj.starred = false;
+						propy.starred = false;
+						propy.save();
+						propy.starred_property_id = null;
+						notifyDataSetChanged();
+                    } catch (Exception e) {
+                        AppLogger.log(TAG, e);
+                    }
+                }
 
-						@Override
-						public void onAuthenticationFailed() {
+                @Override
+                public void onAuthenticationFailed() {
 
-						}
-					});
+                }
+			});
+
 		}
 
 	}

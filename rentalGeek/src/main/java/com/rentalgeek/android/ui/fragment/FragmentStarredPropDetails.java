@@ -19,8 +19,8 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.LuttuBaseAbstract;
+
+
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.ApplyBackend;
@@ -46,7 +46,7 @@ import ir.noghteh.JustifiedTextView;
  *          favorite properties
  *
  */
-public class FragmentStarredPropDetails extends LuttuBaseAbstract {
+public class FragmentStarredPropDetails extends GeekBaseFragment {
 
 	@InjectView(R.id.price_range_inner)
 	TextView price_range_inner;

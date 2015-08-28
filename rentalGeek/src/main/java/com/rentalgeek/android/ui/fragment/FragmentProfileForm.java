@@ -27,8 +27,6 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Regex;
@@ -42,6 +40,7 @@ import com.rentalgeek.android.backend.ProfileIdFindBackend;
 import com.rentalgeek.android.backend.ProfilePost;
 import com.rentalgeek.android.database.ProfileTable;
 import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.Common;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityCreateProfile;
@@ -74,7 +73,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.ValidationListener,
+public class FragmentProfileForm extends GeekBaseFragment implements Validator.ValidationListener,
         View.OnFocusChangeListener,
         android.widget.AdapterView.OnItemSelectedListener,
         AdapterView.OnItemClickListener {
@@ -241,7 +240,6 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
     private Validator validator;
 
     AppPrefes appPref;
-    ConnectionDetector con;
 
     ProfileTable profdets;
 
@@ -271,7 +269,7 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_profile_form, container, false);
         ButterKnife.inject(this, v);
-        con = new ConnectionDetector(getActivity());
+
         appPref = new AppPrefes(getActivity(), "rentalgeek");
         validator = new Validator(this);
         validator.setValidationListener(this);
@@ -388,7 +386,7 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
 
     }
 
-    @Override
+/*    @Override
     public void parseresult(String response, boolean success, int value) {
 
         switch (value) {
@@ -404,7 +402,7 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
             default:
                 break;
         }
-    }
+    }*/
 
     // setting profile data to view
     private void setProfileData(String response) {
@@ -637,8 +635,8 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
 
                 if (detail.profile != null) {
                     appPref.SaveData("prof_id", detail.profile.id);
-                    toastsuccess("Profile Updated Successfully");
-                    hidekey();
+                    toast("Profile Updated Successfully");
+                    //hidekey();
 
                     if (appPref.getIntData("payed") == 200) {
 
@@ -900,18 +898,15 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
 
             params.put("profile[user_id]", appPref.getData("Uid"));
 
-            if (con.isConnectingToInternet()) {
-                asynkhttpPut(params, 2, url, AppPreferences.getAuthToken(), true);
-            } else {
-                toast("No Connection");
-            }
+            asynkhttpPut(params, 2, url, AppPreferences.getAuthToken(), true);
+
         } catch (Exception e) {
             AppLogger.log(TAG, e);
         }
 
     }
 
-    @Override
+/*    @Override
     public void error(String response, int value) {
 
         if (value == 2 || value == 1) {
@@ -958,7 +953,7 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
 
         }
 
-    }
+    }*/
 
     private void toasts(String field, List<String> message) {
 
@@ -1142,11 +1137,8 @@ public class FragmentProfileForm extends LuttuBaseAbstract implements Validator.
 
             String url = ApiManager.getProfile("");
 
-            if (con.isConnectingToInternet()) {
-                asynkhttp(params, 1, url, AppPreferences.getAuthToken(), true);
-            } else {
-                toast("No Connection");
-            }
+            asynkhttp(params, 1, url, AppPreferences.getAuthToken(), true);
+
         } catch (Exception e) {
             AppLogger.log(TAG, e);
         }

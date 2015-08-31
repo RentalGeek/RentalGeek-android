@@ -24,7 +24,6 @@ import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.CheckPayment;
-import com.rentalgeek.android.backend.ErrorArray;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.backend.PaymentBackend;
 import com.rentalgeek.android.logging.AppLogger;

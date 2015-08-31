@@ -32,7 +32,6 @@ import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.dialog.MoreAmenitiesDialog;
 import com.rentalgeek.android.ui.preference.AppPreferences;
-import com.rentalgeek.android.utils.ConnectionDetector;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

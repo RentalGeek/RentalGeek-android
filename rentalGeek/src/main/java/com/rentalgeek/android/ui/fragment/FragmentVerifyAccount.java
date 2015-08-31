@@ -25,10 +25,11 @@ import com.mobsandgeeks.saripaar.Validator.ValidationListener;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
-import com.rentalgeek.android.backend.ErrorApi;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.backend.LoginBackend.user;
 import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
@@ -211,11 +212,39 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
 	
 	private void callNormalLogin() {
 
-		
 		RequestParams params = new RequestParams();
 		params.put("user[email]", appPref.getData("email"));
 		params.put("user[password]", verify_password.getText().toString().trim());
-		asynkhttp(params, 1, ApiManager.getSignin(), AppPreferences.getAuthToken(), true);
+
+        GlobalFunctions.postApiCall(getActivity(), ApiManager.getSignin(),
+                params, AppPreferences.getAuthToken(),
+                new GeekHttpResponseHandler() {
+
+                    @Override
+                    public void onBeforeStart() {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        //progresscancel();
+                    }
+
+                    @Override
+                    public void onSuccess(String content) {
+                        try {
+                            NormalLogin(content);
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
+                        }
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed() {
+
+                    }
+                });
+        //asynkhttp(params, 1, ApiManager.getSignin(), AppPreferences.getAuthToken(), true);
 		
 	}
 
@@ -259,8 +288,37 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
 		params.put("provider[uid]", appPref.getData("socialid_fb"));
 		params.put("provider[provider]", "Facebook");
 		params.put("provider[email]", appPref.getData("socialemail_fb"));
-		params.put("provider[name]",  appPref.getData("socialname_fb"));
-		asynkhttp(params, 2, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
+		params.put("provider[name]", appPref.getData("socialname_fb"));
+
+        GlobalFunctions.postApiCall(getActivity(), ApiManager.getAddProvider(""),
+                params, AppPreferences.getAuthToken(),
+                new GeekHttpResponseHandler() {
+
+                    @Override
+                    public void onBeforeStart() {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String content) {
+                        try {
+                            FacebookParse(content);
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
+                        }
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed() {
+
+                    }
+                });
+		//asynkhttp(params, 2, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
 
 	}
 	
@@ -272,7 +330,36 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
 		params.put("provider[provider]", "Google+");
 		params.put("provider[email]", appPref.getData("socialemail_goog"));
 		params.put("provider[name]", appPref.getData("socialname_goog"));
-		asynkhttp(params, 3, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
+
+        GlobalFunctions.postApiCall(getActivity(), ApiManager.getAddProvider(""),
+                params, AppPreferences.getAuthToken(),
+                new GeekHttpResponseHandler() {
+
+                    @Override
+                    public void onBeforeStart() {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String content) {
+                        try {
+                            GoogleParse(content);
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
+                        }
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed() {
+
+                    }
+                });
+        //asynkhttp(params, 3, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
 
 	}
 	
@@ -284,7 +371,36 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
 		params.put("provider[provider]", "LinkedIn+");
 		params.put("provider[email]", appPref.getData("socialemail_link"));
 		params.put("provider[name]",  appPref.getData("socialname_link"));
-		asynkhttp(params, 4, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
+
+        GlobalFunctions.postApiCall(getActivity(), ApiManager.getAddProvider(""),
+                params, AppPreferences.getAuthToken(),
+                new GeekHttpResponseHandler() {
+
+                    @Override
+                    public void onBeforeStart() {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String content) {
+                        try {
+                            LinkedParse(content);
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
+                        }
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed() {
+
+                    }
+                });
+        //asynkhttp(params, 4, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
 
 	}
 

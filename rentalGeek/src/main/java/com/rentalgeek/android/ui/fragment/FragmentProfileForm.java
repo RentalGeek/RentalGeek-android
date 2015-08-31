@@ -35,7 +35,6 @@ import com.mobsandgeeks.saripaar.annotation.Select;
 import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
-import com.rentalgeek.android.backend.ErrorObj;
 import com.rentalgeek.android.backend.ProfileIdFindBackend;
 import com.rentalgeek.android.backend.ProfilePost;
 import com.rentalgeek.android.database.ProfileTable;
@@ -47,7 +46,6 @@ import com.rentalgeek.android.ui.activity.ActivityCreateProfile;
 import com.rentalgeek.android.ui.activity.ActivityGeekScore;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.preference.AppPreferences;
-import com.rentalgeek.android.utils.ConnectionDetector;
 import com.rentalgeek.android.utils.ListUtils;
 import com.rentalgeek.android.utils.StringUtils;
 

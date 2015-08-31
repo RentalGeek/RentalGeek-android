@@ -1,6 +1,7 @@
 package com.rentalgeek.android.utils;
 
 import junit.framework.Assert;
+
 import java.util.Random;
 
 /**

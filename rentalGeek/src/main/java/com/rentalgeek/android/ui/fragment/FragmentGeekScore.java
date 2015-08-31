@@ -10,8 +10,6 @@ import android.view.Window;
 import android.webkit.WebView;
 import android.widget.TextView;
 
-
-
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.ui.Navigation;

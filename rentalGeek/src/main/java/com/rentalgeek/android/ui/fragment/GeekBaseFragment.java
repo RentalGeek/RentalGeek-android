@@ -2,7 +2,6 @@ package com.rentalgeek.android.ui.fragment;
 
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.os.Bundle;

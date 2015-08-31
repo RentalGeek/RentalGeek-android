@@ -16,14 +16,10 @@
 
 package com.rentalgeek.android.ui.view;
 
-import com.luttu.nettoast.*;
-
-/** Provides callback methods on major lifecycle events of a {@link com.luttu.nettoast.Crouton}. */
 public interface LifecycleCallback {
   /** Will be called when your Crouton has been displayed. */
   public void onDisplayed();
 
-  /** Will be called when your {@link com.luttu.nettoast.Crouton} has been removed. */
   public void onRemoved();
 
   //public void onCeasarDressing();

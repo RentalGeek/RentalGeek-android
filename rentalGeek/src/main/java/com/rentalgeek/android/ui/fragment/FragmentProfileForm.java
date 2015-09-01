@@ -39,6 +39,8 @@ import com.rentalgeek.android.backend.ProfileIdFindBackend;
 import com.rentalgeek.android.backend.ProfilePost;
 import com.rentalgeek.android.database.ProfileTable;
 import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.Common;
 import com.rentalgeek.android.ui.Navigation;
@@ -896,7 +898,35 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
             params.put("profile[user_id]", appPref.getData("Uid"));
 
-            asynkhttpPut(params, 2, url, AppPreferences.getAuthToken(), true);
+            GlobalFunctions.putApiCall(getActivity(), url, params,
+                    AppPreferences.getAuthToken(),
+                    new GeekHttpResponseHandler() {
+
+                        @Override
+                        public void onBeforeStart() {
+
+                        }
+
+                        @Override
+                        public void onFinish() {
+
+                        }
+
+                        @Override
+                        public void onSuccess(String content) {
+                            try {
+                                patchedUserParse(content);
+                            } catch (Exception e) {
+                                AppLogger.log(TAG, e);
+                            }
+                        }
+
+                        @Override
+                        public void onAuthenticationFailed() {
+
+                        }
+                    });
+            //asynkhttpPut(params, 2, url, AppPreferences.getAuthToken(), true);
 
         } catch (Exception e) {
             AppLogger.log(TAG, e);
@@ -1029,22 +1059,14 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                 ActivityCreateProfile activity = (ActivityCreateProfile) getActivity();
                 activity.flipPager(position);
             } else {
-                if (con.isConnectingToInternet()) {
-                    createProfile();
-                } else {
-                    toast("No Connection");
-                }
+                createProfile();
             }
 
         } else {
-            if (con.isConnectingToInternet()) {
-                if (!profileExists) {
-                    createProfile();
-                } else {
-                    callPatchUpdateLink(appPref.getData("prof_id"));
-                }
+            if (!profileExists) {
+                createProfile();
             } else {
-                toast("No Connection");
+                callPatchUpdateLink(appPref.getData("prof_id"));
             }
         }
 
@@ -1135,7 +1157,35 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
             String url = ApiManager.getProfile("");
 
-            asynkhttp(params, 1, url, AppPreferences.getAuthToken(), true);
+            GlobalFunctions.postApiCall(getActivity(), url, params,
+                    AppPreferences.getAuthToken(),
+                    new GeekHttpResponseHandler() {
+
+                        @Override
+                        public void onBeforeStart() {
+
+                        }
+
+                        @Override
+                        public void onFinish() {
+
+                        }
+
+                        @Override
+                        public void onSuccess(String content) {
+                            try {
+                                createUserParse(content);
+                            } catch (Exception e) {
+                                AppLogger.log(TAG, e);
+                            }
+                        }
+
+                        @Override
+                        public void onAuthenticationFailed() {
+
+                        }
+                    });
+            //asynkhttp(params, 1, url, AppPreferences.getAuthToken(), true);
 
         } catch (Exception e) {
             AppLogger.log(TAG, e);
@@ -1147,7 +1197,35 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
     private void fetchProfileData() {
 
         String url = ApiManager.getProfile("");
-        asynkhttpGet(3, url, AppPreferences.getAuthToken(), true);
+        GlobalFunctions.getApiCall(getActivity(), url,
+                AppPreferences.getAuthToken(),
+                new GeekHttpResponseHandler() {
+
+                    @Override
+                    public void onBeforeStart() {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String content) {
+                        try {
+                            setProfileData(content);
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
+                        }
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed() {
+
+                    }
+                });
+        //asynkhttpGet(3, url, AppPreferences.getAuthToken(), true);
     }
 
     // email checking function

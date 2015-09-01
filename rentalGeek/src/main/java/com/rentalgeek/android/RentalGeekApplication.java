@@ -9,6 +9,7 @@ import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Configuration;
 import com.crashlytics.android.Crashlytics;
 import com.rentalgeek.android.bus.AppEventBus;
+import com.rentalgeek.android.bus.events.NonEvent;
 import com.rentalgeek.android.bus.events.UserNotificationEvent;
 import com.rentalgeek.android.database.ProfileTable;
 import com.rentalgeek.android.database.PropertyTable;
@@ -83,4 +84,7 @@ public class RentalGeekApplication extends MultiDexApplication {
 		return string;
 	}
 
+	public void onEvent(NonEvent event) {
+
+	}
 }

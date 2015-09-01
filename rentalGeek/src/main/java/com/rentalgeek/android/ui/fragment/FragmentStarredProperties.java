@@ -22,6 +22,8 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.StarredBacked;
 import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.pojos.StarredListPojo;
 import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.preference.AppPreferences;
@@ -78,7 +80,35 @@ public class FragmentStarredProperties extends GeekBaseFragment {
 
 	private void fetchFromServer() {
 
-		asynkhttpGet(2, ApiManager.getPropertySearchUrl("starred=true"), AppPreferences.getAuthToken(), true);
+		GlobalFunctions.getApiCall(getActivity(), ApiManager.getPropertySearchUrl("starred=true"),
+				AppPreferences.getAuthToken(),
+				new GeekHttpResponseHandler() {
+
+					@Override
+					public void onBeforeStart() {
+
+					}
+
+					@Override
+					public void onFinish() {
+
+					}
+
+					@Override
+					public void onSuccess(String content) {
+						try {
+							loadList(content);
+						} catch (Exception e) {
+							AppLogger.log(TAG, e);
+						}
+					}
+
+					@Override
+					public void onAuthenticationFailed() {
+
+					}
+				});
+		//asynkhttpGet(2, ApiManager.getPropertySearchUrl("starred=true"), AppPreferences.getAuthToken(), true);
 
 	}
 
@@ -152,10 +182,7 @@ public class FragmentStarredProperties extends GeekBaseFragment {
 	}
 
 	private void removeStar(String response) {
-
-
 		toast("Property removed");
-
 	}
 
 
@@ -246,6 +273,7 @@ public class FragmentStarredProperties extends GeekBaseFragment {
 
 					innerlist.setArguments(args);
 					appPref.SaveIntData("click_pos", position);
+
 					addfragment(innerlist, true, R.id.container);
 
 				}
@@ -272,7 +300,35 @@ public class FragmentStarredProperties extends GeekBaseFragment {
 	}
 
 	private void RemoveStar(String id) {
-		asynkhttpDelete(1, ApiManager.getStarredPrpoertiesUrl(id), AppPreferences.getAuthToken(), true);
+		GlobalFunctions.deleteApiCall(activity, ApiManager.getStarredPrpoertiesUrl(id),
+				AppPreferences.getAuthToken(),
+				new GeekHttpResponseHandler() {
+
+					@Override
+					public void onBeforeStart() {
+
+					}
+
+					@Override
+					public void onFinish() {
+
+					}
+
+					@Override
+					public void onSuccess(String content) {
+						try {
+							removeStar(content);
+						} catch (Exception e) {
+							AppLogger.log(TAG, e);
+						}
+					}
+
+					@Override
+					public void onAuthenticationFailed() {
+
+					}
+				});
+		//asynkhttpDelete(1, ApiManager.getStarredPrpoertiesUrl(id), AppPreferences.getAuthToken(), true);
 	}
 
 	// Broadcast that refreshes the list view
@@ -292,8 +348,7 @@ public class FragmentStarredProperties extends GeekBaseFragment {
 
 				}
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				AppLogger.log(TAG, e);
 			}
 
 		}

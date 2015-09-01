@@ -46,6 +46,21 @@ public class GeekBaseFragment extends Fragment {
         ft.commitAllowingStateLoss();
     }
 
+    public void addfragment(Fragment fragment, boolean stack, int id) {
+
+        if (getActivity() == null) {
+            return;
+        }
+        FragmentTransaction ft = getActivity().getSupportFragmentManager()
+                .beginTransaction();
+        ft.setCustomAnimations(R.anim.one_, R.anim.two_, R.anim.three_,
+                R.anim.four_);
+        ft.add(id, fragment);
+        if (stack)
+            ft.addToBackStack(fragment.getClass().getName().toString());
+        ft.commitAllowingStateLoss();
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 
@@ -24,6 +25,7 @@ public class FragmentFinalGeekScore extends GeekBaseFragment{
 	private static final String TAG = "FragmentFinalGeekScore";
 	
 	AppPrefes appPref;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -34,18 +36,7 @@ public class FragmentFinalGeekScore extends GeekBaseFragment{
 		
 		return v;
 	}
-	
-	@Override
-	public void parseresult(String response, boolean success, int value) {
 
-		
-	}
-
-	@Override
-	public void error(String response, int value) {
-
-		
-	}
 	
 	@OnClick(R.id.click_rent)
 	public void ClickFinal()

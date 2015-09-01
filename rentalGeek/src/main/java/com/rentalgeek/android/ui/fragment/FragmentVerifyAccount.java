@@ -204,10 +204,7 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
 
 	@Override
 	public void onValidationSucceeded() {
-
-		
 		callNormalLogin();
-		
 	}
 	
 	private void callNormalLogin() {
@@ -227,7 +224,7 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
 
                     @Override
                     public void onFinish() {
-                        //progresscancel();
+
                     }
 
                     @Override

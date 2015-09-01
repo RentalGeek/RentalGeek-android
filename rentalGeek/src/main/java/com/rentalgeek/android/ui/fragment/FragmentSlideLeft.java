@@ -24,6 +24,9 @@ import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.database.ProfileTable;
 import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.geekvision.GeekVision;
+import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.activity.ActivityTutorials;
@@ -36,8 +39,10 @@ import butterknife.InjectView;
 
 
 public class FragmentSlideLeft extends GeekBaseFragment {
- 
-	@InjectView(R.id.slidelist)
+
+    private static final String TAG = "FragmentSlideLeft";
+
+    @InjectView(R.id.slidelist)
 	ListView list;
 
 	AppPrefes appPref;
@@ -173,9 +178,10 @@ public class FragmentSlideLeft extends GeekBaseFragment {
 		new Delete().from(PropertyTable.class).execute();
 		PersistentCookieStore mCookieStore = new PersistentCookieStore(getActivity());
 		mCookieStore.clear();
-		Session session = Session.getActiveSession();
-		if (session != null)
-			session.closeAndClearTokenInformation();
+		//TODO: need to implements this in newer fb lib?
+//		Session session = Session.getActiveSession();
+//		if (session != null)
+//			session.closeAndClearTokenInformation();
 		appPref.deleteAll();
 		appPref.SaveData("first", "");
 		getActivity().finish();
@@ -195,7 +201,36 @@ public class FragmentSlideLeft extends GeekBaseFragment {
 		params.put("user[id]", appPref.getData("Uid"));
 		// params.put("user[email]", a);
 		// params.put("user[password]", b);
-		asynkhttp(params, 1, ApiManager.getSignOut(), AppPreferences.getAuthToken(), true);
+
+        GlobalFunctions.postApiCall(getActivity(), ApiManager.getSignOut(), params,
+                AppPreferences.getAuthToken(),
+                new GeekHttpResponseHandler() {
+
+                    @Override
+                    public void onBeforeStart() {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String content) {
+                        try {
+
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
+                        }
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed() {
+
+                    }
+                });
+        //asynkhttp(params, 1, ApiManager.getSignOut(), AppPreferences.getAuthToken(), true);
 
 	}
 

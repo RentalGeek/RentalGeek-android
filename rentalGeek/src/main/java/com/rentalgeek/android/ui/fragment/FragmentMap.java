@@ -41,6 +41,8 @@ import com.rentalgeek.android.backend.MapBackend;
 import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.homepage.BottomDialog;
 import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
@@ -216,12 +218,11 @@ public class FragmentMap extends GeekBaseFragment {
 
 	private void SearchFilterParse(String response, boolean failre) {
 
-
 		// broadcast_flag=false;
 		System.out.println("filter parse");
 
-		MapBackend detail = (new Gson()).fromJson(response.toString(),
-				MapBackend.class);
+		MapBackend detail = (new Gson()).fromJson(response.toString(), MapBackend.class);
+
 		if (detail.rental_offerings.size() > 0) {
 			appPref.SaveData("bysearch", "yes");
 			myMap.setMyLocationEnabled(true);
@@ -479,7 +480,35 @@ public class FragmentMap extends GeekBaseFragment {
 	public void showPropertyInMap() {
 		// progressshow();
 		String url = ApiManager.getPropertySearchUrl("");
-		asynkhttpGet(1, url, AppPreferences.getAuthToken(), true);
+		GlobalFunctions.getApiCall(getActivity(), url,
+				AppPreferences.getAuthToken(),
+				new GeekHttpResponseHandler() {
+
+					@Override
+					public void onBeforeStart() {
+
+					}
+
+					@Override
+					public void onFinish() {
+
+					}
+
+					@Override
+					public void onSuccess(String content) {
+						try {
+							NormalMapParse(content, true);
+						} catch (Exception e) {
+							AppLogger.log(TAG, e);
+						}
+					}
+
+					@Override
+					public void onAuthenticationFailed() {
+
+					}
+				});
+		//asynkhttpGet(1, url, AppPreferences.getAuthToken(), true);
 	}
 
 	private void drawMarker(LatLng point, int bedroom_count, String y,
@@ -623,7 +652,7 @@ public class FragmentMap extends GeekBaseFragment {
 						args.putInt("Count", marker_value);
 						innerlist.setArguments(args);
 
-						addfragment(innerlist, true, R.id.container);
+						nextfragment(innerlist, true, R.id.container);
 					}
 				});
 
@@ -642,7 +671,35 @@ public class FragmentMap extends GeekBaseFragment {
 		System.out.println("the search url map is " + url);
 
 		if (!location.equals("")) {
-			asynkhttpGet(2, url, AppPreferences.getAuthToken(), true);
+			GlobalFunctions.getApiCall(getActivity(), url,
+					AppPreferences.getAuthToken(),
+					new GeekHttpResponseHandler() {
+
+						@Override
+						public void onBeforeStart() {
+
+						}
+
+						@Override
+						public void onFinish() {
+
+						}
+
+						@Override
+						public void onSuccess(String content) {
+							try {
+								SearchFilterParse(content, true);
+							} catch (Exception e) {
+								AppLogger.log(TAG, e);
+							}
+						}
+
+						@Override
+						public void onAuthenticationFailed() {
+
+						}
+					});
+			//asynkhttpGet(2, url, AppPreferences.getAuthToken(), true);
 		} else {
 			toast("Select Filters");
 		}
@@ -685,7 +742,35 @@ public class FragmentMap extends GeekBaseFragment {
 	public void showPropertyInMapBackground() {
 		// progressshow();
 		String url = ApiManager.getPropertySearchUrl("");
-		asynkhttpGet(3, url, AppPreferences.getAuthToken(), false);
+		GlobalFunctions.getApiCall(getActivity(), url,
+				AppPreferences.getAuthToken(),
+				new GeekHttpResponseHandler() {
+
+					@Override
+					public void onBeforeStart() {
+
+					}
+
+					@Override
+					public void onFinish() {
+
+					}
+
+					@Override
+					public void onSuccess(String content) {
+						try {
+							SearchFilterParse(content, true);
+						} catch (Exception e) {
+							AppLogger.log(TAG, e);
+						}
+					}
+
+					@Override
+					public void onAuthenticationFailed() {
+
+					}
+				});
+		//asynkhttpGet(3, url, AppPreferences.getAuthToken(), false);
 	}
 
 	@Override

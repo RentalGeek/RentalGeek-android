@@ -146,22 +146,26 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
 
 		// facebook essentials
 		android.app.Fragment fragment = new NativeFragmentWrapper(this);
-		//fbLoginButton.setFragment(this);
+		fbLoginButton.setFragment(this);
 		fbLoginButton.setReadPermissions(Arrays.asList("public_profile", "email", "user_birthday"));
 		fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
 			@Override
 			public void onSuccess(LoginResult loginResult) {
 				// App code
+				AppLogger.log(TAG, "fb success:"+loginResult.getAccessToken());
 			}
 
 			@Override
 			public void onCancel() {
 				// App code
+				AppLogger.log(TAG, "fb cancel");
 			}
 
 			@Override
 			public void onError(FacebookException exception) {
 				// App code
+				AppLogger.log(TAG, exception);
+
 			}
 		});
 
@@ -184,6 +188,25 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
 		GlobalFunctions.postApiCall(getActivity(), ApiManager.getSignin(),
 				params, AppPreferences.getAuthToken(),
 				new GeekHttpResponseHandler() {
+
+					@Override
+					public void onBeforeStart() {
+
+					}
+
+					@Override
+					public void onFinish() {
+						//progresscancel();
+					}
+
+					@Override
+					public void onSuccess(String content) {
+						try {
+							NormalLogin(content);
+						} catch (Exception e) {
+							AppLogger.log(TAG, e);
+						}
+					}
 
 					@Override
 					public void onBeforeStart() {
@@ -688,6 +711,7 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
 //		uiHelper.onResume();
 	}
 
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -890,7 +914,7 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
 					@Override
 					public void onSuccess(String content) {
 						try {
-                            googlePlusParse(content);
+							googlePlusParse(content);
 						} catch (Exception e) {
 							AppLogger.log(TAG, e);
 						}
@@ -916,35 +940,35 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
 		params.put("provider[name]", personName);
 		params.put("provider[google_image]", personPhotoUrl);
 
-        GlobalFunctions.postApiCall(getActivity(), ApiManager.getAddProvider(""),
-                params, AppPreferences.getAuthToken(),
-                new GeekHttpResponseHandler() {
+		GlobalFunctions.postApiCall(getActivity(), ApiManager.getAddProvider(""),
+				params, AppPreferences.getAuthToken(),
+				new GeekHttpResponseHandler() {
 
-                    @Override
-                    public void onBeforeStart() {
+					@Override
+					public void onBeforeStart() {
 
-                    }
+					}
 
-                    @Override
-                    public void onFinish() {
-                        //progresscancel();
-                    }
+					@Override
+					public void onFinish() {
+						//progresscancel();
+					}
 
-                    @Override
-                    public void onSuccess(String content) {
-                        try {
-                            LinkedInParse(content);
-                        } catch (Exception e) {
-                            AppLogger.log(TAG, e);
-                        }
-                    }
+					@Override
+					public void onSuccess(String content) {
+						try {
+							LinkedInParse(content);
+						} catch (Exception e) {
+							AppLogger.log(TAG, e);
+						}
+					}
 
-                    @Override
-                    public void onAuthenticationFailed() {
+					@Override
+					public void onAuthenticationFailed() {
 
-                    }
-                });
-        //asynkhttp(params, 4, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
+					}
+				});
+		//asynkhttp(params, 4, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
 
 	}
 
@@ -957,35 +981,35 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
 		params.put("provider[name]", personName);
 		params.put("provider[facebook_image]", personPhotoUrl);
 
-        GlobalFunctions.postApiCall(getActivity(), ApiManager.getAddProvider(""),
-                params, AppPreferences.getAuthToken(),
-                new GeekHttpResponseHandler() {
+		GlobalFunctions.postApiCall(getActivity(), ApiManager.getAddProvider(""),
+				params, AppPreferences.getAuthToken(),
+				new GeekHttpResponseHandler() {
 
-                    @Override
-                    public void onBeforeStart() {
+					@Override
+					public void onBeforeStart() {
 
-                    }
+					}
 
-                    @Override
-                    public void onFinish() {
-                        //progresscancel();
-                    }
+					@Override
+					public void onFinish() {
+						//progresscancel();
+					}
 
-                    @Override
-                    public void onSuccess(String content) {
-                        try {
-                            FaceBookLogin(content);
-                        } catch (Exception e) {
-                            AppLogger.log(TAG, e);
-                        }
-                    }
+					@Override
+					public void onSuccess(String content) {
+						try {
+							FaceBookLogin(content);
+						} catch (Exception e) {
+							AppLogger.log(TAG, e);
+						}
+					}
 
-                    @Override
-                    public void onAuthenticationFailed() {
+					@Override
+					public void onAuthenticationFailed() {
 
-                    }
-                });
-        //asynkhttp(params, 2, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
+					}
+				});
+		//asynkhttp(params, 2, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
 
 	}
 
@@ -1062,35 +1086,35 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
 
 		String url = ApiManager.getApplicantPassword();
 
-        GlobalFunctions.postApiCall(getActivity(), url,
-                params, AppPreferences.getAuthToken(),
-                new GeekHttpResponseHandler() {
+		GlobalFunctions.postApiCall(getActivity(), url,
+				params, AppPreferences.getAuthToken(),
+				new GeekHttpResponseHandler() {
 
-                    @Override
-                    public void onBeforeStart() {
+					@Override
+					public void onBeforeStart() {
 
-                    }
+					}
 
-                    @Override
-                    public void onFinish() {
-                        //progresscancel();
-                    }
+					@Override
+					public void onFinish() {
+						//progresscancel();
+					}
 
-                    @Override
-                    public void onSuccess(String content) {
-                        try {
-                            ForgotMailSentParse(content);
-                        } catch (Exception e) {
-                            AppLogger.log(TAG, e);
-                        }
-                    }
+					@Override
+					public void onSuccess(String content) {
+						try {
+							ForgotMailSentParse(content);
+						} catch (Exception e) {
+							AppLogger.log(TAG, e);
+						}
+					}
 
-                    @Override
-                    public void onAuthenticationFailed() {
+					@Override
+					public void onAuthenticationFailed() {
 
-                    }
-                });
-        //asynkhttp(params, 5, url, AppPreferences.getAuthToken(), true);
+					}
+				});
+		//asynkhttp(params, 5, url, AppPreferences.getAuthToken(), true);
 
 	}
 

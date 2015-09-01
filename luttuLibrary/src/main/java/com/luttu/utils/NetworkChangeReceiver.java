@@ -23,6 +23,6 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
 	}
 
 	public interface Internet {
-		public void net();
+		void net();
 	}
 }

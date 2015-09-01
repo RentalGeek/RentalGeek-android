@@ -20,7 +20,6 @@ public class LuttuBaseFragmentActivity extends FragmentActivity implements Inter
 
 	@Override
 	protected void onCreate(Bundle arg0) {
-
 		super.onCreate(arg0);
 		appPrefes = new AppPrefes(this, "justask");
 		NetworkChangeReceiver.internet = this;
@@ -39,14 +38,12 @@ public class LuttuBaseFragmentActivity extends FragmentActivity implements Inter
 
 	@Override
 	public void net() {
-
 		System.out.println("inside net interface");
 		showBuiltInCrouton();
 	}
 
 	@Override
 	public void onBackPressed() {
-
 		if (backButtonClickedListener != null)
 			backButtonClickedListener.onBackButtonClicked();
 		else
@@ -58,7 +55,7 @@ public class LuttuBaseFragmentActivity extends FragmentActivity implements Inter
 	}
 
 	public void backpress() {
-
 		super.onBackPressed();
 	}
+
 }

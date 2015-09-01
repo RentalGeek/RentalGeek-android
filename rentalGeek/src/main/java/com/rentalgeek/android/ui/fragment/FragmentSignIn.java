@@ -165,7 +165,7 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
 			public void onError(FacebookException exception) {
 				// App code
                 AppLogger.log(TAG, exception);
-
+                DialogManager.showCrouton(getActivity(), exception.getMessage());
 			}
 		});
 
@@ -711,8 +711,10 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
 				mGoogleApiClient.connect();
 			}
 		} else if (requestCode == FB_SIGN_IN) {
-            callbackManager.onActivityResult(requestCode, resultCode, data);
+           //
         }
+
+        if (callbackManager != null)  callbackManager.onActivityResult(requestCode, resultCode, data);
 
 	}
 

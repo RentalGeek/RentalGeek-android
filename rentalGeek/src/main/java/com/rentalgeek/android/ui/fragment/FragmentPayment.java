@@ -27,6 +27,8 @@ import com.rentalgeek.android.backend.CheckPayment;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.backend.PaymentBackend;
 import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityCreateProfile;
@@ -134,7 +136,35 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 	private void CheckPaymentf() {
 
 		// asynkhttpGet(2, StaticClass.headlink + "/v2/transactions", true);
-		asynkhttpGet(3, ApiManager.getApplicants(appPref.getData("Uid")), AppPreferences.getAuthToken(),  true);
+		GlobalFunctions.getApiCall(getActivity(), ApiManager.getApplicants(appPref.getData("Uid")),
+				AppPreferences.getAuthToken(),
+				new GeekHttpResponseHandler() {
+
+					@Override
+					public void onBeforeStart() {
+
+					}
+
+					@Override
+					public void onFinish() {
+
+					}
+
+					@Override
+					public void onSuccess(String content) {
+						try {
+							PaymentCheckParseNew(content);
+						} catch (Exception e) {
+							AppLogger.log(TAG, e);
+						}
+					}
+
+					@Override
+					public void onAuthenticationFailed() {
+
+					}
+				});
+		//asynkhttpGet(3, ApiManager.getApplicants(appPref.getData("Uid")), AppPreferences.getAuthToken(),  true);
 
 	}
 
@@ -305,7 +335,35 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 		params.put("card[yyyy]", edYYYY.getSelectedItem().toString().trim());
 		params.put("card[user_id]", appPref.getData("Uid"));
 
-		asynkhttp(params, 1, url, AppPreferences.getAuthToken(), true);
+		GlobalFunctions.postApiCall(getActivity(), ApiManager.getApplicants(appPref.getData("Uid")),
+				params, AppPreferences.getAuthToken(),
+				new GeekHttpResponseHandler() {
+
+					@Override
+					public void onBeforeStart() {
+
+					}
+
+					@Override
+					public void onFinish() {
+
+					}
+
+					@Override
+					public void onSuccess(String content) {
+						try {
+							paymentParse(content);
+						} catch (Exception e) {
+							AppLogger.log(TAG, e);
+						}
+					}
+
+					@Override
+					public void onAuthenticationFailed() {
+
+					}
+				});
+		//asynkhttp(params, 1, url, AppPreferences.getAuthToken(), true);
 	}
 
 	@OnClick(R.id.verify_card)

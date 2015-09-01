@@ -34,6 +34,8 @@ import com.rentalgeek.android.backend.ProfileIdFindBackend;
 import com.rentalgeek.android.backend.ProfilePost;
 import com.rentalgeek.android.database.ProfileTable;
 import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityGeekScore;
@@ -431,8 +433,7 @@ public class FragmentProfile extends GeekBaseFragment implements ValidationListe
 				}
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			AppLogger.log(TAG, e);
 		}
 
 	}
@@ -605,9 +606,7 @@ public class FragmentProfile extends GeekBaseFragment implements ValidationListe
 	private void createUserParse(String response) {
 		try {
 
-
-			ProfileIdFindBackend detail = (new Gson()).fromJson(response,
-					ProfileIdFindBackend.class);
+			ProfileIdFindBackend detail = (new Gson()).fromJson(response, ProfileIdFindBackend.class);
 
 			if (detail != null) {
 				if (detail.profile != null) {
@@ -619,8 +618,7 @@ public class FragmentProfile extends GeekBaseFragment implements ValidationListe
 				}
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			AppLogger.log(TAG, e);
 		}
 
 	}
@@ -827,7 +825,35 @@ public class FragmentProfile extends GeekBaseFragment implements ValidationListe
             if (!iseveryThing) {
                 // call a patch update from this position after creating a
                 // profile
-                asynkhttpPut(params, 2, url, AppPreferences.getAuthToken(), true);
+                GlobalFunctions.putApiCall(getActivity(), url, params,
+                        AppPreferences.getAuthToken(),
+                        new GeekHttpResponseHandler() {
+
+                            @Override
+                            public void onBeforeStart() {
+
+                            }
+
+                            @Override
+                            public void onFinish() {
+
+                            }
+
+                            @Override
+                            public void onSuccess(String content) {
+                                try {
+                                    patchedUserParse(content);
+                                } catch (Exception e) {
+                                    AppLogger.log(TAG, e);
+                                }
+                            }
+
+                            @Override
+                            public void onAuthenticationFailed() {
+
+                            }
+                        });
+                //asynkhttpPut(params, 2, url, AppPreferences.getAuthToken(), true);
             } else {
                 iseveryThing = false;
             }
@@ -1212,7 +1238,36 @@ public class FragmentProfile extends GeekBaseFragment implements ValidationListe
             if (!iseveryThing) {
                 // call a patch update from this position after creating a
                 // profile
-                asynkhttp(params, 1, url, AppPreferences.getAuthToken(), true);
+
+				GlobalFunctions.postApiCall(getActivity(), url, params,
+                        AppPreferences.getAuthToken(),
+                        new GeekHttpResponseHandler() {
+
+                            @Override
+                            public void onBeforeStart() {
+
+                            }
+
+                            @Override
+                            public void onFinish() {
+
+                            }
+
+                            @Override
+                            public void onSuccess(String content) {
+                                try {
+                                    setProfileData(content);
+                                } catch (Exception e) {
+                                    AppLogger.log(TAG, e);
+                                }
+                            }
+
+                            @Override
+                            public void onAuthenticationFailed() {
+
+                            }
+                        });
+				//asynkhttp(params, 1, url, AppPreferences.getAuthToken(), true);
             } else {
                 toast("No Connection");
                 iseveryThing = false;
@@ -1228,7 +1283,35 @@ public class FragmentProfile extends GeekBaseFragment implements ValidationListe
 	private void fetchProfileData() {
 
 		String url = ApiManager.getProfile("");
-		asynkhttpGet(3, url, AppPreferences.getAuthToken(), true);
+		GlobalFunctions.getApiCall(getActivity(), url,
+				AppPreferences.getAuthToken(),
+				new GeekHttpResponseHandler() {
+
+					@Override
+					public void onBeforeStart() {
+
+					}
+
+					@Override
+					public void onFinish() {
+
+					}
+
+					@Override
+					public void onSuccess(String content) {
+						try {
+							setProfileData(content);
+						} catch (Exception e) {
+							AppLogger.log(TAG, e);
+						}
+					}
+
+					@Override
+					public void onAuthenticationFailed() {
+
+					}
+				});
+		//asynkhttpGet(3, url, AppPreferences.getAuthToken(), true);
 	}
 
 	// email checking function

@@ -28,6 +28,8 @@ import com.rentalgeek.android.backend.ApplyBackend;
 import com.rentalgeek.android.backend.ApplyError;
 import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.dialog.MoreAmenitiesDialog;
@@ -312,7 +314,35 @@ public class ListInnerPage extends GeekBaseFragment {
 
                 System.out.println("inside starred click");
                 if (prop.starred_property_id != null) {
-                    asynkhttpDelete(2, ApiManager.getStarredPrpoertiesUrl(prop.starred_property_id), AppPreferences.getAuthToken(), true);
+					GlobalFunctions.deleteApiCall(getActivity(), ApiManager.getStarredPrpoertiesUrl(prop.starred_property_id),
+							AppPreferences.getAuthToken(),
+							new GeekHttpResponseHandler() {
+
+								@Override
+								public void onBeforeStart() {
+
+								}
+
+								@Override
+								public void onFinish() {
+
+								}
+
+								@Override
+								public void onSuccess(String content) {
+									try {
+										removeStar(content);
+									} catch (Exception e) {
+										AppLogger.log(TAG, e);
+									}
+								}
+
+								@Override
+								public void onAuthenticationFailed() {
+
+								}
+							});
+					//asynkhttpDelete(2, ApiManager.getStarredPrpoertiesUrl(prop.starred_property_id), AppPreferences.getAuthToken(), true);
                 }
             } else {
 
@@ -327,7 +357,35 @@ public class ListInnerPage extends GeekBaseFragment {
                 params.put("starred_property[user_id]", Uid);
                 params.put("starred_property[rental_offering_id]", suid);
 
-                asynkhttp(params, 1, ApiManager.getStarredPrpoertiesUrl(""), AppPreferences.getAuthToken(), true);
+				GlobalFunctions.postApiCall(getActivity(), ApiManager.getStarredPrpoertiesUrl(""), params,
+						AppPreferences.getAuthToken(),
+						new GeekHttpResponseHandler() {
+
+							@Override
+							public void onBeforeStart() {
+
+							}
+
+							@Override
+							public void onFinish() {
+
+							}
+
+							@Override
+							public void onSuccess(String content) {
+								try {
+
+								} catch (Exception e) {
+									AppLogger.log(TAG, e);
+								}
+							}
+
+							@Override
+							public void onAuthenticationFailed() {
+
+							}
+						});
+				//asynkhttp(params, 1, ApiManager.getStarredPrpoertiesUrl(""), AppPreferences.getAuthToken(), true);
 
             }
 		} catch (Exception e) {
@@ -348,7 +406,35 @@ public class ListInnerPage extends GeekBaseFragment {
 
         System.out.println("prop id is " + prop.uid + " user id is " + appPref.getData("Uid"));
 
-        asynkhttp(params, 3, ApiManager.getApplyUrl(), AppPreferences.getAuthToken(), true);
+		GlobalFunctions.postApiCall(getActivity(), ApiManager.getApplyUrl(), params,
+				AppPreferences.getAuthToken(),
+				new GeekHttpResponseHandler() {
+
+					@Override
+					public void onBeforeStart() {
+
+					}
+
+					@Override
+					public void onFinish() {
+
+					}
+
+					@Override
+					public void onSuccess(String content) {
+						try {
+
+						} catch (Exception e) {
+							AppLogger.log(TAG, e);
+						}
+					}
+
+					@Override
+					public void onAuthenticationFailed() {
+
+					}
+				});
+		//asynkhttp(params, 3, ApiManager.getApplyUrl(), AppPreferences.getAuthToken(), true);
 
 	}
 

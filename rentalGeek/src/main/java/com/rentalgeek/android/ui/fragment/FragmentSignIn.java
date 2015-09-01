@@ -146,22 +146,26 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
 
 		// facebook essentials
         android.app.Fragment fragment = new NativeFragmentWrapper(this);
-		//fbLoginButton.setFragment(this);
+		fbLoginButton.setFragment(this);
         fbLoginButton.setReadPermissions(Arrays.asList("public_profile", "email", "user_birthday"));
 		fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
 			@Override
 			public void onSuccess(LoginResult loginResult) {
 				// App code
+                AppLogger.log(TAG, "fb success:"+loginResult.getAccessToken());
 			}
 
 			@Override
 			public void onCancel() {
 				// App code
+                AppLogger.log(TAG, "fb cancel");
 			}
 
 			@Override
 			public void onError(FacebookException exception) {
 				// App code
+                AppLogger.log(TAG, exception);
+
 			}
 		});
 
@@ -687,6 +691,7 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
 //		}
 //		uiHelper.onResume();
 	}
+
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {

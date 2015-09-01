@@ -17,6 +17,8 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityCreateProfile;
@@ -66,7 +68,35 @@ public class FragmentGeekScoreMain extends GeekBaseFragment {
 	}
 
 	private void CheckPaymentf() {
-		asynkhttpGet( 3, ApiManager.getApplicants(appPref.getData("Uid")), AppPreferences.getAuthToken(), true);
+		GlobalFunctions.getApiCall(getActivity(), ApiManager.getPropertySearchUrl("starred=true"),
+				AppPreferences.getAuthToken(),
+				new GeekHttpResponseHandler() {
+
+					@Override
+					public void onBeforeStart() {
+
+					}
+
+					@Override
+					public void onFinish() {
+
+					}
+
+					@Override
+					public void onSuccess(String content) {
+						try {
+							PaymentCheckParseNew(content);
+						} catch (Exception e) {
+							AppLogger.log(TAG, e);
+						}
+					}
+
+					@Override
+					public void onAuthenticationFailed() {
+
+					}
+				});
+		//asynkhttpGet( 3, ApiManager.getApplicants(appPref.getData("Uid")), AppPreferences.getAuthToken(), true);
 	}
 
 	@Override

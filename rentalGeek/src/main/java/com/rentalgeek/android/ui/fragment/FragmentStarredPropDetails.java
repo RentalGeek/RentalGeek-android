@@ -24,6 +24,10 @@ import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.ApplyBackend;
 import com.rentalgeek.android.backend.ApplyError;
 import com.rentalgeek.android.backend.StarredInnerBacked;
+import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.dialog.MoreAmenitiesDialog;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ConnectionDetector;
@@ -45,6 +49,8 @@ import ir.noghteh.JustifiedTextView;
  *
  */
 public class FragmentStarredPropDetails extends GeekBaseFragment {
+
+	private static final String TAG = "FragmentStarredPropDetails";
 
 	@InjectView(R.id.price_range_inner)
 	TextView price_range_inner;
@@ -136,10 +142,38 @@ public class FragmentStarredPropDetails extends GeekBaseFragment {
 
 	private void detailsFetchServer(String id) {
 		String url = ApiManager.getPropertySearchUrl(id);
-		asynkhttpGet(1, url, AppPreferences.getAuthToken(), true);
+		GlobalFunctions.getApiCall(getActivity(), url,
+				AppPreferences.getAuthToken(),
+				new GeekHttpResponseHandler() {
+
+					@Override
+					public void onBeforeStart() {
+
+					}
+
+					@Override
+					public void onFinish() {
+
+					}
+
+					@Override
+					public void onSuccess(String content) {
+						try {
+							DetailsParse(content);
+						} catch (Exception e) {
+							AppLogger.log(TAG, e);
+						}
+					}
+
+					@Override
+					public void onAuthenticationFailed() {
+
+					}
+				});
+		//asynkhttpGet(1, url, AppPreferences.getAuthToken(), true);
 	}
 
-	@Override
+/*	@Override
 	public void parseresult(String response, boolean success, int value) {
 
 
@@ -157,22 +191,21 @@ public class FragmentStarredPropDetails extends GeekBaseFragment {
 			break;
 		}
 
-	}
+	}*/
 
 	private void ApplyParse(String response) {
 
 		System.out.println("the apply response id " + response);
 
-		ApplyBackend detail = (new Gson()).fromJson(response.toString(),
-				ApplyBackend.class);
+		ApplyBackend detail = (new Gson()).fromJson(response.toString(), ApplyBackend.class);
 		
 		if (detail.apply == null) {
 
 			if (detail.messsage != null)
-				toastsuccess("Already Applied to the property");
+				toast("Already Applied to the property");
 
 		} else {
-			toastsuccess("Successfully Applied to the property");
+			toast("Successfully Applied to the property");
 		}
 
 
@@ -226,13 +259,12 @@ public class FragmentStarredPropDetails extends GeekBaseFragment {
 				parseAmenities();
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			AppLogger.log(TAG, e);
 		}
 
 	}
 
-	@Override
+/*	@Override
 	public void error(String response, int value) {
 
 		System.out.println("the response " + response);
@@ -247,7 +279,7 @@ public class FragmentStarredPropDetails extends GeekBaseFragment {
 			toast("Something went wrong");
 			break;
 		}
-	}
+	}*/
 
 	private void ErrorApply(String response) {
 
@@ -269,8 +301,7 @@ public class FragmentStarredPropDetails extends GeekBaseFragment {
 				
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			AppLogger.log(TAG, e);
 		}
 
 	}
@@ -293,9 +324,37 @@ public class FragmentStarredPropDetails extends GeekBaseFragment {
 
 		String url = ApiManager.getStarredPrpoertiesUrl(like_tag.getTag().toString());
 
-		log("the tag in unstar " + url);
+		AppLogger.log(TAG, "the tag in unstar " + url);
 
-		asynkhttpDelete(2, url, AppPreferences.getAuthToken(), true);
+        GlobalFunctions.deleteApiCall(getActivity(), url,
+                AppPreferences.getAuthToken(),
+                new GeekHttpResponseHandler() {
+
+                    @Override
+                    public void onBeforeStart() {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String content) {
+                        try {
+                            removeStar(content);
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
+                        }
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed() {
+
+                    }
+                });
+        //asynkhttpDelete(2, url, AppPreferences.getAuthToken(), true);
 	}
 
 	private void removeStar(String response) {
@@ -456,7 +515,35 @@ public class FragmentStarredPropDetails extends GeekBaseFragment {
 				String.valueOf(detail.rental_offering.id));
 		params.put("apply[applicable_type]", "Applicant");
 
-		asynkhttp(params, 3, ApiManager.getApplyUrl(), AppPreferences.getAuthToken(), true);
+        GlobalFunctions.postApiCall(activity, ApiManager.getApplyUrl(), params,  AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+            }
+
+            @Override
+            public void onBeforeStart() {
+                super.onBeforeStart();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+            }
+
+            @Override
+            public void onSuccess(String content) {
+                super.onSuccess(content);
+                ApplyParse(content);
+            }
+
+            @Override
+            public void onFailure(Throwable ex, String failureResponse) {
+                super.onFailure(ex, failureResponse);
+            }
+        });
+		//asynkhttp(params, 3, ApiManager.getApplyUrl(), AppPreferences.getAuthToken(), true);
 	}
 	
 	private void setAminities() {
@@ -481,8 +568,7 @@ public class FragmentStarredPropDetails extends GeekBaseFragment {
 			    myTextViews[i] = rowTextView;
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			AppLogger.log(TAG, e);
 		}
 		
 	}

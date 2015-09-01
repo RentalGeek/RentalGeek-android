@@ -139,9 +139,7 @@ public class ActivityTutorials extends GeekBaseActivity {
 			fragment.onActivityResult(requestCode, resultCode, data);
 		} else {
 			super.onActivityResult(requestCode, resultCode, data);
-
 		}
-
 	}
 
 	// Linked in essentials

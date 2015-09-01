@@ -4,7 +4,9 @@
     <string name="terms"><p>By creating a RentalGeek account, you agree to our <u>Terms &amp; Conditions</u></p></string>
     <string name="app_name">RentalGeek</string>
     <!-- <string name="app_id">1573984086213286</string> -->
-    <string name="fb_app_id">1484243288564211</string>
+    <!--<string name="fb_app_id">1484243288564211</string>-->
+    <string name="fb_app_id">1630631863882274</string>
+
     <string name="hello_world">Hello world!</string>
     <string name="or">_________ or _________</string>
     <string name="pay_get_geek">Pay and get your Geek Score&#8482;</string>

@@ -37,6 +37,8 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+import com.rentalgeek.android.ui.fragment.FragmentCosignInvite;
+import com.rentalgeek.android.ui.fragment.FragmentCosignApp;
 
 public class FragmentSlideLeft extends GeekBaseFragment {
 
@@ -78,24 +80,24 @@ public class FragmentSlideLeft extends GeekBaseFragment {
 				switch (position) {
 				case 0:
 					appPref.SaveData("map_list", "");
-					((ActivityHome) getActivity()).closedrawer();
+					//((ActivityHome) getActivity()).closedrawer();
 					nextfragment(new FragmentGeekScoreMain(), false, R.id.container);
 					break;
 				case 1:
 					appPref.SaveData("map_list", "");
-					((ActivityHome) getActivity()).closedrawer();
+					//((ActivityHome) getActivity()).closedrawer();
 					nextfragment(new FragmentStarredProperties(), false, R.id.container);
 					break;
 				case 2:
 					appPref.SaveData("map_list", "");
-					((ActivityHome) getActivity()).closedrawer();
+					//((ActivityHome) getActivity()).closedrawer();
 					nextfragment(new GeekVision(), false, R.id.container);
 					break;
 				case 3:
-					logout();
-//					appPref.SaveData("map_list", "");
-//					((ActivityHome) getActivity()).closedrawer();
-//					nextfragment(new FragmentProfile(), false, R.id.container);
+//					logout();
+					appPref.SaveData("map_list", "");
+					//((ActivityHome) getActivity()).closedrawer();
+					nextfragment(new FragmentCosignApp(), false, R.id.container);
 					break;
 				case 4:
 					logout();

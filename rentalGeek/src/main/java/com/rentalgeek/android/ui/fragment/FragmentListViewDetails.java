@@ -42,7 +42,7 @@ import butterknife.InjectView;
 
 
 public class FragmentListViewDetails extends GeekBaseFragment {
-
+    /**
     private static final String TAG = FragmentListViewDetails.class.getSimpleName();
     @InjectView(R.id.slidelist)
     ListView list;
@@ -64,10 +64,13 @@ public class FragmentListViewDetails extends GeekBaseFragment {
     ArrayList<Integer> listitems;
     ArrayList<String> street_name;
     TypedArray images;
-
+    **/
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        
+        View view = inflater.inflate(R.layout.property_list_main, container, false);
 
+        /**
         v = inflater.inflate(R.layout.property_list_main, container, false);
         ButterKnife.inject(this, v);
         appPref=new AppPrefes(getActivity(), "rentalgeek");
@@ -81,8 +84,11 @@ public class FragmentListViewDetails extends GeekBaseFragment {
         fetchFromDB();
 
         return v;
+        **/
+        return view;
     }
-
+    
+    /**
     private void fetchFromDB() {
 
 
@@ -131,19 +137,6 @@ public class FragmentListViewDetails extends GeekBaseFragment {
         }
 
     }
-
-/*	@Override
-	public void parseresult(String response, boolean success, int value) {
-
-		switch (value) {
-		case 1:
-			ParseLocation(response);
-			break;
-		default:
-			break;
-		}
-
-	}*/
 
     private void ParseLocation(String response) {
 
@@ -359,4 +352,5 @@ public class FragmentListViewDetails extends GeekBaseFragment {
     public void setShowingRightNow(boolean showingRightNow) {
         this.showingRightNow = showingRightNow;
     }
+    **/
 }

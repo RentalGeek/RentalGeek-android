@@ -1,6 +1,7 @@
 package com.rentalgeek.android.ui.activity;
 
-import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -47,7 +48,7 @@ import java.util.TimerTask;
  * @purpose Activity which holds the introduction slides
  *
  */
-public class ActivityTutorials extends GeekBaseActivity {
+public class ActivityTutorials extends FragmentActivity{
 
 	// Linked in
 	private static final String TAG = ActivityTutorials.class.getSimpleName();
@@ -59,8 +60,6 @@ public class ActivityTutorials extends GeekBaseActivity {
 			+ "/v1/people/~:(first-name,last-name,picture-url,id,email-address)";
 	private static final String shareUrl = "https://" + host
 			+ "/v1/people/~/shares";
-
-	final Activity thisActivity = this;
 
 	AppPrefes appPref;
 	SwipeAdapter mAdapter;
@@ -86,7 +85,7 @@ public class ActivityTutorials extends GeekBaseActivity {
 		con = new ConnectionDetector(getApplicationContext());
 		mPager = (ViewPager) findViewById(R.id.pager);
 		mPager.setAdapter(mAdapter);
-		appPref = new AppPrefes(thisActivity, "rentalgeek");
+		appPref = new AppPrefes(this, "rentalgeek");
 		mIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
 		mIndicator.setViewPager(mPager);
 
@@ -178,7 +177,7 @@ public class ActivityTutorials extends GeekBaseActivity {
 
 	public void SignInLinkedIn() {
 		LISessionManager.getInstance(getApplicationContext()).init(
-				thisActivity, buildScope(), new AuthListener() {
+				this, buildScope(), new AuthListener() {
 					@Override
 					public void onAuthSuccess() {
 						setUpdateState();

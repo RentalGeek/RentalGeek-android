@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-       <item name="blue" type="color">#4181cb</item>
+    <item name="blue" type="color">#4181cb</item>
     <item name="dark_blue" type="color">#0000A0</item>
     <item name="white" type="color">#ffffffff</item>
-    
+    <item name="light_creme" type="color">#f4f4f4</item>
+    <item name="light_black" type="color">#2d2d2d</item>
 </resources>

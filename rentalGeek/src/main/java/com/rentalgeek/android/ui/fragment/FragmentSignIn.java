@@ -1,11 +1,13 @@
 package com.rentalgeek.android.ui.fragment;
 
-import android.app.Activity;
 import android.app.Dialog;
+import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,7 +38,6 @@ import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListe
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.google.gson.Gson;
-import com.linkedin.platform.LISessionManager;
 import com.loopj.android.http.RequestParams;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
@@ -170,13 +171,30 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
 		});
 
 		// google plus initialization
-		mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-				.addConnectionCallbacks(this)
-				.addOnConnectionFailedListener(this).addApi(Plus.API)
-				.addScope(Plus.SCOPE_PLUS_PROFILE).build();
+		mGoogleApiClient = buildGoogleApiClient();
 
 		return v;
 
+	}
+
+	private GoogleApiClient buildGoogleApiClient() {
+		// When we build the GoogleApiClient we specify where connected and
+		// connection failed callbacks should be returned, which Google APIs our
+		// app uses and which OAuth 2.0 scopes our app requests.
+		GoogleApiClient.Builder builder = new GoogleApiClient.Builder(getActivity())
+				.addConnectionCallbacks(this)
+				.addOnConnectionFailedListener(this)
+				.addApi(Plus.API, Plus.PlusOptions.builder().build())
+				.addScope(Plus.SCOPE_PLUS_LOGIN)
+				.addScope(Plus.SCOPE_PLUS_PROFILE)
+				;
+
+//		if (mRequestServerAuthCode) {
+//			checkServerAuthConfiguration();
+//			builder = builder.requestServerAuthCode(WEB_CLIENT_ID, this);
+//		}
+
+		return builder.build();
 	}
 
 	private void signin(String a, String b) {
@@ -446,7 +464,6 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
 
 	private void NormalLogin(String response) {
 
-
 		try {
 
 			System.out.println("responseresponse" + response);
@@ -692,31 +709,54 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
 //		uiHelper.onResume();
 	}
 
-
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) {
+			case RC_SIGN_IN:
+				if (resultCode == getActivity().RESULT_OK) {
+					// If the error resolution was successful we should continue
+					// processing errors.
+					mSignInProgress = STATE_SIGN_IN;
+				} else {
+					// If the error resolution was not successful or the user canceled,
+					// we should stop processing errors.
+					mSignInProgress = STATE_DEFAULT;
+				}
 
-		super.onActivityResult(requestCode, resultCode, data);
-
-		//uiHelper.onActivityResult(requestCode, resultCode, data);
-		LISessionManager.getInstance(getActivity()).onActivityResult(getActivity(), requestCode, resultCode, data);
-		if (requestCode == RC_SIGN_IN) {
-			if (requestCode != Activity.RESULT_OK) {
-				mSignInClicked = false;
-			}
-
-			mIntentInProgress = false;
-
-			if (!mGoogleApiClient.isConnecting()) {
-				mGoogleApiClient.connect();
-			}
-		} else if (requestCode == FB_SIGN_IN) {
-			//
+				if (!mGoogleApiClient.isConnecting()) {
+					// If Google Play services resolved the issue with a dialog then
+					// onStart is not called so we need to re-attempt connection here.
+					mGoogleApiClient.connect();
+				}
+				break;
 		}
-
-		if (callbackManager != null)  callbackManager.onActivityResult(requestCode, resultCode, data);
-
 	}
+//	@Override
+//	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//
+//		super.onActivityResult(requestCode, resultCode, data);
+//
+//		//uiHelper.onActivityResult(requestCode, resultCode, data);
+//		LISessionManager.getInstance(getActivity()).onActivityResult(getActivity(), requestCode, resultCode, data);
+//		if (requestCode == RC_SIGN_IN) {
+//			if (requestCode != Activity.RESULT_OK) {
+//				mSignInClicked = false;
+//			}
+//
+//			mIntentInProgress = false;
+//
+//			if (!mGoogleApiClient.isConnecting()) {
+//				mGoogleApiClient.connect();
+//			}
+//		} else if (requestCode == FB_SIGN_IN) {
+//           //
+//        }
+//
+//        if (callbackManager != null)  callbackManager.onActivityResult(requestCode, resultCode, data);
+//
+//	}
+
+	private static final String SAVED_PROGRESS = "sign_in_progress";
 
 	@Override
 	public void onPause() {
@@ -734,41 +774,74 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		//uiHelper.onSaveInstanceState(outState);
+		outState.putInt(SAVED_PROGRESS, mSignInProgress);
 	}
 
 	// ----------------------------G+
 	// login-----------------------------------------------
-
 	@Override
 	public void onConnectionFailed(ConnectionResult result) {
+		// Refer to the javadoc for ConnectionResult to see what error codes might
+		// be returned in onConnectionFailed.
+		Log.i(TAG, "onConnectionFailed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
 
+		if (result.getErrorCode() == ConnectionResult.API_UNAVAILABLE) {
+			// An API requested for GoogleApiClient is not available. The device's current
+			// configuration might not be supported with the requested API or a required component
+			// may not be installed, such as the Android Wear application. You may need to use a
+			// second GoogleApiClient to manage the application's optional APIs.
+			Log.w(TAG, "API Unavailable.");
+		} else if (mSignInProgress != STATE_IN_PROGRESS) {
+			// We do not have an intent in progress so we should store the latest
+			// error resolution intent for use when the sign in button is clicked.
+			mSignInIntent = result.getResolution();
+			mSignInError = result.getErrorCode();
 
-		if (!result.hasResolution()) {
-			GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), getActivity(), 0).show();
-			return;
-		}
-
-		if (!mIntentInProgress) {
-			// Store the ConnectionResult for later usage
-			mConnectionResult = result;
-
-			if (mSignInClicked) {
-				// The user has already clicked 'sign-in' so we attempt to
-				// resolve all
-				// errors until the user is signed in, or they cancel.
+			if (mSignInProgress == STATE_SIGN_IN) {
+				// STATE_SIGN_IN indicates the user already clicked the sign in button
+				// so we should continue processing errors until the user is signed in
+				// or they click cancel.
 				resolveSignInError();
 			}
 		}
 
+		// In this sample we consider the user signed out whenever they do not have
+		// a connection to Google Play services.
+		onSignedOut();
 	}
+
+	private void onSignedOut() {
+		// Update the UI to reflect that the user is signed out.
+
+	}
+//	@Override
+//	public void onConnectionFailed(ConnectionResult result) {
+//
+//
+//		if (!result.hasResolution()) {
+//			GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), getActivity(), 0).show();
+//			return;
+//		}
+//
+//		if (!mIntentInProgress) {
+//			// Store the ConnectionResult for later usage
+//			mConnectionResult = result;
+//
+//			if (mSignInClicked) {
+//				// The user has already clicked 'sign-in' so we attempt to
+//				// resolve all
+//				// errors until the user is signed in, or they cancel.
+//				resolveSignInError();
+//			}
+//		}
+//
+//	}
 
 	@Override
 	public void onConnected(Bundle arg0) {
 
 		mSignInClicked = false;
-		Toast.makeText(getActivity(), "User is connected!", Toast.LENGTH_LONG)
-				.show();
+		Toast.makeText(getActivity(), "User is connected!", Toast.LENGTH_LONG).show();
 		// getActivity().finish();
 		// appPref.SaveData("first", "logged");
 		// Intent i = new Intent(getActivity(), ActivityHome.class);
@@ -780,8 +853,10 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
 	}
 
 	@Override
-	public void onConnectionSuspended(int arg0) {
-
+	public void onConnectionSuspended(int cause) {
+		// The connection to Google Play services was lost for some reason.
+		// We call connect() to attempt to re-establish the connection or get a
+		// ConnectionResult that we can attempt to resolve.
 		mGoogleApiClient.connect();
 	}
 
@@ -802,26 +877,111 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
 	/**
 	 * Method to resolve any signin errors
 	 * */
+//	private void resolveSignInError() {
+//		if (mConnectionResult.hasResolution()) {
+//			try {
+//				mIntentInProgress = true;
+//				mConnectionResult.startResolutionForResult(getActivity(), RC_SIGN_IN);
+//			} catch (SendIntentException e) {
+//				mIntentInProgress = false;
+//				mGoogleApiClient.connect();
+//			}
+//		}
+//	}
+
 	private void resolveSignInError() {
-		if (mConnectionResult.hasResolution()) {
+		if (mSignInIntent != null) {
+			// We have an intent which will allow our user to sign in or
+			// resolve an error.  For example if the user needs to
+			// select an account to sign in with, or if they need to consent
+			// to the permissions your app is requesting.
+
 			try {
-				mIntentInProgress = true;
-				mConnectionResult.startResolutionForResult(getActivity(), RC_SIGN_IN);
+				// Send the pending intent that we stored on the most recent
+				// OnConnectionFailed callback.  This will allow the user to
+				// resolve the error currently preventing our connection to
+				// Google Play services.
+				mSignInProgress = STATE_IN_PROGRESS;
+				getActivity().startIntentSenderForResult(mSignInIntent.getIntentSender(), RC_SIGN_IN, null, 0, 0, 0);
 			} catch (SendIntentException e) {
-				mIntentInProgress = false;
+				Log.i(TAG, "Sign in intent could not be sent: " + e.getLocalizedMessage());
+				// The intent was canceled before it was sent.  Attempt to connect to
+				// get an updated ConnectionResult.
+				mSignInProgress = STATE_SIGN_IN;
 				mGoogleApiClient.connect();
 			}
+		} else {
+			// Google Play services wasn't able to provide an intent for some
+			// error types, so we show the default Google Play services error
+			// dialog which may still start an intent on our behalf if the
+			// user can resolve the issue.
+			createErrorDialog().show();
 		}
 	}
 
+	private Dialog createErrorDialog() {
+		if (GooglePlayServicesUtil.isUserRecoverableError(mSignInError)) {
+			return GooglePlayServicesUtil.getErrorDialog(
+					mSignInError,
+					getActivity(),
+					RC_SIGN_IN,
+					new DialogInterface.OnCancelListener() {
+						@Override
+						public void onCancel(DialogInterface dialog) {
+							Log.e(TAG, "Google Play services resolution cancelled");
+							mSignInProgress = STATE_DEFAULT;
+							// mStatus.setText(R.string.status_signed_out);
+						}
+					});
+		} else {
+			return new AlertDialog.Builder(getActivity())
+					.setMessage("Play Services Error")
+					.setPositiveButton("Close",
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									Log.e(TAG, "Google Play services error could not be "
+											+ "resolved: " + mSignInError);
+									mSignInProgress = STATE_DEFAULT;
+									//mStatus.setText(R.string.status_signed_out);
+								}
+							}).create();
+		}
+	}
 	/**
 	 * Sign-in into google
 	 * */
+	private int mSignInProgress;
+
+	// Used to store the PendingIntent most recently returned by Google Play
+	// services until the user clicks 'sign in'.
+	private PendingIntent mSignInIntent;
+
+	// Used to store the error code most recently returned by Google Play services
+	// until the user clicks 'sign in'.
+	private int mSignInError;
+
+	// Used to determine if we should ask for a server auth code when connecting the
+	// GoogleApiClient.  False by default so that this sample can be used without configuring
+	// a WEB_CLIENT_ID and SERVER_BASE_URL.
+	private boolean mRequestServerAuthCode = false;
+
+	// Client id 433959508661-2mepmf7qms9pdih67ea5o91sa5fpcjb8.apps.googleusercontent.com
+
+	private static final int STATE_DEFAULT = 0;
+	private static final int STATE_SIGN_IN = 1;
+	private static final int STATE_IN_PROGRESS = 2;
+
 	private void signInWithGplus() {
+
 		if (!mGoogleApiClient.isConnecting()) {
-			mSignInClicked = true;
-			resolveSignInError();
+			mSignInProgress = STATE_SIGN_IN;
+			mGoogleApiClient.connect();
 		}
+//		if (!mGoogleApiClient.isConnecting()) {
+//			mSignInClicked = true;
+//			resolveSignInError();
+//		}
 	}
 
 	@OnClick(R.id.btn_sign_in)
@@ -835,6 +995,7 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
 
 	private void getProfileInformation() {
 		try {
+			mSignInProgress = STATE_DEFAULT;
 			if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
 				Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
 				String personName = currentPerson.getDisplayName();
@@ -867,7 +1028,7 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
 				Toast.makeText(getActivity(), "Person information is null  ", Toast.LENGTH_LONG).show();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			AppLogger.log(TAG, e);
 		}
 	}
 
@@ -1016,11 +1177,12 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
 	public void GooglePlusClick(View v) {
 		// btnSignIn.performClick();
 		animation_obj = YoYo.with(Techniques.Flash).duration(1000).playOn(v);
-		if (mConnectionResult != null) {
-			signInWithGplus();
-		} else {
-			Toast.makeText(getActivity(), "Can't connect to Google+  ", Toast.LENGTH_LONG).show();
-		}
+
+//		if (mConnectionResult != null) {
+		signInWithGplus();
+//		} else {
+//			Toast.makeText(getActivity(), "Can't connect to Google+  ", Toast.LENGTH_LONG).show();
+//		}
 	}
 
 	@OnClick(R.id.linked_lay)

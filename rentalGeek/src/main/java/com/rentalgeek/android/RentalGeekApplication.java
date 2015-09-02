@@ -17,6 +17,8 @@ import com.rentalgeek.android.database.PropertyTable;
 import de.greenrobot.event.EventBus;
 import io.fabric.sdk.android.Fabric;
 
+import android.content.res.Resources;
+
 
 public class RentalGeekApplication extends MultiDexApplication {
 
@@ -73,6 +75,10 @@ public class RentalGeekApplication extends MultiDexApplication {
 		String message = context.getString(resId);
 		eventBus.post(new UserNotificationEvent(message));
 	}
+
+    public static Resources getAppResources() {
+        return context.getResources();
+    }
 
 	public static void postUserNotification(String message) {
 		eventBus.post(new UserNotificationEvent(message));

@@ -58,6 +58,11 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name=".ui.activity.ActivityHome2"
+            android:theme="@style/NoActionBarTheme"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name=".ui.activity.ActivityRegistration"
             android:screenOrientation="portrait" >
         </activity>

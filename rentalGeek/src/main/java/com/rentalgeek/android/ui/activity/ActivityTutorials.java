@@ -245,13 +245,6 @@ public class ActivityTutorials extends LuttuBaseFragmentActivity {
 									}
 								});
 
-						// appPref.SaveData("first", "logged");
-						// finish();
-						// Intent i = new Intent(getApplicationContext(),
-						// ActivityHome.class);
-						// startActivity(i);
-						// overridePendingTransition(R.anim.one_, R.anim.two_);
-
 					}
 
 					@Override

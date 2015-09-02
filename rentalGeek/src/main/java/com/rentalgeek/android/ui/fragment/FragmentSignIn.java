@@ -137,7 +137,6 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
 		View v = inflater.inflate(R.layout.sigin_latest, container, false);
 		// signin();
 		ButterKnife.inject(this, v);
@@ -154,38 +153,23 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 				.addScope(Plus.SCOPE_PLUS_PROFILE).build();
 
 		return v;
-
 	}
 
 	private void signin(String a, String b) {
-
 		RequestParams params = new RequestParams();
 		params.put("user[email]", a);
 		params.put("user[password]", b);
 		asynkhttp(params, 1, ApiManager.getSignin(), AppPreferences.getAuthToken(), true);
-
 	}
-
-	// @OnClick(R.id.sign_button)
-	// public void SignIn() {
-	//
-	// Intent i = new Intent(getActivity(), ActivityHome.class);
-	// startActivity(i);
-	// getActivity().overridePendingTransition(R.anim.one_, R.anim.two_);
-	//
-	// }
 
 	@Override
 	public void onDestroyView() {
-
 		super.onDestroyView();
 		ButterKnife.reset(this);
 	}
 
 	@Override
 	public void parseresult(String response, boolean success, int value) {
-
-
 		switch (value) {
 		case 1:
 			NormalLogin(response);
@@ -206,17 +190,11 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 	}
 
 	private void ForgotMailSentParse(String response) {
-
 		toast("Verification email sent to your mail please check");
-
 	}
 
 	private void LinkedInParse(String response) {
-
-
 		GoogleBackend detail = (new Gson()).fromJson(response, GoogleBackend.class);
-
-		// Applicant appli=detail.applicant;
 
 		String appid = String.valueOf(detail.applicant.id);
 		System.out.println("my id is " + appid);
@@ -711,14 +689,8 @@ public class FragmentSignIn extends LuttuBaseAbstract implements ConnectionCallb
 		mSignInClicked = false;
 		Toast.makeText(getActivity(), "User is connected!", Toast.LENGTH_LONG)
 				.show();
-		// getActivity().finish();
-		// appPref.SaveData("first", "logged");
-		// Intent i = new Intent(getActivity(), ActivityHome.class);
-		// startActivity(i);
 
 		getProfileInformation();
-
-		// getProfileInformation();
 	}
 
 	@Override

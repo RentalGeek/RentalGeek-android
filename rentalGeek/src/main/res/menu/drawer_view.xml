@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/geek_score"
+            android:title="Geek ScoreTM" />
+        <item
+            android:id="@+id/my_lease"
+            android:title="My Lease" />
+        <item
+            android:id="@+id/favorites"
+            android:title="Favorites" />
+
+    </group>
+
+</menu>

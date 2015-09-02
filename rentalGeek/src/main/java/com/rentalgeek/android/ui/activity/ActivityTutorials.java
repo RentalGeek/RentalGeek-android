@@ -25,6 +25,7 @@ import com.linkedin.platform.listeners.ApiResponse;
 import com.linkedin.platform.listeners.AuthListener;
 import com.linkedin.platform.utils.Scope;
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.adapter.SwipeAdapter;
 import com.rentalgeek.android.ui.fragment.FragmentSignIn;
@@ -152,25 +153,24 @@ public class ActivityTutorials extends GeekBaseActivity {
 	}
 
 	private static Scope buildScope() {
-		return Scope.build(Scope.R_BASICPROFILE, Scope.W_SHARE,
-				Scope.R_EMAILADDRESS);
+		return Scope.build(Scope.R_BASICPROFILE, Scope.W_SHARE, Scope.R_EMAILADDRESS);
 	}
 
 	public static String getKeyHash(Context context, String packageName) {
 		try {
-			PackageInfo info = context.getPackageManager().getPackageInfo(
-					packageName, PackageManager.GET_SIGNATURES);
+			PackageInfo info = context.getPackageManager().getPackageInfo(packageName, PackageManager.GET_SIGNATURES);
 			for (Signature signature : info.signatures) {
 				MessageDigest md = MessageDigest.getInstance("SHA");
 				md.update(signature.toByteArray());
-				String keyHash = Base64.encodeToString(md.digest(),
-						Base64.DEFAULT);
+				String keyHash = Base64.encodeToString(md.digest(), Base64.DEFAULT);
 				System.out.println("key linked hash is " + keyHash);
 				return keyHash;
 			}
 		} catch (PackageManager.NameNotFoundException e) {
+			AppLogger.log(TAG, e);
 			return null;
 		} catch (NoSuchAlgorithmException e) {
+			AppLogger.log(TAG, e);
 			return null;
 		}
 		return null;
@@ -183,18 +183,16 @@ public class ActivityTutorials extends GeekBaseActivity {
 					public void onAuthSuccess() {
 						setUpdateState();
 
-						APIHelper apiHelper = APIHelper
-								.getInstance(getApplicationContext());
+						APIHelper apiHelper = APIHelper.getInstance(getApplicationContext());
 						apiHelper.getRequest(ActivityTutorials.this, topCardUrl,
 								new ApiListener() {
 									@Override
 									public void onApiSuccess(ApiResponse s) {
 
-										System.out.println("linked in response "
-												+ s.getResponseDataAsJson());
+										System.out.println("linked in response " + s.getResponseDataAsJson());
 
-										FragmentSignIn fragment = (FragmentSignIn) getSupportFragmentManager()
-												.findFragmentById(R.id.pager);
+										FragmentSignIn fragment = (FragmentSignIn) getSupportFragmentManager().findFragmentById(R.id.pager);
+
 										try {
 
 											appPref.SaveData(
@@ -229,15 +227,14 @@ public class ActivityTutorials extends GeekBaseActivity {
 															.getString(
 																	"emailAddress"));
 										} catch (JSONException e) {
-											// TODO Auto-generated catch block
-											e.printStackTrace();
+											AppLogger.log(TAG, e);
 										}
 
 									}
 
 									@Override
 									public void onApiError(LIApiError error) {
-
+                                        AppLogger.log(TAG, error);
 									}
 								});
 

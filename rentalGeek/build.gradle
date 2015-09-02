@@ -24,6 +24,7 @@ android {
         targetSdkVersion 21
         versionCode 1003
         versionName '1.0.0.3'
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -36,6 +37,7 @@ android {
 }
 
 dependencies {
+    compile 'com.android.support:multidex:1.0.1'
     compile project(':main')
     compile project(':library')
     compile project(':justifiedTextViewmaster')

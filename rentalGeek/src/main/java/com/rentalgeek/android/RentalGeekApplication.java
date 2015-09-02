@@ -23,6 +23,12 @@ public class RentalGeekApplication extends Application{
 
     public static final EventBus eventBus = new EventBus();
 
+	@Override
+	protected void attachBaseContext(Context base) {
+		super.attachBaseContext(base);
+		//MultiDex.install(this);
+	}
+
 	private static Thread.UncaughtExceptionHandler mDefaultUEH;
 	private static Thread.UncaughtExceptionHandler mCaughtExceptionHandler = new Thread.UncaughtExceptionHandler() {
 		@Override

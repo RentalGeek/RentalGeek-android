@@ -3,11 +3,10 @@ package com.rentalgeek.android.ui.activity;
 
 import android.os.Bundle;
 
-import com.luttu.fragmentutils.LuttuBaseActionbarActivity;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.ui.fragment.FragmentStarredProperties;
 
-public class ActivityFavoriteProperties extends LuttuBaseActionbarActivity {
+public class ActivityFavoriteProperties extends GeekBaseActionBarActivity {
 
     private static final String TAG = ActivityFavoriteProperties.class.getSimpleName();
 

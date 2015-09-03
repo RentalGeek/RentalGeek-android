@@ -16,8 +16,6 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
@@ -26,10 +24,12 @@ import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.CheckPayment;
-import com.rentalgeek.android.backend.ErrorArray;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.backend.PaymentBackend;
 import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityCreateProfile;
 import com.rentalgeek.android.ui.activity.ActivityGeekScore;
@@ -43,7 +43,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class FragmentPayment extends LuttuBaseAbstract implements Validator.ValidationListener {
+public class FragmentPayment extends GeekBaseFragment implements Validator.ValidationListener {
 
 	private static final String TAG = "FragmentPayment";
 
@@ -124,7 +124,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements Validator.Vali
 
 				if (actionId != EditorInfo.IME_ACTION_DONE)
 					return false;
-				hidekey();
+				//hidekey();
 				validator.validate();
 				return true;
 
@@ -136,11 +136,39 @@ public class FragmentPayment extends LuttuBaseAbstract implements Validator.Vali
 	private void CheckPaymentf() {
 
 		// asynkhttpGet(2, StaticClass.headlink + "/v2/transactions", true);
-		asynkhttpGet(3, ApiManager.getApplicants(appPref.getData("Uid")), AppPreferences.getAuthToken(),  true);
+		GlobalFunctions.getApiCall(getActivity(), ApiManager.getApplicants(appPref.getData("Uid")),
+				AppPreferences.getAuthToken(),
+				new GeekHttpResponseHandler() {
+
+					@Override
+					public void onBeforeStart() {
+
+					}
+
+					@Override
+					public void onFinish() {
+
+					}
+
+					@Override
+					public void onSuccess(String content) {
+						try {
+							PaymentCheckParseNew(content);
+						} catch (Exception e) {
+							AppLogger.log(TAG, e);
+						}
+					}
+
+					@Override
+					public void onAuthenticationFailed() {
+
+					}
+				});
+		//asynkhttpGet(3, ApiManager.getApplicants(appPref.getData("Uid")), AppPreferences.getAuthToken(),  true);
 
 	}
 
-	@Override
+/*	@Override
 	public void parseresult(String response, boolean success, int value) {
 
 		switch (value) {
@@ -156,7 +184,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements Validator.Vali
 		default:
 			break;
 		}
-	}
+	}*/
 
 	private void PaymentCheckParseNew(String response) {
 
@@ -165,7 +193,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements Validator.Vali
 			LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
 
 			if (detail.user.payment) {
-				toastsuccess("You have already paid");
+				toast("You have already paid");
 				appPref.SaveData("hasPay", "yes");
 				verify_card.setEnabled(false);
 			} else {
@@ -185,13 +213,13 @@ public class FragmentPayment extends LuttuBaseAbstract implements Validator.Vali
 		CheckPayment detail = (new Gson()).fromJson(response, CheckPayment.class);
 
 		if (detail.transactions.size() > 0) {
-			toastsuccess("You have already paid");
+			toast("You have already paid");
 			verify_card.setEnabled(false);
 		}
 
 	}
 
-	@SuppressWarnings("unchecked")
+/*	@SuppressWarnings("unchecked")
 	@Override
 	public void error(String response, int value) {
 
@@ -216,10 +244,7 @@ public class FragmentPayment extends LuttuBaseAbstract implements Validator.Vali
 				AppLogger.log(TAG, e);
 			}
 		}
-		
-		
-
-	}
+	}*/
 
 	private List getErroList(List<com.rentalgeek.android.backend.ErrorArray.Error> al) {
 
@@ -300,7 +325,6 @@ public class FragmentPayment extends LuttuBaseAbstract implements Validator.Vali
 
 	private void makePayment() {
 
-
 		String url = ApiManager.getTransactions();
 
 		RequestParams params = new RequestParams();
@@ -311,7 +335,35 @@ public class FragmentPayment extends LuttuBaseAbstract implements Validator.Vali
 		params.put("card[yyyy]", edYYYY.getSelectedItem().toString().trim());
 		params.put("card[user_id]", appPref.getData("Uid"));
 
-		asynkhttp(params, 1, url, AppPreferences.getAuthToken(), true);
+		GlobalFunctions.postApiCall(getActivity(), ApiManager.getApplicants(appPref.getData("Uid")),
+				params, AppPreferences.getAuthToken(),
+				new GeekHttpResponseHandler() {
+
+					@Override
+					public void onBeforeStart() {
+
+					}
+
+					@Override
+					public void onFinish() {
+
+					}
+
+					@Override
+					public void onSuccess(String content) {
+						try {
+							paymentParse(content);
+						} catch (Exception e) {
+							AppLogger.log(TAG, e);
+						}
+					}
+
+					@Override
+					public void onAuthenticationFailed() {
+
+					}
+				});
+		//asynkhttp(params, 1, url, AppPreferences.getAuthToken(), true);
 	}
 
 	@OnClick(R.id.verify_card)

@@ -10,25 +10,16 @@ import android.view.Window;
 import android.webkit.WebView;
 import android.widget.TextView;
 
-import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.utils.ConnectionDetector;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class FragmentLegalJargonMore extends LuttuBaseAbstract {
+public class FragmentLegalJargonMore extends GeekBaseFragment {
 
-	/**
-	 * @author george
-	 * 
-	 * @purpose This page shows the user more about the terms and condition the
-	 *          user has to comply to use this application
-	 */
 	@InjectView(R.id.more_terms)
 	WebView wv;
-	ConnectionDetector con;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,14 +29,7 @@ public class FragmentLegalJargonMore extends LuttuBaseAbstract {
 		View v = inflater.inflate(R.layout.fragment_legal_jargon_more, container, false);
 		ButterKnife.inject(this, v);
 		wv.loadUrl("file:///android_asset/termstwo.html");
-		con = new ConnectionDetector(getActivity());
 		return v;
-	}
-
-	@Override
-	public void parseresult(String response, boolean success, int value) {
-
-
 	}
 
 	@Override
@@ -55,23 +39,9 @@ public class FragmentLegalJargonMore extends LuttuBaseAbstract {
 		ButterKnife.reset(this);
 	}
 
-	@Override
-	public void error(String response, int value) {
-
-
-	}
-
 	@OnClick(R.id.agree)
 	public void agree() {
-
-		if (con.isConnectingToInternet()) {
-			nextfragment(new FragmentPayment(), false, R.id.container);
-		}
-		else
-		{
-			toast("Please check you internet connection");
-		}
-
+        nextfragment(new FragmentPayment(), false, R.id.container);
 	}
 
 	@OnClick(R.id.infoclick2)

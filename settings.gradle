@@ -1,6 +1,6 @@
-include ':facebookSDK'
+//include ':facebook'
 include ':justifiedTextViewmaster'
-include ':luttuLibrary'
+//include ':luttuLibrary'
 include ':datetimepickerlibrary'
 include ':library'
 include ':main'

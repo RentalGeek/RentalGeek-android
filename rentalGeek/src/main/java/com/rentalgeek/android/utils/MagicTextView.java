@@ -1,10 +1,5 @@
 package com.rentalgeek.android.utils;
 
-import java.util.ArrayList;
-import java.util.WeakHashMap;
-
-import com.rentalgeek.android.R;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -24,10 +19,14 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.TextView;
+
+import com.rentalgeek.android.R;
+
+import java.util.ArrayList;
+import java.util.WeakHashMap;
 
 
 /**

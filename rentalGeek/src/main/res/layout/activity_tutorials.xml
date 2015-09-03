@@ -19,20 +19,20 @@
         android:background="@drawable/trans"
         android:padding="10dip" />
 
-    <FrameLayout
-        android:id="@+id/containertut"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true"
-        android:visibility="gone" >
+    <!--<FrameLayout-->
+        <!--android:id="@+id/containertut"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:clickable="true"-->
+        <!--android:visibility="gone" >-->
 
-        <com.luttu.utils.ProgressWheel
-            android:id="@+id/progress_wheel"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center"
-            wheel:barColor="#5588FF"
-            wheel:progressIndeterminate="true" />
-    </FrameLayout>
+        <!--<com.luttu.utils.ProgressWheel-->
+            <!--android:id="@+id/progress_wheel"-->
+            <!--android:layout_width="80dp"-->
+            <!--android:layout_height="80dp"-->
+            <!--android:layout_gravity="center"-->
+            <!--wheel:barColor="#5588FF"-->
+            <!--wheel:progressIndeterminate="true" />-->
+    <!--</FrameLayout>-->
 
 </FrameLayout>

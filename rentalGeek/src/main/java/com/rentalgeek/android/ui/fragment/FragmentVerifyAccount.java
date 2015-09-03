@@ -16,40 +16,36 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-import com.facebook.Session;
 import com.google.gson.Gson;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.Validator.ValidationListener;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
-import com.rentalgeek.android.backend.ErrorApi;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.backend.LoginBackend.user;
+import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.ui.AppPrefes;
+import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class FragmentVerifyAccount extends LuttuBaseAbstract implements ValidationListener{
-   
-	/**
-	 * @author george
-	 * 
-	 * @purpose This class verify the user who is going to pay is acutally the orginal user 
-	 */
-	
-	
-	
-	 @Required(order=1,message="Please enter password")
-	@InjectView(R.id.verify_account)
-	EditText verify_password;
+public class FragmentVerifyAccount extends GeekBaseFragment implements ValidationListener{
+
+    private static final String TAG = "FragmentVerifyAccount";
+
+
+    @Required(order=1,message="Please enter password")
+    @InjectView(R.id.verify_account)
+    EditText verify_password;
 	 
 	 private Validator validator;
 	 AppPrefes appPref;
@@ -119,14 +115,14 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 
 		
 		verify_password.setOnEditorActionListener(new OnEditorActionListener() {
-			
+
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
-				
-				if (actionId  != EditorInfo.IME_ACTION_DONE)
+
+				if (actionId != EditorInfo.IME_ACTION_DONE)
 					return false;
-				hidekey();
+				//hidekey();
 				validator.validate();
 				return true;
 			}
@@ -141,11 +137,9 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 		ButterKnife.reset(this);
 	}
 
-	@Override
+/*	@Override
 	public void parseresult(String response, boolean success, int value) {
 
-
-		
 		switch (value) {
 		case 1:
 			NormalLogin(response);
@@ -162,7 +156,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 		default:
 			break;
 		}
-	}
+	}*/
 
 	private void LinkedParse(String response) {
 
@@ -180,7 +174,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 		nextfragment(new FragmentPayment(), false, R.id.container);
 	}
 
-	@Override
+/*	@Override
 	public void error(String response, int value) {
 
 		
@@ -189,10 +183,10 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 		
 		if(!detail.success)
 		{
-			toast(detail.message);
+			DialogManager.showCrouton(getActivity(), detail.message);
 		}
 
-	}
+	}*/
 
 	@Override
 	public void onValidationFailed(View failedView, Rule<?> failedRule) {
@@ -210,19 +204,44 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 
 	@Override
 	public void onValidationSucceeded() {
-
-		
 		callNormalLogin();
-		
 	}
 	
 	private void callNormalLogin() {
 
-		
 		RequestParams params = new RequestParams();
 		params.put("user[email]", appPref.getData("email"));
 		params.put("user[password]", verify_password.getText().toString().trim());
-		asynkhttp(params, 1, ApiManager.getSignin(), AppPreferences.getAuthToken(), true);
+
+        GlobalFunctions.postApiCall(getActivity(), ApiManager.getSignin(),
+                params, AppPreferences.getAuthToken(),
+                new GeekHttpResponseHandler() {
+
+                    @Override
+                    public void onBeforeStart() {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String content) {
+                        try {
+                            NormalLogin(content);
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
+                        }
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed() {
+
+                    }
+                });
+        //asynkhttp(params, 1, ApiManager.getSignin(), AppPreferences.getAuthToken(), true);
 		
 	}
 
@@ -240,8 +259,8 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 			LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
 
 			user appin = detail.user;
-			log("my id is " + appin.id);
-			log("my id is " + detail.user.id);
+//			log("my id is " + appin.id);
+//			log("my id is " + detail.user.id);
 
 			String appid = String.valueOf(detail.user.id);
 			System.out.println("my id is " + appid);
@@ -254,7 +273,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 			 
 			 
 		} catch (Exception e) {
-			// TODO: handle exception
+            AppLogger.log(TAG, e);
 		}
 	}
 	
@@ -266,8 +285,37 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 		params.put("provider[uid]", appPref.getData("socialid_fb"));
 		params.put("provider[provider]", "Facebook");
 		params.put("provider[email]", appPref.getData("socialemail_fb"));
-		params.put("provider[name]",  appPref.getData("socialname_fb"));
-		asynkhttp(params, 2, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
+		params.put("provider[name]", appPref.getData("socialname_fb"));
+
+        GlobalFunctions.postApiCall(getActivity(), ApiManager.getAddProvider(""),
+                params, AppPreferences.getAuthToken(),
+                new GeekHttpResponseHandler() {
+
+                    @Override
+                    public void onBeforeStart() {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String content) {
+                        try {
+                            FacebookParse(content);
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
+                        }
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed() {
+
+                    }
+                });
+		//asynkhttp(params, 2, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
 
 	}
 	
@@ -279,7 +327,36 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 		params.put("provider[provider]", "Google+");
 		params.put("provider[email]", appPref.getData("socialemail_goog"));
 		params.put("provider[name]", appPref.getData("socialname_goog"));
-		asynkhttp(params, 3, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
+
+        GlobalFunctions.postApiCall(getActivity(), ApiManager.getAddProvider(""),
+                params, AppPreferences.getAuthToken(),
+                new GeekHttpResponseHandler() {
+
+                    @Override
+                    public void onBeforeStart() {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String content) {
+                        try {
+                            GoogleParse(content);
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
+                        }
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed() {
+
+                    }
+                });
+        //asynkhttp(params, 3, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
 
 	}
 	
@@ -291,7 +368,36 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 		params.put("provider[provider]", "LinkedIn+");
 		params.put("provider[email]", appPref.getData("socialemail_link"));
 		params.put("provider[name]",  appPref.getData("socialname_link"));
-		asynkhttp(params, 4, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
+
+        GlobalFunctions.postApiCall(getActivity(), ApiManager.getAddProvider(""),
+                params, AppPreferences.getAuthToken(),
+                new GeekHttpResponseHandler() {
+
+                    @Override
+                    public void onBeforeStart() {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String content) {
+                        try {
+                            LinkedParse(content);
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
+                        }
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed() {
+
+                    }
+                });
+        //asynkhttp(params, 4, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
 
 	}
 
@@ -304,13 +410,16 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 		}
 		else
 		{
-			
-			toast("Session out, please login to continue");
+			DialogManager.showCrouton(getActivity(), "Session out, please login to continue");
+
 			PersistentCookieStore mCookieStore=new PersistentCookieStore(getActivity());
 			mCookieStore.clear();
-			Session session = Session.getActiveSession();
-			if(session!=null)
-			session.closeAndClearTokenInformation();
+
+			//TODO: implement this in new facebook lib
+//			Session session = Session.getActiveSession();
+//			if(session!=null)
+//			session.closeAndClearTokenInformation();
+
 			appPref.deleteAll();
 			appPref.SaveData("first", "");
 			getActivity().finish();
@@ -319,8 +428,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			//intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intent);
-			getActivity().overridePendingTransition(
-					R.anim.three_, R.anim.four_);
+			getActivity().overridePendingTransition(R.anim.three_, R.anim.four_);
 		}
 		
 	}
@@ -334,23 +442,25 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 		}
 		else
 		{
-			
-			toast("Session out, please login to continue");
+            DialogManager.showCrouton(getActivity(), "Session out, please login to continue");
+
 			PersistentCookieStore mCookieStore=new PersistentCookieStore(getActivity());
 			mCookieStore.clear();
-			Session session = Session.getActiveSession();
-			if(session!=null)
-			session.closeAndClearTokenInformation();
+
+//			Session session = Session.getActiveSession();
+//			if(session!=null)
+//			session.closeAndClearTokenInformation();
+
 			appPref.deleteAll();
 			appPref.SaveData("first", "");
+
 			getActivity().finish();
 			Intent intent = new Intent(getActivity(),FragmentSignIn.class);
 			intent.addCategory(Intent.CATEGORY_HOME);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			//intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intent);
-			getActivity().overridePendingTransition(
-					R.anim.three_, R.anim.four_);
+			getActivity().overridePendingTransition(R.anim.three_, R.anim.four_);
 		}
 	}
 	
@@ -364,8 +474,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 		}
 		else
 		{
-			
-			toast("");
+	//		toast("");
 //			PersistentCookieStore mCookieStore=new PersistentCookieStore(getActivity());
 //			mCookieStore.clear();
 //			Session session = Session.getActiveSession();
@@ -400,10 +509,7 @@ public class FragmentVerifyAccount extends LuttuBaseAbstract implements Validati
 			@Override
 			public void onClick(View v) {
 
-				
 				dialog.dismiss();
-				 
-				
 			}
 		});
 

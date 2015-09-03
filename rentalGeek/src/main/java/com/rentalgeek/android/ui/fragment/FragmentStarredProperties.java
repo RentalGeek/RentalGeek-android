@@ -18,13 +18,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.StarredBacked;
 import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.pojos.StarredListPojo;
+import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ConnectionDetector;
 import com.rentalgeek.android.utils.ListUtils;
@@ -38,7 +39,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class FragmentStarredProperties extends LuttuBaseAbstract {
+public class FragmentStarredProperties extends GeekBaseFragment {
 
 	private static final String TAG = FragmentStarredProperties.class.getSimpleName();
 
@@ -79,11 +80,39 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 
 	private void fetchFromServer() {
 
-		asynkhttpGet(2, ApiManager.getPropertySearchUrl("starred=true"), AppPreferences.getAuthToken(), true);
+		GlobalFunctions.getApiCall(getActivity(), ApiManager.getPropertySearchUrl("starred=true"),
+				AppPreferences.getAuthToken(),
+				new GeekHttpResponseHandler() {
+
+					@Override
+					public void onBeforeStart() {
+
+					}
+
+					@Override
+					public void onFinish() {
+
+					}
+
+					@Override
+					public void onSuccess(String content) {
+						try {
+							loadList(content);
+						} catch (Exception e) {
+							AppLogger.log(TAG, e);
+						}
+					}
+
+					@Override
+					public void onAuthenticationFailed() {
+
+					}
+				});
+		//asynkhttpGet(2, ApiManager.getPropertySearchUrl("starred=true"), AppPreferences.getAuthToken(), true);
 
 	}
 
-	@Override
+/*	@Override
 	public void parseresult(String response, boolean success, int value) {
 
 		switch (value) {
@@ -96,7 +125,7 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 			break;
 		}
 
-	}
+	}*/
 
 	private void loadList(String response) {
 		try {
@@ -153,17 +182,9 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 	}
 
 	private void removeStar(String response) {
-
-
 		toast("Property removed");
-
 	}
 
-	@Override
-	public void error(String response, int value) {
-
-
-	}
 
 	@Override
 	public void onDestroyView() {
@@ -252,6 +273,7 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 
 					innerlist.setArguments(args);
 					appPref.SaveIntData("click_pos", position);
+
 					addfragment(innerlist, true, R.id.container);
 
 				}
@@ -278,7 +300,35 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 	}
 
 	private void RemoveStar(String id) {
-		asynkhttpDelete(1, ApiManager.getStarredPrpoertiesUrl(id), AppPreferences.getAuthToken(), true);
+		GlobalFunctions.deleteApiCall(activity, ApiManager.getStarredPrpoertiesUrl(id),
+				AppPreferences.getAuthToken(),
+				new GeekHttpResponseHandler() {
+
+					@Override
+					public void onBeforeStart() {
+
+					}
+
+					@Override
+					public void onFinish() {
+
+					}
+
+					@Override
+					public void onSuccess(String content) {
+						try {
+							removeStar(content);
+						} catch (Exception e) {
+							AppLogger.log(TAG, e);
+						}
+					}
+
+					@Override
+					public void onAuthenticationFailed() {
+
+					}
+				});
+		//asynkhttpDelete(1, ApiManager.getStarredPrpoertiesUrl(id), AppPreferences.getAuthToken(), true);
 	}
 
 	// Broadcast that refreshes the list view
@@ -298,8 +348,7 @@ public class FragmentStarredProperties extends LuttuBaseAbstract {
 
 				}
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				AppLogger.log(TAG, e);
 			}
 
 		}

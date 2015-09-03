@@ -1,6 +1,5 @@
 package com.rentalgeek.android.ui.activity;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -11,7 +10,6 @@ import android.view.Window;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -19,12 +17,6 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.nettoast.Crouton;
-import com.luttu.nettoast.Style;
-import com.luttu.utils.GetSSl;
-import com.luttu.utils.GlobalFunctions;
-import com.luttu.utils.GlobalFunctions.HttpResponseHandler;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.Validator.ValidationListener;
@@ -38,6 +30,10 @@ import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.RegistrationBackend;
 import com.rentalgeek.android.backend.RegistrationBackend.Applicant;
 import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.ui.AppPrefes;
+import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ConnectionDetector;
 import com.rentalgeek.android.utils.ListUtils;
@@ -47,7 +43,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class ActivityRegistration extends Activity implements ValidationListener {
+public class ActivityRegistration extends GeekBaseActivity implements ValidationListener {
 
 	private static final String TAG = "ActivityRegistration";
 
@@ -55,14 +51,14 @@ public class ActivityRegistration extends Activity implements ValidationListener
 	@Email(order = 2, message = "Please enter valid email")
 	@InjectView(R.id.email_add_regis)
 	EditText email_add_regis;
-	
+
 	private YoYo.YoYoString animation_obj;
 
 //	@InjectView(R.id.terms)
 //	CheckBox terms;
- 
-	@InjectView(R.id.containerregis)
-	FrameLayout prog;
+
+//	@InjectView(R.id.containerregis)
+//	FrameLayout prog;
 
 	@InjectView(R.id.terms_text)
 	TextView terms_text;
@@ -95,8 +91,7 @@ public class ActivityRegistration extends Activity implements ValidationListener
 		setContentView(R.layout.activity_registration);
 		ButterKnife.inject(this);
 		terms_text.setSingleLine(false);
-		terms_text.setText(Html
-                .fromHtml("By creating a RentalGeek account,\n you agree to our <u>Terms & Conditions</u>"));
+		terms_text.setText(Html.fromHtml("By creating a RentalGeek account,\n you agree to our <u>Terms & Conditions</u>"));
 		validator = new Validator(this);
 		validator.setValidationListener(this);
 		load = new Loading(ActivityRegistration.this);
@@ -113,28 +108,37 @@ public class ActivityRegistration extends Activity implements ValidationListener
 	private void callRegisterApi(String a, String b, String c) {
 
 
-		prog.setVisibility(View.VISIBLE);
+		//prog.setVisibility(View.VISIBLE);
 		System.out.println("params " + a + " " + b + " " + c);
 
 		AsyncHttpClient client = new AsyncHttpClient();
-		new GetSSl().getssl(client);
+		//new GetSSl().getssl(client);
 		RequestParams params = new RequestParams();
 		params.put("user[email]", a);
 		params.put("user[password]", b);
 		params.put("user[confirm_password]", c);
 
 		GlobalFunctions.postApiCall(this, ApiManager.regis_link, params, AppPreferences.getAuthToken(),
-				client, new HttpResponseHandler() {
+				new GeekHttpResponseHandler() {
 
 					@Override
-					public void handle(String response, boolean failre) {
+					public void onBeforeStart() {
+						showProgressDialog(R.string.dialog_msg_loading);
+					}
 
+					@Override
+					public void onFinish() {
+						hideProgressDialog();
+					}
+
+					@Override
+					public void onSuccess(String content) {
 						RegistrationBackend detail = null;
 						try {
-							detail = (new Gson()).fromJson(response.toString(), RegistrationBackend.class);
+							detail = (new Gson()).fromJson(content.toString(), RegistrationBackend.class);
 
-							prog.setVisibility(View.INVISIBLE);
-							System.out.println("the registration response " + response);
+							//prog.setVisibility(View.INVISIBLE);
+							System.out.println("the registration response " + content);
 
 							if (detail.user != null) {
 								Applicant app = detail.user;
@@ -155,8 +159,8 @@ public class ActivityRegistration extends Activity implements ValidationListener
 									}
 								}.start();
 							} else if (detail.errors != null && !ListUtils.isNullOrEmpty(detail.errors.email)) {
-                                toast(detail.errors.email.get(0).toString());
-                            }
+								toast(detail.errors.email.get(0).toString());
+							}
 
 						} catch (Exception e) {
 							AppLogger.log(TAG, e);
@@ -165,7 +169,6 @@ public class ActivityRegistration extends Activity implements ValidationListener
 							else
 								toast("No Connection");
 						}
-
 					}
 
 					@Override
@@ -173,6 +176,7 @@ public class ActivityRegistration extends Activity implements ValidationListener
 
 					}
 				});
+
 
 	}
 
@@ -219,9 +223,10 @@ public class ActivityRegistration extends Activity implements ValidationListener
 	}
 
 	public void toast(String message) {
-		Crouton crouton = Crouton.makeText(ActivityRegistration.this, message,
-				Style.CONFIRM);
-		crouton.show();
+		DialogManager.showCrouton(this, message);
+//		Crouton crouton = Crouton.makeText(ActivityRegistration.this, message,
+//				Style.CONFIRM);
+//		crouton.show();
 	}
 
 	@OnClick(R.id.terms_text)

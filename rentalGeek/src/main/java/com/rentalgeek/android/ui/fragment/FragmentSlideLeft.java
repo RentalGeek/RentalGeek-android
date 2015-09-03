@@ -17,16 +17,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.activeandroid.query.Delete;
-import com.facebook.Session;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.database.ProfileTable;
 import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.geekvision.GeekVision;
+import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.activity.ActivityTutorials;
 import com.rentalgeek.android.ui.preference.AppPreferences;
@@ -36,17 +37,12 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-/**
- * 
- * @author George
- * 
- * @purpose Left Slide Menu
- *
- */
 
-public class FragmentSlideLeft extends LuttuBaseAbstract {
- 
-	@InjectView(R.id.slidelist)
+public class FragmentSlideLeft extends GeekBaseFragment {
+
+    private static final String TAG = "FragmentSlideLeft";
+
+    @InjectView(R.id.slidelist)
 	ListView list;
 
 	AppPrefes appPref;
@@ -115,17 +111,6 @@ public class FragmentSlideLeft extends LuttuBaseAbstract {
 		return v;
 	}
 
-	@Override
-	public void parseresult(String response, boolean success, int value) {
-
-
-	}
-
-	@Override
-	public void error(String response, int value) {
-
-
-	}
 
 	@Override
 	public void onDestroyView() {
@@ -193,9 +178,10 @@ public class FragmentSlideLeft extends LuttuBaseAbstract {
 		new Delete().from(PropertyTable.class).execute();
 		PersistentCookieStore mCookieStore = new PersistentCookieStore(getActivity());
 		mCookieStore.clear();
-		Session session = Session.getActiveSession();
-		if (session != null)
-			session.closeAndClearTokenInformation();
+		//TODO: need to implements this in newer fb lib?
+//		Session session = Session.getActiveSession();
+//		if (session != null)
+//			session.closeAndClearTokenInformation();
 		appPref.deleteAll();
 		appPref.SaveData("first", "");
 		getActivity().finish();
@@ -215,7 +201,36 @@ public class FragmentSlideLeft extends LuttuBaseAbstract {
 		params.put("user[id]", appPref.getData("Uid"));
 		// params.put("user[email]", a);
 		// params.put("user[password]", b);
-		asynkhttp(params, 1, ApiManager.getSignOut(), AppPreferences.getAuthToken(), true);
+
+        GlobalFunctions.postApiCall(getActivity(), ApiManager.getSignOut(), params,
+                AppPreferences.getAuthToken(),
+                new GeekHttpResponseHandler() {
+
+                    @Override
+                    public void onBeforeStart() {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String content) {
+                        try {
+
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
+                        }
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed() {
+
+                    }
+                });
+        //asynkhttp(params, 1, ApiManager.getSignOut(), AppPreferences.getAuthToken(), true);
 
 	}
 

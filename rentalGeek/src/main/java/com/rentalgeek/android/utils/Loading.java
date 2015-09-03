@@ -1,15 +1,14 @@
 package com.rentalgeek.android.utils;
 
 
-
-import com.rentalgeek.android.R;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+
+import com.rentalgeek.android.R;
 
 /**
  * 

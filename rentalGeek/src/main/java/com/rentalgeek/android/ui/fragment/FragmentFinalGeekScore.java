@@ -11,21 +11,21 @@ import android.view.Window;
 import android.webkit.WebView;
 import android.widget.TextView;
 
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class FragmentFinalGeekScore extends LuttuBaseAbstract{
+public class FragmentFinalGeekScore extends GeekBaseFragment{
 
 	private static final String TAG = "FragmentFinalGeekScore";
 	
 	AppPrefes appPref;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -36,18 +36,7 @@ public class FragmentFinalGeekScore extends LuttuBaseAbstract{
 		
 		return v;
 	}
-	
-	@Override
-	public void parseresult(String response, boolean success, int value) {
 
-		
-	}
-
-	@Override
-	public void error(String response, int value) {
-
-		
-	}
 	
 	@OnClick(R.id.click_rent)
 	public void ClickFinal()

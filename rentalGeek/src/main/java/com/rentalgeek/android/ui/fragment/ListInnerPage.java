@@ -20,8 +20,6 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.AddStarBack;
@@ -30,9 +28,12 @@ import com.rentalgeek.android.backend.ApplyBackend;
 import com.rentalgeek.android.backend.ApplyError;
 import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.ui.AppPrefes;
+import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.dialog.MoreAmenitiesDialog;
 import com.rentalgeek.android.ui.preference.AppPreferences;
-import com.rentalgeek.android.utils.ConnectionDetector;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ import butterknife.OnClick;
 import ir.noghteh.JustifiedTextView;
 
 
-public class ListInnerPage extends LuttuBaseAbstract {
+public class ListInnerPage extends GeekBaseFragment {
 
 	private static final String TAG = "ListInnerPage";
 
@@ -98,7 +99,6 @@ public class ListInnerPage extends LuttuBaseAbstract {
 	ArrayList<String> street_name;
     ArrayList<String> amenities = new ArrayList<String>();
 
-    ConnectionDetector con;
     PropertyTable prop;
     AppPrefes appPref;
 
@@ -112,7 +112,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 		View v = inflater.inflate(R.layout.listview_inner, container, false);
 		ButterKnife.inject(this, v);
 		appPref = new AppPrefes(getActivity(), "rentalgeek");
-		con = new ConnectionDetector(getActivity());
+
 		// fiilliste = new int[] { R.drawable.tennessee, R.drawable.kentucky,
 		// R.drawable.congressional, R.drawable.gateway,
 		// R.drawable.janadrive, R.drawable.kentucky,
@@ -169,7 +169,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 
 	}
 
-	@Override
+/*	@Override
 	public void parseresult(String response, boolean success, int value) {
 
 		switch (value) {
@@ -187,7 +187,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 			break;
 		}
 
-	}
+	}*/
 
 	private void ApplyParse(String response) {
 
@@ -199,10 +199,10 @@ public class ListInnerPage extends LuttuBaseAbstract {
 		if (detail.apply == null) {
 
 			if (detail.messsage != null)
-				toastsuccess("already applied to the property");
+				DialogManager.showCrouton(activity, "Already applied to the property");
 
 		} else {
-			toastsuccess("successfully applied to the property");
+			DialogManager.showCrouton(activity, "Successfully applied to the property");
 		}
 
 	}
@@ -234,7 +234,8 @@ public class ListInnerPage extends LuttuBaseAbstract {
 		StarredProperty session;
 		session = detail.starred_property;
 
-		toast("Property added to favorites");
+		DialogManager.showCrouton(activity, "Property added to favorites");
+
 		like_tag.setText("Like");
 		Picasso.with(getActivity()).load(R.drawable.star_select).into(star_img);
 		Picasso.with(getActivity()).load(R.drawable.like).into(like);
@@ -250,7 +251,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 
 	}
 
-	@Override
+/*	@Override
 	public void error(String response, int value) {
 
 		System.out.println("error apply " + value + " res " + response);
@@ -263,7 +264,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 		default:
 			break;
 		}
-	}
+	}*/
 
 	private void ErrorApply(String response) {
 
@@ -279,7 +280,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 				messagePayment(getActivity().getResources().getString(R.string.geek_go));
 
 			} else {
-				toast(detail.message);
+				DialogManager.showCrouton(activity, detail.message);
 			}
 		}
 
@@ -292,7 +293,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 				AddStarBack.class);
 
 		if (detail.getErrors() != null) {
-			toast("Property already added");
+            DialogManager.showCrouton(activity, "Property already added");
 		}
 	}
 
@@ -307,36 +308,86 @@ public class ListInnerPage extends LuttuBaseAbstract {
 	public void Like() {
 
 		try {
-			if (con.isConnectingToInternet()) {
+            animation_obj = YoYo.with(Techniques.Flash).duration(1000).playOn(like);
 
-				animation_obj = YoYo.with(Techniques.Flash).duration(1000).playOn(like);
+            if (prop.starred) {
 
-				if (prop.starred) {
+                System.out.println("inside starred click");
+                if (prop.starred_property_id != null) {
+					GlobalFunctions.deleteApiCall(getActivity(), ApiManager.getStarredPrpoertiesUrl(prop.starred_property_id),
+							AppPreferences.getAuthToken(),
+							new GeekHttpResponseHandler() {
 
-					System.out.println("inside starred click");
-					if (prop.starred_property_id != null) {
-						asynkhttpDelete(2, ApiManager.getStarredPrpoertiesUrl(prop.starred_property_id), AppPreferences.getAuthToken(), true);
-					}
-				} else {
+								@Override
+								public void onBeforeStart() {
 
-					System.out.println("inside un starred click");
-					RequestParams params = new RequestParams();
+								}
 
-					System.out.println("prop id is " + prop.uid + " user id is " + appPref.getData("Uid"));
-					String Uid = appPref.getData("Uid");
-					String suid = "" + prop.uid;
-					System.out.println("Uid" + Uid);
-					System.out.println("Uid" + suid);
-					params.put("starred_property[user_id]", Uid);
-					params.put("starred_property[rental_offering_id]", suid);
+								@Override
+								public void onFinish() {
 
-					asynkhttp(params, 1, ApiManager.getStarredPrpoertiesUrl(""), AppPreferences.getAuthToken(), true);
+								}
 
-				}
+								@Override
+								public void onSuccess(String content) {
+									try {
+										removeStar(content);
+									} catch (Exception e) {
+										AppLogger.log(TAG, e);
+									}
+								}
 
-			} else {
-				toast("No Connection");
-			}
+								@Override
+								public void onAuthenticationFailed() {
+
+								}
+							});
+					//asynkhttpDelete(2, ApiManager.getStarredPrpoertiesUrl(prop.starred_property_id), AppPreferences.getAuthToken(), true);
+                }
+            } else {
+
+                System.out.println("inside un starred click");
+                RequestParams params = new RequestParams();
+
+                System.out.println("prop id is " + prop.uid + " user id is " + appPref.getData("Uid"));
+                String Uid = appPref.getData("Uid");
+                String suid = "" + prop.uid;
+                System.out.println("Uid" + Uid);
+                System.out.println("Uid" + suid);
+                params.put("starred_property[user_id]", Uid);
+                params.put("starred_property[rental_offering_id]", suid);
+
+				GlobalFunctions.postApiCall(getActivity(), ApiManager.getStarredPrpoertiesUrl(""), params,
+						AppPreferences.getAuthToken(),
+						new GeekHttpResponseHandler() {
+
+							@Override
+							public void onBeforeStart() {
+
+							}
+
+							@Override
+							public void onFinish() {
+
+							}
+
+							@Override
+							public void onSuccess(String content) {
+								try {
+
+								} catch (Exception e) {
+									AppLogger.log(TAG, e);
+								}
+							}
+
+							@Override
+							public void onAuthenticationFailed() {
+
+							}
+						});
+				//asynkhttp(params, 1, ApiManager.getStarredPrpoertiesUrl(""), AppPreferences.getAuthToken(), true);
+
+            }
 		} catch (Exception e) {
 			AppLogger.log(TAG, e);
 		}
@@ -345,22 +396,45 @@ public class ListInnerPage extends LuttuBaseAbstract {
 
 	@OnClick(R.id.apply)
 	public void Apply() {
+        // show animation
+        animation_obj = YoYo.with(Techniques.Flash).duration(1000).playOn(apply);
 
-		if (con.isConnectingToInternet()) {
-			// show animation
-			animation_obj = YoYo.with(Techniques.Flash).duration(1000).playOn(apply);
+        RequestParams params = new RequestParams();
+        params.put("apply[applicable_id]", appPref.getData("Uid"));
+        params.put("apply[rental_offering_id]", String.valueOf(prop.uid));
+        params.put("apply[applicable_type]", "Applicant");
 
-			RequestParams params = new RequestParams();
-			params.put("apply[applicable_id]", appPref.getData("Uid"));
-			params.put("apply[rental_offering_id]", String.valueOf(prop.uid));
-			params.put("apply[applicable_type]", "Applicant");
+        System.out.println("prop id is " + prop.uid + " user id is " + appPref.getData("Uid"));
 
-			System.out.println("prop id is " + prop.uid + " user id is " + appPref.getData("Uid"));
+		GlobalFunctions.postApiCall(getActivity(), ApiManager.getApplyUrl(), params,
+				AppPreferences.getAuthToken(),
+				new GeekHttpResponseHandler() {
 
-			asynkhttp(params, 3, ApiManager.getApplyUrl(), AppPreferences.getAuthToken(), true);
-		} else {
-			toast("No Connection");
-		}
+					@Override
+					public void onBeforeStart() {
+
+					}
+
+					@Override
+					public void onFinish() {
+
+					}
+
+					@Override
+					public void onSuccess(String content) {
+						try {
+
+						} catch (Exception e) {
+							AppLogger.log(TAG, e);
+						}
+					}
+
+					@Override
+					public void onAuthenticationFailed() {
+
+					}
+				});
+		//asynkhttp(params, 3, ApiManager.getApplyUrl(), AppPreferences.getAuthToken(), true);
 
 	}
 
@@ -584,8 +658,7 @@ public class ListInnerPage extends LuttuBaseAbstract {
 						public void onClick(DialogInterface dialog, int id) {
 
 							dialog.cancel();
-							nextfragment(new FragmentGeekScoreMain(), false,
-									R.id.container);
+							nextfragment(new FragmentGeekScoreMain(), false, R.id.container);
 						}
 					});
 

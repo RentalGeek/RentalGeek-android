@@ -13,12 +13,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityCreateProfile;
 import com.rentalgeek.android.ui.preference.AppPreferences;
@@ -28,7 +29,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class FragmentGeekScoreMain extends LuttuBaseAbstract {
+public class FragmentGeekScoreMain extends GeekBaseFragment {
 
 	private static final String TAG = "FragmentGeekScoreMain";
 
@@ -67,7 +68,35 @@ public class FragmentGeekScoreMain extends LuttuBaseAbstract {
 	}
 
 	private void CheckPaymentf() {
-		asynkhttpGet( 3, ApiManager.getApplicants(appPref.getData("Uid")), AppPreferences.getAuthToken(), true);
+		GlobalFunctions.getApiCall(getActivity(), ApiManager.getPropertySearchUrl("starred=true"),
+				AppPreferences.getAuthToken(),
+				new GeekHttpResponseHandler() {
+
+					@Override
+					public void onBeforeStart() {
+
+					}
+
+					@Override
+					public void onFinish() {
+
+					}
+
+					@Override
+					public void onSuccess(String content) {
+						try {
+							PaymentCheckParseNew(content);
+						} catch (Exception e) {
+							AppLogger.log(TAG, e);
+						}
+					}
+
+					@Override
+					public void onAuthenticationFailed() {
+
+					}
+				});
+		//asynkhttpGet( 3, ApiManager.getApplicants(appPref.getData("Uid")), AppPreferences.getAuthToken(), true);
 	}
 
 	@Override
@@ -76,7 +105,7 @@ public class FragmentGeekScoreMain extends LuttuBaseAbstract {
 		ButterKnife.reset(this);
 	}
 
-	@Override
+/*	@Override
 	public void parseresult(String response, boolean success, int value) {
 		switch (value) {
 		case 3:
@@ -85,7 +114,7 @@ public class FragmentGeekScoreMain extends LuttuBaseAbstract {
 		default:
 			break;
 		}
-	}
+	}*/
 
 	private void PaymentCheckParseNew(String response) {
 
@@ -94,7 +123,7 @@ public class FragmentGeekScoreMain extends LuttuBaseAbstract {
 			LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
 
 			if (detail.user.payment) {
-				toastsuccess("Payment status: Complete");
+				toast("Payment status: Complete");
 				getStarted.setEnabled(false);
 				ddt.setVisibility(View.INVISIBLE);
 				get_started_paid_already.setVisibility(View.VISIBLE);
@@ -111,11 +140,11 @@ public class FragmentGeekScoreMain extends LuttuBaseAbstract {
 
 	}
 
-	@Override
-	public void error(String response, int value) {
-
-
-	}
+//	@Override
+//	public void error(String response, int value) {
+//
+//
+//	}
 
 	@OnClick(R.id.get_started)
 	public void getStarted() {

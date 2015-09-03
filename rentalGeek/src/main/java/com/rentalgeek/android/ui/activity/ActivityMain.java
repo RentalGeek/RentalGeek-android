@@ -11,15 +11,14 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.activeandroid.query.Delete;
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.LuttuBaseFragmentActivity;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.database.PropertyTable;
+import com.rentalgeek.android.ui.AppPrefes;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class ActivityMain extends LuttuBaseFragmentActivity {
+public class ActivityMain extends GeekBaseActivity {
 
 	AppPrefes appPref;
 

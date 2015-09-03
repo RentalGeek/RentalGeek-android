@@ -3,11 +3,10 @@ package com.rentalgeek.android.ui.activity;
 
 import android.os.Bundle;
 
-import com.luttu.fragmentutils.LuttuBaseActionbarActivity;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.ui.fragment.FragmentGeekScore;
 
-public class ActivityGeekScore extends LuttuBaseActionbarActivity {
+public class ActivityGeekScore extends GeekBaseActionBarActivity {
 
     private static final String TAG = ActivityGeekScore.class.getSimpleName();
 

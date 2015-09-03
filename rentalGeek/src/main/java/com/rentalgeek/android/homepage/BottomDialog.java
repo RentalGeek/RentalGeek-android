@@ -1,8 +1,8 @@
 package com.rentalgeek.android.homepage;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.os.CountDownTimer;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -17,48 +17,47 @@ import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.nettoast.Crouton;
-import com.luttu.nettoast.Style;
-import com.luttu.utils.GetSSl;
-import com.luttu.utils.GlobalFunctions;
-import com.luttu.utils.GlobalFunctions.HttpResponseHandler;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.AddStarBack;
 import com.rentalgeek.android.database.PropertyTable;
-import com.rentalgeek.android.ui.activity.ActivityHome;
+import com.rentalgeek.android.logging.AppLogger;
+import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.ui.AppPrefes;
+import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.fragment.FragmentMap.FragmentCallback;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.squareup.picasso.Picasso;
 
 public class BottomDialog {
 
-	
-	/**
+
+    private static final String TAG = "BottomDialog";
+
+    /**
 	 * @author george
 	 * 
 	 * @purpose This is a dialog class, which pops Up when the user clicks on the marker in the FragmentMap
 	 */
-	
-	
-	Context context;
+	FragmentActivity context;
 	FragmentCallback callBack;
 	Dialog dialog;
 	PropertyTable prop;
 	AppPrefes appPref;
+
     private YoYo.YoYoString animation_obj;
+
 	ImageView starredProp;
 	View topView;
 	ImageView image_prop;
 	TextView price_range, street_name_inner, bed_inner, shower_inner;
+
 	int which_marker_clicked;
 	AsyncHttpClient client;
 	PersistentCookieStore mCookieStore;
 
-	public BottomDialog(int whichmarrker, Context context,
-			FragmentCallback fragmentCallback) {
-		// TODO Auto-generated constructor stub
+	public BottomDialog(int whichmarrker, FragmentActivity context, FragmentCallback fragmentCallback) {
 		this.context = context;
 		client = new AsyncHttpClient();
 		appPref = new AppPrefes(context, "rentalgeek");
@@ -70,14 +69,12 @@ public class BottomDialog {
 
 	private void callDialog() {
 
-
 		dialog = new Dialog(context, R.style.MyDialognew);
 
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.map_dialog);
 
-		final FrameLayout dialog_click = (FrameLayout) dialog
-				.findViewById(R.id.dialog_click);
+		final FrameLayout dialog_click = (FrameLayout) dialog.findViewById(R.id.dialog_click);
 		price_range = (TextView) dialog.findViewById(R.id.price_dialog);
 		street_name_inner = (TextView) dialog.findViewById(R.id.address_dialog);
 		bed_inner = (TextView) dialog.findViewById(R.id.bed_dialog);
@@ -86,6 +83,7 @@ public class BottomDialog {
 		starredProp = (ImageView) dialog.findViewById(R.id.starred_prop);
 		shower_inner = (TextView) dialog.findViewById(R.id.shower_dialog);
 		fetchFromDb(which_marker_clicked);
+
 		if(prop!=null)
 		{
 			if(prop.starred)
@@ -175,9 +173,7 @@ public class BottomDialog {
 			}
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			
-			e.printStackTrace();
+			AppLogger.log(TAG, e);
 			
 		}
 	//	Picasso.with(context).load(fiilliste[2]).placeholder(R.drawable.banner).error(R.drawable.banner).into(image_prop);
@@ -185,7 +181,7 @@ public class BottomDialog {
 	}
 
 	public void starProperty() {
-		new GetSSl().getssl(client);
+		//new GetSSl().getssl(client);
 		mCookieStore = new PersistentCookieStore(context);
 		client.setCookieStore(mCookieStore); 
 		RequestParams params = new RequestParams();
@@ -199,7 +195,73 @@ public class BottomDialog {
 
 		String url = ApiManager.getStarredPrpoertiesUrl("");
 
-		GlobalFunctions.postApiCall(context, url, params, AppPreferences.getAuthToken(), client,
+		GlobalFunctions.postApiCall(context, url, params, AppPreferences.getAuthToken(),
+				new GeekHttpResponseHandler() {
+
+                    @Override
+                    public void onBeforeStart() {
+                        //showProgressDialog(R.string.dialog_msg_loading);
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        //hideProgressDialog();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable ex, String failureResponse) {
+
+//                        AddStarBack detail = (new Gson()).fromJson(failureResponse.toString(), AddStarBack.class);
+//                        if(detail.error!=null)
+//                        {
+//                            if(detail.error.equals("You need to sign in or sign up before continuing."))
+//                            {
+//                                ((ActivityHome) context).finish();
+//                            }
+//                        }
+//                        else
+//                        {
+//                            Crouton crouton = Crouton.makeText( (ActivityHome) context,  "To unlike a property go to favorites", Style.ALERT);
+//                            crouton.show();
+//                        }
+                    }
+
+					@Override
+					public void onSuccess(String content) {
+						try {
+							System.out.println("dialog response "+content);
+							AddStarBack detail = (new Gson()).fromJson(content.toString(), AddStarBack.class);
+
+                            if(detail.error!=null)
+                            {
+                                if(detail.error.equals("You need to sign in or sign up before continuing."))
+                                {
+                                    //Navigation.navigateActivity(context, ActivityLogin.class, true);
+                                }
+                            }
+
+
+//							if (failre) {
+
+                            DialogManager.showCrouton(context, "Added to favorites");
+
+								Picasso.with(context).load(R.drawable.star_select)
+										.into(starredProp);
+								prop.starred = true;
+								prop.starred_property_id=detail.starred_property.id;
+								prop.save();
+
+						} catch (Exception e) {
+							AppLogger.log(TAG, e);
+						}
+					}
+
+					@Override
+					public void onAuthenticationFailed() {
+
+					}
+				});
+/*				client,
 				new HttpResponseHandler() {
 
 					@Override
@@ -248,7 +310,7 @@ public class BottomDialog {
 					public void onAuthenticationFailed() {
 
 					}
-				});
+				});*/
 
 	}
 }

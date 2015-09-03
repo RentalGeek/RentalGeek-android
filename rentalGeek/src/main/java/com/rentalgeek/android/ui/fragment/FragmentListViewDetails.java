@@ -32,6 +32,7 @@ import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.RandomUtils;
 import com.rentalgeek.android.utils.StaticClass;
+import com.rentalgeek.android.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +58,9 @@ public class FragmentListViewDetails extends GeekBaseFragment {
 	int[] fiilliste;
 	int width;
 
+    private View v;
+    private boolean showingRightNow = false;
+
 	ArrayList<Integer> listitems;
 	ArrayList<String> street_name;
 	TypedArray images;
@@ -64,7 +68,7 @@ public class FragmentListViewDetails extends GeekBaseFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-		View v = inflater.inflate(R.layout.property_list_main, container, false);
+		v = inflater.inflate(R.layout.property_list_main, container, false);
 		ButterKnife.inject(this, v);
 		appPref=new AppPrefes(getActivity(), "rentalgeek");
 		listitems = new ArrayList<Integer>();
@@ -335,12 +339,12 @@ public class FragmentListViewDetails extends GeekBaseFragment {
 
 	@Override
 	public void onHiddenChanged(boolean hidden) {
-		super.onHiddenChanged(hidden);
+        super.onHiddenChanged(hidden);
 		setShowingRightNow(!hidden);
 		if (isShowingRightNow() && v != null) {
 			fetchFromDB();
 		}
-	}
+    }
 
 	@Override
 	public void onResume() {

@@ -46,8 +46,8 @@ import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
-import com.rentalgeek.android.utils.ListUtils;
 import com.rentalgeek.android.utils.StaticClass;
+import com.rentalgeek.android.utils.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;

@@ -11,7 +11,7 @@
     <string name="or">_________ or _________</string>
     <string name="pay_get_geek">Pay and get your Geek Score&#8482;</string>
     <string name="not_member"><p>Not a member? <u>Create Account</u></p></string>
-    <string name="tuto_one">Fill out our form once and apply to as many properties as you want</string>
+    <string name="tuto_one">Fill out our form once and apply to as many as you want</string>
     <string name="armed"><p>Armed with your GeekScore&#8482;, apply to any property with a single click and your completed app is instantly sent for speedy approval. Simply "Click-to-Rent" and you are done.</p></string>
     <string name="freshest">Check out the freshest digs, available now, right from your phone using our patent pending augmented reality technology.</string>
     <string name="tuto_two">Just update it every time you rent, and never touch paper tenant forms again</string>
@@ -182,7 +182,17 @@ If you agree to share a Credit Report, we will also use this information to shar
     <string name="demo_min_label">Min</string>
     <string name="demo_max_label">Max</string>
     
-    
+    <!--navigation menu-->
+    <string name="geek_score_tm">Geek Score™</string>
+    <string name="my_lease">My Lease</string>
+    <string name="favorites">Favorites</string>
+    <string name="properties">Properties</string>
+    <string name="roommates">Roommates</string>
+    <string name="payment">Payment</string>
+    <string name="cosigner">Cosigner</string>
+    <string name="geek_vision_tm">Geek Vision™</string>
+    <string name="settings">Settings</string>
+    <string name="logout">Logout</string>
     
      <string name="geek_go">You must create your GeekScore&#8482; to apply</string>
 

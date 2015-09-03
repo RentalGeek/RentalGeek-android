@@ -55,7 +55,7 @@ public class ActivityHome2 extends AppCompatActivity {
     private void showDrawerMenuIcon() {
         final ActionBar ab = getSupportActionBar();
         if (ab != null) {
-            ab.setHomeAsUpIndicator(android.R.drawable.ic_menu_more);
+            ab.setHomeAsUpIndicator(R.drawable.menu);
             ab.setDisplayHomeAsUpEnabled(true);
         }
     }

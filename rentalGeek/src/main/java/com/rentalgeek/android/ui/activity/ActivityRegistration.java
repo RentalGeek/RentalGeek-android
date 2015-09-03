@@ -51,12 +51,12 @@ public class ActivityRegistration extends GeekBaseActivity implements Validation
 	@Email(order = 2, message = "Please enter valid email")
 	@InjectView(R.id.email_add_regis)
 	EditText email_add_regis;
-	
+
 	private YoYo.YoYoString animation_obj;
 
 //	@InjectView(R.id.terms)
 //	CheckBox terms;
- 
+
 //	@InjectView(R.id.containerregis)
 //	FrameLayout prog;
 

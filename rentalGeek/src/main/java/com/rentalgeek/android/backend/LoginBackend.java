@@ -20,6 +20,7 @@ public class LoginBackend {
 		public String profile_id;
 		public String property_manager_id;
 		public String co_signer_id;
+		public String roommate_group_id;
 
 	}
 

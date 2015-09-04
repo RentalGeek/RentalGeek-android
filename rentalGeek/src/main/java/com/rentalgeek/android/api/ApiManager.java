@@ -74,4 +74,10 @@ public class ApiManager {
         return String.format("%s/%s", url, id);
     }
 
+    public static String getRoommateGroups(String id) {
+        String url = API_HOST + "/roommate_groups";
+        if (TextUtils.isEmpty(id)) return url;
+        return String.format("%s/%s", url, id);
+    }
+
 }

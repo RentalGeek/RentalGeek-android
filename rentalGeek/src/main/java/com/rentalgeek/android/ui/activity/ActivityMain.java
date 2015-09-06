@@ -29,6 +29,7 @@ public class ActivityMain extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash_page);
 		appPref = new AppPrefes(getApplicationContext(), "rentalgeek");
+
 		getHash();
 		timer();
 

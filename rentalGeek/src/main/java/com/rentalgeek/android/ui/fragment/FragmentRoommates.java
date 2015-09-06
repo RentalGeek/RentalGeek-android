@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import com.google.gson.Gson;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
-import com.rentalgeek.android.backend.LoginBackend;
+import com.rentalgeek.android.backend.RoommateGroup;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
@@ -33,10 +33,12 @@ public class FragmentRoommates  extends GeekBaseFragment {
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
-        fetchRoommateGroups(ApiManager.currentUser.roommate_group_id);
+
+        if (ApiManager.currentUser != null && ApiManager.currentUser.roommate_group_id != null)
+           fetchRoommateGroups(ApiManager.currentUser.roommate_group_id);
     }
 
-    protected void bindRoommateGroups() {
+    protected void bindRoommateGroups(RoommateGroup roommateGroup) {
 
     }
 
@@ -57,7 +59,10 @@ public class FragmentRoommates  extends GeekBaseFragment {
                     @Override
                     public void onSuccess(String content) {
                         try {
-                            LoginBackend detail = (new Gson()).fromJson(content, LoginBackend.class);
+                            RoommateGroup roommateGroup = (new Gson()).fromJson(content, RoommateGroup.class);
+                            if (roommateGroup != null) {
+                                bindRoommateGroups(roommateGroup);
+                            }
                         } catch (Exception e) {
                             AppLogger.log(TAG, e);
                         }

@@ -48,8 +48,10 @@ import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.AppPrefes;
+import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.activity.ActivityRegistration;
+import com.rentalgeek.android.ui.activity.ActivityRoommates;
 import com.rentalgeek.android.ui.activity.ActivityTutorials;
 import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
@@ -495,9 +497,11 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
             // App logs in
             getActivity().finish();
             appPref.SaveData("first", "logged");
-            Intent i = new Intent(getActivity(), ActivityHome.class);
-            startActivity(i);
-            getActivity().overridePendingTransition(R.anim.one_, R.anim.two_);
+
+            Navigation.navigateActivity(getActivity(), ActivityRoommates.class);
+//            Intent i = new Intent(getActivity(), ActivityHome.class);
+//            startActivity(i);
+//            getActivity().overridePendingTransition(R.anim.one_, R.anim.two_);
 
         } catch (Exception e) {
             AppLogger.log(TAG, e);

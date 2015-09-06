@@ -13,15 +13,15 @@ import com.rentalgeek.android.ui.home.HomePresenterImpl;
 import com.rentalgeek.android.ui.fragment.FragmentListViewDetails;
 
 public class ActivityHome extends GeekBaseActivity implements Container<ViewPager>, HomeView {
-    
+
     private static String TAG = "ActivityHome";
     private HomePresenterImpl presenter;
     private FragmentMap mapFragment;
 
-	@Override
-	protected void onCreate(Bundle bundle) {
-		super.onCreate(bundle);
-        
+    @Override
+    protected void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+
         setContentView(R.layout.activity_with_tabs);
         inflateStub(R.id.stub,R.layout.pager_container);
         setTabs(true);
@@ -32,7 +32,7 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
         ViewPager viewPager = (ViewPager) findViewById(R.id.container);
 
         if( viewPager != null ) {
-            setupContainer(viewPager);   
+            setupContainer(viewPager);
         }
 
         tabLayout.setupWithViewPager(viewPager);
@@ -40,7 +40,7 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
         presenter = new HomePresenterImpl(this);
         presenter.getRentalOfferings(null);
     }
-    
+
     @Override
     public void setupContainer(ViewPager container) {
         PageAdapter adapter = new PageAdapter(getSupportFragmentManager());
@@ -48,9 +48,9 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
         adapter.addFragment(new FragmentListViewDetails(),"List View");
         container.setAdapter(adapter);
     }
-    
+
     @Override
     public void setRentals(Rental[] rentals) {
-        mapFragment.setRentals(rentals);       
+        mapFragment.setRentals(rentals);
     }
 }

@@ -22,7 +22,7 @@ public class RentalGeekApplication extends MultiDexApplication {
 
 	public static Context context;
 
-	public static final EventBus eventBus = new EventBus();
+	public static final EventBus eventBus = EventBus.builder().logSubscriberExceptions(false).throwSubscriberException(false).build();
 
 	@Override
 	protected void attachBaseContext(Context base) {
@@ -51,6 +51,7 @@ public class RentalGeekApplication extends MultiDexApplication {
 
 		mDefaultUEH = Thread.getDefaultUncaughtExceptionHandler();
 		Thread.setDefaultUncaughtExceptionHandler(mCaughtExceptionHandler);
+
 
 		AppEventBus.register(this);
 		/// AppEventBus.register(AppSystem.Instance);

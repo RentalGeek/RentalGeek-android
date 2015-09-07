@@ -54,6 +54,10 @@ If you agree to share a Credit Report, we will also use this information to shar
     <string name="fragment_roommates_field_firstlastname">First &amp; Last Name(Mandatory)</string>
     <string name="fragment_roommates_field_emailaddress">Email Address (Mandatory)</string>
 
+    <string name="fragment_roommateinvite_message">You have been invited by <b>%1s</b> to join a roommate group.</string>
+    <string name="fragment_roommateinvite_btn_accept">Accept</string>
+    <string name="fragment_roommateinvite_btn_decline">Decline</string>
+
     <string name="geek_go">You must create your GeekScore&#8482; to apply</string>
     <string name="invite_cosign_text">%s has invited\n you to be a cosigner!</string>
     <string name="fill_invite_cosign_text">To continue please fill out\nour cosigner application</string>

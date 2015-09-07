@@ -6,9 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +41,7 @@ import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
+import com.rentalgeek.android.backend.ErrorApi;
 import com.rentalgeek.android.backend.GoogleBackend;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.database.ProfileTable;
@@ -51,7 +52,7 @@ import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.activity.ActivityRegistration;
-import com.rentalgeek.android.ui.activity.ActivityRoommates;
+import com.rentalgeek.android.ui.activity.ActivityRoommateInvite;
 import com.rentalgeek.android.ui.activity.ActivityTutorials;
 import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
@@ -64,7 +65,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
+public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallbacks,
         OnConnectionFailedListener {
 
     CallbackManager callbackManager;
@@ -211,12 +212,12 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
 
                     @Override
                     public void onBeforeStart() {
-
+                        showProgressDialog(R.string.dialog_msg_loading);
                     }
 
                     @Override
                     public void onFinish() {
-                        //progresscancel();
+                        hideProgressDialog();
                     }
 
                     @Override
@@ -231,6 +232,20 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
                     @Override
                     public void onAuthenticationFailed() {
 
+                    }
+
+                    @Override
+                    public void onFailure(Throwable ex, String failureResponse) {
+                        super.onFailure(ex, failureResponse);
+                        ErrorApi error = (new Gson()).fromJson(failureResponse, ErrorApi.class);
+                        if (error != null) {
+                            if (!error.success) {
+                                String message = error.message;
+                                if (!TextUtils.isEmpty(message)) {
+                                    DialogManager.showCrouton(getActivity(), message);
+                                }
+                            }
+                        }
                     }
                 });
         //asynkhttp(params, 1, ApiManager.getSignin(), AppPreferences.getAuthToken(), true);
@@ -498,7 +513,7 @@ public class FragmentSignIn extends Fragment implements ConnectionCallbacks,
             getActivity().finish();
             appPref.SaveData("first", "logged");
 
-            Navigation.navigateActivity(getActivity(), ActivityRoommates.class);
+            Navigation.navigateActivity(getActivity(), ActivityRoommateInvite.class);
 //            Intent i = new Intent(getActivity(), ActivityHome.class);
 //            startActivity(i);
 //            getActivity().overridePendingTransition(R.anim.one_, R.anim.two_);

@@ -23,12 +23,12 @@ import com.rentalgeek.android.bus.events.AppDialogRequestEvent;
 public class GeekBaseActivity extends AppCompatActivity {
 
     private boolean tabbed = true;
-    
+
     protected Toolbar toolbar;
     protected TabLayout tabLayout;
     protected DrawerLayout drawerLayout;
     protected NavigationView navigationView;
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -38,7 +38,7 @@ public class GeekBaseActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    
+
     /*
      * Inflates stubview with replacement view.
      * @param stubViewId Id of stub view to be replaced and inflated.
@@ -58,7 +58,7 @@ public class GeekBaseActivity extends AppCompatActivity {
     protected void setTabs(boolean tabbed) {
         this.tabbed = tabbed;
     }
-    
+
     /*
      * Sets up navigation drawer, toolbar and possibly tab bar.
      * Should be called after inflateStub

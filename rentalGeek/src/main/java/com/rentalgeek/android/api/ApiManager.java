@@ -10,9 +10,9 @@ public class ApiManager {
     public static LoginBackend.user currentUser;
     // Default host
     private static final String PROD = "http://api.rentalgeek.com/api/v1";
-    private static final String STAGE = "http://staging.rentalgeek.com/api/v1";
+    private static final String STAGE = "http://api.staging.rentalgeek.com/api/v1";
 
-    public static String API_HOST = PROD;
+    public static String API_HOST = STAGE;//PROD;
 
     public static String regis_link = API_HOST + "/users.json";
     // "api/"

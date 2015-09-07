@@ -19,9 +19,41 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
             android:id="@+id/textViewInviteMessage"
             android:layout_gravity="center_horizontal"
             android:layout_margin="30dp" />
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:id="@+id/layoutInviteButtons"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/buttonAccept"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/apptheme_btn_default_holo_light"
+                android:text="@string/fragment_roommateinvite_btn_accept"
+                android:textColor="#ffffff"
+                android:layout_weight="1"
+                android:layout_margin="10dp" />
+
+            <Button
+                android:id="@+id/buttonDecline"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/apptheme_btn_default_holo_light"
+                android:text="@string/fragment_roommateinvite_btn_decline"
+                android:textColor="#ffffff"
+                android:layout_weight="1"
+                android:layout_margin="10dp" />
+
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -14,6 +15,7 @@ import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.preference.AppPreferences;
+import com.rentalgeek.android.utils.ListUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -24,6 +26,9 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
 
     @InjectView(R.id.textViewInviteMessage)
     TextView textViewInviteMessage;
+
+    @InjectView(R.id.layoutInviteButtons)
+    LinearLayout layoutInviteButtons;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,11 +49,20 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
     }
 
     protected void bindRoommateInvites(RoommateInvites roommateInvites) {
+        if (roommateInvites != null) {
+            if (ListUtils.isNullOrEmpty(roommateInvites.roommate_invites)) {
+                textViewInviteMessage.setText(R.string.fragment_roommateinvite_noinvites);
+                layoutInviteButtons.setVisibility(View.GONE);
+            } else {
 
+                layoutInviteButtons.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     protected void fetchRoommateInvites(String groupId) {
-        GlobalFunctions.getApiCall(getActivity(), ApiManager.getRoommateGroups(groupId), AppPreferences.getAuthToken(),
+        String url =  ApiManager.getRoommateInvites(groupId);
+        GlobalFunctions.getApiCall(getActivity(), url, AppPreferences.getAuthToken(),
                 new GeekHttpResponseHandler() {
 
                     @Override
@@ -76,6 +90,11 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
                     @Override
                     public void onAuthenticationFailed() {
 
+                    }
+
+                    @Override
+                    public void onFailure(Throwable ex, String failureResponse) {
+                        super.onFailure(ex, failureResponse);
                     }
                 });
     }

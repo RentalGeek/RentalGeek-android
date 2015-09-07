@@ -125,6 +125,5 @@ public class GeekBaseFragment extends Fragment {
         Bundle args = new Bundle();
         args.putInt(Common.DIALOG_MSG_ID, messageResId);
         AppEventBus.post(new AppDialogRequestEvent<AppProgressDialog>(AppProgressDialog.class, args, this, false));
-        //CargomaticDialog.showDialog(getActivity(), CargoProgressDialog.class, args, this);
     }
 }

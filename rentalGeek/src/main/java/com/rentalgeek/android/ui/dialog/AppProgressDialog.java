@@ -35,7 +35,7 @@ public class AppProgressDialog extends GeekDialog.AppDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final Activity context = getActivity();
         final Bundle args = getArguments();
-        ProgressDialog progressDialog = new ProgressDialog(context);//, R.style.CargoProgressDialog);
+        ProgressDialog progressDialog = new ProgressDialog(context);//, R.style.GeekProgressDialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);

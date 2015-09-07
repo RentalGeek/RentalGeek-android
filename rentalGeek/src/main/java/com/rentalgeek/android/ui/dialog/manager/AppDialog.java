@@ -14,7 +14,7 @@ public class AppDialog extends Dialog {
 
     public static void showMessageDialog(FragmentActivity activity, Fragment fragment) {
 
-        //AppEventBus.post(new CargoDialogRequestEvent<AppMessageDialog>(AppMessageDialog.class, null, fragment, false));
+
     }
 
 }

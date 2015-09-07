@@ -26,7 +26,6 @@ public class GeekBaseActionBarActivity extends ActionBarActivity {
         Bundle args = new Bundle();
         args.putInt(Common.DIALOG_MSG_ID, messageResId);
         AppEventBus.post(new AppDialogRequestEvent<AppProgressDialog>(AppProgressDialog.class, args, null, false));
-        //CargomaticDialog.showDialog(this, CargoProgressDialog.class, args, null);
     }
 
 }

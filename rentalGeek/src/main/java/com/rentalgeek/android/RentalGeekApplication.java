@@ -17,12 +17,14 @@ import com.rentalgeek.android.database.PropertyTable;
 import de.greenrobot.event.EventBus;
 import io.fabric.sdk.android.Fabric;
 
+import android.content.res.Resources;
+
 
 public class RentalGeekApplication extends MultiDexApplication {
 
 	public static Context context;
 
-	public static final EventBus eventBus = new EventBus();
+	public static final EventBus eventBus = EventBus.builder().logSubscriberExceptions(false).throwSubscriberException(false).build();
 
 	@Override
 	protected void attachBaseContext(Context base) {
@@ -52,6 +54,7 @@ public class RentalGeekApplication extends MultiDexApplication {
 		mDefaultUEH = Thread.getDefaultUncaughtExceptionHandler();
 		Thread.setDefaultUncaughtExceptionHandler(mCaughtExceptionHandler);
 
+
 		AppEventBus.register(this);
 		/// AppEventBus.register(AppSystem.Instance);
 
@@ -72,6 +75,10 @@ public class RentalGeekApplication extends MultiDexApplication {
 		String message = context.getString(resId);
 		eventBus.post(new UserNotificationEvent(message));
 	}
+
+    public static Resources getAppResources() {
+        return context.getResources();
+    }
 
 	public static void postUserNotification(String message) {
 		eventBus.post(new UserNotificationEvent(message));

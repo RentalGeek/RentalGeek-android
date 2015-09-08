@@ -77,6 +77,20 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name=".ui.activity.ActivityRoommates"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ui.activity.ActivityRoommateInvite"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ui.activity.ActivityNotifications"
+            android:screenOrientation="portrait" >
+        </activity>
+
+
+        <activity
             android:name="com.facebook.FacebookActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
@@ -84,8 +98,8 @@
             android:name=".ui.activity.ActivityCosignerList"
             android:screenOrientation="portrait" >
             <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         </activity>
 
@@ -100,7 +114,7 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/fb_app_id" />
-        
+
         <meta-data android:name="AA_DB_VERSION" android:value="2" />
 
         <meta-data

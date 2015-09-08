@@ -1,5 +1,7 @@
 package com.rentalgeek.android.ui.activity;
 
+import android.support.v4.app.FragmentActivity;
+
 import android.app.Dialog;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -43,7 +45,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class ActivityRegistration extends GeekBaseActivity implements ValidationListener {
+public class ActivityRegistration extends FragmentActivity implements ValidationListener {
 
 	private static final String TAG = "ActivityRegistration";
 
@@ -123,12 +125,10 @@ public class ActivityRegistration extends GeekBaseActivity implements Validation
 
 					@Override
 					public void onBeforeStart() {
-						showProgressDialog(R.string.dialog_msg_loading);
 					}
 
 					@Override
 					public void onFinish() {
-						hideProgressDialog();
 					}
 
 					@Override

@@ -1,5 +1,7 @@
 package com.rentalgeek.android.ui.activity;
 
+import android.app.Activity;
+
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -18,7 +20,7 @@ import com.rentalgeek.android.ui.AppPrefes;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class ActivityMain extends GeekBaseActivity {
+public class ActivityMain extends Activity{
 
 	AppPrefes appPref;
 
@@ -27,6 +29,7 @@ public class ActivityMain extends GeekBaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash_page);
 		appPref = new AppPrefes(getApplicationContext(), "rentalgeek");
+
 		getHash();
 		timer();
 

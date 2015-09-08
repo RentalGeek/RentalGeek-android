@@ -16,6 +16,7 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.AppDialogRequestEvent;
+import com.rentalgeek.android.bus.events.NonEvent;
 import com.rentalgeek.android.ui.Common;
 import com.rentalgeek.android.ui.dialog.AppProgressDialog;
 import com.rentalgeek.android.ui.dialog.DialogManager;
@@ -110,6 +111,7 @@ public class GeekBaseFragment extends Fragment {
         AppEventBus.register(this);
     }
 
+    public void onEventMainThread(NonEvent event) { }
 
     /*****************************
      * Progress Dialog
@@ -123,6 +125,5 @@ public class GeekBaseFragment extends Fragment {
         Bundle args = new Bundle();
         args.putInt(Common.DIALOG_MSG_ID, messageResId);
         AppEventBus.post(new AppDialogRequestEvent<AppProgressDialog>(AppProgressDialog.class, args, this, false));
-        //CargomaticDialog.showDialog(getActivity(), CargoProgressDialog.class, args, this);
     }
 }

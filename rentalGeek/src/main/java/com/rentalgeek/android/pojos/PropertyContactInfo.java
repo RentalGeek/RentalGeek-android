@@ -10,6 +10,12 @@ public class PropertyContactInfo {
     private String email;
     private String phoneNumber;
 
+    public PropertyContactInfo(String name, String email, String phoneNumber) {
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+    }
+
     public String getName() {
         return name;
     }

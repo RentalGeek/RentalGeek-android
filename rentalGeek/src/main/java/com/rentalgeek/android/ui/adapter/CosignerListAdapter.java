@@ -4,8 +4,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.pojos.CosignItem;
 
 import java.util.List;
 
@@ -15,18 +17,18 @@ import java.util.List;
  */
 public class CosignerListAdapter extends RecyclerView.Adapter<CosignerListAdapter.CosignerListViewHolder> {
 
-    private List<String> dataset;
+    private List<CosignItem> cosignItems;
 
     public static class CosignerListViewHolder extends RecyclerView.ViewHolder {
-//        public TextView textView;
+        public TextView leaseSignersTextView;
         public CosignerListViewHolder(View view) {
             super(view);
-//            textView = (TextView)view.findViewById(R.id.textview);
+            leaseSignersTextView = (TextView)view.findViewById(R.id.lease_signers_textview);
         }
     }
 
-    public CosignerListAdapter(List<String> myDataset) {
-        dataset = myDataset;
+    public CosignerListAdapter(List<CosignItem> cosignItems) {
+        this.cosignItems = cosignItems;
     }
 
     @Override
@@ -37,13 +39,13 @@ public class CosignerListAdapter extends RecyclerView.Adapter<CosignerListAdapte
 
     @Override
     public void onBindViewHolder(CosignerListViewHolder holder, int position) {
-        String text = dataset.get(position);
-//        holder.textView.setText(text);
+        CosignItem item = cosignItems.get(position);
+        holder.leaseSignersTextView.setText(item.getLeaseSignersText());
     }
 
     @Override
     public int getItemCount() {
-        return dataset.size();
+        return cosignItems.size();
     }
 
 }

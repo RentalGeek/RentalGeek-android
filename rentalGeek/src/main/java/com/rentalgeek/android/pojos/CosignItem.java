@@ -1,5 +1,8 @@
 package com.rentalgeek.android.pojos;
 
+import android.text.Html;
+import android.text.Spanned;
+
 import java.util.List;
 
 /**
@@ -57,6 +60,18 @@ public class CosignItem {
 
     public void setSigners(List<LeaseSigner> signers) {
         this.signers = signers;
+    }
+
+    public Spanned getLeaseSignersText() {
+        String text = "";
+
+        for (LeaseSigner signer : getSigners()) {
+            text += "Lease signed by <b>" + signer.getName() + "  </b>  " + signer.getDate() + " <br /><br />";
+        }
+
+        Spanned formattedText = Html.fromHtml(text);
+
+        return formattedText;
     }
 
     public PropertyContactInfo getPropertyContactInfo() {

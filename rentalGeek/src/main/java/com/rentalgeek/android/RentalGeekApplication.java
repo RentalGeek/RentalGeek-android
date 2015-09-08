@@ -8,6 +8,7 @@ import android.text.TextUtils;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Configuration;
+import android.graphics.drawable.Drawable;
 import com.crashlytics.android.Crashlytics;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.NonEvent;
@@ -74,10 +75,6 @@ public class RentalGeekApplication extends Application {
 		String message = context.getString(resId);
 		eventBus.post(new UserNotificationEvent(message));
 	}
-
-    public static Resources getAppResources() {
-        return context.getResources();
-    }
 
 	public static void postUserNotification(String message) {
 		eventBus.post(new UserNotificationEvent(message));

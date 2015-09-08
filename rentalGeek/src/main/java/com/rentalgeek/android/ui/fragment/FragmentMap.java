@@ -8,10 +8,14 @@ import android.view.LayoutInflater;
 import com.rentalgeek.android.pojos.Rental;
 import com.rentalgeek.android.mvp.map.MapView;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap;
+import com.rentalgeek.android.mvp.map.MapView;
+import com.google.android.gms.maps.model.LatLng;
 import com.rentalgeek.android.mvp.map.MapPresenterImpl;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.CameraUpdateFactory;
 
 public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback, MapView{
 
@@ -48,5 +52,10 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
     @Override
     public void addMarker(MarkerOptions marker) {
         map.addMarker(marker);
+    }
+
+    @Override
+    public void zoomTo(double latitude, double longitude, int zoom) {
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude),zoom));
     }
 }

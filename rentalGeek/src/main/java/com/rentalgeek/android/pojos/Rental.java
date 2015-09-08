@@ -25,4 +25,8 @@ public class Rental {
     public double getLongitude() {
         return rental_complex_longitude;
     }
+
+    public int getBedroomCount() {
+        return bedroom_count;
+    }
 }

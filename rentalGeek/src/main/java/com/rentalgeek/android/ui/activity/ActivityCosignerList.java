@@ -49,6 +49,7 @@ public class ActivityCosignerList extends AppCompatActivity {
         cosignItem.setNumBathrooms(1);
         cosignItem.setSigners(leaseSigners);
         cosignItem.setPropertyContactInfo(propertyContactInfo);
+        cosignItem.setImageUrl("https://rental-geek.s3.amazonaws.com/uploads/property_photo/photo/2155/large_IMG_3955.JPG");
 
         List<CosignItem> test = new ArrayList<>();
         test.add(cosignItem);

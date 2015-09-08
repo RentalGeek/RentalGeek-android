@@ -17,6 +17,7 @@ public class CosignItem {
     private int numBathrooms;
     private List<LeaseSigner> signers;
     private PropertyContactInfo propertyContactInfo;
+    private String imageUrl;
 
     public Address getAddress() {
         return address;
@@ -32,6 +33,10 @@ public class CosignItem {
 
     public void setMonthlyCost(int monthlyCost) {
         this.monthlyCost = monthlyCost;
+    }
+
+    public String getMonthlyCostText() {
+        return "$" + getMonthlyCost();
     }
 
     public int getNumBedrooms() {
@@ -80,6 +85,22 @@ public class CosignItem {
 
     public void setPropertyContactInfo(PropertyContactInfo propertyContactInfo) {
         this.propertyContactInfo = propertyContactInfo;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getButtonText() {
+        return "SIGN LEASE";
+    }
+
+    public String getAwaitingSignatureText() {
+        return "Awaiting Your Signature";
     }
 
 }

@@ -2,8 +2,6 @@
 <resources>
     <string name="terms"><p>By creating a RentalGeek account, you agree to our <u>Terms &amp; Conditions</u></p></string>
     <string name="app_name">RentalGeek</string>
-    <!-- <string name="app_id">1573984086213286</string> -->
-    <!--<string name="fb_app_id">1484243288564211</string>-->
     <string name="fb_app_id">1630631863882274</string>
 
     <string name="hello_world">Hello world!</string>
@@ -33,6 +31,7 @@ If you agree to share a Credit Report, we will also use this information to shar
     <string name="last_msg_one">You have successfully completed the GeekScore&#8482; Application Process \n\n Take advantage of GeekVision&#8482; and choose from a wide selection of rental properties available only at RentalGeek. You can apply for the property of your choice from the property detail page.</string>
     <string name="bullet">&#8226;</string>
     <string name="dialog_msg_loading">Loading, Please wait\u2026</string>
+
     <string name="signin">SignIn</string>
     <string name="demo_min_label">Min</string>
     <string name="demo_max_label">Max</string>

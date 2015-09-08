@@ -40,7 +40,7 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
         presenter = new HomePresenterImpl(this);
         presenter.getRentalOfferings(null);
     }
-
+    
     @Override
     public void setupContainer(ViewPager container) {
         PageAdapter adapter = new PageAdapter(getSupportFragmentManager());

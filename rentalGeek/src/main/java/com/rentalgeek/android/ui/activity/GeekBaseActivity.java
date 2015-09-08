@@ -23,7 +23,6 @@ import com.rentalgeek.android.bus.events.AppDialogRequestEvent;
 public class GeekBaseActivity extends AppCompatActivity {
 
     private boolean tabbed = true;
-
     protected Toolbar toolbar;
     protected TabLayout tabLayout;
     protected DrawerLayout drawerLayout;

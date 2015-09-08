@@ -85,6 +85,4 @@ public class ApiManager {
         if (TextUtils.isEmpty(roommate_group_id)) return url;
         return String.format("%s/%s", url, roommate_group_id);
     }
-
-
 }

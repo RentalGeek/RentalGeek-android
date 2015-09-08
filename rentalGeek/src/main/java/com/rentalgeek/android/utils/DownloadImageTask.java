@@ -40,7 +40,11 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 
     @Override
     protected void onPostExecute(Bitmap bitmap) {
-        Drawable d = new BitmapDrawable(bitmap);
+        int width = imageLayout.getWidth();
+        int height = imageLayout.getHeight();
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, width, height, true);
+        Drawable d = new BitmapDrawable(scaledBitmap);
+        d.setAlpha(128);
         imageLayout.setBackground(d);
     }
 

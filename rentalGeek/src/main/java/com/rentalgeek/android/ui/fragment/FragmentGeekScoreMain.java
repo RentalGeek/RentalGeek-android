@@ -73,7 +73,7 @@ public class FragmentGeekScoreMain extends GeekBaseFragment {
 				new GeekHttpResponseHandler() {
 
 					@Override
-					public void onBeforeStart() {
+					public void onStart() {
 
 					}
 

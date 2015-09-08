@@ -6,7 +6,7 @@ import android.os.Bundle;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.ui.fragment.FragmentRoommates;
 
-public class ActivityRoommates extends GeekBaseActionBarActivity {
+public class ActivityRoommates extends GeekBaseActivity {
 
     private static final String TAG = ActivityRoommates.class.getSimpleName();
 
@@ -14,7 +14,9 @@ public class ActivityRoommates extends GeekBaseActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.fragment_activity_standard);
+        setContentView(R.layout.activity_with_fragment);
+
+        setupNavigation();
 
         if (savedInstanceState == null) {
             FragmentRoommates fragment = new FragmentRoommates();

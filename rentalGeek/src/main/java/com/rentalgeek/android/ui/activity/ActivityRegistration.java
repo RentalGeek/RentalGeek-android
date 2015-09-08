@@ -124,7 +124,7 @@ public class ActivityRegistration extends FragmentActivity implements Validation
 				new GeekHttpResponseHandler() {
 
 					@Override
-					public void onBeforeStart() {
+					public void onStart() {
 					}
 
 					@Override

@@ -66,7 +66,7 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
                 new GeekHttpResponseHandler() {
 
                     @Override
-                    public void onBeforeStart() {
+                    public void onStart() {
                         showProgressDialog(R.string.dialog_msg_loading);
                     }
 

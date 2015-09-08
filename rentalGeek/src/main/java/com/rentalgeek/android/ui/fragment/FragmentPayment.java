@@ -141,7 +141,7 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 				new GeekHttpResponseHandler() {
 
 					@Override
-					public void onBeforeStart() {
+					public void onStart() {
 
 					}
 
@@ -340,7 +340,7 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 				new GeekHttpResponseHandler() {
 
 					@Override
-					public void onBeforeStart() {
+					public void onStart() {
 
 					}
 

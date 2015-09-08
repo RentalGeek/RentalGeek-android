@@ -1,16 +1,15 @@
 package com.rentalgeek.android.ui.activity;
 
-import android.util.Log;
 import android.os.Bundle;
-import com.rentalgeek.android.R;
 import android.support.v4.view.ViewPager;
+
+import com.rentalgeek.android.R;
 import com.rentalgeek.android.pojos.Rental;
-import android.support.v4.app.FragmentManager;
-import com.rentalgeek.android.ui.home.HomeView;
 import com.rentalgeek.android.ui.adapter.PageAdapter;
+import com.rentalgeek.android.ui.fragment.FragmentListViewDetails;
 import com.rentalgeek.android.ui.fragment.FragmentMap;
 import com.rentalgeek.android.ui.home.HomePresenterImpl;
-import com.rentalgeek.android.ui.fragment.FragmentListViewDetails;
+import com.rentalgeek.android.ui.home.HomeView;
 
 public class ActivityHome extends GeekBaseActivity implements Container<ViewPager>, HomeView {
 
@@ -23,7 +22,7 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
         super.onCreate(bundle);
 
         setContentView(R.layout.activity_with_tabs);
-        inflateStub(R.id.stub,R.layout.pager_container);
+        inflateStub(R.id.stub, R.layout.pager_container);
         setTabs(true);
         setupNavigation();
 

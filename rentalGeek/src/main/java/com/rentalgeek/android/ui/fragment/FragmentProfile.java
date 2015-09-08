@@ -830,7 +830,7 @@ public class FragmentProfile extends GeekBaseFragment implements ValidationListe
                         new GeekHttpResponseHandler() {
 
                             @Override
-                            public void onBeforeStart() {
+                            public void onStart() {
 
                             }
 
@@ -1244,7 +1244,7 @@ public class FragmentProfile extends GeekBaseFragment implements ValidationListe
                         new GeekHttpResponseHandler() {
 
                             @Override
-                            public void onBeforeStart() {
+                            public void onStart() {
 
                             }
 
@@ -1288,7 +1288,7 @@ public class FragmentProfile extends GeekBaseFragment implements ValidationListe
 				new GeekHttpResponseHandler() {
 
 					@Override
-					public void onBeforeStart() {
+					public void onStart() {
 
 					}
 

@@ -267,7 +267,7 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 
 			GlobalFunctions.deleteApiCall(context, links, AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
                 @Override
-                public void onBeforeStart() {
+                public void onStart() {
 
                 }
 

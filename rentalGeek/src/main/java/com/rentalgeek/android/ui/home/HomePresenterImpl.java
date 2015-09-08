@@ -25,7 +25,7 @@ public class HomePresenterImpl implements HomePresenter {
             String token = AppPreferences.getAuthToken();
             
             GlobalFunctions.getApiCall(null,url,token,new GeekHttpResponseHandler() {
-                @Override public void onBeforeStart() {}
+                @Override public void onStart() {}
 
                 @Override public void onFinish() {}
 

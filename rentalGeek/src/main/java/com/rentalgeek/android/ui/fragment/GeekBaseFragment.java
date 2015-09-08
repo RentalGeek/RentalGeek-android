@@ -113,6 +113,7 @@ public class GeekBaseFragment extends Fragment {
 
     public void onEventMainThread(NonEvent event) { }
 
+
     /*****************************
      * Progress Dialog
      *

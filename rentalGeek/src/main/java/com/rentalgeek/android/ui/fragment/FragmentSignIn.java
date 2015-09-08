@@ -211,7 +211,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                 new GeekHttpResponseHandler() {
 
                     @Override
-                    public void onBeforeStart() {
+                    public void onStart() {
                         showProgressDialog(R.string.dialog_msg_loading);
                     }
 
@@ -1065,7 +1065,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                 new GeekHttpResponseHandler() {
 
                     @Override
-                    public void onBeforeStart() {
+                    public void onStart() {
 
                     }
 
@@ -1108,7 +1108,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                 new GeekHttpResponseHandler() {
 
                     @Override
-                    public void onBeforeStart() {
+                    public void onStart() {
 
                     }
 
@@ -1149,7 +1149,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                 new GeekHttpResponseHandler() {
 
                     @Override
-                    public void onBeforeStart() {
+                    public void onStart() {
 
                     }
 
@@ -1255,7 +1255,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                 new GeekHttpResponseHandler() {
 
                     @Override
-                    public void onBeforeStart() {
+                    public void onStart() {
 
                     }
 

@@ -85,7 +85,7 @@ public class FragmentStarredProperties extends GeekBaseFragment {
 				new GeekHttpResponseHandler() {
 
 					@Override
-					public void onBeforeStart() {
+					public void onStart() {
 
 					}
 
@@ -305,7 +305,7 @@ public class FragmentStarredProperties extends GeekBaseFragment {
 				new GeekHttpResponseHandler() {
 
 					@Override
-					public void onBeforeStart() {
+					public void onStart() {
 
 					}
 

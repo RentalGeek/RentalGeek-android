@@ -11,9 +11,9 @@ public class GeekHttpResponseHandler extends AsyncHttpResponseHandler {
 
     public void onAuthenticationFailed() { }
 
-    public void onBeforeStart() { }
+    //public void onBeforeStart() { }
 
-    public void onFinish() { }
+    //public void onFinish() { }
 
     public void onSuccess(String content) { }
 

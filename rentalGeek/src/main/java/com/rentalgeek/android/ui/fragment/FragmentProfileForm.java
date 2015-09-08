@@ -903,7 +903,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                     new GeekHttpResponseHandler() {
 
                         @Override
-                        public void onBeforeStart() {
+                        public void onStart() {
 
                         }
 
@@ -1162,7 +1162,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                     new GeekHttpResponseHandler() {
 
                         @Override
-                        public void onBeforeStart() {
+                        public void onStart() {
 
                         }
 
@@ -1202,7 +1202,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                 new GeekHttpResponseHandler() {
 
                     @Override
-                    public void onBeforeStart() {
+                    public void onStart() {
 
                     }
 

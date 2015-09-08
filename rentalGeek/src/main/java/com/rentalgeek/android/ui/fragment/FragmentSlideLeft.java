@@ -209,7 +209,7 @@ public class FragmentSlideLeft extends GeekBaseFragment {
                 new GeekHttpResponseHandler() {
 
                     @Override
-                    public void onBeforeStart() {
+                    public void onStart() {
 
                     }
 

@@ -218,7 +218,7 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
                 new GeekHttpResponseHandler() {
 
                     @Override
-                    public void onBeforeStart() {
+                    public void onStart() {
 
                     }
 
@@ -292,7 +292,7 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
                 new GeekHttpResponseHandler() {
 
                     @Override
-                    public void onBeforeStart() {
+                    public void onStart() {
 
                     }
 
@@ -333,7 +333,7 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
                 new GeekHttpResponseHandler() {
 
                     @Override
-                    public void onBeforeStart() {
+                    public void onStart() {
 
                     }
 
@@ -374,7 +374,7 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
                 new GeekHttpResponseHandler() {
 
                     @Override
-                    public void onBeforeStart() {
+                    public void onStart() {
 
                     }
 

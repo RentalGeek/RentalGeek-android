@@ -1,20 +1,24 @@
 package com.rentalgeek.android.ui.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.ViewStub;
+
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.ui.Common;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
-import android.support.v4.view.GravityCompat;
 import com.rentalgeek.android.bus.AppEventBus;
-import android.support.v4.widget.DrawerLayout;
-import android.support.design.widget.TabLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.design.widget.NavigationView;
-import com.rentalgeek.android.ui.dialog.AppProgressDialog;
 import com.rentalgeek.android.bus.events.AppDialogRequestEvent;
+import com.rentalgeek.android.ui.Common;
+import com.rentalgeek.android.ui.Navigation;
+import com.rentalgeek.android.ui.dialog.AppProgressDialog;
+import com.rentalgeek.android.ui.dialog.manager.GeekDialog;
 
 /**
  * Created by rajohns on 9/1/15.
@@ -29,6 +33,18 @@ public class GeekBaseActivity extends AppCompatActivity {
     protected NavigationView navigationView;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        registerMessaging();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterMessaging();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -36,6 +52,14 @@ public class GeekBaseActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    protected void registerMessaging() {
+        AppEventBus.register(this);
+    }
+
+    protected void unregisterMessaging() {
+        AppEventBus.unregister(this);
     }
 
     /*
@@ -130,13 +154,25 @@ public class GeekBaseActivity extends AppCompatActivity {
     }
 
     protected void setupDrawerListener(NavigationView navigationView) {
+        final FragmentActivity activity = this;
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 menuItem.setChecked(true);
                 drawerLayout.closeDrawers();
-                return true;
+                switch (menuItem.getItemId()) {
+                    case R.id.roommates:
+                        Navigation.navigateActivity(activity, ActivityRoommates.class);
+                        return true;
+                }
+                return false;
             }
         });
+    }
+
+
+    public void onEventMainThread(AppDialogRequestEvent<?> event) {
+        GeekDialog.AppDialogFragment dialog = GeekDialog.showDialog(this, event.getClazz(), event.getArgs(), event.getCaller());
+        if (dialog != null) dialog.setCancelable(event.isCancellable());
     }
 }

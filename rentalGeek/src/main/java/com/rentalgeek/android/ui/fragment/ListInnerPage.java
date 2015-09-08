@@ -319,7 +319,7 @@ public class ListInnerPage extends GeekBaseFragment {
 							new GeekHttpResponseHandler() {
 
 								@Override
-								public void onBeforeStart() {
+								public void onStart() {
 
 								}
 
@@ -362,7 +362,7 @@ public class ListInnerPage extends GeekBaseFragment {
 						new GeekHttpResponseHandler() {
 
 							@Override
-							public void onBeforeStart() {
+							public void onStart() {
 
 							}
 
@@ -411,7 +411,7 @@ public class ListInnerPage extends GeekBaseFragment {
 				new GeekHttpResponseHandler() {
 
 					@Override
-					public void onBeforeStart() {
+					public void onStart() {
 
 					}
 

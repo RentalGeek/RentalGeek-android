@@ -6,15 +6,19 @@ import android.os.Bundle;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.ui.fragment.FragmentNotifications;
 
-public class ActivityNotifications extends GeekBaseActionBarActivity {
+public class ActivityNotifications extends GeekBaseActivity {
 
     private static final String TAG = ActivityNotifications.class.getSimpleName();
+
+    public ActivityNotifications() {
+        super(true, true, false);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.fragment_activity_standard);
+        setContentView(R.layout.activity_with_fragment);
 
         if (savedInstanceState == null) {
             FragmentNotifications fragment = new FragmentNotifications();

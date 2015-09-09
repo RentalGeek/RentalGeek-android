@@ -1,9 +1,6 @@
-package com.rentalgeek.android.ui.map;
+package com.rentalgeek.android.mvp.map;
 
-import rx.Observer;
 import rx.Observable;
-import rx.Subscription;
-import android.util.Log;
 import rx.functions.Func1;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;

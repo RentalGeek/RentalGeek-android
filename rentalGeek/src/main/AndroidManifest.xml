@@ -80,6 +80,12 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name=".ui.activity.ActivityPayments"
+            android:label="Payments"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
             android:name=".ui.activity.ActivityRoommateInvite"
             android:screenOrientation="portrait" >
         </activity>

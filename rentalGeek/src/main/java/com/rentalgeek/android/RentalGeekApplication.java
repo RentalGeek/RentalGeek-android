@@ -18,12 +18,11 @@ import com.rentalgeek.android.database.PropertyTable;
 
 import de.greenrobot.event.EventBus;
 import io.fabric.sdk.android.Fabric;
-
+import android.util.DisplayMetrics;
 
 public class RentalGeekApplication extends Application {
 
 	public static Context context;
-
 	public static final EventBus eventBus = EventBus.builder().logSubscriberExceptions(false).throwSubscriberException(false).build();
 
 	@Override
@@ -92,6 +91,11 @@ public class RentalGeekApplication extends Application {
 		if (TextUtils.isEmpty(string)) return getResourceString(defaultResId);
 		return string;
 	}
+
+    public static int getScreenHeight() {
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        return metrics.heightPixels;
+    }
 
 	public void onEvent(NonEvent event) {
 

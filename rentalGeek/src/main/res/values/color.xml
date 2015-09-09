@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="blue">#4181cb</color>
-    <color name="red">#ff0000</color>
     <color name="dark_blue">#0000A0</color>
     <color name="white">#ffffffff</color>
-<<<<<<< HEAD
     <color name="light_creme">#f4f4f4</color>
     <color name="light_black">#2d2d2d</color>
     <color name="black">#000000</color>
-=======
-    <color name="light_creme">#ffffffff</color>
-    <color name="black">#000000</color>
-    <color name="light_black">#000000</color>
     <color name="red">#ff0000</color>
 
->>>>>>> Continue roommates
 </resources>

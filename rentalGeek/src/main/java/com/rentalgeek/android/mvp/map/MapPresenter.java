@@ -1,4 +1,4 @@
-package com.rentalgeek.android.ui.map;
+package com.rentalgeek.android.mvp.map;
 
 import com.rentalgeek.android.pojos.Rental;
 

@@ -14,6 +14,7 @@ import com.rentalgeek.android.backend.RoommateInvites;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ListUtils;
 
@@ -39,7 +40,6 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
 
     }
 
-
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
@@ -54,7 +54,6 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
                 textViewInviteMessage.setText(R.string.fragment_roommateinvite_noinvites);
                 layoutInviteButtons.setVisibility(View.GONE);
             } else {
-
                 layoutInviteButtons.setVisibility(View.VISIBLE);
             }
         }
@@ -67,16 +66,19 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
 
                     @Override
                     public void onStart() {
+                        super.onStart();
                         showProgressDialog(R.string.dialog_msg_loading);
                     }
 
                     @Override
                     public void onFinish() {
+                        super.onFinish();
                         hideProgressDialog();
                     }
 
                     @Override
                     public void onSuccess(String content) {
+                        super.onSuccess(content);
                         try {
                             RoommateInvites roommateInvites = (new Gson()).fromJson(content, RoommateInvites.class);
                             if (roommateInvites != null) {
@@ -89,12 +91,13 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
 
                     @Override
                     public void onAuthenticationFailed() {
-
+                        super.onAuthenticationFailed();
                     }
 
                     @Override
                     public void onFailure(Throwable ex, String failureResponse) {
                         super.onFailure(ex, failureResponse);
+                        DialogManager.showCrouton(activity, failureResponse);
                     }
                 });
     }

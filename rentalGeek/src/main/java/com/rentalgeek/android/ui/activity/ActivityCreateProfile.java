@@ -13,13 +13,17 @@ import com.rentalgeek.android.ui.view.NonSwipeableViewPager;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.viewpagerindicator.PageIndicator;
 
-public class ActivityCreateProfile extends GeekBaseActionBarActivity implements Validator.ValidationListener {
+public class ActivityCreateProfile extends GeekBaseActivity implements Validator.ValidationListener {
 
     private static final String TAG = ActivityCreateProfile.class.getSimpleName();
 
     NonSwipeableViewPager mPager;
     PageIndicator mIndicator;
     ProfileFormAdapter mAdapter;
+
+    public ActivityCreateProfile() {
+        super(true, true, true);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

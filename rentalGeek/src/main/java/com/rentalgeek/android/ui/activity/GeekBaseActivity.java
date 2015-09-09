@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.ViewStub;
 
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.AppDialogRequestEvent;
 import com.rentalgeek.android.ui.Common;
@@ -32,10 +33,21 @@ public class GeekBaseActivity extends AppCompatActivity {
     protected DrawerLayout drawerLayout;
     protected NavigationView navigationView;
 
+    protected boolean showSlider;
+    protected boolean showActionBar;
+    protected boolean authRequired;
+
+    public GeekBaseActivity(boolean showSlider, boolean showActionbar, boolean authRequired) {
+        this.showSlider = showSlider;
+        this.showActionBar = showActionbar;
+        this.authRequired = authRequired;
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
         registerMessaging();
+        if (authRequired) checkLogin();
     }
 
     @Override
@@ -60,6 +72,16 @@ public class GeekBaseActivity extends AppCompatActivity {
 
     protected void unregisterMessaging() {
         AppEventBus.unregister(this);
+    }
+
+    protected void checkLogin() {
+        if (!isUserLoggedIn()) {
+            Navigation.navigateActivity(this, ActivityLogin.class, true);
+        }
+    }
+
+    protected boolean isUserLoggedIn() {
+        return ApiManager.currentUser != null;
     }
 
     /*

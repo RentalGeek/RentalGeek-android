@@ -10,6 +10,10 @@ public class ActivityRoommates extends GeekBaseActivity {
 
     private static final String TAG = ActivityRoommates.class.getSimpleName();
 
+    public ActivityRoommates() {
+        super(true, true, true);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

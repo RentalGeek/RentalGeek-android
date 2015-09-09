@@ -1,19 +1,16 @@
 package com.rentalgeek.android.ui.fragment;
 
-import android.util.Log;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import com.rentalgeek.android.R;
 import android.view.LayoutInflater;
 import com.rentalgeek.android.pojos.Rental;
-import com.rentalgeek.android.ui.map.MapView;
+import com.rentalgeek.android.mvp.map.MapView;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
-import com.rentalgeek.android.ui.map.MapPresenterImpl;
+import com.rentalgeek.android.mvp.map.MapPresenterImpl;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback, MapView{

@@ -8,14 +8,18 @@ import com.rentalgeek.android.pojos.Rental;
 import com.rentalgeek.android.ui.adapter.PageAdapter;
 import com.rentalgeek.android.ui.fragment.FragmentListViewDetails;
 import com.rentalgeek.android.ui.fragment.FragmentMap;
-import com.rentalgeek.android.ui.home.HomePresenterImpl;
-import com.rentalgeek.android.ui.home.HomeView;
+import com.rentalgeek.android.mvp.home.HomePresenterImpl;
+import com.rentalgeek.android.mvp.home.HomeView;
 
 public class ActivityHome extends GeekBaseActivity implements Container<ViewPager>, HomeView {
 
     private static String TAG = "ActivityHome";
     private HomePresenterImpl presenter;
     private FragmentMap mapFragment;
+
+    public ActivityHome() {
+        super(true, true, true);
+    }
 
     @Override
     protected void onCreate(Bundle bundle) {

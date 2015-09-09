@@ -1,7 +1,6 @@
 package com.rentalgeek.android.ui.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -19,7 +18,11 @@ import java.util.List;
  * Created by rajohns on 9/7/15.
  *
  */
-public class ActivityCosignerList extends AppCompatActivity {
+public class ActivityCosignerList extends GeekBaseActivity {
+
+    public ActivityCosignerList() {
+        super(true, true, true);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

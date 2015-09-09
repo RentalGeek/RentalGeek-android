@@ -1,4 +1,4 @@
-package com.rentalgeek.android.ui.map;
+package com.rentalgeek.android.mvp.map;
 
 import com.google.android.gms.maps.model.MarkerOptions;
 

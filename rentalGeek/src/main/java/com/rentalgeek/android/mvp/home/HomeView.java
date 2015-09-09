@@ -1,4 +1,4 @@
-package com.rentalgeek.android.ui.home;
+package com.rentalgeek.android.mvp.home;
 
 import com.rentalgeek.android.pojos.Rental;
 

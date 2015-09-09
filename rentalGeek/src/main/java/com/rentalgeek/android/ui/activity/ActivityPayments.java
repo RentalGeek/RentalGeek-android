@@ -4,14 +4,14 @@ package com.rentalgeek.android.ui.activity;
 import android.os.Bundle;
 
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.ui.fragment.FragmentSignIn;
+import com.rentalgeek.android.ui.fragment.FragmentPayments;
 
-public class ActivityLogin extends GeekBaseActivity {
+public class ActivityPayments extends GeekBaseActivity {
 
-    private static final String TAG = ActivityLogin.class.getSimpleName();
+    private static final String TAG = ActivityPayments.class.getSimpleName();
 
-    public ActivityLogin() {
-        super(false, false, false);
+    public ActivityPayments() {
+        super(true, true, true);
     }
 
     @Override
@@ -20,15 +20,13 @@ public class ActivityLogin extends GeekBaseActivity {
 
         setContentView(R.layout.activity_with_fragment);
 
+        setupNavigation();
+
         if (savedInstanceState == null) {
-            FragmentSignIn fragment = new FragmentSignIn();
+            FragmentPayments fragment = new FragmentPayments();
             Bundle args = getIntent().getExtras();
             fragment.setArguments(args);
             getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
         }
-
-        setTabs(false);
-        setupNavigation();
     }
-
 }

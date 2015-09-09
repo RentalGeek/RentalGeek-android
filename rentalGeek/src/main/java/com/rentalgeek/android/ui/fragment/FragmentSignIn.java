@@ -52,7 +52,6 @@ import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.activity.ActivityRegistration;
-import com.rentalgeek.android.ui.activity.ActivityRoommateInvite;
 import com.rentalgeek.android.ui.activity.ActivityTutorials;
 import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
@@ -513,7 +512,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
             getActivity().finish();
             appPref.SaveData("first", "logged");
 
-            Navigation.navigateActivity(getActivity(), ActivityRoommateInvite.class);
+            Navigation.navigateActivity(getActivity(), ActivityHome.class, true);
 //            Intent i = new Intent(getActivity(), ActivityHome.class);
 //            startActivity(i);
 //            getActivity().overridePendingTransition(R.anim.one_, R.anim.two_);

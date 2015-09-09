@@ -68,6 +68,7 @@
         </activity>
         <activity
             android:name=".ui.activity.ActivityGeekScore"
+            android:label="GeekScore"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -79,6 +80,12 @@
             android:label="Roommates"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".ui.activity.ActivityPayments"
+            android:label="Payments"
+            android:screenOrientation="portrait" >
+        </activity>
+
         <activity
             android:name=".ui.activity.ActivityRoommateInvite"
             android:screenOrientation="portrait" >

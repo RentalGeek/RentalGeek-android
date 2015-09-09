@@ -11,7 +11,7 @@ public class ActivityLogin extends GeekBaseActivity {
     private static final String TAG = ActivityLogin.class.getSimpleName();
 
     public ActivityLogin() {
-        super(true, true, false);
+        super(false, false, false);
     }
 
     @Override
@@ -26,6 +26,9 @@ public class ActivityLogin extends GeekBaseActivity {
             fragment.setArguments(args);
             getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
         }
+
+        setTabs(false);
+        setupNavigation();
     }
 
 }

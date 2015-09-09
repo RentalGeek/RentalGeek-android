@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewStub;
 
 import com.rentalgeek.android.R;
@@ -137,10 +138,15 @@ public class GeekBaseActivity extends AppCompatActivity {
     }
 
     private void setupToolbar() {
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
 
-        if( toolbar != null ) {
-            setSupportActionBar(toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        if( toolbar != null) {
+            if (showActionBar) {
+                setSupportActionBar(toolbar);
+            } else {
+                toolbar.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -168,10 +174,17 @@ public class GeekBaseActivity extends AppCompatActivity {
     }
 
     protected void setupNavigationView() {
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
-        navigationView = (NavigationView)findViewById(R.id.navigationView);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        navigationView = (NavigationView) findViewById(R.id.navigationView);
         if (navigationView != null && drawerLayout != null) {
-            setupDrawerListener(navigationView);
+            if (showSlider) {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                setupDrawerListener(navigationView);
+            } else {
+                //drawerLayout.setVisibility(View.GONE);
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                navigationView.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -185,6 +198,17 @@ public class GeekBaseActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.roommates:
                         Navigation.navigateActivity(activity, ActivityRoommates.class);
+                        return true;
+                    case R.id.geek_score:
+                        Navigation.navigateActivity(activity, ActivityGeekScore.class);
+                        return true;
+                    case R.id.favorites:
+                        Navigation.navigateActivity(activity, ActivityFavoriteProperties.class);
+                        return true;
+                    case R.id.properties:
+                        return true;
+                    case R.id.payment:
+                        Navigation.navigateActivity(activity, ActivityPayments.class);
                         return true;
                 }
                 return false;

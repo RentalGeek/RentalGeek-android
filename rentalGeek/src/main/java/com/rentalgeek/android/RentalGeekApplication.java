@@ -1,8 +1,9 @@
 package com.rentalgeek.android;
 
 
-import android.support.multidex.MultiDexApplication;
+import android.app.Application;
 import android.content.Context;
+import android.content.res.Resources;
 import android.text.TextUtils;
 
 import com.activeandroid.ActiveAndroid;
@@ -17,10 +18,8 @@ import com.rentalgeek.android.database.PropertyTable;
 import de.greenrobot.event.EventBus;
 import io.fabric.sdk.android.Fabric;
 
-import android.content.res.Resources;
 
-
-public class RentalGeekApplication extends MultiDexApplication {
+public class RentalGeekApplication extends Application {
 
 	public static Context context;
 

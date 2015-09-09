@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rentalgeek.android.R;
@@ -23,7 +23,7 @@ public class CosignerListAdapter extends RecyclerView.Adapter<CosignerListAdapte
     private List<CosignItem> cosignItems;
 
     public static class CosignerListViewHolder extends RecyclerView.ViewHolder {
-        public LinearLayout topImageLayout;
+        public ImageView topImageLayout;
         public TextView streetAddressTextView;
         public TextView cityStateZipAddressTextView;
         public TextView numBedsBathsTextView;
@@ -36,7 +36,7 @@ public class CosignerListAdapter extends RecyclerView.Adapter<CosignerListAdapte
         public TextView propertyPhoneTextView;
         public CosignerListViewHolder(View view) {
             super(view);
-            topImageLayout = (LinearLayout)view.findViewById(R.id.top_image_layout);
+            topImageLayout = (ImageView)view.findViewById(R.id.top_image_layout);
             streetAddressTextView = (TextView)view.findViewById(R.id.street_address);
             cityStateZipAddressTextView = (TextView)view.findViewById(R.id.city_state_zip_address);
             numBedsBathsTextView = (TextView)view.findViewById(R.id.num_beds_baths);

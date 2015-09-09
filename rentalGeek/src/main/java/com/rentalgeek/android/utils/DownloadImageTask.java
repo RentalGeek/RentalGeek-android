@@ -6,7 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 
 import java.io.InputStream;
 
@@ -16,9 +16,9 @@ import java.io.InputStream;
  */
 public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 
-    private LinearLayout imageLayout;
+    private ImageView imageLayout;
 
-    public DownloadImageTask(LinearLayout imageLayout) {
+    public DownloadImageTask(ImageView imageLayout) {
         this.imageLayout = imageLayout;
     }
 
@@ -40,12 +40,11 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 
     @Override
     protected void onPostExecute(Bitmap bitmap) {
-        int width = imageLayout.getWidth();
-        int height = imageLayout.getHeight();
-        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, width, height, true);
-        Drawable d = new BitmapDrawable(scaledBitmap);
-        d.setAlpha(128);
-        imageLayout.setBackground(d);
+        int originalHeight = imageLayout.getHeight();
+        Drawable d = new BitmapDrawable(bitmap);
+        d.setAlpha(200);
+        imageLayout.setMaxHeight(originalHeight);
+        imageLayout.setImageDrawable(d);
     }
 
 }

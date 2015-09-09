@@ -26,68 +26,82 @@
             android:background="@color/black"
             >
 
-            <!--top imageview portion-->
-            <LinearLayout
-                android:id="@+id/top_image_layout"
+            <!--wrap with frame layout so text can go on top of imageview-->
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                >
+                android:layout_height="match_parent">
 
-                <!--left text portion of top imageview-->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    >
-
-                    <TextView
-                        android:id="@+id/street_address"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="2129 Walnut Dr."
-                        android:textColor="@color/white"
-                        />
-
-                    <TextView
-                        android:id="@+id/city_state_zip_address"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="Manhattan, KS 66502"
-                        android:textColor="@color/white"
-                        />
-
-                    <TextView
-                        android:id="@+id/num_beds_baths"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="2 BR, 1 Bath"
-                        android:textColor="@color/white"
-                        />
-
-                    <!--left text portion of top imageview close-->
-                </LinearLayout>
-
-                <!--cost text view-->
-                <TextView
-                    android:id="@+id/cost_text_view"
+                <ImageView
+                    android:id="@+id/top_image_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="right"
-                    tools:text="$920"
-                    android:textColor="@color/white"
-                    android:textSize="24sp"
-                    android:layout_marginRight="15dp"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:adjustViewBounds="true"
                     />
 
-                <!--top imageview portion close-->
-            </LinearLayout>
+                <!--wrapper for all text over image view-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
 
-        <!--black background behind top imageview portion close-->
+                    <!--left text portion of top imageview-->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="15dp"
+                        >
+
+                        <TextView
+                            android:id="@+id/street_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="2129 Walnut Dr."
+                            android:textColor="@color/white"
+                            />
+
+                        <TextView
+                            android:id="@+id/city_state_zip_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="Manhattan, KS 66502"
+                            android:textColor="@color/white"
+                            />
+
+                        <TextView
+                            android:id="@+id/num_beds_baths"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="2 BR, 1 Bath"
+                            android:textColor="@color/white"
+                            />
+
+                        <!--left text portion of top imageview close-->
+                    </LinearLayout>
+
+                    <!--cost text view-->
+                    <TextView
+                        android:id="@+id/cost_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="right"
+                        tools:text="$920"
+                        android:textColor="@color/white"
+                        android:textSize="24sp"
+                        android:layout_marginRight="15dp"
+                        />
+
+                    <!--wrapper for all text over image view close-->
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <!--black background behind top imageview portion close-->
         </LinearLayout>
 
 
@@ -181,13 +195,13 @@
                     android:textColor="@color/white"
                     />
 
-            <!--wrapper for contact text views close-->
+                <!--wrapper for contact text views close-->
             </LinearLayout>
 
-        <!--bottom portion for contact info close-->
+            <!--bottom portion for contact info close-->
         </LinearLayout>
 
-    <!--entire card close-->
+        <!--entire card close-->
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

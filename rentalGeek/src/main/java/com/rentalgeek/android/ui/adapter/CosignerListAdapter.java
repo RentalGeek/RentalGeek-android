@@ -64,16 +64,16 @@ public class CosignerListAdapter extends RecyclerView.Adapter<CosignerListAdapte
     public void onBindViewHolder(CosignerListViewHolder holder, int position) {
         CosignItem item = cosignItems.get(position);
         new DownloadImageTask(holder.topImageLayout).execute(item.getImageUrl());
-        holder.streetAddressTextView.setText(item.getAddress().getStreet());
-        holder.cityStateZipAddressTextView.setText(item.getAddress().getAddressline2());
-        holder.numBedsBathsTextView.setText(item.getNumBedBathText());
+        holder.streetAddressTextView.setText(item.getAddress().getStreet() + " ");
+        holder.cityStateZipAddressTextView.setText(item.getAddress().getAddressline2() + " ");
+        holder.numBedsBathsTextView.setText(item.getNumBedBathText() + " ");
         holder.costTextView.setText(item.getMonthlyCostText());
         holder.signApproveButton.setText(item.getButtonText());
         holder.leaseSignersTextView.setText(item.getLeaseSignersText());
-        holder.awaitingSignaturesTextView.setText(item.getAwaitingSignatureText());
-        holder.propertyNameTextView.setText(item.getPropertyContactInfo().getName());
-        holder.propertyEmailTextView.setText(item.getPropertyContactInfo().getEmail());
-        holder.propertyPhoneTextView.setText(item.getPropertyContactInfo().getPhoneNumber());
+        holder.awaitingSignaturesTextView.setText(item.getAwaitingSignatureText() + " ");
+        holder.propertyNameTextView.setText(item.getPropertyContactInfo().getName() + " ");
+        holder.propertyEmailTextView.setText(item.getPropertyContactInfo().getEmail() + " ");
+        holder.propertyPhoneTextView.setText(item.getPropertyContactInfo().getPhoneNumber() + " ");
     }
 
     @Override

@@ -167,7 +167,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Property Contact Information"
+                    android:text="Property Contact Information "
                     android:textColor="@color/white"
                     />
 

@@ -71,12 +71,10 @@ public class CosignItem {
         String text = "";
 
         for (LeaseSigner signer : getSigners()) {
-            text += "Lease signed by <b>" + signer.getName() + "  </b>  " + signer.getDate() + " <br /><br />";
+            text += "Lease signed by <b>" + signer.getName() + " </b>" + signer.getDate() + "<br /><br />";
         }
 
-        Spanned formattedText = Html.fromHtml(text);
-
-        return formattedText;
+        return Html.fromHtml(text);
     }
 
     public PropertyContactInfo getPropertyContactInfo() {

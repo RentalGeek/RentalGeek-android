@@ -1,12 +1,15 @@
 package com.rentalgeek.android.ui.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.RoommateGroup;
 
 import butterknife.ButterKnife;
@@ -20,13 +23,26 @@ public class FragmentPayments extends GeekBaseFragment {
     @InjectView(R.id.textViewPaymentSummary)
     TextView textViewPaymentSummary;
 
+    @InjectView(R.id.layoutProcessPayment)
+    LinearLayout layoutProcessPayment;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View v = inflater.inflate(R.layout.fragment_payments, container, false);
         ButterKnife.inject(this, v);
-        return v;
 
+        evaluatePendingPayments();
+
+        return v;
+    }
+
+    protected void evaluatePendingPayments() {
+        if (ApiManager.currentUser != null && !TextUtils.isEmpty(ApiManager.currentUser.completed_lease_id)) {
+            layoutProcessPayment.setVisibility(View.VISIBLE);
+        } else {
+            layoutProcessPayment.setVisibility(View.GONE);
+            textViewPaymentSummary.setText(R.string.fragment_payment_nonedue);
+        }
     }
 
 //    @OnClick(R.id.buttonAddRoommate)
@@ -42,7 +58,6 @@ public class FragmentPayments extends GeekBaseFragment {
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
-//
 //        if (ApiManager.currentUser != null && ApiManager.currentUser.roommate_group_id != null)
 //           fetchRoommateGroups(ApiManager.currentUser.roommate_group_id);
     }

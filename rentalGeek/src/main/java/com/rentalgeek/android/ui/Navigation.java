@@ -11,7 +11,7 @@ public class Navigation {
     public static void navigateActivity(FragmentActivity context, Class activity, boolean clearTop) {
         if (context == null) return;
         final Intent intent = new Intent(context, activity);
-        if (clearTop) intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        if (clearTop) intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(intent);
     }
 

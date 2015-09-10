@@ -8,7 +8,7 @@ import android.content.SharedPreferences.Editor;
 
 /**
  * @author luttu
- * 
+ *
  */
 public class AppPrefes {
 
@@ -21,9 +21,9 @@ public class AppPrefes {
 	}
 
 	/****
-	 * 
+	 *
 	 * getdata() get the value from the preference
-	 * 
+	 *
 	 * */
 	public String getData(String key) {
 		return appSharedPrefs.getString(key, "");
@@ -34,9 +34,9 @@ public class AppPrefes {
 	}
 
 	/****
-	 * 
+	 *
 	 * SaveData() save the value to the preference
-	 * 
+	 *
 	 * */
 	public void SaveData(String Tag, String text) {
 		prefsEditor.putString(Tag, text);

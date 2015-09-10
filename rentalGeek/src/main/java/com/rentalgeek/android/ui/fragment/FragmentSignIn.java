@@ -41,6 +41,7 @@ import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
+import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.ErrorApi;
 import com.rentalgeek.android.backend.GoogleBackend;
 import com.rentalgeek.android.backend.LoginBackend;
@@ -55,7 +56,6 @@ import com.rentalgeek.android.ui.activity.ActivityRegistration;
 import com.rentalgeek.android.ui.activity.ActivityTutorials;
 import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
-import com.rentalgeek.android.utils.ConnectionDetector;
 
 import java.util.Arrays;
 import java.util.List;
@@ -72,7 +72,8 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
     public static final int RC_SIGN_IN = 0;
     public static final int FB_SIGN_IN = 1;
 
-    private static final String TAG = "ActivityMain";
+    private static final String TAG = "FragmentSignIn";
+
     ProfileTable profdets;
     private YoYo.YoYoString animation_obj;
 
@@ -84,7 +85,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
     private boolean mIntentInProgress;
 
     private boolean mSignInClicked;
-    ConnectionDetector con;
 
     private ConnectionResult mConnectionResult;
 
@@ -132,7 +132,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         callbackManager = CallbackManager.Factory.create();
 
         appPref = new AppPrefes(getActivity(), "rentalgeek");
-        con = new ConnectionDetector(getActivity());
         if (appPref.getData("first").equals("")) {
 
         }
@@ -485,32 +484,12 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
             System.out.println("responseresponse" + response);
             LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
 
-            AppPreferences.setAuthToken(detail.user.authentication_token);
+            SessionManager.Instance.onUserLoggedIn(detail.user);
 
-            ApiManager.currentUser = detail.user;
-            //log("my id is " + ApiManager.currentUser.id);
-            AppLogger.log(TAG, "my id is " + detail.user.id);
-
-            String appid = String.valueOf(detail.user.id);
-            System.out.println("my id is " + appid);
-
-            appPref.SaveData("norm_log", "true");
-            appPref.SaveData("Uid", appid);
-            appPref.SaveData("email", detail.user.email);
-
-            if (detail.user.payment) {
-                appPref.SaveIntData("payed", 200);
-            }
-
-            if (detail.user.profile_id != null) {
-                appPref.SaveData("prof_id", detail.user.profile_id);
-            } else {
-                appPref.SaveData("prof_id", "");
-            }
 
             // App logs in
             getActivity().finish();
-            appPref.SaveData("first", "logged");
+
 
             Navigation.navigateActivity(getActivity(), ActivityHome.class, true);
 //            Intent i = new Intent(getActivity(), ActivityHome.class);

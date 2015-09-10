@@ -79,6 +79,7 @@
         </activity>
         <activity
             android:name=".ui.activity.ActivityCreateProfile"
+            android:label="Profile"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -98,10 +99,6 @@
         </activity>
         <activity
             android:name=".ui.activity.ActivityNotifications"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name=".ui.activity.ActivityFavoriteProperties"
             android:screenOrientation="portrait" >
         </activity>
 

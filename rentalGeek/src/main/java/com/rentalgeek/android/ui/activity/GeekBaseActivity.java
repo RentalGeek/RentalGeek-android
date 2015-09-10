@@ -14,7 +14,8 @@ import android.view.View;
 import android.view.ViewStub;
 
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.api.ApiManager;
+import com.rentalgeek.android.api.SessionManager;
+import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.AppDialogRequestEvent;
 import com.rentalgeek.android.ui.Common;
@@ -82,7 +83,7 @@ public class GeekBaseActivity extends AppCompatActivity {
     }
 
     protected boolean isUserLoggedIn() {
-        return ApiManager.currentUser != null;
+        return SessionManager.Instance.getCurrentUser() != null;
     }
 
     /*
@@ -173,6 +174,10 @@ public class GeekBaseActivity extends AppCompatActivity {
         AppEventBus.post(new AppDialogRequestEvent<AppProgressDialog>(AppProgressDialog.class, args, null, false));
     }
 
+    protected void hideProgressDialog() {
+        GeekDialog.dismiss(this, AppProgressDialog.class);
+    }
+
     protected void setupNavigationView() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         navigationView = (NavigationView) findViewById(R.id.navigationView);
@@ -200,7 +205,12 @@ public class GeekBaseActivity extends AppCompatActivity {
                         Navigation.navigateActivity(activity, ActivityRoommates.class);
                         return true;
                     case R.id.geek_score:
-                        Navigation.navigateActivity(activity, ActivityGeekScore.class);
+                        LoginBackend.User user = SessionManager.Instance.getCurrentUser();
+                        if (user == null) Navigation.navigateActivity(activity, ActivityLogin.class, true);
+                        if (user.hasProfileId())
+                            Navigation.navigateActivity(activity, ActivityGeekScore.class);
+                        else
+                            Navigation.navigateActivity(activity, ActivityCreateProfile.class);
                         return true;
                     case R.id.favorites:
                         Navigation.navigateActivity(activity, ActivityFavoriteProperties.class);

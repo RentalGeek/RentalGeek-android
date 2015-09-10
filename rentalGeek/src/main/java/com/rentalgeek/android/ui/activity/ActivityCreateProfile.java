@@ -22,7 +22,7 @@ public class ActivityCreateProfile extends GeekBaseActivity implements Validator
     ProfileFormAdapter mAdapter;
 
     public ActivityCreateProfile() {
-        super(true, true, true);
+        super(false, true, true);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class ActivityCreateProfile extends GeekBaseActivity implements Validator
         setContentView(R.layout.activity_create_profile);
 
         mAdapter = new ProfileFormAdapter(getSupportFragmentManager());
-       // con = new ConnectionDetector(getApplicationContext());
+
         mPager = (NonSwipeableViewPager) findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);
         mPager.setOnTouchListener(new View.OnTouchListener() {
@@ -41,7 +41,6 @@ public class ActivityCreateProfile extends GeekBaseActivity implements Validator
             }
         });
 
-       // appPref = new AppPrefes(thisActivity, "rentalgeek");
         mIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
         mIndicator.setViewPager(mPager);
 
@@ -55,6 +54,8 @@ public class ActivityCreateProfile extends GeekBaseActivity implements Validator
 
             }
         });
+
+        setupNavigation();
 
     }
 

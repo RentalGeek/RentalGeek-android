@@ -1,10 +1,8 @@
 package com.rentalgeek.android.ui.activity;
 
-import android.support.v4.app.FragmentActivity;
-
 import android.app.Dialog;
 import android.os.Bundle;
-import android.os.CountDownTimer;
+import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,7 +15,6 @@ import android.widget.TextView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.gson.Gson;
-import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
@@ -29,15 +26,15 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
-import com.rentalgeek.android.backend.RegistrationBackend;
-import com.rentalgeek.android.backend.RegistrationBackend.Applicant;
+import com.rentalgeek.android.api.SessionManager;
+import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.AppPrefes;
+import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
-import com.rentalgeek.android.utils.ConnectionDetector;
 import com.rentalgeek.android.utils.ListUtils;
 import com.rentalgeek.android.utils.Loading;
 
@@ -45,9 +42,13 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class ActivityRegistration extends FragmentActivity implements ValidationListener {
+public class ActivityRegistration extends GeekBaseActivity implements ValidationListener {
 
 	private static final String TAG = "ActivityRegistration";
+
+	public ActivityRegistration() {
+		super(false, false, false);
+	}
 
 	@Required(order = 1, message = "Please enter valid email")
 	@Email(order = 2, message = "Please enter valid email")
@@ -64,8 +65,6 @@ public class ActivityRegistration extends FragmentActivity implements Validation
 
 	@InjectView(R.id.terms_text)
 	TextView terms_text;
-
-	private ConnectionDetector con;
 
 	@Password(order = 3)
 	@TextRule(order = 5, minLength = 8, message = "Password length should be 8 characters")
@@ -97,7 +96,6 @@ public class ActivityRegistration extends FragmentActivity implements Validation
 		validator = new Validator(this);
 		validator.setValidationListener(this);
 		load = new Loading(ActivityRegistration.this);
-		con = new ConnectionDetector(getApplicationContext());
 		appPref = new AppPrefes(getApplicationContext(), "rentalgeek");
 	}
 
@@ -109,11 +107,7 @@ public class ActivityRegistration extends FragmentActivity implements Validation
 
 	private void callRegisterApi(String a, String b, String c) {
 
-
-		//prog.setVisibility(View.VISIBLE);
-		System.out.println("params " + a + " " + b + " " + c);
-
-		AsyncHttpClient client = new AsyncHttpClient();
+        final FragmentActivity activity = this;
 		//new GetSSl().getssl(client);
 		RequestParams params = new RequestParams();
 		params.put("user[email]", a);
@@ -125,39 +119,42 @@ public class ActivityRegistration extends FragmentActivity implements Validation
 
 					@Override
 					public void onStart() {
+						showProgressDialog(R.string.dialog_msg_loading);
 					}
 
 					@Override
 					public void onFinish() {
+                        hideProgressDialog();
 					}
 
 					@Override
 					public void onSuccess(String content) {
-						RegistrationBackend detail = null;
+                        LoginBackend detail = null;
 						try {
-							detail = (new Gson()).fromJson(content.toString(), RegistrationBackend.class);
+                            detail = (new Gson()).fromJson(content.toString(), LoginBackend.class);
+							//detail = (new Gson()).fromJson(content.toString(), RegistrationBackend.class);
 
 							//prog.setVisibility(View.INVISIBLE);
 							System.out.println("the registration response " + content);
 
 							if (detail.user != null) {
-								Applicant app = detail.user;
+								LoginBackend.User user = detail.user;
 
-								appPref.SaveData("token", app.authentication_token);
-								appPref.SaveIntData("Uid", app.id);
+                                SessionManager.Instance.onUserLoggedIn(user);
 
-								toast("Registration Successful, Please Login to continue");
+                                Navigation.navigateActivity(activity, ActivityHome.class, true);
+                                //toast("Registration Successful, Please Login to continue");
 
-								new CountDownTimer(1000, 1000) {
-
-									@Override
-									public void onTick(long millisUntilFinished) { }
-
-									@Override
-									public void onFinish() {
-										finish();
-									}
-								}.start();
+//								new CountDownTimer(1000, 1000) {
+//
+//									@Override
+//									public void onTick(long millisUntilFinished) { }
+//
+//									@Override
+//									public void onFinish() {
+//										finish();
+//									}
+//								}.start();
 							} else if (detail.errors != null && !ListUtils.isNullOrEmpty(detail.errors.email)) {
 								toast(detail.errors.email.get(0).toString());
 							}
@@ -171,10 +168,6 @@ public class ActivityRegistration extends FragmentActivity implements Validation
 						}
 					}
 
-					@Override
-					public void onAuthenticationFailed() {
-
-					}
 				});
 
 

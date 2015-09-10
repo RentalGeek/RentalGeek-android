@@ -351,9 +351,9 @@ public class ListInnerPage extends LuttuBaseAbstract {
 			animation_obj = YoYo.with(Techniques.Flash).duration(1000).playOn(apply);
 
 			RequestParams params = new RequestParams();
-			params.put("apply[applicable_id]", appPref.getData("Uid"));
-			params.put("apply[rental_offering_id]", String.valueOf(prop.uid));
-			params.put("apply[applicable_type]", "Applicant");
+			params.put("application[applicable_id]", appPref.getData("Uid"));
+			params.put("application[rental_offering_id]", String.valueOf(prop.uid));
+			params.put("application[applicable_type]", "User");
 
 			System.out.println("prop id is " + prop.uid + " user id is " + appPref.getData("Uid"));
 

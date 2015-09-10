@@ -28,9 +28,11 @@ public class FragmentRental extends GeekBaseFragment implements RentalView {
         view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
+                
                 getView().getViewTreeObserver().removeOnPreDrawListener(this);
                 
-                getView().setVisibility(View.GONE);//Hack solution since XML attribute visibility isnt respected on a fragment
+                hide();
+
                 int screenHeight = RentalGeekApplication.getScreenHeight();
                 ViewGroup.LayoutParams params = getView().getLayoutParams();
                 params.height = screenHeight/2;

@@ -59,10 +59,11 @@ If you agree to share a Credit Report, we will also use this information to shar
     <string name="fragment_roommateinvite_btn_decline">Decline</string>
 
     <string name="fragment_payment_totaldue">Your total amount due includes the <b>first months rent (%1$s) &amp; the security deposit (%2$s)</b> payed equally between all the members of your roommates group.</string>
-
+    <string name="fragment_payment_nonedue">You have no pending payments at this time.</string>
     <string name="fragment_payment_yourtotal">Your total</string>
     <string name="fragment_payment_label_nameoncard">Name on Card</string>
     <string name="fragment_payment_label_cardnumber">Card Number</string>
+    <string name="fragment_payment_btn_submit">Submit</string>
 
     <string name="geek_go">You must create your GeekScore&#8482; to apply</string>
     <string name="invite_cosign_text">%s has invited\n you to be a cosigner!</string>

@@ -8,6 +8,7 @@ import com.rentalgeek.android.backend.LoginBackend;
 public class ApiManager {
 
     public static LoginBackend.user currentUser;
+
     // Default host
     private static final String PROD = "http://api.rentalgeek.com/api/v1";
     private static final String STAGE = "http://api.staging.rentalgeek.com/api/v1";

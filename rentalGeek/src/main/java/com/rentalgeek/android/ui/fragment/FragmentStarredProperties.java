@@ -26,6 +26,7 @@ import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.pojos.StarredListPojo;
 import com.rentalgeek.android.ui.AppPrefes;
+import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ConnectionDetector;
 import com.rentalgeek.android.utils.ListUtils;
@@ -69,11 +70,8 @@ public class FragmentStarredProperties extends GeekBaseFragment {
 		con = new ConnectionDetector(getActivity());
 		appPref = new AppPrefes(getActivity(), "rentalgeek");
 		getActivity().registerReceiver(receiver, new IntentFilter("dislikeref"));
-		if (con.isConnectingToInternet()) {
-			fetchFromServer();
-		} else {
-			toast("No connection");
-		}
+
+		fetchFromServer();
 
 		return v;
 	}
@@ -86,12 +84,12 @@ public class FragmentStarredProperties extends GeekBaseFragment {
 
 					@Override
 					public void onStart() {
-
+                        showProgressDialog(R.string.dialog_msg_loading);
 					}
 
 					@Override
 					public void onFinish() {
-
+                        hideProgressDialog();
 					}
 
 					@Override
@@ -103,7 +101,13 @@ public class FragmentStarredProperties extends GeekBaseFragment {
 						}
 					}
 
-					@Override
+                    @Override
+                    public void onFailure(Throwable ex, String failureResponse) {
+                        super.onFailure(ex, failureResponse);
+                        DialogManager.showCrouton(activity, failureResponse);
+                    }
+
+                    @Override
 					public void onAuthenticationFailed() {
 
 					}

@@ -55,6 +55,12 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name=".ui.activity.ActivityFavoriteProperties"
+            android:label="Favorites"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
             android:name=".ui.activity.ActivityHome"
             android:screenOrientation="portrait" >
         </activity>

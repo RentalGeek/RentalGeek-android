@@ -12,10 +12,10 @@ public class Rental {
 	private String headline;
 	private int full_bathroom_count;
 	private String primary_property_photo_url;
-
-    @Override
+    private String star_id;
+    
     public String toString() {
-        return String.format("%s: %f %f",id,rental_complex_latitude,rental_complex_longitude);
+        return String.format("id: %s, starred: %s",id,starred);
     }
 
     public String getId() {
@@ -35,10 +35,36 @@ public class Rental {
     }
 
     public String getHeadline() {
-        return headline;
+        return (headline != null) ? headline : "N/A";
     }
 
     public int getMonthlyRent() {
         return monthly_rent_floor;
+    }
+
+    public String getImageUrl() {
+        return primary_property_photo_url;
+    }
+    
+    public int getBathroomCount() {
+        return full_bathroom_count;
+    }
+
+    public boolean isStarred() {
+        return starred;
+    }
+
+    public void setStarred(boolean starred) {
+        this.starred = starred;
+    }
+
+    public void setStarId(String star_id) {
+        if( star_id != null && !star_id.isEmpty() ) {
+            this.star_id = star_id;
+        }
+    }
+
+    public String getStarId() {
+        return star_id;
     }
 }

@@ -1,13 +1,17 @@
 package com.rentalgeek.android.net;
 
+
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.apache.http.client.HttpResponseException;
 
 import java.net.HttpURLConnection;
 
+import android.util.Log;
 
 public class GeekHttpResponseHandler extends AsyncHttpResponseHandler {
+ 
+    private static final String TAG = GeekHttpResponseHandler.class.getSimpleName();
 
     public void onAuthenticationFailed() { }
 
@@ -20,7 +24,7 @@ public class GeekHttpResponseHandler extends AsyncHttpResponseHandler {
 
     @Override
     public void onFailure(Throwable ex, String failureResponse) {
-
+        
         if (ex instanceof HttpResponseException) {
             HttpResponseException hre = (HttpResponseException) ex;
             int statusCode = hre.getStatusCode();

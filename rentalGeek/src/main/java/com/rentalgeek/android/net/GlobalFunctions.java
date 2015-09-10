@@ -3,7 +3,6 @@ package com.rentalgeek.android.net;
 
 import android.content.Context;
 import android.text.TextUtils;
-
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
@@ -14,7 +13,9 @@ public class GlobalFunctions {
     static PersistentCookieStore mCookieStore;
 
     protected static AsyncHttpClient getClient() {
-        if (client == null) client = new AsyncHttpClient();
+        if (client == null) {
+            client = new AsyncHttpClient();
+        }
         return client;
     }
 
@@ -25,8 +26,6 @@ public class GlobalFunctions {
             getClient().addHeader("Authorization", String.format("Token token=%s", authToken));
         }
 
-        //handler.onStart();
-
         getClient().post(url, params, handler);
 	}
 
@@ -36,8 +35,6 @@ public class GlobalFunctions {
         if (!TextUtils.isEmpty(authToken)) {
             getClient().addHeader("Authorization", String.format("Token token=%s", authToken));
         }
-
-        //handler.onStart();
 
         getClient().get(url, handler);
 
@@ -51,8 +48,6 @@ public class GlobalFunctions {
             getClient().addHeader("Authorization", String.format("Token token=%s", authToken));
         }
 
-        //handler.onStart();
-
         getClient().delete(url, handler);
 
 	}
@@ -65,8 +60,6 @@ public class GlobalFunctions {
         if (!TextUtils.isEmpty(authToken)) {
             getClient().addHeader("Authorization", String.format("Token token=%s", authToken));
         }
-
-        //handler.onStart();
 
         getClient().put(url, params, handler);
 

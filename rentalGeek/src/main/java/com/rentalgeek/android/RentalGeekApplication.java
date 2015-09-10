@@ -79,6 +79,10 @@ public class RentalGeekApplication extends Application {
 		eventBus.post(new UserNotificationEvent(message));
 	}
 
+    public static float getDimension(int dimenId) {
+        return context.getResources().getDimension(dimenId);
+    }
+    
 	public static String getResourceString(int resId) {
 		return context.getString(resId);
 	}
@@ -95,6 +99,11 @@ public class RentalGeekApplication extends Application {
     public static int getScreenHeight() {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         return metrics.heightPixels;
+    }
+
+    public static int getScreenWidth() {
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        return metrics.widthPixels;
     }
 
 	public void onEvent(NonEvent event) {

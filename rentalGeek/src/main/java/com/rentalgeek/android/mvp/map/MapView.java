@@ -8,4 +8,6 @@ public interface MapView {
     public void addMarker(RentalMarker marker);
     public void zoomTo(double latitude, double longitude, int zoom);
     public void setRentals(Rental[] rentals);
+    public void boundbox();
+    public void setRental(Rental rental);
 }

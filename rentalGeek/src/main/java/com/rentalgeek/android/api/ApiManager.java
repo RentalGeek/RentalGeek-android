@@ -35,11 +35,30 @@ public class ApiManager {
 //        if (TextUtils.isEmpty(propertyId)) return url;
 //        return String.format("%s/%s", url, propertyId);
 //    }
+    
+    public static String getRental(String rental_id) {
+        return String.format("%s/%s/%s",API_HOST,"rental_offerings",rental_id);
+    }
 
-    public static String getStarredPrpoertiesUrl(String starredPropertyId) {
+    //TODO remove this crap
+    public static String getStarredPrpoertiesUrl(String id) {
+        return id;
+    }
+    
+    public static String getRentalStar(String rental_id) {
         String url = API_HOST + "/starred_properties";
-        if (TextUtils.isEmpty(starredPropertyId)) return url;
-        return String.format("%s/%s", url, starredPropertyId);
+        if (TextUtils.isEmpty(rental_id)) return url;
+        return String.format("%s/%s", url, rental_id);
+    }
+    
+    public static String deleteRentalStar(String star_id) {
+        String url = String.format("%s/%s/%s",API_HOST,"starred_properties",star_id);
+        return url;
+    }
+
+    public static String postRentalStar() {
+        String url = API_HOST + "/starred_properties";
+        return url;
     }
 
     public static String getAddProvider(String providerId) {

@@ -16,13 +16,13 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/main_image"
+                android:id="@+id/rental_image"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/img_height"
                 android:scaleType="centerCrop"/>
 
             <ImageView
-                android:id="@+id/star_img"
+                android:id="@+id/star_image"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentRight="true"
@@ -61,7 +61,7 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/shower_count"
+            android:id="@+id/bathroom_count"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_alignParentRight="true"
@@ -92,7 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/shower_count"
+            android:layout_toLeftOf="@+id/bathroom_count"
             android:drawableLeft="@drawable/bed"
             android:drawablePadding="10dp"
             android:gravity="center"

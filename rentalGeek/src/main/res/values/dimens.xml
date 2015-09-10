@@ -3,6 +3,6 @@
     <dimen name="img_height">200dp</dimen>
      <dimen name="loho_hei">150dp</dimen>
      <dimen name="loho_wid">200dp</dimen>
-    
-      <dimen name="ed_apply">180dp</dimen>
+     <dimen name="ed_apply">180dp</dimen>
+     <dimen name="map_padding">25dp</dimen>
 </resources>

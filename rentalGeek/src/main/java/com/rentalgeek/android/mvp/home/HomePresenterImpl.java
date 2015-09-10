@@ -13,6 +13,8 @@ import com.rentalgeek.android.net.GeekHttpResponseHandler;
 
 public class HomePresenterImpl implements HomePresenter {
     
+    private static final String TAG = HomePresenterImpl.class.getSimpleName();
+
     private HomeView homeView;
 
     public HomePresenterImpl(HomeView homeView) {
@@ -31,8 +33,7 @@ public class HomePresenterImpl implements HomePresenter {
 
                 @Override public void onSuccess(String response) {
                     
-                    try
-                    {
+                    try {
                         JSONObject json = new JSONObject(response);
                         JSONArray rentalOfferings = json.getJSONArray("rental_offerings");
 
@@ -44,7 +45,7 @@ public class HomePresenterImpl implements HomePresenter {
                     }
 
                     catch(Exception e) {
-                        Log.e("HomePresenterImpl",e.getMessage());
+                        Log.e(TAG,e.getMessage());
                     }
                 }
 

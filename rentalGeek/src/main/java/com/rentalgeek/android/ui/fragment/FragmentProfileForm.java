@@ -1163,12 +1163,12 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
                         @Override
                         public void onStart() {
-
+                            showProgressDialog(R.string.dialog_msg_loading);
                         }
 
                         @Override
                         public void onFinish() {
-
+                            hideProgressDialog();
                         }
 
                         @Override

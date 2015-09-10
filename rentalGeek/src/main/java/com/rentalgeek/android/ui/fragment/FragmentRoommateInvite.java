@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
+import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.RoommateInvites;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
@@ -44,8 +45,8 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
 
-        if (ApiManager.currentUser != null)// && ApiManager.currentUser.roommate_group_id != null)
-            fetchRoommateInvites(ApiManager.currentUser.roommate_group_id);
+        if (SessionManager.Instance.getCurrentUser() != null)// && ApiManager.currentUser.roommate_group_id != null)
+            fetchRoommateInvites(SessionManager.Instance.getCurrentUser().roommate_group_id);
     }
 
     protected void bindRoommateInvites(RoommateInvites roommateInvites) {

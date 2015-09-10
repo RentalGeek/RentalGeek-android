@@ -25,8 +25,9 @@ import com.mobsandgeeks.saripaar.Validator.ValidationListener;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
+import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.LoginBackend;
-import com.rentalgeek.android.backend.LoginBackend.user;
+import com.rentalgeek.android.backend.LoginBackend.User;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
@@ -219,12 +220,12 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
 
                     @Override
                     public void onStart() {
-
+                        showProgressDialog(R.string.dialog_msg_loading);
                     }
 
                     @Override
                     public void onFinish() {
-
+                        hideProgressDialog();
                     }
 
                     @Override
@@ -258,20 +259,20 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
 			System.out.println("responseresponse" + response);
 			LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
 
-			user appin = detail.user;
+			User appin = detail.user;
 //			log("my id is " + appin.id);
 //			log("my id is " + detail.user.id);
 
-			String appid = String.valueOf(detail.user.id);
-			System.out.println("my id is " + appid);
+            SessionManager.Instance.onUserLoggedIn(detail.user);
 
-			appPref.SaveData("Uid", appid);
-			appPref.SaveData("email", detail.user.email);
+//			String appid = String.valueOf(detail.user.id);
+//			System.out.println("my id is " + appid);
+
+//			appPref.SaveData("Uid", appid);
+//			appPref.SaveData("email", detail.user.email);
 			
 			nextfragment(new FragmentPayment(), false, R.id.container);
-		 
-			 
-			 
+
 		} catch (Exception e) {
             AppLogger.log(TAG, e);
 		}

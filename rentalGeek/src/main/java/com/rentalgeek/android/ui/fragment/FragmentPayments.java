@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.api.ApiManager;
+import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.RoommateGroup;
 
 import butterknife.ButterKnife;
@@ -37,7 +37,7 @@ public class FragmentPayments extends GeekBaseFragment {
     }
 
     protected void evaluatePendingPayments() {
-        if (ApiManager.currentUser != null && !TextUtils.isEmpty(ApiManager.currentUser.completed_lease_id)) {
+        if (SessionManager.Instance.getCurrentUser() != null && !TextUtils.isEmpty(SessionManager.Instance.getCurrentUser().completed_lease_id)) {
             layoutProcessPayment.setVisibility(View.VISIBLE);
         } else {
             layoutProcessPayment.setVisibility(View.GONE);

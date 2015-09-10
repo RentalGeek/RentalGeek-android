@@ -10,6 +10,7 @@
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light">
         <item name="android:datePickerStyle">@style/MyDatePicker</item>
         <item name="android:alertDialogStyle">@style/GeekDialog</item>
+        <!--<item name="android:textColor">@android:color/black</item>-->
     </style>
 
     <style name="GeekDialog" parent="android:Theme.Dialog">

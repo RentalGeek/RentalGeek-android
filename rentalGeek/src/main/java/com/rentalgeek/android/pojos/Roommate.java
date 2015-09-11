@@ -12,5 +12,6 @@ public class Roommate {
     public String cosigner_full_name;
     public String cosigner_status;
     public String cosigner_lease_signed_on;
+//    public Boolean is_my_cosignee;
 
 }

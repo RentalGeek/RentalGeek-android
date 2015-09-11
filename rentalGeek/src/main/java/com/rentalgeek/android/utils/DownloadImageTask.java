@@ -42,7 +42,7 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
     protected void onPostExecute(Bitmap bitmap) {
         int originalHeight = imageLayout.getHeight();
         Drawable d = new BitmapDrawable(bitmap);
-        d.setAlpha(200);
+        d.setAlpha(150);
         imageLayout.setMaxHeight(originalHeight);
         imageLayout.setImageDrawable(d);
     }

@@ -17,7 +17,7 @@ public class CosignItem {
     private double numBathrooms;
     private List<Roommate> roommates;
     private PropertyContactInfo propertyContactInfo;
-    private String imageUrl;
+    private String imageUrl = "https://s3-us-west-2.amazonaws.com/rental-geek/property-header.jpg";
 
     public CosignItem() {
     }
@@ -28,9 +28,8 @@ public class CosignItem {
         this.monthlyCost = rentalOffering.monthly_rent_ceiling;
         this.numBedrooms = rentalOffering.bedroom_count;
         this.numBathrooms = rentalOffering.full_bathroom_count + rentalOffering.half_bathroom_count/2;
-        this.roommates = application.roommates;
+        this.roommates = application.roommates; //change to application.cosignee_roomates after that field starts coming down
         this.propertyContactInfo = new PropertyContactInfo(rentalOffering.rental_complex_name, rentalOffering.customer_contact_email_address, rentalOffering.customer_contact_phone_number);
-        this.imageUrl = rentalOffering.primary_property_photo_url;
     }
 
     public Address getAddress() {
@@ -91,7 +90,7 @@ public class CosignItem {
                 text += "Awaiting signature from <b>" + roommate.full_name + " </b><br /><br />";
             }
 
-            if (roommate.cosigner_lease_signed_on == null /*&& roommate.is_my_cosignee*/) {
+            if (roommate.cosigner_lease_signed_on == null /*&& roommate.is_my_cosignee == Boolean.TRUE*/) {
                 text += "<font color='red'>Awaiting Your Signature</font><br /><br />";
             }
         }

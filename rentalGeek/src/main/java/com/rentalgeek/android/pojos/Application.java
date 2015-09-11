@@ -18,6 +18,7 @@ public class Application {
     public Integer lease_id;
     public String unsigned_lease_document_url;
     public ArrayList<Roommate> roommates;
+//    public ArrayList<Roommate> cosignee_roommates; //uncomment after cosignee_roommates field starts coming down
     public RentalOffering rental_offering;
 
 }

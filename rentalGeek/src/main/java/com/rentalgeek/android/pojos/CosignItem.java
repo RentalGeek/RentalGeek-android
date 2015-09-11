@@ -91,7 +91,7 @@ public class CosignItem {
                 text += "Awaiting signature from <b>" + roommate.full_name + " </b><br /><br />";
             }
 
-            if (roommate.cosigner_lease_signed_on == null) {
+            if (roommate.cosigner_lease_signed_on == null /*&& roommate.is_my_cosignee*/) {
                 text += "<font color='red'>Awaiting Your Signature</font><br /><br />";
             }
         }

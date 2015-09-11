@@ -138,14 +138,6 @@
                 android:textSize="11sp"
                 />
 
-            <TextView
-                android:id="@+id/awaiting_signature_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Awaiting Your Signature"
-                android:textColor="@color/red"
-                />
-
         </LinearLayout>
 
         <!--bottom portion for contact info-->

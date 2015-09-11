@@ -30,7 +30,6 @@ public class CosignerListAdapter extends RecyclerView.Adapter<CosignerListAdapte
         public TextView costTextView;
         public Button signApproveButton;
         public TextView leaseSignersTextView;
-        public TextView awaitingSignaturesTextView;
         public TextView propertyNameTextView;
         public TextView propertyEmailTextView;
         public TextView propertyPhoneTextView;
@@ -43,7 +42,6 @@ public class CosignerListAdapter extends RecyclerView.Adapter<CosignerListAdapte
             costTextView = (TextView)view.findViewById(R.id.cost_text_view);
             signApproveButton = (Button)view.findViewById(R.id.sign_approve_button);
             leaseSignersTextView = (TextView)view.findViewById(R.id.lease_signers_textview);
-            awaitingSignaturesTextView = (TextView)view.findViewById(R.id.awaiting_signature_textview);
             propertyNameTextView = (TextView)view.findViewById(R.id.property_name);
             propertyEmailTextView = (TextView)view.findViewById(R.id.property_email);
             propertyPhoneTextView = (TextView)view.findViewById(R.id.property_phone);
@@ -77,10 +75,9 @@ public class CosignerListAdapter extends RecyclerView.Adapter<CosignerListAdapte
         holder.costTextView.setText(item.getMonthlyCostText());
         holder.signApproveButton.setText(item.getButtonText());
         holder.leaseSignersTextView.setText(item.getLeaseSignersText());
-        holder.awaitingSignaturesTextView.setText(item.getAwaitingSignatureText() + " ");
         holder.propertyNameTextView.setText(item.getPropertyContactInfo().getName() + " ");
         holder.propertyEmailTextView.setText(item.getPropertyContactInfo().getEmail() + " ");
-        holder.propertyPhoneTextView.setText(item.getPropertyContactInfo().getPhoneNumber() + " ");
+        holder.propertyPhoneTextView.setText(item.getPropertyContactInfo().getFormattedPhoneNumber() + " ");
     }
 
     @Override

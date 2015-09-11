@@ -8,6 +8,6 @@ import java.util.ArrayList;
  */
 public class ApplicationDetails {
 
-    private ArrayList<Application> applications;
+    public ArrayList<Application> applications;
 
 }

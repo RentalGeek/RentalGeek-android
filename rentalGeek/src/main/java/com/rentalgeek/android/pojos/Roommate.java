@@ -6,11 +6,11 @@ package com.rentalgeek.android.pojos;
  */
 public class Roommate {
 
-    private String full_name;
-    private String status;
-    private String lease_signed_on;
-    private String cosigner_full_name;
-    private String cosigner_status;
-    private String cosigner_lease_signed_on;
+    public String full_name;
+    public String status;
+    public String lease_signed_on;
+    public String cosigner_full_name;
+    public String cosigner_status;
+    public String cosigner_lease_signed_on;
 
 }

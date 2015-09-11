@@ -9,6 +9,7 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.pojos.Application;
 import com.rentalgeek.android.pojos.ApplicationDetails;
 import com.rentalgeek.android.pojos.CosignItem;
 import com.rentalgeek.android.ui.adapter.CosignerListAdapter;
@@ -49,11 +50,6 @@ public class ActivityCosignerList extends GeekBaseActivity {
     }
 
     private void fetchCosignItems() {
-//        cosignItems = Stub.cosignItems();
-//        adapter.setItems(cosignItems);
-//        adapter.notifyDataSetChanged();
-
-
         GlobalFunctions.getApiCall(this, ApiManager.getApplyUrl(), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
             @Override
             public void onSuccess(String content) {
@@ -70,7 +66,15 @@ public class ActivityCosignerList extends GeekBaseActivity {
 
     private void parseResponse(String response) {
         ApplicationDetails applicationDetails = new Gson().fromJson(response, ApplicationDetails.class);
-        // call CosignItem Constructor that accepts an ApplicationDetails
+
+        for (int i = 0; i < applicationDetails.applications.size(); i++) {
+            Application application = applicationDetails.applications.get(i);
+            CosignItem cosignItem = new CosignItem(application);
+            cosignItems.add(cosignItem);
+        }
+
+        adapter.setItems(cosignItems);
+        adapter.notifyDataSetChanged();
     }
 
 }

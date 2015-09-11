@@ -8,16 +8,16 @@ import java.util.ArrayList;
  */
 public class Application {
 
-    private Integer id;
-    private Integer user_id;
-    private Integer rental_offering_id;
-    private Boolean accepted;
-    private Boolean as_cosigner;
-    private String access_token;
-    private String signed_lease_url;
-    private Integer lease_id;
-    private String unsigned_lease_document_url;
-    private ArrayList<Roommate> roommates;
-    private RentalOffering rental_offering;
+    public Integer id;
+    public Integer user_id;
+    public Integer rental_offering_id;
+    public Boolean accepted;
+    public Boolean as_cosigner;
+    public String access_token;
+    public String signed_lease_url;
+    public Integer lease_id;
+    public String unsigned_lease_document_url;
+    public ArrayList<Roommate> roommates;
+    public RentalOffering rental_offering;
 
 }

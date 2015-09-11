@@ -11,13 +11,27 @@ import java.util.List;
  */
 public class CosignItem {
 
-    private Address address; //inside rental_offering: myname=jsonname, street=address, city=city, stateAbbreviation=state, zip=zipcode(?int or string)
-    private int monthlyCost; //inside rental_offering: monthly_rent_ceiling(int)
-    private int numBedrooms; //inside rental_offering: bedroom_count(int)
-    private int numBathrooms; //inside rental_offering: full_bathroom_count(int) + half_bathroom_count(int)
-    private List<LeaseSigner> signers; //inside roommates[]: full_name, lease_signed_on
-    private PropertyContactInfo propertyContactInfo; //inside rental_offering: rental_complex_name, customer_contact_email_address, customer_contact_phone_number(int)
-    private String imageUrl; //inside rental_offering: primary_property_photo_url (might not be full url)
+    private Address address;
+    private int monthlyCost;
+    private int numBedrooms;
+    private double numBathrooms;
+    private List<Roommate> roommates;
+    private PropertyContactInfo propertyContactInfo;
+    private String imageUrl;
+
+    public CosignItem() {
+    }
+
+    public CosignItem(Application application) {
+        RentalOffering rentalOffering = application.rental_offering;
+        this.address = new Address(rentalOffering.address, rentalOffering.city, rentalOffering.state, rentalOffering.zipcode);
+        this.monthlyCost = rentalOffering.monthly_rent_ceiling;
+        this.numBedrooms = rentalOffering.bedroom_count;
+        this.numBathrooms = rentalOffering.full_bathroom_count + rentalOffering.half_bathroom_count/2;
+        this.roommates = application.roommates;
+        this.propertyContactInfo = new PropertyContactInfo(rentalOffering.rental_complex_name, rentalOffering.customer_contact_email_address, rentalOffering.customer_contact_phone_number);
+        this.imageUrl = rentalOffering.primary_property_photo_url;
+    }
 
     public Address getAddress() {
         return address;
@@ -47,7 +61,7 @@ public class CosignItem {
         this.numBedrooms = numBedrooms;
     }
 
-    public int getNumBathrooms() {
+    public double getNumBathrooms() {
         return numBathrooms;
     }
 
@@ -59,19 +73,27 @@ public class CosignItem {
         this.numBathrooms = numBathrooms;
     }
 
-    public List<LeaseSigner> getSigners() {
-        return signers;
+    public List<Roommate> getRoommates() {
+        return roommates;
     }
 
-    public void setSigners(List<LeaseSigner> signers) {
-        this.signers = signers;
+    public void setRoommates(List<Roommate> roommates) {
+        this.roommates = roommates;
     }
 
     public Spanned getLeaseSignersText() {
         String text = "";
 
-        for (LeaseSigner signer : getSigners()) {
-            text += "Lease signed by <b>" + signer.getName() + " </b>" + signer.getDate() + "<br /><br />";
+        for (Roommate roommate : getRoommates()) {
+            if (roommate.lease_signed_on != null) {
+                text += "Lease signed by <b>" + roommate.full_name + " </b>" + roommate.lease_signed_on + "<br /><br />";
+            } else {
+                text += "Awaiting signature from <b>" + roommate.full_name + " </b><br /><br />";
+            }
+
+            if (roommate.cosigner_lease_signed_on == null) {
+                text += "<font color='red'>Awaiting Your Signature</font><br /><br />";
+            }
         }
 
         return Html.fromHtml(text);
@@ -95,10 +117,6 @@ public class CosignItem {
 
     public String getButtonText() {
         return "SIGN LEASE";
-    }
-
-    public String getAwaitingSignatureText() {
-        return "Awaiting Your Signature";
     }
 
 }

@@ -1,5 +1,7 @@
 package com.rentalgeek.android.pojos;
 
+import android.telephony.PhoneNumberUtils;
+
 /**
  * Created by rajohns on 9/7/15.
  *
@@ -34,6 +36,10 @@ public class PropertyContactInfo {
 
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    public String getFormattedPhoneNumber() {
+        return PhoneNumberUtils.formatNumber(phoneNumber, "US");
     }
 
     public void setPhoneNumber(String phoneNumber) {

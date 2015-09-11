@@ -50,7 +50,14 @@ public class CosignerListAdapter extends RecyclerView.Adapter<CosignerListAdapte
         }
     }
 
+    public CosignerListAdapter() {
+    }
+
     public CosignerListAdapter(List<CosignItem> cosignItems) {
+        this.cosignItems = cosignItems;
+    }
+
+    public void setItems(List<CosignItem> cosignItems) {
         this.cosignItems = cosignItems;
     }
 

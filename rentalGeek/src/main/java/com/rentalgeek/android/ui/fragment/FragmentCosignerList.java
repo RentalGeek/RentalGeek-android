@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.rentalgeek.android.R;
@@ -31,6 +32,7 @@ import butterknife.InjectView;
 public class FragmentCosignerList extends GeekBaseFragment {
 
     @InjectView(R.id.recyclerView) RecyclerView recyclerView;
+    @InjectView(R.id.no_items_view) TextView noItemsView;
     List<CosignItem> cosignItems = new ArrayList<>();
     CosignerListAdapter adapter = new CosignerListAdapter();
 
@@ -54,7 +56,7 @@ public class FragmentCosignerList extends GeekBaseFragment {
     }
 
     private void fetchCosignItems() {
-        GlobalFunctions.getApiCall(getActivity(), ApiManager.getApplyUrl(), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
+        GlobalFunctions.getApiCall(getActivity(), ApiManager.getCosignerItemsUrl(), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
             @Override
             public void onStart() {
                 super.onStart();
@@ -82,6 +84,14 @@ public class FragmentCosignerList extends GeekBaseFragment {
 
     private void parseResponse(String response) {
         ApplicationDetails applicationDetails = new Gson().fromJson(response, ApplicationDetails.class);
+
+        if (applicationDetails.applications.size() == 0) {
+            recyclerView.setVisibility(View.GONE);
+            noItemsView.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            noItemsView.setVisibility(View.GONE);
+        }
 
         for (int i = 0; i < applicationDetails.applications.size(); i++) {
             Application application = applicationDetails.applications.get(i);

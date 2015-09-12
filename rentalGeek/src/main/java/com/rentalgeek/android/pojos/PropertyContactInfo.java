@@ -39,6 +39,10 @@ public class PropertyContactInfo {
     }
 
     public String getFormattedPhoneNumber() {
+        if (phoneNumber == null) {
+            phoneNumber = "";
+        }
+
         return PhoneNumberUtils.formatNumber(phoneNumber, "US");
     }
 

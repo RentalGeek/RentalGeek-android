@@ -220,12 +220,14 @@ public class GeekBaseActivity extends AppCompatActivity {
                     case R.id.payment:
                         Navigation.navigateActivity(activity, ActivityPayments.class);
                         return true;
+                    case R.id.cosigner:
+                        Navigation.navigateActivity(activity, ActivityCosignerList.class);
+                        return true;
                 }
                 return false;
             }
         });
     }
-
 
     public void onEventMainThread(AppDialogRequestEvent<?> event) {
         GeekDialog.AppDialogFragment dialog = GeekDialog.showDialog(this, event.getClazz(), event.getArgs(), event.getCaller());

@@ -183,9 +183,9 @@ public class GeekBaseActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         navigationView = (NavigationView) findViewById(R.id.navigationView);
 
-        setVisibilityForCosignerMenuItem();
-
         if (navigationView != null && drawerLayout != null) {
+            setVisibilityForCosignerMenuItem();
+
             if (showSlider) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                 setupDrawerListener(navigationView);
@@ -220,6 +220,7 @@ public class GeekBaseActivity extends AppCompatActivity {
                         Navigation.navigateActivity(activity, ActivityFavoriteProperties.class);
                         return true;
                     case R.id.properties:
+                        Navigation.navigateActivity(activity, ActivityProperties.class);
                         return true;
                     case R.id.payment:
                         Navigation.navigateActivity(activity, ActivityPayments.class);

@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
@@ -181,6 +182,9 @@ public class GeekBaseActivity extends AppCompatActivity {
     protected void setupNavigationView() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         navigationView = (NavigationView) findViewById(R.id.navigationView);
+
+        setVisibilityForCosignerMenuItem();
+
         if (navigationView != null && drawerLayout != null) {
             if (showSlider) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
@@ -233,4 +237,18 @@ public class GeekBaseActivity extends AppCompatActivity {
         GeekDialog.AppDialogFragment dialog = GeekDialog.showDialog(this, event.getClazz(), event.getArgs(), event.getCaller());
         if (dialog != null) dialog.setCancelable(event.isCancellable());
     }
+
+    private void setVisibilityForCosignerMenuItem() {
+        Menu menu = navigationView.getMenu();
+
+        if (menu != null) {
+            MenuItem cosignerItem = menu.findItem(R.id.cosigner);
+            if (SessionManager.Instance.getCurrentUser() != null && !SessionManager.Instance.getCurrentUser().is_cosigner) {
+                if (cosignerItem != null) {
+                    cosignerItem.setVisible(false);
+                }
+            }
+        }
+    }
+
 }

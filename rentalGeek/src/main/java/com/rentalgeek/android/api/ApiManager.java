@@ -3,8 +3,6 @@ package com.rentalgeek.android.api;
 
 import android.text.TextUtils;
 
-import com.rentalgeek.android.backend.LoginBackend;
-
 public class ApiManager {
 
     // Default host
@@ -28,6 +26,10 @@ public class ApiManager {
     public static String getApplyUrl() {
         String url = API_HOST + "/applications";
         return url;
+    }
+
+    public static String getCosignerItemsUrl() {
+        return getApplyUrl() + "?as_cosigner=true";
     }
 
 //    public static String getRemoveStarredPropertyUrl(String propertyId) {

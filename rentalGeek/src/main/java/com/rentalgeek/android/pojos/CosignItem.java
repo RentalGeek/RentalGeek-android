@@ -28,7 +28,7 @@ public class CosignItem {
         this.monthlyCost = rentalOffering.monthly_rent_ceiling;
         this.numBedrooms = rentalOffering.bedroom_count;
         this.numBathrooms = rentalOffering.full_bathroom_count + rentalOffering.half_bathroom_count/2;
-        this.roommates = application.roommates; //change to application.cosignee_roomates after that field starts coming down
+        this.roommates = application.cosigner_roommates;
         this.propertyContactInfo = new PropertyContactInfo(rentalOffering.rental_complex_name, rentalOffering.customer_contact_email_address, rentalOffering.customer_contact_phone_number);
     }
 
@@ -90,8 +90,10 @@ public class CosignItem {
                 text += "Awaiting signature from <b>" + roommate.full_name + " </b><br /><br />";
             }
 
-            if (roommate.cosigner_lease_signed_on == null /*&& roommate.is_my_cosignee == Boolean.TRUE*/) {
-                text += "<font color='red'>Awaiting Your Signature</font><br /><br />";
+            if (roommate.cosigner_lease_signed_on != null) {
+                text += "Lease co-signed by <b> " + roommate.cosigner_full_name + "</b>" + roommate.cosigner_lease_signed_on + "<br /><br />";
+            } else {
+                text += "<font color='red'>Awaiting co-signature from <b> " + roommate.cosigner_full_name + "</b></font><br /><br />";
             }
         }
 

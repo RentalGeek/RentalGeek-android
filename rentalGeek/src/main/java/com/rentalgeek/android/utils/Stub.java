@@ -18,10 +18,14 @@ public class Stub {
         List<Roommate> roommates = new ArrayList<>();
         Roommate roommate1 = new Roommate();
         roommate1.full_name = "Matt Smith";
+        roommate1.cosigner_full_name = "Adam Johns";
         roommate1.lease_signed_on = "08/10/2015";
+        roommate1.cosigner_lease_signed_on = "08/11/2015";
         Roommate roommate2 = new Roommate();
         roommate2.full_name = "John Johnson";
+        roommate2.cosigner_full_name = "Random Guy";
         roommate2.lease_signed_on = "08/11/2015";
+        roommate2.cosigner_lease_signed_on = "08/12/2015";
         roommates.add(roommate1);
         roommates.add(roommate2);
 

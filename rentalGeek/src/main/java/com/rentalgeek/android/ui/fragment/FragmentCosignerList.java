@@ -34,7 +34,7 @@ public class FragmentCosignerList extends GeekBaseFragment {
     @InjectView(R.id.recyclerView) RecyclerView recyclerView;
     @InjectView(R.id.no_items_view) TextView noItemsView;
     List<CosignItem> cosignItems = new ArrayList<>();
-    CosignerListAdapter adapter = new CosignerListAdapter();
+    CosignerListAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

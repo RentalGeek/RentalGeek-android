@@ -19,6 +19,10 @@ public class PropertyContactInfo {
     }
 
     public String getName() {
+        if (name == null) {
+            return "Property name: N/A";
+        }
+
         return name;
     }
 
@@ -27,6 +31,10 @@ public class PropertyContactInfo {
     }
 
     public String getEmail() {
+        if (email == null) {
+            return "Email: N/A";
+        }
+
         return email;
     }
 
@@ -34,20 +42,12 @@ public class PropertyContactInfo {
         this.email = email;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
     public String getFormattedPhoneNumber() {
         if (phoneNumber == null) {
-            phoneNumber = "";
+            return "Phone number: N/A";
         }
 
         return PhoneNumberUtils.formatNumber(phoneNumber, "US");
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
 }

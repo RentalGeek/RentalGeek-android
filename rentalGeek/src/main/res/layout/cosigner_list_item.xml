@@ -130,18 +130,7 @@
             android:orientation="vertical"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            >
-
-            <TextView
-                android:id="@+id/lease_signers_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Lease signed by John Johnson 08/10/2015 \n\nLease signed by Matt Smith 08/11/2015"
-                android:textColor="@color/black"
-                android:textSize="11sp"
-                />
-
-        </LinearLayout>
+            />
 
         <!--bottom portion for contact info-->
         <LinearLayout

@@ -80,26 +80,6 @@ public class CosignItem {
         this.roommates = roommates;
     }
 
-    public Spanned getLeaseSignersText() {
-        String text = "";
-
-        for (Roommate roommate : getRoommates()) {
-            if (roommate.lease_signed_on != null) {
-                text += "Lease signed by " + roommate.full_name + " " + roommate.lease_signed_on + "<br><br>";
-            } else {
-                text += "Awaiting signature from " + roommate.full_name + "<br><br>";
-            }
-
-            if (roommate.cosigner_lease_signed_on != null) {
-                text += "Lease co-signed by " + roommate.cosigner_full_name + " " + roommate.cosigner_lease_signed_on + "<br><br>";
-            } else {
-                text += "<font color='red'>Awaiting cosignature from  " + roommate.cosigner_full_name + "</font><br><br>";
-            }
-        }
-
-        return Html.fromHtml(text);
-    }
-
     public PropertyContactInfo getPropertyContactInfo() {
         return propertyContactInfo;
     }
@@ -118,6 +98,46 @@ public class CosignItem {
 
     public String getButtonText() {
         return "SIGN LEASE";
+    }
+
+    public Spanned getLeftTextForRoomate(Roommate roommate) {
+        String text = "";
+        if (roommate.lease_signed_on != null) {
+            text += "Lease signed by  <b>" + roommate.full_name + "</b>";
+        } else {
+            text += "Awaiting signature from  <b>" + roommate.full_name + "</b>";
+        }
+
+        text = text.replace("  ", "&nbsp;&nbsp;");
+        return Html.fromHtml(text);
+    }
+
+    public Spanned getLeftTextForCosigner(Roommate roommate) {
+        String text = "";
+        if (roommate.cosigner_lease_signed_on != null) {
+            text += "Lease cosigned by  <b>" + roommate.cosigner_full_name + "</b>";
+        } else {
+            text += "Awaiting cosignature from  <b>" + roommate.cosigner_full_name + "</b>";
+        }
+
+        text = text.replace("  ", "&nbsp;&nbsp;");
+        return Html.fromHtml(text);
+    }
+
+    public String getDateTextForRoomate(Roommate roommate) {
+        if (roommate.lease_signed_on == null) {
+            return "N/A";
+        }
+
+        return roommate.lease_signed_on;
+    }
+
+    public String getDateTextForCosigner(Roommate roommate) {
+        if (roommate.cosigner_lease_signed_on == null) {
+            return "N/A";
+        }
+
+        return roommate.cosigner_lease_signed_on;
     }
 
 }

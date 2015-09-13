@@ -32,7 +32,7 @@ public class FragmentPropertiesApproved extends GeekBaseFragment {
 
     @InjectView(R.id.recyclerView) RecyclerView recyclerView;
     List<CosignItem> cosignItems = new ArrayList<>();
-    CosignerListAdapter adapter = new CosignerListAdapter();
+    CosignerListAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -1,16 +1,22 @@
 package com.rentalgeek.android.ui.adapter;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.pojos.CosignItem;
+import com.rentalgeek.android.pojos.Roommate;
 import com.rentalgeek.android.utils.DownloadImageTask;
 
 import java.util.List;
@@ -30,10 +36,11 @@ public class CosignerListAdapter extends RecyclerView.Adapter<CosignerListAdapte
         public TextView numBedsBathsTextView;
         public TextView costTextView;
         public Button signApproveButton;
-        public TextView leaseSignersTextView;
         public TextView propertyNameTextView;
         public TextView propertyEmailTextView;
         public TextView propertyPhoneTextView;
+        public LinearLayout dynamicNamesLayout;
+
         public CosignerListViewHolder(View view) {
             super(view);
             topImageLayout = (ImageView)view.findViewById(R.id.top_image_layout);
@@ -42,15 +49,12 @@ public class CosignerListAdapter extends RecyclerView.Adapter<CosignerListAdapte
             numBedsBathsTextView = (TextView)view.findViewById(R.id.num_beds_baths);
             costTextView = (TextView)view.findViewById(R.id.cost_text_view);
             signApproveButton = (Button)view.findViewById(R.id.sign_approve_button);
-            leaseSignersTextView = (TextView)view.findViewById(R.id.lease_signers_textview);
             propertyNameTextView = (TextView)view.findViewById(R.id.property_name);
             propertyEmailTextView = (TextView)view.findViewById(R.id.property_email);
             propertyEmailTextView.setPaintFlags(propertyEmailTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             propertyPhoneTextView = (TextView)view.findViewById(R.id.property_phone);
+            dynamicNamesLayout = (LinearLayout)view.findViewById(R.id.lease_signed_lines);
         }
-    }
-
-    public CosignerListAdapter() {
     }
 
     public CosignerListAdapter(List<CosignItem> cosignItems) {
@@ -76,10 +80,70 @@ public class CosignerListAdapter extends RecyclerView.Adapter<CosignerListAdapte
         holder.numBedsBathsTextView.setText(item.getNumBedBathText() + " ");
         holder.costTextView.setText(item.getMonthlyCostText() + " ");
         holder.signApproveButton.setText(item.getButtonText());
-        holder.leaseSignersTextView.setText(item.getLeaseSignersText());
         holder.propertyNameTextView.setText(item.getPropertyContactInfo().getName() + " ");
         holder.propertyEmailTextView.setText(item.getPropertyContactInfo().getEmail() + " ");
         holder.propertyPhoneTextView.setText(item.getPropertyContactInfo().getFormattedPhoneNumber() + " ");
+
+        LinearLayout wholeLayout = holder.dynamicNamesLayout;
+        Context context = wholeLayout.getContext();
+
+        for (Roommate roommate : item.getRoommates()) {
+            LinearLayout roommateAndCosignerLayout = new LinearLayout(context);
+            roommateAndCosignerLayout.setOrientation(LinearLayout.VERTICAL);
+            roommateAndCosignerLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+                LinearLayout roommateLine = new LinearLayout(context);
+                roommateLine.setOrientation(LinearLayout.HORIZONTAL);
+                LinearLayout.LayoutParams roommateLineLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                roommateLineLayoutParams.setMargins(0, 0, 0, 10);
+                roommateLine.setLayoutParams(roommateLineLayoutParams);
+
+                    TextView roommateNameText = new TextView(context);
+                    roommateNameText.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.75f));
+                    roommateNameText.setTextColor(Color.BLACK);
+                    roommateNameText.setTextSize(11);
+                    roommateNameText.setText(item.getLeftTextForRoomate(roommate));
+
+                    TextView roommateDateText = new TextView(context);
+                    roommateDateText.setText(item.getDateTextForRoomate(roommate) + " ");
+                    roommateDateText.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.25f));
+                    roommateDateText.setGravity(Gravity.RIGHT);
+                    roommateDateText.setTextColor(Color.BLACK);
+                    roommateDateText.setTextSize(11);
+
+                LinearLayout cosignerLine = new LinearLayout(context);
+                cosignerLine.setOrientation(LinearLayout.HORIZONTAL);
+                LinearLayout.LayoutParams cosignerLineLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                cosignerLineLayoutParams.setMargins(0, 0, 0, 10);
+                cosignerLine.setLayoutParams(cosignerLineLayoutParams);
+
+                    TextView cosignerNameText = new TextView(context);
+                    cosignerNameText.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.75f));
+                    cosignerNameText.setTextColor(Color.BLACK);
+                    cosignerNameText.setTextSize(11);
+                    cosignerNameText.setText(item.getLeftTextForCosigner(roommate));
+
+                    TextView cosignerDateText = new TextView(context);
+                    cosignerDateText.setText(item.getDateTextForCosigner(roommate) + " ");
+                    cosignerDateText.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.25f));
+                    cosignerDateText.setGravity(Gravity.RIGHT);
+                    cosignerDateText.setTextColor(Color.BLACK);
+                    cosignerDateText.setTextSize(11);
+
+            roommateLine.addView(roommateNameText);
+            roommateLine.addView(roommateDateText);
+            cosignerLine.addView(cosignerNameText);
+            cosignerLine.addView(cosignerDateText);
+            roommateAndCosignerLayout.addView(roommateLine);
+            roommateAndCosignerLayout.addView(cosignerLine);
+            wholeLayout.addView(roommateAndCosignerLayout);
+        }
+    }
+
+    @Override
+    public void onViewRecycled(CosignerListViewHolder holder) {
+        super.onViewRecycled(holder);
+        holder.dynamicNamesLayout.removeAllViews();
     }
 
     @Override

@@ -19,35 +19,35 @@ public class Address {
     }
 
     public String getStreet() {
+        if (street == null) {
+            return "Street: N/A";
+        }
+
         return street;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
     public String getCity() {
+        if (city == null) {
+            return "City: N/A";
+        }
+
         return city;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
     public String getStateAbbrevation() {
+        if (stateAbbrevation == null) {
+            return "State: N/A";
+        }
+
         return stateAbbrevation;
     }
 
-    public void setStateAbbrevation(String stateAbbrevation) {
-        this.stateAbbrevation = stateAbbrevation;
-    }
-
     public String getZip() {
-        return zip;
-    }
+        if (zip == null) {
+            return "Zip: N/A";
+        }
 
-    public void setZip(String zip) {
-        this.zip = zip;
+        return zip;
     }
 
     public String getAddressline2() {

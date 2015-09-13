@@ -134,6 +134,7 @@
 
         <!--bottom portion for contact info-->
         <LinearLayout
+            android:id="@+id/bottom_contact_blue_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"

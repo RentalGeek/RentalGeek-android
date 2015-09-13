@@ -17,7 +17,7 @@ import butterknife.InjectView;
  * Created by rajohns on 9/12/15.
  *
  */
-public class FragmentPropertiesApplied extends GeekBaseFragment {
+public class FragmentAppliedProperties extends GeekBaseFragment {
 
     @InjectView(R.id.recyclerView) RecyclerView recyclerView;
 

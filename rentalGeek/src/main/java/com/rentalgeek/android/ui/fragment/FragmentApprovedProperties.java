@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.rentalgeek.android.R;
@@ -28,9 +29,10 @@ import butterknife.InjectView;
  * Created by rajohns on 9/12/15.
  *
  */
-public class FragmentPropertiesApproved extends GeekBaseFragment {
+public class FragmentApprovedProperties extends GeekBaseFragment {
 
     @InjectView(R.id.recyclerView) RecyclerView recyclerView;
+    @InjectView(R.id.no_items_view) TextView noItemsView;
     List<ApplicationItem> applicationItems = new ArrayList<>();
     ApplicationListAdapter adapter;
 
@@ -40,7 +42,7 @@ public class FragmentPropertiesApproved extends GeekBaseFragment {
         ButterKnife.inject(this, view);
 
         setupRecyclerView();
-        fetchCosignItems();
+        fetchApprovedProperties();
 
         return view;
     }
@@ -49,11 +51,11 @@ public class FragmentPropertiesApproved extends GeekBaseFragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new ApplicationListAdapter(applicationItems);
+        adapter = new ApplicationListAdapter(applicationItems, false);
         recyclerView.setAdapter(adapter);
     }
 
-    private void fetchCosignItems() {
+    private void fetchApprovedProperties() {
         GlobalFunctions.getApiCall(getActivity(), ApiManager.getApplyUrl(), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
             @Override
             public void onStart() {
@@ -83,13 +85,13 @@ public class FragmentPropertiesApproved extends GeekBaseFragment {
     private void parseResponse(String response) {
         ApplicationDetailsDTO applicationDetailsDTO = new Gson().fromJson(response, ApplicationDetailsDTO.class);
 
-//        if (applicationDetails.applications.size() == 0) {
-//            recyclerView.setVisibility(View.GONE);
-//            noItemsView.setVisibility(View.VISIBLE);
-//        } else {
-//            recyclerView.setVisibility(View.VISIBLE);
-//            noItemsView.setVisibility(View.GONE);
-//        }
+        if (applicationDetailsDTO.applications.size() == 0) {
+            recyclerView.setVisibility(View.GONE);
+            noItemsView.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            noItemsView.setVisibility(View.GONE);
+        }
 
         for (int i = 0; i < applicationDetailsDTO.applications.size(); i++) {
             ApplicationDTO applicationDTO = applicationDetailsDTO.applications.get(i);

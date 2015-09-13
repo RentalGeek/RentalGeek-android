@@ -126,7 +126,7 @@ public class ApplicationItem {
 
     public String getDateTextForDate(String date) {
         if (date == null) {
-            return "Date: N/A";
+            return "";
         }
 
         return date;

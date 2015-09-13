@@ -29,11 +29,11 @@ import butterknife.InjectView;
  * Created by rajohns on 9/11/15.
  *
  */
-public class FragmentCosignerList extends GeekBaseFragment {
+public class FragmentCosignerProperties extends GeekBaseFragment {
 
     @InjectView(R.id.recyclerView) RecyclerView recyclerView;
     @InjectView(R.id.no_items_view) TextView noItemsView;
-    List<ApplicationItem> applicationItems = new ArrayList<>();
+    List<ApplicationItem> cosignerProperties = new ArrayList<>();
     ApplicationListAdapter adapter;
 
     @Override
@@ -42,7 +42,7 @@ public class FragmentCosignerList extends GeekBaseFragment {
         ButterKnife.inject(this, v);
 
         setupRecyclerView();
-        fetchCosignItems();
+        fetchCosignerProperties();
 
         return v;
     }
@@ -51,11 +51,11 @@ public class FragmentCosignerList extends GeekBaseFragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new ApplicationListAdapter(applicationItems);
+        adapter = new ApplicationListAdapter(cosignerProperties, false);
         recyclerView.setAdapter(adapter);
     }
 
-    private void fetchCosignItems() {
+    private void fetchCosignerProperties() {
         GlobalFunctions.getApiCall(getActivity(), ApiManager.getCosignerItemsUrl(), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
             @Override
             public void onStart() {
@@ -96,10 +96,10 @@ public class FragmentCosignerList extends GeekBaseFragment {
         for (int i = 0; i < applicationDetailsDTO.applications.size(); i++) {
             ApplicationDTO applicationDTO = applicationDetailsDTO.applications.get(i);
             ApplicationItem applicationItem = new ApplicationItem(applicationDTO);
-            applicationItems.add(applicationItem);
+            cosignerProperties.add(applicationItem);
         }
 
-        adapter.setItems(applicationItems);
+        adapter.setItems(cosignerProperties);
         adapter.notifyDataSetChanged();
     }
 }

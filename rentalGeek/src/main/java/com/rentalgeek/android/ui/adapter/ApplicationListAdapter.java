@@ -28,6 +28,7 @@ import java.util.List;
 public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationListAdapter.ApplicationListViewHolder> {
 
     private List<ApplicationItem> applicationItems;
+    private boolean shouldHideButtonAndBottomContactInfo = false;
 
     public static class ApplicationListViewHolder extends RecyclerView.ViewHolder {
         public ImageView topImageLayout;
@@ -57,8 +58,9 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
         }
     }
 
-    public ApplicationListAdapter(List<ApplicationItem> applicationItems) {
+    public ApplicationListAdapter(List<ApplicationItem> applicationItems, Boolean shouldHideButtonAndBottomContactInfo) {
         this.applicationItems = applicationItems;
+        this.shouldHideButtonAndBottomContactInfo = shouldHideButtonAndBottomContactInfo;
     }
 
     public void setItems(List<ApplicationItem> applicationItems) {
@@ -67,7 +69,7 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
 
     @Override
     public ApplicationListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cosigner_list_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.application_list_item, parent, false);
         return new ApplicationListViewHolder(v);
     }
 

@@ -12,8 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.pojos.CosignItem;
-import com.rentalgeek.android.pojos.Roommate;
+import com.rentalgeek.android.pojos.ApplicationItem;
+import com.rentalgeek.android.pojos.RoommateDTO;
 import com.rentalgeek.android.ui.view.PropertyDateTextView;
 import com.rentalgeek.android.ui.view.PropertyNameTextView;
 import com.rentalgeek.android.ui.view.PropertyPersonHorizontalLinearLayout;
@@ -25,11 +25,11 @@ import java.util.List;
  * Created by rajohns on 9/7/15.
  *
  */
-public class CosignerListAdapter extends RecyclerView.Adapter<CosignerListAdapter.CosignerListViewHolder> {
+public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationListAdapter.ApplicationListViewHolder> {
 
-    private List<CosignItem> cosignItems;
+    private List<ApplicationItem> applicationItems;
 
-    public static class CosignerListViewHolder extends RecyclerView.ViewHolder {
+    public static class ApplicationListViewHolder extends RecyclerView.ViewHolder {
         public ImageView topImageLayout;
         public TextView streetAddressTextView;
         public TextView cityStateZipAddressTextView;
@@ -41,7 +41,7 @@ public class CosignerListAdapter extends RecyclerView.Adapter<CosignerListAdapte
         public TextView propertyPhoneTextView;
         public LinearLayout dynamicNamesLayout;
 
-        public CosignerListViewHolder(View view) {
+        public ApplicationListViewHolder(View view) {
             super(view);
             topImageLayout = (ImageView)view.findViewById(R.id.top_image_layout);
             streetAddressTextView = (TextView)view.findViewById(R.id.street_address);
@@ -57,23 +57,23 @@ public class CosignerListAdapter extends RecyclerView.Adapter<CosignerListAdapte
         }
     }
 
-    public CosignerListAdapter(List<CosignItem> cosignItems) {
-        this.cosignItems = cosignItems;
+    public ApplicationListAdapter(List<ApplicationItem> applicationItems) {
+        this.applicationItems = applicationItems;
     }
 
-    public void setItems(List<CosignItem> cosignItems) {
-        this.cosignItems = cosignItems;
+    public void setItems(List<ApplicationItem> applicationItems) {
+        this.applicationItems = applicationItems;
     }
 
     @Override
-    public CosignerListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ApplicationListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cosigner_list_item, parent, false);
-        return new CosignerListViewHolder(v);
+        return new ApplicationListViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(CosignerListViewHolder holder, int position) {
-        CosignItem item = cosignItems.get(position);
+    public void onBindViewHolder(ApplicationListViewHolder holder, int position) {
+        ApplicationItem item = applicationItems.get(position);
         new DownloadImageTask(holder.topImageLayout).execute(item.getImageUrl());
         holder.streetAddressTextView.setText(item.getAddress().getStreet() + " ");
         holder.cityStateZipAddressTextView.setText(item.getAddress().getAddressline2() + " ");
@@ -89,7 +89,7 @@ public class CosignerListAdapter extends RecyclerView.Adapter<CosignerListAdapte
 
     @Override
     public int getItemCount() {
-        return cosignItems.size();
+        return applicationItems.size();
     }
 
     /**
@@ -99,7 +99,7 @@ public class CosignerListAdapter extends RecyclerView.Adapter<CosignerListAdapte
      * view is complicated.
      */
     @Override
-    public void onViewRecycled(CosignerListViewHolder holder) {
+    public void onViewRecycled(ApplicationListViewHolder holder) {
         super.onViewRecycled(holder);
         holder.dynamicNamesLayout.removeAllViews();
     }
@@ -116,11 +116,11 @@ public class CosignerListAdapter extends RecyclerView.Adapter<CosignerListAdapte
      * ------cosignerNameText
      * ------cosignerDateText
      */
-    private void addDynamicTextViewsForEachRoommate(CosignerListViewHolder holder, CosignItem item) {
+    private void addDynamicTextViewsForEachRoommate(ApplicationListViewHolder holder, ApplicationItem item) {
         LinearLayout wholeLayout = holder.dynamicNamesLayout;
         Context context = wholeLayout.getContext();
 
-        for (Roommate roommate : item.getRoommates()) {
+        for (RoommateDTO roommate : item.getRoommates()) {
             LinearLayout roommateAndCosignerLayout = new LinearLayout(context);
             roommateAndCosignerLayout.setOrientation(LinearLayout.VERTICAL);
             roommateAndCosignerLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -129,13 +129,13 @@ public class CosignerListAdapter extends RecyclerView.Adapter<CosignerListAdapte
                     PropertyNameTextView roommateNameText = new PropertyNameTextView(context);
                     roommateNameText.setText(item.getLeftTextForRoomate(roommate));
                     PropertyDateTextView roommateDateText = new PropertyDateTextView(context);
-                    roommateDateText.setText(item.getDateTextForRoomate(roommate) + " ");
+                    roommateDateText.setText(item.getDateTextForDate(roommate.lease_signed_on) + " ");
 
                 PropertyPersonHorizontalLinearLayout cosignerLine = new PropertyPersonHorizontalLinearLayout(context);
                     PropertyNameTextView cosignerNameText = new PropertyNameTextView(context);
                     cosignerNameText.setText(item.getLeftTextForCosigner(roommate));
                     PropertyDateTextView cosignerDateText = new PropertyDateTextView(context);
-                    cosignerDateText.setText(item.getDateTextForCosigner(roommate) + " ");
+                    cosignerDateText.setText(item.getDateTextForDate(roommate.cosigner_lease_signed_on) + " ");
 
             roommateLine.addView(roommateNameText);
             roommateLine.addView(roommateDateText);

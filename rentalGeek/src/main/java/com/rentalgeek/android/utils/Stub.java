@@ -1,9 +1,9 @@
 package com.rentalgeek.android.utils;
 
 import com.rentalgeek.android.pojos.Address;
-import com.rentalgeek.android.pojos.CosignItem;
+import com.rentalgeek.android.pojos.ApplicationItem;
 import com.rentalgeek.android.pojos.PropertyContactInfo;
-import com.rentalgeek.android.pojos.Roommate;
+import com.rentalgeek.android.pojos.RoommateDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +14,14 @@ import java.util.List;
  */
 public class Stub {
 
-    public static List<CosignItem> cosignItems() {
-        List<Roommate> roommates = new ArrayList<>();
-        Roommate roommate1 = new Roommate();
+    public static List<ApplicationItem> cosignItems() {
+        List<RoommateDTO> roommates = new ArrayList<>();
+        RoommateDTO roommate1 = new RoommateDTO();
         roommate1.full_name = "Matt Smith";
         roommate1.cosigner_full_name = "Adam Johns";
         roommate1.lease_signed_on = "08/10/2015";
         roommate1.cosigner_lease_signed_on = "08/11/2015";
-        Roommate roommate2 = new Roommate();
+        RoommateDTO roommate2 = new RoommateDTO();
         roommate2.full_name = "John Johnson";
         roommate2.cosigner_full_name = "Random Guy";
         roommate2.lease_signed_on = "08/11/2015";
@@ -33,26 +33,26 @@ public class Stub {
 
         Address address = new Address("2129 Walnut Dr.", "Manhattan", "KS", "66502");
 
-        CosignItem cosignItem = new CosignItem();
-        cosignItem.setAddress(address);
-        cosignItem.setMonthlyCost(920);
-        cosignItem.setNumBedrooms(2);
-        cosignItem.setNumBathrooms(1);
-        cosignItem.setRoommates(roommates);
-        cosignItem.setPropertyContactInfo(propertyContactInfo);
-        cosignItem.setImageUrl("https://rental-geek.s3.amazonaws.com/uploads/property_photo/photo/2155/large_IMG_3955.JPG");
+        ApplicationItem applicationItem = new ApplicationItem();
+        applicationItem.setAddress(address);
+        applicationItem.setMonthlyCost(920);
+        applicationItem.setNumBedrooms(2);
+        applicationItem.setNumBathrooms(1);
+        applicationItem.setRoommates(roommates);
+        applicationItem.setPropertyContactInfo(propertyContactInfo);
+        applicationItem.setImageUrl("https://rental-geek.s3.amazonaws.com/uploads/property_photo/photo/2155/large_IMG_3955.JPG");
 
-        List<CosignItem> stubbedCosignItems = new ArrayList<>();
-        stubbedCosignItems.add(cosignItem);
-        stubbedCosignItems.add(cosignItem);
-        stubbedCosignItems.add(cosignItem);
-        stubbedCosignItems.add(cosignItem);
-        stubbedCosignItems.add(cosignItem);
-        stubbedCosignItems.add(cosignItem);
-        stubbedCosignItems.add(cosignItem);
-        stubbedCosignItems.add(cosignItem);
+        List<ApplicationItem> stubbedApplicationItems = new ArrayList<>();
+        stubbedApplicationItems.add(applicationItem);
+        stubbedApplicationItems.add(applicationItem);
+        stubbedApplicationItems.add(applicationItem);
+        stubbedApplicationItems.add(applicationItem);
+        stubbedApplicationItems.add(applicationItem);
+        stubbedApplicationItems.add(applicationItem);
+        stubbedApplicationItems.add(applicationItem);
+        stubbedApplicationItems.add(applicationItem);
 
-        return stubbedCosignItems;
+        return stubbedApplicationItems;
     }
 
 }

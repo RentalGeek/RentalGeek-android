@@ -12,10 +12,10 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
-import com.rentalgeek.android.pojos.Application;
-import com.rentalgeek.android.pojos.ApplicationDetails;
-import com.rentalgeek.android.pojos.CosignItem;
-import com.rentalgeek.android.ui.adapter.CosignerListAdapter;
+import com.rentalgeek.android.pojos.ApplicationDTO;
+import com.rentalgeek.android.pojos.ApplicationDetailsDTO;
+import com.rentalgeek.android.pojos.ApplicationItem;
+import com.rentalgeek.android.ui.adapter.ApplicationListAdapter;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 
 import java.util.ArrayList;
@@ -31,8 +31,8 @@ import butterknife.InjectView;
 public class FragmentPropertiesApproved extends GeekBaseFragment {
 
     @InjectView(R.id.recyclerView) RecyclerView recyclerView;
-    List<CosignItem> cosignItems = new ArrayList<>();
-    CosignerListAdapter adapter;
+    List<ApplicationItem> applicationItems = new ArrayList<>();
+    ApplicationListAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,7 +49,7 @@ public class FragmentPropertiesApproved extends GeekBaseFragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new CosignerListAdapter(cosignItems);
+        adapter = new ApplicationListAdapter(applicationItems);
         recyclerView.setAdapter(adapter);
     }
 
@@ -81,7 +81,7 @@ public class FragmentPropertiesApproved extends GeekBaseFragment {
     }
 
     private void parseResponse(String response) {
-        ApplicationDetails applicationDetails = new Gson().fromJson(response, ApplicationDetails.class);
+        ApplicationDetailsDTO applicationDetailsDTO = new Gson().fromJson(response, ApplicationDetailsDTO.class);
 
 //        if (applicationDetails.applications.size() == 0) {
 //            recyclerView.setVisibility(View.GONE);
@@ -91,13 +91,13 @@ public class FragmentPropertiesApproved extends GeekBaseFragment {
 //            noItemsView.setVisibility(View.GONE);
 //        }
 
-        for (int i = 0; i < applicationDetails.applications.size(); i++) {
-            Application application = applicationDetails.applications.get(i);
-            CosignItem cosignItem = new CosignItem(application);
-            cosignItems.add(cosignItem);
+        for (int i = 0; i < applicationDetailsDTO.applications.size(); i++) {
+            ApplicationDTO applicationDTO = applicationDetailsDTO.applications.get(i);
+            ApplicationItem applicationItem = new ApplicationItem(applicationDTO);
+            applicationItems.add(applicationItem);
         }
 
-        adapter.setItems(cosignItems);
+        adapter.setItems(applicationItems);
         adapter.notifyDataSetChanged();
     }
 

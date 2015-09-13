@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by rajohns on 9/10/15.
  *
  */
-public class Application {
+public class ApplicationDTO {
 
     public Integer id;
     public Integer user_id;
@@ -17,8 +17,8 @@ public class Application {
     public String signed_lease_url;
     public Integer lease_id;
     public String unsigned_lease_document_url;
-    public ArrayList<Roommate> roommates;
-    public ArrayList<Roommate> cosigner_roommates;
-    public RentalOffering rental_offering;
+    public ArrayList<RoommateDTO> roommates;
+    public ArrayList<RoommateDTO> cosigner_roommates;
+    public RentalOfferingDTO rental_offering;
 
 }

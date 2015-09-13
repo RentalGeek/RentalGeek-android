@@ -7,7 +7,7 @@ import java.util.List;
  * Created by rajohns on 9/10/15.
  *
  */
-public class RentalOffering {
+public class RentalOfferingDTO {
 
     public Integer id;
     public Integer bedroom_count;

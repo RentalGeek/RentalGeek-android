@@ -6,8 +6,8 @@ import java.util.ArrayList;
  * Created by rajohns on 9/10/15.
  *
  */
-public class ApplicationDetails {
+public class ApplicationDetailsDTO {
 
-    public ArrayList<Application> applications;
+    public ArrayList<ApplicationDTO> applications;
 
 }

@@ -1,22 +1,22 @@
 package com.rentalgeek.android.ui.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.pojos.CosignItem;
 import com.rentalgeek.android.pojos.Roommate;
+import com.rentalgeek.android.ui.view.PropertyDateTextView;
+import com.rentalgeek.android.ui.view.PropertyNameTextView;
+import com.rentalgeek.android.ui.view.PropertyPersonHorizontalLinearLayout;
 import com.rentalgeek.android.utils.DownloadImageTask;
 
 import java.util.List;
@@ -84,6 +84,39 @@ public class CosignerListAdapter extends RecyclerView.Adapter<CosignerListAdapte
         holder.propertyEmailTextView.setText(item.getPropertyContactInfo().getEmail() + " ");
         holder.propertyPhoneTextView.setText(item.getPropertyContactInfo().getFormattedPhoneNumber() + " ");
 
+        addDynamicTextViewsForEachRoommate(holder, item);
+    }
+
+    @Override
+    public int getItemCount() {
+        return cosignItems.size();
+    }
+
+    /**
+     * Kind of a hack to prevent dynamic textviews from being re-added
+     * when the recycler row is recycled. Settling for this because
+     * this list of dynamic roommates inside each item of a recycler
+     * view is complicated.
+     */
+    @Override
+    public void onViewRecycled(CosignerListViewHolder holder) {
+        super.onViewRecycled(holder);
+        holder.dynamicNamesLayout.removeAllViews();
+    }
+
+    /**
+     * View hierarchy:
+     *
+     * wholeLayout
+     * --roommateAndCosignerLayout
+     * ----roommateLine
+     * ------roommateNameText
+     * ------roommateDateText
+     * ----cosignerLine
+     * ------cosignerNameText
+     * ------cosignerDateText
+     */
+    private void addDynamicTextViewsForEachRoommate(CosignerListViewHolder holder, CosignItem item) {
         LinearLayout wholeLayout = holder.dynamicNamesLayout;
         Context context = wholeLayout.getContext();
 
@@ -92,43 +125,17 @@ public class CosignerListAdapter extends RecyclerView.Adapter<CosignerListAdapte
             roommateAndCosignerLayout.setOrientation(LinearLayout.VERTICAL);
             roommateAndCosignerLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-                LinearLayout roommateLine = new LinearLayout(context);
-                roommateLine.setOrientation(LinearLayout.HORIZONTAL);
-                LinearLayout.LayoutParams roommateLineLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                roommateLineLayoutParams.setMargins(0, 0, 0, 10);
-                roommateLine.setLayoutParams(roommateLineLayoutParams);
-
-                    TextView roommateNameText = new TextView(context);
-                    roommateNameText.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.75f));
-                    roommateNameText.setTextColor(Color.BLACK);
-                    roommateNameText.setTextSize(11);
+                PropertyPersonHorizontalLinearLayout roommateLine = new PropertyPersonHorizontalLinearLayout(context);
+                    PropertyNameTextView roommateNameText = new PropertyNameTextView(context);
                     roommateNameText.setText(item.getLeftTextForRoomate(roommate));
-
-                    TextView roommateDateText = new TextView(context);
+                    PropertyDateTextView roommateDateText = new PropertyDateTextView(context);
                     roommateDateText.setText(item.getDateTextForRoomate(roommate) + " ");
-                    roommateDateText.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.25f));
-                    roommateDateText.setGravity(Gravity.RIGHT);
-                    roommateDateText.setTextColor(Color.BLACK);
-                    roommateDateText.setTextSize(11);
 
-                LinearLayout cosignerLine = new LinearLayout(context);
-                cosignerLine.setOrientation(LinearLayout.HORIZONTAL);
-                LinearLayout.LayoutParams cosignerLineLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                cosignerLineLayoutParams.setMargins(0, 0, 0, 10);
-                cosignerLine.setLayoutParams(cosignerLineLayoutParams);
-
-                    TextView cosignerNameText = new TextView(context);
-                    cosignerNameText.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.75f));
-                    cosignerNameText.setTextColor(Color.BLACK);
-                    cosignerNameText.setTextSize(11);
+                PropertyPersonHorizontalLinearLayout cosignerLine = new PropertyPersonHorizontalLinearLayout(context);
+                    PropertyNameTextView cosignerNameText = new PropertyNameTextView(context);
                     cosignerNameText.setText(item.getLeftTextForCosigner(roommate));
-
-                    TextView cosignerDateText = new TextView(context);
+                    PropertyDateTextView cosignerDateText = new PropertyDateTextView(context);
                     cosignerDateText.setText(item.getDateTextForCosigner(roommate) + " ");
-                    cosignerDateText.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.25f));
-                    cosignerDateText.setGravity(Gravity.RIGHT);
-                    cosignerDateText.setTextColor(Color.BLACK);
-                    cosignerDateText.setTextSize(11);
 
             roommateLine.addView(roommateNameText);
             roommateLine.addView(roommateDateText);
@@ -138,17 +145,6 @@ public class CosignerListAdapter extends RecyclerView.Adapter<CosignerListAdapte
             roommateAndCosignerLayout.addView(cosignerLine);
             wholeLayout.addView(roommateAndCosignerLayout);
         }
-    }
-
-    @Override
-    public void onViewRecycled(CosignerListViewHolder holder) {
-        super.onViewRecycled(holder);
-        holder.dynamicNamesLayout.removeAllViews();
-    }
-
-    @Override
-    public int getItemCount() {
-        return cosignItems.size();
     }
 
 }

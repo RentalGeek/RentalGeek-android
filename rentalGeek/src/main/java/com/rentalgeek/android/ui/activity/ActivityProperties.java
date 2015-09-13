@@ -14,6 +14,9 @@ import com.rentalgeek.android.ui.fragment.FragmentPropertiesApproved;
  */
 public class ActivityProperties extends GeekBaseActivity implements Container<ViewPager> {
 
+    ViewPager viewPager;
+    private int numFragmentsLoading = 0;
+
     public ActivityProperties() {
         super(true, true, true);
     }
@@ -27,7 +30,7 @@ public class ActivityProperties extends GeekBaseActivity implements Container<Vi
         setTabs(true);
         setupNavigation();
 
-        ViewPager viewPager = (ViewPager)findViewById(R.id.container);
+        viewPager = (ViewPager)findViewById(R.id.container);
         if (viewPager != null) {
             setupContainer(viewPager);
             tabLayout.setupWithViewPager(viewPager);
@@ -40,6 +43,18 @@ public class ActivityProperties extends GeekBaseActivity implements Container<Vi
         adapter.addFragment(new FragmentPropertiesApplied(), "Applied/Pending");
         adapter.addFragment(new FragmentPropertiesApproved(), "Approved");
         container.setAdapter(adapter);
+    }
+
+    public int getLoadingCount() {
+        return numFragmentsLoading;
+    }
+
+    public void incrementLoadingCount() {
+        numFragmentsLoading++;
+    }
+
+    public void decrementLoadingCount() {
+        numFragmentsLoading--;
     }
 
 }

@@ -85,15 +85,15 @@ public class CosignItem {
 
         for (Roommate roommate : getRoommates()) {
             if (roommate.lease_signed_on != null) {
-                text += "Lease signed by <b>" + roommate.full_name + " </b>" + roommate.lease_signed_on + "<br /><br />";
+                text += "Lease signed by " + roommate.full_name + " " + roommate.lease_signed_on + "<br><br>";
             } else {
-                text += "Awaiting signature from <b>" + roommate.full_name + " </b><br /><br />";
+                text += "Awaiting signature from " + roommate.full_name + "<br><br>";
             }
 
             if (roommate.cosigner_lease_signed_on != null) {
-                text += "Lease co-signed by <b> " + roommate.cosigner_full_name + "</b>" + roommate.cosigner_lease_signed_on + "<br /><br />";
+                text += "Lease co-signed by " + roommate.cosigner_full_name + " " + roommate.cosigner_lease_signed_on + "<br><br>";
             } else {
-                text += "<font color='red'>Awaiting co-signature from <b> " + roommate.cosigner_full_name + "</b></font><br /><br />";
+                text += "<font color='red'>Awaiting cosignature from  " + roommate.cosigner_full_name + "</font><br><br>";
             }
         }
 

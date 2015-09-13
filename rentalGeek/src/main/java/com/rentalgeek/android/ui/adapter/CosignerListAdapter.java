@@ -1,5 +1,6 @@
 package com.rentalgeek.android.ui.adapter;
 
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +45,7 @@ public class CosignerListAdapter extends RecyclerView.Adapter<CosignerListAdapte
             leaseSignersTextView = (TextView)view.findViewById(R.id.lease_signers_textview);
             propertyNameTextView = (TextView)view.findViewById(R.id.property_name);
             propertyEmailTextView = (TextView)view.findViewById(R.id.property_email);
+            propertyEmailTextView.setPaintFlags(propertyEmailTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             propertyPhoneTextView = (TextView)view.findViewById(R.id.property_phone);
         }
     }
@@ -72,7 +74,7 @@ public class CosignerListAdapter extends RecyclerView.Adapter<CosignerListAdapte
         holder.streetAddressTextView.setText(item.getAddress().getStreet() + " ");
         holder.cityStateZipAddressTextView.setText(item.getAddress().getAddressline2() + " ");
         holder.numBedsBathsTextView.setText(item.getNumBedBathText() + " ");
-        holder.costTextView.setText(item.getMonthlyCostText());
+        holder.costTextView.setText(item.getMonthlyCostText() + " ");
         holder.signApproveButton.setText(item.getButtonText());
         holder.leaseSignersTextView.setText(item.getLeaseSignersText());
         holder.propertyNameTextView.setText(item.getPropertyContactInfo().getName() + " ");

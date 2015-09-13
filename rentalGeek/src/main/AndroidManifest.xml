@@ -103,6 +103,7 @@
         </activity>
         <activity
             android:name=".ui.activity.ActivityProperties"
+            android:label="Properties"
             android:screenOrientation="portrait">
         </activity>
 

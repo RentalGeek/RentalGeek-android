@@ -167,7 +167,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
             public void onError(FacebookException exception) {
                 // App code
                 AppLogger.log(TAG, exception);
-                DialogManager.showCrouton(getActivity(), exception.getMessage());
+                DialogManager.showCrouton(activity, exception.getMessage());
             }
         });
 
@@ -240,24 +240,14 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                             if (!error.success) {
                                 String message = error.message;
                                 if (!TextUtils.isEmpty(message)) {
-                                    DialogManager.showCrouton(getActivity(), message);
+                                    DialogManager.showCrouton(activity, message);
                                 }
                             }
                         }
                     }
                 });
-        //asynkhttp(params, 1, ApiManager.getSignin(), AppPreferences.getAuthToken(), true);
 
     }
-
-    // @OnClick(R.id.sign_button)
-    // public void SignIn() {
-    //
-    // Intent i = new Intent(getActivity(), ActivityHome.class);
-    // startActivity(i);
-    // getActivity().overridePendingTransition(R.anim.one_, R.anim.two_);
-    //
-    // }
 
     @Override
     public void onDestroyView() {
@@ -266,30 +256,9 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         ButterKnife.reset(this);
     }
 
-/*	@Override
-	public void parseresult(String response, boolean success, int value) {
-		switch (value) {
-		case 1:
-			NormalLogin(response);
-			break;
-		case 2:
-			FaceBookLogin(response);
-			break;
-		case 3:
-			googlePlusParse(response);
-			break;
-		case 4:
-			LinkedInParse(response);
-			break;
-		case 5:
-			ForgotMailSentParse(response);
-			break;
-		}
-	}*/
-
     private void ForgotMailSentParse(String response) {
 
-        DialogManager.showCrouton(getActivity(), "Verification email sent to your mail please check");
+        DialogManager.showCrouton(activity, "Verification email sent to your mail please check");
 
     }
 
@@ -484,15 +453,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
             SessionManager.Instance.onUserLoggedIn(detail.user);
 
-
-            // App logs in
-            getActivity().finish();
-
-
             Navigation.navigateActivity(getActivity(), ActivityHome.class, true);
-//            Intent i = new Intent(getActivity(), ActivityHome.class);
-//            startActivity(i);
-//            getActivity().overridePendingTransition(R.anim.one_, R.anim.two_);
 
         } catch (Exception e) {
             AppLogger.log(TAG, e);

@@ -5,8 +5,8 @@ import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -26,7 +26,7 @@ public class GeekBaseFragment extends Fragment {
     
     public boolean registerWithEventBus = true;
 
-    protected FragmentActivity activity;
+    protected AppCompatActivity activity;
     
     protected void toast(String message) {
         if (!TextUtils.isEmpty(message)) {
@@ -65,7 +65,7 @@ public class GeekBaseFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        this.activity = (FragmentActivity) activity;
+        this.activity = (AppCompatActivity) activity;
     }
 
     protected void changeColor(ImageView view, int colorId) {
@@ -121,7 +121,7 @@ public class GeekBaseFragment extends Fragment {
     protected void showProgressDialog(int messageResId) {
         Bundle args = new Bundle();
         args.putInt(Common.DIALOG_MSG_ID, messageResId);
-        AppEventBus.post(new AppDialogRequestEvent<AppProgressDialog>(AppProgressDialog.class, args, this, false));
+        AppEventBus.post(new AppDialogRequestEvent<AppProgressDialog>(AppProgressDialog.class, args, this, true));
     }
 
     

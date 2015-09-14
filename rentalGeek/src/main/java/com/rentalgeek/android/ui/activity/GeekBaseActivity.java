@@ -36,6 +36,8 @@ public class GeekBaseActivity extends AppCompatActivity {
     protected DrawerLayout drawerLayout;
     protected NavigationView navigationView;
 
+    //final View coordinatorLayoutView = findViewById(R.id.snackbarPosition);
+
     protected boolean showSlider;
     protected boolean showActionBar;
     protected boolean authRequired;

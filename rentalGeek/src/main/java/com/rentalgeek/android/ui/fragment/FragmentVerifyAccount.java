@@ -411,7 +411,7 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
 		}
 		else
 		{
-			DialogManager.showCrouton(getActivity(), "Session out, please login to continue");
+			DialogManager.showCrouton(activity, "Session out, please login to continue");
 
 			PersistentCookieStore mCookieStore=new PersistentCookieStore(getActivity());
 			mCookieStore.clear();
@@ -443,7 +443,7 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
 		}
 		else
 		{
-            DialogManager.showCrouton(getActivity(), "Session out, please login to continue");
+            DialogManager.showCrouton(activity, "Session out, please login to continue");
 
 			PersistentCookieStore mCookieStore=new PersistentCookieStore(getActivity());
 			mCookieStore.clear();

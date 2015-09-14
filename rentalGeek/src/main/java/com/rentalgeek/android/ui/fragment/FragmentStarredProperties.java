@@ -28,7 +28,6 @@ import com.rentalgeek.android.pojos.StarredListPojo;
 import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
-import com.rentalgeek.android.utils.ConnectionDetector;
 import com.rentalgeek.android.utils.ListUtils;
 import com.rentalgeek.android.utils.RandomUtils;
 import com.squareup.picasso.Picasso;
@@ -49,8 +48,6 @@ public class FragmentStarredProperties extends GeekBaseFragment {
 
 	AppPrefes appPref;
 
-	ConnectionDetector con;
-
 	private List<StarredListPojo.StarredList> mainlist = new ArrayList<StarredListPojo.StarredList>();
 
 	ItemAdapter adapter;
@@ -67,7 +64,6 @@ public class FragmentStarredProperties extends GeekBaseFragment {
 		View v = inflater.inflate(R.layout.fragment_starred_properties, container, false);
 		ButterKnife.inject(this, v);
 		listitems = new ArrayList<Integer>();
-		con = new ConnectionDetector(getActivity());
 		appPref = new AppPrefes(getActivity(), "rentalgeek");
 		getActivity().registerReceiver(receiver, new IntentFilter("dislikeref"));
 
@@ -177,7 +173,8 @@ public class FragmentStarredProperties extends GeekBaseFragment {
 				}
 
 			} else {
-				toast("You have no favorites");
+				DialogManager.showCrouton(activity, "You have no favorites");
+				//toast("You have no favorites");
 			}
 		} catch (Exception e) {
 			AppLogger.log(TAG, e);

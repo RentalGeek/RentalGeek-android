@@ -108,6 +108,7 @@ public class GeekDialog {
                 FragmentTransaction ft = manager.beginTransaction();
                 ft.add(dialog, dialog.getFragmentId());
                 ft.commitAllowingStateLoss();
+                manager.executePendingTransactions();
                 //dialog.getDialog().setCanceledOnTouchOutside(false);
                 return dialog;
             }

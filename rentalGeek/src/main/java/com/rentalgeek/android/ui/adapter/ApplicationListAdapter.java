@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.rentalgeek.android.R;
@@ -41,6 +42,7 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
         public TextView propertyEmailTextView;
         public TextView propertyPhoneTextView;
         public LinearLayout dynamicNamesLayout;
+        public LinearLayout bottomContactBlueBox;
 
         public ApplicationListViewHolder(View view) {
             super(view);
@@ -55,6 +57,7 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
             propertyEmailTextView.setPaintFlags(propertyEmailTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             propertyPhoneTextView = (TextView)view.findViewById(R.id.property_phone);
             dynamicNamesLayout = (LinearLayout)view.findViewById(R.id.lease_signed_lines);
+            bottomContactBlueBox = (LinearLayout)view.findViewById(R.id.bottom_contact_blue_box);
         }
     }
 
@@ -81,10 +84,16 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
         holder.cityStateZipAddressTextView.setText(item.getAddress().getAddressline2() + " ");
         holder.numBedsBathsTextView.setText(item.getNumBedBathText() + " ");
         holder.costTextView.setText(item.getMonthlyCostText() + " ");
-        holder.signApproveButton.setText(item.getButtonText());
-        holder.propertyNameTextView.setText(item.getPropertyContactInfo().getName() + " ");
-        holder.propertyEmailTextView.setText(item.getPropertyContactInfo().getEmail() + " ");
-        holder.propertyPhoneTextView.setText(item.getPropertyContactInfo().getFormattedPhoneNumber() + " ");
+
+        if (shouldHideButtonAndBottomContactInfo) {
+            holder.bottomContactBlueBox.setVisibility(View.GONE);
+            holder.signApproveButton.setVisibility(View.GONE);
+        } else {
+            holder.signApproveButton.setText(item.getButtonText());
+            holder.propertyNameTextView.setText(item.getPropertyContactInfo().getName() + " ");
+            holder.propertyEmailTextView.setText(item.getPropertyContactInfo().getEmail() + " ");
+            holder.propertyPhoneTextView.setText(item.getPropertyContactInfo().getFormattedPhoneNumber() + " ");
+        }
 
         addDynamicTextViewsForEachRoommate(holder, item);
     }
@@ -132,12 +141,14 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
                     roommateNameText.setText(item.getLeftTextForRoomate(roommate));
                     PropertyDateTextView roommateDateText = new PropertyDateTextView(context);
                     roommateDateText.setText(item.getDateTextForDate(roommate.lease_signed_on) + " ");
+                    makeNameFullWidthIfNoDate(roommate.lease_signed_on, roommateNameText, roommateDateText);
 
                 PropertyPersonHorizontalLinearLayout cosignerLine = new PropertyPersonHorizontalLinearLayout(context);
                     PropertyNameTextView cosignerNameText = new PropertyNameTextView(context);
                     cosignerNameText.setText(item.getLeftTextForCosigner(roommate));
                     PropertyDateTextView cosignerDateText = new PropertyDateTextView(context);
                     cosignerDateText.setText(item.getDateTextForDate(roommate.cosigner_lease_signed_on) + " ");
+                    makeNameFullWidthIfNoDate(roommate.cosigner_lease_signed_on, cosignerNameText, cosignerDateText);
 
             roommateLine.addView(roommateNameText);
             roommateLine.addView(roommateDateText);
@@ -146,6 +157,13 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
             roommateAndCosignerLayout.addView(roommateLine);
             roommateAndCosignerLayout.addView(cosignerLine);
             wholeLayout.addView(roommateAndCosignerLayout);
+        }
+    }
+
+    private void makeNameFullWidthIfNoDate(String dateString, TextView nameTV, TextView dateTV) {
+        if (dateString == null) {
+            nameTV.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+            dateTV.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0f));
         }
     }
 

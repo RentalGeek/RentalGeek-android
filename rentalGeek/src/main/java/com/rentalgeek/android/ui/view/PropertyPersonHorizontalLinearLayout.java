@@ -15,7 +15,7 @@ public class PropertyPersonHorizontalLinearLayout extends LinearLayout {
 
         this.setOrientation(LinearLayout.HORIZONTAL);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(0, 0, 0, 10);
+        layoutParams.setMargins(0, 0, 0, 20);
         this.setLayoutParams(layoutParams);
     }
 

@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class Stub {
 
-    public static List<ApplicationItem> cosignItems() {
+    public static List<ApplicationItem> cosignProperties() {
         List<RoommateDTO> roommates = new ArrayList<>();
         RoommateDTO roommate1 = new RoommateDTO();
         roommate1.full_name = "Matt Smith";
@@ -40,7 +40,7 @@ public class Stub {
         applicationItem.setNumBathrooms(1);
         applicationItem.setRoommates(roommates);
         applicationItem.setPropertyContactInfo(propertyContactInfo);
-        applicationItem.setImageUrl("https://rental-geek.s3.amazonaws.com/uploads/property_photo/photo/2155/large_IMG_3955.JPG");
+        applicationItem.setImageUrl("https://s3-us-west-2.amazonaws.com/rental-geek/property-header.jpg");
 
         List<ApplicationItem> stubbedApplicationItems = new ArrayList<>();
         stubbedApplicationItems.add(applicationItem);

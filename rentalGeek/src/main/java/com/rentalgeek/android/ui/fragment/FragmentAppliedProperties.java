@@ -1,36 +1,25 @@
 package com.rentalgeek.android.ui.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.rentalgeek.android.R;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
+import com.rentalgeek.android.api.ApiManager;
 
 /**
  * Created by rajohns on 9/12/15.
  *
  */
-public class FragmentAppliedProperties extends GeekBaseFragment {
+public class FragmentAppliedProperties extends FragmentBaseApplicationList {
 
-    @InjectView(R.id.recyclerView) RecyclerView recyclerView;
-
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_cosigner_list, container, false);
+        View v = super.onCreateView(inflater, container, savedInstanceState);
 
-        ButterKnife.inject(this, view);
+        setupRecyclerView(getActivity(), true);
+        fetchItemsWithUrl(getActivity(), ApiManager.getApplyUrl());
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-
-        return view;
+        return v;
     }
 }

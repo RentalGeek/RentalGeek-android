@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,10 +30,9 @@ import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.pojos.PropertyListPojo;
 import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.activity.ActivityHome;
+import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.fragment.ListInnerPage;
 import com.rentalgeek.android.ui.preference.AppPreferences;
-import com.rentalgeek.android.ui.view.Crouton;
-import com.rentalgeek.android.ui.view.Style;
 
 import java.util.List;
 
@@ -220,8 +220,7 @@ public class PropertyListItemAdapter extends ArrayAdapter<PropertyListPojo.Prope
 
                             AddStarBack detail = (new Gson()).fromJson(content.toString(), AddStarBack.class);
 
-                            Crouton crouton = Crouton.makeText((ActivityHome) context, "Added to favorites", Style.ALERT);
-                            crouton.show();
+							DialogManager.showCrouton((AppCompatActivity) context, "Added to favorites");
 
                             PropertyListPojo.PropertyList propobj = getItem(clickposition);
                             propobj.starred = true;

@@ -348,6 +348,11 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
             profdets = new com.activeandroid.query.Select()
                     .from(ProfileTable.class)
                     .where("uid = ?", appPref.getData("Uid")).executeSingle();
+
+            if (profdets == null) {
+                profdets = new ProfileTable();
+                profdets.uid = appPref.getData("Uid");
+            }
         } else {
             profdets = new ProfileTable();
             profdets.uid = appPref.getData("Uid");
@@ -385,24 +390,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
         employment_status.setOnItemSelectedListener(this);
 
     }
-
-/*    @Override
-    public void parseresult(String response, boolean success, int value) {
-
-        switch (value) {
-            case 1:
-                createUserParse(response);
-                break;
-            case 2:
-                patchedUserParse(response);
-                break;
-            case 3:
-                setProfileData(response);
-                break;
-            default:
-                break;
-        }
-    }*/
 
     // setting profile data to view
     private void setProfileData(String response) {
@@ -652,7 +639,8 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
-                                        nextfragment(new FragmentGeekScoreMain(), false, R.id.container);
+                                        Navigation.navigateActivity(activity, ActivityGeekScore.class, true);
+                                        //nextfragment(new FragmentGeekScoreMain(), false, R.id.container);
                                     }
                                 });
 
@@ -662,7 +650,8 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.cancel();
-                                        nextfragment(new FragmentListViewDetails(), false, R.id.container);
+                                        Navigation.navigateActivity(activity, ActivityHome.class, true);
+                                        //nextfragment(new FragmentListViewDetails(), false, R.id.container);
                                     }
                                 });
                         AlertDialog alert11 = builder1.create();
@@ -685,7 +674,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                 if (detail.profile != null) {
                     appPref.SaveData("prof_id", detail.profile.id);
                     System.out.println("profile id is " + detail.profile.id);
-                    callPatchUpdateLink(detail.profile.id);
+                    //callPatchUpdateLink(detail.profile.id);
                 }
             }
         } catch (Exception e) {
@@ -926,7 +915,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
                         }
                     });
-            //asynkhttpPut(params, 2, url, AppPreferences.getAuthToken(), true);
 
         } catch (Exception e) {
             AppLogger.log(TAG, e);
@@ -1009,12 +997,10 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
     private void alertList(List<String> add) {
 
-
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
 
         builderSingle.setTitle("Errors");
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                getActivity(), android.R.layout.select_dialog_singlechoice);
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_singlechoice);
         arrayAdapter.addAll(add);
         builderSingle.setNegativeButton("cancel",
                 new DialogInterface.OnClickListener() {

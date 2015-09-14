@@ -585,8 +585,8 @@ public class FragmentProfile extends GeekBaseFragment implements ValidationListe
 									public void onClick(DialogInterface dialog,
 											int which) {
 										dialog.cancel();
-										nextfragment(new FragmentListViewDetails(),
-												false, R.id.container);
+										
+                                        //nextfragment(new FragmentListViewDetails(),false, R.id.container);
 									}
 								});
 						AlertDialog alert11 = builder1.create();

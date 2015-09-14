@@ -389,8 +389,8 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 					public void onClick(DialogInterface dialog, int which) {
 
 						dialog.cancel();
-						nextfragment(new FragmentListViewDetails(), false,
-								R.id.container);
+
+						//nextfragment(new FragmentListViewDetails(), false ,R.id.container);
 					}
 				});
 		AlertDialog alert11 = builder1.create();

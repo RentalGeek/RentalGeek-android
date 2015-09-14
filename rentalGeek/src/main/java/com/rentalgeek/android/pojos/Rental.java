@@ -13,7 +13,7 @@ public class Rental {
 	private int full_bathroom_count;
 	private String primary_property_photo_url;
     private String star_id;
-    
+
     public String toString() {
         return String.format("id: %s, starred: %s",id,starred);
     }

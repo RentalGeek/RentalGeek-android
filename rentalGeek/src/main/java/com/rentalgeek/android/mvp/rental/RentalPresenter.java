@@ -1,6 +1,15 @@
 package com.rentalgeek.android.mvp.rental;
 
-public interface RentalPresenter {
-    public void selectStar(String user_id, String rental_id);
-    public void unselectStar(String star_id);
+import com.rentalgeek.android.mvp.rental.RentalView;
+import com.rentalgeek.android.mvp.common.StarPresenter;
+
+public class RentalPresenter extends StarPresenter {
+    
+    private static final String TAG = RentalPresenter.class.getSimpleName();
+   
+    private RentalView rentalView;
+    
+    public RentalPresenter(RentalView rentalView) {
+        this.rentalView = rentalView;    
+    }
 }

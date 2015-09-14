@@ -6,14 +6,14 @@
     android:orientation="horizontal" >
 
     <ImageView
-        android:id="@+id/main_image"
+        android:id="@+id/rental_image"
         android:layout_width="match_parent"
         android:layout_height="@dimen/img_height"
         android:scaleType="centerCrop"
          />
 
     <ImageView
-        android:id="@+id/is_starred"
+        android:id="@+id/star_image"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignParentRight="true"
@@ -27,7 +27,7 @@
         android:background="#774181cb" >
 
         <TextView
-            android:id="@+id/doller"
+            android:id="@+id/dollar_sign"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -39,12 +39,12 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/price_range"
+            android:id="@+id/price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="2dp"
-            android:layout_toRightOf="@id/doller"
+            android:layout_toRightOf="@id/dollar_sign"
             android:gravity="center"
             android:textStyle="bold"
             android:textColor="#ffff"
@@ -76,7 +76,7 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/bedcount"
+            android:id="@+id/bedroom_count"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_alignParentTop="true"

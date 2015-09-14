@@ -682,7 +682,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.cancel();
                                         Navigation.navigateActivity(activity, ActivityHome.class, true);
-                                        //nextfragment(new FragmentListViewDetails(), false, R.id.container);
                                     }
                                 });
                         AlertDialog alert11 = builder1.create();

@@ -13,14 +13,13 @@ import android.view.LayoutInflater;
 import com.squareup.picasso.Picasso;
 import android.view.ViewTreeObserver;
 import com.rentalgeek.android.pojos.Rental;
-import com.rentalgeek.android.api.SessionManager;
+import com.rentalgeek.android.mvp.common.StarView;
 import com.rentalgeek.android.mvp.rental.RentalView;
 import com.rentalgeek.android.RentalGeekApplication;
 import android.view.ViewTreeObserver.OnPreDrawListener;
-import com.rentalgeek.android.mvp.rental.RentalPresenterImpl;
+import com.rentalgeek.android.mvp.rental.RentalPresenter;
 
-
-public class FragmentRental extends GeekBaseFragment implements RentalView {
+public class FragmentRental extends GeekBaseFragment implements RentalView, StarView {
     
     @InjectView(R.id.price) TextView price_textview;
     @InjectView(R.id.rental_image) ImageView rental_imageview;
@@ -29,13 +28,12 @@ public class FragmentRental extends GeekBaseFragment implements RentalView {
     @InjectView(R.id.street_name) TextView street_name_textview;
     @InjectView(R.id.star_image) ImageView star_imageview;
     
-    private RentalPresenterImpl presenter;
-    private String rental_id;
+    private RentalPresenter presenter;
 
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        presenter = new RentalPresenterImpl(this);
+        presenter = new RentalPresenter(this);
     }
 
 
@@ -68,6 +66,12 @@ public class FragmentRental extends GeekBaseFragment implements RentalView {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
+    }
+
+    @Override
     public void show() {
         getFragmentManager().
         beginTransaction().
@@ -91,7 +95,7 @@ public class FragmentRental extends GeekBaseFragment implements RentalView {
         if( rental == null)
             return;
         
-        rental_id = rental.getId();
+        String rental_id = rental.getId();
 
         price_textview.setText(String.format("%d/mo",rental.getMonthlyRent()));
         bathroom_count_textview.setText(String.format("%d",rental.getBathroomCount()));
@@ -111,6 +115,8 @@ public class FragmentRental extends GeekBaseFragment implements RentalView {
             unselectStar();
         }
 
+        star_imageview.setTag(rental_id);
+
         show();
     }
 
@@ -121,8 +127,6 @@ public class FragmentRental extends GeekBaseFragment implements RentalView {
                 .with(getActivity())
                 .load(R.drawable.star_select)
                 .into(star_imageview);
-
-             star_imageview.setTag(true);
         }
     }
 
@@ -133,22 +137,12 @@ public class FragmentRental extends GeekBaseFragment implements RentalView {
                 .with(getActivity())
                 .load(R.drawable.star)
                 .into(star_imageview);
-
-              star_imageview.setTag(false);
         }
     }
-
+    
     @OnClick(R.id.star_image)
     public void star(View view) {
-
-        boolean starred = (boolean) star_imageview.getTag();
-
-        if( ! starred ) {
-            presenter.selectStar(rental_id,SessionManager.Instance.getCurrentUser().id);
-        }
-
-        else {
-             presenter.unselectStar(rental_id);
-        }
+        String rental_id = (String) star_imageview.getTag();
+        presenter.select(rental_id,this);
     }
 }

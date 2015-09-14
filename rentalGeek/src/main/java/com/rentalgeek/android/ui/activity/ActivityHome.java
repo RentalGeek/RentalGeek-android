@@ -6,17 +6,19 @@ import android.support.v4.view.ViewPager;
 import com.rentalgeek.android.pojos.Rental;
 import com.rentalgeek.android.mvp.map.MapView;
 import com.rentalgeek.android.mvp.home.HomeView;
+import com.rentalgeek.android.mvp.home.HomePresenter;
 import com.rentalgeek.android.ui.adapter.PageAdapter;
 import com.rentalgeek.android.ui.fragment.FragmentMap;
-import com.rentalgeek.android.mvp.home.HomePresenterImpl;
 import com.rentalgeek.android.ui.view.NonSwipeableViewPager;
-import com.rentalgeek.android.ui.fragment.FragmentListViewDetails;
+import com.rentalgeek.android.mvp.list.rental.RentalListView;
+import com.rentalgeek.android.ui.fragment.FragmentRentalListView;
 
 public class ActivityHome extends GeekBaseActivity implements Container<ViewPager>, HomeView {
 
-    private static String TAG = "ActivityHome";
-    private HomePresenterImpl presenter;
+    private static String TAG = ActivityHome.class.getSimpleName();
+    private HomePresenter presenter;
     private MapView mapView;
+    private RentalListView rentalListView;
 
     public ActivityHome() {
         super(true, true, true);
@@ -32,6 +34,7 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
         setupNavigation();
 
         mapView = new FragmentMap();
+        rentalListView = new FragmentRentalListView();
 
         NonSwipeableViewPager viewPager = (NonSwipeableViewPager) findViewById(R.id.container);
 
@@ -41,7 +44,7 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
 
         tabLayout.setupWithViewPager(viewPager);
 
-        presenter = new HomePresenterImpl(this);
+        presenter = new HomePresenter(this);
         presenter.getRentalOfferings(null);
     }
     
@@ -49,12 +52,13 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
     public void setupContainer(ViewPager container) {
         PageAdapter adapter = new PageAdapter(getSupportFragmentManager());
         adapter.addFragment((FragmentMap)mapView,"Map View");
-        adapter.addFragment(new FragmentListViewDetails(),"List View");
+        adapter.addFragment((FragmentRentalListView)rentalListView,"List View");
         container.setAdapter(adapter);
     }
 
     @Override
     public void setRentals(Rental[] rentals) {
         mapView.setRentals(rentals);
+        rentalListView.setRentals(rentals);
     }
 }

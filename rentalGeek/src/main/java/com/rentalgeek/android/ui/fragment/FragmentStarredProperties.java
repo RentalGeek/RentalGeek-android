@@ -221,11 +221,11 @@ public class FragmentStarredProperties extends GeekBaseFragment {
 			if (convertView == null) {
 				view = getActivity().getLayoutInflater().inflate(R.layout.listview_single, parent, false);
 				holder = new ViewHolder();
-				holder.main_image = (ImageView) view.findViewById(R.id.main_image);
+				//holder.main_image = (ImageView) view.findViewById(R.id.rental_image);
 				holder.street_name = (TextView) view.findViewById(R.id.street_name);
-				holder.is_starred = (ImageView) view.findViewById(R.id.is_starred);
+				//holder.is_starred = (ImageView) view.findViewById(R.id.is_starred);
 				holder.price = (TextView) view.findViewById(R.id.price_range);
-				holder.bed_count = (TextView) view.findViewById(R.id.bedcount);
+				//holder.bed_count = (TextView) view.findViewById(R.id.bedcount);
 				holder.shower_count = (TextView) view.findViewById(R.id.shower_count);
 				holder.lay = (RelativeLayout) view.findViewById(R.id.main_list);
 				view.setTag(holder);
@@ -262,7 +262,7 @@ public class FragmentStarredProperties extends GeekBaseFragment {
 
 				@Override
 				public void onClick(View v) {
-
+                    /**
 					Fragment innerlist = new FragmentStarredPropDetails();
 					Bundle args = new Bundle();
 
@@ -276,7 +276,7 @@ public class FragmentStarredProperties extends GeekBaseFragment {
 					appPref.SaveIntData("click_pos", position);
 
 					addfragment(innerlist, true, R.id.container);
-
+                    **/
 				}
 			});
 

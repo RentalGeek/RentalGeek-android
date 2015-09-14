@@ -20,7 +20,7 @@ import com.rentalgeek.android.RentalGeekApplication;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.rentalgeek.android.mvp.map.MapPresenterImpl;
+import com.rentalgeek.android.mvp.map.MapPresenter;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLngBounds.Builder;
@@ -32,7 +32,7 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
 	private static final String TAG = "FragmentMap";
 
     private GoogleMap map;
-    private MapPresenterImpl presenter;
+    private MapPresenter presenter;
     private RentalView rentalView;
 
 
@@ -60,7 +60,7 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
         
         rentalView = (RentalView)getChildFragmentManager().findFragmentById(R.id.rental);
 
-        presenter = new MapPresenterImpl(this);
+        presenter = new MapPresenter(this);
         
 		return view;
 	}

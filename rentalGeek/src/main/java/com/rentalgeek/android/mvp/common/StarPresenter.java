@@ -1,4 +1,4 @@
-package com.rentalgeek.android.mvp.rental;
+package com.rentalgeek.android.mvp.common;
 
 import android.util.Log;
 import org.json.JSONObject;
@@ -6,23 +6,38 @@ import com.rentalgeek.android.pojos.Rental;
 import com.loopj.android.http.RequestParams;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.utils.GeekGson;
+import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.storage.RentalCache;
+import com.rentalgeek.android.mvp.common.StarView;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 
-public class RentalPresenterImpl implements RentalPresenter {
+public abstract class StarPresenter {
     
-    private static final String TAG = RentalPresenterImpl.class.getSimpleName();
+    private static final String TAG = StarPresenter.class.getSimpleName();
    
-    private RentalView rentalView;
+    public void select(final String rental_id,final StarView starView) {
+        if( rental_id == null || rental_id.isEmpty() || starView == null ) 
+            return;
+        else {
+            boolean starred = RentalCache.getInstance().get(rental_id).isStarred();
+ 
+            String user_id = SessionManager.Instance.getCurrentUser().id;
+
+            if( !starred ) {
+            
     
-    public RentalPresenterImpl(RentalView rentalView) {
-        this.rentalView = rentalView;    
+                selectStar(rental_id,user_id,starView);
+            }
+
+            else {
+                unselectStar(rental_id,starView);
+            }
+        }
     }
 
-    @Override
-    public void selectStar(final String rental_id, final String user_id) {
+    private void selectStar(final String rental_id, final String user_id, final StarView starView) {
         
         if( ( rental_id == null || rental_id.isEmpty() )  ||  ( user_id == null || user_id.isEmpty() ) ) 
             return;
@@ -51,10 +66,7 @@ public class RentalPresenterImpl implements RentalPresenter {
                             rental.setStarId(rental_json.getString("id"));
                             rental.setStarred(true);
                             
-                            RentalCache.getInstance().add(rental);
-                            System.out.println(RentalCache.getInstance());
-                            
-                            rentalView.selectStar();
+                            starView.selectStar();
                         }
                     }
                 }
@@ -67,8 +79,7 @@ public class RentalPresenterImpl implements RentalPresenter {
         });
     }
     
-    @Override
-    public void unselectStar(final String rental_id) {
+    private void unselectStar(final String rental_id,final StarView starView) {
          if( rental_id == null || rental_id.isEmpty()  ) 
             return;
 
@@ -83,8 +94,8 @@ public class RentalPresenterImpl implements RentalPresenter {
                 @Override public void onSuccess(String response) {
                     Rental rental = RentalCache.getInstance().get(rental_id);
                     rental.setStarred(false);
-                    RentalCache.getInstance().add(rental);
-                    rentalView.unselectStar();   
+                    
+                    starView.unselectStar();   
                 }
             });
         }

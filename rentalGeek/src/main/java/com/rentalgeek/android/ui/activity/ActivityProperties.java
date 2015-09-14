@@ -15,7 +15,6 @@ import com.rentalgeek.android.ui.fragment.FragmentApprovedProperties;
 public class ActivityProperties extends GeekBaseActivity implements Container<ViewPager> {
 
     ViewPager viewPager;
-    private int numFragmentsLoading = 0;
 
     public ActivityProperties() {
         super(true, true, true);
@@ -43,18 +42,6 @@ public class ActivityProperties extends GeekBaseActivity implements Container<Vi
         adapter.addFragment(new FragmentAppliedProperties(), "Applied/Pending");
         adapter.addFragment(new FragmentApprovedProperties(), "Approved");
         container.setAdapter(adapter);
-    }
-
-    public int getLoadingCount() {
-        return numFragmentsLoading;
-    }
-
-    public void incrementLoadingCount() {
-        numFragmentsLoading++;
-    }
-
-    public void decrementLoadingCount() {
-        numFragmentsLoading--;
     }
 
 }

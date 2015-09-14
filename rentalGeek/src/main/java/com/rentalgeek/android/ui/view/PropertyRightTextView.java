@@ -11,9 +11,9 @@ import android.widget.TextView;
  * Created by rajohns on 9/13/15.
  *
  */
-public class PropertyDateTextView extends TextView {
+public class PropertyRightTextView extends TextView {
 
-    public PropertyDateTextView(Context context) {
+    public PropertyRightTextView(Context context) {
         super(context);
         this.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.25f));
         this.setTextColor(Color.BLACK);

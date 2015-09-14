@@ -15,7 +15,7 @@ public class ApplicationItem {
     private int monthlyCost;
     private int numBedrooms;
     private double numBathrooms;
-    private List<RoommateDTO> roommates;
+    protected List<RoommateDTO> roommates;
     private PropertyContactInfo propertyContactInfo;
     private String imageUrl = "https://s3-us-west-2.amazonaws.com/rental-geek/property-header.jpg";
 
@@ -28,7 +28,7 @@ public class ApplicationItem {
         this.monthlyCost = rentalOfferingDTO.monthly_rent_ceiling;
         this.numBedrooms = rentalOfferingDTO.bedroom_count;
         this.numBathrooms = rentalOfferingDTO.full_bathroom_count + rentalOfferingDTO.half_bathroom_count/2;
-        this.roommates = applicationDTO.cosigner_roommates;
+        this.roommates = applicationDTO.roommates;
         this.propertyContactInfo = new PropertyContactInfo(rentalOfferingDTO.rental_complex_name, rentalOfferingDTO.customer_contact_email_address, rentalOfferingDTO.customer_contact_phone_number);
     }
 
@@ -103,9 +103,9 @@ public class ApplicationItem {
     public Spanned getLeftTextForRoomate(RoommateDTO roommate) {
         String text = "";
         if (roommate.lease_signed_on != null) {
-            text += "Lease signed by   <b>" + roommate.full_name + "</b>";
+            text += "Lease signed by   <b>" + getNameText(roommate.full_name) + "</b>";
         } else {
-            text += "Awaiting signature from   <b>" + roommate.full_name + "</b>";
+            text += "Awaiting signature from   <b>" + getNameText(roommate.full_name) + "</b>";
         }
 
         text = text.replace("  ", "&nbsp;&nbsp;");
@@ -115,21 +115,37 @@ public class ApplicationItem {
     public Spanned getLeftTextForCosigner(RoommateDTO roommate) {
         String text = "";
         if (roommate.cosigner_lease_signed_on != null) {
-            text += "Lease cosigned by   <b>" + roommate.cosigner_full_name + "</b>";
+            text += "Lease cosigned by   <b>" + getNameText(roommate.cosigner_full_name) + "</b>";
         } else {
-            text += "Awaiting cosignature from   <b>" + roommate.cosigner_full_name + "</b>";
+            text += "Awaiting cosignature from   <b>" + getNameText(roommate.cosigner_full_name) + "</b>";
         }
 
         text = text.replace("  ", "&nbsp;&nbsp;");
         return Html.fromHtml(text);
     }
 
-    public String getDateTextForDate(String date) {
-        if (date == null) {
-            return "";
+    public Spanned getRightTextForRoommate(RoommateDTO roommate) {
+        if (roommate.lease_signed_on == null) {
+            return Html.fromHtml("");
         }
 
-        return date;
+        return Html.fromHtml(roommate.lease_signed_on);
+    }
+
+    public Spanned getRightTextForCosigner(RoommateDTO roommate) {
+        if (roommate.cosigner_lease_signed_on == null) {
+            return Html.fromHtml("");
+        }
+
+        return Html.fromHtml(roommate.cosigner_lease_signed_on);
+    }
+
+    protected String getNameText(String name) {
+        if (name == null) {
+            return "N/A";
+        }
+
+        return name;
     }
 
 }

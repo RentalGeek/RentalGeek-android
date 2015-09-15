@@ -7,9 +7,9 @@ import android.text.Spanned;
  * Created by rajohns on 9/14/15.
  *
  */
-public class AppliedItem extends ApplicationItem {
+public class PendingItem extends ApplicationItem {
 
-    public AppliedItem(ApplicationDTO applicationDTO) {
+    public PendingItem(ApplicationDTO applicationDTO) {
         super(applicationDTO);
     }
 
@@ -46,7 +46,23 @@ public class AppliedItem extends ApplicationItem {
             return Html.fromHtml("APPLY");
         }
 
-        return Html.fromHtml("<u>" + roommate.cosigner_status.toUpperCase() + "</u>");
+        return Html.fromHtml("<u>" + colorOpeningTag(roommate.cosigner_status) + roommate.cosigner_status.toUpperCase() + colorClosingTag(roommate.cosigner_status) + "</u>");
+    }
+
+    private String colorOpeningTag(String status) {
+        if (status.toUpperCase().equals("PENDING")) {
+            return "<font color='blue'>";
+        } else {
+            return "";
+        }
+    }
+
+    private String colorClosingTag(String status) {
+        if (status.toUpperCase().equals("PENDING")) {
+            return "</font>";
+        } else {
+            return "";
+        }
     }
 
 }

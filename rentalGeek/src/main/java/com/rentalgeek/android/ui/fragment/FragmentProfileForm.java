@@ -35,8 +35,9 @@ import com.mobsandgeeks.saripaar.annotation.Select;
 import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
+import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.ProfileIdFindBackend;
-import com.rentalgeek.android.backend.ProfilePost;
+import com.rentalgeek.android.backend.UserProfile;
 import com.rentalgeek.android.database.ProfileTable;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
@@ -47,6 +48,7 @@ import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityCreateProfile;
 import com.rentalgeek.android.ui.activity.ActivityGeekScore;
 import com.rentalgeek.android.ui.activity.ActivityHome;
+import com.rentalgeek.android.ui.activity.ActivityPayment;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ListUtils;
 import com.rentalgeek.android.utils.StringUtils;
@@ -270,6 +272,35 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
         View v = inflater.inflate(R.layout.fragment_profile_form, container, false);
         ButterKnife.inject(this, v);
 
+        if (!SessionManager.Instance.hasPayed()) {
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+            builder1.setMessage(getActivity().getResources().getString(R.string.geek_go));
+            builder1.setTitle("Alert");
+            builder1.setCancelable(true);
+            builder1.setPositiveButton("Go to payment",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                            Navigation.navigateActivity(activity, ActivityPayment.class, false);
+                            //nextfragment(new FragmentGeekScoreMain(), false, R.id.container);
+                        }
+                    });
+
+            builder1.setNegativeButton("Home",
+                    new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                            Navigation.navigateActivity(activity, ActivityHome.class, false);
+                            //nextfragment(new FragmentListViewDetails(), false, R.id.container);
+                        }
+                    });
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
+
+        }
+
         appPref = new AppPrefes(getActivity(), "rentalgeek");
         validator = new Validator(this);
         validator.setValidationListener(this);
@@ -397,10 +428,10 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
             // setting the values from the server
             response = response.replaceAll("null", " \" \"");
             AppLogger.log(TAG, "profile get response " + response);
-            ProfilePost detail = (new Gson()).fromJson(response, ProfilePost.class);
+            UserProfile detail = (new Gson()).fromJson(response, UserProfile.class);
 
             if (detail != null && detail.profiles != null && detail.profiles.size() > 0) {
-                ProfilePost.Profile profile = detail.profiles.get(0);
+                UserProfile.Profile profile = detail.profiles.get(0);
                 appPref.SaveData("prof_id", profile.id);
                 String geekScore = profile.geek_score;
                 if (!TextUtils.isEmpty(geekScore)) {

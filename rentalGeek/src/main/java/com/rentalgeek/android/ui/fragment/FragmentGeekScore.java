@@ -11,11 +11,10 @@ import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.logging.AppLogger;
-import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityHome;
-import com.rentalgeek.android.utils.ConnectionDetector;
 import com.rentalgeek.android.utils.StringUtils;
 
 import butterknife.ButterKnife;
@@ -39,9 +38,6 @@ public class FragmentGeekScore extends GeekBaseFragment {
 //	@InjectView(R.id.get_started)
 //	Button getStarted;
 
-	AppPrefes appPref;
-	ConnectionDetector con;
-
 	String geekScore;
 
 	@Override
@@ -49,14 +45,15 @@ public class FragmentGeekScore extends GeekBaseFragment {
 
 		View v = inflater.inflate(R.layout.fragment_message_geek_score, container,false);
 
-		appPref=new AppPrefes(getActivity(), "rentalgeek");
 		ButterKnife.inject(this,v);
 
-		geekScore = appPref.getData("geek_score");
+		geekScore = SessionManager.Instance.getGeekScore();
 
         if (!StringUtils.isTrimEmpty(geekScore)) {
             textViewGeekScore.setText(geekScore);
-        }
+        } else {
+			textViewGeekScore.setText("N/A");
+		}
 
 		return v;
 	}
@@ -66,8 +63,7 @@ public class FragmentGeekScore extends GeekBaseFragment {
 	public void ClickFinal()
 	{
 		try {
-			appPref.SaveData("map_list", "");
-			Navigation.navigateActivity(getActivity(), ActivityHome.class, true);
+			Navigation.navigateActivity(getActivity(), ActivityHome.class, false);
 		} catch (Exception e) {
 			AppLogger.log(TAG, e);
 		}

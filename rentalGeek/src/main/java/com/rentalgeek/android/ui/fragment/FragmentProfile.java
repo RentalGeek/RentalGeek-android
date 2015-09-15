@@ -31,7 +31,7 @@ import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.ProfileIdFindBackend;
-import com.rentalgeek.android.backend.ProfilePost;
+import com.rentalgeek.android.backend.UserProfile;
 import com.rentalgeek.android.database.ProfileTable;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
@@ -293,8 +293,8 @@ public class FragmentProfile extends GeekBaseFragment implements ValidationListe
 			// setting the values from the server
 			response = response.replaceAll("null", " \" \"");
 			System.out.println("profile get response " + response);
-			ProfilePost detail = (new Gson()).fromJson(response,
-					ProfilePost.class);
+			UserProfile detail = (new Gson()).fromJson(response,
+					UserProfile.class);
 
 			if (detail != null) {
 				if (detail.profiles != null && detail.profiles.size() > 0) {

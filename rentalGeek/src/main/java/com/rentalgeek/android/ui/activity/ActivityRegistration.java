@@ -132,29 +132,15 @@ public class ActivityRegistration extends GeekBaseActivity implements Validation
                         LoginBackend detail = null;
 						try {
                             detail = (new Gson()).fromJson(content.toString(), LoginBackend.class);
-							//detail = (new Gson()).fromJson(content.toString(), RegistrationBackend.class);
 
-							//prog.setVisibility(View.INVISIBLE);
-							System.out.println("the registration response " + content);
+							//System.out.println("the registration response " + content);
 
-							if (detail.user != null) {
-								LoginBackend.User user = detail.user;
+							if (detail != null && detail.user != null) {
 
-                                SessionManager.Instance.onUserLoggedIn(user);
+                                SessionManager.Instance.onUserLoggedIn(detail);
 
                                 Navigation.navigateActivity(activity, ActivityHome.class, true);
-                                //toast("Registration Successful, Please Login to continue");
 
-//								new CountDownTimer(1000, 1000) {
-//
-//									@Override
-//									public void onTick(long millisUntilFinished) { }
-//
-//									@Override
-//									public void onFinish() {
-//										finish();
-//									}
-//								}.start();
 							} else if (detail.errors != null && !ListUtils.isNullOrEmpty(detail.errors.email)) {
 								toast(detail.errors.email.get(0).toString());
 							}
@@ -169,7 +155,6 @@ public class ActivityRegistration extends GeekBaseActivity implements Validation
 					}
 
 				});
-
 
 	}
 

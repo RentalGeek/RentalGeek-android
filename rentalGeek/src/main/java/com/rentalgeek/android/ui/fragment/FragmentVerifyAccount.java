@@ -263,7 +263,7 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
 //			log("my id is " + appin.id);
 //			log("my id is " + detail.user.id);
 
-            SessionManager.Instance.onUserLoggedIn(detail.user);
+            SessionManager.Instance.onUserLoggedIn(detail);
 
 //			String appid = String.valueOf(detail.user.id);
 //			System.out.println("my id is " + appid);

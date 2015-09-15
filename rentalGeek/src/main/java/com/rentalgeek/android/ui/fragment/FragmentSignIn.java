@@ -49,6 +49,7 @@ import com.rentalgeek.android.database.ProfileTable;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.system.AppSystem;
 import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityHome;
@@ -173,6 +174,11 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
         // google plus initialization
         mGoogleApiClient = buildGoogleApiClient();
+
+        if (AppSystem.Instance.isDebugBuild(activity)) {
+            ed_username.setText(AppPreferences.getUserName());
+            ed_password.setText(AppPreferences.getPassword());
+        }
 
         return v;
 
@@ -308,13 +314,8 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
             profdets.save();
         }
 
-        // App logs in
-        getActivity().finish();
         appPref.SaveData("first", "logged");
-        Intent i = new Intent(getActivity(), ActivityHome.class);
-        startActivity(i);
-        getActivity().overridePendingTransition(R.anim.one_, R.anim.two_);
-
+        Navigation.navigateActivity(activity, ActivityHome.class, true);
     }
 
     private void googlePlusParse(String response) {
@@ -379,15 +380,10 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
         }
 
-        // App logs in
-
-
-        getActivity().finish();
         appPref.SaveData("first", "logged");
         signOutFromGplus();
-        Intent i = new Intent(getActivity(), ActivityHome.class);
-        startActivity(i);
-        getActivity().overridePendingTransition(R.anim.one_, R.anim.two_);
+
+        Navigation.navigateActivity(activity, ActivityHome.class, true);
 
     }
 
@@ -437,10 +433,9 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
             profdets.save();
         }
 
-        getActivity().finish();
         appPref.SaveData("first", "logged");
-        Intent i = new Intent(getActivity(), ActivityHome.class);
-        startActivity(i);
+
+        Navigation.navigateActivity(activity, ActivityHome.class, true);
 
     }
 
@@ -454,6 +449,11 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
             SessionManager.Instance.onUserLoggedIn(detail.user);
 
             Navigation.navigateActivity(getActivity(), ActivityHome.class, true);
+
+            if (AppSystem.Instance.isDebugBuild(activity)) {
+                AppPreferences.setUserName(ed_username.getText().toString());
+                AppPreferences.setPassword(ed_password.getText().toString());
+            }
 
         } catch (Exception e) {
             AppLogger.log(TAG, e);
@@ -491,9 +491,8 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         ed_username.setText("");
         ed_password.setText("");
         animation_obj = YoYo.with(Techniques.Flash).duration(1000).playOn(v);
-        Intent i = new Intent(getActivity(), ActivityRegistration.class);
-        startActivity(i);
-        getActivity().overridePendingTransition(R.anim.one_, R.anim.two_);
+
+        Navigation.navigateActivity(activity, ActivityRegistration.class, false);
 
         // animation_obj = YoYo.with(Techniques.Flash).duration(1000).playOn(v);
         // if (ed_username.getText().toString().equals("")) {
@@ -516,25 +515,13 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
     @OnClick(R.id.login_aacnt)
     public void CreateAccount(View v) {
 
-        // Intent i = new Intent(getActivity(), ActivityRegistration.class);
-        // startActivity(i);
-        // getActivity().overridePendingTransition(R.anim.one_, R.anim.two_);
-
         animation_obj = YoYo.with(Techniques.Flash).duration(1000).playOn(v);
         if (ed_username.getText().toString().equals("")) {
             ed_username.setError("Please enter registered email");
         } else if (ed_password.getText().toString().equals("")) {
             ed_password.setError("Please enter password");
         } else {
-
-//			if (con.isConnectingToInternet()) {
-//				signin(ed_username.getText().toString(), ed_password.getText().toString());
-//			} else {
-//				DialogManager.showCrouton(getActivity(), "No net connection");
-//			}
-
             signin(ed_username.getText().toString(), ed_password.getText().toString());
-
         }
 
     }
@@ -752,42 +739,11 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         // Update the UI to reflect that the user is signed out.
 
     }
-//	@Override
-//	public void onConnectionFailed(ConnectionResult result) {
-//
-//
-//		if (!result.hasResolution()) {
-//			GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), getActivity(), 0).show();
-//			return;
-//		}
-//
-//		if (!mIntentInProgress) {
-//			// Store the ConnectionResult for later usage
-//			mConnectionResult = result;
-//
-//			if (mSignInClicked) {
-//				// The user has already clicked 'sign-in' so we attempt to
-//				// resolve all
-//				// errors until the user is signed in, or they cancel.
-//				resolveSignInError();
-//			}
-//		}
-//
-//	}
 
     @Override
     public void onConnected(Bundle arg0) {
-
         mSignInClicked = false;
-        Toast.makeText(getActivity(), "User is connected!", Toast.LENGTH_LONG).show();
-        // getActivity().finish();
-        // appPref.SaveData("first", "logged");
-        // Intent i = new Intent(getActivity(), ActivityHome.class);
-        // startActivity(i);
-
         getProfileInformation();
-
-        // getProfileInformation();
     }
 
     @Override

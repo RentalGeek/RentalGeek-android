@@ -230,6 +230,10 @@ public class GeekBaseActivity extends AppCompatActivity {
                     case R.id.cosigner:
                         Navigation.navigateActivity(activity, ActivityCosignerList.class);
                         return true;
+                    case R.id.logout:
+                        SessionManager.Instance.onUserLoggedOut();
+                        Navigation.navigateActivity(activity, ActivityLogin.class, true);
+                        return true;
                 }
                 return false;
             }

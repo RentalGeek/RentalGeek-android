@@ -2,7 +2,7 @@ package com.rentalgeek.android.backend;
 
 import java.util.List;
 
-public class ProfilePost {
+public class UserProfile {
 
 	public List<Profile> profiles;
 

@@ -2,9 +2,14 @@ package com.rentalgeek.android.backend;
 
 import android.text.TextUtils;
 
+import com.rentalgeek.android.utils.ListUtils;
+
+import java.util.List;
+
 public class LoginBackend {
 
 	public User user;
+	public List<UserProfile.Profile> profiles;
 
     public RegistrationError errors;
 
@@ -34,6 +39,8 @@ public class LoginBackend {
         public boolean hasProfileId() {
             return !TextUtils.isEmpty(profile_id);
         }
+
+
 
 	}
 

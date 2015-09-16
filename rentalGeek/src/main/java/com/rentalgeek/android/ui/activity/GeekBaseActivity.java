@@ -36,6 +36,8 @@ public class GeekBaseActivity extends AppCompatActivity {
     protected DrawerLayout drawerLayout;
     protected NavigationView navigationView;
 
+    //final View coordinatorLayoutView = findViewById(R.id.snackbarPosition);
+
     protected boolean showSlider;
     protected boolean showActionBar;
     protected boolean authRequired;
@@ -227,6 +229,10 @@ public class GeekBaseActivity extends AppCompatActivity {
                         return true;
                     case R.id.cosigner:
                         Navigation.navigateActivity(activity, ActivityCosignerList.class);
+                        return true;
+                    case R.id.logout:
+                        SessionManager.Instance.onUserLoggedOut();
+                        Navigation.navigateActivity(activity, ActivityLogin.class, true);
                         return true;
                 }
                 return false;

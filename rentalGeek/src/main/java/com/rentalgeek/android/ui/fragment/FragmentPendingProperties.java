@@ -11,14 +11,14 @@ import com.rentalgeek.android.api.ApiManager;
  * Created by rajohns on 9/12/15.
  *
  */
-public class FragmentAppliedProperties extends FragmentBaseApplicationList {
+public class FragmentPendingProperties extends FragmentBaseApplicationList {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
         setupRecyclerView(getActivity(), true);
-        fetchItemsWithUrl(getActivity(), ApiManager.getApplyUrl());
+        fetchItemsWithUrl(getActivity(), ApiManager.getPendingApplicationsUrl());
 
         return v;
     }

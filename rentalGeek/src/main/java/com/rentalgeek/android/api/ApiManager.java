@@ -32,6 +32,14 @@ public class ApiManager {
         return getApplyUrl() + "?as_cosigner=true";
     }
 
+    public static String getPendingApplicationsUrl() {
+        return getApplyUrl() + "?status=pending";
+    }
+
+    public static String getApprovedApplicationsUrl() {
+        return getApplyUrl() + "?status=approved";
+    }
+
 //    public static String getRemoveStarredPropertyUrl(String propertyId) {
 //        String url = API_HOST + "/starred_properties/remove_star";
 //        if (TextUtils.isEmpty(propertyId)) return url;

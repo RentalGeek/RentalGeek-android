@@ -27,7 +27,8 @@ public class AppProgressDialog extends GeekDialog.AppDialogFragment {
     public void onCancel(DialogInterface dialog) {
         final GeekDialog.AppDialogListener listener = getDialogListener();
         final Bundle args = getArguments();
-        listener.onDialogButtonClick(this, DialogInterface.BUTTON_NEGATIVE, args);
+        if (listener != null)
+            listener.onDialogButtonClick(this, DialogInterface.BUTTON_NEGATIVE, args);
     }
 
 

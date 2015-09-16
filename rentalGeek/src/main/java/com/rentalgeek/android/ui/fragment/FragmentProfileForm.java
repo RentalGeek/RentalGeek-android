@@ -35,8 +35,9 @@ import com.mobsandgeeks.saripaar.annotation.Select;
 import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
+import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.ProfileIdFindBackend;
-import com.rentalgeek.android.backend.ProfilePost;
+import com.rentalgeek.android.backend.UserProfile;
 import com.rentalgeek.android.database.ProfileTable;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
@@ -47,6 +48,7 @@ import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityCreateProfile;
 import com.rentalgeek.android.ui.activity.ActivityGeekScore;
 import com.rentalgeek.android.ui.activity.ActivityHome;
+import com.rentalgeek.android.ui.activity.ActivityPayment;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ListUtils;
 import com.rentalgeek.android.utils.StringUtils;
@@ -270,6 +272,35 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
         View v = inflater.inflate(R.layout.fragment_profile_form, container, false);
         ButterKnife.inject(this, v);
 
+        if (!SessionManager.Instance.hasPayed()) {
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+            builder1.setMessage(getActivity().getResources().getString(R.string.geek_go));
+            builder1.setTitle("Alert");
+            builder1.setCancelable(true);
+            builder1.setPositiveButton("Go to payment",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                            Navigation.navigateActivity(activity, ActivityPayment.class, false);
+                            //nextfragment(new FragmentGeekScoreMain(), false, R.id.container);
+                        }
+                    });
+
+            builder1.setNegativeButton("Home",
+                    new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                            Navigation.navigateActivity(activity, ActivityHome.class, false);
+                            //nextfragment(new FragmentListViewDetails(), false, R.id.container);
+                        }
+                    });
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
+
+        }
+
         appPref = new AppPrefes(getActivity(), "rentalgeek");
         validator = new Validator(this);
         validator.setValidationListener(this);
@@ -348,6 +379,11 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
             profdets = new com.activeandroid.query.Select()
                     .from(ProfileTable.class)
                     .where("uid = ?", appPref.getData("Uid")).executeSingle();
+
+            if (profdets == null) {
+                profdets = new ProfileTable();
+                profdets.uid = appPref.getData("Uid");
+            }
         } else {
             profdets = new ProfileTable();
             profdets.uid = appPref.getData("Uid");
@@ -386,35 +422,17 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
     }
 
-/*    @Override
-    public void parseresult(String response, boolean success, int value) {
-
-        switch (value) {
-            case 1:
-                createUserParse(response);
-                break;
-            case 2:
-                patchedUserParse(response);
-                break;
-            case 3:
-                setProfileData(response);
-                break;
-            default:
-                break;
-        }
-    }*/
-
     // setting profile data to view
     private void setProfileData(String response) {
         try {
             // setting the values from the server
             response = response.replaceAll("null", " \" \"");
             AppLogger.log(TAG, "profile get response " + response);
-            ProfilePost detail = (new Gson()).fromJson(response, ProfilePost.class);
+            UserProfile detail = (new Gson()).fromJson(response, UserProfile.class);
 
             if (detail != null && detail.profiles != null && detail.profiles.size() > 0) {
-                ProfilePost.Profile profile = detail.profiles.get(0);
-                appPref.SaveData("prof_id", profile.id);
+                UserProfile.Profile profile = detail.profiles.get(0);
+
                 String geekScore = profile.geek_score;
                 if (!TextUtils.isEmpty(geekScore)) {
                     appPref.SaveData("geek_score", geekScore);
@@ -634,7 +652,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
             if (detail != null) {
 
                 if (detail.profile != null) {
-                    appPref.SaveData("prof_id", detail.profile.id);
+
                     toast("Profile Updated Successfully");
                     //hidekey();
 
@@ -652,7 +670,8 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
-                                        nextfragment(new FragmentGeekScoreMain(), false, R.id.container);
+                                        Navigation.navigateActivity(activity, ActivityGeekScore.class, true);
+                                        //nextfragment(new FragmentGeekScoreMain(), false, R.id.container);
                                     }
                                 });
 
@@ -662,7 +681,8 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.cancel();
-                                        nextfragment(new FragmentListViewDetails(), false, R.id.container);
+                                        Navigation.navigateActivity(activity, ActivityHome.class, true);
+                                        //nextfragment(new FragmentListViewDetails(), false, R.id.container);
                                     }
                                 });
                         AlertDialog alert11 = builder1.create();
@@ -683,9 +703,8 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
             if (detail != null) {
                 if (detail.profile != null) {
-                    appPref.SaveData("prof_id", detail.profile.id);
                     System.out.println("profile id is " + detail.profile.id);
-                    callPatchUpdateLink(detail.profile.id);
+                    //callPatchUpdateLink(detail.profile.id);
                 }
             }
         } catch (Exception e) {
@@ -926,7 +945,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
                         }
                     });
-            //asynkhttpPut(params, 2, url, AppPreferences.getAuthToken(), true);
 
         } catch (Exception e) {
             AppLogger.log(TAG, e);
@@ -1009,12 +1027,10 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
     private void alertList(List<String> add) {
 
-
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
 
         builderSingle.setTitle("Errors");
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                getActivity(), android.R.layout.select_dialog_singlechoice);
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_singlechoice);
         arrayAdapter.addAll(add);
         builderSingle.setNegativeButton("cancel",
                 new DialogInterface.OnClickListener() {
@@ -1051,7 +1067,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
     @Override
     public void onValidationSucceeded() {
 
-        boolean profileExists = !TextUtils.isEmpty(appPref.getData("prof_id"));
+        boolean profileExists = SessionManager.Instance.hasProfile();
 
         if (!profileExists) {
             if (position < 6) {
@@ -1066,7 +1082,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
             if (!profileExists) {
                 createProfile();
             } else {
-                callPatchUpdateLink(appPref.getData("prof_id"));
+                callPatchUpdateLink(SessionManager.Instance.getDefaultProfileId());
             }
         }
 

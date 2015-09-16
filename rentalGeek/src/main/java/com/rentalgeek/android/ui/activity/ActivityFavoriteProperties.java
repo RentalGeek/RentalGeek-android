@@ -20,6 +20,8 @@ public class ActivityFavoriteProperties extends GeekBaseActivity {
 
         setContentView(R.layout.activity_with_fragment);
 
+        setupNavigation();
+
         if (savedInstanceState == null) {
             FragmentStarredProperties fragment = new FragmentStarredProperties();
             Bundle args = getIntent().getExtras();

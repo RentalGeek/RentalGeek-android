@@ -34,7 +34,7 @@ public class FragmentApprovedProperties extends FragmentBaseApplicationList {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && !alreadyMadeApplicationsApiCall) {
             alreadyMadeApplicationsApiCall = true;
-            fetchItemsWithUrl(getActivity(), ApiManager.getApplyUrl());
+            fetchItemsWithUrl(getActivity(), ApiManager.getApprovedApplicationsUrl());
         }
     }
 }

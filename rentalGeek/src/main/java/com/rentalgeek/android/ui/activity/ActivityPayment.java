@@ -4,13 +4,13 @@ package com.rentalgeek.android.ui.activity;
 import android.os.Bundle;
 
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.ui.fragment.FragmentGeekScore;
+import com.rentalgeek.android.ui.fragment.FragmentPayment;
 
-public class ActivityGeekScore extends GeekBaseActivity {
+public class ActivityPayment extends GeekBaseActivity {
 
-    private static final String TAG = ActivityGeekScore.class.getSimpleName();
+    private static final String TAG = ActivityPayment.class.getSimpleName();
 
-    public ActivityGeekScore() {
+    public ActivityPayment() {
         super(true, true, true);
     }
 
@@ -23,11 +23,10 @@ public class ActivityGeekScore extends GeekBaseActivity {
         setupNavigation();
 
         if (savedInstanceState == null) {
-            FragmentGeekScore fragment = new FragmentGeekScore();
+            FragmentPayment fragment = new FragmentPayment();
             Bundle args = getIntent().getExtras();
             fragment.setArguments(args);
             getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
         }
     }
-
 }

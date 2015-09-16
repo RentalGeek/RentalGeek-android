@@ -1,7 +1,5 @@
 package com.rentalgeek.android.ui.activity;
 
-import android.support.v4.app.FragmentActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -30,7 +28,6 @@ import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.adapter.SwipeAdapter;
 import com.rentalgeek.android.ui.fragment.FragmentSignIn;
-import com.rentalgeek.android.utils.ConnectionDetector;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.viewpagerindicator.PageIndicator;
 
@@ -41,14 +38,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * 
- * @author George
- * 
- * @purpose Activity which holds the introduction slides
- *
- */
-public class ActivityTutorials extends FragmentActivity{
+
+public class ActivityTutorials extends GeekBaseActivity {
 
 	// Linked in
 	private static final String TAG = ActivityTutorials.class.getSimpleName();
@@ -66,13 +57,16 @@ public class ActivityTutorials extends FragmentActivity{
 	ViewPager mPager;
 	PageIndicator mIndicator;
 
-	ConnectionDetector con;
 	Handler handler;
 	Runnable Update;
 
 	int currentPage = 0;
 	int NUM_PAGES = 4;
 	private Timer swipeTimer;
+
+	public ActivityTutorials() {
+		super(false, false, false);
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +76,6 @@ public class ActivityTutorials extends FragmentActivity{
 		getKeyHash(this, PACKAGE_MOBILE_SDK_SAMPLE_APP);
 		//containerlogin = (FrameLayout) findViewById(R.id.containertut);
 		mAdapter = new SwipeAdapter(getSupportFragmentManager());
-		con = new ConnectionDetector(getApplicationContext());
 		mPager = (ViewPager) findViewById(R.id.pager);
 		mPager.setAdapter(mAdapter);
 		appPref = new AppPrefes(this, "rentalgeek");

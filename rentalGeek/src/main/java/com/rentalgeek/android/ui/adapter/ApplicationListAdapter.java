@@ -15,8 +15,8 @@ import android.widget.TextView;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.pojos.ApplicationItem;
 import com.rentalgeek.android.pojos.RoommateDTO;
-import com.rentalgeek.android.ui.view.PropertyDateTextView;
-import com.rentalgeek.android.ui.view.PropertyNameTextView;
+import com.rentalgeek.android.ui.view.PropertyRightTextView;
+import com.rentalgeek.android.ui.view.PropertyLeftTextView;
 import com.rentalgeek.android.ui.view.PropertyPersonHorizontalLinearLayout;
 import com.rentalgeek.android.utils.DownloadImageTask;
 
@@ -121,11 +121,11 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
      * wholeLayout
      * --roommateAndCosignerLayout
      * ----roommateLine
-     * ------roommateNameText
-     * ------roommateDateText
+     * ------roommateLeftText
+     * ------roommateRightText
      * ----cosignerLine
-     * ------cosignerNameText
-     * ------cosignerDateText
+     * ------cosignerLeftText
+     * ------cosignerRightText
      */
     private void addDynamicTextViewsForEachRoommate(ApplicationListViewHolder holder, ApplicationItem item) {
         LinearLayout wholeLayout = holder.dynamicNamesLayout;
@@ -137,33 +137,33 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
             roommateAndCosignerLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
                 PropertyPersonHorizontalLinearLayout roommateLine = new PropertyPersonHorizontalLinearLayout(context);
-                    PropertyNameTextView roommateNameText = new PropertyNameTextView(context);
-                    roommateNameText.setText(item.getLeftTextForRoomate(roommate));
-                    PropertyDateTextView roommateDateText = new PropertyDateTextView(context);
-                    roommateDateText.setText(item.getDateTextForDate(roommate.lease_signed_on) + " ");
-                    makeNameFullWidthIfNoDate(roommate.lease_signed_on, roommateNameText, roommateDateText);
+                    PropertyLeftTextView roommateLeftText = new PropertyLeftTextView(context);
+                    roommateLeftText.setText(item.getLeftTextForRoomate(roommate));
+                    PropertyRightTextView roommateRightText = new PropertyRightTextView(context);
+                    roommateRightText.setText(item.getRightTextForRoommate(roommate));
+                    makeLeftFullWidthIfNoRight(roommateRightText.getText().toString(), roommateLeftText, roommateRightText);
 
                 PropertyPersonHorizontalLinearLayout cosignerLine = new PropertyPersonHorizontalLinearLayout(context);
-                    PropertyNameTextView cosignerNameText = new PropertyNameTextView(context);
-                    cosignerNameText.setText(item.getLeftTextForCosigner(roommate));
-                    PropertyDateTextView cosignerDateText = new PropertyDateTextView(context);
-                    cosignerDateText.setText(item.getDateTextForDate(roommate.cosigner_lease_signed_on) + " ");
-                    makeNameFullWidthIfNoDate(roommate.cosigner_lease_signed_on, cosignerNameText, cosignerDateText);
+                    PropertyLeftTextView cosignerLeftText = new PropertyLeftTextView(context);
+                    cosignerLeftText.setText(item.getLeftTextForCosigner(roommate));
+                    PropertyRightTextView cosignerRightText = new PropertyRightTextView(context);
+                    cosignerRightText.setText(item.getRightTextForCosigner(roommate));
+                    makeLeftFullWidthIfNoRight(cosignerRightText.getText().toString(), cosignerLeftText, cosignerRightText);
 
-            roommateLine.addView(roommateNameText);
-            roommateLine.addView(roommateDateText);
-            cosignerLine.addView(cosignerNameText);
-            cosignerLine.addView(cosignerDateText);
+            roommateLine.addView(roommateLeftText);
+            roommateLine.addView(roommateRightText);
+            cosignerLine.addView(cosignerLeftText);
+            cosignerLine.addView(cosignerRightText);
             roommateAndCosignerLayout.addView(roommateLine);
             roommateAndCosignerLayout.addView(cosignerLine);
             wholeLayout.addView(roommateAndCosignerLayout);
         }
     }
 
-    private void makeNameFullWidthIfNoDate(String dateString, TextView nameTV, TextView dateTV) {
-        if (dateString == null) {
-            nameTV.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
-            dateTV.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0f));
+    private void makeLeftFullWidthIfNoRight(String rightString, TextView leftTV, TextView rightTV) {
+        if (rightString.trim().isEmpty()) {
+            leftTV.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+            rightTV.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0f));
         }
     }
 

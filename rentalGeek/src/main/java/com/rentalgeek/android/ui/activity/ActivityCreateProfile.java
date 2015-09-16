@@ -22,7 +22,7 @@ public class ActivityCreateProfile extends GeekBaseActivity implements Validator
     ProfileFormAdapter mAdapter;
 
     public ActivityCreateProfile() {
-        super(false, true, true);
+        super(true, true, true);
     }
 
     @Override

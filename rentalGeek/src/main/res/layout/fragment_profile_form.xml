@@ -82,7 +82,7 @@
                         android:id="@+id/first_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="First Name(Mandatory)"
+                        android:text="First Name(Mandatory) "
                         android:textColor="@color/blue"
                         android:layout_marginLeft="5dp" />
 
@@ -91,6 +91,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionNext"
+                        android:inputType="textCapWords"
                         android:singleLine="true"
                         android:layout_below="@id/first_tag" />
                 </RelativeLayout>
@@ -115,6 +116,7 @@
                         android:imeOptions="actionNext"
                         android:singleLine="true"
                         android:layout_height="wrap_content"
+                        android:inputType="textCapWords"
                         android:layout_below="@id/last_tag" />
                 </RelativeLayout>
 
@@ -183,9 +185,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/license_state_tag"
-                        android:background="@drawable/underlines"
                         android:entries="@array/state_list"
-                        android:paddingBottom="9dp" />
+                        android:paddingBottom="9dp"
+                        android:background="@drawable/underlines" />
                 </RelativeLayout>
             </LinearLayout>
 

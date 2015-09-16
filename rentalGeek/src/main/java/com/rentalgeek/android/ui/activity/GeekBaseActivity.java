@@ -19,6 +19,7 @@ import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.AppDialogRequestEvent;
+import com.rentalgeek.android.system.AppSystem;
 import com.rentalgeek.android.ui.Common;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.dialog.AppProgressDialog;
@@ -186,7 +187,10 @@ public class GeekBaseActivity extends AppCompatActivity {
         navigationView = (NavigationView) findViewById(R.id.navigationView);
 
         if (navigationView != null && drawerLayout != null) {
+
             setVisibilityForCosignerMenuItem();
+
+            if (AppSystem.isV1Build) setVisibilityForV1NavigationMenu();
 
             if (showSlider) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
@@ -243,6 +247,35 @@ public class GeekBaseActivity extends AppCompatActivity {
     public void onEventMainThread(AppDialogRequestEvent<?> event) {
         GeekDialog.AppDialogFragment dialog = GeekDialog.showDialog(this, event.getClazz(), event.getArgs(), event.getCaller());
         if (dialog != null) dialog.setCancelable(event.isCancellable());
+    }
+
+    private void setVisibilityForV1NavigationMenu() {
+        Menu menu = navigationView.getMenu();
+
+        //Hide menu items for all things in new release to create a v1 play store build
+        int[] v2MenuItems = {
+                R.id.my_lease,
+                R.id.properties,
+                R.id.roommates,
+                R.id.payment,
+                R.id.cosigner,
+                R.id.settings
+//                R.id.geek_score,
+//                R.id.favorites,
+//                R.id.geek_vision,
+//                R.id.logout
+        };
+
+        if (menu != null) {
+
+            for (int i=0; i<v2MenuItems.length; i++) {
+                MenuItem menuItem = menu.findItem(v2MenuItems[i]);
+                if (menuItem != null) {
+                    menuItem.setVisible(false);
+                }
+            }
+
+        }
     }
 
     private void setVisibilityForCosignerMenuItem() {

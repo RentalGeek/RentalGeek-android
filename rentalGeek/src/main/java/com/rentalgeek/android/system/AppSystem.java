@@ -8,6 +8,8 @@ public enum AppSystem {
 
     Instance;
 
+    public static final boolean isV1Build = true;
+
     public boolean isDebugBuild(Context context) {
         return ( 0 != ( context.getApplicationInfo().flags &= ApplicationInfo.FLAG_DEBUGGABLE ) );
     }

@@ -18,6 +18,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -104,6 +105,9 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
     @InjectView(R.id.linked_lay)
     ImageView linked_lay;
 
+    @InjectView(R.id.layoutThirdPartyLogins)
+    LinearLayout layoutThirdPartyLogins;
+
     // ---------------
 
     @InjectView(R.id.ed_username)
@@ -179,6 +183,8 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
             ed_username.setText(AppPreferences.getUserName());
             ed_password.setText(AppPreferences.getPassword());
         }
+
+        layoutThirdPartyLogins.setVisibility(AppSystem.isV1Build ? View.GONE : View.VISIBLE);
 
         return v;
 
@@ -274,15 +280,15 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
         // Applicant appli=detail.applicant;
 
-        String appid = String.valueOf(detail.applicant.id);
+        String appid = String.valueOf(detail.user.id);
         System.out.println("my id is " + appid);
 
-        if (detail.applicant.payment) {
+        if (detail.user.payment) {
             appPref.SaveIntData("payed", 200);
         }
 
-        if (detail.applicant.profile_id != null) {
-            appPref.SaveData("prof_id", detail.applicant.profile_id);
+        if (detail.user.profile_id != null) {
+            appPref.SaveData("prof_id", detail.user.profile_id);
         } else {
             appPref.SaveData("prof_id", "");
         }
@@ -325,15 +331,15 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
         // Applicant appli=detail.applicant;
 
-        String appid = String.valueOf(detail.applicant.id);
+        String appid = String.valueOf(detail.user.id);
         System.out.println("my id is " + appid);
 
-        if (detail.applicant.payment) {
+        if (detail.user.payment) {
             appPref.SaveIntData("payed", 200);
         }
 
-        if (detail.applicant.profile_id != null) {
-            appPref.SaveData("prof_id", detail.applicant.profile_id);
+        if (detail.user.profile_id != null) {
+            appPref.SaveData("prof_id", detail.user.profile_id);
         } else {
             appPref.SaveData("prof_id", "");
         }
@@ -393,16 +399,16 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
         // Applicant appli=detail.applicant;
 
-        String appid = String.valueOf(detail.applicant.id);
+        String appid = String.valueOf(detail.user.id);
         System.out.println("my id is " + appid);
 
         appPref.SaveData("Uid", appid);
-        if (detail.applicant.payment) {
+        if (detail.user.payment) {
             appPref.SaveIntData("payed", 200);
         }
 
-        if (detail.applicant.profile_id != null) {
-            appPref.SaveData("prof_id", detail.applicant.profile_id);
+        if (detail.user.profile_id != null) {
+            appPref.SaveData("prof_id", detail.user.profile_id);
         } else {
             appPref.SaveData("prof_id", "");
         }

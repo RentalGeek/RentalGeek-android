@@ -73,7 +73,8 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:layout_below="@+id/create_aacnt"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:id="@+id/layoutThirdPartyLogins">
 
         <TextView
             android:id="@+id/or"

@@ -30,6 +30,7 @@ import com.mobsandgeeks.saripaar.annotation.Select;
 import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
+import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.ProfileIdFindBackend;
 import com.rentalgeek.android.backend.UserProfile;
 import com.rentalgeek.android.database.ProfileTable;
@@ -293,17 +294,14 @@ public class FragmentProfile extends GeekBaseFragment implements ValidationListe
 			// setting the values from the server
 			response = response.replaceAll("null", " \" \"");
 			System.out.println("profile get response " + response);
-			UserProfile detail = (new Gson()).fromJson(response,
-					UserProfile.class);
+			UserProfile detail = (new Gson()).fromJson(response, UserProfile.class);
 
 			if (detail != null) {
 				if (detail.profiles != null && detail.profiles.size() > 0) {
 
-					System.out.println("profile id "
-							+ detail.profiles.get(0).id);
-					appPref.SaveData("prof_id", detail.profiles.get(0).id);
-					System.out.println("profile born_on "
-							+ detail.profiles.get(0).born_on);
+					System.out.println("profile id " + detail.profiles.get(0).id);
+
+					System.out.println("profile born_on " + detail.profiles.get(0).born_on);
 
 					ed_first_name.setText(detail.profiles.get(0).first_name);
 					ed_last_name.setText(detail.profiles.get(0).last_name);
@@ -554,7 +552,7 @@ public class FragmentProfile extends GeekBaseFragment implements ValidationListe
 			if (detail != null) {
 
 				if (detail.profile != null) {
-					appPref.SaveData("prof_id", detail.profile.id);
+
 					DialogManager.showCrouton(activity, "Profile Updated Successfully");
 					//hidekey();
 
@@ -610,9 +608,6 @@ public class FragmentProfile extends GeekBaseFragment implements ValidationListe
 
 			if (detail != null) {
 				if (detail.profile != null) {
-
-					appPref.SaveData("prof_id", detail.profile.id);
-
 					System.out.println("profile id is " + detail.profile.id);
 					callPatchUpdateLink(detail.profile.id);
 				}
@@ -963,10 +958,10 @@ public class FragmentProfile extends GeekBaseFragment implements ValidationListe
 	// After validation success
 	@Override
 	public void onValidationSucceeded() {
-        if (appPref.getData("prof_id").equals("")) {
+        if (!SessionManager.Instance.hasProfile()) {
             createProfile();
         } else {
-            callPatchUpdateLink(appPref.getData("prof_id"));
+            callPatchUpdateLink(SessionManager.Instance.getDefaultProfileId());
         }
 	}
 

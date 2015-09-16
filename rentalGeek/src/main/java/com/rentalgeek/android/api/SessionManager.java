@@ -53,6 +53,16 @@ public enum SessionManager {
         return null;
     }
 
+    public boolean hasProfile() {
+        return getDefaultProfile() != null;
+    }
+
+    public String getDefaultProfileId() {
+        UserProfile.Profile profile = getDefaultProfile();
+        if (profile == null) return null;
+        return profile.id;
+    }
+
     public void onUserLoggedIn(LoginBackend login) {
 
         currentUser = login.user;
@@ -71,11 +81,11 @@ public enum SessionManager {
             appPref.SaveIntData("payed", 200);
         }
 
-        if (currentUser.profile_id != null) {
-            appPref.SaveData("prof_id", currentUser.profile_id);
-        } else {
-            appPref.SaveData("prof_id", "");
-        }
+//        if (currentUser.profile_id != null) {
+//            appPref.SaveData("prof_id", currentUser.profile_id);
+//        } else {
+//            appPref.SaveData("prof_id", "");
+//        }
 
         appPref.SaveData("first", "logged");
 

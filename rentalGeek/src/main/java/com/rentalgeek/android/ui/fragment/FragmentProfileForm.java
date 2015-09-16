@@ -432,7 +432,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
             if (detail != null && detail.profiles != null && detail.profiles.size() > 0) {
                 UserProfile.Profile profile = detail.profiles.get(0);
-                appPref.SaveData("prof_id", profile.id);
+
                 String geekScore = profile.geek_score;
                 if (!TextUtils.isEmpty(geekScore)) {
                     appPref.SaveData("geek_score", geekScore);
@@ -652,7 +652,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
             if (detail != null) {
 
                 if (detail.profile != null) {
-                    appPref.SaveData("prof_id", detail.profile.id);
+
                     toast("Profile Updated Successfully");
                     //hidekey();
 
@@ -703,7 +703,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
             if (detail != null) {
                 if (detail.profile != null) {
-                    appPref.SaveData("prof_id", detail.profile.id);
                     System.out.println("profile id is " + detail.profile.id);
                     //callPatchUpdateLink(detail.profile.id);
                 }
@@ -1068,7 +1067,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
     @Override
     public void onValidationSucceeded() {
 
-        boolean profileExists = !TextUtils.isEmpty(appPref.getData("prof_id"));
+        boolean profileExists = SessionManager.Instance.hasProfile();
 
         if (!profileExists) {
             if (position < 6) {
@@ -1083,7 +1082,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
             if (!profileExists) {
                 createProfile();
             } else {
-                callPatchUpdateLink(appPref.getData("prof_id"));
+                callPatchUpdateLink(SessionManager.Instance.getDefaultProfileId());
             }
         }
 

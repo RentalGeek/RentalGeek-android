@@ -33,32 +33,26 @@ public class PendingItem extends ApplicationItem {
 
     @Override
     public Spanned getRightTextForRoommate(RoommateDTO roommate) {
-        if (roommate.status == null) {
-            return Html.fromHtml("APPLY");
-        }
-
-        return Html.fromHtml("<u>" + roommate.status.toUpperCase() + "</u>");
+        return Html.fromHtml("<u>" + colorOpeningTag(roommate.status) + roommate.status.toUpperCase() + colorClosingTag(roommate.status) + "</u>");
     }
 
     @Override
     public Spanned getRightTextForCosigner(RoommateDTO roommate) {
-        if (roommate.cosigner_status == null) {
-            return Html.fromHtml("APPLY");
-        }
-
         return Html.fromHtml("<u>" + colorOpeningTag(roommate.cosigner_status) + roommate.cosigner_status.toUpperCase() + colorClosingTag(roommate.cosigner_status) + "</u>");
     }
 
     private String colorOpeningTag(String status) {
-        if (status.toUpperCase().equals("PENDING")) {
+        if (status.toUpperCase().equals("PENDING") || status.toUpperCase().equals("APPLIED")) {
             return "<font color='blue'>";
+        } else if(status.toUpperCase().equals("SIGNED")) {
+            return "<font color='green'>";
         } else {
             return "";
         }
     }
 
     private String colorClosingTag(String status) {
-        if (status.toUpperCase().equals("PENDING")) {
+        if (status.toUpperCase().equals("PENDING") || status.toUpperCase().equals("APPLIED") || status.toUpperCase().equals("SIGNED")) {
             return "</font>";
         } else {
             return "";

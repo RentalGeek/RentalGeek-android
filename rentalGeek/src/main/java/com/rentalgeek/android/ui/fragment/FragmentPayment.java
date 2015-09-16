@@ -23,6 +23,7 @@ import com.mobsandgeeks.saripaar.annotation.Select;
 import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
+import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.CheckPayment;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.backend.PaymentBackend;
@@ -34,7 +35,6 @@ import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityCreateProfile;
 import com.rentalgeek.android.ui.activity.ActivityGeekScore;
 import com.rentalgeek.android.ui.preference.AppPreferences;
-import com.rentalgeek.android.utils.ConnectionDetector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,8 +49,6 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 
 	private Validator validator;
 	AppPrefes appPref;
-
-	ConnectionDetector con;
 
 	@InjectView(R.id.verify_card)
 	Button verify_card;
@@ -100,16 +98,14 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		View v = inflater.inflate(R.layout.fragment_card_info_dialog, container, false);
-		con = new ConnectionDetector(getActivity());
+
 		ButterKnife.inject(this, v);
 		appPref = new AppPrefes(getActivity(), "rentalgeek");
 
 		// The done button click from a keyboard
 		KeyListener();
 
-		if (con.isConnectingToInternet()) {
-			CheckPaymentf();
-		}
+		CheckPaymentf();
 
 		return v;
 	}
@@ -142,12 +138,12 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 
 					@Override
 					public void onStart() {
-
+						showProgressDialog(R.string.dialog_msg_loading);
 					}
 
 					@Override
 					public void onFinish() {
-
+						hideProgressDialog();
 					}
 
 					@Override
@@ -164,7 +160,6 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 
 					}
 				});
-		//asynkhttpGet(3, ApiManager.getApplicants(appPref.getData("Uid")), AppPreferences.getAuthToken(),  true);
 
 	}
 
@@ -248,13 +243,10 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 
 	private List getErroList(List<com.rentalgeek.android.backend.ErrorArray.Error> al) {
 
-
 		List<String> list = new ArrayList<String>();
 
 		for (int i = 0; i < al.size(); i++) {
-
 			list.add(al.get(i).message);
-
 		}
 
 		return list;
@@ -262,7 +254,6 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 	}
 
 	private void alertList(String add) {
-
 
 		AlertDialog.Builder builderSingle = new AlertDialog.Builder(
 				getActivity());
@@ -291,7 +282,7 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 			toast("Payment successful, transaction ID" + detail.transaction.transaction_id);
 			appPref.SaveIntData("payed", 200);
 
-			if (appPref.getData("prof_id").equals("")) {
+			if (!SessionManager.Instance.hasProfile()) {
 				profileAlert("Your payment is success. Please complete your profile in order to apply.");
 				// nextfragment(new FragmentProfile(), false, R.id.container);
 			} else {
@@ -335,18 +326,18 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 		params.put("card[yyyy]", edYYYY.getSelectedItem().toString().trim());
 		params.put("card[user_id]", appPref.getData("Uid"));
 
-		GlobalFunctions.postApiCall(getActivity(), ApiManager.getApplicants(appPref.getData("Uid")),
+		GlobalFunctions.postApiCall(activity, url,
 				params, AppPreferences.getAuthToken(),
 				new GeekHttpResponseHandler() {
 
 					@Override
 					public void onStart() {
-
+						showProgressDialog(R.string.dialog_msg_loading);
 					}
 
 					@Override
 					public void onFinish() {
-
+						hideProgressDialog();
 					}
 
 					@Override
@@ -356,6 +347,11 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 						} catch (Exception e) {
 							AppLogger.log(TAG, e);
 						}
+					}
+
+					@Override
+					public void onFailure(Throwable ex, String failureResponse) {
+						super.onFailure(ex, failureResponse);
 					}
 
 					@Override

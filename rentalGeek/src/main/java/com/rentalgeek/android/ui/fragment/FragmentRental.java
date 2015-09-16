@@ -42,16 +42,16 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
         View view = inflater.inflate(R.layout.fragment_rental,container,false);
         ButterKnife.inject(this,view);
         
+        hide();
+
         //PreDraw guarantees measuring of screen size.
-        
         view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
                 
                 getView().getViewTreeObserver().removeOnPreDrawListener(this);
                 
-                hide();
-
+        
                 int screenHeight = RentalGeekApplication.getScreenHeight();
                 ViewGroup.LayoutParams params = getView().getLayoutParams();
                 params.height = screenHeight/2;

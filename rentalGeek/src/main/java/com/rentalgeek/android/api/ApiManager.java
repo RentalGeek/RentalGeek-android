@@ -122,5 +122,10 @@ public class ApiManager {
         return String.format("%s/%s", url, roommate_group_id);
     }
 
+    public static String getLease(String leaseId ) {
+        String url = API_HOST + "/leases";
+        if (TextUtils.isEmpty(leaseId)) return null;
+        return String.format("%s/%s", url, leaseId);
+    }
 
 }

@@ -23,6 +23,13 @@ public enum SessionManager {
         return currentUser;
     }
 
+    public boolean hasCompletedLeaseId() {
+        if (currentUser != null) {
+            return !TextUtils.isEmpty(currentUser.completed_lease_id);
+        }
+        return false;
+    }
+
     public boolean hasPayed() {
         if (currentUser != null) {
             return currentUser.payment;

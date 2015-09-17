@@ -1,17 +1,20 @@
 package com.rentalgeek.android.ui.activity;
 
 import android.os.Bundle;
-import com.rentalgeek.android.R;
 import android.support.v4.view.ViewPager;
-import com.rentalgeek.android.pojos.Rental;
-import com.rentalgeek.android.mvp.map.MapView;
-import com.rentalgeek.android.mvp.home.HomeView;
+
+import com.rentalgeek.android.R;
+import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.mvp.home.HomePresenter;
+import com.rentalgeek.android.mvp.home.HomeView;
+import com.rentalgeek.android.mvp.list.rental.RentalListView;
+import com.rentalgeek.android.mvp.map.MapView;
+import com.rentalgeek.android.pojos.Rental;
 import com.rentalgeek.android.ui.adapter.PageAdapter;
 import com.rentalgeek.android.ui.fragment.FragmentMap;
-import com.rentalgeek.android.ui.view.NonSwipeableViewPager;
-import com.rentalgeek.android.mvp.list.rental.RentalListView;
 import com.rentalgeek.android.ui.fragment.FragmentRentalListView;
+import com.rentalgeek.android.ui.view.NonSwipeableViewPager;
+import com.rentalgeek.android.utils.CosignerInviteCaller;
 
 public class ActivityHome extends GeekBaseActivity implements Container<ViewPager>, HomeView {
 
@@ -46,6 +49,11 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
 
         presenter = new HomePresenter(this);
         presenter.getRentalOfferings(null);
+
+        // silently fetch cosigner invites to know which page to go to
+        if (SessionManager.Instance.getCurrentUser() != null) {
+            new CosignerInviteCaller(this, false).fetchCosignerInvites();
+        }
     }
     
     @Override

@@ -2,6 +2,7 @@ package com.rentalgeek.android.utils;
 
 import com.rentalgeek.android.pojos.Address;
 import com.rentalgeek.android.pojos.ApplicationItem;
+import com.rentalgeek.android.pojos.CosignerInviteDTO;
 import com.rentalgeek.android.pojos.PropertyContactInfo;
 import com.rentalgeek.android.pojos.RoommateDTO;
 
@@ -53,6 +54,23 @@ public class Stub {
         stubbedApplicationItems.add(applicationItem);
 
         return stubbedApplicationItems;
+    }
+
+    public static ArrayList<CosignerInviteDTO> cosignerInvites() {
+        CosignerInviteDTO cosignerInviteDTO = new CosignerInviteDTO();
+        cosignerInviteDTO.accepted = Boolean.TRUE;
+        cosignerInviteDTO.id = 1234;
+        cosignerInviteDTO.inviter_id = 45;
+        cosignerInviteDTO.inviter_name = "John Smith";
+
+        ArrayList<CosignerInviteDTO> stubbedCosignerInvites = new ArrayList<>();
+        stubbedCosignerInvites.add(cosignerInviteDTO);
+        stubbedCosignerInvites.add(cosignerInviteDTO);
+        stubbedCosignerInvites.add(cosignerInviteDTO);
+        stubbedCosignerInvites.add(cosignerInviteDTO);
+        stubbedCosignerInvites.add(cosignerInviteDTO);
+
+        return stubbedCosignerInvites;
     }
 
 }

@@ -24,6 +24,8 @@ import com.rentalgeek.android.ui.Common;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.dialog.AppProgressDialog;
 import com.rentalgeek.android.ui.dialog.manager.GeekDialog;
+import com.rentalgeek.android.utils.CosignerDestinationPage;
+import com.rentalgeek.android.utils.GlobalStrings;
 
 /**
  * Created by rajohns on 9/1/15.
@@ -232,7 +234,8 @@ public class GeekBaseActivity extends AppCompatActivity {
                         Navigation.navigateActivity(activity, ActivityPayments.class);
                         return true;
                     case R.id.cosigner:
-                        Navigation.navigateActivity(activity, ActivityCosignDecider.class);
+                        decideWhichCosignScreenToShow();
+//                        Navigation.navigateActivity(activity, ActivityCosignDecider.class);
                         return true;
                     case R.id.logout:
                         SessionManager.Instance.onUserLoggedOut();
@@ -288,6 +291,20 @@ public class GeekBaseActivity extends AppCompatActivity {
                     cosignerItem.setVisible(false);
                 }
             }
+        }
+    }
+
+    private void decideWhichCosignScreenToShow() {
+        String destinationPage = CosignerDestinationPage.getInstance().getDestination();
+
+        if (destinationPage.equals(GlobalStrings.COSIGNER_PROPERTY_LIST)) {
+            Navigation.navigateActivity(this, ActivityCosignerList.class);
+        } else if (destinationPage.equals(GlobalStrings.COSIGNER_INVITE_PAGE)) {
+            // navigate to cosigner application
+        } else if (destinationPage.equals(GlobalStrings.COSIGNER_APPLICATION)) {
+            // navigate to cosigner application
+        } else {
+            Navigation.navigateActivity(this, ActivityCosignDecider.class);
         }
     }
 

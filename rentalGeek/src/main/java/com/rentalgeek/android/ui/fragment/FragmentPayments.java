@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.SessionManager;
-import com.rentalgeek.android.backend.RoommateGroup;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -62,9 +61,9 @@ public class FragmentPayments extends GeekBaseFragment {
 //           fetchRoommateGroups(ApiManager.currentUser.roommate_group_id);
     }
 
-    protected void bindRoommateGroups(RoommateGroup roommateGroup) {
-
-    }
+//    protected void bindRoommateGroups(RoommateGroup roommateGroup) {
+//
+//    }
 
 //    protected void addRoommateInvite(String email, String name) {
 //

@@ -5,14 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.Gson;
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.api.ApiManager;
-import com.rentalgeek.android.backend.RoommateGroup;
-import com.rentalgeek.android.logging.AppLogger;
-import com.rentalgeek.android.net.GeekHttpResponseHandler;
-import com.rentalgeek.android.net.GlobalFunctions;
-import com.rentalgeek.android.ui.preference.AppPreferences;
 
 import butterknife.ButterKnife;
 

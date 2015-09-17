@@ -49,6 +49,7 @@ import com.rentalgeek.android.ui.activity.ActivityCreateProfile;
 import com.rentalgeek.android.ui.activity.ActivityGeekScore;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.activity.ActivityPayment;
+import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ListUtils;
 import com.rentalgeek.android.utils.StringUtils;
@@ -704,6 +705,40 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                 if (detail.profile != null) {
                     System.out.println("profile id is " + detail.profile.id);
                     //callPatchUpdateLink(detail.profile.id);
+                    toast("Profile Updated Successfully");
+                    //hidekey();
+
+                    if (appPref.getIntData("payed") == 200) {
+
+                        Navigation.navigateActivity(getActivity(), ActivityGeekScore.class);
+                        //nextfragment(new FragmentFinalGeekScore(), false, R.id.container);
+
+                    } else {
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+                        builder1.setMessage(getActivity().getResources().getString(R.string.geek_go));
+                        builder1.setTitle("Alert");
+                        builder1.setCancelable(true);
+                        builder1.setPositiveButton("Go to payment",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                        Navigation.navigateActivity(activity, ActivityGeekScore.class, true);
+                                        //nextfragment(new FragmentGeekScoreMain(), false, R.id.container);
+                                    }
+                                });
+
+                        builder1.setNegativeButton("Home",
+                                new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                        Navigation.navigateActivity(activity, ActivityHome.class, true);
+                                    }
+                                });
+                        AlertDialog alert11 = builder1.create();
+                        alert11.show();
+                    }
                 }
             }
         } catch (Exception e) {
@@ -1193,6 +1228,12 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                             } catch (Exception e) {
                                 AppLogger.log(TAG, e);
                             }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable ex, String failureResponse) {
+                            super.onFailure(ex, failureResponse);
+                            DialogManager.showCrouton(activity, failureResponse);
                         }
 
                         @Override

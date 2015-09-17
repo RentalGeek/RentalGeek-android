@@ -1,5 +1,7 @@
 package com.rentalgeek.android.backend;
 
+import com.rentalgeek.android.backend.model.RoommateInvite;
+
 import java.util.List;
 
 public class RoommateInvites {
@@ -8,14 +10,5 @@ public class RoommateInvites {
     public String name;
 
 	public List<RoommateInvite> roommate_invites;
-	
-	public class RoommateInvite
-	{
-		public String id;
-        public String roommate_group_id;
-        public String inviter_id;
-        public String inviter_name;
-        public String invited_name;
-	}
 
 }

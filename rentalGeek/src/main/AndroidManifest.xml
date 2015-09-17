@@ -112,6 +112,12 @@
             android:label="Properties"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".ui.activity.ActivityCosignDecider"
+            android:label="@string/cosigner"
+            android:screenOrientation="portrait"
+            android:noHistory="true">
+        </activity>
 
         <activity
             android:name="com.facebook.FacebookActivity"

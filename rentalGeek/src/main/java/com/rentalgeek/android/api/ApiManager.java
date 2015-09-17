@@ -14,18 +14,15 @@ public class ApiManager {
     public static String regis_link = API_HOST + "/users.json";
     // "api/"
     public static String getApplicants(String uid) {
-        String url = API_HOST + "/users/" + uid;
-        return url;
+        return API_HOST + "/users/" + uid;
     }
 
     public static String getPropertySearchUrl(String location) {
-        String url = API_HOST + "/rental_offerings.json?" + location;
-        return url;
+        return API_HOST + "/rental_offerings.json?" + location;
     }
 
     public static String getApplyUrl() {
-        String url = API_HOST + "/applications";
-        return url;
+        return API_HOST + "/applications";
     }
 
     public static String getCosignerItemsUrl() {
@@ -38,6 +35,10 @@ public class ApiManager {
 
     public static String getApprovedApplicationsUrl() {
         return getApplyUrl() + "?status=approved";
+    }
+
+    public static String getCosignerInvitesUrl() {
+        return API_HOST + "/cosigner_invites";
     }
 
 //    public static String getRemoveStarredPropertyUrl(String propertyId) {
@@ -62,38 +63,31 @@ public class ApiManager {
     }
     
     public static String deleteRentalStar(String star_id) {
-        String url = String.format("%s/%s/%s",API_HOST,"starred_properties",star_id);
-        return url;
+        return String.format("%s/%s/%s",API_HOST,"starred_properties",star_id);
     }
 
     public static String postRentalStar() {
-        String url = API_HOST + "/starred_properties";
-        return url;
+        return API_HOST + "/starred_properties";
     }
 
     public static String getAddProvider(String providerId) {
-        String url = API_HOST + "/sessions/add_providers";
-        return url;
+        return API_HOST + "/sessions/add_providers";
     }
 
     public static String getApplicantPassword() {
-        String url = API_HOST + "/users/password";
-        return url;
+        return API_HOST + "/users/password";
     }
 
     public static String getSignin() {
-        String url = API_HOST + "/users/sign_in.json";
-        return url;
+        return API_HOST + "/users/sign_in.json";
     }
 
     public static String getSignOut() {
-        String url = API_HOST + "/users/sign_out.json";
-        return url;
+        return API_HOST + "/users/sign_out.json";
     }
 
     public static String getTransactions() {
-        String url = API_HOST + "/transactions";
-        return url;
+        return API_HOST + "/transactions";
     }
 
     public static String getProfile(String id) {

@@ -232,7 +232,7 @@ public class GeekBaseActivity extends AppCompatActivity {
                         Navigation.navigateActivity(activity, ActivityPayments.class);
                         return true;
                     case R.id.cosigner:
-                        Navigation.navigateActivity(activity, ActivityCosignerList.class);
+                        Navigation.navigateActivity(activity, ActivityCosignDecider.class);
                         return true;
                     case R.id.logout:
                         SessionManager.Instance.onUserLoggedOut();

@@ -20,6 +20,7 @@ import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 
 import java.lang.reflect.Type;
+import java.text.NumberFormat;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -48,6 +49,9 @@ public class FragmentPaymentConfirmation extends GeekBaseFragment {
 
         currentLeaseId = getArguments().getInt(Common.KEY_LEASE_ID);
         amountPaid = getArguments().getDouble(Common.KEY_TOTAL_DUE);
+
+        NumberFormat format = NumberFormat.getCurrencyInstance();
+        textViewAmountPaid.setText(format.format(amountPaid));
 
         fetchPaymentHistory(currentLeaseId);
 

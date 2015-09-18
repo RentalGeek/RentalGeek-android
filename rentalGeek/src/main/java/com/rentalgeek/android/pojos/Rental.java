@@ -13,6 +13,10 @@ public class Rental {
 	private int full_bathroom_count;
 	private String primary_property_photo_url;
     private String star_id;
+    private String address;
+    private String city;
+    private String zipcode;
+    private String state;
 
     public String toString() {
         return String.format("id: %s, starred: %s",id,starred);
@@ -66,5 +70,21 @@ public class Rental {
 
     public String getStarId() {
         return star_id;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public String getZipcode() {
+        return zipcode;
     }
 }

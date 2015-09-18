@@ -55,7 +55,7 @@ public class RentalAdapter extends ArrayAdapter<Rental>{
         if( rental.isStarred() ){
          Picasso
             .with(getContext())
-            .load(R.drawable.star_select)
+            .load(R.drawable.star_full)
             .into(viewHolder.star_imageview);
 
         }
@@ -63,15 +63,17 @@ public class RentalAdapter extends ArrayAdapter<Rental>{
         else {
           Picasso
             .with(getContext())
-            .load(R.drawable.star)
+            .load(R.drawable.star_outline)
             .into(viewHolder.star_imageview);
         }
 
         viewHolder.star_imageview.setTag(rental.getId());
-        viewHolder.price_textview.setText(String.format("%d/mo",rental.getMonthlyRent()));
-        viewHolder.bathroom_count_textview.setText(String.format("%d",rental.getBathroomCount()));
-        viewHolder.bedroom_count_textview.setText(String.format("%d",rental.getBedroomCount()));
-        viewHolder.street_name_textview.setText(String.format("%s",rental.getHeadline()));
+        viewHolder.price_textview.setText(String.format("$%d",rental.getMonthlyRent()));
+
+        viewHolder.room_count_textview.setText(String.format("%d Bath, %d BR",rental.getBathroomCount(),rental.getBedroomCount()));
+
+        String format = "%s\n%s, %s %s";
+        viewHolder.address_textview.setText(String.format(format,rental.getAddress(),rental.getCity(),rental.getState(),rental.getZipcode()));
         
         Picasso
             .with(getContext())
@@ -86,9 +88,8 @@ public class RentalAdapter extends ArrayAdapter<Rental>{
         @InjectView(R.id.rental_imageview) ImageView rental_imageview;
         @InjectView(R.id.star_imageview) ImageView star_imageview;
         @InjectView(R.id.price) TextView price_textview;
-        @InjectView(R.id.bathroom_count) TextView bathroom_count_textview;
-        @InjectView(R.id.street_name) TextView street_name_textview;
-        @InjectView(R.id.bedroom_count) TextView bedroom_count_textview;
+        @InjectView(R.id.room_count) TextView room_count_textview;
+        @InjectView(R.id.address) TextView address_textview;
         
         private RentalListPresenter presenter;
 
@@ -103,7 +104,7 @@ public class RentalAdapter extends ArrayAdapter<Rental>{
             if( rental_imageview != null) {
                  Picasso
                     .with(rental_imageview.getContext())
-                    .load(R.drawable.star_select)
+                    .load(R.drawable.star_full)
                     .into(star_imageview);
             }
         }
@@ -113,7 +114,7 @@ public class RentalAdapter extends ArrayAdapter<Rental>{
             if( rental_imageview != null ) {
                  Picasso
                     .with(rental_imageview.getContext())
-                    .load(R.drawable.star)
+                    .load(R.drawable.star_outline)
                     .into(star_imageview);
             }
         }

@@ -13,6 +13,7 @@ import com.rentalgeek.android.ui.adapter.RentalAdapter;
 import com.rentalgeek.android.mvp.list.rental.RentalListView;
 import com.rentalgeek.android.mvp.list.rental.RentalListPresenter;
 
+
 public class FragmentRentalListView extends GeekBaseFragment implements RentalListView {
     
     private static final String TAG = FragmentRentalListView.class.getSimpleName();
@@ -27,6 +28,9 @@ public class FragmentRentalListView extends GeekBaseFragment implements RentalLi
         adapter = new RentalAdapter(getActivity(),R.layout.rental_listview_row);
         presenter = new RentalListPresenter(this);
         adapter.setPresenter(presenter);
+        
+        
+        //showProgressDialog(R.string.dialog_msg_loading);
     }
 
     @Override
@@ -49,5 +53,6 @@ public class FragmentRentalListView extends GeekBaseFragment implements RentalLi
     public void setRentals(Rental[] rentals) {
         adapter.clear();
         adapter.addAll(rentals);
+        //hideProgressDialog();
     }
 }

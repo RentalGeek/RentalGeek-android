@@ -251,7 +251,7 @@ public class GeekBaseActivity extends AppCompatActivity {
                             Navigation.navigateActivity(activity, ActivityCreateProfile.class);
                         return true;
                     case R.id.favorites:
-                        Navigation.navigateActivity(activity, ActivityFavoriteProperties.class);
+                        Navigation.navigateActivity(activity, ActivityFavoriteRentals.class);
                         return true;
                     case R.id.properties:
                         Navigation.navigateActivity(activity, ActivityProperties.class);

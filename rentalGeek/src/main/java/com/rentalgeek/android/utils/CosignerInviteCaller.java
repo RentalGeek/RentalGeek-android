@@ -88,6 +88,8 @@ public class CosignerInviteCaller {
     private boolean hasOutstandingInvites(ArrayList<CosignerInviteDTO> cosignerInvites) {
         for (CosignerInviteDTO cosignerInviteDTO : cosignerInvites) {
             if (cosignerInviteDTO.accepted == null) {
+                CosignerDestinationPage.getInstance().setNameOfInviter(cosignerInviteDTO.inviter_name);
+                CosignerDestinationPage.getInstance().setInviteId(cosignerInviteDTO.id);
                 return true;
             }
         }

@@ -41,6 +41,14 @@ public class ApiManager {
         return API_HOST + "/cosigner_invites";
     }
 
+    public static String getAcceptCosignerInviteUrl(int inviteId) {
+        return getCosignerInvitesUrl() + "/" + inviteId + "/accept";
+    }
+
+    public static String getDenyCosignerInviteUrl(int inviteId) {
+        return getCosignerInvitesUrl() + "/" + inviteId + "/deny";
+    }
+
 //    public static String getRemoveStarredPropertyUrl(String propertyId) {
 //        String url = API_HOST + "/starred_properties/remove_star";
 //        if (TextUtils.isEmpty(propertyId)) return url;

@@ -193,7 +193,7 @@
 
                 <EditText
                     android:id="@+id/ed_cvv"
-                    android:layout_width="40dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"

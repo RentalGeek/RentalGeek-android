@@ -2,13 +2,24 @@ package com.rentalgeek.android.ui.fragment;
 
 import android.os.Bundle;
 import android.text.Html;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.loopj.android.http.RequestParams;
+import com.mobsandgeeks.saripaar.Rule;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Required;
+import com.mobsandgeeks.saripaar.annotation.Select;
+import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.api.ApiManager;
@@ -22,17 +33,59 @@ import com.rentalgeek.android.ui.preference.AppPreferences;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 
-public class FragmentPayments extends GeekBaseFragment {
+public class FragmentPayments extends GeekBaseFragment implements Validator.ValidationListener {
 
     private static final String TAG = FragmentPayments.class.getSimpleName();
+
+    private Validator validator;
 
     @InjectView(R.id.textViewPaymentSummary)
     TextView textViewPaymentSummary;
 
     @InjectView(R.id.layoutProcessPayment)
     LinearLayout layoutProcessPayment;
+
+
+    @InjectView(R.id.verify_card)
+    Button verify_card;
+
+    @Required(order = 1, message = "Please enter a valid card")
+    @TextRule(order = 2, minLength = 16, maxLength = 16, message = "Please enter a 16 digit card number")
+    @InjectView(com.rentalgeek.android.R.id.card_no)
+    EditText cardNo;
+
+    @Required(order = 3, message = "Please enter a valid card name")
+    @InjectView(R.id.card_name)
+    EditText cardName;
+
+    // @Required(order = 4, message = "Please enter a valid month")
+    // @TextRule(order = 4, minLength = 2, maxLength = 2, message =
+    // "Please enter a valid month")
+    // @Regex(order = 5, pattern = "0[1-9]|1[0-2]", message =
+    // "Please enter a valid month")
+    // @InjectView(R.id.ed_mm)
+    // EditText ed_mm;
+
+    @Select(order = 6, message = "Please select a valid month")
+    @InjectView(R.id.ed_mm)
+    Spinner ed_mm;
+
+    // @Required(order = 6, message = "Please enter a valid year")
+    // @TextRule(order = 7, minLength = 4, maxLength = 4, message =
+    // "Please enter a valid year")
+    @Select(order = 6, message = "Please enter a valid year")
+    @InjectView(R.id.ed_yyyy)
+    Spinner edYYYY;
+
+    @Required(order = 8, message = "Please enter a valid cvv")
+    @TextRule(order = 9, minLength = 3, maxLength = 3, message = "Please enter a valid cvv")
+    @InjectView(R.id.ed_cvv)
+    EditText edCvv;
+
+    private Lease currentLease;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,19 +107,38 @@ public class FragmentPayments extends GeekBaseFragment {
         }
     }
 
-//    @OnClick(R.id.buttonAddRoommate)
-//    public void clickbuttonAddRoommate() {
-//        String name = editTextFirstLastName.getText().toString();
-//        String email = editTextEmailAddress.getText().toString();
-//        if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(email)) {
-//            addRoommateInvite(email, name);
-//        }
-//    }
+    @OnClick(R.id.buttonPaymentSubmit)
+    public void clickButtonPaymentSubmit() {
+
+    }
+
+    private void KeyListener() {
+
+        edCvv.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                if (actionId != EditorInfo.IME_ACTION_DONE)
+                    return false;
+                //hidekey();
+                validator.validate();
+                return true;
+
+            }
+        });
+
+    }
 
 
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
+        validator = new Validator(this);
+        validator.setValidationListener(this);
+
+
+        KeyListener();
 //        if (ApiManager.currentUser != null && ApiManager.currentUser.roommate_group_id != null)
 //           fetchRoommateGroups(ApiManager.currentUser.roommate_group_id);
     }
@@ -76,57 +148,6 @@ public class FragmentPayments extends GeekBaseFragment {
         textViewPaymentSummary.setText(Html.fromHtml(RentalGeekApplication.getResourceString(R.string.fragment_payment_totaldue, lease.first_months_rent, lease.security_deposit)));
     }
 
-//    protected void addRoommateInvite(String email, String name) {
-//
-//        RequestParams params = new RequestParams();
-//        params.put("roommate_invite[email]", email);
-//        params.put("roommate_invite[name]", name);
-//
-//        try {
-//
-//
-//        GlobalFunctions.postApiCall(activity, ApiManager.getRoommateInvites(""), params, AppPreferences.getAuthToken(),
-//                new GeekHttpResponseHandler() {
-//
-//                    @Override
-//                    public void onStart() {
-//                        showProgressDialog(R.string.dialog_msg_loading);
-//                    }
-//
-//                    @Override
-//                    public void onFinish() {
-//                        hideProgressDialog();
-//                    }
-//
-//                    @Override
-//                    public void onSuccess(String content) {
-//                        try {
-//                            String response = content;
-////                            RoommateGroup roommateGroup = (new Gson()).fromJson(content, RoommateGroup.class);
-////                            if (roommateGroup != null) {
-////                                bindRoommateGroups(roommateGroup);
-////                            }
-//                        } catch (Exception e) {
-//                            AppLogger.log(TAG, e);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Throwable ex, String failureResponse) {
-//                        super.onFailure(ex, failureResponse);
-//                    }
-//
-//                    @Override
-//                    public void onAuthenticationFailed() {
-//
-//                    }
-//                });
-//
-//        } catch (Exception e) {
-//            AppLogger.log(TAG, e);
-//        }
-//    }
-//
     protected void fetchLeaseAmountDue(String leaseId) {
 
         String url = ApiManager.getLease(leaseId);
@@ -150,9 +171,74 @@ public class FragmentPayments extends GeekBaseFragment {
                             String data = content;
                             AppLogger.log(TAG, content);
                             LeaseResponse leaseResponse = (new Gson()).fromJson(content, LeaseResponse.class);
-                            if (leaseResponse != null) {
+                            if (leaseResponse != null && leaseResponse.lease != null) {
+                                currentLease = leaseResponse.lease;
                                 bindLeasePayment(leaseResponse.lease);
                             }
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable ex, String failureResponse) {
+                        super.onFailure(ex, failureResponse);
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed() {
+
+                    }
+                });
+    }
+
+    @Override
+    public void onValidationSucceeded() {
+        makePayment();
+    }
+
+    @Override
+    public void onValidationFailed(View view, Rule<?> rule) {
+        String message = rule.getFailureMessage();
+        if (view instanceof EditText) {
+            view.requestFocus();
+            ((EditText) view).setError(message);
+        } else {
+            toast(message);
+
+        }
+    }
+
+    private void makePayment() {
+
+        String url = ApiManager.getTransactions();
+
+        RequestParams params = new RequestParams();
+        params.put("card[name_on_card]", cardName.getText().toString().trim());
+        params.put("card[card_no]", cardNo.getText().toString().trim());
+        params.put("card[cvv]", edCvv.getText().toString().trim());
+        params.put("card[mm]", ed_mm.getSelectedItem().toString().trim());
+        params.put("card[yyyy]", edYYYY.getSelectedItem().toString().trim());
+        params.put("card[user_id]", SessionManager.Instance.getCurrentUser().id);
+
+        GlobalFunctions.postApiCall(activity, url,
+                params, AppPreferences.getAuthToken(),
+                new GeekHttpResponseHandler() {
+
+                    @Override
+                    public void onStart() {
+                        showProgressDialog(R.string.dialog_msg_loading);
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        hideProgressDialog();
+                    }
+
+                    @Override
+                    public void onSuccess(String content) {
+                        try {
+                           // paymentParse(content);
                         } catch (Exception e) {
                             AppLogger.log(TAG, e);
                         }

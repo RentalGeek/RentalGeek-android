@@ -103,7 +103,7 @@ public class FragmentPayments extends GeekBaseFragment implements Validator.Vali
 
         evaluatePendingPayments();
 
-        KeyListener();
+        //KeyListener();
 
         return v;
     }

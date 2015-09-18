@@ -1,8 +1,6 @@
 package com.rentalgeek.android.backend.model;
 
 
-import java.util.Date;
-
 public class Lease {
 
     public int id;
@@ -14,7 +12,7 @@ public class Lease {
     public double total_due;
     public double total_paid;
 
-    public Date last_payment_date;
+    public String last_payment_date;
 
     public String applicable_type;
     public String fully_executed_lease_url;

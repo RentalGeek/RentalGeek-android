@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -25,11 +24,17 @@ import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.LeaseResponse;
+import com.rentalgeek.android.backend.PaymentsBackend;
 import com.rentalgeek.android.backend.model.Lease;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.ui.Common;
+import com.rentalgeek.android.ui.Navigation;
+import com.rentalgeek.android.ui.activity.ActivityPaymentConfirmation;
 import com.rentalgeek.android.ui.preference.AppPreferences;
+
+import java.text.NumberFormat;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -45,21 +50,25 @@ public class FragmentPayments extends GeekBaseFragment implements Validator.Vali
     @InjectView(R.id.textViewPaymentSummary)
     TextView textViewPaymentSummary;
 
+    @InjectView(R.id.textViewPaymentTotal)
+    TextView textViewPaymentTotal;
+
+
     @InjectView(R.id.layoutProcessPayment)
     LinearLayout layoutProcessPayment;
 
 
-    @InjectView(R.id.verify_card)
-    Button verify_card;
+//    @InjectView(R.id.verify_card)
+//    Button verify_card;
 
     @Required(order = 1, message = "Please enter a valid card")
     @TextRule(order = 2, minLength = 16, maxLength = 16, message = "Please enter a 16 digit card number")
-    @InjectView(com.rentalgeek.android.R.id.card_no)
-    EditText cardNo;
+    @InjectView(com.rentalgeek.android.R.id.editTextCardNumber)
+    EditText editTextCardNumber;
 
     @Required(order = 3, message = "Please enter a valid card name")
-    @InjectView(R.id.card_name)
-    EditText cardName;
+    @InjectView(R.id.editTextNameOnCard)
+    EditText editTextNameOnCard;
 
     // @Required(order = 4, message = "Please enter a valid month")
     // @TextRule(order = 4, minLength = 2, maxLength = 2, message =
@@ -82,8 +91,8 @@ public class FragmentPayments extends GeekBaseFragment implements Validator.Vali
 
     @Required(order = 8, message = "Please enter a valid cvv")
     @TextRule(order = 9, minLength = 3, maxLength = 3, message = "Please enter a valid cvv")
-    @InjectView(R.id.ed_cvv)
-    EditText edCvv;
+    @InjectView(R.id.editTextCVV)
+    EditText editTextCVV;
 
     private Lease currentLease;
 
@@ -93,6 +102,8 @@ public class FragmentPayments extends GeekBaseFragment implements Validator.Vali
         ButterKnife.inject(this, v);
 
         evaluatePendingPayments();
+
+        KeyListener();
 
         return v;
     }
@@ -109,12 +120,12 @@ public class FragmentPayments extends GeekBaseFragment implements Validator.Vali
 
     @OnClick(R.id.buttonPaymentSubmit)
     public void clickButtonPaymentSubmit() {
-
+        validator.validate();
     }
 
     private void KeyListener() {
 
-        edCvv.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        editTextCVV.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -137,14 +148,13 @@ public class FragmentPayments extends GeekBaseFragment implements Validator.Vali
         validator = new Validator(this);
         validator.setValidationListener(this);
 
-
-        KeyListener();
 //        if (ApiManager.currentUser != null && ApiManager.currentUser.roommate_group_id != null)
 //           fetchRoommateGroups(ApiManager.currentUser.roommate_group_id);
     }
 
     protected void bindLeasePayment(Lease lease) {
-
+        NumberFormat format = NumberFormat.getCurrencyInstance();
+        textViewPaymentTotal.setText(format.format(lease.total_due));
         textViewPaymentSummary.setText(Html.fromHtml(RentalGeekApplication.getResourceString(R.string.fragment_payment_totaldue, lease.first_months_rent, lease.security_deposit)));
     }
 
@@ -211,15 +221,17 @@ public class FragmentPayments extends GeekBaseFragment implements Validator.Vali
 
     private void makePayment() {
 
-        String url = ApiManager.getTransactions();
+        String url = ApiManager.getPayments();
 
         RequestParams params = new RequestParams();
-        params.put("card[name_on_card]", cardName.getText().toString().trim());
-        params.put("card[card_no]", cardNo.getText().toString().trim());
-        params.put("card[cvv]", edCvv.getText().toString().trim());
-        params.put("card[mm]", ed_mm.getSelectedItem().toString().trim());
-        params.put("card[yyyy]", edYYYY.getSelectedItem().toString().trim());
-        params.put("card[user_id]", SessionManager.Instance.getCurrentUser().id);
+        params.put("payment[lease_id]", String.valueOf(currentLease.id));
+        params.put("payment[amount]", String.valueOf(currentLease.total_due));
+        params.put("payment[name_on_card]", editTextNameOnCard.getText().toString().trim());
+        params.put("payment[card_number]", editTextCardNumber.getText().toString().trim());
+        params.put("payment[cvv]", editTextCVV.getText().toString().trim());
+        params.put("payment[exp_month]", ed_mm.getSelectedItem().toString().trim());
+        params.put("payment[exp_year]", edYYYY.getSelectedItem().toString().trim());
+        params.put("payment[user_id]", SessionManager.Instance.getCurrentUser().id);
 
         GlobalFunctions.postApiCall(activity, url,
                 params, AppPreferences.getAuthToken(),
@@ -238,7 +250,15 @@ public class FragmentPayments extends GeekBaseFragment implements Validator.Vali
                     @Override
                     public void onSuccess(String content) {
                         try {
-                           // paymentParse(content);
+                            PaymentsBackend detail = (new Gson()).fromJson(content, PaymentsBackend.class);
+
+                            if (detail != null && detail.payment != null) {
+                                Bundle args = new Bundle();
+                                args.putDouble(Common.KEY_TOTAL_DUE, currentLease.total_due);
+                                args.putInt(Common.KEY_LEASE_ID, currentLease.id);
+                                Navigation.navigateActivity(activity, ActivityPaymentConfirmation.class, args, false);
+                            }
+
                         } catch (Exception e) {
                             AppLogger.log(TAG, e);
                         }

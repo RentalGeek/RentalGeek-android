@@ -3,16 +3,12 @@ package com.rentalgeek.android.ui.fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
@@ -103,31 +99,31 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 		appPref = new AppPrefes(getActivity(), "rentalgeek");
 
 		// The done button click from a keyboard
-		KeyListener();
+		//KeyListener();
 
 		CheckPaymentf();
 
 		return v;
 	}
 
-	private void KeyListener() {
-
-		edCvv.setOnEditorActionListener(new OnEditorActionListener() {
-
-			@Override
-			public boolean onEditorAction(TextView v, int actionId,
-					KeyEvent event) {
-
-				if (actionId != EditorInfo.IME_ACTION_DONE)
-					return false;
-				//hidekey();
-				validator.validate();
-				return true;
-
-			}
-		});
-
-	}
+//	private void KeyListener() {
+//
+//		edCvv.setOnEditorActionListener(new OnEditorActionListener() {
+//
+//			@Override
+//			public boolean onEditorAction(TextView v, int actionId,
+//										  KeyEvent event) {
+//
+//				if (actionId != EditorInfo.IME_ACTION_DONE)
+//					return false;
+//				//hidekey();
+//				validator.validate();
+//				return true;
+//
+//			}
+//		});
+//
+//	}
 
 	private void CheckPaymentf() {
 

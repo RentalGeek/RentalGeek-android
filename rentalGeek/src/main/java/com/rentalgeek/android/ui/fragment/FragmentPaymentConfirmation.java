@@ -1,26 +1,26 @@
 package com.rentalgeek.android.ui.fragment;
 
 import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.api.ApiManager;
-import com.rentalgeek.android.api.SessionManager;
-import com.rentalgeek.android.backend.LeaseResponse;
-import com.rentalgeek.android.backend.model.Lease;
+import com.rentalgeek.android.backend.model.RoommatePayment;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.ui.Common;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.preference.AppPreferences;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -31,13 +31,14 @@ public class FragmentPaymentConfirmation extends GeekBaseFragment {
 
     private static final String TAG = FragmentPaymentConfirmation.class.getSimpleName();
 
-    @InjectView(R.id.textViewPaymentSummary)
-    TextView textViewPaymentSummary;
+    @InjectView(R.id.textViewAmountPaid)
+    TextView textViewAmountPaid;
 
-    @InjectView(R.id.layoutProcessPayment)
-    LinearLayout layoutProcessPayment;
+//    @InjectView(R.id.layoutProcessPayment)
+//    LinearLayout layoutProcessPayment;
 
-    private Lease currentLease;
+    private int currentLeaseId;
+    private double amountPaid;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,20 +46,23 @@ public class FragmentPaymentConfirmation extends GeekBaseFragment {
         View v = inflater.inflate(R.layout.fragment_payment_confirmation, container, false);
         ButterKnife.inject(this, v);
 
-        evaluatePendingPayments();
+        currentLeaseId = getArguments().getInt(Common.KEY_LEASE_ID);
+        amountPaid = getArguments().getDouble(Common.KEY_TOTAL_DUE);
+
+        fetchPaymentHistory(currentLeaseId);
 
         return v;
     }
 
-    protected void evaluatePendingPayments() {
-        if (SessionManager.Instance.hasCompletedLeaseId()) {
-            layoutProcessPayment.setVisibility(View.VISIBLE);
-            fetchPaymentHistory(SessionManager.Instance.getCurrentUser().completed_lease_id);
-        } else {
-            layoutProcessPayment.setVisibility(View.GONE);
-            textViewPaymentSummary.setText(R.string.fragment_payment_nonedue);
-        }
-    }
+//    protected void evaluatePendingPayments() {
+//        if (SessionManager.Instance.hasCompletedLeaseId()) {
+//            layoutProcessPayment.setVisibility(View.VISIBLE);
+//            fetchPaymentHistory(SessionManager.Instance.getCurrentUser().completed_lease_id);
+//        } else {
+//            layoutProcessPayment.setVisibility(View.GONE);
+//            textViewPaymentSummary.setText(R.string.fragment_payment_nonedue);
+//        }
+//    }
 
     @OnClick(R.id.buttonHome)
     public void clickButtonHome() {
@@ -73,14 +77,14 @@ public class FragmentPaymentConfirmation extends GeekBaseFragment {
 //           fetchRoommateGroups(ApiManager.currentUser.roommate_group_id);
     }
 
-    protected void bindLeasePayment(Lease lease) {
+    protected void bindRoommatePayment(List<RoommatePayment> roommatePayments) {
 
-        textViewPaymentSummary.setText(Html.fromHtml(RentalGeekApplication.getResourceString(R.string.fragment_payment_totaldue, lease.first_months_rent, lease.security_deposit)));
+        //textViewPaymentSummary.setText(Html.fromHtml(RentalGeekApplication.getResourceString(R.string.fragment_payment_totaldue, lease.first_months_rent, lease.security_deposit)));
     }
 
-    protected void fetchPaymentHistory(String leaseId) {
+    protected void fetchPaymentHistory(int leaseId) {
 
-        String url = ApiManager.getLease(leaseId);
+        String url = ApiManager.getLeaseRoommatePayments(String.valueOf(leaseId));
 
         GlobalFunctions.getApiCall(activity, url, AppPreferences.getAuthToken(),
                 new GeekHttpResponseHandler() {
@@ -100,10 +104,11 @@ public class FragmentPaymentConfirmation extends GeekBaseFragment {
                         try {
                             String data = content;
                             AppLogger.log(TAG, content);
-                            LeaseResponse leaseResponse = (new Gson()).fromJson(content, LeaseResponse.class);
-                            if (leaseResponse != null && leaseResponse.lease != null) {
-                                currentLease = leaseResponse.lease;
-                                bindLeasePayment(leaseResponse.lease);
+                            Type listType = new TypeToken<List<RoommatePayment>>(){}.getType();
+                            List<RoommatePayment> response = (new Gson()).fromJson(content, listType);
+                            if (response != null && response.size() > 0) {
+
+                                bindRoommatePayment(response);
                             }
                         } catch (Exception e) {
                             AppLogger.log(TAG, e);

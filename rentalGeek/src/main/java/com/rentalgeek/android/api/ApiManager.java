@@ -98,6 +98,12 @@ public class ApiManager {
         return API_HOST + "/transactions";
     }
 
+    public static String getPayments() {
+        return API_HOST + "/payments";
+    }
+
+
+
     public static String getProfile(String id) {
         String url = API_HOST + "/profiles";
         if (TextUtils.isEmpty(id)) return url;
@@ -127,5 +133,13 @@ public class ApiManager {
         if (TextUtils.isEmpty(leaseId)) return null;
         return String.format("%s/%s", url, leaseId);
     }
+
+    public static String getLeaseRoommatePayments(String leaseId) {
+        String url = API_HOST + "/leases";
+        if (TextUtils.isEmpty(leaseId)) return null;
+        return String.format("%s/%s/roommate_payments", url, leaseId);
+    }
+
+
 
 }

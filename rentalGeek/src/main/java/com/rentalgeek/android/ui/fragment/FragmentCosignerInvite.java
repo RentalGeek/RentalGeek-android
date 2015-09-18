@@ -1,24 +1,23 @@
 package com.rentalgeek.android.ui.fragment;
 
-import android.view.View;
 import android.os.Bundle;
-import butterknife.InjectView;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import butterknife.ButterKnife;
+
 import com.rentalgeek.android.R;
-import android.view.LayoutInflater;
-import android.support.v4.app.Fragment;
 
-public class FragmentCosignInvite extends Fragment {
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
-	private static final String TAG = "FragmentCosignInvite";
+public class FragmentCosignerInvite extends GeekBaseFragment {
+
     @InjectView(R.id.invite_cosign_textview) TextView inviteTextView;
 
     @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_cosign_invite,container,false);
-
+		View view = inflater.inflate(R.layout.fragment_cosigner_invite, container, false);
 		ButterKnife.inject(this,view);
         
         String inviteText = getResources().getString(R.string.invite_cosign_text);

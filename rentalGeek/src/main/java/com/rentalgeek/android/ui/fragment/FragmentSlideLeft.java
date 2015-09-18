@@ -28,7 +28,6 @@ import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.AppPrefes;
-import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.activity.ActivityTutorials;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 
@@ -36,9 +35,6 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-
-import com.rentalgeek.android.ui.fragment.FragmentCosignInvite;
-import com.rentalgeek.android.ui.fragment.FragmentCosignApp;
 
 public class FragmentSlideLeft extends GeekBaseFragment {
 

@@ -11,6 +11,7 @@ import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.pojos.CosignerInviteDTO;
 import com.rentalgeek.android.pojos.CosignerInviteDetailsDTO;
+import com.rentalgeek.android.ui.activity.ActivityCosignerInvite;
 import com.rentalgeek.android.ui.activity.ActivityCosignerList;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 
@@ -63,23 +64,22 @@ public class CosignerInviteCaller {
 
         if (hasOutstandingInvites(cosignerInvites)) {
             if (directlyStartActivity) {
-                Log.d("tag", "take to accept");
+                context.startActivity(new Intent(context, ActivityCosignerInvite.class));
             } else {
-                Log.d("tag", "silently save accept page");
+                CosignerDestinationPage.getInstance().setDestination(GlobalStrings.COSIGNER_INVITE_PAGE);
             }
         } else if (hasAcceptedAtLeastOneCosignerInvite(cosignerInvites)) {
             if (hasCompletedCosignerProfile()) {
                 if (directlyStartActivity) {
                     context.startActivity(new Intent(context, ActivityCosignerList.class));
                 } else {
-                    // save correct page to cosignerpage singleton
                     CosignerDestinationPage.getInstance().setDestination(GlobalStrings.COSIGNER_PROPERTY_LIST);
                 }
             } else {
                 if (directlyStartActivity) {
                     Log.d("tag", "take to cosignapp");
                 } else {
-                    Log.d("tag", "silently save cosignapp page");
+                    Log.d("tag", "silently save cosignapp page as destination");
                 }
             }
         }

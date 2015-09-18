@@ -300,7 +300,7 @@ public class GeekBaseActivity extends AppCompatActivity {
         if (destinationPage.equals(GlobalStrings.COSIGNER_PROPERTY_LIST)) {
             Navigation.navigateActivity(this, ActivityCosignerList.class);
         } else if (destinationPage.equals(GlobalStrings.COSIGNER_INVITE_PAGE)) {
-            // navigate to cosigner application
+            Navigation.navigateActivity(this, ActivityCosignerInvite.class);
         } else if (destinationPage.equals(GlobalStrings.COSIGNER_APPLICATION)) {
             // navigate to cosigner application
         } else {

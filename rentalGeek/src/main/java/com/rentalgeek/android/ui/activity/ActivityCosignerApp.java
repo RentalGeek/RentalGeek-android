@@ -3,7 +3,7 @@ package com.rentalgeek.android.ui.activity;
 import android.os.Bundle;
 
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.ui.fragment.FragmentCosignerApp;
+import com.rentalgeek.android.ui.fragment.FragmentCosignerApp1;
 
 /**
  * Created by rajohns on 9/19/15.
@@ -23,7 +23,7 @@ public class ActivityCosignerApp extends GeekBaseActivity {
         setupNavigation();
 
         if (savedInstanceState == null) {
-            FragmentCosignerApp fragment = new FragmentCosignerApp();
+            FragmentCosignerApp1 fragment = new FragmentCosignerApp1();
             Bundle args = getIntent().getExtras();
             fragment.setArguments(args);
             getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();

@@ -135,6 +135,7 @@
                     android:inputType="number"
                     android:padding="10dp"
                     android:hint="YYYY"
+                    android:maxLength="4"
                     android:background="@drawable/thin_border"
                     />
 

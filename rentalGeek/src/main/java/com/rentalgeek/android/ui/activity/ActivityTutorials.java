@@ -186,38 +186,10 @@ public class ActivityTutorials extends GeekBaseActivity {
 										FragmentSignIn fragment = (FragmentSignIn) getSupportFragmentManager().findFragmentById(R.id.pager);
 
 										try {
-
-											appPref.SaveData(
-													"socialname_link",
-													s.getResponseDataAsJson()
-															.optString(
-																	"firstName"));
-											
-											appPref.SaveData(
-													"sociallastname_link",
-													s.getResponseDataAsJson()
-															.optString(
-																	"lastName"));
-											appPref.SaveData(
-													"socialemail_link",
-													s.getResponseDataAsJson()
-															.optString(
-																	"emailAddress"));
-											appPref.SaveData("socialid_link", s
-													.getResponseDataAsJson()
-													.optString("id"));
-
-
 											fragment.callLinkedPlusLink(
-													s.getResponseDataAsJson()
-															.getString(
-																	"firstName"),
-													"",
-													s.getResponseDataAsJson()
-															.getString("id"),
-													s.getResponseDataAsJson()
-															.getString(
-																	"emailAddress"));
+													s.getResponseDataAsJson().getString("firstName"),
+													"", s.getResponseDataAsJson().getString("id"),
+													s.getResponseDataAsJson().getString("emailAddress"));
 										} catch (JSONException e) {
 											AppLogger.log(TAG, e);
 										}

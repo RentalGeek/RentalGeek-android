@@ -93,7 +93,7 @@ public class FragmentSlideLeft extends GeekBaseFragment {
 //					logout();
 					appPref.SaveData("map_list", "");
 					//((ActivityHome) getActivity()).closedrawer();
-					nextfragment(new FragmentCosignApp(), false, R.id.container);
+					nextfragment(new FragmentCosignerApp(), false, R.id.container);
 					break;
 				case 4:
 					logout();

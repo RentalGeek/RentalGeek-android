@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -26,6 +27,14 @@ public class FragmentCosignerApp extends GeekBaseFragment {
 		View view = inflater.inflate(R.layout.fragment_cosigner_app, container, false);
 
 		ButterKnife.inject(this, view);
+
+		ArrayAdapter<CharSequence> monthAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.months_array, android.R.layout.simple_spinner_item);
+		monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		monthSpinner.setAdapter(monthAdapter);
+
+		ArrayAdapter<CharSequence> dayAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.days_array, android.R.layout.simple_spinner_item);
+		dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		daySpinner.setAdapter(dayAdapter);
         
 		return view;
 	}

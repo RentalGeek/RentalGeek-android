@@ -55,11 +55,11 @@
             <EditText
                 android:id="@+id/first_name_edittext"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:textCursorDrawable="@null"
                 android:padding="10dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/edittext_border"/>
+                android:background="@drawable/thin_border"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -72,11 +72,11 @@
             <EditText
                 android:id="@+id/last_name_edittext"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:textCursorDrawable="@null"
                 android:padding="10dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/edittext_border"/>
+                android:background="@drawable/thin_border"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -89,29 +89,53 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
 
-                <Spinner
-                    android:id="@+id/month_spinner"
-                    android:layout_width="80dp"
-                    android:layout_height="40dp"
-                    android:layout_marginRight="10dp"/>
-
-                <Spinner
-                    android:id="@+id/day_spinner"
-                    android:layout_width="80dp"
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="0.5"
                     android:layout_marginRight="10dp"
-                    android:layout_height="40dp" />
+                    android:orientation="vertical"
+                    android:background="@drawable/thin_border" >
+
+                    <Spinner
+                        android:id="@+id/month_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="0.25"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/thin_border">
+
+                    <Spinner
+                        android:id="@+id/day_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"/>
+
+                </LinearLayout>
 
                 <EditText
                     android:id="@+id/year_edittext"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_height="45dp"
+                    android:layout_weight="0.25"
                     android:textCursorDrawable="@null"
+                    android:inputType="number"
                     android:padding="10dp"
                     android:hint="YYYY"
-                    android:background="@drawable/edittext_border"
+                    android:background="@drawable/thin_border"
                     />
 
             </LinearLayout>
@@ -121,7 +145,7 @@
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
-                android:layout_marginBottom="40dp"
+                android:layout_marginBottom="110dp"
                 android:background="@drawable/continue_bg"
                 android:textColor="@color/white"
                 android:textStyle="bold"

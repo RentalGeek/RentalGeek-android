@@ -1,18 +1,13 @@
 package com.rentalgeek.android.utils;
 
-import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
+import android.app.Activity;
 
 import com.google.gson.Gson;
 import com.rentalgeek.android.api.ApiManager;
-import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.pojos.CosignerInviteDTO;
-import com.rentalgeek.android.pojos.CosignerInviteDetailsDTO;
-import com.rentalgeek.android.ui.activity.ActivityCosignerInvite;
-import com.rentalgeek.android.ui.activity.ActivityCosignerList;
+import com.rentalgeek.android.pojos.CosignerInvitesArrayRootDTO;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 
 import java.util.ArrayList;
@@ -25,16 +20,16 @@ import java.util.Map;
  */
 public class CosignerInviteCaller {
 
-    private Context context;
+    private Activity activity;
     private boolean directlyStartActivity;
 
-    public CosignerInviteCaller(Context context, boolean directlyStartActivity) {
-        this.context = context;
+    public CosignerInviteCaller(Activity activity, boolean directlyStartActivity) {
+        this.activity = activity;
         this.directlyStartActivity = directlyStartActivity;
     }
 
     public void fetchCosignerInvites() {
-        GlobalFunctions.getApiCall(context, ApiManager.getCosignerInvitesUrl(), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
+        GlobalFunctions.getApiCall(activity, ApiManager.getCosignerInvitesUrl(), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
             @Override
             public void onStart() {
                 super.onStart();
@@ -59,56 +54,13 @@ public class CosignerInviteCaller {
     }
 
     private void parseAndDecideWhichCosignScreen(String response) {
-        CosignerInviteDetailsDTO cosignerInviteDetailsDTO = new Gson().fromJson(response, CosignerInviteDetailsDTO.class);
-        ArrayList<CosignerInviteDTO> cosignerInvites = removeDuplicates(cosignerInviteDetailsDTO.cosigner_invites);
+        CosignerInvitesArrayRootDTO cosignerInvitesArrayRootDTO = new Gson().fromJson(response, CosignerInvitesArrayRootDTO.class);
+        ArrayList<CosignerInviteDTO> cosignerInvites = removeDuplicates(cosignerInvitesArrayRootDTO.cosigner_invites);
+        CosignerDestinationLogic.INSTANCE.setCosignerInvites(cosignerInvites);
 
-        if (hasOutstandingInvites(cosignerInvites)) {
-            if (directlyStartActivity) {
-                context.startActivity(new Intent(context, ActivityCosignerInvite.class));
-            } else {
-                CosignerDestinationPage.getInstance().setDestination(GlobalStrings.COSIGNER_INVITE_PAGE);
-            }
-        } else if (hasAcceptedAtLeastOneCosignerInvite(cosignerInvites)) {
-            if (hasCompletedCosignerProfile()) {
-                if (directlyStartActivity) {
-                    context.startActivity(new Intent(context, ActivityCosignerList.class));
-                } else {
-                    CosignerDestinationPage.getInstance().setDestination(GlobalStrings.COSIGNER_PROPERTY_LIST);
-                }
-            } else {
-                if (directlyStartActivity) {
-                    Log.d("tag", "take to cosignapp");
-                } else {
-                    Log.d("tag", "silently save cosignapp page as destination");
-                }
-            }
+        if (directlyStartActivity) {
+            CosignerDestinationLogic.INSTANCE.navigateToNextCosignActivity(activity);
         }
-    }
-
-    private boolean hasOutstandingInvites(ArrayList<CosignerInviteDTO> cosignerInvites) {
-        for (CosignerInviteDTO cosignerInviteDTO : cosignerInvites) {
-            if (cosignerInviteDTO.accepted == null) {
-                CosignerDestinationPage.getInstance().setNameOfInviter(cosignerInviteDTO.inviter_name);
-                CosignerDestinationPage.getInstance().setInviteId(cosignerInviteDTO.id);
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private boolean hasCompletedCosignerProfile() {
-        return SessionManager.Instance.getCurrentUser().cosigner_profile_id != null;
-    }
-
-    private boolean hasAcceptedAtLeastOneCosignerInvite(ArrayList<CosignerInviteDTO> cosignerInvites) {
-        for (CosignerInviteDTO cosignerInviteDTO : cosignerInvites) {
-            if (Boolean.TRUE.equals(cosignerInviteDTO.accepted)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**

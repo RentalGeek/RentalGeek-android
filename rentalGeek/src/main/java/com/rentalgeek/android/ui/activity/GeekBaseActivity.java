@@ -24,8 +24,7 @@ import com.rentalgeek.android.ui.Common;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.dialog.AppProgressDialog;
 import com.rentalgeek.android.ui.dialog.manager.GeekDialog;
-import com.rentalgeek.android.utils.CosignerDestinationPage;
-import com.rentalgeek.android.utils.GlobalStrings;
+import com.rentalgeek.android.utils.CosignerDestinationLogic;
 
 /**
  * Created by rajohns on 9/1/15.
@@ -191,12 +190,13 @@ public class GeekBaseActivity extends AppCompatActivity {
         if (navigationView != null && drawerLayout != null) {
 
             setVisibilityForCosignerMenuItem();
+            setupDrawerListener();
 
             if (AppSystem.isV1Build) setVisibilityForV1NavigationMenu();
 
             if (showSlider) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-                setupDrawerListener(navigationView);
+                setupNavViewListener(navigationView);
             } else {
                 //drawerLayout.setVisibility(View.GONE);
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -205,7 +205,33 @@ public class GeekBaseActivity extends AppCompatActivity {
         }
     }
 
-    protected void setupDrawerListener(NavigationView navigationView) {
+    private void setupDrawerListener() {
+        drawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                if (SessionManager.Instance.getCurrentUser() != null && !SessionManager.Instance.getCurrentUser().is_cosigner) {
+                    hideCosignerMenuItem();
+                }
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
+    }
+
+    protected void setupNavViewListener(NavigationView navigationView) {
         final FragmentActivity activity = this;
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -282,29 +308,27 @@ public class GeekBaseActivity extends AppCompatActivity {
     }
 
     private void setVisibilityForCosignerMenuItem() {
+        if (SessionManager.Instance.getCurrentUser() != null && !SessionManager.Instance.getCurrentUser().is_cosigner) {
+            hideCosignerMenuItem();
+        }
+    }
+
+    protected void hideCosignerMenuItem() {
         Menu menu = navigationView.getMenu();
 
         if (menu != null) {
             MenuItem cosignerItem = menu.findItem(R.id.cosigner);
-            if (SessionManager.Instance.getCurrentUser() != null && !SessionManager.Instance.getCurrentUser().is_cosigner) {
-                if (cosignerItem != null) {
-                    cosignerItem.setVisible(false);
-                }
+            if (cosignerItem != null) {
+                cosignerItem.setVisible(false);
             }
         }
     }
 
     private void decideWhichCosignScreenToShow() {
-        String destinationPage = CosignerDestinationPage.getInstance().getDestination();
-
-        if (destinationPage.equals(GlobalStrings.COSIGNER_PROPERTY_LIST)) {
-            Navigation.navigateActivity(this, ActivityCosignerList.class);
-        } else if (destinationPage.equals(GlobalStrings.COSIGNER_INVITE_PAGE)) {
-            Navigation.navigateActivity(this, ActivityCosignerInvite.class);
-        } else if (destinationPage.equals(GlobalStrings.COSIGNER_APPLICATION)) {
-            // navigate to cosigner application
-        } else {
+        if (CosignerDestinationLogic.INSTANCE.getCosignerInvites() == null) {
             Navigation.navigateActivity(this, ActivityCosignDecider.class);
+        } else {
+            CosignerDestinationLogic.INSTANCE.navigateToNextCosignActivity(this);
         }
     }
 

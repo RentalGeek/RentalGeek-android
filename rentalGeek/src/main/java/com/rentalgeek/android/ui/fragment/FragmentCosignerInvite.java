@@ -1,15 +1,21 @@
 package com.rentalgeek.android.ui.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.utils.CosignerDestinationPage;
+import com.rentalgeek.android.api.ApiManager;
+import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.pojos.CosignerInviteDTO;
+import com.rentalgeek.android.pojos.CosignerInviteSingleRootDTO;
+import com.rentalgeek.android.ui.preference.AppPreferences;
+import com.rentalgeek.android.utils.CosignerDestinationLogic;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -27,7 +33,7 @@ public class FragmentCosignerInvite extends GeekBaseFragment {
 		ButterKnife.inject(this,view);
         
         String inviteText = getResources().getString(R.string.invite_cosign_text);
-        inviteText = String.format(inviteText, CosignerDestinationPage.getInstance().getNameOfInviter());
+        inviteText = String.format(inviteText, CosignerDestinationLogic.INSTANCE.getNameOfInviter());
         this.inviteTextView.setText(inviteText);
 
 		return view;
@@ -35,14 +41,67 @@ public class FragmentCosignerInvite extends GeekBaseFragment {
 
     @OnClick(R.id.accept_button)
     public void acceptInvite() {
-        Log.d("tag", "accept invite");
-        // make call to POST /api/v1/cosigner_invites/:id/accept
+        int inviteId = CosignerDestinationLogic.INSTANCE.getInviteId();
+        GlobalFunctions.postApiCall(getActivity(), ApiManager.getAcceptCosignerInviteUrl(inviteId), null, AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+                showProgressDialog(R.string.dialog_msg_loading);
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onSuccess(String content) {
+                super.onSuccess(content);
+                updateDestinationLogic(content);
+            }
+
+            @Override
+            public void onFailure(Throwable ex, String failureResponse) {
+                super.onFailure(ex, failureResponse);
+            }
+        });
     }
 
     @OnClick(R.id.decline_button)
     public void declineInvite() {
-        Log.d("tag", "decline invite");
-        // make call to POST /api/v1/cosigner_invites/:id/deny
+        int inviteId = CosignerDestinationLogic.INSTANCE.getInviteId();
+        GlobalFunctions.postApiCall(getActivity(), ApiManager.getDenyCosignerInviteUrl(inviteId), null, AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+                showProgressDialog(R.string.dialog_msg_loading);
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onSuccess(String content) {
+                super.onSuccess(content);
+                updateDestinationLogic(content);
+            }
+
+            @Override
+            public void onFailure(Throwable ex, String failureResponse) {
+                super.onFailure(ex, failureResponse);
+            }
+        });
+    }
+
+    private void updateDestinationLogic(String response) {
+        CosignerInviteSingleRootDTO cosignerInviteSingleRootDTO = new Gson().fromJson(response, CosignerInviteSingleRootDTO.class);
+        CosignerInviteDTO updatedInvite = cosignerInviteSingleRootDTO.cosigner_invite;
+        CosignerDestinationLogic.INSTANCE.updateInvite(updatedInvite);
+        CosignerDestinationLogic.INSTANCE.navigateToNextCosignActivity(getActivity());
     }
 
 }

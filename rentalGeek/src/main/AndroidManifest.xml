@@ -55,7 +55,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".ui.activity.ActivityFavoriteProperties"
+            android:name=".ui.activity.ActivityFavoriteRentals"
             android:label="Favorites"
             android:screenOrientation="portrait" >
         </activity>

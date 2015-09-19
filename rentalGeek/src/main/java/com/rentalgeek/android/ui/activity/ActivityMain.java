@@ -34,7 +34,7 @@ public class ActivityMain extends GeekBaseActivity {
 		appPref = new AppPrefes(getApplicationContext(), "rentalgeek");
 
 		getHash();
-		timer();
+		//timer();
 
 	}
 
@@ -62,7 +62,7 @@ public class ActivityMain extends GeekBaseActivity {
 					}
 
 					appPref.SaveData("bysearch", "no");
-                    Navigation.navigateActivity(activity, ActivityHome.class, true);
+                    Navigation.navigateActivity(activity, ActivityLogin.class, true);
 				}
 
 			}

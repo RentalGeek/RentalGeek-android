@@ -51,6 +51,12 @@ public class GeekBaseActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+        registerMessaging();
+    }
+
+        @Override
     protected void onResume() {
         super.onResume();
         registerMessaging();
@@ -176,7 +182,7 @@ public class GeekBaseActivity extends AppCompatActivity {
     protected void showProgressDialog(int messageResId) {
         Bundle args = new Bundle();
         args.putInt(Common.DIALOG_MSG_ID, messageResId);
-        AppEventBus.post(new AppDialogRequestEvent<AppProgressDialog>(AppProgressDialog.class, args, null, false));
+        AppEventBus.post(new AppDialogRequestEvent<AppProgressDialog>(AppProgressDialog.class, args, null, true));
     }
 
     protected void hideProgressDialog() {

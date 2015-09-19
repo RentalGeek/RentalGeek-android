@@ -54,6 +54,12 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
         if (SessionManager.Instance.getCurrentUser() != null) {
             new CosignerInviteCaller(this, false).fetchCosignerInvites();
         }
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
     
     @Override

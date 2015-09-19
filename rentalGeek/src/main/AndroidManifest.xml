@@ -122,7 +122,6 @@
             android:name=".ui.activity.ActivityCosignDecider"
             android:label="@string/cosigner"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoDisplay"
             android:noHistory="true">
         </activity>
 

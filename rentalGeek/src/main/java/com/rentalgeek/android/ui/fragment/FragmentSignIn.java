@@ -44,7 +44,6 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.ErrorApi;
-import com.rentalgeek.android.backend.GoogleBackend;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.database.ProfileTable;
 import com.rentalgeek.android.logging.AppLogger;
@@ -200,6 +199,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                 .addApi(Plus.API, Plus.PlusOptions.builder().build())
                 .addScope(Plus.SCOPE_PLUS_LOGIN)
                 .addScope(Plus.SCOPE_PLUS_PROFILE)
+
                 ;
 
 //		if (mRequestServerAuthCode) {
@@ -276,7 +276,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
     private void LinkedInParse(String response) {
 
-        GoogleBackend detail = (new Gson()).fromJson(response, GoogleBackend.class);
+        LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
 
         // Applicant appli=detail.applicant;
 
@@ -327,7 +327,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
     private void googlePlusParse(String response) {
 
         System.out.println("google response " + response);
-        GoogleBackend detail = (new Gson()).fromJson(response, GoogleBackend.class);
+        LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
 
         // Applicant appli=detail.applicant;
 
@@ -389,13 +389,15 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         appPref.SaveData("first", "logged");
         signOutFromGplus();
 
+        SessionManager.Instance.onUserLoggedIn(detail);
+
         Navigation.navigateActivity(activity, ActivityHome.class, true);
 
     }
 
     private void FaceBookLogin(String response) {
 
-        GoogleBackend detail = (new Gson()).fromJson(response, GoogleBackend.class);
+        LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
 
         // Applicant appli=detail.applicant;
 
@@ -466,31 +468,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         }
     }
 
-/*	@Override
-	public void error(String response, int value) {
-        FragmentActivity activity = getActivity();
-		try {
-			if (value == 5) {
-				ForgotError detail = (new Gson()).fromJson(response.toString(), ForgotError.class);
-				if (detail.passwords != null) {
-					DialogManager.showCrouton(activity, detail.passwords.get(0));
-				}
-			} else {
-				if (response != null) {
-					ErrorApi detail = (new Gson()).fromJson(response.toString(), ErrorApi.class);
-					if (detail.message != null) {
-                        DialogManager.showCrouton(activity, detail.message);
-					} else if (detail.error != null) {
-                        DialogManager.showCrouton(activity, detail.error);
-					}
-				}
-			}
-		} catch (Exception e) {
-			AppLogger.log(TAG, e);
-		}
-		System.out.println("error " + response);
-	}*/
-
     @OnClick(R.id.create_aacnt)
     public void SignInButton(View v) {
 
@@ -499,22 +476,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         animation_obj = YoYo.with(Techniques.Flash).duration(1000).playOn(v);
 
         Navigation.navigateActivity(activity, ActivityRegistration.class, false);
-
-        // animation_obj = YoYo.with(Techniques.Flash).duration(1000).playOn(v);
-        // if (ed_username.getText().toString().equals("")) {
-        // ed_username.setError("Please enter username");
-        // } else if (ed_password.getText().toString().equals("")) {
-        // ed_password.setError("Please enter password");
-        // } else {
-        //
-        // if (con.isConnectingToInternet()) {
-        // signin(ed_username.getText().toString(), ed_password.getText()
-        // .toString());
-        // } else {
-        // toast("No net connection");
-        // }
-        //
-        // }
 
     }
 
@@ -693,7 +654,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
     public void onPause() {
         super.onPause();
         //uiHelper.onPause();
-        signOutFromGplus();
+       // signOutFromGplus();
     }
 
     @Override
@@ -947,12 +908,12 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
                     @Override
                     public void onStart() {
-
+                        showProgressDialog(R.string.dialog_msg_loading);
                     }
 
                     @Override
                     public void onFinish() {
-                        //progresscancel();
+                        hideProgressDialog();
                     }
 
                     @Override
@@ -969,7 +930,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
                     }
                 });
-        //asynkhttp(params, 3, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
 
     }
 

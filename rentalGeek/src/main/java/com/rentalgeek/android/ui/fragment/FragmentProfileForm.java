@@ -38,6 +38,7 @@ import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.ProfileIdFindBackend;
 import com.rentalgeek.android.backend.UserProfile;
+import com.rentalgeek.android.backend.model.Profile;
 import com.rentalgeek.android.database.ProfileTable;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
@@ -432,7 +433,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
             UserProfile detail = (new Gson()).fromJson(response, UserProfile.class);
 
             if (detail != null && detail.profiles != null && detail.profiles.size() > 0) {
-                UserProfile.Profile profile = detail.profiles.get(0);
+                Profile profile = detail.profiles.get(0);
 
                 String geekScore = profile.geek_score;
                 if (!TextUtils.isEmpty(geekScore)) {

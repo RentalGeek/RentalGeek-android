@@ -16,7 +16,7 @@ import android.view.ViewStub;
 
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.SessionManager;
-import com.rentalgeek.android.backend.LoginBackend;
+import com.rentalgeek.android.backend.model.User;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.AppDialogRequestEvent;
 import com.rentalgeek.android.system.AppSystem;
@@ -249,7 +249,7 @@ public class GeekBaseActivity extends AppCompatActivity {
                         Navigation.navigateActivity(activity, ActivityRoommates.class);
                         return true;
                     case R.id.geek_score:
-                        LoginBackend.User user = SessionManager.Instance.getCurrentUser();
+                        User user = SessionManager.Instance.getCurrentUser();
                         if (user == null) Navigation.navigateActivity(activity, ActivityLogin.class, true);
                         if (user.hasProfileId())
                             Navigation.navigateActivity(activity, ActivityGeekScore.class);

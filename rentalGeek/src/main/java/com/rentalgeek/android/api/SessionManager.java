@@ -6,6 +6,8 @@ import android.text.TextUtils;
 import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.backend.UserProfile;
+import com.rentalgeek.android.backend.model.Profile;
+import com.rentalgeek.android.backend.model.User;
 import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ListUtils;
@@ -16,10 +18,10 @@ public enum SessionManager {
 
     Instance;
 
-    private LoginBackend.User currentUser;
-    private List<UserProfile.Profile> profiles;
+    private User currentUser;
+    private List<Profile> profiles;
 
-    public LoginBackend.User getCurrentUser() {
+    public User getCurrentUser() {
         return currentUser;
     }
 
@@ -38,7 +40,7 @@ public enum SessionManager {
     }
 
     public boolean hasGeekScore() {
-        UserProfile.Profile profile = getDefaultProfile();
+        Profile profile = getDefaultProfile();
         if (profile != null) {
             return !TextUtils.isEmpty(profile.geek_score);
         }
@@ -46,14 +48,14 @@ public enum SessionManager {
     }
 
     public String getGeekScore() {
-        UserProfile.Profile profile = getDefaultProfile();
+        Profile profile = getDefaultProfile();
         if (profile != null) {
             return profile.geek_score;
         }
         return null;
     }
 
-    public UserProfile.Profile getDefaultProfile() {
+    public Profile getDefaultProfile() {
         if (!ListUtils.isNullOrEmpty(profiles)) {
             return profiles.get(0);
         }
@@ -65,7 +67,7 @@ public enum SessionManager {
     }
 
     public String getDefaultProfileId() {
-        UserProfile.Profile profile = getDefaultProfile();
+        Profile profile = getDefaultProfile();
         if (profile == null) return null;
         return profile.id;
     }

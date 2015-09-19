@@ -54,8 +54,7 @@ public class GeekBaseFragment extends Fragment {
         }
         FragmentTransaction ft = getActivity().getSupportFragmentManager()
                 .beginTransaction();
-        ft.setCustomAnimations(R.anim.one_, R.anim.two_, R.anim.three_,
-                R.anim.four_);
+        ft.setCustomAnimations(R.anim.one_, R.anim.two_, R.anim.three_, R.anim.four_);
         ft.add(id, fragment);
         if (stack)
             ft.addToBackStack(fragment.getClass().getName().toString());

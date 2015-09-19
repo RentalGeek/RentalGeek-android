@@ -61,7 +61,9 @@ public class AppEventBus {
 
     public static void register(Object subscriber) {
         try {
-            RentalGeekApplication.eventBus.register(subscriber);
+            if (!RentalGeekApplication.eventBus.isRegistered(subscriber)) {
+                RentalGeekApplication.eventBus.register(subscriber);
+            }
         } catch (Exception e) {
             AppLogger.log(TAG, e);
         }

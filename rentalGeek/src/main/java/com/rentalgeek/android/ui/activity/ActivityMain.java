@@ -24,7 +24,7 @@ public class ActivityMain extends GeekBaseActivity {
 	AppPrefes appPref;
 
 	public ActivityMain() {
-		super(true, true, true);
+		super(true, true, false);
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class ActivityMain extends GeekBaseActivity {
 		appPref = new AppPrefes(getApplicationContext(), "rentalgeek");
 
 		getHash();
-		//timer();
+		timer();
 
 	}
 

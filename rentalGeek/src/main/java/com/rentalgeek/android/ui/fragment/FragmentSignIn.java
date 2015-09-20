@@ -28,6 +28,9 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.ConnectionResult;
@@ -45,7 +48,6 @@ import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.ErrorApi;
 import com.rentalgeek.android.backend.LoginBackend;
-import com.rentalgeek.android.database.ProfileTable;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
@@ -58,8 +60,9 @@ import com.rentalgeek.android.ui.activity.ActivityTutorials;
 import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 
+import org.json.JSONObject;
+
 import java.util.Arrays;
-import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -75,7 +78,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
     private static final String TAG = "FragmentSignIn";
 
-    ProfileTable profdets;
     private YoYo.YoYoString animation_obj;
 
     private static final int PROFILE_PIC_SIZE = 400;
@@ -107,21 +109,14 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
     @InjectView(R.id.layoutThirdPartyLogins)
     LinearLayout layoutThirdPartyLogins;
 
-    // ---------------
-
     @InjectView(R.id.ed_username)
     EditText ed_username;
 
     @InjectView(R.id.fbLoginButton)
     LoginButton fbLoginButton;
 
-//	private Session.StatusCallback statusCallback = new SessionStatusCallback();
-//	private UiLifecycleHelper uiHelper;
-
     @InjectView(R.id.ed_password)
     EditText ed_password;
-
-    //VolleyForAll volley;
 
     public static FragmentSignIn newInstance() {
         FragmentSignIn fragment = new FragmentSignIn();
@@ -132,7 +127,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
+        FacebookSdk.sdkInitialize(activity.getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
 
         appPref = new AppPrefes(getActivity(), "rentalgeek");
@@ -146,7 +141,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.sigin_latest, container, false);
-        // signin();
+
         ButterKnife.inject(this, v);
         create_aacnt.setText(Html.fromHtml("Not a member? <u>Create Account</u>"));
 
@@ -157,19 +152,35 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                // App code
+
                 AppLogger.log(TAG, "fb success:"+loginResult.getAccessToken());
+
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                // Application code
+                                String data = response.toString();
+                                AppLogger.log(TAG, data);
+                                String name = object.optString("name");
+                                String email = object.optString("email");
+                                callFacebookLink(name, "", "", email);
+                            }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,email");
+                request.setParameters(parameters);
+                request.executeAsync();
             }
 
             @Override
             public void onCancel() {
-                // App code
-                AppLogger.log(TAG, "fb cancel");
+                DialogManager.showCrouton(activity, "Facebook Login Cancelled");
             }
 
             @Override
             public void onError(FacebookException exception) {
-                // App code
                 AppLogger.log(TAG, exception);
                 DialogManager.showCrouton(activity, exception.getMessage());
             }
@@ -278,115 +289,13 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
         LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
 
-        // Applicant appli=detail.applicant;
-
-        String appid = String.valueOf(detail.user.id);
-        System.out.println("my id is " + appid);
-
-        if (detail.user.payment) {
-            appPref.SaveIntData("payed", 200);
-        }
-
-        if (detail.user.profile_id != null) {
-            appPref.SaveData("prof_id", detail.user.profile_id);
-        } else {
-            appPref.SaveData("prof_id", "");
-        }
-
-        appPref.SaveData("Uid", appid);
-
-        com.activeandroid.query.Select select = new com.activeandroid.query.Select();
-        List<ProfileTable> profcont = select
-                .all()
-                .from(ProfileTable.class)
-                .execute();
-
-        if (profcont.size() > 0) {
-            profdets = new com.activeandroid.query.Select()
-                    .from(ProfileTable.class)
-                    .where("uid = ?",
-                            appPref.getData("Uid"))
-                    .executeSingle();
-
-            profdets.firstname=appPref.getData("socialname_link");
-            profdets.lastname=appPref.getData("sociallastname_link");
-            profdets.save();
-
-        } else {
-            profdets = new ProfileTable();
-            profdets.uid = appPref.getData("Uid");
-            profdets.firstname=appPref.getData("socialname_link");
-            profdets.lastname=appPref.getData("sociallastname_link");
-            profdets.save();
-        }
-
-        appPref.SaveData("first", "logged");
         Navigation.navigateActivity(activity, ActivityHome.class, true);
     }
 
     private void googlePlusParse(String response) {
 
-        System.out.println("google response " + response);
         LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
 
-        // Applicant appli=detail.applicant;
-
-        String appid = String.valueOf(detail.user.id);
-        System.out.println("my id is " + appid);
-
-        if (detail.user.payment) {
-            appPref.SaveIntData("payed", 200);
-        }
-
-        if (detail.user.profile_id != null) {
-            appPref.SaveData("prof_id", detail.user.profile_id);
-        } else {
-            appPref.SaveData("prof_id", "");
-        }
-
-        appPref.SaveData("Uid", appid);
-
-
-        com.activeandroid.query.Select select = new com.activeandroid.query.Select();
-        List<ProfileTable> profcont = select
-                .all()
-                .from(ProfileTable.class)
-                .execute();
-
-        if (profcont.size() > 0) {
-            profdets = new com.activeandroid.query.Select()
-                    .from(ProfileTable.class)
-                    .where("uid = ?",
-                            appPref.getData("Uid"))
-                    .executeSingle();
-            profdets.firstname=appPref.getData("socialname_goog");
-            profdets.lastname=" ";
-            profdets.save();
-
-        } else {
-            profdets = new ProfileTable();
-            profdets.uid = appPref
-                    .getData("Uid");
-
-
-            String[] names = appPref.getData("socialname_goog").trim().split(" ");
-
-            if(names.length>1)
-            {
-                profdets.firstname=names[0];
-                profdets.lastname=names[1];
-                profdets.save();
-            }
-            else
-            {
-                profdets.firstname=appPref.getData("socialname_goog");
-                profdets.lastname=appPref.getData("sociallastname_goog");
-                profdets.save();
-            }
-
-        }
-
-        appPref.SaveData("first", "logged");
         signOutFromGplus();
 
         SessionManager.Instance.onUserLoggedIn(detail);
@@ -399,49 +308,9 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
         LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
 
-        // Applicant appli=detail.applicant;
+        LoginManager.getInstance().logOut();
 
-        String appid = String.valueOf(detail.user.id);
-        System.out.println("my id is " + appid);
-
-        appPref.SaveData("Uid", appid);
-        if (detail.user.payment) {
-            appPref.SaveIntData("payed", 200);
-        }
-
-        if (detail.user.profile_id != null) {
-            appPref.SaveData("prof_id", detail.user.profile_id);
-        } else {
-            appPref.SaveData("prof_id", "");
-        }
-
-        com.activeandroid.query.Select select = new com.activeandroid.query.Select();
-        List<ProfileTable> profcont = select
-                .all()
-                .from(ProfileTable.class)
-                .execute();
-
-        if (profcont.size() > 0) {
-            profdets = new com.activeandroid.query.Select()
-                    .from(ProfileTable.class)
-                    .where("uid = ?",
-                            appPref.getData("Uid"))
-                    .executeSingle();
-
-            profdets.firstname=appPref.getData("socialname_fb");
-            profdets.lastname=appPref.getData("sociallastname_fb");
-            profdets.save();
-
-        } else {
-            profdets = new ProfileTable();
-            profdets.uid = appPref
-                    .getData("Uid");
-            profdets.firstname=appPref.getData("socialname_fb");
-            profdets.lastname=appPref.getData("sociallastname_fb");
-            profdets.save();
-        }
-
-        appPref.SaveData("first", "logged");
+        SessionManager.Instance.onUserLoggedIn(detail);
 
         Navigation.navigateActivity(activity, ActivityHome.class, true);
 
@@ -493,112 +362,9 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
     }
 
-    // -------------------------facebook part----------------------------
-/*
-	private class SessionStatusCallback implements Session.StatusCallback {
-		@Override
-		public void call(Session session, SessionState state,
-				Exception exception) {
-			// Respond to session state changes, ex: updating the view
-			onClickLogin();
-		}
-	}
-	private void onClickLogin() {
-		Session session = Session.getActiveSession();
-		if (!session.isOpened() && !session.isClosed()) {
-			session.openForRead(new Session.OpenRequest(this).setPermissions(
-					Arrays.asList("public_profile"))
-					.setCallback(statusCallback));
-		} else {
-			Session.openActiveSession(getActivity(), this, true, statusCallback);
-		}
-	}
-	boolean fb_login;
-	private void onSessionStateChange(final Session session,
-			SessionState state, Exception exception) {
-		if (state.isOpened()) {
-			// loc(session);
-			Request meRequest = Request.newMeRequest(session,
-					new GraphUserCallback() {
-						@Override
-						public void onCompleted(GraphUser user,
-								Response response) {
-							if (response.getError() == null && !fb_login) {
-								System.out.println("responseresponse"
-										+ response);
-								// System.out.println("response"
-								// + user.getLocation().getName());
-								String token = session.getAccessToken();
-								fb_login = true;
-								String email = user.getProperty("email")
-										.toString();
-								String urls = "https://graph.facebook.com/"
-										+ user.getId() + "/picture?type=large";
-								Log.v("Log", "urls : " + urls);
-								Log.v("Log", "Response : " + response);
-								Log.v("Log", "UserID : " + user.getId());
-								Log.v("Log", "facebook birthday  : " + user.getBirthday());
-								
-//								System.out.println("user birthday facebook "+user.getBirthday());
-								Log.v("Log",
-										"User FirstName : "
-												+ user.getFirstName());
-								Log.v("Log", "User email : " + email);
-								// String url = "fblogin.php?facebook_id="
-								// + user.getId() + "&email=" + email;
-								// appPrefes.SaveData("fbemail", email);
-								// appPrefes.SaveData("fbname",
-								// user.getFirstName());
-								// appPrefes.SaveData("fbid", user.getId());
-								// okhttp(url, 3, true);
-								// appPreferences.setFBUserName(user.getName());
-								appPref.SaveData("sociallastname_fb", user.getLastName());
-								appPref.SaveData("socialname_fb",
-										user.getFirstName());
-								appPref.SaveData("socialemail_fb", email);
-								appPref.SaveData("socialid_fb", user.getId());
-								callFacebookLink(user.getFirstName(), urls,
-										user.getId(), email);
-							}
-						}
-					});
-			// Execute the request
-			meRequest.executeAsync();
-			Log.i("Log", "Logged in...");
-		} else if (state.isClosed()) {
-			fb_login = false;
-			Log.i("Log", "Logged out...");
-		}
-	}
-	private Session.StatusCallback callback = new Session.StatusCallback() {
-		@Override
-		public void call(Session session, SessionState state,
-				Exception exception) {
-			onSessionStateChange(session, state, exception);
-		}
-	};
-	private void fblogin(String response, boolean success) {
-		System.out.println("Login.parseresult()" + response + success);
-		if (Session.getActiveSession() != null) {
-			Session.getActiveSession().closeAndClearTokenInformation();
-		}
-		Session.setActiveSession(null);
-		if (success) {
-			// afterlogin(response, success);
-		} else {
-			// nextfragment(new FbLogin(), true);
-		}
-	}
-*/
-
     @Override
     public void onResume() {
         super.onResume();
-//		Session session = Session.getActiveSession();
-//		if (session != null && (session.isOpened() || session.isClosed())) {
-//			onSessionStateChange(session, session.getState(), null);
-//		}
-//		uiHelper.onResume();
     }
 
     @Override
@@ -622,45 +388,20 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                 }
                 break;
         }
+
+        if (callbackManager != null) callbackManager.onActivityResult(requestCode, resultCode, data);
     }
-//	@Override
-//	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//
-//		super.onActivityResult(requestCode, resultCode, data);
-//
-//		//uiHelper.onActivityResult(requestCode, resultCode, data);
-//		LISessionManager.getInstance(getActivity()).onActivityResult(getActivity(), requestCode, resultCode, data);
-//		if (requestCode == RC_SIGN_IN) {
-//			if (requestCode != Activity.RESULT_OK) {
-//				mSignInClicked = false;
-//			}
-//
-//			mIntentInProgress = false;
-//
-//			if (!mGoogleApiClient.isConnecting()) {
-//				mGoogleApiClient.connect();
-//			}
-//		} else if (requestCode == FB_SIGN_IN) {
-//           //
-//        }
-//
-//        if (callbackManager != null)  callbackManager.onActivityResult(requestCode, resultCode, data);
-//
-//	}
 
     private static final String SAVED_PROGRESS = "sign_in_progress";
 
     @Override
     public void onPause() {
         super.onPause();
-        //uiHelper.onPause();
-       // signOutFromGplus();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //uiHelper.onDestroy();
     }
 
     @Override
@@ -669,8 +410,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         outState.putInt(SAVED_PROGRESS, mSignInProgress);
     }
 
-    // ----------------------------G+
-    // login-----------------------------------------------
     @Override
     public void onConnectionFailed(ConnectionResult result) {
         // Refer to the javadoc for ConnectionResult to see what error codes might
@@ -734,21 +473,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
             mGoogleApiClient.disconnect();
         }
     }
-
-    /**
-     * Method to resolve any signin errors
-     * */
-//	private void resolveSignInError() {
-//		if (mConnectionResult.hasResolution()) {
-//			try {
-//				mIntentInProgress = true;
-//				mConnectionResult.startResolutionForResult(getActivity(), RC_SIGN_IN);
-//			} catch (SendIntentException e) {
-//				mIntentInProgress = false;
-//				mGoogleApiClient.connect();
-//			}
-//		}
-//	}
 
     private void resolveSignInError() {
         if (mSignInIntent != null) {
@@ -839,10 +563,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
             mSignInProgress = STATE_SIGN_IN;
             mGoogleApiClient.connect();
         }
-//		if (!mGoogleApiClient.isConnecting()) {
-//			mSignInClicked = true;
-//			resolveSignInError();
-//		}
+
     }
 
     @OnClick(R.id.btn_sign_in)
@@ -876,12 +597,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                 personPhotoUrl = personPhotoUrl.substring(0,
                         personPhotoUrl.length() - 2)
                         + PROFILE_PIC_SIZE;
-
-                appPref.SaveData("socialname_goog", personName);
-                appPref.SaveData("sociallastname_goog", "");
-                appPref.SaveData("socialemail_goog", email);
-                appPref.SaveData("socialid_goog", currentPerson.getId());
-
 
                 callGooglePlusLink(personName, personPhotoUrl, currentPerson.getId(), email);
 
@@ -933,9 +648,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
     }
 
-    public void callLinkedPlusLink(String personName, String personPhotoUrl,
-                                   String id, String email) {
-
+    public void callLinkedPlusLink(String personName, String personPhotoUrl, String id, String email) {
 
         RequestParams params = new RequestParams();
         params.put("provider[uid]", id);
@@ -950,12 +663,12 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
                     @Override
                     public void onStart() {
-
+                        showProgressDialog(R.string.dialog_msg_loading);
                     }
 
                     @Override
                     public void onFinish() {
-                        //progresscancel();
+                        hideProgressDialog();
                     }
 
                     @Override
@@ -972,7 +685,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
                     }
                 });
-        //asynkhttp(params, 4, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
 
     }
 
@@ -991,12 +703,12 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
                     @Override
                     public void onStart() {
-
+                        showProgressDialog(R.string.dialog_msg_loading);
                     }
 
                     @Override
                     public void onFinish() {
-                        //progresscancel();
+                        hideProgressDialog();
                     }
 
                     @Override
@@ -1013,7 +725,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
                     }
                 });
-        //asynkhttp(params, 2, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
 
     }
 
@@ -1037,12 +748,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
     public void GooglePlusClick(View v) {
         // btnSignIn.performClick();
         animation_obj = YoYo.with(Techniques.Flash).duration(1000).playOn(v);
-
-//		if (mConnectionResult != null) {
         signInWithGplus();
-//		} else {
-//			Toast.makeText(getActivity(), "Can't connect to Google+  ", Toast.LENGTH_LONG).show();
-//		}
     }
 
     @OnClick(R.id.linked_lay)
@@ -1068,7 +774,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
             @Override
             public void onClick(View v) {
-
 
                 if (Validate(emailForgot)) {
                     dialog.dismiss();
@@ -1119,7 +824,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
                     }
                 });
-        //asynkhttp(params, 5, url, AppPreferences.getAuthToken(), true);
 
     }
 

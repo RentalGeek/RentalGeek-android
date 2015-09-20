@@ -5,7 +5,6 @@ import android.text.TextUtils;
 
 import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.backend.LoginBackend;
-import com.rentalgeek.android.backend.UserProfile;
 import com.rentalgeek.android.backend.model.Profile;
 import com.rentalgeek.android.backend.model.User;
 import com.rentalgeek.android.ui.AppPrefes;
@@ -89,12 +88,6 @@ public enum SessionManager {
         if (currentUser.payment) {
             appPref.SaveIntData("payed", 200);
         }
-
-//        if (currentUser.profile_id != null) {
-//            appPref.SaveData("prof_id", currentUser.profile_id);
-//        } else {
-//            appPref.SaveData("prof_id", "");
-//        }
 
         appPref.SaveData("first", "logged");
 

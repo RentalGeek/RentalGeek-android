@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.pojos.CosignerInviteDTO;
-import com.rentalgeek.android.ui.activity.ActivityCosignerApp;
+import com.rentalgeek.android.ui.activity.ActivityCosignerApp1;
 import com.rentalgeek.android.ui.activity.ActivityCosignerInvite;
 import com.rentalgeek.android.ui.activity.ActivityCosignerList;
 
@@ -96,7 +96,7 @@ public enum CosignerDestinationLogic {
         if (hasOutstandingInvites()) {
             activity.startActivity(new Intent(activity, ActivityCosignerInvite.class));
         } else if (!hasCompletedCosignerProfile()) {
-            activity.startActivity(new Intent(activity, ActivityCosignerApp.class));
+            activity.startActivity(new Intent(activity, ActivityCosignerApp1.class));
         } else {
             activity.startActivity(new Intent(activity, ActivityCosignerList.class));
         }

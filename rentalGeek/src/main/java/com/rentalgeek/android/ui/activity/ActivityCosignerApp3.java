@@ -3,15 +3,15 @@ package com.rentalgeek.android.ui.activity;
 import android.os.Bundle;
 
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.ui.fragment.FragmentCosignerApp1;
+import com.rentalgeek.android.ui.fragment.FragmentCosignerApp3;
 
 /**
  * Created by rajohns on 9/19/15.
  *
  */
-public class ActivityCosignerApp extends GeekBaseActivity {
+public class ActivityCosignerApp3 extends GeekBaseActivity {
 
-    public ActivityCosignerApp() {
+    public ActivityCosignerApp3() {
         super(true, true, false);
     }
 
@@ -23,7 +23,7 @@ public class ActivityCosignerApp extends GeekBaseActivity {
         setupNavigation();
 
         if (savedInstanceState == null) {
-            FragmentCosignerApp1 fragment = new FragmentCosignerApp1();
+            FragmentCosignerApp3 fragment = new FragmentCosignerApp3();
             Bundle args = getIntent().getExtras();
             fragment.setArguments(args);
             getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();

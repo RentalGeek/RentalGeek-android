@@ -12,15 +12,13 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.net.GeekHttpResponseHandler;
-import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.pojos.ApplicationDTO;
 import com.rentalgeek.android.pojos.ApplicationDetailsDTO;
 import com.rentalgeek.android.pojos.ApplicationItem;
-import com.rentalgeek.android.pojos.PendingItem;
 import com.rentalgeek.android.pojos.CosignItem;
+import com.rentalgeek.android.pojos.PendingItem;
 import com.rentalgeek.android.ui.adapter.ApplicationListAdapter;
-import com.rentalgeek.android.ui.preference.AppPreferences;
+import com.rentalgeek.android.utils.Stub;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,30 +53,35 @@ public class FragmentBaseApplicationList extends GeekBaseFragment {
     }
 
     protected void fetchItemsWithUrl(Context context, String url) {
-        GlobalFunctions.getApiCall(context, url, AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
-            @Override
-            public void onStart() {
-                super.onStart();
-                showProgressDialog(R.string.dialog_msg_loading);
-            }
+        properties = Stub.cosignProperties();
+        adapter.setItems(properties);
+        adapter.notifyDataSetChanged();
 
-            @Override
-            public void onFinish() {
-                super.onFinish();
-                hideProgressDialog();
-            }
 
-            @Override
-            public void onSuccess(String content) {
-                super.onSuccess(content);
-                parseResponse(content);
-            }
-
-            @Override
-            public void onFailure(Throwable ex, String failureResponse) {
-                super.onFailure(ex, failureResponse);
-            }
-        });
+//        GlobalFunctions.getApiCall(context, url, AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
+//            @Override
+//            public void onStart() {
+//                super.onStart();
+//                showProgressDialog(R.string.dialog_msg_loading);
+//            }
+//
+//            @Override
+//            public void onFinish() {
+//                super.onFinish();
+//                hideProgressDialog();
+//            }
+//
+//            @Override
+//            public void onSuccess(String content) {
+//                super.onSuccess(content);
+//                parseResponse(content);
+//            }
+//
+//            @Override
+//            public void onFailure(Throwable ex, String failureResponse) {
+//                super.onFailure(ex, failureResponse);
+//            }
+//        });
     }
 
     private void parseResponse(String response) {

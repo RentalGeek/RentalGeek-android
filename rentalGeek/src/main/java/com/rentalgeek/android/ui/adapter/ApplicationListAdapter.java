@@ -1,6 +1,7 @@
 package com.rentalgeek.android.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,12 +16,17 @@ import android.widget.TextView;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.pojos.ApplicationItem;
 import com.rentalgeek.android.pojos.RoommateDTO;
-import com.rentalgeek.android.ui.view.PropertyRightTextView;
+import com.rentalgeek.android.ui.activity.ActivitySignLease;
+import com.rentalgeek.android.ui.fragment.FragmentSignLease;
 import com.rentalgeek.android.ui.view.PropertyLeftTextView;
 import com.rentalgeek.android.ui.view.PropertyPersonHorizontalLinearLayout;
+import com.rentalgeek.android.ui.view.PropertyRightTextView;
 import com.rentalgeek.android.utils.DownloadImageTask;
 
 import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 /**
  * Created by rajohns on 9/7/15.
@@ -32,32 +38,22 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
     private boolean shouldHideButtonAndBottomContactInfo = false;
 
     public static class ApplicationListViewHolder extends RecyclerView.ViewHolder {
-        public ImageView topImageLayout;
-        public TextView streetAddressTextView;
-        public TextView cityStateZipAddressTextView;
-        public TextView numBedsBathsTextView;
-        public TextView costTextView;
-        public Button signApproveButton;
-        public TextView propertyNameTextView;
-        public TextView propertyEmailTextView;
-        public TextView propertyPhoneTextView;
-        public LinearLayout dynamicNamesLayout;
-        public LinearLayout bottomContactBlueBox;
+        @InjectView(R.id.top_image_layout) ImageView topImageLayout;
+        @InjectView(R.id.street_address) TextView streetAddressTextView;
+        @InjectView(R.id.city_state_zip_address) TextView cityStateZipAddressTextView;
+        @InjectView(R.id.num_beds_baths) TextView numBedsBathsTextView;
+        @InjectView(R.id.cost_text_view) TextView costTextView;
+        @InjectView(R.id.sign_approve_button) Button signApproveButton;
+        @InjectView(R.id.property_name) TextView propertyNameTextView;
+        @InjectView(R.id.property_email) TextView propertyEmailTextView;
+        @InjectView(R.id.property_phone) TextView propertyPhoneTextView;
+        @InjectView(R.id.lease_signed_lines) LinearLayout dynamicNamesLayout;
+        @InjectView(R.id.bottom_contact_blue_box) LinearLayout bottomContactBlueBox;
 
         public ApplicationListViewHolder(View view) {
             super(view);
-            topImageLayout = (ImageView)view.findViewById(R.id.top_image_layout);
-            streetAddressTextView = (TextView)view.findViewById(R.id.street_address);
-            cityStateZipAddressTextView = (TextView)view.findViewById(R.id.city_state_zip_address);
-            numBedsBathsTextView = (TextView)view.findViewById(R.id.num_beds_baths);
-            costTextView = (TextView)view.findViewById(R.id.cost_text_view);
-            signApproveButton = (Button)view.findViewById(R.id.sign_approve_button);
-            propertyNameTextView = (TextView)view.findViewById(R.id.property_name);
-            propertyEmailTextView = (TextView)view.findViewById(R.id.property_email);
+            ButterKnife.inject(this, view);
             propertyEmailTextView.setPaintFlags(propertyEmailTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-            propertyPhoneTextView = (TextView)view.findViewById(R.id.property_phone);
-            dynamicNamesLayout = (LinearLayout)view.findViewById(R.id.lease_signed_lines);
-            bottomContactBlueBox = (LinearLayout)view.findViewById(R.id.bottom_contact_blue_box);
         }
     }
 
@@ -77,8 +73,8 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
     }
 
     @Override
-    public void onBindViewHolder(ApplicationListViewHolder holder, int position) {
-        ApplicationItem item = applicationItems.get(position);
+    public void onBindViewHolder(final ApplicationListViewHolder holder, final int position) {
+        final ApplicationItem item = applicationItems.get(position);
         new DownloadImageTask(holder.topImageLayout).execute(item.getImageUrl());
         holder.streetAddressTextView.setText(item.getAddress().getStreet() + " ");
         holder.cityStateZipAddressTextView.setText(item.getAddress().getAddressline2() + " ");
@@ -96,6 +92,17 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
         }
 
         addDynamicTextViewsForEachRoommate(holder, item);
+
+        holder.signApproveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = holder.signApproveButton.getContext();
+                Intent intent = new Intent(context, ActivitySignLease.class);
+                intent.putExtra(FragmentSignLease.STREET, item.getAddress().getStreet());
+                intent.putExtra(FragmentSignLease.CITY_STATE_ZIP, item.getAddress().getAddressline2());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

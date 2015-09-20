@@ -74,6 +74,7 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
 
     @Override
     public void onBindViewHolder(final ApplicationListViewHolder holder, final int position) {
+        final Context context = holder.signApproveButton.getContext();
         final ApplicationItem item = applicationItems.get(position);
         new DownloadImageTask(holder.topImageLayout).execute(item.getImageUrl());
         holder.streetAddressTextView.setText(item.getAddress().getStreet() + " ");
@@ -91,12 +92,19 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
             holder.propertyPhoneTextView.setText(item.getPropertyContactInfo().getFormattedPhoneNumber() + " ");
         }
 
+        if (item.getUnsignedLeaseDocumentUrl() == null) {
+            holder.signApproveButton.setEnabled(false);
+            holder.signApproveButton.setBackgroundColor(context.getResources().getColor(R.color.light_creme));
+        } else {
+            holder.signApproveButton.setEnabled(true);
+            holder.signApproveButton.setBackground(context.getResources().getDrawable(R.drawable.continue_bg));
+        }
+
         addDynamicTextViewsForEachRoommate(holder, item);
 
         holder.signApproveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context context = holder.signApproveButton.getContext();
                 Intent intent = new Intent(context, ActivitySignLease.class);
                 intent.putExtra(FragmentSignLease.STREET, item.getAddress().getStreet());
                 intent.putExtra(FragmentSignLease.CITY_STATE_ZIP, item.getAddress().getAddressline2());

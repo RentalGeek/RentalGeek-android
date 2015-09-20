@@ -42,7 +42,35 @@ public class Stub {
         applicationItem.setRoommates(roommates);
         applicationItem.setPropertyContactInfo(propertyContactInfo);
         applicationItem.setImageUrl("https://s3-us-west-2.amazonaws.com/rental-geek/property-header.jpg");
-        applicationItem.setUnsignedLeaseDocumentUrl("https://gradcollege.okstate.edu/sites/default/files/PDF_linking.pdf");
+//        applicationItem.setUnsignedLeaseDocumentUrl("https://gradcollege.okstate.edu/sites/default/files/PDF_linking.pdf");
+
+        List<RoommateDTO> roommates2 = new ArrayList<>();
+        RoommateDTO roommate21 = new RoommateDTO();
+        roommate21.full_name = "Matt Smith";
+        roommate21.cosigner_full_name = "Adam Johns";
+        roommate21.lease_signed_on = "08/10/2015";
+        roommate21.cosigner_lease_signed_on = "08/11/2015";
+        RoommateDTO roommate22 = new RoommateDTO();
+        roommate22.full_name = "John Johnson";
+        roommate22.cosigner_full_name = "Random Guy";
+        roommate22.lease_signed_on = "08/11/2015";
+        roommate22.cosigner_lease_signed_on = "08/12/2015";
+        roommates.add(roommate21);
+        roommates.add(roommate22);
+
+        PropertyContactInfo propertyContactInfo2 = new PropertyContactInfo("Spring Properties", "info@springproperties.com", "(000) 555-1212");
+
+        Address address2 = new Address("2129 Walnut Dr.", "Manhattan", "KS", "66502");
+
+        ApplicationItem applicationItem2 = new ApplicationItem();
+        applicationItem2.setAddress(address);
+        applicationItem2.setMonthlyCost(920);
+        applicationItem2.setNumBedrooms(2);
+        applicationItem2.setNumBathrooms(1);
+        applicationItem2.setRoommates(roommates);
+        applicationItem2.setPropertyContactInfo(propertyContactInfo2);
+        applicationItem2.setImageUrl("https://s3-us-west-2.amazonaws.com/rental-geek/property-header.jpg");
+        applicationItem2.setUnsignedLeaseDocumentUrl("https://gradcollege.okstate.edu/sites/default/files/PDF_linking.pdf");
 
         List<ApplicationItem> stubbedApplicationItems = new ArrayList<>();
         stubbedApplicationItems.add(applicationItem);
@@ -52,7 +80,7 @@ public class Stub {
         stubbedApplicationItems.add(applicationItem);
         stubbedApplicationItems.add(applicationItem);
         stubbedApplicationItems.add(applicationItem);
-        stubbedApplicationItems.add(applicationItem);
+        stubbedApplicationItems.add(applicationItem2);
 
         return stubbedApplicationItems;
     }

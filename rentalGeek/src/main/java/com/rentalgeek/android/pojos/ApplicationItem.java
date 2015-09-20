@@ -19,6 +19,7 @@ public class ApplicationItem {
     private PropertyContactInfo propertyContactInfo;
     private String imageUrl = "https://s3-us-west-2.amazonaws.com/rental-geek/property-header.jpg";
     private String unsignedLeaseDocumentUrl;
+    private String signedLeaseUrl;
 
     public ApplicationItem() {
     }
@@ -32,6 +33,7 @@ public class ApplicationItem {
         this.roommates = applicationDTO.roommates;
         this.propertyContactInfo = new PropertyContactInfo(rentalOfferingDTO.rental_complex_name, rentalOfferingDTO.customer_contact_email_address, rentalOfferingDTO.customer_contact_phone_number);
         this.unsignedLeaseDocumentUrl = applicationDTO.unsigned_lease_document_url;
+        this.signedLeaseUrl = applicationDTO.signed_lease_url;
     }
 
     public Address getAddress() {
@@ -158,4 +160,11 @@ public class ApplicationItem {
         this.unsignedLeaseDocumentUrl = unsignedLeaseDocumentUrl;
     }
 
+    public String getSignedLeaseUrl() {
+        return signedLeaseUrl;
+    }
+
+    public void setSignedLeaseUrl(String signedLeaseUrl) {
+        this.signedLeaseUrl = signedLeaseUrl;
+    }
 }

@@ -242,15 +242,21 @@ public class GeekBaseActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-                menuItem.setChecked(true);
                 drawerLayout.closeDrawers();
+
+                // don't re-open the currently selected option
+                if (menuItem.isChecked()) {
+                    return true;
+                }
+
                 switch (menuItem.getItemId()) {
                     case R.id.roommates:
                         Navigation.navigateActivity(activity, ActivityRoommates.class);
                         return true;
                     case R.id.geek_score:
                         User user = SessionManager.Instance.getCurrentUser();
-                        if (user == null) Navigation.navigateActivity(activity, ActivityLogin.class, true);
+                        if (user == null)
+                            Navigation.navigateActivity(activity, ActivityLogin.class, true);
                         if (user.hasProfileId())
                             Navigation.navigateActivity(activity, ActivityGeekScore.class);
                         else
@@ -267,7 +273,6 @@ public class GeekBaseActivity extends AppCompatActivity {
                         return true;
                     case R.id.cosigner:
                         decideWhichCosignScreenToShow();
-//                        Navigation.navigateActivity(activity, ActivityCosignDecider.class);
                         return true;
                     case R.id.logout:
                         SessionManager.Instance.onUserLoggedOut();
@@ -335,6 +340,17 @@ public class GeekBaseActivity extends AppCompatActivity {
             Navigation.navigateActivity(this, ActivityCosignDecider.class);
         } else {
             CosignerDestinationLogic.INSTANCE.navigateToNextCosignActivity(this);
+        }
+    }
+
+    protected void setMenuItemSelected(int itemId) {
+        Menu menu = navigationView.getMenu();
+
+        if (menu != null) {
+            MenuItem itemToSelect = menu.findItem(itemId);
+            if (itemToSelect != null) {
+                itemToSelect.setChecked(true);
+            }
         }
     }
 

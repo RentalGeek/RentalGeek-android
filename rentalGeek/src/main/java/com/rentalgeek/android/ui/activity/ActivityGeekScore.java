@@ -21,6 +21,7 @@ public class ActivityGeekScore extends GeekBaseActivity {
         setContentView(R.layout.activity_with_fragment);
 
         setupNavigation();
+        setMenuItemSelected(R.id.geek_score);
 
         if (savedInstanceState == null) {
             FragmentGeekScore fragment = new FragmentGeekScore();

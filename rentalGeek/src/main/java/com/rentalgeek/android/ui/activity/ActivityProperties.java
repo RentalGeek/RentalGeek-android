@@ -28,6 +28,7 @@ public class ActivityProperties extends GeekBaseActivity implements Container<Vi
         inflateStub(R.id.stub, R.layout.swipe_pager_container);
         setTabs(true);
         setupNavigation();
+        setMenuItemSelected(R.id.properties);
 
         viewPager = (ViewPager)findViewById(R.id.container);
         if (viewPager != null) {

@@ -21,6 +21,7 @@ public class ActivityPayments extends GeekBaseActivity {
         setContentView(R.layout.activity_with_fragment);
 
         setupNavigation();
+        setMenuItemSelected(R.id.payment);
 
         if (savedInstanceState == null) {
             FragmentPayments fragment = new FragmentPayments();

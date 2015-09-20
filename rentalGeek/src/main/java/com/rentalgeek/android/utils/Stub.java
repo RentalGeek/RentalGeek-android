@@ -42,6 +42,7 @@ public class Stub {
         applicationItem.setRoommates(roommates);
         applicationItem.setPropertyContactInfo(propertyContactInfo);
         applicationItem.setImageUrl("https://s3-us-west-2.amazonaws.com/rental-geek/property-header.jpg");
+        applicationItem.setUnsignedLeaseDocumentUrl("https://gradcollege.okstate.edu/sites/default/files/PDF_linking.pdf");
 
         List<ApplicationItem> stubbedApplicationItems = new ArrayList<>();
         stubbedApplicationItems.add(applicationItem);

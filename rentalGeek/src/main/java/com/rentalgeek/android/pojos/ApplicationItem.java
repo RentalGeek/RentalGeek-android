@@ -18,6 +18,7 @@ public class ApplicationItem {
     protected List<RoommateDTO> roommates;
     private PropertyContactInfo propertyContactInfo;
     private String imageUrl = "https://s3-us-west-2.amazonaws.com/rental-geek/property-header.jpg";
+    private String unsignedLeaseDocumentUrl;
 
     public ApplicationItem() {
     }
@@ -30,6 +31,7 @@ public class ApplicationItem {
         this.numBathrooms = rentalOfferingDTO.full_bathroom_count + rentalOfferingDTO.half_bathroom_count/2;
         this.roommates = applicationDTO.roommates;
         this.propertyContactInfo = new PropertyContactInfo(rentalOfferingDTO.rental_complex_name, rentalOfferingDTO.customer_contact_email_address, rentalOfferingDTO.customer_contact_phone_number);
+        this.unsignedLeaseDocumentUrl = applicationDTO.unsigned_lease_document_url;
     }
 
     public Address getAddress() {
@@ -146,6 +148,14 @@ public class ApplicationItem {
         }
 
         return name;
+    }
+
+    public String getUnsignedLeaseDocumentUrl() {
+        return unsignedLeaseDocumentUrl;
+    }
+
+    public void setUnsignedLeaseDocumentUrl(String unsignedLeaseDocumentUrl) {
+        this.unsignedLeaseDocumentUrl = unsignedLeaseDocumentUrl;
     }
 
 }

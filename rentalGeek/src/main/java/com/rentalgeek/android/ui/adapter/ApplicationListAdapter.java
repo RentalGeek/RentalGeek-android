@@ -100,6 +100,7 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
                 Intent intent = new Intent(context, ActivitySignLease.class);
                 intent.putExtra(FragmentSignLease.STREET, item.getAddress().getStreet());
                 intent.putExtra(FragmentSignLease.CITY_STATE_ZIP, item.getAddress().getAddressline2());
+                intent.putExtra(FragmentSignLease.PDF_URL, item.getUnsignedLeaseDocumentUrl());
                 context.startActivity(intent);
             }
         });

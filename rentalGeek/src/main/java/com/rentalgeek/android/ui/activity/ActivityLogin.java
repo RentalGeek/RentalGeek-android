@@ -38,8 +38,8 @@ public class ActivityLogin extends GeekBaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == FragmentSignIn.RC_SIGN_IN) {
-//            FragmentSignIn fragment = (FragmentSignIn) getSupportFragmentManager()
-//                    .findFragmentById(R.id.pluse_frame_layout);
+            fragment.onActivityResult(requestCode, resultCode, data);
+        } else if (data.getAction() != null && data.getAction().equals("com.linkedin.thirdparty.authorize.RESULT_ACTION")) {
             fragment.onActivityResult(requestCode, resultCode, data);
         } else {
             super.onActivityResult(requestCode, resultCode, data);

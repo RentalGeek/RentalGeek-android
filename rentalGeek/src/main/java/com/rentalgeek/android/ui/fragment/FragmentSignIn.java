@@ -42,6 +42,15 @@ import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListe
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.google.gson.Gson;
+import com.linkedin.platform.APIHelper;
+import com.linkedin.platform.LISession;
+import com.linkedin.platform.LISessionManager;
+import com.linkedin.platform.errors.LIApiError;
+import com.linkedin.platform.errors.LIAuthError;
+import com.linkedin.platform.listeners.ApiListener;
+import com.linkedin.platform.listeners.ApiResponse;
+import com.linkedin.platform.listeners.AuthListener;
+import com.linkedin.platform.utils.Scope;
 import com.loopj.android.http.RequestParams;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
@@ -56,10 +65,10 @@ import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.activity.ActivityRegistration;
-import com.rentalgeek.android.ui.activity.ActivityTutorials;
 import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
@@ -144,6 +153,8 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
         ButterKnife.inject(this, v);
         create_aacnt.setText(Html.fromHtml("Not a member? <u>Create Account</u>"));
+
+        setUpdateState();
 
         // facebook essentials
         android.app.Fragment fragment = new NativeFragmentWrapper(this);
@@ -390,6 +401,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         }
 
         if (callbackManager != null) callbackManager.onActivityResult(requestCode, resultCode, data);
+        LISessionManager.getInstance(activity.getApplicationContext()).onActivityResult(activity, requestCode, resultCode, data);
     }
 
     private static final String SAVED_PROGRESS = "sign_in_progress";
@@ -754,8 +766,86 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
     @OnClick(R.id.linked_lay)
     public void LinkedInClick(View v) {
         animation_obj = YoYo.with(Techniques.Flash).duration(1000).playOn(v);
-        ((ActivityTutorials) getActivity()).SignInLinkedIn();
+        //((ActivityTutorials) getActivity()).SignInLinkedIn();
+        SignInLinkedIn();
     }
+
+
+    /***********************************************
+     *  LinkedIn Login
+     **********************************************/
+
+    private static final String host = "api.linkedin.com";
+    private static final String topCardUrl = "https://"
+            + host
+            + "/v1/people/~:(first-name,last-name,picture-url,id,email-address)";
+    private static final String shareUrl = "https://" + host
+            + "/v1/people/~/shares";
+
+    public void SignInLinkedIn() {
+        LISessionManager.getInstance(activity.getApplicationContext()).init(
+                activity, buildScope(), new AuthListener() {
+                    @Override
+                    public void onAuthSuccess() {
+                        setUpdateState();
+
+                        APIHelper apiHelper = APIHelper.getInstance(activity.getApplicationContext());
+                        apiHelper.getRequest(activity, topCardUrl,
+                                new ApiListener() {
+                                    @Override
+                                    public void onApiSuccess(ApiResponse s) {
+
+                                        System.out.println("linked in response " + s.getResponseDataAsJson());
+
+                                        //FragmentSignIn fragment = (FragmentSignIn) activity.getSupportFragmentManager().findFragmentById(R.id.pager);
+
+                                        try {
+                                            callLinkedPlusLink(
+                                                    s.getResponseDataAsJson().getString("firstName"),
+                                                    "", s.getResponseDataAsJson().getString("id"),
+                                                    s.getResponseDataAsJson().getString("emailAddress"));
+                                        } catch (JSONException e) {
+                                            AppLogger.log(TAG, e);
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onApiError(LIApiError error) {
+                                        AppLogger.log(TAG, error);
+                                    }
+                                });
+
+                    }
+
+                    @Override
+                    public void onAuthError(LIAuthError error) {
+                        setUpdateState();
+
+                        Toast.makeText(activity.getApplicationContext(),
+                                "failed " + error.toString(), Toast.LENGTH_LONG)
+                                .show();
+                    }
+                }, true);
+    }
+
+    private Scope buildScope() {
+        return Scope.build(Scope.R_BASICPROFILE, Scope.W_SHARE, Scope.R_EMAILADDRESS);
+    }
+
+    private void setUpdateState() {
+        LISessionManager sessionManager = LISessionManager.getInstance(activity.getApplicationContext());
+        LISession session = sessionManager.getSession();
+        boolean accessTokenValid = session.isValid();
+
+    }
+
+
+
+
+
+
+
 
     // The dialog which shows to send forgot password confirmation email to user
     @OnClick(R.id.forgot_email)
@@ -802,12 +892,12 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
                     @Override
                     public void onStart() {
-
+                        showProgressDialog(R.string.dialog_msg_loading);
                     }
 
                     @Override
                     public void onFinish() {
-                        //progresscancel();
+                        hideProgressDialog();
                     }
 
                     @Override
@@ -832,8 +922,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         if (target == null) {
             return false;
         } else {
-            return android.util.Patterns.EMAIL_ADDRESS.matcher(target)
-                    .matches();
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
         }
     }
 

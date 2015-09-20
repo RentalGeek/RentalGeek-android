@@ -12,17 +12,8 @@ import android.util.Base64;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.widget.Toast;
 
-import com.linkedin.platform.APIHelper;
-import com.linkedin.platform.LISession;
 import com.linkedin.platform.LISessionManager;
-import com.linkedin.platform.errors.LIApiError;
-import com.linkedin.platform.errors.LIAuthError;
-import com.linkedin.platform.listeners.ApiListener;
-import com.linkedin.platform.listeners.ApiResponse;
-import com.linkedin.platform.listeners.AuthListener;
-import com.linkedin.platform.utils.Scope;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.ui.AppPrefes;
@@ -30,8 +21,6 @@ import com.rentalgeek.android.ui.adapter.SwipeAdapter;
 import com.rentalgeek.android.ui.fragment.FragmentSignIn;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.viewpagerindicator.PageIndicator;
-
-import org.json.JSONException;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -45,12 +34,12 @@ public class ActivityTutorials extends GeekBaseActivity {
 	private static final String TAG = ActivityTutorials.class.getSimpleName();
 	public static final String PACKAGE_MOBILE_SDK_SAMPLE_APP = "com.rentalgeek.android";
 
-	private static final String host = "api.linkedin.com";
-	private static final String topCardUrl = "https://"
-			+ host
-			+ "/v1/people/~:(first-name,last-name,picture-url,id,email-address)";
-	private static final String shareUrl = "https://" + host
-			+ "/v1/people/~/shares";
+//	private static final String host = "api.linkedin.com";
+//	private static final String topCardUrl = "https://"
+//			+ host
+//			+ "/v1/people/~:(first-name,last-name,picture-url,id,email-address)";
+//	private static final String shareUrl = "https://" + host
+//			+ "/v1/people/~/shares";
 
 	AppPrefes appPref;
 	SwipeAdapter mAdapter;
@@ -72,7 +61,7 @@ public class ActivityTutorials extends GeekBaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tutorials);
-		setUpdateState();
+		//setUpdateState();
 		getKeyHash(this, PACKAGE_MOBILE_SDK_SAMPLE_APP);
 		//containerlogin = (FrameLayout) findViewById(R.id.containertut);
 		mAdapter = new SwipeAdapter(getSupportFragmentManager());
@@ -136,17 +125,15 @@ public class ActivityTutorials extends GeekBaseActivity {
 	}
 
 	// Linked in essentials
-	private void setUpdateState() {
-		LISessionManager sessionManager = LISessionManager
-				.getInstance(getApplicationContext());
-		LISession session = sessionManager.getSession();
-		boolean accessTokenValid = session.isValid();
+//	private void setUpdateState() {
+//		LISessionManager sessionManager = LISessionManager
+//				.getInstance(getApplicationContext());
+//		LISession session = sessionManager.getSession();
+//		boolean accessTokenValid = session.isValid();
+//
+//	}
 
-	}
 
-	private static Scope buildScope() {
-		return Scope.build(Scope.R_BASICPROFILE, Scope.W_SHARE, Scope.R_EMAILADDRESS);
-	}
 
 	public static String getKeyHash(Context context, String packageName) {
 		try {
@@ -168,51 +155,51 @@ public class ActivityTutorials extends GeekBaseActivity {
 		return null;
 	}
 
-	public void SignInLinkedIn() {
-		LISessionManager.getInstance(getApplicationContext()).init(
-				this, buildScope(), new AuthListener() {
-					@Override
-					public void onAuthSuccess() {
-						setUpdateState();
-
-						APIHelper apiHelper = APIHelper.getInstance(getApplicationContext());
-						apiHelper.getRequest(ActivityTutorials.this, topCardUrl,
-								new ApiListener() {
-									@Override
-									public void onApiSuccess(ApiResponse s) {
-
-										System.out.println("linked in response " + s.getResponseDataAsJson());
-
-										FragmentSignIn fragment = (FragmentSignIn) getSupportFragmentManager().findFragmentById(R.id.pager);
-
-										try {
-											fragment.callLinkedPlusLink(
-													s.getResponseDataAsJson().getString("firstName"),
-													"", s.getResponseDataAsJson().getString("id"),
-													s.getResponseDataAsJson().getString("emailAddress"));
-										} catch (JSONException e) {
-											AppLogger.log(TAG, e);
-										}
-
-									}
-
-									@Override
-									public void onApiError(LIApiError error) {
-                                        AppLogger.log(TAG, error);
-									}
-								});
-
-					}
-
-					@Override
-					public void onAuthError(LIAuthError error) {
-						setUpdateState();
-
-						Toast.makeText(getApplicationContext(),
-								"failed " + error.toString(), Toast.LENGTH_LONG)
-								.show();
-					}
-				}, true);
-	}
+//	public void SignInLinkedIn() {
+//		LISessionManager.getInstance(getApplicationContext()).init(
+//				this, buildScope(), new AuthListener() {
+//					@Override
+//					public void onAuthSuccess() {
+//						setUpdateState();
+//
+//						APIHelper apiHelper = APIHelper.getInstance(getApplicationContext());
+//						apiHelper.getRequest(ActivityTutorials.this, topCardUrl,
+//								new ApiListener() {
+//									@Override
+//									public void onApiSuccess(ApiResponse s) {
+//
+//										System.out.println("linked in response " + s.getResponseDataAsJson());
+//
+//										FragmentSignIn fragment = (FragmentSignIn) getSupportFragmentManager().findFragmentById(R.id.pager);
+//
+//										try {
+//											fragment.callLinkedPlusLink(
+//													s.getResponseDataAsJson().getString("firstName"),
+//													"", s.getResponseDataAsJson().getString("id"),
+//													s.getResponseDataAsJson().getString("emailAddress"));
+//										} catch (JSONException e) {
+//											AppLogger.log(TAG, e);
+//										}
+//
+//									}
+//
+//									@Override
+//									public void onApiError(LIApiError error) {
+//                                        AppLogger.log(TAG, error);
+//									}
+//								});
+//
+//					}
+//
+//					@Override
+//					public void onAuthError(LIAuthError error) {
+//						setUpdateState();
+//
+//						Toast.makeText(getApplicationContext(),
+//								"failed " + error.toString(), Toast.LENGTH_LONG)
+//								.show();
+//					}
+//				}, true);
+//	}
 
 }

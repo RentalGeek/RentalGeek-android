@@ -163,6 +163,11 @@
             android:screenOrientation="portrait"
             android:label="Cosigner App (4/4)">
         </activity>
+        <activity
+            android:name=".ui.activity.ActivitySignLease"
+            android:screenOrientation="portrait"
+            android:label="Lease">
+        </activity>
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

@@ -1,22 +1,23 @@
 package com.rentalgeek.android.ui.activity;
 
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
-
+import android.content.Intent;
 import com.rentalgeek.android.R;
+import android.support.v4.view.ViewPager;
+import com.rentalgeek.android.pojos.Rental;
+import com.rentalgeek.android.mvp.map.MapView;
+import com.rentalgeek.android.mvp.home.HomeView;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.mvp.home.HomePresenter;
-import com.rentalgeek.android.mvp.home.HomeView;
-import com.rentalgeek.android.mvp.list.rental.RentalListView;
-import com.rentalgeek.android.mvp.map.MapView;
-import com.rentalgeek.android.pojos.Rental;
 import com.rentalgeek.android.ui.adapter.PageAdapter;
 import com.rentalgeek.android.ui.fragment.FragmentMap;
-import com.rentalgeek.android.ui.fragment.FragmentRentalListView;
-import com.rentalgeek.android.ui.view.NonSwipeableViewPager;
 import com.rentalgeek.android.utils.CosignerInviteCaller;
+import com.rentalgeek.android.ui.fragment.FragmentRental;
+import com.rentalgeek.android.ui.view.NonSwipeableViewPager;
+import com.rentalgeek.android.mvp.list.rental.RentalListView;
+import com.rentalgeek.android.ui.fragment.FragmentRentalListView;
 
-public class ActivityHome extends GeekBaseActivity implements Container<ViewPager>, HomeView {
+public class ActivityHome extends GeekBaseActivity implements Container<ViewPager>, HomeView, FragmentRental.OnActivityChangeListener {
 
     private static String TAG = ActivityHome.class.getSimpleName();
     private HomePresenter presenter;
@@ -47,6 +48,8 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
 
         tabLayout.setupWithViewPager(viewPager);
 
+        showProgressDialog(R.string.dialog_msg_loading);
+        
         presenter = new HomePresenter(this);
         presenter.getRentalOfferings(null);
 
@@ -54,6 +57,7 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
         if (SessionManager.Instance.getCurrentUser() != null) {
             new CosignerInviteCaller(this, false).fetchCosignerInvites();
         }
+
 
     }
 
@@ -74,5 +78,15 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
     public void setRentals(Rental[] rentals) {
         mapView.setRentals(rentals);
         rentalListView.setRentals(rentals);
+        hideProgressDialog();
+    }
+
+    @Override 
+    public void showFullRental(Bundle bundle) {
+        if( bundle != null ) {
+            Intent intent = new Intent(this, ActivityRental.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
     }
 }

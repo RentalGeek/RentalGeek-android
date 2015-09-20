@@ -70,7 +70,7 @@ public class RentalAdapter extends ArrayAdapter<Rental>{
         viewHolder.star_imageview.setTag(rental.getId());
         viewHolder.price_textview.setText(String.format("$%d",rental.getMonthlyRent()));
 
-        viewHolder.room_count_textview.setText(String.format("%d Bath, %d BR",rental.getBathroomCount(),rental.getBedroomCount()));
+        viewHolder.room_count_textview.setText(String.format("%d BR, %d Bath",rental.getBedroomCount(),rental.getBathroomCount()));
 
         String format = "%s\n%s, %s %s";
         viewHolder.address_textview.setText(String.format(format,rental.getAddress(),rental.getCity(),rental.getState(),rental.getZipcode()));

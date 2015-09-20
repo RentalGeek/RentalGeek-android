@@ -35,7 +35,6 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
     private MapPresenter presenter;
     private RentalView rentalView;
 
-
     /*
      * Need this for onClick of marker...since google made Marker class final and can not be extended....dumb
      * Idea is to use the auto generated marker Id as an association with the

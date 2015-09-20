@@ -1,9 +1,9 @@
 package com.rentalgeek.android.ui.activity;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
-
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.pojos.Rental;
+import com.rentalgeek.android.mvp.fav.FavView;
 import com.rentalgeek.android.mvp.fav.FavPresenter;
 import com.rentalgeek.android.mvp.fav.FavView;
 import com.rentalgeek.android.mvp.list.rental.RentalListView;
@@ -15,7 +15,6 @@ public class ActivityFavoriteRentals extends GeekBaseActivity implements FavView
     private static final String TAG = ActivityFavoriteRentals.class.getSimpleName();
     private RentalListView rentalListView;
     private FavPresenter presenter;
-    private ProgressDialog loading;
 
     public ActivityFavoriteRentals() {
         super(true, true, true);
@@ -39,17 +38,14 @@ public class ActivityFavoriteRentals extends GeekBaseActivity implements FavView
             getSupportFragmentManager().beginTransaction().replace(R.id.container, (FragmentRentalListView)rentalListView).commit();
         }
         
-        //TODO, rewrite dialog got GeekAbstract Fragment
-        loading = new ProgressDialog(this);
-        loading.setMessage("Loading...");
-        loading.show();
+        showProgressDialog(R.string.dialog_msg_loading);
         presenter.getFavoriteRentals();
     }
 
     @Override
     public void setRentals(Rental[] rentals) {
         rentalListView.setRentals(rentals);
-        loading.dismiss();
+        hideProgressDialog();
     }
 
 }

@@ -17,6 +17,8 @@ public class Rental {
     private String city;
     private String zipcode;
     private String state;
+    private String salesy_description;
+    private String[] scrape_amenities;
 
     public String toString() {
         return String.format("id: %s, starred: %s",id,starred);
@@ -86,5 +88,13 @@ public class Rental {
 
     public String getZipcode() {
         return zipcode;
+    }
+
+    public String getDescription() {
+        return salesy_description;
+    }
+
+    public String[] getAmenities() {
+        return scrape_amenities;
     }
 }

@@ -23,7 +23,6 @@ import com.rentalgeek.android.ui.dialog.manager.GeekDialog;
 
 public class GeekBaseFragment extends Fragment {
     
-    
     public boolean registerWithEventBus = true;
 
     protected AppCompatActivity activity;
@@ -122,6 +121,4 @@ public class GeekBaseFragment extends Fragment {
         args.putInt(Common.DIALOG_MSG_ID, messageResId);
         AppEventBus.post(new AppDialogRequestEvent<AppProgressDialog>(AppProgressDialog.class, args, this, true));
     }
-
-    
 }

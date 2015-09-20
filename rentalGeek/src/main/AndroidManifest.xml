@@ -62,6 +62,7 @@
 
         <activity
             android:name=".ui.activity.ActivityHome"
+            android:label="Home"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -124,7 +125,10 @@
             android:screenOrientation="portrait"
             android:noHistory="true">
         </activity>
-
+        <activity
+            android:name=".ui.activity.ActivityRental"
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name="com.facebook.FacebookActivity"
             android:label="@string/app_name"
@@ -143,10 +147,6 @@
             android:name=".ui.activity.ActivityCosignerApp1"
             android:screenOrientation="portrait"
             android:label="Cosigner App (1/4)">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
         </activity>
         <activity
             android:name=".ui.activity.ActivityCosignerApp2"

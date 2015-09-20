@@ -80,6 +80,8 @@ If you agree to share a Credit Report, we will also use this information to shar
     <string name="cosigner_invite_accept">ACCEPT</string>
     <string name="cosigner_invite_decline">DECLINE</string>
 
+    <string name="apply_text">APPLY</string>
+
     <!--cosigner app-->
     <string-array name="months_array">
         <item> </item>

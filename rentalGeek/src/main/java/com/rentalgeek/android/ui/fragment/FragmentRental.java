@@ -3,8 +3,10 @@ package com.rentalgeek.android.ui.fragment;
 import android.view.View;
 import android.os.Bundle;
 import butterknife.OnClick;
+import android.app.Activity;
 import android.view.ViewGroup;
 import butterknife.InjectView;
+import java.lang.StringBuilder;
 import butterknife.ButterKnife;
 import android.widget.TextView;
 import android.widget.ImageView;
@@ -16,6 +18,7 @@ import com.rentalgeek.android.pojos.Rental;
 import com.rentalgeek.android.mvp.common.StarView;
 import com.rentalgeek.android.mvp.rental.RentalView;
 import com.rentalgeek.android.RentalGeekApplication;
+import com.rentalgeek.android.ui.activity.ActivityHome;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 import com.rentalgeek.android.mvp.rental.RentalPresenter;
 
@@ -23,12 +26,34 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
     
     @InjectView(R.id.price) TextView price_textview;
     @InjectView(R.id.rental_image) ImageView rental_imageview;
-    @InjectView(R.id.bathroom_count) TextView bathroom_count_textview;
-    @InjectView(R.id.bedroom_count) TextView bedroom_count_textview;
-    @InjectView(R.id.street_name) TextView street_name_textview;
+    @InjectView(R.id.room_count) TextView room_count_textview;
+    @InjectView(R.id.address) TextView address_textview;
     @InjectView(R.id.star_image) ImageView star_imageview;
-    
+    @InjectView(R.id.description) TextView description_textview;
+    @InjectView(R.id.amenities) TextView amenities_textview;
+
     private RentalPresenter presenter;
+    private boolean fullView = false;
+    private OnActivityChangeListener listener;
+
+    public interface OnActivityChangeListener {
+        public void showFullRental(Bundle bundle);    
+    }
+    
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        
+        if( activity instanceof ActivityHome ) {
+            try {
+                listener = (OnActivityChangeListener) activity;
+            }
+
+            catch(ClassCastException e) {
+                throw new ClassCastException(activity.toString() + " must implement OnActivityChangeListener");
+            }
+        }
+    }
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -42,27 +67,41 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
         View view = inflater.inflate(R.layout.fragment_rental,container,false);
         ButterKnife.inject(this,view);
         
-        hide();
+        if( ! fullView ) {
+            hide();
 
-        //PreDraw guarantees measuring of screen size.
-        view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
+            //PreDraw guarantees measuring of screen size.
+            view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
                 
-                getView().getViewTreeObserver().removeOnPreDrawListener(this);
+                    getView().getViewTreeObserver().removeOnPreDrawListener(this);
                 
         
-                int screenHeight = RentalGeekApplication.getScreenHeight();
-                ViewGroup.LayoutParams params = getView().getLayoutParams();
-                params.height = screenHeight/2;
+                    int screenHeight = RentalGeekApplication.getScreenHeight();
+                    ViewGroup.LayoutParams params = getView().getLayoutParams();
 
-                getView().setLayoutParams(params);
+                    params.height = screenHeight/2;
+
+                    getView().setLayoutParams(params);
                 
-                return true;
-            }
-        });
-        
+                    return true;
+                }
+            });
+        }
+
+        else {
+
+            Bundle args = getArguments();
+            String rental_id = args.getString("RENTAL_ID");
+            presenter.getRental(rental_id);
+        }
+
         return view;
+    }
+    
+    public void setFullView(boolean fullView) {
+        this.fullView = fullView;
     }
 
     @Override
@@ -92,16 +131,29 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
     @Override
     public void showRental(Rental rental) {
 
-        if( rental == null)
+        if( rental == null )
             return;
         
         String rental_id = rental.getId();
-
-        price_textview.setText(String.format("%d/mo",rental.getMonthlyRent()));
-        bathroom_count_textview.setText(String.format("%d",rental.getBathroomCount()));
-        bedroom_count_textview.setText(String.format("%d",rental.getBedroomCount()));
-        street_name_textview.setText(rental.getHeadline());
         
+        star_imageview.setTag(rental.getId());
+        price_textview.setText(String.format("$%d",rental.getMonthlyRent()));
+
+        room_count_textview.setText(String.format("%d BR, %d Bath",rental.getBedroomCount(),rental.getBathroomCount()));
+
+        address_textview.setText(String.format("%s\n%s, %s %s",rental.getAddress(),rental.getCity(),rental.getState(),rental.getZipcode()));
+ 
+        description_textview.setText(rental.getDescription());
+
+                
+        StringBuilder amenities = new StringBuilder();
+        
+        for(String amenity : rental.getAmenities() ) {
+            amenities.append(String.format("\u2022 %s\n",amenity));
+        }
+
+        amenities_textview.setText(amenities);
+
         Picasso
             .with(getActivity())
             .load(rental.getImageUrl())
@@ -120,12 +172,22 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
         show();
     }
 
+    @OnClick(R.id.rental_image) void onRentalClick() {
+        if( ! fullView ) {
+
+            String rental_id = (String) star_imageview.getTag();
+            Bundle bundle = new Bundle();
+            bundle.putString("RENTAL_ID",rental_id);
+            listener.showFullRental(bundle);            
+        }
+    }
+
     @Override
     public void selectStar() {
         if( rental_imageview != null) {
              Picasso
                 .with(getActivity())
-                .load(R.drawable.star_select)
+                .load(R.drawable.star_full)
                 .into(star_imageview);
         }
     }
@@ -135,7 +197,7 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
         if( rental_imageview != null ) {
               Picasso
                 .with(getActivity())
-                .load(R.drawable.star)
+                .load(R.drawable.star_outline)
                 .into(star_imageview);
         }
     }

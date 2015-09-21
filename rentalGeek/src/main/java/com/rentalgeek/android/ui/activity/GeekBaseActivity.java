@@ -174,7 +174,7 @@ public class GeekBaseActivity extends AppCompatActivity {
     private void showDrawerMenuIcon() {
         final ActionBar ab = getSupportActionBar();
         if (ab != null) {
-            ab.setHomeAsUpIndicator(R.drawable.ic_drawer);
+            ab.setHomeAsUpIndicator(R.drawable.menu_icon);
             ab.setDisplayHomeAsUpEnabled(true);
         }
     }

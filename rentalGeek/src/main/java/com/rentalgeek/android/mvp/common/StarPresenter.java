@@ -23,11 +23,8 @@ public abstract class StarPresenter {
         else {
             boolean starred = RentalCache.getInstance().get(rental_id).isStarred();
  
-            String user_id = SessionManager.Instance.getCurrentUser().id;
-
             if( !starred ) {
-            
-    
+                String user_id = SessionManager.Instance.getCurrentUser().id;
                 selectStar(rental_id,user_id,starView);
             }
 

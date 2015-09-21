@@ -9,7 +9,9 @@ import android.widget.ListView;
 import com.rentalgeek.android.R;
 import android.view.LayoutInflater;
 import com.rentalgeek.android.pojos.Rental;
+import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.ui.adapter.RentalAdapter;
+import com.rentalgeek.android.bus.events.ClickStarEvent;
 import com.rentalgeek.android.mvp.list.rental.RentalListView;
 import com.rentalgeek.android.mvp.list.rental.RentalListPresenter;
 
@@ -27,7 +29,6 @@ public class FragmentRentalListView extends GeekBaseFragment implements RentalLi
         super.onCreate(bundle);
         adapter = new RentalAdapter(getActivity(),R.layout.rental_listview_row);
         presenter = new RentalListPresenter(this);
-        adapter.setPresenter(presenter);
     }
 
     @Override
@@ -39,7 +40,19 @@ public class FragmentRentalListView extends GeekBaseFragment implements RentalLi
         rentalListView.setAdapter(adapter);
         return view;
     }
-    
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        AppEventBus.register(this);
+    }
+
+    @Override
+    public void onStop() {
+        AppEventBus.unregister(this);
+        super.onStop();
+    }
+   
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -50,5 +63,14 @@ public class FragmentRentalListView extends GeekBaseFragment implements RentalLi
     public void setRentals(Rental[] rentals) {
         adapter.clear();
         adapter.addAll(rentals);
+    }
+
+    public void OnEventMainThread(ClickStarEvent event) {
+        
+        if( event.getBundle() != null && event.getBundle().getString("RENTAL_ID") != null) {
+
+            String rental_id = event.getBundle().getString("RENTAL_ID");
+            presenter.select(rental_id,event.getStarView());   
+        }
     }
 }

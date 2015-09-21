@@ -5,6 +5,7 @@ import android.content.Intent;
 import com.rentalgeek.android.R;
 import android.support.v4.view.ViewPager;
 import com.rentalgeek.android.pojos.Rental;
+import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.mvp.map.MapView;
 import com.rentalgeek.android.mvp.home.HomeView;
 import com.rentalgeek.android.api.SessionManager;
@@ -13,11 +14,12 @@ import com.rentalgeek.android.ui.adapter.PageAdapter;
 import com.rentalgeek.android.ui.fragment.FragmentMap;
 import com.rentalgeek.android.utils.CosignerInviteCaller;
 import com.rentalgeek.android.ui.fragment.FragmentRental;
+import com.rentalgeek.android.bus.events.ClickRentalEvent;
 import com.rentalgeek.android.ui.view.NonSwipeableViewPager;
 import com.rentalgeek.android.mvp.list.rental.RentalListView;
 import com.rentalgeek.android.ui.fragment.FragmentRentalListView;
 
-public class ActivityHome extends GeekBaseActivity implements Container<ViewPager>, HomeView, FragmentRental.OnActivityChangeListener {
+public class ActivityHome extends GeekBaseActivity implements Container<ViewPager>, HomeView {
 
     private static String TAG = ActivityHome.class.getSimpleName();
     private HomePresenter presenter;
@@ -48,11 +50,9 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
 
         tabLayout.setupWithViewPager(viewPager);
 
-        showProgressDialog(R.string.dialog_msg_loading);
         
         presenter = new HomePresenter(this);
-        presenter.getRentalOfferings(null);
-
+        
         // silently fetch cosigner invites to know which page to go to
         if (SessionManager.Instance.getCurrentUser() != null) {
             new CosignerInviteCaller(this, false).fetchCosignerInvites();
@@ -62,10 +62,19 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
+        showProgressDialog(R.string.dialog_msg_loading);
+        AppEventBus.register(this);
+        presenter.getRentalOfferings(null);
     }
-    
+
+    @Override
+    public void onStop() {
+        AppEventBus.unregister(this);
+        super.onStop();
+    }
+
     @Override
     public void setupContainer(ViewPager container) {
         PageAdapter adapter = new PageAdapter(getSupportFragmentManager());
@@ -80,9 +89,11 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
         rentalListView.setRentals(rentals);
         hideProgressDialog();
     }
+    
+    public void onEventMainThread(ClickRentalEvent event) {
+        
+        Bundle bundle = event.getBundle();
 
-    @Override 
-    public void showFullRental(Bundle bundle) {
         if( bundle != null ) {
             Intent intent = new Intent(this, ActivityRental.class);
             intent.putExtras(bundle);

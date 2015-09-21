@@ -1,13 +1,14 @@
 package com.rentalgeek.android.ui.activity;
 
 import android.os.Bundle;
+import android.content.Intent;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.pojos.Rental;
 import com.rentalgeek.android.mvp.fav.FavView;
+import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.mvp.fav.FavPresenter;
-import com.rentalgeek.android.mvp.fav.FavView;
+import com.rentalgeek.android.bus.events.ClickRentalEvent;
 import com.rentalgeek.android.mvp.list.rental.RentalListView;
-import com.rentalgeek.android.pojos.Rental;
 import com.rentalgeek.android.ui.fragment.FragmentRentalListView;
 
 public class ActivityFavoriteRentals extends GeekBaseActivity implements FavView {
@@ -38,8 +39,21 @@ public class ActivityFavoriteRentals extends GeekBaseActivity implements FavView
             getSupportFragmentManager().beginTransaction().replace(R.id.container, (FragmentRentalListView)rentalListView).commit();
         }
         
-        showProgressDialog(R.string.dialog_msg_loading);
         presenter.getFavoriteRentals();
+    }
+    
+    @Override
+    public void onStart() {
+        super.onStart();
+        showProgressDialog(R.string.dialog_msg_loading);
+        AppEventBus.register(this);
+        presenter.getFavoriteRentals();
+    }
+
+    @Override
+    public void onStop() {
+        AppEventBus.unregister(this);
+        super.onStop();
     }
 
     @Override
@@ -48,4 +62,14 @@ public class ActivityFavoriteRentals extends GeekBaseActivity implements FavView
         hideProgressDialog();
     }
 
+    public void onEventMainThread(ClickRentalEvent event) {
+        
+        Bundle bundle = event.getBundle();
+
+        if( bundle != null ) {
+            Intent intent = new Intent(this, ActivityRental.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
+    }
 }

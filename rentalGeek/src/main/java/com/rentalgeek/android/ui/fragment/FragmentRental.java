@@ -15,12 +15,14 @@ import android.view.LayoutInflater;
 import com.squareup.picasso.Picasso;
 import android.view.ViewTreeObserver;
 import com.rentalgeek.android.pojos.Rental;
+import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.mvp.common.StarView;
 import com.rentalgeek.android.mvp.rental.RentalView;
 import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 import com.rentalgeek.android.mvp.rental.RentalPresenter;
+import com.rentalgeek.android.bus.events.ClickRentalEvent;
 
 public class FragmentRental extends GeekBaseFragment implements RentalView, StarView {
     
@@ -34,26 +36,6 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
 
     private RentalPresenter presenter;
     private boolean fullView = false;
-    private OnActivityChangeListener listener;
-
-    public interface OnActivityChangeListener {
-        public void showFullRental(Bundle bundle);    
-    }
-    
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        
-        if( activity instanceof ActivityHome ) {
-            try {
-                listener = (OnActivityChangeListener) activity;
-            }
-
-            catch(ClassCastException e) {
-                throw new ClassCastException(activity.toString() + " must implement OnActivityChangeListener");
-            }
-        }
-    }
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -178,7 +160,8 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
             String rental_id = (String) star_imageview.getTag();
             Bundle bundle = new Bundle();
             bundle.putString("RENTAL_ID",rental_id);
-            listener.showFullRental(bundle);            
+
+            AppEventBus.post(new ClickRentalEvent(bundle));
         }
     }
 

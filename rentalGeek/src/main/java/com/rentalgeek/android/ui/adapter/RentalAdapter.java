@@ -2,6 +2,7 @@ package com.rentalgeek.android.ui.adapter;
 
 import java.util.List;
 import android.view.View;
+import android.os.Bundle;
 import java.util.LinkedList;
 import android.view.ViewGroup;
 import butterknife.InjectView;
@@ -14,24 +15,22 @@ import android.widget.ArrayAdapter;
 import android.view.LayoutInflater;
 import com.squareup.picasso.Picasso;
 import com.rentalgeek.android.pojos.Rental;
+import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.mvp.common.StarView;
 import com.rentalgeek.android.RentalGeekApplication;
+import com.rentalgeek.android.bus.events.ClickStarEvent;
+import com.rentalgeek.android.bus.events.ClickRentalEvent;
 import com.rentalgeek.android.mvp.list.rental.RentalListPresenter;
 
 public class RentalAdapter extends ArrayAdapter<Rental>{
     
     private int rowLayoutResourceId;
-    private RentalListPresenter presenter;
 
     public RentalAdapter(Context context,int rowLayoutResourceId) {
         super(context, rowLayoutResourceId);
         this.rowLayoutResourceId = rowLayoutResourceId;
     }
     
-    public void setPresenter(RentalListPresenter presenter) {
-        this.presenter = presenter;
-    }
-
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         
@@ -43,7 +42,7 @@ public class RentalAdapter extends ArrayAdapter<Rental>{
             LayoutInflater inflater = LayoutInflater.from(RentalGeekApplication.context);
             view = inflater.inflate(rowLayoutResourceId, parent, false);
        
-            viewHolder = new ViewHolder(view, presenter);
+            viewHolder = new ViewHolder(view);
             view.setTag(viewHolder);
         }
 
@@ -91,12 +90,10 @@ public class RentalAdapter extends ArrayAdapter<Rental>{
         @InjectView(R.id.room_count) TextView room_count_textview;
         @InjectView(R.id.address) TextView address_textview;
         
-        private RentalListPresenter presenter;
-
-        public ViewHolder(View view, RentalListPresenter presenter) {
+        public ViewHolder(View view) {
                 ButterKnife.inject(this,view);
-                this.presenter = presenter;
                 star_imageview.setOnClickListener(this);
+                rental_imageview.setOnClickListener(this);
         }
 
         @Override
@@ -118,11 +115,27 @@ public class RentalAdapter extends ArrayAdapter<Rental>{
                     .into(star_imageview);
             }
         }
-        
+
         @Override
         public void onClick(View view) {
-                String rental_id = (String) view.getTag();
-                presenter.select(rental_id, this);
+                switch( view.getId() ) {
+                    
+                    case R.id.rental_imageview:
+                        String rental_id = (String) star_imageview.getTag();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("RENTAL_ID",rental_id);
+                        AppEventBus.post(new ClickRentalEvent(bundle));
+                        break;
+                    
+                    case R.id.star_imageview:
+                        rental_id = (String) star_imageview.getTag();
+                        bundle = new Bundle();
+                        bundle.putString("RENTAL_ID",rental_id);
+                        AppEventBus.post(new ClickStarEvent(bundle,this));
+                        break;
+                    default:
+                        break;
+                }
         }
     }
 }

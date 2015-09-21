@@ -44,6 +44,7 @@ If you agree to share a Credit Report, we will also use this information to shar
     <string name="roommates">Roommates</string>
     <string name="payment">Payment</string>
     <string name="cosigner">Cosigner</string>
+    <string name="your_cosigner">Your Cosigner</string>
     <string name="geek_vision_tm">Geek Vision™</string>
     <string name="settings">Settings</string>
     <string name="logout">Logout</string>

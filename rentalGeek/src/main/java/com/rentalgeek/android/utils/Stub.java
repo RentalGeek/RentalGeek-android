@@ -55,15 +55,15 @@ public class Stub {
         roommate22.cosigner_full_name = "Random Guy";
         roommate22.lease_signed_on = "08/11/2015";
         roommate22.cosigner_lease_signed_on = "08/12/2015";
-        roommates.add(roommate21);
-        roommates.add(roommate22);
+        roommates2.add(roommate21);
+        roommates2.add(roommate22);
 
         PropertyContactInfo propertyContactInfo2 = new PropertyContactInfo("Spring Properties", "info@springproperties.com", "(000) 555-1212");
 
         Address address2 = new Address("2129 Walnut Dr.", "Manhattan", "KS", "66502");
 
         ApplicationItem applicationItem2 = new ApplicationItem();
-        applicationItem2.setAddress(address);
+        applicationItem2.setAddress(address2);
         applicationItem2.setMonthlyCost(920);
         applicationItem2.setNumBedrooms(2);
         applicationItem2.setNumBathrooms(1);

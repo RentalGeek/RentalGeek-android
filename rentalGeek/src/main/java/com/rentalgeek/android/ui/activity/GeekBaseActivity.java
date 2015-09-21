@@ -274,6 +274,9 @@ public class GeekBaseActivity extends AppCompatActivity {
                     case R.id.cosigner:
                         decideWhichCosignScreenToShow();
                         return true;
+                    case R.id.your_cosigner:
+                        Navigation.navigateActivity(activity, ActivityYourCosigner.class);
+                        return true;
                     case R.id.logout:
                         SessionManager.Instance.onUserLoggedOut();
                         Navigation.navigateActivity(activity, ActivityLogin.class, true);

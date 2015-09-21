@@ -21,7 +21,10 @@
             android:title="@string/payment" />
         <item
             android:id="@+id/cosigner"
-            android:title="Cosigner" />
+            android:title="@string/cosigner" />
+        <item
+            android:id="@+id/your_cosigner"
+            android:title="@string/your_cosigner" />
         <item
             android:id="@+id/geek_vision"
             android:title="@string/geek_vision_tm" />

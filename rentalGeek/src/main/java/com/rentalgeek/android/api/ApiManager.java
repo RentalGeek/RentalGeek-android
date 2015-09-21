@@ -41,6 +41,10 @@ public class ApiManager {
         return API_HOST + "/cosigner_invites";
     }
 
+    public static String deleteAccount(String userId) {
+        return API_HOST + "/users/" + userId;
+    }
+
     public static String getAcceptCosignerInviteUrl(int inviteId) {
         return getCosignerInvitesUrl() + "/" + inviteId + "/accept";
     }
@@ -101,8 +105,6 @@ public class ApiManager {
     public static String getPayments() {
         return API_HOST + "/payments";
     }
-
-
 
     public static String getProfile(String id) {
         String url = API_HOST + "/profiles";

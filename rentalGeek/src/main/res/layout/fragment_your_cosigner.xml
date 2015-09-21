@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -11,77 +12,117 @@
         android:layout_height="match_parent"
         android:focusableInTouchMode="true">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/light_creme"
-            android:padding="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textColor="@color/light_black"
-                android:text="Add a Cosigner"
-                android:textSize="18sp"
-                android:layout_gravity="center"/>
-
-        </FrameLayout>
-
+        <!--show this layout if user does not have a cosigner-->
         <LinearLayout
+            android:id="@+id/no_cosigner_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp">
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="First &amp; Last Name (Mandatory)"
-                android:textSize="14sp"
-                android:textColor="@color/blue"/>
-
-            <EditText
-                android:id="@+id/first_and_last_name_edittext"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:textCursorDrawable="@null"
-                android:padding="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/thin_border"/>
-
-            <TextView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="Email Address (Mandatory)"
-                android:textSize="14sp"
-                android:textColor="@color/blue"/>
+                android:background="@color/light_creme"
+                android:padding="20dp">
 
-            <EditText
-                android:id="@+id/email_edittext"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textColor="@color/light_black"
+                    android:text="Add a Cosigner"
+                    android:textSize="18sp"
+                    android:layout_gravity="center"/>
+
+            </FrameLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:textCursorDrawable="@null"
-                android:padding="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/thin_border"/>
-
-            <Button
-                android:id="@+id/add_button"
-                android:layout_width="140dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="50dp"
-                android:background="@drawable/continue_bg"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:text="ADD"
-                android:layout_gravity="center_horizontal"/>
+                android:orientation="vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="First &amp; Last Name (Mandatory)"
+                    android:textSize="14sp"
+                    android:textColor="@color/blue"/>
+
+                <EditText
+                    android:id="@+id/first_and_last_name_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:textCursorDrawable="@null"
+                    android:padding="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/thin_border"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Email Address (Mandatory)"
+                    android:textSize="14sp"
+                    android:textColor="@color/blue"/>
+
+                <EditText
+                    android:id="@+id/email_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:textCursorDrawable="@null"
+                    android:padding="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/thin_border"/>
+
+            </LinearLayout>
+
+            <!--end layout for no cosigner-->
         </LinearLayout>
+
+        <!--show if user already has a cosigner-->
+        <LinearLayout
+            android:id="@+id/has_cosigner_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/x_icon"
+                android:layout_marginRight="15dp"
+                android:background="@null"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="John Johnson (Approved)"
+                android:textSize="14sp"
+                android:textColor="@color/blue"
+                />
+
+            <!--end layout for user already has cosigner-->
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/add_button"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="50dp"
+            android:background="@drawable/continue_bg"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:text="ADD"
+            android:layout_gravity="center_horizontal"/>
 
     </LinearLayout>
 

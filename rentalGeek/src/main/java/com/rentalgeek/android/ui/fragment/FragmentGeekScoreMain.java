@@ -61,7 +61,10 @@ public class FragmentGeekScoreMain extends GeekBaseFragment {
 	}
 
 	private void CheckPaymentf() {
-		GlobalFunctions.getApiCall(getActivity(), ApiManager.getPropertySearchUrl("starred=true"),
+
+        String url = ApiManager.getPropertySearchUrl();
+        url += "starred=true";
+		GlobalFunctions.getApiCall(getActivity(), url,
 				AppPreferences.getAuthToken(),
 				new GeekHttpResponseHandler() {
 

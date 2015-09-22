@@ -3,12 +3,19 @@ package com.rentalgeek.android.mvp.home;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
+
 import com.rentalgeek.android.api.ApiManager;
+
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
+
 import com.rentalgeek.android.pojos.Rental;
+
 import com.rentalgeek.android.ui.preference.AppPreferences;
+
 import com.rentalgeek.android.utils.GeekGson;
+
+import com.rentalgeek.android.storage.RentalCache;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -23,25 +30,31 @@ public class HomePresenter implements Presenter {
         this.homeView = homeView;
     }
 
-    @Override public void getRentalOfferings(LatLng location) {
-        if( location == null) {
-            String url = ApiManager.getPropertySearchUrl("");
-            String token = AppPreferences.getAuthToken();
+    @Override public void getRentalOfferings() {
+        String url = ApiManager.getPropertySearchUrl();
+        String token = AppPreferences.getAuthToken();
             
-            GlobalFunctions.getApiCall(null,url,token,new GeekHttpResponseHandler() {
-                @Override public void onStart() {}
+        GlobalFunctions.getApiCall(null,url,token,new GeekHttpResponseHandler() {
+            @Override public void onStart() {}
 
-                @Override public void onFinish() {}
+            @Override public void onFinish() {}
 
-                @Override public void onSuccess(String response) {
+            @Override public void onSuccess(String response) {
                     
-                    try {
+                try {
                         JSONObject json = new JSONObject(response);
                         JSONArray rentalOfferings = json.getJSONArray("rental_offerings");
 
                         Rental[] rentals = GeekGson.getInstance().fromJson(rentalOfferings.toString(),Rental[].class);
                         
                         if( rentals != null && rentals.length > 0 ) {
+ 
+                            System.out.println(String.format("Found %d rentals based on query.",rentals.length));
+
+                            for(Rental rental : rentals) {
+                                RentalCache.getInstance().add(rental);
+                            }
+
                             homeView.setRentals(rentals);
                         }
                     }
@@ -51,8 +64,7 @@ public class HomePresenter implements Presenter {
                     }
                 }
 
-                @Override public void onAuthenticationFailed() {}
-            });
-        }
+            @Override public void onAuthenticationFailed() {}
+        });
     }
 }

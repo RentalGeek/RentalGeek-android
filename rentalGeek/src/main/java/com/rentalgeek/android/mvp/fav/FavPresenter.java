@@ -6,6 +6,7 @@ import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.pojos.Rental;
+import com.rentalgeek.android.storage.RentalCache;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.GeekGson;
 
@@ -25,10 +26,10 @@ public class FavPresenter implements Presenter {
 
     @Override
     public void getFavoriteRentals() {
-        String url = ApiManager.getPropertySearchUrl("");
+        String url = ApiManager.getPropertySearchUrl();
         String token = AppPreferences.getAuthToken();
         
-        url = String.format("%s?starred=true",url);
+        url = String.format("%sstarred=true",url);
 
         GlobalFunctions.getApiCall(null,url,token,new GeekHttpResponseHandler() {
             @Override public void onStart() {}
@@ -43,6 +44,11 @@ public class FavPresenter implements Presenter {
                         Rental[] rentals = GeekGson.getInstance().fromJson(rentalOfferings.toString(),Rental[].class);
                         
                         if( rentals != null && rentals.length > 0 ) {
+
+                            for( Rental rental : rentals) {
+                                RentalCache.getInstance().add(rental);
+                            }
+
                             favView.setRentals(rentals);
                         }
                     }

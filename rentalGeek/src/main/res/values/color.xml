@@ -10,4 +10,7 @@
     <color name="red">#ff0000</color>
     <color name="decline_gray">#aaaaaa</color>
     <color name="fading_black">#20000000</color>
+    <color name="fading_white">#a6ffffff</color>
+    <color name="light_grey">#8d8d8d</color>
+    <color name="grey">#cacaca</color>
 </resources>

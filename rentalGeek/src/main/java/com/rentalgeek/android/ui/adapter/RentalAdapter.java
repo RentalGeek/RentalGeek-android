@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 public class RentalAdapter extends ArrayAdapter<Rental>{
     
@@ -82,7 +83,7 @@ public class RentalAdapter extends ArrayAdapter<Rental>{
     }
 
 
-    static class ViewHolder implements View.OnClickListener, StarView{
+    static class ViewHolder implements StarView {
         @InjectView(R.id.rental_imageview) ImageView rental_imageview;
         @InjectView(R.id.star_imageview) ImageView star_imageview;
         @InjectView(R.id.price) TextView price_textview;
@@ -91,8 +92,6 @@ public class RentalAdapter extends ArrayAdapter<Rental>{
         
         public ViewHolder(View view) {
                 ButterKnife.inject(this,view);
-                star_imageview.setOnClickListener(this);
-                rental_imageview.setOnClickListener(this);
         }
 
         @Override
@@ -115,26 +114,21 @@ public class RentalAdapter extends ArrayAdapter<Rental>{
             }
         }
 
-        @Override
-        public void onClick(View view) {
-                switch( view.getId() ) {
-                    
-                    case R.id.rental_imageview:
-                        String rental_id = (String) star_imageview.getTag();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("RENTAL_ID",rental_id);
-                        AppEventBus.post(new ClickRentalEvent(bundle));
-                        break;
-                    
-                    case R.id.star_imageview:
-                        rental_id = (String) star_imageview.getTag();
-                        bundle = new Bundle();
-                        bundle.putString("RENTAL_ID",rental_id);
-                        AppEventBus.post(new ClickStarEvent(bundle,this));
-                        break;
-                    default:
-                        break;
-                }
+        @OnClick(R.id.rental_imageview)
+        public void OnRentalClick() {
+            String rental_id = (String) star_imageview.getTag();
+            Bundle bundle = new Bundle();
+            bundle.putString("RENTAL_ID",rental_id);
+            AppEventBus.post(new ClickRentalEvent(bundle));
+        }
+
+        @OnClick(R.id.star_imageview)
+        public void onStarClick() {
+            String rental_id = (String) star_imageview.getTag();
+            Bundle bundle = new Bundle();
+            bundle = new Bundle();
+            bundle.putString("RENTAL_ID",rental_id);
+            AppEventBus.post(new ClickStarEvent(bundle,this));
         }
     }
 }

@@ -19,6 +19,8 @@ import com.rentalgeek.android.ui.fragment.FragmentRentalListView;
 import com.rentalgeek.android.ui.view.NonSwipeableViewPager;
 import com.rentalgeek.android.utils.CosignerInviteCaller;
 
+import android.support.v4.widget.DrawerLayout;
+
 public class ActivityHome extends GeekBaseActivity implements Container<ViewPager>, HomeView {
 
     private static String TAG = ActivityHome.class.getSimpleName();
@@ -57,8 +59,8 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
         if (SessionManager.Instance.getCurrentUser() != null) {
             new CosignerInviteCaller(this, false).fetchCosignerInvites();
         }
-
-
+     
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 
     @Override
@@ -66,7 +68,7 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
         super.onStart();
         showProgressDialog(R.string.dialog_msg_loading);
         AppEventBus.register(this);
-        presenter.getRentalOfferings(null);
+        presenter.getRentalOfferings();
     }
 
     @Override

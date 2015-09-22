@@ -17,8 +17,12 @@ public class ApiManager {
         return API_HOST + "/users/" + uid;
     }
 
-    public static String getPropertySearchUrl(String location) {
-        return API_HOST + "/rental_offerings.json?" + location;
+    public static String getPropertySearchUrl() {
+        return API_HOST + "/rental_offerings.json";
+    }
+ 
+    public static String getPropertySearchUrl(String parameters) {
+        return String.format("%s%s%s",API_HOST,"/rental_offerings.json?",parameters);
     }
 
     public static String getApplyUrl() {

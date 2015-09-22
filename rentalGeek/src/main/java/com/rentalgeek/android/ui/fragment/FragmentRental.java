@@ -34,13 +34,13 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
 
     private RentalPresenter presenter;
     private boolean fullView = false;
+    private String rental_id;
 
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         presenter = new RentalPresenter(this);
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
@@ -70,18 +70,22 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
             });
         }
 
-        else {
-
-            Bundle args = getArguments();
-            String rental_id = args.getString("RENTAL_ID");
-            presenter.getRental(rental_id);
-        }
-
         return view;
     }
     
     public void setFullView(boolean fullView) {
         this.fullView = fullView;
+    }
+    
+    @Override
+    public void onStart() {
+        super.onStart();       
+            if( getArguments() != null ) {
+                Bundle args = getArguments();
+                rental_id = args.getString("RENTAL_ID");
+            }
+            
+            presenter.getRental(rental_id);
     }
 
     @Override
@@ -114,7 +118,7 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
         if( rental == null )
             return;
         
-        String rental_id = rental.getId();
+        rental_id = rental.getId();
         
         star_imageview.setTag(rental.getId());
         price_textview.setText(String.format("$%d",rental.getMonthlyRent()));
@@ -147,15 +151,12 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
             unselectStar();
         }
 
-        star_imageview.setTag(rental_id);
-
         show();
     }
 
     @OnClick(R.id.rental_image) void onRentalClick() {
         if( ! fullView ) {
 
-            String rental_id = (String) star_imageview.getTag();
             Bundle bundle = new Bundle();
             bundle.putString("RENTAL_ID",rental_id);
 
@@ -185,7 +186,6 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
     
     @OnClick(R.id.star_image)
     public void star(View view) {
-        String rental_id = (String) star_imageview.getTag();
         presenter.select(rental_id,this);
     }
 }

@@ -1,7 +1,7 @@
 package com.rentalgeek.android.model;
 
-import com.rentalgeek.android.pojos.Rental;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.rentalgeek.android.pojos.Rental;
 
 //Since Google doesnt let me extend MarkerOptions
 public class RentalMarker {

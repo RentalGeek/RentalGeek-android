@@ -1,6 +1,7 @@
 package com.rentalgeek.android.storage;
 
 import android.support.v4.util.LruCache;
+
 import com.rentalgeek.android.pojos.Rental;
 
 public class RentalCache {

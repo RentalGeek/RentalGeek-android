@@ -5,8 +5,8 @@ import android.support.v4.view.ViewPager;
 
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.ui.adapter.PageAdapter;
-import com.rentalgeek.android.ui.fragment.FragmentPendingProperties;
 import com.rentalgeek.android.ui.fragment.FragmentApprovedProperties;
+import com.rentalgeek.android.ui.fragment.FragmentPendingProperties;
 
 /**
  * Created by rajohns on 9/12/15.

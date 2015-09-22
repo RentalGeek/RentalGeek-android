@@ -1,10 +1,9 @@
 package com.rentalgeek.android.utils;
 
-import com.rentalgeek.android.R;
-import android.graphics.BitmapFactory;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.rentalgeek.android.R;
 
 public class MarkerUtils {
     

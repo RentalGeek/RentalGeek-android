@@ -1,6 +1,7 @@
 package com.rentalgeek.android.bus.events;
 
 import android.os.Bundle;
+
 import com.rentalgeek.android.mvp.common.StarView;
 
 public class ClickStarEvent {

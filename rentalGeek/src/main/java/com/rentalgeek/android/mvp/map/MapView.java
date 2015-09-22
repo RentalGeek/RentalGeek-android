@@ -1,8 +1,7 @@
 package com.rentalgeek.android.mvp.map;
 
-import com.rentalgeek.android.pojos.Rental;
 import com.rentalgeek.android.model.RentalMarker;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.rentalgeek.android.pojos.Rental;
 
 public interface MapView {
     public void addMarker(RentalMarker marker);

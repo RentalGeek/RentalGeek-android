@@ -1,28 +1,26 @@
 package com.rentalgeek.android.ui.fragment;
 
-import android.view.View;
 import android.os.Bundle;
-import butterknife.OnClick;
-import android.app.Activity;
-import android.view.ViewGroup;
-import butterknife.InjectView;
-import java.lang.StringBuilder;
-import butterknife.ButterKnife;
-import android.widget.TextView;
-import android.widget.ImageView;
-import com.rentalgeek.android.R;
 import android.view.LayoutInflater;
-import com.squareup.picasso.Picasso;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import com.rentalgeek.android.pojos.Rental;
-import com.rentalgeek.android.bus.AppEventBus;
-import com.rentalgeek.android.mvp.common.StarView;
-import com.rentalgeek.android.mvp.rental.RentalView;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.rentalgeek.android.R;
 import com.rentalgeek.android.RentalGeekApplication;
-import com.rentalgeek.android.ui.activity.ActivityHome;
-import android.view.ViewTreeObserver.OnPreDrawListener;
-import com.rentalgeek.android.mvp.rental.RentalPresenter;
+import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.ClickRentalEvent;
+import com.rentalgeek.android.mvp.common.StarView;
+import com.rentalgeek.android.mvp.rental.RentalPresenter;
+import com.rentalgeek.android.mvp.rental.RentalView;
+import com.rentalgeek.android.pojos.Rental;
+import com.squareup.picasso.Picasso;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
 
 public class FragmentRental extends GeekBaseFragment implements RentalView, StarView {
     

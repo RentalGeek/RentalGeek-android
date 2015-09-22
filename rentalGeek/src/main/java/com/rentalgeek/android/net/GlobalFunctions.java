@@ -3,6 +3,7 @@ package com.rentalgeek.android.net;
 
 import android.content.Context;
 import android.text.TextUtils;
+
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;

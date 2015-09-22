@@ -1,15 +1,17 @@
 package com.rentalgeek.android.mvp.home;
 
 import android.util.Log;
-import org.json.JSONObject;
-import org.json.JSONArray;
-import com.rentalgeek.android.pojos.Rental;
-import com.rentalgeek.android.api.ApiManager;
-import com.rentalgeek.android.utils.GeekGson;
+
 import com.google.android.gms.maps.model.LatLng;
-import com.rentalgeek.android.net.GlobalFunctions;
-import com.rentalgeek.android.ui.preference.AppPreferences;
+import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.pojos.Rental;
+import com.rentalgeek.android.ui.preference.AppPreferences;
+import com.rentalgeek.android.utils.GeekGson;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class HomePresenter implements Presenter {
     

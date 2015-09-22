@@ -1,8 +1,8 @@
 package com.rentalgeek.android.ui.activity;
 
 import android.os.Bundle;
+
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.pojos.Rental;
 import com.rentalgeek.android.mvp.rental.RentalView;
 import com.rentalgeek.android.ui.fragment.FragmentRental;
 

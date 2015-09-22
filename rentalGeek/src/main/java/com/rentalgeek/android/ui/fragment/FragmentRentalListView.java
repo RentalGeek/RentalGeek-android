@@ -1,19 +1,21 @@
 package com.rentalgeek.android.ui.fragment;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import butterknife.InjectView;
-import butterknife.ButterKnife;
 import android.widget.ListView;
+
 import com.rentalgeek.android.R;
-import android.view.LayoutInflater;
-import com.rentalgeek.android.pojos.Rental;
 import com.rentalgeek.android.bus.AppEventBus;
-import com.rentalgeek.android.ui.adapter.RentalAdapter;
 import com.rentalgeek.android.bus.events.ClickStarEvent;
-import com.rentalgeek.android.mvp.list.rental.RentalListView;
 import com.rentalgeek.android.mvp.list.rental.RentalListPresenter;
+import com.rentalgeek.android.mvp.list.rental.RentalListView;
+import com.rentalgeek.android.pojos.Rental;
+import com.rentalgeek.android.ui.adapter.RentalAdapter;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 
 public class FragmentRentalListView extends GeekBaseFragment implements RentalListView {

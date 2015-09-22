@@ -7,8 +7,6 @@ import org.apache.http.client.HttpResponseException;
 
 import java.net.HttpURLConnection;
 
-import android.util.Log;
-
 public class GeekHttpResponseHandler extends AsyncHttpResponseHandler {
  
     private static final String TAG = GeekHttpResponseHandler.class.getSimpleName();

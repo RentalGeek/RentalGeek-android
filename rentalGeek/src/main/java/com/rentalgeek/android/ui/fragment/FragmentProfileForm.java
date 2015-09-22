@@ -661,7 +661,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                     if (SessionManager.Instance.hasPayed()) {
 
                         Navigation.navigateActivity(getActivity(), ActivityGeekScore.class);
-                        //nextfragment(new FragmentFinalGeekScore(), false, R.id.container);
 
                     } else {
                         AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
@@ -673,7 +672,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
                                         Navigation.navigateActivity(activity, ActivityGeekScore.class, true);
-                                        //nextfragment(new FragmentGeekScoreMain(), false, R.id.container);
                                     }
                                 });
 
@@ -707,12 +705,10 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                     System.out.println("profile id is " + detail.profile.id);
                     //callPatchUpdateLink(detail.profile.id);
                     toast("Profile Updated Successfully");
-                    //hidekey();
 
                     if (SessionManager.Instance.hasPayed()) {
 
                         Navigation.navigateActivity(getActivity(), ActivityGeekScore.class);
-                        //nextfragment(new FragmentFinalGeekScore(), false, R.id.container);
 
                     } else {
                         AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
@@ -724,7 +720,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
                                         Navigation.navigateActivity(activity, ActivityGeekScore.class, true);
-                                        //nextfragment(new FragmentGeekScoreMain(), false, R.id.container);
                                     }
                                 });
 
@@ -987,55 +982,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
     }
 
-/*    @Override
-    public void error(String response, int value) {
-
-        if (value == 2 || value == 1) {
-            try {
-                ErrorObj sess = (new Gson()).fromJson(response, ErrorObj.class);
-
-                switch(position) {
-                    case 1:
-                        toasts("Birth Date", sess.errors.born_on);
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        toasts("Emergency Contact", sess.errors.emergency_contact_phone_number);
-                        break;
-                    case 4:
-                        toasts("Current Home Move-in Date", sess.errors.current_home_moved_in_on);
-                        break;
-                    case 5:
-                        toasts("Previous Home Date", sess.errors.previous_home_moved_in_on);
-                        break;
-                    case 6:
-                        toasts("Phone Number", sess.errors.phone_number);
-                        toasts("Birth Date", sess.errors.born_on);
-                        toasts("Emergency Contact", sess.errors.emergency_contact_phone_number);
-                        toasts("Current Home Move-in Date", sess.errors.current_home_moved_in_on);
-                        toasts("Previous Home Date", sess.errors.previous_home_moved_in_on);
-
-                        toasts("Previous Employer Email", sess.errors.previous_employment_employer_email_address);
-                        toasts("Previous Employer Phone", sess.errors.previous_employment_employer_phone_number);
-                        toasts("Employer Email", sess.errors.current_employment_employer_email_address);
-                        toasts("Employer Phone", sess.errors.current_employment_employer_phone_number);
-                        toasts("Cosigner Email Address", sess.errors.cosigner_email_address);
-                        toasts("Move-in Date", sess.errors.desires_to_move_in_on);
-                        break;
-                }
-
-                toasts("SSN", sess.errors.ssn);
-
-            } catch (Exception e) {
-                AppLogger.log(TAG, e);
-            }
-        } else {
-
-        }
-
-    }*/
-
     private void toasts(String field, List<String> message) {
 
         try {
@@ -1089,8 +1035,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
             failedView.requestFocus();
             ((EditText) failedView).setError(message);
         } else {
-            // Toast.makeText(getActivity(), message,
-            // Toast.LENGTH_SHORT).show();
             toast(message);
             if (failedView instanceof Spinner) {
                 ((Spinner) failedView).requestFocusFromTouch();
@@ -1242,7 +1186,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
                         }
                     });
-            //asynkhttp(params, 1, url, AppPreferences.getAuthToken(), true);
 
         } catch (Exception e) {
             AppLogger.log(TAG, e);
@@ -1282,7 +1225,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
                     }
                 });
-        //asynkhttpGet(3, url, AppPreferences.getAuthToken(), true);
     }
 
     // email checking function

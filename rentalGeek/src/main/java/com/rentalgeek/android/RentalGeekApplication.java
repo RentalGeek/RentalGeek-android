@@ -3,12 +3,11 @@ package com.rentalgeek.android;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.res.Resources;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Configuration;
-import android.graphics.drawable.Drawable;
 import com.crashlytics.android.Crashlytics;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.NonEvent;
@@ -18,7 +17,6 @@ import com.rentalgeek.android.database.PropertyTable;
 
 import de.greenrobot.event.EventBus;
 import io.fabric.sdk.android.Fabric;
-import android.util.DisplayMetrics;
 
 public class RentalGeekApplication extends Application {
 

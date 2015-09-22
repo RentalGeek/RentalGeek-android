@@ -1,31 +1,30 @@
 package com.rentalgeek.android.ui.fragment;
 
-import java.util.List;
-import android.util.Log;
 import android.os.Bundle;
-import android.view.View;
-import java.util.HashMap;
-import java.util.LinkedList;
-import android.view.ViewGroup;
-import com.rentalgeek.android.R;
 import android.view.LayoutInflater;
-import com.rentalgeek.android.pojos.Rental;
-import com.google.android.gms.maps.GoogleMap;
-import com.rentalgeek.android.mvp.map.MapView;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.LatLng;
-import com.rentalgeek.android.model.RentalMarker;
-import com.rentalgeek.android.mvp.rental.RentalView;
-import com.rentalgeek.android.RentalGeekApplication;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.rentalgeek.android.mvp.map.MapPresenter;
-import com.google.android.gms.maps.model.MarkerOptions;
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.LatLngBounds.Builder;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
+import com.rentalgeek.android.R;
+import com.rentalgeek.android.RentalGeekApplication;
+import com.rentalgeek.android.model.RentalMarker;
+import com.rentalgeek.android.mvp.map.MapPresenter;
+import com.rentalgeek.android.mvp.map.MapView;
+import com.rentalgeek.android.mvp.rental.RentalView;
+import com.rentalgeek.android.pojos.Rental;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback, MapView, OnMarkerClickListener, OnMapClickListener {
 

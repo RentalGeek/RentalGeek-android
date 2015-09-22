@@ -1,26 +1,28 @@
 package com.rentalgeek.android.mvp.map;
 
-import rx.Observable;
-import java.util.List;
-import rx.Subscription;
 import android.util.Log;
-import rx.functions.Func1;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
-import com.rentalgeek.android.pojos.Rental;
-import com.rentalgeek.android.utils.GeekGson;
-import com.rentalgeek.android.api.ApiManager;
-import rx.android.schedulers.AndroidSchedulers;
-import com.rentalgeek.android.utils.MarkerUtils;
+
 import com.google.android.gms.maps.model.LatLng;
-import com.rentalgeek.android.model.RentalMarker;
-import com.rentalgeek.android.storage.RentalCache;
-import com.rentalgeek.android.net.GlobalFunctions;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.rentalgeek.android.api.ApiManager;
+import com.rentalgeek.android.model.RentalMarker;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.pojos.Rental;
+import com.rentalgeek.android.storage.RentalCache;
 import com.rentalgeek.android.ui.preference.AppPreferences;
+import com.rentalgeek.android.utils.GeekGson;
+import com.rentalgeek.android.utils.MarkerUtils;
+
+import org.json.JSONObject;
+
+import java.util.List;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 public class MapPresenter implements Presenter {
  

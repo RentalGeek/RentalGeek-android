@@ -1,26 +1,25 @@
 package com.rentalgeek.android.ui.adapter;
 
-import java.util.List;
-import android.view.View;
-import android.os.Bundle;
-import java.util.LinkedList;
-import android.view.ViewGroup;
-import butterknife.InjectView;
-import butterknife.ButterKnife;
 import android.content.Context;
-import android.widget.TextView;
-import com.rentalgeek.android.R;
-import android.widget.ImageView;
-import android.widget.ArrayAdapter;
+import android.os.Bundle;
 import android.view.LayoutInflater;
-import com.squareup.picasso.Picasso;
-import com.rentalgeek.android.pojos.Rental;
-import com.rentalgeek.android.bus.AppEventBus;
-import com.rentalgeek.android.mvp.common.StarView;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.rentalgeek.android.R;
 import com.rentalgeek.android.RentalGeekApplication;
-import com.rentalgeek.android.bus.events.ClickStarEvent;
+import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.ClickRentalEvent;
-import com.rentalgeek.android.mvp.list.rental.RentalListPresenter;
+import com.rentalgeek.android.bus.events.ClickStarEvent;
+import com.rentalgeek.android.mvp.common.StarView;
+import com.rentalgeek.android.pojos.Rental;
+import com.squareup.picasso.Picasso;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 public class RentalAdapter extends ArrayAdapter<Rental>{
     

@@ -1,7 +1,6 @@
 package com.rentalgeek.android.mvp.list.rental;
 
 import com.rentalgeek.android.mvp.common.StarPresenter;
-import com.rentalgeek.android.mvp.list.rental.RentalListView;
 
 public class RentalListPresenter extends StarPresenter {
     

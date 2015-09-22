@@ -1,17 +1,17 @@
 package com.rentalgeek.android.mvp.rental;
 
 import android.util.Log;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import com.rentalgeek.android.pojos.Rental;
-import com.rentalgeek.android.utils.GeekGson;
+
 import com.rentalgeek.android.api.ApiManager;
-import com.rentalgeek.android.storage.RentalCache;
-import com.rentalgeek.android.net.GlobalFunctions;
-import com.rentalgeek.android.mvp.rental.RentalView;
 import com.rentalgeek.android.mvp.common.StarPresenter;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.pojos.Rental;
+import com.rentalgeek.android.storage.RentalCache;
 import com.rentalgeek.android.ui.preference.AppPreferences;
+import com.rentalgeek.android.utils.GeekGson;
+
+import org.json.JSONObject;
 
 public class RentalPresenter extends StarPresenter implements Presenter{
     

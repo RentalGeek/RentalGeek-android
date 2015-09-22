@@ -1,10 +1,11 @@
 package com.rentalgeek.android.ui.adapter;
 
-import java.util.List;
-import java.util.ArrayList;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PageAdapter extends FragmentPagerAdapter {
     private final List<Fragment> fragments = new ArrayList();

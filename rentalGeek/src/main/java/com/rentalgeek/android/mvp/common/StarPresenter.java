@@ -1,17 +1,17 @@
 package com.rentalgeek.android.mvp.common;
 
 import android.util.Log;
-import org.json.JSONObject;
-import com.rentalgeek.android.pojos.Rental;
+
 import com.loopj.android.http.RequestParams;
 import com.rentalgeek.android.api.ApiManager;
-import com.rentalgeek.android.utils.GeekGson;
 import com.rentalgeek.android.api.SessionManager;
-import com.rentalgeek.android.net.GlobalFunctions;
-import com.rentalgeek.android.storage.RentalCache;
-import com.rentalgeek.android.mvp.common.StarView;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.pojos.Rental;
+import com.rentalgeek.android.storage.RentalCache;
 import com.rentalgeek.android.ui.preference.AppPreferences;
+
+import org.json.JSONObject;
 
 public abstract class StarPresenter {
     

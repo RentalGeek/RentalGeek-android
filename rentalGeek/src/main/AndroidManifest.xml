@@ -147,15 +147,15 @@
             android:name=".ui.activity.ActivityCosignerApp1"
             android:screenOrientation="portrait"
             android:label="Progress (1/4)">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
         </activity>
         <activity
             android:name=".ui.activity.ActivityCosignerApp2"
             android:screenOrientation="portrait"
             android:label="Progress (2/4)">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity
             android:name=".ui.activity.ActivityCosignerApp3"

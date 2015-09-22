@@ -16,6 +16,12 @@ public enum CosignerApplication {
     private String SSN;
     private String maritalStatus;
     private String phoneNumber;
+    private String address;
+    private String city;
+    private String state;
+    private String zip;
+    private String ownsOrRents;
+    private String monthlyPayment;
 
     public String getFirstName() {
         return firstName;
@@ -80,4 +86,53 @@ public enum CosignerApplication {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getZip() {
+        return zip;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
+
+    public String getOwnsOrRents() {
+        return ownsOrRents;
+    }
+
+    public void setOwnsOrRents(String ownsOrRents) {
+        this.ownsOrRents = ownsOrRents;
+    }
+
+    public String getMonthlyPayment() {
+        return monthlyPayment;
+    }
+
+    public void setMonthlyPayment(String monthlyPayment) {
+        this.monthlyPayment = monthlyPayment;
+    }
+
 }

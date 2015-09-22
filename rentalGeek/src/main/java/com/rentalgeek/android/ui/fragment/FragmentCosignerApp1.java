@@ -2,6 +2,9 @@ package com.rentalgeek.android.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.PhoneNumberFormattingTextWatcher;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,9 +42,36 @@ public class FragmentCosignerApp1 extends GeekBaseFragment {
     private String phoneNumber;
 
     @Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_cosigner_app1, container, false);
 		ButterKnife.inject(this, view);
+
+        phoneNumberEditText.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+
+        ssnEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // if user is typing string one character at a time
+                if (count == 1) {
+                    // auto insert dashes while user typing their ssn
+                    if (start == 2 || start == 5) {
+                        ssnEditText.setText(ssnEditText.getText() + "-");
+                        ssnEditText.setSelection(ssnEditText.getText().length());
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
 		setUpSpinners();
 		return view;
 	}
@@ -94,12 +124,13 @@ public class FragmentCosignerApp1 extends GeekBaseFragment {
             return false;
         }
 
+        ssn = ssn.replaceAll("[^0-9]", "");
         if (ssn.equals("")) {
             OkAlert.show(getActivity(), "SSN", "Please enter your SSN.");
             return false;
         }
 
-        if (ssn.length() != 9) {
+        if (ssn.length() < 9) {
             OkAlert.show(getActivity(), "SSN", "Please enter a valid 9-digit SSN.");
             return false;
         }
@@ -109,6 +140,7 @@ public class FragmentCosignerApp1 extends GeekBaseFragment {
             return false;
         }
 
+        phoneNumber = phoneNumber.replaceAll("[^0-9]", "");
         if (phoneNumber.equals("")) {
             OkAlert.show(getActivity(), "Phone Number", "Please enter your phone number.");
             return false;

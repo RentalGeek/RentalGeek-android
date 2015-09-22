@@ -156,8 +156,9 @@
                 android:textCursorDrawable="@null"
                 android:padding="10dp"
                 android:inputType="number"
+                android:digits="0123456789-"
+                android:maxLength="11"
                 android:layout_marginTop="10dp"
-                android:maxLength="9"
                 android:background="@drawable/thin_border"/>
 
             <TextView
@@ -196,7 +197,7 @@
                 android:id="@+id/phone_number_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:inputType="number"
+                android:inputType="phone"
                 android:textCursorDrawable="@null"
                 android:padding="10dp"
                 android:layout_marginTop="10dp"

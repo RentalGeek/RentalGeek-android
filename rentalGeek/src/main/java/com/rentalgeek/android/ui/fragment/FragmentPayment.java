@@ -159,24 +159,6 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 
 	}
 
-/*	@Override
-	public void parseresult(String response, boolean success, int value) {
-
-		switch (value) {
-		case 1:
-			paymentParse(response);
-			break;
-		case 2:
-			PaymentCheckParse(response);
-			break;
-		case 3:
-			PaymentCheckParseNew(response);
-			break;
-		default:
-			break;
-		}
-	}*/
-
 	private void PaymentCheckParseNew(String response) {
 
 
@@ -186,6 +168,7 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 			if (detail.user.payment) {
 				toast("You have already paid");
 				appPref.SaveData("hasPay", "yes");
+				SessionManager.Instance.setPayed(true);
 				verify_card.setEnabled(false);
 			} else {
 
@@ -205,37 +188,11 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 
 		if (detail.transactions.size() > 0) {
 			toast("You have already paid");
+            SessionManager.Instance.setPayed(true);
 			verify_card.setEnabled(false);
 		}
 
 	}
-
-/*	@SuppressWarnings("unchecked")
-	@Override
-	public void error(String response, int value) {
-
-		
-		if(value==3)
-		{
-			toast("Could not complete procedure");
-		}
-		else if(value == 1)
-		{
-			try {
-				toast("Payment process failure");
-
-				System.out.println("payment failure " + response);
-
-				ErrorArray details = (new Gson()).fromJson(response, ErrorArray.class);
-
-				if (details.errors != null && details.errors.size() > 0) {
-					alertList(details.errors.get(0).message);
-				}
-			} catch (Exception e) {
-				AppLogger.log(TAG, e);
-			}
-		}
-	}*/
 
 	private List getErroList(List<com.rentalgeek.android.backend.ErrorArray.Error> al) {
 
@@ -276,7 +233,8 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 		if (detail != null && detail.transaction != null) {
 
 			toast("Payment successful, transaction ID" + detail.transaction.transaction_id);
-			appPref.SaveIntData("payed", 200);
+
+            SessionManager.Instance.setPayed(true);
 
 			if (!SessionManager.Instance.hasProfile()) {
 				profileAlert("Your payment is success. Please complete your profile in order to apply.");

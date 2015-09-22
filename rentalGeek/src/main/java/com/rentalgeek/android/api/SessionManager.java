@@ -38,6 +38,12 @@ public enum SessionManager {
         return false;
     }
 
+    public void setPayed(boolean payed) {
+        if (currentUser != null) {
+            currentUser.payment = payed;
+        }
+    }
+
     public boolean hasGeekScore() {
         Profile profile = getDefaultProfile();
         if (profile != null) {
@@ -85,9 +91,9 @@ public enum SessionManager {
         appPref.SaveData("Uid", appid);
         appPref.SaveData("email", currentUser.email);
 
-        if (currentUser.payment) {
-            appPref.SaveIntData("payed", 200);
-        }
+//        if (currentUser.payment) {
+//            appPref.SaveIntData("payed", 200);
+//        }
 
         appPref.SaveData("first", "logged");
 

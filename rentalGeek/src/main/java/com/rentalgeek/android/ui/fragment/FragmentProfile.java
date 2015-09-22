@@ -556,7 +556,7 @@ public class FragmentProfile extends GeekBaseFragment implements ValidationListe
 					DialogManager.showCrouton(activity, "Profile Updated Successfully");
 					//hidekey();
 
-					if (appPref.getIntData("payed") == 200) {
+					if (SessionManager.Instance.hasPayed()) {
 
 						Navigation.navigateActivity(getActivity(), ActivityGeekScore.class, true);
 						//nextfragment(new FragmentFinalGeekScore(), false, R.id.container);

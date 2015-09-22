@@ -23,7 +23,6 @@ import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityCreateProfile;
 import com.rentalgeek.android.ui.preference.AppPreferences;
-import com.rentalgeek.android.utils.ConnectionDetector;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -42,8 +41,6 @@ public class FragmentGeekScoreMain extends GeekBaseFragment {
 	@InjectView(R.id.ddt)
 	TextView ddt;
 
-	ConnectionDetector con;
-
 	@InjectView(R.id.get_started)
 	Button getStarted;
 
@@ -53,16 +50,12 @@ public class FragmentGeekScoreMain extends GeekBaseFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_geekscore_main, container, false);
 		ButterKnife.inject(this, v);
-		con = new ConnectionDetector(getActivity());
+
 		appPref = new AppPrefes(getActivity(), "rentalgeek");
 
 		click_rent.setText(Html.fromHtml("<b>Click to Rent</b></font><sup>&#8482;</sup>"));
 
-		if (con.isConnectingToInternet()) {
-			CheckPaymentf();
-		} else {
-			toast("Please check you internet connection");
-		}
+		CheckPaymentf();
 
 		return v;
 	}

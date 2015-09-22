@@ -658,7 +658,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                     toast("Profile Updated Successfully");
                     //hidekey();
 
-                    if (appPref.getIntData("payed") == 200) {
+                    if (SessionManager.Instance.hasPayed()) {
 
                         Navigation.navigateActivity(getActivity(), ActivityGeekScore.class);
                         //nextfragment(new FragmentFinalGeekScore(), false, R.id.container);
@@ -709,7 +709,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                     toast("Profile Updated Successfully");
                     //hidekey();
 
-                    if (appPref.getIntData("payed") == 200) {
+                    if (SessionManager.Instance.hasPayed()) {
 
                         Navigation.navigateActivity(getActivity(), ActivityGeekScore.class);
                         //nextfragment(new FragmentFinalGeekScore(), false, R.id.container);

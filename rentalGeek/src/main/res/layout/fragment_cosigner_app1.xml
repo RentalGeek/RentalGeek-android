@@ -141,6 +141,67 @@
 
             </LinearLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/ssn_form_label"
+                android:textSize="14sp"
+                android:textColor="@color/blue"/>
+
+            <EditText
+                android:id="@+id/ssn_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:textCursorDrawable="@null"
+                android:padding="10dp"
+                android:inputType="number"
+                android:layout_marginTop="10dp"
+                android:maxLength="9"
+                android:background="@drawable/thin_border"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/marital_status_form_label"
+                android:textSize="14sp"
+                android:textColor="@color/blue"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/thin_border">
+
+                <Spinner
+                    android:id="@+id/marital_status_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/phone_number_form_label"
+                android:textSize="14sp"
+                android:textColor="@color/blue"/>
+
+            <EditText
+                android:id="@+id/phone_number_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:inputType="number"
+                android:textCursorDrawable="@null"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/thin_border"/>
+
             <Button
                 android:id="@+id/next_button"
                 android:layout_width="140dp"
@@ -150,7 +211,7 @@
                 android:background="@drawable/continue_bg"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:text="NEXT >>"
+                android:text="NEXT"
                 android:layout_gravity="right"
                 />
 

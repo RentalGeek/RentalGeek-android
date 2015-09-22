@@ -25,18 +25,24 @@ public class FragmentCosignerApp1 extends GeekBaseFragment {
 	@InjectView(R.id.month_spinner) Spinner monthSpinner;
 	@InjectView(R.id.day_spinner) Spinner daySpinner;
 	@InjectView(R.id.year_edittext) EditText yearEditText;
+    @InjectView(R.id.ssn_edittext) EditText ssnEditText;
+    @InjectView(R.id.marital_status_spinner) Spinner maritalStatusSpinner;
+    @InjectView(R.id.phone_number_edittext) EditText phoneNumberEditText;
 
     private String firstName;
     private String lastName;
     private String birthMonth;
     private String birthDay;
     private String birthYear;
+    private String ssn;
+    private String maritalStatus;
+    private String phoneNumber;
 
     @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_cosigner_app1, container, false);
 		ButterKnife.inject(this, view);
-		setUpBirthdaySpinners();
+		setUpSpinners();
 		return view;
 	}
 
@@ -54,6 +60,9 @@ public class FragmentCosignerApp1 extends GeekBaseFragment {
         birthMonth = monthSpinner.getSelectedItem().toString();
         birthDay = daySpinner.getSelectedItem().toString();
         birthYear = yearEditText.getText().toString().trim();
+        ssn = ssnEditText.getText().toString().trim();
+        maritalStatus = maritalStatusSpinner.getSelectedItem().toString();
+        phoneNumber = phoneNumberEditText.getText().toString().trim();
 
         if (firstName.equals("")) {
             OkAlert.show(getActivity(), "First Name", "Please enter your first name.");
@@ -85,10 +94,30 @@ public class FragmentCosignerApp1 extends GeekBaseFragment {
             return false;
         }
 
+        if (ssn.equals("")) {
+            OkAlert.show(getActivity(), "SSN", "Please enter your SSN.");
+            return false;
+        }
+
+        if (ssn.length() != 9) {
+            OkAlert.show(getActivity(), "SSN", "Please enter a valid 9-digit SSN.");
+            return false;
+        }
+
+        if (maritalStatus.equals("")) {
+            OkAlert.show(getActivity(), "Marital Status", "Please enter your marital status.");
+            return false;
+        }
+
+        if (phoneNumber.equals("")) {
+            OkAlert.show(getActivity(), "Phone Number", "Please enter your phone number.");
+            return false;
+        }
+
         return true;
 	}
 
-	private void setUpBirthdaySpinners() {
+	private void setUpSpinners() {
         ArrayAdapter<CharSequence> monthAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.months_array, android.R.layout.simple_spinner_item);
         monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         monthSpinner.setAdapter(monthAdapter);
@@ -96,6 +125,10 @@ public class FragmentCosignerApp1 extends GeekBaseFragment {
         ArrayAdapter<CharSequence> dayAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.days_array, android.R.layout.simple_spinner_item);
         dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         daySpinner.setAdapter(dayAdapter);
+
+        ArrayAdapter<CharSequence> maritalStatusAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.marital_status_array, android.R.layout.simple_spinner_item);
+        maritalStatusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        maritalStatusSpinner.setAdapter(maritalStatusAdapter);
     }
 
     private void saveFormValuesToCosignerApplication() {
@@ -104,6 +137,9 @@ public class FragmentCosignerApp1 extends GeekBaseFragment {
         CosignerApplication.INSTANCE.setBirthMonth(birthMonth);
         CosignerApplication.INSTANCE.setBirthDay(birthDay);
         CosignerApplication.INSTANCE.setBirthYear(birthYear);
+        CosignerApplication.INSTANCE.setSSN(ssn);
+        CosignerApplication.INSTANCE.setMaritalStatus(maritalStatus);
+        CosignerApplication.INSTANCE.setPhoneNumber(phoneNumber);
     }
 
 }

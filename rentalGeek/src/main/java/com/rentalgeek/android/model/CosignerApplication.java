@@ -13,6 +13,9 @@ public enum CosignerApplication {
     private String birthMonth;
     private String birthDay;
     private String birthYear;
+    private String SSN;
+    private String maritalStatus;
+    private String phoneNumber;
 
     public String getFirstName() {
         return firstName;
@@ -54,4 +57,27 @@ public enum CosignerApplication {
         this.birthYear = birthYear;
     }
 
+    public String getSSN() {
+        return SSN;
+    }
+
+    public void setSSN(String SSN) {
+        this.SSN = SSN;
+    }
+
+    public String getMaritalStatus() {
+        return maritalStatus;
+    }
+
+    public void setMaritalStatus(String maritalStatus) {
+        this.maritalStatus = maritalStatus;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 }

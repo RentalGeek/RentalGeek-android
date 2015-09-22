@@ -75,6 +75,24 @@ If you agree to share a Credit Report, we will also use this information to shar
     <string name="cosign_firstname_form_label">First Name (Mandatory)</string>
     <string name="cosign_lastname_form_label">Last Name (Mandatory)</string>
     <string name="cosign_dob_form_label">Date of Birth (Mandatory)</string>
+    <string name="ssn_form_label">SSN (Mandatory)</string>
+    <string name="marital_status_form_label">Marital Status (Mandatory)</string>
+    <string name="phone_number_form_label">Phone Number (Mandatory)</string>
+    <string name="address_form_label">Address (Mandatory)</string>
+    <string name="city_form_label">City (Mandatory)</string>
+    <string name="state_form_label">State (Mandatory)</string>
+    <string name="zip_form_label">Zip Code (Mandatory)</string>
+    <string name="rent_or_own_form_label">Do You Currently Own or Rent (Mandatory)</string>
+    <string name="monthly_payment_form_label">Monthly Rent or Mortgage Payment (Mandatory)</string>
+    <string name="lost_court_form_label">Have You Ever Lost a Court Judgement?</string>
+    <string name="lawsuit_filed_form_label">Have You Ever had a Lawsuit Filed?</string>
+    <string name="foreclosed_form_label">Have you been Foreclosed Upon?</string>
+    <string name="bankruptcy_form_label">Have you ever Declared Bankruptcy?</string>
+    <string name="felon_form_label">Are you a Felon</string>
+    <string name="employer_form_label">Employer Name (Mandatory)</string>
+    <string name="position_form_label">Employment Position (Mandatory)</string>
+    <string name="income_form_label">Monthly Income (Mandatory)</string>
+    <string name="cover_rent_form_label">Do you Intend to Cover Rent?</string>
     <string name="geek_title">Geek Score&#8482;</string>
 
     <string name="cosigner_invite_accept">ACCEPT</string>
@@ -132,6 +150,13 @@ If you agree to share a Credit Report, we will also use this information to shar
         <item>29</item>
         <item>30</item>
         <item>31</item>
+    </string-array>
+
+    <string-array name="marital_status_array">
+        <item> </item>
+        <item>single</item>
+        <item>married</item>
+        <item>divorced</item>
     </string-array>
 
 </resources>

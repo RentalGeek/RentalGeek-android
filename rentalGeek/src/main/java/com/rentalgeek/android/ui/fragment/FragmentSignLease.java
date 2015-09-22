@@ -1,13 +1,17 @@
 package com.rentalgeek.android.ui.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.TextView;
 
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.api.ApiManager;
+import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.ui.view.InAppWebViewClient;
 
 import butterknife.ButterKnife;
@@ -19,12 +23,8 @@ import butterknife.InjectView;
  */
 public class FragmentSignLease  extends GeekBaseFragment {
 
-    public static final String STREET = "streetAddress";
-    public static final String CITY_STATE_ZIP = "cityStateZipAddress";
-    public static final String PDF_URL = "unsignedPdfUrl";
+    public static final String LEASE_ID = "leaseId";
 
-    @InjectView(R.id.street_address) TextView streetAddressTextView;
-    @InjectView(R.id.city_state_zip_address) TextView cityStateZipAddressTextView;
     @InjectView(R.id.pdf_web_view) WebView pdfWebView;
 
     @Override
@@ -32,14 +32,33 @@ public class FragmentSignLease  extends GeekBaseFragment {
         View view = inflater.inflate(R.layout.fragment_sign_lease, container, false);
         ButterKnife.inject(this, view);
 
-        String street = getArguments().getString(STREET);
-        String cityStateZip = getArguments().getString(CITY_STATE_ZIP);
-        String pdfUrl = getArguments().getString(PDF_URL);
+        int leaseId = getArguments().getInt(LEASE_ID);
 
-        streetAddressTextView.setText(street);
-        cityStateZipAddressTextView.setText(cityStateZip);
+        GlobalFunctions.getApiCall(getActivity(), ApiManager.signLeaseUrl(leaseId), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+                showProgressDialog(R.string.dialog_msg_loading);
+            }
 
-        loadPdf(pdfUrl);
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onSuccess(String content) {
+                super.onSuccess(content);
+                Log.d("tag", "" + content);
+                // load webview with url returned
+            }
+
+            @Override
+            public void onFailure(Throwable ex, String failureResponse) {
+                super.onFailure(ex, failureResponse);
+            }
+        });
 
         return view;
     }

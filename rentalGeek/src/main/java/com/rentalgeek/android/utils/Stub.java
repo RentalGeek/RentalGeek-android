@@ -42,6 +42,7 @@ public class Stub {
         applicationItem.setRoommates(roommates);
         applicationItem.setPropertyContactInfo(propertyContactInfo);
         applicationItem.setImageUrl("https://s3-us-west-2.amazonaws.com/rental-geek/property-header.jpg");
+        applicationItem.setLeaseId(2);
 //        applicationItem.setUnsignedLeaseDocumentUrl("https://gradcollege.okstate.edu/sites/default/files/PDF_linking.pdf");
 
         List<RoommateDTO> roommates2 = new ArrayList<>();
@@ -71,6 +72,7 @@ public class Stub {
         applicationItem2.setPropertyContactInfo(propertyContactInfo2);
         applicationItem2.setImageUrl("https://s3-us-west-2.amazonaws.com/rental-geek/property-header.jpg");
         applicationItem2.setUnsignedLeaseDocumentUrl("https://gradcollege.okstate.edu/sites/default/files/PDF_linking.pdf");
+        applicationItem2.setLeaseId(3);
 
         List<ApplicationItem> stubbedApplicationItems = new ArrayList<>();
         stubbedApplicationItems.add(applicationItem);

@@ -45,6 +45,10 @@ public class ApiManager {
         return API_HOST + "/users/" + userId;
     }
 
+    public static String signLeaseUrl(int leaseId) {
+        return API_HOST + "/leases/" + leaseId + "/embedded_signature_url";
+    }
+
     public static String getAcceptCosignerInviteUrl(int inviteId) {
         return getCosignerInvitesUrl() + "/" + inviteId + "/accept";
     }

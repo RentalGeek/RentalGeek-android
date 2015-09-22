@@ -300,6 +300,8 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
         LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
 
+        SessionManager.Instance.onUserLoggedIn(detail);
+        
         Navigation.navigateActivity(activity, ActivityHome.class, true);
     }
 

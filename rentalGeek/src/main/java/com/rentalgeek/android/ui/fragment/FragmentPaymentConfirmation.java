@@ -132,8 +132,8 @@ public class FragmentPaymentConfirmation extends GeekBaseFragment {
                     @Override
                     public void onSuccess(String content) {
                         try {
-                            String data = content;
-                            AppLogger.log(TAG, content);
+                            //String data = content;
+                            //AppLogger.log(TAG, content);
                             Type listType = new TypeToken<List<RoommatePayment>>(){}.getType();
                             List<RoommatePayment> response = (new Gson()).fromJson(content, listType);
                             if (response != null && response.size() > 0) {

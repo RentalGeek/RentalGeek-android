@@ -1,9 +1,11 @@
 package com.rentalgeek.android.ui.fragment;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -18,6 +20,7 @@ import com.rentalgeek.android.ui.Common;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.preference.AppPreferences;
+import com.rentalgeek.android.utils.ListUtils;
 
 import java.lang.reflect.Type;
 import java.text.NumberFormat;
@@ -34,6 +37,9 @@ public class FragmentPaymentConfirmation extends GeekBaseFragment {
 
     @InjectView(R.id.textViewAmountPaid)
     TextView textViewAmountPaid;
+
+    @InjectView(R.id.layoutPaymentHistory)
+    LinearLayout layoutPaymentHistory;
 
 //    @InjectView(R.id.layoutProcessPayment)
 //    LinearLayout layoutProcessPayment;
@@ -83,6 +89,26 @@ public class FragmentPaymentConfirmation extends GeekBaseFragment {
 
     protected void bindRoommatePayment(List<RoommatePayment> roommatePayments) {
 
+        layoutPaymentHistory.removeAllViews();
+
+        if (!ListUtils.isNullOrEmpty(roommatePayments)) {
+
+            for (int i=0; i<roommatePayments.size(); i++) {
+                LinearLayout layoutListItemRoommatePayment = (LinearLayout) activity.getLayoutInflater().inflate(R.layout.layout_listitem_roommate_payment, null);
+
+                TextView textViewRoommateName = getView(R.id.textViewRoommateName, layoutListItemRoommatePayment);
+                TextView textViewPaymentStatus = getView(R.id.textViewPaymentStatus, layoutListItemRoommatePayment);
+
+                textViewRoommateName.setText(Html.fromHtml("Payment from <b>" + roommatePayments.get(i).full_name + "</b>"));
+
+                String status = roommatePayments.get(i).paid ? "COMPLETE" : "NOT RECEIVED";
+                textViewPaymentStatus.setText(status);
+                textViewPaymentStatus.setTextColor(activity.getResources().getColor(roommatePayments.get(i).paid ? R.color.green : R.color.blue));
+
+                layoutPaymentHistory.addView(layoutListItemRoommatePayment);
+            }
+
+        }
         //textViewPaymentSummary.setText(Html.fromHtml(RentalGeekApplication.getResourceString(R.string.fragment_payment_totaldue, lease.first_months_rent, lease.security_deposit)));
     }
 
@@ -111,7 +137,6 @@ public class FragmentPaymentConfirmation extends GeekBaseFragment {
                             Type listType = new TypeToken<List<RoommatePayment>>(){}.getType();
                             List<RoommatePayment> response = (new Gson()).fromJson(content, listType);
                             if (response != null && response.size() > 0) {
-
                                 bindRoommatePayment(response);
                             }
                         } catch (Exception e) {

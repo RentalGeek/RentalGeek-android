@@ -54,6 +54,8 @@ public class FragmentRoommates  extends GeekBaseFragment {
     private boolean isGroupOwner = false;
     private boolean isInviteNotified = false;
 
+    private int currentRoommateCount = 0;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -68,7 +70,11 @@ public class FragmentRoommates  extends GeekBaseFragment {
         String name = editTextFirstLastName.getText().toString();
         String email = editTextEmailAddress.getText().toString();
         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(email)) {
-            addRoommateInvite(email, name);
+            if (currentRoommateCount <= 3) {
+                addRoommateInvite(email, name);
+            } else {
+                DialogManager.showCrouton(activity, "Max of 4 Roommates allowed.");
+            }
         }
     }
 
@@ -141,6 +147,8 @@ public class FragmentRoommates  extends GeekBaseFragment {
         int roommateInviteId = -1;
 
         if (!ListUtils.isNullOrEmpty(invites)) {
+
+            currentRoommateCount = invites.size();
 
             int currentUserId = Integer.valueOf(SessionManager.Instance.getCurrentUser().id);
 

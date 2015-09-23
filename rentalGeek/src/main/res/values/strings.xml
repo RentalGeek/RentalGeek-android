@@ -88,7 +88,7 @@ If you agree to share a Credit Report, we will also use this information to shar
     <string name="lawsuit_filed_form_label">Have You Ever had a Lawsuit Filed?</string>
     <string name="foreclosed_form_label">Have you been Foreclosed Upon?</string>
     <string name="bankruptcy_form_label">Have you ever Declared Bankruptcy?</string>
-    <string name="felon_form_label">Are you a Felon</string>
+    <string name="felon_form_label">Are you a Felon?</string>
     <string name="employer_form_label">Employer Name (Mandatory)</string>
     <string name="position_form_label">Employment Position (Mandatory)</string>
     <string name="income_form_label">Monthly Income (Mandatory)</string>
@@ -157,6 +157,60 @@ If you agree to share a Credit Report, we will also use this information to shar
         <item>single</item>
         <item>married</item>
         <item>divorced</item>
+    </string-array>
+
+    <string-array name="state_array">
+        <item> </item>
+        <item>AL</item>
+        <item>AK</item>
+        <item>AZ</item>
+        <item>AR</item>
+        <item>CA</item>
+        <item>CO</item>
+        <item>CT</item>
+        <item>DE</item>
+        <item>FL</item>
+        <item>GA</item>
+        <item>HI</item>
+        <item>ID</item>
+        <item>IL</item>
+        <item>IN</item>
+        <item>IA</item>
+        <item>KS</item>
+        <item>KY</item>
+        <item>LA</item>
+        <item>ME</item>
+        <item>MD</item>
+        <item>MA</item>
+        <item>MI</item>
+        <item>MN</item>
+        <item>MS</item>
+        <item>MO</item>
+        <item>MT</item>
+        <item>NE</item>
+        <item>NV</item>
+        <item>NH</item>
+        <item>NJ</item>
+        <item>NM</item>
+        <item>NY</item>
+        <item>NC</item>
+        <item>ND</item>
+        <item>OH</item>
+        <item>OK</item>
+        <item>OR</item>
+        <item>PA</item>
+        <item>RI</item>
+        <item>SC</item>
+        <item>SD</item>
+        <item>TN</item>
+        <item>TX</item>
+        <item>UT</item>
+        <item>VT</item>
+        <item>VA</item>
+        <item>WA</item>
+        <item>WV</item>
+        <item>WI</item>
+        <item>WY</item>
     </string-array>
 
 </resources>

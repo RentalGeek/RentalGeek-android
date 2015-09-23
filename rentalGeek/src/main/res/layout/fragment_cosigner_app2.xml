@@ -60,14 +60,21 @@
                 android:textSize="14sp"
                 android:textColor="@color/blue"/>
 
-            <EditText
-                android:id="@+id/state_edittext"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:textCursorDrawable="@null"
-                android:padding="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/thin_border"/>
+                android:background="@drawable/thin_border" >
+
+                <Spinner
+                    android:id="@+id/state_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"/>
+
+            </FrameLayout>
 
             <TextView
                 android:layout_width="wrap_content"

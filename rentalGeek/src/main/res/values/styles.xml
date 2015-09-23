@@ -105,4 +105,23 @@
     <style name="GeekDatePicker" parent="@android:style/Widget.DatePicker">
         <item name="android:datePickerMode">spinner</item>
     </style>
+
+    <item type="id" name="segment_no"/>
+    <item type="id" name="segment_yes"/>
+
+    <style name="Segment" parent="RadioButton">
+        <item name="android:layout_width">120dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    
+    <style name="NoSegment" parent="Segment">
+        <item name="android:id">@id/segment_no</item>
+        <item name="android:text">No</item>
+    </style>
+
+    <style name="YesSegment" parent="Segment">
+        <item name="android:id">@id/segment_yes</item>
+        <item name="android:text">Yes</item>
+    </style>
+    
 </resources>

@@ -22,6 +22,11 @@ public enum CosignerApplication {
     private String zip;
     private String ownsOrRents;
     private String monthlyPayment;
+    private Boolean lostCourtJudgement;
+    private Boolean hadLawsuitFiled;
+    private Boolean foreclosedUpon;
+    private Boolean declaredBankruptcy;
+    private Boolean isFelon;
 
     public String getFirstName() {
         return firstName;
@@ -135,4 +140,43 @@ public enum CosignerApplication {
         this.monthlyPayment = monthlyPayment;
     }
 
+    public Boolean getLostCourtJudgement() {
+        return lostCourtJudgement;
+    }
+
+    public void setLostCourtJudgement(Boolean lostCourtJudgement) {
+        this.lostCourtJudgement = lostCourtJudgement;
+    }
+
+    public Boolean getHadLawsuitFiled() {
+        return hadLawsuitFiled;
+    }
+
+    public void setHadLawsuitFiled(Boolean hadLawsuitFiled) {
+        this.hadLawsuitFiled = hadLawsuitFiled;
+    }
+
+    public Boolean getForeclosedUpon() {
+        return foreclosedUpon;
+    }
+
+    public void setForeclosedUpon(Boolean foreclosedUpon) {
+        this.foreclosedUpon = foreclosedUpon;
+    }
+
+    public Boolean getDeclaredBankruptcy() {
+        return declaredBankruptcy;
+    }
+
+    public void setDeclaredBankruptcy(Boolean declaredBankruptcy) {
+        this.declaredBankruptcy = declaredBankruptcy;
+    }
+
+    public Boolean getIsFelon() {
+        return isFelon;
+    }
+
+    public void setIsFelon(Boolean isFelon) {
+        this.isFelon = isFelon;
+    }
 }

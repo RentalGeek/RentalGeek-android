@@ -73,6 +73,7 @@ public class FragmentCosignerApp1 extends GeekBaseFragment {
         });
 
 		setUpSpinners();
+
 		return view;
 	}
 

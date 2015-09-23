@@ -8,7 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:focusableInTouchMode="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,7 +22,101 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Page 3"/>
+                android:text="@string/lost_court_form_label"
+                android:textSize="14sp"
+                android:textColor="@color/blue"/>
+
+            <info.hoang8f.android.segmented.SegmentedGroup
+                android:id="@+id/lost_court_segment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <RadioButton style="@style/NoSegment" />
+                <RadioButton style="@style/YesSegment" />
+
+            </info.hoang8f.android.segmented.SegmentedGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/lawsuit_filed_form_label"
+                android:textSize="14sp"
+                android:textColor="@color/blue"/>
+
+            <info.hoang8f.android.segmented.SegmentedGroup
+                android:id="@+id/lawsuit_segment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <RadioButton style="@style/NoSegment" />
+                <RadioButton style="@style/YesSegment" />
+
+            </info.hoang8f.android.segmented.SegmentedGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/foreclosed_form_label"
+                android:textSize="14sp"
+                android:textColor="@color/blue"/>
+
+            <info.hoang8f.android.segmented.SegmentedGroup
+                android:id="@+id/foreclosed_segment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <RadioButton style="@style/NoSegment" />
+                <RadioButton style="@style/YesSegment" />
+
+            </info.hoang8f.android.segmented.SegmentedGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/bankruptcy_form_label"
+                android:textSize="14sp"
+                android:textColor="@color/blue"/>
+
+            <info.hoang8f.android.segmented.SegmentedGroup
+                android:id="@+id/bankruptcy_segment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <RadioButton style="@style/NoSegment" />
+                <RadioButton style="@style/YesSegment" />
+
+            </info.hoang8f.android.segmented.SegmentedGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/felon_form_label"
+                android:textSize="14sp"
+                android:textColor="@color/blue"/>
+
+            <info.hoang8f.android.segmented.SegmentedGroup
+                android:id="@+id/felon_segment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <RadioButton style="@style/NoSegment" />
+                <RadioButton style="@style/YesSegment" />
+
+            </info.hoang8f.android.segmented.SegmentedGroup>
 
             <Button
                 android:id="@+id/next_button"
@@ -32,7 +127,7 @@
                 android:background="@drawable/continue_bg"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:text="NEXT >>"
+                android:text="NEXT"
                 android:layout_gravity="right"
                 />
 

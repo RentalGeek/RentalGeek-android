@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.model.CosignerApplication;
@@ -26,7 +28,7 @@ public class FragmentCosignerApp2 extends GeekBaseFragment {
 
     @InjectView(R.id.address_edittext) EditText addressEditText;
     @InjectView(R.id.city_edittext) EditText cityEditText;
-    @InjectView(R.id.state_edittext) EditText stateEditText;
+    @InjectView(R.id.state_spinner) Spinner stateSpinner;
     @InjectView(R.id.zip_edittext) EditText zipEditText;
     @InjectView(R.id.own_or_rent_segment) SegmentedGroup ownOrRentSegment;
     @InjectView(R.id.monthly_payment_edittext) EditText monthlyPaymentEditText;
@@ -60,6 +62,8 @@ public class FragmentCosignerApp2 extends GeekBaseFragment {
             }
         });
 
+        setUpSpinners();
+
         return view;
     }
 
@@ -74,7 +78,7 @@ public class FragmentCosignerApp2 extends GeekBaseFragment {
     private boolean validInput() {
         address = addressEditText.getText().toString().trim();
         city = cityEditText.getText().toString().trim();
-        state = stateEditText.getText().toString().trim();
+        state = stateSpinner.getSelectedItem().toString();
         zip = zipEditText.getText().toString().trim();
         monthlyPayment = monthlyPaymentEditText.getText().toString().trim();
 
@@ -114,6 +118,12 @@ public class FragmentCosignerApp2 extends GeekBaseFragment {
         }
 
         return true;
+    }
+
+    private void setUpSpinners() {
+        ArrayAdapter<CharSequence> stateAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.state_array, android.R.layout.simple_spinner_item);
+        stateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        stateSpinner.setAdapter(stateAdapter);
     }
 
     private void saveFormValuesToCosignerApplication() {

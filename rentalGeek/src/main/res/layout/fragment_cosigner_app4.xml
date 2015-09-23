@@ -8,7 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:focusableInTouchMode="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,7 +22,73 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Page 4"/>
+                android:text="@string/employer_form_label"
+                android:textSize="14sp"
+                android:textColor="@color/blue"/>
+
+            <EditText
+                android:id="@+id/employer_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:textCursorDrawable="@null"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/thin_border"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/position_form_label"
+                android:textSize="14sp"
+                android:textColor="@color/blue"/>
+
+            <EditText
+                android:id="@+id/position_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:textCursorDrawable="@null"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/thin_border"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/income_form_label"
+                android:textSize="14sp"
+                android:textColor="@color/blue"/>
+
+            <EditText
+                android:id="@+id/income_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:textCursorDrawable="@null"
+                android:padding="10dp"
+                android:inputType="number"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/thin_border"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/cover_rent_form_label"
+                android:textSize="14sp"
+                android:textColor="@color/blue"/>
+
+            <info.hoang8f.android.segmented.SegmentedGroup
+                android:id="@+id/cover_rent_segment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <RadioButton style="@style/NoSegment" />
+                <RadioButton style="@style/YesSegment" />
+
+            </info.hoang8f.android.segmented.SegmentedGroup>
 
             <Button
                 android:id="@+id/submit_button"

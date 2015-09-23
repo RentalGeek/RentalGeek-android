@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.model.Answer;
+import com.rentalgeek.android.model.YesNoAnswer;
 import com.rentalgeek.android.model.CosignerApplication;
 import com.rentalgeek.android.ui.activity.ActivityCosignerApp4;
 import com.rentalgeek.android.utils.YesNoCheckChangedListener;
@@ -29,11 +29,11 @@ public class FragmentCosignerApp3 extends GeekBaseFragment {
     @InjectView(R.id.bankruptcy_segment) SegmentedGroup bankruptcySegment;
     @InjectView(R.id.felon_segment) SegmentedGroup felonSegment;
 
-    private Answer lostCourt = new Answer();
-    private Answer lawsuit = new Answer();
-    private Answer foreclosed = new Answer();
-    private Answer bankruptcy = new Answer();
-    private Answer felon = new Answer();
+    private YesNoAnswer lostCourt = new YesNoAnswer();
+    private YesNoAnswer lawsuit = new YesNoAnswer();
+    private YesNoAnswer foreclosed = new YesNoAnswer();
+    private YesNoAnswer bankruptcy = new YesNoAnswer();
+    private YesNoAnswer felon = new YesNoAnswer();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

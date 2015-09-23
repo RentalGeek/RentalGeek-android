@@ -3,7 +3,7 @@ package com.rentalgeek.android.utils;
 import android.widget.RadioGroup;
 
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.model.Answer;
+import com.rentalgeek.android.model.YesNoAnswer;
 
 /**
  * Created by rajohns on 9/22/15.
@@ -11,21 +11,21 @@ import com.rentalgeek.android.model.Answer;
  */
 public class YesNoCheckChangedListener implements RadioGroup.OnCheckedChangeListener {
 
-    Answer answer;
+    YesNoAnswer yesNoAnswer;
 
-    public YesNoCheckChangedListener(Answer answer) {
+    public YesNoCheckChangedListener(YesNoAnswer yesNoAnswer) {
         super();
-        this.answer = answer;
+        this.yesNoAnswer = yesNoAnswer;
     }
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
             case R.id.segment_no:
-                this.answer.ans = Boolean.FALSE;
+                this.yesNoAnswer.ans = Boolean.FALSE;
                 break;
             case R.id.segment_yes:
-                this.answer.ans = Boolean.TRUE;
+                this.yesNoAnswer.ans = Boolean.TRUE;
                 break;
             default:
                 break;

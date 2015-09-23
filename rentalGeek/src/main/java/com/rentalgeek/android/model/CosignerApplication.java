@@ -27,6 +27,10 @@ public enum CosignerApplication {
     private Boolean foreclosedUpon;
     private Boolean declaredBankruptcy;
     private Boolean isFelon;
+    private String employerName;
+    private String employmentPosition;
+    private String monthlyIncome;
+    private Boolean intendToCoverRent;
 
     public String getFirstName() {
         return firstName;
@@ -179,4 +183,37 @@ public enum CosignerApplication {
     public void setIsFelon(Boolean isFelon) {
         this.isFelon = isFelon;
     }
+
+    public String getEmployerName() {
+        return employerName;
+    }
+
+    public void setEmployerName(String employerName) {
+        this.employerName = employerName;
+    }
+
+    public String getEmploymentPosition() {
+        return employmentPosition;
+    }
+
+    public void setEmploymentPosition(String employmentPosition) {
+        this.employmentPosition = employmentPosition;
+    }
+
+    public String getMonthlyIncome() {
+        return monthlyIncome;
+    }
+
+    public void setMonthlyIncome(String monthlyIncome) {
+        this.monthlyIncome = monthlyIncome;
+    }
+
+    public Boolean getIntendToCoverRent() {
+        return intendToCoverRent;
+    }
+
+    public void setIntendToCoverRent(Boolean intendToCoverRent) {
+        this.intendToCoverRent = intendToCoverRent;
+    }
+
 }

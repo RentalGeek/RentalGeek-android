@@ -14,6 +14,8 @@
 
     <uses-permission android:name="com.rentalgeek.android.permission.C2D_MESSAGE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.REGISTER" />
+
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -27,7 +29,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-
     <uses-sdk tools:overrideLibrary="com.linkedin.android.mobilesdk"/>
 
     <permission
@@ -188,6 +189,28 @@
             android:screenOrientation="portrait"
             android:label="@string/settings">
         </activity>
+
+        <service
+            android:name=".service.GcmIntentService"
+            android:label="GCM Intent Service" >
+            <intent-filter>
+                <action android:name=".ui.activity.ActivityHome" />
+                <action android:name=".receivers.GcmBroadcastReceiver" />
+                <category android:name="com.rentalgeek.android" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name=".receiver.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                <action android:name="com.google.android.c2dm.intent.REGISTER" />
+                <category android:name="com.rentalgeek.android" />
+            </intent-filter>
+        </receiver>
+        
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

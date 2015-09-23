@@ -8,6 +8,7 @@ buildscript {
     }
 }
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 apply plugin: 'io.fabric'
 
 repositories {
@@ -41,6 +42,7 @@ dependencies {
     compile project(':justifiedTextViewmaster')
     compile 'com.facebook.android:facebook-android-sdk:4.0.0'
     compile 'com.google.code.gson:gson:2.2.4'
+    compile "com.google.android.gms:play-services-gcm:7.8.0"
     compile 'com.google.android.gms:play-services-plus:7.8.0'
     compile 'com.google.android.gms:play-services-maps:7.8.0'
     compile 'com.google.android.gms:play-services-location:7.8.0'

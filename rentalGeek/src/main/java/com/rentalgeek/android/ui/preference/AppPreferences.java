@@ -28,8 +28,6 @@ public class AppPreferences {
 
 
 
-
-
     public static boolean getMessageServiceFirstRun() {
         final Context context = RentalGeekApplication.context;
         final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);

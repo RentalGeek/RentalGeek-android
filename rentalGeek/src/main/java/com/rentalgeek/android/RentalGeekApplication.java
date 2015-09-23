@@ -14,13 +14,16 @@ import com.rentalgeek.android.bus.events.NonEvent;
 import com.rentalgeek.android.bus.events.UserNotificationEvent;
 import com.rentalgeek.android.database.ProfileTable;
 import com.rentalgeek.android.database.PropertyTable;
+import com.rentalgeek.android.system.AppSystem;
 
 import de.greenrobot.event.EventBus;
 import io.fabric.sdk.android.Fabric;
 
 public class RentalGeekApplication extends Application {
 
-	public static Context context;
+    public static final String GCM_CLIENT_ID = "433959508661";
+
+    public static Context context;
 	public static final EventBus eventBus = EventBus.builder().logSubscriberExceptions(false).throwSubscriberException(false).build();
 
 	@Override
@@ -55,7 +58,10 @@ public class RentalGeekApplication extends Application {
 		AppEventBus.register(this);
 		/// AppEventBus.register(AppSystem.Instance);
 
+
 		initializeDB();
+
+        AppSystem.Instance.checkGCMRegistration(this);
 	}
 
 

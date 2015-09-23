@@ -10,11 +10,11 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
-import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.RoommateInvites;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.ui.Common;
 import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ListUtils;
@@ -32,11 +32,19 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
     @InjectView(R.id.layoutInviteButtons)
     LinearLayout layoutInviteButtons;
 
+    protected int roommateInviteId;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_roommate_invite, container, false);
         ButterKnife.inject(this, v);
+
+        roommateInviteId = getArguments().getInt(Common.KEY_ROOMMATE_INVITE_ID);
+
+        //if (SessionManager.Instance.getCurrentUser() != null)// && ApiManager.currentUser.roommate_group_id != null)
+        fetchRoommateInvites(String.valueOf(roommateInviteId));
+
         return v;
 
     }
@@ -45,8 +53,6 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
 
-        if (SessionManager.Instance.getCurrentUser() != null)// && ApiManager.currentUser.roommate_group_id != null)
-            fetchRoommateInvites(SessionManager.Instance.getCurrentUser().roommate_group_id);
     }
 
     protected void bindRoommateInvites(RoommateInvites roommateInvites) {
@@ -60,8 +66,8 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
         }
     }
 
-    protected void fetchRoommateInvites(String groupId) {
-        String url =  ApiManager.getRoommateInvites(groupId);
+    protected void fetchRoommateInvites(String roommateInviteId) {
+        String url =  ApiManager.getRoommateInvites(roommateInviteId);
         GlobalFunctions.getApiCall(getActivity(), url, AppPreferences.getAuthToken(),
                 new GeekHttpResponseHandler() {
 

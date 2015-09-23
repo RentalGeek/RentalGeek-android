@@ -22,8 +22,10 @@ import com.rentalgeek.android.backend.model.RoommateInvite;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.ui.Common;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityHome;
+import com.rentalgeek.android.ui.activity.ActivityRoommateInvite;
 import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ListUtils;
@@ -50,6 +52,7 @@ public class FragmentRoommates  extends GeekBaseFragment {
 
     private String currentGroupId;
     private boolean isGroupOwner = false;
+    private boolean isInviteNotified = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -135,10 +138,29 @@ public class FragmentRoommates  extends GeekBaseFragment {
 
         layoutRoommateInvites.removeAllViews();
 
+        int roommateInviteId = -1;
+
         if (!ListUtils.isNullOrEmpty(invites)) {
 
+            int currentUserId = Integer.valueOf(SessionManager.Instance.getCurrentUser().id);
+
             for (int i=0; i<invites.size(); i++) {
+
+                RoommateInvite invite = invites.get(i);
+
+                if (!invite.accepted && currentUserId == invite.invited_id && !isInviteNotified) {
+                    isInviteNotified = true;
+                    roommateInviteId = invites.get(i).id;
+                    //break;
+                }
                 bindRoommateInvite(invites.get(i));
+            }
+
+            if (roommateInviteId >= 0) {
+
+                Bundle args = new Bundle();
+                args.putInt(Common.KEY_ROOMMATE_INVITE_ID, roommateInviteId);
+                Navigation.navigateActivity(activity, ActivityRoommateInvite.class, args, false);
             }
         }
     }

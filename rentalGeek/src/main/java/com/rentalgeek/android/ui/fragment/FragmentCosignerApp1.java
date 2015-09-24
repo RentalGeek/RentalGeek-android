@@ -88,6 +88,7 @@ public class FragmentCosignerApp1 extends GeekBaseFragment {
 	public void nextButtonTapped() {
 		if (validInput()) {
             RequestParams params = new RequestParams();
+            params.put("user[cosigner_profile_attributes][step]", "personal_info");
             params.put("user[first_name]", firstName);
             params.put("user[last_name]", lastName);
             params.put("user[cosigner_profile_attributes][marital_status]", maritalStatus);

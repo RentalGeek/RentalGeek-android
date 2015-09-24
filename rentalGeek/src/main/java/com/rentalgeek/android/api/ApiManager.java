@@ -41,8 +41,8 @@ public class ApiManager {
         return API_HOST + "/cosigner_invites";
     }
 
-    public static String cosignerApplicationUrl() {
-        return API_HOST + "/cosigner_profiles";
+    public static String cosignerProfilesUrl(String cosignerProfileId) {
+        return API_HOST + "/cosigner_profiles/" + cosignerProfileId;
     }
 
     public static String specificUserUrl(String userId) {

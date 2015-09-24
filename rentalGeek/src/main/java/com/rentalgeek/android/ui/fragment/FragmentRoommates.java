@@ -50,6 +50,10 @@ public class FragmentRoommates  extends GeekBaseFragment {
     @InjectView(R.id.layoutRoommateInvites)
     LinearLayout layoutRoommateInvites;
 
+    @InjectView(R.id.layoutRoommates)
+    LinearLayout layoutRoommates;
+
+
     private String currentGroupId;
     private boolean isGroupOwner = false;
     private boolean isInviteNotified = false;
@@ -61,6 +65,7 @@ public class FragmentRoommates  extends GeekBaseFragment {
 
         View v = inflater.inflate(R.layout.fragment_roommates, container, false);
         ButterKnife.inject(this, v);
+        fetchGroups();
         return v;
 
     }
@@ -102,15 +107,17 @@ public class FragmentRoommates  extends GeekBaseFragment {
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
-        fetchGroups();
+
     }
 
     protected void fetchGroups() {
         if (!TextUtils.isEmpty(SessionManager.Instance.getCurrentUser().roommate_group_id)) {
             fetchRoommateGroups(SessionManager.Instance.getCurrentUser().roommate_group_id);
+            layoutRoommates.setVisibility(View.VISIBLE);
         } else {
-            DialogManager.showCrouton(activity, "You don't belong to a Roommate Group");
-            activity.finish();
+           // DialogManager.showCrouton(activity, "You don't belong to a Roommate Group");
+            //activity.finish();
+            layoutRoommates.setVisibility(View.GONE);
         }
 
     }
@@ -138,6 +145,8 @@ public class FragmentRoommates  extends GeekBaseFragment {
             imageViewRemoveInvite.setVisibility(View.GONE);
         }
 
+        layoutRoommates.setVisibility(View.VISIBLE);
+
     }
 
     protected void bindRoommateInvites(List<RoommateInvite> invites) {
@@ -161,7 +170,9 @@ public class FragmentRoommates  extends GeekBaseFragment {
                     roommateInviteId = invites.get(i).id;
                     //break;
                 }
-                bindRoommateInvite(invites.get(i));
+
+                //if (currentUserId != invite.invited_id)
+                    bindRoommateInvite(invites.get(i));
             }
 
             if (roommateInviteId >= 0) {

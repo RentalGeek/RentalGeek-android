@@ -260,9 +260,9 @@ public class GeekBaseActivity extends AppCompatActivity {
                 drawerLayout.closeDrawers();
 
                 // don't re-open the currently selected option
-                if (menuItem.isChecked()) {
-                    return true;
-                }
+//                if (menuItem.isChecked()) {
+//                    return true;
+//                }
 
                 switch (menuItem.getItemId()) {
                     case R.id.roommates:

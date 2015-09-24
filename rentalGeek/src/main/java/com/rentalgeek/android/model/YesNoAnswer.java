@@ -6,6 +6,6 @@ package com.rentalgeek.android.model;
  */
 public class YesNoAnswer {
 
-    public Boolean ans;
+    public boolean ans;
 
 }

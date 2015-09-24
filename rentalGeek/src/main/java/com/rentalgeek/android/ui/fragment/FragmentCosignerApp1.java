@@ -12,10 +12,12 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.api.SessionManager;
+import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.activity.ActivityCosignerApp2;
@@ -112,6 +114,8 @@ public class FragmentCosignerApp1 extends GeekBaseFragment {
                 @Override
                 public void onSuccess(String content) {
                     super.onSuccess(content);
+                    LoginBackend detail = (new Gson()).fromJson(content, LoginBackend.class);
+                    SessionManager.Instance.onUserLoggedIn(detail);
                     getActivity().startActivity(new Intent(getActivity(), ActivityCosignerApp2.class));
                 }
 

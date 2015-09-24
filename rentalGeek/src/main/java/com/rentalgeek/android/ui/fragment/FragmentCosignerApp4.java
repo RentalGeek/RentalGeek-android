@@ -6,8 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.loopj.android.http.RequestParams;
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.api.ApiManager;
+import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.model.YesNoAnswer;
+import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.ui.dialog.DialogManager;
+import com.rentalgeek.android.ui.preference.AppPreferences;
+import com.rentalgeek.android.utils.CosignerDestinationLogic;
 import com.rentalgeek.android.utils.OkAlert;
 import com.rentalgeek.android.utils.YesNoCheckChangedListener;
 
@@ -46,7 +54,38 @@ public class FragmentCosignerApp4 extends GeekBaseFragment {
     @OnClick(R.id.submit_button)
     public void nextButtonTapped() {
         if (validInput()) {
-            // make api call
+            RequestParams params = new RequestParams();
+            params.put("cosigner_profile[step]", "employment_info");
+            params.put("cosigner_profile[employer_name]", employer);
+            params.put("cosigner_profile[employment_position]", position);
+            params.put("cosigner_profile[monthly_income]", income);
+            params.put("cosigner_profile[intend_to_cover_rent]", String.valueOf(coverRent.ans));
+
+            GlobalFunctions.putApiCall(getActivity(), ApiManager.cosignerProfilesUrl(SessionManager.Instance.getCurrentUser().cosigner_profile_id), params, AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
+                @Override
+                public void onStart() {
+                    super.onStart();
+                    showProgressDialog(R.string.dialog_msg_loading);
+                }
+
+                @Override
+                public void onFinish() {
+                    super.onFinish();
+                    hideProgressDialog();
+                }
+
+                @Override
+                public void onSuccess(String content) {
+                    super.onSuccess(content);
+                    CosignerDestinationLogic.INSTANCE.navigateToNextCosignActivity(getActivity());
+                }
+
+                @Override
+                public void onFailure(Throwable ex, String failureResponse) {
+                    super.onFailure(ex, failureResponse);
+                    DialogManager.showCrouton(activity, failureResponse);
+                }
+            });
         }
     }
 

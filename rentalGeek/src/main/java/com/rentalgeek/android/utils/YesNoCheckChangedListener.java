@@ -22,10 +22,10 @@ public class YesNoCheckChangedListener implements RadioGroup.OnCheckedChangeList
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
             case R.id.segment_no:
-                this.yesNoAnswer.ans = Boolean.FALSE;
+                this.yesNoAnswer.ans = false;
                 break;
             case R.id.segment_yes:
-                this.yesNoAnswer.ans = Boolean.TRUE;
+                this.yesNoAnswer.ans = true;
                 break;
             default:
                 break;

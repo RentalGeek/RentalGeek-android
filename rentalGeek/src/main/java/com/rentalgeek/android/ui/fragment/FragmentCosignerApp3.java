@@ -6,9 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.loopj.android.http.RequestParams;
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.api.ApiManager;
+import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.model.YesNoAnswer;
+import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.activity.ActivityCosignerApp4;
+import com.rentalgeek.android.ui.dialog.DialogManager;
+import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.YesNoCheckChangedListener;
 
 import butterknife.ButterKnife;
@@ -56,8 +63,39 @@ public class FragmentCosignerApp3 extends GeekBaseFragment {
 
     @OnClick(R.id.next_button)
     public void nextButtonTapped() {
-        // make api call
-        getActivity().startActivity(new Intent(getActivity(), ActivityCosignerApp4.class));
+        RequestParams params = new RequestParams();
+        params.put("cosigner_profile[step]", "legal_history");
+        params.put("cosigner_profile[ever_lost_a_court_judgement]", String.valueOf(lostCourt.ans));
+        params.put("cosigner_profile[ever_been_foreclosed_upon]", String.valueOf(foreclosed.ans));
+        params.put("cosigner_profile[ever_had_lawsuit_filed]", String.valueOf(lawsuit.ans));
+        params.put("cosigner_profile[ever_declared_bankruptcy]", String.valueOf(bankruptcy.ans));
+        params.put("cosigner_profile[is_felon]", String.valueOf(felon.ans));
+
+        GlobalFunctions.putApiCall(getActivity(), ApiManager.cosignerProfilesUrl(SessionManager.Instance.getCurrentUser().cosigner_profile_id), params, AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+                showProgressDialog(R.string.dialog_msg_loading);
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onSuccess(String content) {
+                super.onSuccess(content);
+                getActivity().startActivity(new Intent(getActivity(), ActivityCosignerApp4.class));
+            }
+
+            @Override
+            public void onFailure(Throwable ex, String failureResponse) {
+                super.onFailure(ex, failureResponse);
+                DialogManager.showCrouton(activity, failureResponse);
+            }
+        });
     }
 
 }

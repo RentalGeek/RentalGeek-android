@@ -41,7 +41,11 @@ public class ApiManager {
         return API_HOST + "/cosigner_invites";
     }
 
-    public static String deleteAccount(String userId) {
+    public static String cosignerApplicationUrl() {
+        return API_HOST + "/cosigner_profiles";
+    }
+
+    public static String specificUserUrl(String userId) {
         return API_HOST + "/users/" + userId;
     }
 

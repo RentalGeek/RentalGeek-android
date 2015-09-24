@@ -12,9 +12,16 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.loopj.android.http.RequestParams;
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.model.CosignerApplication;
+import com.rentalgeek.android.api.ApiManager;
+import com.rentalgeek.android.api.SessionManager;
+import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.activity.ActivityCosignerApp2;
+import com.rentalgeek.android.ui.dialog.DialogManager;
+import com.rentalgeek.android.ui.preference.AppPreferences;
+import com.rentalgeek.android.utils.DateUtils;
 import com.rentalgeek.android.utils.OkAlert;
 
 import butterknife.ButterKnife;
@@ -80,8 +87,39 @@ public class FragmentCosignerApp1 extends GeekBaseFragment {
 	@OnClick(R.id.next_button)
 	public void nextButtonTapped() {
 		if (validInput()) {
-            saveFormValuesToCosignerApplication();
-            getActivity().startActivity(new Intent(getActivity(), ActivityCosignerApp2.class));
+            RequestParams params = new RequestParams();
+            params.put("user[first_name]", firstName);
+            params.put("user[last_name]", lastName);
+            params.put("user[cosigner_profile_attributes][marital_status]", maritalStatus);
+            params.put("user[cosigner_profile_attributes][born_on]", birthYear + "-" + DateUtils.monthNumberFromName(birthMonth) + "-" + birthDay);
+            params.put("user[cosigner_profile_attributes][ssn]", ssn);
+            params.put("user[cosigner_profile_attributes][phone]", phoneNumber);
+
+            GlobalFunctions.putApiCall(getActivity(), ApiManager.specificUserUrl(SessionManager.Instance.getCurrentUser().id), params, AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
+                @Override
+                public void onStart() {
+                    super.onStart();
+                    showProgressDialog(R.string.dialog_msg_loading);
+                }
+
+                @Override
+                public void onFinish() {
+                    super.onFinish();
+                    hideProgressDialog();
+                }
+
+                @Override
+                public void onSuccess(String content) {
+                    super.onSuccess(content);
+                    getActivity().startActivity(new Intent(getActivity(), ActivityCosignerApp2.class));
+                }
+
+                @Override
+                public void onFailure(Throwable ex, String failureResponse) {
+                    super.onFailure(ex, failureResponse);
+                    DialogManager.showCrouton(activity, failureResponse);
+                }
+            });
         }
 	}
 
@@ -162,17 +200,6 @@ public class FragmentCosignerApp1 extends GeekBaseFragment {
         ArrayAdapter<CharSequence> maritalStatusAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.marital_status_array, android.R.layout.simple_spinner_item);
         maritalStatusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         maritalStatusSpinner.setAdapter(maritalStatusAdapter);
-    }
-
-    private void saveFormValuesToCosignerApplication() {
-        CosignerApplication.INSTANCE.setFirstName(firstName);
-        CosignerApplication.INSTANCE.setLastName(lastName);
-        CosignerApplication.INSTANCE.setBirthMonth(birthMonth);
-        CosignerApplication.INSTANCE.setBirthDay(birthDay);
-        CosignerApplication.INSTANCE.setBirthYear(birthYear);
-        CosignerApplication.INSTANCE.setSSN(ssn);
-        CosignerApplication.INSTANCE.setMaritalStatus(maritalStatus);
-        CosignerApplication.INSTANCE.setPhoneNumber(phoneNumber);
     }
 
 }

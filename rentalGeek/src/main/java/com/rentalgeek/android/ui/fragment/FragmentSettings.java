@@ -40,7 +40,7 @@ public class FragmentSettings extends GeekBaseFragment {
     @OnClick(R.id.delete_button)
     public void deleteAccountButtonTapped() {
         String userId = SessionManager.Instance.getCurrentUser().id;
-        GlobalFunctions.deleteApiCall(getActivity(), ApiManager.deleteAccount(userId), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
+        GlobalFunctions.deleteApiCall(getActivity(), ApiManager.specificUserUrl(userId), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
             @Override
             public void onStart() {
                 super.onStart();

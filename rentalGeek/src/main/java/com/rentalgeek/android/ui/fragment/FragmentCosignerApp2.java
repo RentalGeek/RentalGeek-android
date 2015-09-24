@@ -11,7 +11,6 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.model.CosignerApplication;
 import com.rentalgeek.android.ui.activity.ActivityCosignerApp3;
 import com.rentalgeek.android.utils.OkAlert;
 
@@ -70,7 +69,7 @@ public class FragmentCosignerApp2 extends GeekBaseFragment {
     @OnClick(R.id.next_button)
     public void nextButtonTapped() {
         if (validInput()) {
-            saveFormValuesToCosignerApplication();
+            // make api call
             getActivity().startActivity(new Intent(getActivity(), ActivityCosignerApp3.class));
         }
     }
@@ -124,15 +123,6 @@ public class FragmentCosignerApp2 extends GeekBaseFragment {
         ArrayAdapter<CharSequence> stateAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.state_array, android.R.layout.simple_spinner_item);
         stateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         stateSpinner.setAdapter(stateAdapter);
-    }
-
-    private void saveFormValuesToCosignerApplication() {
-        CosignerApplication.INSTANCE.setAddress(address);
-        CosignerApplication.INSTANCE.setCity(city);
-        CosignerApplication.INSTANCE.setState(state);
-        CosignerApplication.INSTANCE.setZip(zip);
-        CosignerApplication.INSTANCE.setOwnsOrRents(ownsOrRents);
-        CosignerApplication.INSTANCE.setMonthlyPayment(monthlyPayment);
     }
 
 }

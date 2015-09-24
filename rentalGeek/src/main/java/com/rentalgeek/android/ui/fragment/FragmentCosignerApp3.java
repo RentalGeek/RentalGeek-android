@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.model.YesNoAnswer;
-import com.rentalgeek.android.model.CosignerApplication;
 import com.rentalgeek.android.ui.activity.ActivityCosignerApp4;
 import com.rentalgeek.android.utils.YesNoCheckChangedListener;
 
@@ -57,16 +56,8 @@ public class FragmentCosignerApp3 extends GeekBaseFragment {
 
     @OnClick(R.id.next_button)
     public void nextButtonTapped() {
-        saveFormValuesToCosignerApplication();
+        // make api call
         getActivity().startActivity(new Intent(getActivity(), ActivityCosignerApp4.class));
-    }
-
-    private void saveFormValuesToCosignerApplication() {
-        CosignerApplication.INSTANCE.setLostCourtJudgement(lostCourt.ans);
-        CosignerApplication.INSTANCE.setHadLawsuitFiled(lawsuit.ans);
-        CosignerApplication.INSTANCE.setForeclosedUpon(foreclosed.ans);
-        CosignerApplication.INSTANCE.setDeclaredBankruptcy(bankruptcy.ans);
-        CosignerApplication.INSTANCE.setIsFelon(felon.ans);
     }
 
 }

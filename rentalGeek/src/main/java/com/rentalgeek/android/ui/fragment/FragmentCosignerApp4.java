@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.model.CosignerApplication;
 import com.rentalgeek.android.model.YesNoAnswer;
 import com.rentalgeek.android.utils.OkAlert;
 import com.rentalgeek.android.utils.YesNoCheckChangedListener;
@@ -47,8 +46,7 @@ public class FragmentCosignerApp4 extends GeekBaseFragment {
     @OnClick(R.id.submit_button)
     public void nextButtonTapped() {
         if (validInput()) {
-            saveFormValuesToCosignerApplication();
-            // make api call to submit cosigner application
+            // make api call
         }
     }
 
@@ -73,13 +71,6 @@ public class FragmentCosignerApp4 extends GeekBaseFragment {
         }
 
         return true;
-    }
-
-    private void saveFormValuesToCosignerApplication() {
-        CosignerApplication.INSTANCE.setEmployerName(employer);
-        CosignerApplication.INSTANCE.setEmploymentPosition(position);
-        CosignerApplication.INSTANCE.setMonthlyIncome(income);
-        CosignerApplication.INSTANCE.setIntendToCoverRent(coverRent.ans);
     }
 
 }

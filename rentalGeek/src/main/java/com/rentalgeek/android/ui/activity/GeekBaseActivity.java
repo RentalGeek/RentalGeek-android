@@ -73,7 +73,7 @@ public class GeekBaseActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.action_bar,menu);
+        inflater.inflate(R.menu.action_bar, menu);
         return true;
     }
 
@@ -88,7 +88,7 @@ public class GeekBaseActivity extends AppCompatActivity {
                 return true;
             case R.id.action_search:
                 Navigation.navigateActivity(this,ActivitySearch.class,false);
-                overridePendingTransition(R.anim.pull_in_right,R.anim.push_out_left);
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -210,6 +210,7 @@ public class GeekBaseActivity extends AppCompatActivity {
 
         if (navigationView != null && drawerLayout != null) {
 
+            hideSettingsAndGeekVision();
             setVisibilityForCosignerMenuItem();
             setupDrawerListener();
 
@@ -352,6 +353,21 @@ public class GeekBaseActivity extends AppCompatActivity {
             MenuItem cosignerItem = menu.findItem(R.id.cosigner);
             if (cosignerItem != null) {
                 cosignerItem.setVisible(false);
+            }
+        }
+    }
+
+    protected void hideSettingsAndGeekVision() {
+        Menu menu = navigationView.getMenu();
+
+        if (menu != null) {
+            MenuItem menuItem = menu.findItem(R.id.geek_vision);
+            if (menuItem != null) {
+                menuItem.setVisible(false);
+            }
+            MenuItem menuItemSettings = menu.findItem(R.id.settings);
+            if (menuItemSettings != null) {
+                menuItemSettings.setVisible(false);
             }
         }
     }

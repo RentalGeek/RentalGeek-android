@@ -39,7 +39,7 @@ public class ActivityLogin extends GeekBaseActivity {
 
         if (requestCode == FragmentSignIn.RC_SIGN_IN) {
             fragment.onActivityResult(requestCode, resultCode, data);
-        } else if (data.getAction() != null && data.getAction().equals("com.linkedin.thirdparty.authorize.RESULT_ACTION")) {
+        } else if (data != null && data.getAction() != null && data.getAction().equals("com.linkedin.thirdparty.authorize.RESULT_ACTION")) {
             fragment.onActivityResult(requestCode, resultCode, data);
         } else {
             super.onActivityResult(requestCode, resultCode, data);

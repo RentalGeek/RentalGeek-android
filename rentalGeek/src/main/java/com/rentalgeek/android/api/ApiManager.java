@@ -18,7 +18,7 @@ public class ApiManager {
     }
 
     public static String getPropertySearchUrl() {
-        return API_HOST + "/rental_offerings.json";
+        return API_HOST + "/rental_offerings.json?";
     }
  
     public static String getPropertySearchUrl(String parameters) {

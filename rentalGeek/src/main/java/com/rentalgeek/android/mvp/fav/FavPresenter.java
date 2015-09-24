@@ -30,6 +30,8 @@ public class FavPresenter implements Presenter {
         String token = AppPreferences.getAuthToken();
         
         url = String.format("%sstarred=true",url);
+        
+        System.out.println(url);
 
         GlobalFunctions.getApiCall(null,url,token,new GeekHttpResponseHandler() {
             @Override public void onStart() {}

@@ -20,7 +20,7 @@ public class ApplicationItem {
     private String imageUrl = "https://s3-us-west-2.amazonaws.com/rental-geek/property-header.jpg";
     private String unsignedLeaseDocumentUrl;
     private String signedLeaseUrl;
-    private int leaseId;
+    private Integer leaseId;
 
     public ApplicationItem() {
     }

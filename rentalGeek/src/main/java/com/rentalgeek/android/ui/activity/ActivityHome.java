@@ -2,6 +2,8 @@ package com.rentalgeek.android.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
+import android.os.Handler;
 import android.support.v4.view.ViewPager;
 
 import com.rentalgeek.android.R;
@@ -19,8 +21,9 @@ import com.rentalgeek.android.ui.fragment.FragmentRentalListView;
 import com.rentalgeek.android.ui.view.NonSwipeableViewPager;
 import com.rentalgeek.android.utils.CosignerInviteCaller;
 
-import android.support.v4.widget.DrawerLayout;
+import java.lang.Runnable;
 
+        
 public class ActivityHome extends GeekBaseActivity implements Container<ViewPager>, HomeView {
 
     private static String TAG = ActivityHome.class.getSimpleName();
@@ -48,10 +51,8 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
 
         if( viewPager != null ) {
             setupContainer(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
         }
-
-        tabLayout.setupWithViewPager(viewPager);
-
         
         presenter = new HomePresenter(this);
         
@@ -59,30 +60,41 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
         if (SessionManager.Instance.getCurrentUser() != null) {
             new CosignerInviteCaller(this, false).fetchCosignerInvites();
         }
-     
-        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-    }
 
+        disableDrawerGesture();
+    }
+    
     @Override
     public void onStart() {
         super.onStart();
+        registerMessaging();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         showProgressDialog(R.string.dialog_msg_loading);
-        AppEventBus.register(this);
-        
-        Bundle extras = getIntent().getExtras();
+        final Bundle extras = getIntent().getExtras();
 
         if( extras == null ) {
             presenter.getRentalOfferings();
         }
 
         else {
-            presenter.getRentalOfferings(extras);
+
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    presenter.getRentalOfferings(extras);
+                }
+            },3000);
         }
     }
 
     @Override
     public void onStop() {
-        AppEventBus.unregister(this);
+        unregisterMessaging();
         super.onStop();
     }
 

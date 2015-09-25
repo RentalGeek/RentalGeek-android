@@ -76,7 +76,7 @@ public class GeekBaseActivity extends AppCompatActivity {
         inflater.inflate(R.menu.action_bar, menu);
         return true;
     }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -92,6 +92,10 @@ public class GeekBaseActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    protected void disableDrawerGesture() {
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 
     protected void registerMessaging() {

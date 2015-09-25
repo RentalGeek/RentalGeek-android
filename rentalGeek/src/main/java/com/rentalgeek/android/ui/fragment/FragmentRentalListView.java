@@ -31,6 +31,8 @@ public class FragmentRentalListView extends GeekBaseFragment implements RentalLi
         super.onCreate(bundle);
         adapter = new RentalAdapter(getActivity(),R.layout.rental_listview_row);
         presenter = new RentalListPresenter(this);
+
+        System.out.println(TAG + "onCreate called");
     }
 
     @Override
@@ -40,25 +42,31 @@ public class FragmentRentalListView extends GeekBaseFragment implements RentalLi
         ButterKnife.inject(this, view);
         
         rentalListView.setAdapter(adapter);
+
+        System.out.println(TAG + "onCreateView called");
+
         return view;
     }
-
+    
     @Override
     public void onStart() {
         AppEventBus.register(this);
         super.onStart();
+        System.out.println(TAG + "onStart called");
     }
 
     @Override
     public void onStop() {
         AppEventBus.unregister(this);
         super.onStop();
+        System.out.println(TAG + "onStop called");
     }
    
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+        System.out.println(TAG + "onDestroyView called");
     }
 
     @Override

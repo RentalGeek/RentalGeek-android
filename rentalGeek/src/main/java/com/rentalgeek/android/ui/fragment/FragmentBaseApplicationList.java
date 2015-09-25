@@ -47,7 +47,7 @@ public class FragmentBaseApplicationList extends GeekBaseFragment {
         return view;
     }
 
-    protected void setupRecyclerView(Context context, Boolean hideButtonAndBottom) {
+    protected void setupRecyclerView(Context context, Boolean hideButtonAndBottom/*, String requestingFragment*/) {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new ApplicationListAdapter(properties, hideButtonAndBottom);

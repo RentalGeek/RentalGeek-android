@@ -34,6 +34,9 @@ import butterknife.InjectView;
  */
 public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationListAdapter.ApplicationListViewHolder> {
 
+    public static final String PROPERTIES = "properties";
+    public static final String COSIGNER_PROPERTIES = "cosignerProperties";
+
     private List<ApplicationItem> applicationItems;
     private boolean shouldHideButtonAndBottomContactInfo = false;
 
@@ -92,7 +95,7 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
             holder.propertyPhoneTextView.setText(item.getPropertyContactInfo().getFormattedPhoneNumber() + " ");
         }
 
-        if (item.getUnsignedLeaseDocumentUrl() == null) {
+        if (item.getSignedLeaseOn() != null) {
             holder.signApproveButton.setEnabled(false);
             holder.signApproveButton.setBackgroundColor(context.getResources().getColor(R.color.light_creme));
         } else {

@@ -1,18 +1,19 @@
 package com.rentalgeek.android.ui.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
+import com.google.gson.Gson;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.pojos.SignatureUrlDTO;
 import com.rentalgeek.android.ui.preference.AppPreferences;
-import com.rentalgeek.android.ui.view.InAppWebViewClient;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -25,7 +26,7 @@ public class FragmentSignLease  extends GeekBaseFragment {
 
     public static final String LEASE_ID = "leaseId";
 
-    @InjectView(R.id.pdf_web_view) WebView pdfWebView;
+    @InjectView(R.id.web_view) WebView webView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,8 +51,8 @@ public class FragmentSignLease  extends GeekBaseFragment {
             @Override
             public void onSuccess(String content) {
                 super.onSuccess(content);
-                Log.d("tag", "" + content);
-                // load webview with url returned
+                SignatureUrlDTO signatureUrlDTO = new Gson().fromJson(content, SignatureUrlDTO.class);
+                loadSignatureUrl(signatureUrlDTO.url);
             }
 
             @Override
@@ -63,13 +64,29 @@ public class FragmentSignLease  extends GeekBaseFragment {
         return view;
     }
 
-    private void loadPdf(String pdfUrl) {
-        pdfWebView.getSettings().setJavaScriptEnabled(true);
-        pdfWebView.getSettings().setBuiltInZoomControls(true);
-        pdfWebView.setWebViewClient(new InAppWebViewClient());
+    private void loadSignatureUrl(String signatureUrl) {
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setBuiltInZoomControls(true);
 
-        String googleDocs = "https://drive.google.com/viewerng/viewer?embedded=true&url=";
-        pdfWebView.loadUrl(googleDocs + pdfUrl);
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+
+            @Override
+            public void onLoadResource(WebView view, String url) {
+                super.onLoadResource(view, url);
+
+                if (url.equals("/success")) {
+                    // take back to previous screen
+                    // would also need to reload data so they can't click sign lease again
+                }
+            }
+        });
+
+        webView.loadUrl(signatureUrl);
     }
 
 }

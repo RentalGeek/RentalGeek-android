@@ -77,6 +77,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
+import com.rentalgeek.android.utils.OkAlert;
+
 public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallbacks,
         OnConnectionFailedListener {
 
@@ -274,7 +276,9 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                             if (!error.success) {
                                 String message = error.message;
                                 if (!TextUtils.isEmpty(message)) {
-                                    DialogManager.showCrouton(activity, message);
+                                    String title = getResources().getString(R.string.login_title);
+                                    String msg = getResources().getString(R.string.invalid_login);
+                                    OkAlert.show(getActivity(),title,msg);
                                 }
                             }
                         }

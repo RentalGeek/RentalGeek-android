@@ -101,7 +101,9 @@ If you agree to share a Credit Report, we will also use this information to shar
     <string name="search_none">No rentals found.</string>
     <string name="fav_title">Favorites</string>
     <string name="fav_none">No favorite rentals found.</string>
-    
+    <string name="login_title">Login</string>
+    <string name="invalid_login">Invalid username and/or password</string>
+
     <string name="apply_text">APPLY</string>
 
     <string name="search_rental">Searching for Rentals</string>

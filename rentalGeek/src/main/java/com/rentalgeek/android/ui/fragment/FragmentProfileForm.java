@@ -36,6 +36,7 @@ import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.api.SessionManager;
+import com.rentalgeek.android.backend.ErrorObj;
 import com.rentalgeek.android.backend.ProfileIdFindBackend;
 import com.rentalgeek.android.backend.UserProfile;
 import com.rentalgeek.android.backend.model.Profile;
@@ -50,7 +51,6 @@ import com.rentalgeek.android.ui.activity.ActivityCreateProfile;
 import com.rentalgeek.android.ui.activity.ActivityGeekScore;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.activity.ActivityPayment;
-import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ListUtils;
 import com.rentalgeek.android.utils.StringUtils;
@@ -983,6 +983,35 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
     }
 
+    public void error(String response, int value) {
+
+            try {
+                ErrorObj sess = (new Gson()).fromJson(response, ErrorObj.class);
+
+                if (sess != null) {
+                    toasts("Phone Number", sess.errors.phone_number);
+                    toasts("Birth Date", sess.errors.born_on);
+                    toasts("Emergency Contact", sess.errors.emergency_contact_phone_number);
+                    toasts("Current Home Move-in Date", sess.errors.current_home_moved_in_on);
+                    toasts("Previous Home Date", sess.errors.previous_home_moved_in_on);
+
+                    toasts("Previous Employer Email", sess.errors.previous_employment_employer_email_address);
+                    toasts("Previous Employer Phone", sess.errors.previous_employment_employer_phone_number);
+                    toasts("Employer Email", sess.errors.current_employment_employer_email_address);
+                    toasts("Employer Phone", sess.errors.current_employment_employer_phone_number);
+                    toasts("Cosigner Email Address", sess.errors.cosigner_email_address);
+                    toasts("Move-in Date", sess.errors.desires_to_move_in_on);
+
+                    toasts("SSN", sess.errors.ssn);
+                }
+
+            } catch (Exception e) {
+                AppLogger.log(TAG, e);
+            }
+
+
+    }
+
     private void toasts(String field, List<String> message) {
 
         try {
@@ -1179,7 +1208,9 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                         @Override
                         public void onFailure(Throwable ex, String failureResponse) {
                             super.onFailure(ex, failureResponse);
-                            DialogManager.showCrouton(activity, failureResponse);
+                            error(failureResponse, 0);
+
+                            //DialogManager.showCrouton(activity, failureResponse);
                         }
 
                         @Override

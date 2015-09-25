@@ -78,7 +78,8 @@
                     android:layout_marginLeft="10dp"
                     android:ems="10"
                     android:hint="John smith"
-                    android:inputType="text" />
+                    android:singleLine="true"
+                    android:inputType="textCapWords" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"

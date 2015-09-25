@@ -53,6 +53,10 @@ public class ApiManager {
         return API_HOST + "/users/" + userId;
     }
 
+    public static String deleteProfile(String userId) {
+        return API_HOST + "/profiles/" + userId;
+    }
+
     public static String signLeaseUrl(int leaseId) {
         return API_HOST + "/leases/" + leaseId + "/embedded_signature_url";
     }

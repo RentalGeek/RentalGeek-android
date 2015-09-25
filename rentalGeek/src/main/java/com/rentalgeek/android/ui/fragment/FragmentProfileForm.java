@@ -702,6 +702,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
             if (detail != null) {
                 if (detail.profile != null) {
+                    SessionManager.Instance.getCurrentUser().profile_id = detail.profile.id;
                     System.out.println("profile id is " + detail.profile.id);
                     //callPatchUpdateLink(detail.profile.id);
                     toast("Profile Updated Successfully");

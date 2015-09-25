@@ -9,6 +9,9 @@ import com.rentalgeek.android.pojos.Rental;
 import com.rentalgeek.android.storage.RentalCache;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.GeekGson;
+import com.rentalgeek.android.RentalGeekApplication;
+
+import com.rentalgeek.android.R;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -52,6 +55,12 @@ public class FavPresenter implements Presenter {
                             }
 
                             favView.setRentals(rentals);
+                        }
+
+                        else {
+                            String title = RentalGeekApplication.getResourceString(R.string.fav_title);
+                            String msg = RentalGeekApplication.getResourceString(R.string.fav_none);
+                            favView.showMessage(title,msg);
                         }
                     }
 

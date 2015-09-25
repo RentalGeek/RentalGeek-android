@@ -4,13 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.bus.AppEventBus;
+import com.rentalgeek.android.bus.events.RemoveItemEvent;
 import com.rentalgeek.android.bus.events.ClickRentalEvent;
 import com.rentalgeek.android.mvp.fav.FavPresenter;
 import com.rentalgeek.android.mvp.fav.FavView;
 import com.rentalgeek.android.mvp.list.rental.RentalListView;
 import com.rentalgeek.android.pojos.Rental;
 import com.rentalgeek.android.ui.fragment.FragmentRentalListView;
+
+import com.rentalgeek.android.utils.OkAlert;
 
 public class ActivityFavoriteRentals extends GeekBaseActivity implements FavView {
 
@@ -47,13 +49,13 @@ public class ActivityFavoriteRentals extends GeekBaseActivity implements FavView
     public void onStart() {
         super.onStart();
         showProgressDialog(R.string.dialog_msg_loading);
-        AppEventBus.register(this);
+        registerMessaging();
         presenter.getFavoriteRentals();
     }
 
     @Override
     public void onStop() {
-        AppEventBus.unregister(this);
+        unregisterMessaging();
         super.onStop();
     }
 
@@ -61,6 +63,12 @@ public class ActivityFavoriteRentals extends GeekBaseActivity implements FavView
     public void setRentals(Rental[] rentals) {
         rentalListView.setRentals(rentals);
         hideProgressDialog();
+    }
+
+    @Override
+    public void showMessage(String title, String message) {
+        hideProgressDialog();
+        OkAlert.show(this,title,message);
     }
 
     public void onEventMainThread(ClickRentalEvent event) {
@@ -72,5 +80,10 @@ public class ActivityFavoriteRentals extends GeekBaseActivity implements FavView
             intent.putExtras(bundle);
             startActivity(intent);
         }
+    }
+
+    public void onEventMainThread(RemoveItemEvent event) {
+        int position = event.getPosition();
+        rentalListView.removeItem(position);
     }
 }

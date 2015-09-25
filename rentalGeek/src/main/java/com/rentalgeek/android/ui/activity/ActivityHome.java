@@ -68,7 +68,16 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
         super.onStart();
         showProgressDialog(R.string.dialog_msg_loading);
         AppEventBus.register(this);
-        presenter.getRentalOfferings();
+        
+        Bundle extras = getIntent().getExtras();
+
+        if( extras == null ) {
+            presenter.getRentalOfferings();
+        }
+
+        else {
+            presenter.getRentalOfferings(extras);
+        }
     }
 
     @Override

@@ -6,6 +6,8 @@ import android.content.Intent;
 
 import com.rentalgeek.android.R;
 
+import com.rentalgeek.android.ui.Navigation;
+
 import com.rentalgeek.android.mvp.search.SearchView;
 
 import com.rentalgeek.android.bus.events.SearchEvent;
@@ -55,14 +57,11 @@ public class ActivitySearch extends GeekBaseActivity {
         super.onStop();
     }
 
-    public void OnEventMainThread(SearchEvent event) {
+    public void onEventMainThread(SearchEvent event) {
 
         if( event.getBundle() != null ) {
-
-            Intent intent = new Intent(this, ActivityHome.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtras(event.getBundle());
-            startActivity(intent);
+            Navigation.navigateActivity(this,ActivityHome.class,event.getBundle(),true);
         }
     }
+
 }

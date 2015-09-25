@@ -97,7 +97,11 @@ If you agree to share a Credit Report, we will also use this information to shar
 
     <string name="cosigner_invite_accept">ACCEPT</string>
     <string name="cosigner_invite_decline">DECLINE</string>
-
+    <string name="search_title">Search</string>
+    <string name="search_none">No rentals found.</string>
+    <string name="fav_title">Favorites</string>
+    <string name="fav_none">No favorite rentals found.</string>
+    
     <string name="apply_text">APPLY</string>
 
     <string name="search_rental">Searching for Rentals</string>

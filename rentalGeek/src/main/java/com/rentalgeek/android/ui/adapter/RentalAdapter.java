@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.bus.AppEventBus;
+import com.rentalgeek.android.bus.events.RemoveItemEvent;
 import com.rentalgeek.android.bus.events.ClickRentalEvent;
 import com.rentalgeek.android.bus.events.ClickStarEvent;
 import com.rentalgeek.android.mvp.common.StarView;
@@ -65,7 +66,8 @@ public class RentalAdapter extends ArrayAdapter<Rental>{
             .load(R.drawable.star_outline)
             .into(viewHolder.star_imageview);
         }
-
+        
+        viewHolder.position = position;
         viewHolder.star_imageview.setTag(rental.getId());
         viewHolder.price_textview.setText(String.format("$%d",rental.getMonthlyRent()));
 
@@ -89,7 +91,8 @@ public class RentalAdapter extends ArrayAdapter<Rental>{
         @InjectView(R.id.price) TextView price_textview;
         @InjectView(R.id.room_count) TextView room_count_textview;
         @InjectView(R.id.address) TextView address_textview;
-        
+        int position;
+
         public ViewHolder(View view) {
                 ButterKnife.inject(this,view);
         }
@@ -106,12 +109,14 @@ public class RentalAdapter extends ArrayAdapter<Rental>{
 
         @Override
         public void unselectStar() {
-            if( rental_imageview != null ) {
+            if( rental_imageview != null) {
                  Picasso
                     .with(rental_imageview.getContext())
                     .load(R.drawable.star_outline)
                     .into(star_imageview);
             }
+
+            AppEventBus.post(new RemoveItemEvent(position));
         }
 
         @OnClick(R.id.rental_imageview)

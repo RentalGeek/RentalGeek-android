@@ -45,8 +45,8 @@ public class FragmentRentalListView extends GeekBaseFragment implements RentalLi
 
     @Override
     public void onStart() {
-        super.onStart();
         AppEventBus.register(this);
+        super.onStart();
     }
 
     @Override
@@ -67,12 +67,15 @@ public class FragmentRentalListView extends GeekBaseFragment implements RentalLi
         adapter.addAll(rentals);
     }
 
-    public void OnEventMainThread(ClickStarEvent event) {
-        
+    public void onEventMainThread(ClickStarEvent event) {
         if( event.getBundle() != null && event.getBundle().getString("RENTAL_ID") != null) {
-
             String rental_id = event.getBundle().getString("RENTAL_ID");
             presenter.select(rental_id,event.getStarView());   
         }
+    }
+    
+    @Override
+    public void removeItem(int position) {
+        adapter.remove(adapter.getItem(position));
     }
 }

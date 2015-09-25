@@ -15,6 +15,7 @@ public class ApplicationDTO {
     public Boolean as_cosigner;
     public String access_token;
     public String signed_lease_url;
+    public String signed_lease_on;
     public Integer lease_id;
     public String unsigned_lease_document_url;
     public ArrayList<RoommateDTO> roommates;

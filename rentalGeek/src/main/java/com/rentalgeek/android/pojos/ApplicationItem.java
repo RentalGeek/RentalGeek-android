@@ -20,6 +20,7 @@ public class ApplicationItem {
     private String imageUrl = "https://s3-us-west-2.amazonaws.com/rental-geek/property-header.jpg";
     private String unsignedLeaseDocumentUrl;
     private String signedLeaseUrl;
+    private String signedLeaseOn;
     private Integer leaseId;
 
     public ApplicationItem() {
@@ -36,6 +37,7 @@ public class ApplicationItem {
         this.unsignedLeaseDocumentUrl = applicationDTO.unsigned_lease_document_url;
         this.signedLeaseUrl = applicationDTO.signed_lease_url;
         this.leaseId = applicationDTO.lease_id;
+        this.signedLeaseOn = applicationDTO.signed_lease_on;
     }
 
     public Address getAddress() {
@@ -177,4 +179,13 @@ public class ApplicationItem {
     public void setLeaseId(int leaseId) {
         this.leaseId = leaseId;
     }
+
+    public String getSignedLeaseOn() {
+        return signedLeaseOn;
+    }
+
+    public void setSignedLeaseOn(String signedLeaseOn) {
+        this.signedLeaseOn = signedLeaseOn;
+    }
+
 }

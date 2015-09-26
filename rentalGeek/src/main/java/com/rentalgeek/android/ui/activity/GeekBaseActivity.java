@@ -54,19 +54,23 @@ public class GeekBaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        registerMessaging();
     }
-
-        @Override
+    
+    @Override
     protected void onResume() {
         super.onResume();
-        registerMessaging();
         if (authRequired) checkLogin();
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onStart() {
+        super.onStart();
+        registerMessaging();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
         unregisterMessaging();
     }
     
@@ -76,7 +80,7 @@ public class GeekBaseActivity extends AppCompatActivity {
         inflater.inflate(R.menu.action_bar, menu);
         return true;
     }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -92,6 +96,10 @@ public class GeekBaseActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    protected void disableDrawerGesture() {
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 
     protected void registerMessaging() {

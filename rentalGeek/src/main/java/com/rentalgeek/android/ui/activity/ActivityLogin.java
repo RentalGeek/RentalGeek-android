@@ -3,6 +3,7 @@ package com.rentalgeek.android.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.ui.fragment.FragmentSignIn;
@@ -44,6 +45,13 @@ public class ActivityLogin extends GeekBaseActivity {
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.action_bar, menu);
+        return true;
     }
 
 }

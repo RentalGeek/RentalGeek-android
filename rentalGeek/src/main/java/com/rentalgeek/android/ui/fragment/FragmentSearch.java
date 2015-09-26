@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 
+
 public class FragmentSearch extends GeekBaseFragment implements SearchView {
     
     @InjectViews({R.id.btn_bed0,R.id.btn_bed1,R.id.btn_bed2,R.id.btn_bed3,R.id.btn_bed4})
@@ -119,8 +120,12 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
     }
 
     @Override public void returnRentals(Bundle bundle) {
-        hideProgressDialog();
-        
+        hideProgressDialog();   
         AppEventBus.post(new SearchEvent(bundle));
+    }
+
+    @Override public void showMessage(String title, String msg) {
+             hideProgressDialog();   
+             OkAlert.show(getActivity(),title,msg);
     }
 }

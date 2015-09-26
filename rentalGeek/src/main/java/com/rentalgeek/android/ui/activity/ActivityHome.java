@@ -2,12 +2,15 @@ package com.rentalgeek.android.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
+import android.os.Handler;
 import android.support.v4.view.ViewPager;
 
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.ClickRentalEvent;
+import com.rentalgeek.android.bus.events.ShowProfileCreationEvent;
 import com.rentalgeek.android.mvp.home.HomePresenter;
 import com.rentalgeek.android.mvp.home.HomeView;
 import com.rentalgeek.android.mvp.list.rental.RentalListView;
@@ -18,9 +21,11 @@ import com.rentalgeek.android.ui.fragment.FragmentMap;
 import com.rentalgeek.android.ui.fragment.FragmentRentalListView;
 import com.rentalgeek.android.ui.view.NonSwipeableViewPager;
 import com.rentalgeek.android.utils.CosignerInviteCaller;
+import com.rentalgeek.android.ui.Navigation;
 
-import android.support.v4.widget.DrawerLayout;
+import java.lang.Runnable;
 
+        
 public class ActivityHome extends GeekBaseActivity implements Container<ViewPager>, HomeView {
 
     private static String TAG = ActivityHome.class.getSimpleName();
@@ -48,10 +53,8 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
 
         if( viewPager != null ) {
             setupContainer(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
         }
-
-        tabLayout.setupWithViewPager(viewPager);
-
         
         presenter = new HomePresenter(this);
         
@@ -59,22 +62,30 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
         if (SessionManager.Instance.getCurrentUser() != null) {
             new CosignerInviteCaller(this, false).fetchCosignerInvites();
         }
-     
-        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        showProgressDialog(R.string.dialog_msg_loading);
-        AppEventBus.register(this);
-        presenter.getRentalOfferings();
+        disableDrawerGesture();
     }
-
+    
     @Override
-    public void onStop() {
-        AppEventBus.unregister(this);
-        super.onStop();
+    public void onResume() {
+        super.onResume();
+        showProgressDialog(R.string.loading_rentals);
+        final Bundle extras = getIntent().getExtras();
+
+        if( extras == null ) {
+            presenter.getRentalOfferings();
+        }
+
+        else {
+
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    presenter.getRentalOfferings(extras);
+                }
+            },3000);
+        }
     }
 
     @Override
@@ -101,5 +112,9 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
             intent.putExtras(bundle);
             startActivity(intent);
         }
+    }
+
+    public void onEventMainThread(ShowProfileCreationEvent event) {
+        Navigation.navigateActivity(this,ActivityCreateProfile.class);   
     }
 }

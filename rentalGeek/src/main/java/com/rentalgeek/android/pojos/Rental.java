@@ -12,13 +12,14 @@ public class Rental {
 	private String headline;
 	private int full_bathroom_count;
 	private String primary_property_photo_url;
-    private String star_id;
     private String address;
     private String city;
     private String zipcode;
     private String state;
     private String salesy_description;
     private String[] scrape_amenities;
+    private String starred_property_id;
+    private boolean already_applied;
 
     public String toString() {
         return String.format("id: %s, starred: %s",id,starred);
@@ -66,12 +67,12 @@ public class Rental {
 
     public void setStarId(String star_id) {
         if( star_id != null && !star_id.isEmpty() ) {
-            this.star_id = star_id;
+            starred_property_id = star_id;
         }
     }
 
     public String getStarId() {
-        return star_id;
+        return starred_property_id;
     }
 
     public String getAddress() {
@@ -96,5 +97,9 @@ public class Rental {
 
     public String[] getAmenities() {
         return scrape_amenities;
+    }
+
+    public boolean applied() {
+        return already_applied;
     }
 }

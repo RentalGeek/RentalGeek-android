@@ -2,6 +2,8 @@ package com.rentalgeek.android.mvp.home;
 
 import android.util.Log;
 
+import android.os.Bundle;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import com.rentalgeek.android.api.ApiManager;
@@ -19,6 +21,8 @@ import com.rentalgeek.android.storage.RentalCache;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class HomePresenter implements Presenter {
     
@@ -66,5 +70,28 @@ public class HomePresenter implements Presenter {
 
             @Override public void onAuthenticationFailed() {}
         });
+    }
+
+    @Override 
+    public void getRentalOfferings(Bundle bundle) {
+        
+        Rental[] rentals = {};
+
+        if( bundle != null) {
+            
+            ArrayList<String> rental_ids = bundle.getStringArrayList("RENTALS");
+            
+            int size = rental_ids.size();
+
+            rentals = new Rental[size];
+
+            for(int i = 0; i < size; i++) {
+                rentals[i] = RentalCache.getInstance().get(rental_ids.get(i));
+            }
+
+            homeView.setRentals(rentals);
+        }
+
+        homeView.setRentals(rentals);
     }
 }

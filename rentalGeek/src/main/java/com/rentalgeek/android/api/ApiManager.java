@@ -158,6 +158,8 @@ public class ApiManager {
         return String.format("%s/%s/roommate_payments", url, leaseId);
     }
 
-
+    public static String postApplication() {
+        return String.format("%s/%s",API_HOST,"applications");
+    }
 
 }

@@ -100,6 +100,10 @@ public class RentalGeekApplication extends Application {
 		return string;
 	}
 
+    public static int getColor(int colorId) {
+        return context.getResources().getColor(colorId);
+    }
+
     public static int getScreenHeight() {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         return metrics.heightPixels;

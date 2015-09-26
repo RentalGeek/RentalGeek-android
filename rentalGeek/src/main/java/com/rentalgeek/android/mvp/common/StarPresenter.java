@@ -45,6 +45,8 @@ public abstract class StarPresenter {
 
         String url = ApiManager.postRentalStar();
         String token = AppPreferences.getAuthToken();
+        
+        System.out.println(url);
 
         GlobalFunctions.postApiCall(null,url,params,token, new GeekHttpResponseHandler() {
             
@@ -87,12 +89,13 @@ public abstract class StarPresenter {
             String url = ApiManager.deleteRentalStar(star_id);
             String token = AppPreferences.getAuthToken();
             
+            System.out.println(url);
+
             GlobalFunctions.deleteApiCall(null,url,token, new GeekHttpResponseHandler() {
                 @Override public void onSuccess(String response) {
                     Rental rental = RentalCache.getInstance().get(rental_id);
                     rental.setStarred(false);
-                    
-                    starView.unselectStar();   
+                    starView.unselectStar();
                 }
             });
         }

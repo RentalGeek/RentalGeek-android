@@ -7,11 +7,13 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Button;
 
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.ClickRentalEvent;
+import com.rentalgeek.android.bus.events.ShowProfileCreationEvent;
 import com.rentalgeek.android.mvp.common.StarView;
 import com.rentalgeek.android.mvp.rental.RentalPresenter;
 import com.rentalgeek.android.mvp.rental.RentalView;
@@ -31,6 +33,7 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
     @InjectView(R.id.star_image) ImageView star_imageview;
     @InjectView(R.id.description) TextView description_textview;
     @InjectView(R.id.amenities) TextView amenities_textview;
+    @InjectView(R.id.apply_btn) Button apply_btn;
 
     private RentalPresenter presenter;
     private boolean fullView = false;
@@ -71,6 +74,11 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
         }
 
         return view;
+    }
+
+    @Override 
+    public void goToCreateProfile() {
+        AppEventBus.post(new ShowProfileCreationEvent());
     }
     
     public void setFullView(boolean fullView) {
@@ -128,8 +136,13 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
         address_textview.setText(String.format("%s\n%s, %s %s",rental.getAddress(),rental.getCity(),rental.getState(),rental.getZipcode()));
  
         description_textview.setText(rental.getDescription());
+        
+        if( rental.applied() ) {
+            String applied_text = RentalGeekApplication.getResourceString(R.string.applied_text);
+            apply_btn.setText(applied_text);
+            apply_btn.setClickable(false);
+        }
 
-                
         StringBuilder amenities = new StringBuilder();
         
         for(String amenity : rental.getAmenities() ) {
@@ -187,5 +200,10 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
     @OnClick(R.id.star_image)
     public void star(View view) {
         presenter.select(rental_id,this);
+    }
+
+    @OnClick(R.id.apply_btn)
+    public void onApplyClick() {
+        presenter.apply(rental_id);
     }
 }

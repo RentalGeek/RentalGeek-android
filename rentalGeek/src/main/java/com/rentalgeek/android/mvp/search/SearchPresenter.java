@@ -4,6 +4,8 @@ import android.util.Log;
 
 import android.os.Bundle;
 
+import com.rentalgeek.android.R;
+
 import com.rentalgeek.android.api.ApiManager;
 
 import com.rentalgeek.android.net.GlobalFunctions;
@@ -16,6 +18,8 @@ import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.GeekGson;
 
 import com.rentalgeek.android.storage.RentalCache;
+
+import com.rentalgeek.android.RentalGeekApplication;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -105,9 +109,15 @@ public class SearchPresenter implements Presenter {
                                 rental_ids.add(rental.getId());
                             }
                            
-                           Bundle rental_bundle = new Bundle();
-                           rental_bundle.putStringArrayList("RENTALS",rental_ids);
-                           searchView.returnRentals(rental_bundle);
+                            Bundle rental_bundle = new Bundle();
+                            rental_bundle.putStringArrayList("RENTALS",rental_ids);
+                            searchView.returnRentals(rental_bundle);
+                        }
+
+                        else {
+                            String title = RentalGeekApplication.getResourceString(R.string.search_title);
+                            String msg = RentalGeekApplication.getResourceString(R.string.search_none);
+                            searchView.showMessage(title,msg);
                         }
                     }
 

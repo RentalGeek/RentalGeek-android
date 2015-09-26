@@ -19,7 +19,7 @@ public class FragmentApprovedProperties extends FragmentBaseApplicationList {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
-        setupRecyclerView(getActivity(), false/*, ApplicationListAdapter.PROPERTIES*/);
+        setupRecyclerView(getActivity(), FragmentBaseApplicationList.APPROVED_PROPERTIES);
 
         return v;
     }

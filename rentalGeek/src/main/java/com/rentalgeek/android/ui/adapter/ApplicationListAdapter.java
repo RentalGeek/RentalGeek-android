@@ -17,6 +17,7 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.pojos.ApplicationItem;
 import com.rentalgeek.android.pojos.RoommateDTO;
 import com.rentalgeek.android.ui.activity.ActivitySignLease;
+import com.rentalgeek.android.ui.fragment.FragmentBaseApplicationList;
 import com.rentalgeek.android.ui.fragment.FragmentSignLease;
 import com.rentalgeek.android.ui.view.PropertyLeftTextView;
 import com.rentalgeek.android.ui.view.PropertyPersonHorizontalLinearLayout;
@@ -34,11 +35,8 @@ import butterknife.InjectView;
  */
 public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationListAdapter.ApplicationListViewHolder> {
 
-    public static final String PROPERTIES = "properties";
-    public static final String COSIGNER_PROPERTIES = "cosignerProperties";
-
     private List<ApplicationItem> applicationItems;
-    private boolean shouldHideButtonAndBottomContactInfo = false;
+    private String requestingFragment;
 
     public static class ApplicationListViewHolder extends RecyclerView.ViewHolder {
         @InjectView(R.id.top_image_layout) ImageView topImageLayout;
@@ -60,9 +58,9 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
         }
     }
 
-    public ApplicationListAdapter(List<ApplicationItem> applicationItems, Boolean shouldHideButtonAndBottomContactInfo) {
+    public ApplicationListAdapter(List<ApplicationItem> applicationItems, String requestingFragment) {
         this.applicationItems = applicationItems;
-        this.shouldHideButtonAndBottomContactInfo = shouldHideButtonAndBottomContactInfo;
+        this.requestingFragment = requestingFragment;
     }
 
     public void setItems(List<ApplicationItem> applicationItems) {
@@ -85,7 +83,7 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
         holder.numBedsBathsTextView.setText(item.getNumBedBathText() + " ");
         holder.costTextView.setText(item.getMonthlyCostText() + " ");
 
-        if (shouldHideButtonAndBottomContactInfo) {
+        if (requestingFragment.equals(FragmentBaseApplicationList.PENDING_PROPERTIES)) {
             holder.bottomContactBlueBox.setVisibility(View.GONE);
             holder.signApproveButton.setVisibility(View.GONE);
         } else {
@@ -110,6 +108,7 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
             public void onClick(View v) {
                 Intent intent = new Intent(context, ActivitySignLease.class);
                 intent.putExtra(FragmentSignLease.LEASE_ID, item.getLeaseId());
+                intent.putExtra(FragmentSignLease.REQUESTING_FRAGMENT, requestingFragment);
                 context.startActivity(intent);
             }
         });

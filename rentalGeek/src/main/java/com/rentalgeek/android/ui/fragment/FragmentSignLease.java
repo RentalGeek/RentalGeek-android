@@ -13,6 +13,10 @@ import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.pojos.SignatureUrlDTO;
+import com.rentalgeek.android.ui.Navigation;
+import com.rentalgeek.android.ui.activity.ActivityCosignerList;
+import com.rentalgeek.android.ui.activity.ActivityHome;
+import com.rentalgeek.android.ui.activity.ActivityProperties;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 
 import butterknife.ButterKnife;
@@ -25,6 +29,9 @@ import butterknife.InjectView;
 public class FragmentSignLease  extends GeekBaseFragment {
 
     public static final String LEASE_ID = "leaseId";
+    public static final String REQUESTING_FRAGMENT = "requestingFragment";
+
+    private String requestingFragment;
 
     @InjectView(R.id.web_view) WebView webView;
 
@@ -34,6 +41,7 @@ public class FragmentSignLease  extends GeekBaseFragment {
         ButterKnife.inject(this, view);
 
         int leaseId = getArguments().getInt(LEASE_ID);
+        requestingFragment = getArguments().getString(REQUESTING_FRAGMENT);
 
         GlobalFunctions.getApiCall(getActivity(), ApiManager.signLeaseUrl(leaseId), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
             @Override
@@ -82,11 +90,22 @@ public class FragmentSignLease  extends GeekBaseFragment {
                 if (url.equals("/success")) {
                     // take back to previous screen
                     // would also need to reload data so they can't click sign lease again
+                    navigateToNextScreen();
                 }
             }
         });
 
         webView.loadUrl(signatureUrl);
+    }
+
+    private void navigateToNextScreen() {
+        if (requestingFragment.equals(FragmentBaseApplicationList.PENDING_PROPERTIES) || requestingFragment.equals(FragmentBaseApplicationList.APPROVED_PROPERTIES)) {
+            Navigation.navigateActivity(getActivity(), ActivityProperties.class);
+        } else if (requestingFragment.equals(FragmentBaseApplicationList.COSIGNER_PROPERTIES)) {
+            Navigation.navigateActivity(getActivity(), ActivityCosignerList.class);
+        } else {
+            Navigation.navigateActivity(getActivity(), ActivityHome.class);
+        }
     }
 
 }

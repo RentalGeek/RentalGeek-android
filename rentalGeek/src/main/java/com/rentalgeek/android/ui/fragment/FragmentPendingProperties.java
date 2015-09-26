@@ -17,7 +17,7 @@ public class FragmentPendingProperties extends FragmentBaseApplicationList {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
-        setupRecyclerView(getActivity(), true/*, ApplicationListAdapter.PROPERTIES*/);
+        setupRecyclerView(getActivity(), FragmentBaseApplicationList.PENDING_PROPERTIES);
         fetchItemsWithUrl(getActivity(), ApiManager.getPendingApplicationsUrl());
 
         return v;

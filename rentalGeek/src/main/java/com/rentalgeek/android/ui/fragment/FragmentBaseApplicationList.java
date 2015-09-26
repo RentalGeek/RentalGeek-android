@@ -34,6 +34,10 @@ import butterknife.InjectView;
  */
 public class FragmentBaseApplicationList extends GeekBaseFragment {
 
+    public static final String PENDING_PROPERTIES = "pendingProperties";
+    public static final String APPROVED_PROPERTIES = "approvedProperties";
+    public static final String COSIGNER_PROPERTIES = "cosignerProperties";
+
     @InjectView(R.id.recyclerView) RecyclerView recyclerView;
     @InjectView(R.id.no_items_view) TextView noItemsView;
     List<ApplicationItem> properties = new ArrayList<>();
@@ -47,10 +51,10 @@ public class FragmentBaseApplicationList extends GeekBaseFragment {
         return view;
     }
 
-    protected void setupRecyclerView(Context context, Boolean hideButtonAndBottom/*, String requestingFragment*/) {
+    protected void setupRecyclerView(Context context, String requestingFragment) {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new ApplicationListAdapter(properties, hideButtonAndBottom);
+        adapter = new ApplicationListAdapter(properties, requestingFragment);
         recyclerView.setAdapter(adapter);
     }
 

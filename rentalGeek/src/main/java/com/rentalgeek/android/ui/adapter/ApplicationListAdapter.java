@@ -18,6 +18,7 @@ import com.rentalgeek.android.pojos.ApplicationItem;
 import com.rentalgeek.android.pojos.RoommateDTO;
 import com.rentalgeek.android.ui.activity.ActivitySignLease;
 import com.rentalgeek.android.ui.fragment.FragmentBaseApplicationList;
+import com.rentalgeek.android.ui.fragment.FragmentCosignerProperties;
 import com.rentalgeek.android.ui.fragment.FragmentSignLease;
 import com.rentalgeek.android.ui.view.PropertyLeftTextView;
 import com.rentalgeek.android.ui.view.PropertyPersonHorizontalLinearLayout;
@@ -37,8 +38,9 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
 
     private List<ApplicationItem> applicationItems;
     private String requestingFragment;
+    private FragmentCosignerProperties fragment;
 
-    public static class ApplicationListViewHolder extends RecyclerView.ViewHolder {
+    public class ApplicationListViewHolder extends RecyclerView.ViewHolder {
         @InjectView(R.id.top_image_layout) ImageView topImageLayout;
         @InjectView(R.id.street_address) TextView streetAddressTextView;
         @InjectView(R.id.city_state_zip_address) TextView cityStateZipAddressTextView;
@@ -51,16 +53,129 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
         @InjectView(R.id.lease_signed_lines) LinearLayout dynamicNamesLayout;
         @InjectView(R.id.bottom_contact_blue_box) LinearLayout bottomContactBlueBox;
 
+        Context context;
+
         public ApplicationListViewHolder(View view) {
             super(view);
             ButterKnife.inject(this, view);
+            context = signApproveButton.getContext();
             propertyEmailTextView.setPaintFlags(propertyEmailTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        }
+
+        public void setButtonVisibility(ApplicationItem item) {
+            if (requestingFragment.equals(FragmentBaseApplicationList.PENDING_PROPERTIES)) {
+                bottomContactBlueBox.setVisibility(View.GONE);
+                signApproveButton.setVisibility(View.GONE);
+            } else {
+                signApproveButton.setText(item.getButtonText());
+                propertyNameTextView.setText(item.getPropertyContactInfo().getName() + " ");
+                propertyEmailTextView.setText(item.getPropertyContactInfo().getEmail() + " ");
+                propertyPhoneTextView.setText(item.getPropertyContactInfo().getFormattedPhoneNumber() + " ");
+            }
+        }
+
+        public void setButtonEnabledness(ApplicationItem item) {
+            if (item.getSignedLeaseOn() != null) {
+                disableButton();
+            } else {
+                enableButton();
+            }
+
+            // if we're coming from cosigner
+
+            // if we're coming from approved properties
+        }
+
+        public void setButtonTapListener(final ApplicationItem item) {
+            signApproveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (signApproveButton.getText().equals(ApplicationItem.SIGN_LEASE)) {
+                        Intent intent = new Intent(context, ActivitySignLease.class);
+                        intent.putExtra(FragmentSignLease.LEASE_ID, item.getLeaseId());
+                        intent.putExtra(FragmentSignLease.REQUESTING_FRAGMENT, requestingFragment);
+                        context.startActivity(intent);
+                    } else if (signApproveButton.getText().equals(ApplicationItem.APPROVE)) {
+                        fragment.applyToProperty(item.getRentalOfferingId());
+                    }
+                }
+            });
+        }
+
+        /**
+         * View hierarchy:
+         *
+         * wholeLayout
+         * --roommateAndCosignerLayout
+         * ----roommateLine
+         * ------roommateLeftText
+         * ------roommateRightText
+         * ----cosignerLine
+         * ------cosignerLeftText
+         * ------cosignerRightText
+         */
+        public void addDynamicTextViewsForEachRoommate(ApplicationItem item) {
+            LinearLayout wholeLayout = dynamicNamesLayout;
+            Context context = wholeLayout.getContext();
+
+            for (RoommateDTO roommate : item.getRoommates()) {
+                LinearLayout roommateAndCosignerLayout = new LinearLayout(context);
+                roommateAndCosignerLayout.setOrientation(LinearLayout.VERTICAL);
+                roommateAndCosignerLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+                    PropertyPersonHorizontalLinearLayout roommateLine = new PropertyPersonHorizontalLinearLayout(context);
+                        PropertyLeftTextView roommateLeftText = new PropertyLeftTextView(context);
+                        roommateLeftText.setText(item.getLeftTextForRoomate(roommate));
+                        PropertyRightTextView roommateRightText = new PropertyRightTextView(context);
+                        roommateRightText.setText(item.getRightTextForRoommate(roommate));
+                        makeLeftFullWidthIfNoRight(roommateRightText.getText().toString(), roommateLeftText, roommateRightText);
+
+                    PropertyPersonHorizontalLinearLayout cosignerLine = new PropertyPersonHorizontalLinearLayout(context);
+                        PropertyLeftTextView cosignerLeftText = new PropertyLeftTextView(context);
+                        cosignerLeftText.setText(item.getLeftTextForCosigner(roommate));
+                        PropertyRightTextView cosignerRightText = new PropertyRightTextView(context);
+                        cosignerRightText.setText(item.getRightTextForCosigner(roommate));
+                        makeLeftFullWidthIfNoRight(cosignerRightText.getText().toString(), cosignerLeftText, cosignerRightText);
+
+                roommateLine.addView(roommateLeftText);
+                roommateLine.addView(roommateRightText);
+                cosignerLine.addView(cosignerLeftText);
+                cosignerLine.addView(cosignerRightText);
+                roommateAndCosignerLayout.addView(roommateLine);
+                roommateAndCosignerLayout.addView(cosignerLine);
+                wholeLayout.addView(roommateAndCosignerLayout);
+            }
+        }
+
+        private void makeLeftFullWidthIfNoRight(String rightString, TextView leftTV, TextView rightTV) {
+            if (rightString.trim().isEmpty()) {
+                leftTV.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+                rightTV.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0f));
+            }
+        }
+
+        private void enableButton() {
+            signApproveButton.setEnabled(true);
+            signApproveButton.setBackground(context.getResources().getDrawable(R.drawable.continue_bg));
+            signApproveButton.setTextColor(context.getResources().getColor(R.color.white));
+        }
+
+        private void disableButton() {
+            signApproveButton.setEnabled(false);
+            signApproveButton.setBackgroundColor(context.getResources().getColor(R.color.decline_gray));
+            signApproveButton.setTextColor(context.getResources().getColor(R.color.white));
         }
     }
 
     public ApplicationListAdapter(List<ApplicationItem> applicationItems, String requestingFragment) {
         this.applicationItems = applicationItems;
         this.requestingFragment = requestingFragment;
+    }
+
+    public ApplicationListAdapter(List<ApplicationItem> applicationItems, String requestingFragment, FragmentCosignerProperties fragment) {
+        this.applicationItems = applicationItems;
+        this.requestingFragment = requestingFragment;
+        this.fragment = fragment;
     }
 
     public void setItems(List<ApplicationItem> applicationItems) {
@@ -83,35 +198,10 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
         holder.numBedsBathsTextView.setText(item.getNumBedBathText() + " ");
         holder.costTextView.setText(item.getMonthlyCostText() + " ");
 
-        if (requestingFragment.equals(FragmentBaseApplicationList.PENDING_PROPERTIES)) {
-            holder.bottomContactBlueBox.setVisibility(View.GONE);
-            holder.signApproveButton.setVisibility(View.GONE);
-        } else {
-            holder.signApproveButton.setText(item.getButtonText());
-            holder.propertyNameTextView.setText(item.getPropertyContactInfo().getName() + " ");
-            holder.propertyEmailTextView.setText(item.getPropertyContactInfo().getEmail() + " ");
-            holder.propertyPhoneTextView.setText(item.getPropertyContactInfo().getFormattedPhoneNumber() + " ");
-        }
-
-        if (item.getSignedLeaseOn() != null) {
-            holder.signApproveButton.setEnabled(false);
-            holder.signApproveButton.setBackgroundColor(context.getResources().getColor(R.color.light_creme));
-        } else {
-            holder.signApproveButton.setEnabled(true);
-            holder.signApproveButton.setBackground(context.getResources().getDrawable(R.drawable.continue_bg));
-        }
-
-        addDynamicTextViewsForEachRoommate(holder, item);
-
-        holder.signApproveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, ActivitySignLease.class);
-                intent.putExtra(FragmentSignLease.LEASE_ID, item.getLeaseId());
-                intent.putExtra(FragmentSignLease.REQUESTING_FRAGMENT, requestingFragment);
-                context.startActivity(intent);
-            }
-        });
+        holder.setButtonVisibility(item);
+        holder.setButtonEnabledness(item);
+        holder.addDynamicTextViewsForEachRoommate(item);
+        holder.setButtonTapListener(item);
     }
 
     @Override
@@ -129,58 +219,6 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
     public void onViewRecycled(ApplicationListViewHolder holder) {
         super.onViewRecycled(holder);
         holder.dynamicNamesLayout.removeAllViews();
-    }
-
-    /**
-     * View hierarchy:
-     *
-     * wholeLayout
-     * --roommateAndCosignerLayout
-     * ----roommateLine
-     * ------roommateLeftText
-     * ------roommateRightText
-     * ----cosignerLine
-     * ------cosignerLeftText
-     * ------cosignerRightText
-     */
-    private void addDynamicTextViewsForEachRoommate(ApplicationListViewHolder holder, ApplicationItem item) {
-        LinearLayout wholeLayout = holder.dynamicNamesLayout;
-        Context context = wholeLayout.getContext();
-
-        for (RoommateDTO roommate : item.getRoommates()) {
-            LinearLayout roommateAndCosignerLayout = new LinearLayout(context);
-            roommateAndCosignerLayout.setOrientation(LinearLayout.VERTICAL);
-            roommateAndCosignerLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
-                PropertyPersonHorizontalLinearLayout roommateLine = new PropertyPersonHorizontalLinearLayout(context);
-                    PropertyLeftTextView roommateLeftText = new PropertyLeftTextView(context);
-                    roommateLeftText.setText(item.getLeftTextForRoomate(roommate));
-                    PropertyRightTextView roommateRightText = new PropertyRightTextView(context);
-                    roommateRightText.setText(item.getRightTextForRoommate(roommate));
-                    makeLeftFullWidthIfNoRight(roommateRightText.getText().toString(), roommateLeftText, roommateRightText);
-
-                PropertyPersonHorizontalLinearLayout cosignerLine = new PropertyPersonHorizontalLinearLayout(context);
-                    PropertyLeftTextView cosignerLeftText = new PropertyLeftTextView(context);
-                    cosignerLeftText.setText(item.getLeftTextForCosigner(roommate));
-                    PropertyRightTextView cosignerRightText = new PropertyRightTextView(context);
-                    cosignerRightText.setText(item.getRightTextForCosigner(roommate));
-                    makeLeftFullWidthIfNoRight(cosignerRightText.getText().toString(), cosignerLeftText, cosignerRightText);
-
-            roommateLine.addView(roommateLeftText);
-            roommateLine.addView(roommateRightText);
-            cosignerLine.addView(cosignerLeftText);
-            cosignerLine.addView(cosignerRightText);
-            roommateAndCosignerLayout.addView(roommateLine);
-            roommateAndCosignerLayout.addView(cosignerLine);
-            wholeLayout.addView(roommateAndCosignerLayout);
-        }
-    }
-
-    private void makeLeftFullWidthIfNoRight(String rightString, TextView leftTV, TextView rightTV) {
-        if (rightString.trim().isEmpty()) {
-            leftTV.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
-            rightTV.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0f));
-        }
     }
 
 }

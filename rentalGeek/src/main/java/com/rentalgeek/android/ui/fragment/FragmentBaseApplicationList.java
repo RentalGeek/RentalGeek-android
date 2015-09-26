@@ -51,6 +51,13 @@ public class FragmentBaseApplicationList extends GeekBaseFragment {
         return view;
     }
 
+    protected void setupRecyclerView(Context context, String requestingFragment, FragmentCosignerProperties fragment) {
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new ApplicationListAdapter(properties, requestingFragment, fragment);
+        recyclerView.setAdapter(adapter);
+    }
+
     protected void setupRecyclerView(Context context, String requestingFragment) {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);

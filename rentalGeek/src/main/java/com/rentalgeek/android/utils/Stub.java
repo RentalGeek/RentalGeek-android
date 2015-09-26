@@ -2,6 +2,7 @@ package com.rentalgeek.android.utils;
 
 import com.rentalgeek.android.pojos.Address;
 import com.rentalgeek.android.pojos.ApplicationItem;
+import com.rentalgeek.android.pojos.CosignItem;
 import com.rentalgeek.android.pojos.CosignerInviteDTO;
 import com.rentalgeek.android.pojos.PropertyContactInfo;
 import com.rentalgeek.android.pojos.RoommateDTO;
@@ -34,7 +35,7 @@ public class Stub {
 
         Address address = new Address("2129 Walnut Dr.", "Manhattan", "KS", "66502");
 
-        ApplicationItem applicationItem = new ApplicationItem();
+        ApplicationItem applicationItem = new CosignItem();
         applicationItem.setAddress(address);
         applicationItem.setMonthlyCost(920);
         applicationItem.setNumBedrooms(2);
@@ -43,6 +44,7 @@ public class Stub {
         applicationItem.setPropertyContactInfo(propertyContactInfo);
         applicationItem.setImageUrl("https://s3-us-west-2.amazonaws.com/rental-geek/property-header.jpg");
         applicationItem.setLeaseId(15);
+        applicationItem.setAccepted(false);
 //        applicationItem.setUnsignedLeaseDocumentUrl("https://gradcollege.okstate.edu/sites/default/files/PDF_linking.pdf");
 
         List<RoommateDTO> roommates2 = new ArrayList<>();

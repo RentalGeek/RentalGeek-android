@@ -11,6 +11,9 @@ import java.util.List;
  */
 public class ApplicationItem {
 
+    public static final String SIGN_LEASE = "SIGN LEASE";
+    public static final String APPROVE = "APPROVE";
+
     private Address address;
     private int monthlyCost;
     private int numBedrooms;
@@ -22,6 +25,8 @@ public class ApplicationItem {
     private String signedLeaseUrl;
     private String signedLeaseOn;
     private Integer leaseId;
+    private Boolean accepted;
+    private Integer rentalOfferingId;
 
     public ApplicationItem() {
     }
@@ -38,6 +43,8 @@ public class ApplicationItem {
         this.signedLeaseUrl = applicationDTO.signed_lease_url;
         this.leaseId = applicationDTO.lease_id;
         this.signedLeaseOn = applicationDTO.signed_lease_on;
+        this.accepted = applicationDTO.accepted;
+        this.rentalOfferingId = applicationDTO.rental_offering_id;
     }
 
     public Address getAddress() {
@@ -105,7 +112,7 @@ public class ApplicationItem {
     }
 
     public String getButtonText() {
-        return "SIGN LEASE";
+        return SIGN_LEASE;
     }
 
     public Spanned getLeftTextForRoomate(RoommateDTO roommate) {
@@ -186,6 +193,22 @@ public class ApplicationItem {
 
     public void setSignedLeaseOn(String signedLeaseOn) {
         this.signedLeaseOn = signedLeaseOn;
+    }
+
+    public Boolean getAccepted() {
+        return accepted;
+    }
+
+    public void setAccepted(Boolean accepted) {
+        this.accepted = accepted;
+    }
+
+    public Integer getRentalOfferingId() {
+        return rentalOfferingId;
+    }
+
+    public void setRentalOfferingId(Integer rentalOfferingId) {
+        this.rentalOfferingId = rentalOfferingId;
     }
 
 }

@@ -12,7 +12,7 @@ import com.rentalgeek.android.ui.fragment.FragmentYourCosigner;
 public class ActivityYourCosigner extends GeekBaseActivity {
 
     public ActivityYourCosigner() {
-        super(true, true, false);
+        super(true, true, true);
     }
 
     @Override

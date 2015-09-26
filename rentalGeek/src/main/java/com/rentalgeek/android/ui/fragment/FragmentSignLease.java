@@ -1,6 +1,7 @@
 package com.rentalgeek.android.ui.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,6 +76,9 @@ public class FragmentSignLease  extends GeekBaseFragment {
     private void loadSignatureUrl(String signatureUrl) {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.getSettings().setUseWideViewPort(true);
+        webView.setInitialScale(1);
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
@@ -91,6 +95,10 @@ public class FragmentSignLease  extends GeekBaseFragment {
                     // take back to previous screen
                     // would also need to reload data so they can't click sign lease again
                     navigateToNextScreen();
+                }
+
+                if (url.contains("success")) {
+                    Log.d("tag", "" + url);
                 }
             }
         });

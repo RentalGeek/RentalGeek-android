@@ -45,18 +45,6 @@ public class ActivitySearch extends GeekBaseActivity {
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
     
-    @Override 
-    public void onStart() {
-        super.onStart();
-        registerMessaging();
-    }
-
-    @Override
-    public void onStop() {
-        unregisterMessaging();
-        super.onStop();
-    }
-
     public void onEventMainThread(SearchEvent event) {
 
         if( event.getBundle() != null ) {

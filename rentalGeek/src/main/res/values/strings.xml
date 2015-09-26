@@ -105,6 +105,7 @@ If you agree to share a Credit Report, we will also use this information to shar
     <string name="invalid_login">Invalid username and/or password</string>
 
     <string name="apply_text">APPLY</string>
+    <string name="applied_text">APPLIED &#x2713;</string>
 
     <string name="search_rental">Searching for Rentals</string>
 

@@ -10,6 +10,7 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.ClickRentalEvent;
+import com.rentalgeek.android.bus.events.ShowProfileCreationEvent;
 import com.rentalgeek.android.mvp.home.HomePresenter;
 import com.rentalgeek.android.mvp.home.HomeView;
 import com.rentalgeek.android.mvp.list.rental.RentalListView;
@@ -20,6 +21,7 @@ import com.rentalgeek.android.ui.fragment.FragmentMap;
 import com.rentalgeek.android.ui.fragment.FragmentRentalListView;
 import com.rentalgeek.android.ui.view.NonSwipeableViewPager;
 import com.rentalgeek.android.utils.CosignerInviteCaller;
+import com.rentalgeek.android.ui.Navigation;
 
 import java.lang.Runnable;
 
@@ -65,12 +67,6 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
     }
     
     @Override
-    public void onStart() {
-        super.onStart();
-        registerMessaging();
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         showProgressDialog(R.string.dialog_msg_loading);
@@ -90,12 +86,6 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
                 }
             },3000);
         }
-    }
-
-    @Override
-    public void onStop() {
-        unregisterMessaging();
-        super.onStop();
     }
 
     @Override
@@ -122,5 +112,9 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
             intent.putExtras(bundle);
             startActivity(intent);
         }
+    }
+
+    public void onEventMainThread(ShowProfileCreationEvent event) {
+        Navigation.navigateActivity(this,ActivityCreateProfile.class);   
     }
 }

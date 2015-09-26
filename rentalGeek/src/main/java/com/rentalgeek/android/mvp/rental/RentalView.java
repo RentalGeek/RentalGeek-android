@@ -6,4 +6,5 @@ public interface RentalView {
     public void hide();
     public void show();
     public void showRental(Rental rental);
+    public void goToCreateProfile();
 }

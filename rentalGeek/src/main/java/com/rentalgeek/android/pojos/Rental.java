@@ -19,6 +19,7 @@ public class Rental {
     private String salesy_description;
     private String[] scrape_amenities;
     private String starred_property_id;
+    private boolean already_applied;
 
     public String toString() {
         return String.format("id: %s, starred: %s",id,starred);
@@ -96,5 +97,9 @@ public class Rental {
 
     public String[] getAmenities() {
         return scrape_amenities;
+    }
+
+    public boolean applied() {
+        return already_applied;
     }
 }

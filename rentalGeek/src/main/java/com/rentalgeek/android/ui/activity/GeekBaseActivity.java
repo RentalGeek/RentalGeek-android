@@ -54,19 +54,23 @@ public class GeekBaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        registerMessaging();
     }
-
-        @Override
+    
+    @Override
     protected void onResume() {
         super.onResume();
-        registerMessaging();
         if (authRequired) checkLogin();
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onStart() {
+        super.onStart();
+        registerMessaging();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
         unregisterMessaging();
     }
     

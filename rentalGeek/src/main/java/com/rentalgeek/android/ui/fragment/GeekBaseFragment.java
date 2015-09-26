@@ -23,8 +23,6 @@ import com.rentalgeek.android.ui.dialog.manager.GeekDialog;
 
 public class GeekBaseFragment extends Fragment {
     
-    public boolean registerWithEventBus = true;
-
     protected AppCompatActivity activity;
     
     protected void toast(String message) {
@@ -90,15 +88,15 @@ public class GeekBaseFragment extends Fragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        if (registerWithEventBus) unregisterBus();
+    public void onStop() {
+        super.onStop();
+        unregisterBus();
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        if (registerWithEventBus) registerBus();
+    public void onStart() {
+        registerBus();
+        super.onStart();
     }
 
     protected void unregisterBus() {

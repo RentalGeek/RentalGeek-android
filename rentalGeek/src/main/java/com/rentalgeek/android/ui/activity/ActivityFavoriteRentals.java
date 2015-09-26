@@ -49,14 +49,7 @@ public class ActivityFavoriteRentals extends GeekBaseActivity implements FavView
     public void onStart() {
         super.onStart();
         showProgressDialog(R.string.dialog_msg_loading);
-        registerMessaging();
         presenter.getFavoriteRentals();
-    }
-
-    @Override
-    public void onStop() {
-        unregisterMessaging();
-        super.onStop();
     }
 
     @Override

@@ -69,7 +69,7 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
     @Override
     public void onResume() {
         super.onResume();
-        showProgressDialog(R.string.dialog_msg_loading);
+        showProgressDialog(R.string.loading_rentals);
         final Bundle extras = getIntent().getExtras();
 
         if( extras == null ) {

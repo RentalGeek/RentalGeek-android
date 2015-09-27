@@ -196,6 +196,7 @@ public class FragmentPayments extends GeekBaseFragment implements Validator.Vali
                     @Override
                     public void onFailure(Throwable ex, String failureResponse) {
                         super.onFailure(ex, failureResponse);
+                        DialogManager.showCrouton(activity, failureResponse);
                     }
 
                     @Override

@@ -2,7 +2,7 @@ package com.rentalgeek.android.ui.activity;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -107,7 +107,7 @@ public class ActivityRegistration extends GeekBaseActivity implements Validation
 
 	private void callRegisterApi(String a, String b, String c) {
 
-        final FragmentActivity activity = this;
+        final AppCompatActivity activity = this;
 		//new GetSSl().getssl(client);
 		RequestParams params = new RequestParams();
 		params.put("user[email]", a);
@@ -141,20 +141,26 @@ public class ActivityRegistration extends GeekBaseActivity implements Validation
 
                                 Navigation.navigateActivity(activity, ActivityHome.class, true);
 
-							} else if (detail.errors != null && !ListUtils.isNullOrEmpty(detail.errors.email)) {
-								toast(detail.errors.email.get(0).toString());
+							} else if (detail.error != null && !ListUtils.isNullOrEmpty(detail.error)) {
+								toast(detail.error.get(0).toString());
 							}
 
 						} catch (Exception e) {
 							AppLogger.log(TAG, e);
-							if (detail != null && detail.errors != null && detail.errors.email.size() > 0)
-								toast(detail.errors.email.get(0).toString());
+							if (detail != null && !ListUtils.isNullOrEmpty(detail.error))
+								toast(detail.error.get(0).toString());
 							else
 								toast("No Connection");
 						}
 					}
 
-				});
+					@Override
+					public void onFailure(Throwable ex, String failureResponse) {
+						super.onFailure(ex, failureResponse);
+						DialogManager.showCrouton(activity, failureResponse);
+					}
+
+					});
 
 	}
 

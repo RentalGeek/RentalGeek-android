@@ -45,119 +45,159 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:text="Card Number" />
-
-                <EditText
-                    android:id="@+id/card_no"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:ems="10"
-                    android:hint="####-####-####-####"
-                    android:inputType="number"
-                    android:maxLength="16" >
-
-                    <requestFocus />
-                </EditText>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:text="Name on the card" />
-
-                <EditText
-                    android:id="@+id/card_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:ems="10"
-                    android:hint="John smith"
-                    android:singleLine="true"
-                    android:inputType="textCapWords" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp" >
 
                     <TextView
-                        android:id="@+id/exp_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:text="Expiration Date" />
-
-                    <Spinner
-                        android:id="@+id/ed_mm"
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/exp_tag"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/underlines"
-                        android:ems="10"
-                        android:entries="@array/months"
-                        android:hint="MM"
-                        android:inputType="number"
-                        android:maxLength="2"
-                        android:paddingBottom="9dp"
-                        android:textAllCaps="true" />
-
-                    <TextView
-                        android:id="@+id/slash"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@+id/ed_mm"
-                        android:text="/"
-                        android:textColor="#000000"
-                        android:textSize="25sp"
-                        android:textStyle="bold" />
-
-                    <Spinner
-                        android:id="@+id/ed_yyyy"
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/exp_tag"
-                        android:layout_marginLeft="10dp"
-                        android:layout_toRightOf="@id/slash"
-                        android:background="@drawable/underlines"
-                        android:ems="10"
-                        android:entries="@array/years"
-                        android:hint="YYYY"
-                        android:inputType="number"
-                        android:maxLength="4"
-                        android:paddingBottom="9dp" />
-
-                    <TextView
-                        android:id="@+id/cvv_tag"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginRight="10dp"
-                        android:text="CVV" />
+                        android:text="@string/fragment_payment_label_nameoncard"
+                        android:textColor="@color/blue"
+                        android:layout_marginLeft="5dp" />
 
                     <EditText
-                        android:id="@+id/ed_cvv"
-                        android:layout_width="40dp"
+                        android:id="@+id/editTextNameOnCard"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_below="@id/cvv_tag"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:ems="10"
-                        android:hint="321"
-                        android:imeOptions="actionDone"
+                        android:singleLine="true"
+                        android:inputType="textCapWords"
+                        android:background="@drawable/thin_border"
+                        android:textCursorDrawable="@null"
+                        android:padding="10dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fragment_payment_label_cardnumber"
+                        android:textColor="@color/blue"
+                        android:layout_marginLeft="5dp" />
+
+                    <EditText
+                        android:id="@+id/editTextCardNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:hint="####-####-####-####"
                         android:inputType="number"
-                        android:maxLength="3" />
-                </RelativeLayout>
+                        android:maxLength="16"
+                        android:background="@drawable/thin_border"
+                        android:textCursorDrawable="@null"
+                        android:padding="10dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp" >
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2" >
+
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="Expiration Date"
+                            android:textColor="@color/blue" />
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="10dp" >
+
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/thin_border"
+                                android:layout_weight="1" >
+
+                                <Spinner
+                                    android:id="@+id/ed_mm"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:entries="@array/months"
+                                    android:hint="MM"
+                                    android:inputType="number"
+                                    android:maxLength="2"
+                                    android:paddingLeft="10dp"
+                                    android:paddingRight="10dp"
+                                    android:spinnerMode="dialog" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/thin_border"
+                                android:layout_weight="1" >
+
+                                <Spinner
+                                    android:id="@+id/ed_yyyy"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:entries="@array/years"
+                                    android:hint="YYYY"
+                                    android:maxLength="4"
+                                    android:paddingLeft="10dp"
+                                    android:paddingRight="10dp"
+                                    android:spinnerMode="dialog" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" >
+
+                        <TextView
+                            android:id="@+id/textView7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="CVV"
+                            android:textColor="@color/blue" />
+
+                        <EditText
+                            android:id="@+id/editTextCVV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:ems="10"
+                            android:hint="321"
+                            android:imeOptions="actionDone"
+                            android:inputType="number"
+                            android:maxLength="3"
+                            android:background="@drawable/thin_border"
+                            android:textCursorDrawable="@null"
+                            android:padding="10dp"
+                            android:layout_marginTop="10dp" />
+                    </LinearLayout>
+                </LinearLayout>
+
             </LinearLayout>
 
             <TextView

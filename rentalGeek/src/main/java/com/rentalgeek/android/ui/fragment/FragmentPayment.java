@@ -21,6 +21,7 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.CheckPayment;
+import com.rentalgeek.android.backend.ErrorArray;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.backend.PaymentBackend;
 import com.rentalgeek.android.logging.AppLogger;
@@ -30,7 +31,9 @@ import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityCreateProfile;
 import com.rentalgeek.android.ui.activity.ActivityGeekScore;
+import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
+import com.rentalgeek.android.utils.ListUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,11 +54,11 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 
 	@Required(order = 1, message = "Please enter a valid card")
 	@TextRule(order = 2, minLength = 16, maxLength = 16, message = "Please enter a 16 digit card number")
-	@InjectView(com.rentalgeek.android.R.id.card_no)
+	@InjectView(com.rentalgeek.android.R.id.editTextCardNumber)
 	EditText cardNo;
 
 	@Required(order = 3, message = "Please enter a valid card name")
-	@InjectView(R.id.card_name)
+	@InjectView(R.id.editTextNameOnCard)
 	EditText cardName;
 
 	// @Required(order = 4, message = "Please enter a valid month")
@@ -79,7 +82,7 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 
 	@Required(order = 8, message = "Please enter a valid cvv")
 	@TextRule(order = 9, minLength = 3, maxLength = 3, message = "Please enter a valid cvv")
-	@InjectView(R.id.ed_cvv)
+	@InjectView(R.id.editTextCVV)
 	EditText edCvv;
 
 	@Override
@@ -127,7 +130,6 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 
 	private void CheckPaymentf() {
 
-		// asynkhttpGet(2, StaticClass.headlink + "/v2/transactions", true);
 		GlobalFunctions.getApiCall(getActivity(), ApiManager.getApplicants(appPref.getData("Uid")),
 				AppPreferences.getAuthToken(),
 				new GeekHttpResponseHandler() {
@@ -306,6 +308,13 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 					@Override
 					public void onFailure(Throwable ex, String failureResponse) {
 						super.onFailure(ex, failureResponse);
+
+						ErrorArray errorResponse = (new Gson()).fromJson(failureResponse, ErrorArray.class);
+
+						if (errorResponse != null && !ListUtils.isNullOrEmpty(errorResponse.errors)) {
+							DialogManager.showCrouton(activity, errorResponse.errors.get(0).message);
+						}
+
 					}
 
 					@Override

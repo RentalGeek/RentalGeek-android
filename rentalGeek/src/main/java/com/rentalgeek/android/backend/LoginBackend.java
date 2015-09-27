@@ -11,7 +11,7 @@ public class LoginBackend {
 	public User user;
 	public List<Profile> profiles;
 	public List<Provider> providers;
-    public RegistrationError errors;
+    public List<String> error;
 
 
 }

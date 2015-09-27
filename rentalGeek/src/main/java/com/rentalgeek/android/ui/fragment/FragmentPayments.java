@@ -23,6 +23,7 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.api.SessionManager;
+import com.rentalgeek.android.backend.ErrorArray;
 import com.rentalgeek.android.backend.LeaseResponse;
 import com.rentalgeek.android.backend.PaymentsBackend;
 import com.rentalgeek.android.backend.model.Lease;
@@ -32,7 +33,9 @@ import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.Common;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityPaymentConfirmation;
+import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
+import com.rentalgeek.android.utils.ListUtils;
 
 import java.text.NumberFormat;
 
@@ -193,6 +196,7 @@ public class FragmentPayments extends GeekBaseFragment implements Validator.Vali
                     @Override
                     public void onFailure(Throwable ex, String failureResponse) {
                         super.onFailure(ex, failureResponse);
+                        DialogManager.showCrouton(activity, failureResponse);
                     }
 
                     @Override
@@ -267,6 +271,13 @@ public class FragmentPayments extends GeekBaseFragment implements Validator.Vali
                     @Override
                     public void onFailure(Throwable ex, String failureResponse) {
                         super.onFailure(ex, failureResponse);
+
+                        ErrorArray errorResponse = (new Gson()).fromJson(failureResponse, ErrorArray.class);
+
+                        if (errorResponse != null && !ListUtils.isNullOrEmpty(errorResponse.errors)) {
+                            DialogManager.showCrouton(activity, errorResponse.errors.get(0).message);
+                        }
+
                     }
 
                     @Override

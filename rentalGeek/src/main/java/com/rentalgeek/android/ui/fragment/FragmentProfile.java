@@ -867,17 +867,17 @@ public class FragmentProfile extends GeekBaseFragment implements ValidationListe
 			try {
 				ErrorObj sess = (new Gson()).fromJson(response, ErrorObj.class);
 
-				toasts(sess.errors.born_on);
-				toasts(sess.errors.desires_to_move_in_on);
-				toasts(sess.errors.emergency_contact_phone_number);
-				toasts(sess.errors.ssn);
-				toasts(sess.errors.previous_employment_employer_email_address);
-				toasts(sess.errors.cosigner_email_address);
-				toasts(sess.errors.previous_employment_employer_phone_number);
-				toasts(sess.errors.current_employment_employer_email_address);
-				toasts(sess.errors.current_employment_employer_phone_number);
-				toasts(sess.errors.previous_home_moved_in_on);
-				toasts(sess.errors.current_home_moved_in_on);
+				toasts(sess.error.born_on);
+				toasts(sess.error.desires_to_move_in_on);
+				toasts(sess.error.emergency_contact_phone_number);
+				toasts(sess.error.ssn);
+				toasts(sess.error.previous_employment_employer_email_address);
+				toasts(sess.error.cosigner_email_address);
+				toasts(sess.error.previous_employment_employer_phone_number);
+				toasts(sess.error.current_employment_employer_email_address);
+				toasts(sess.error.current_employment_employer_phone_number);
+				toasts(sess.error.previous_home_moved_in_on);
+				toasts(sess.error.current_home_moved_in_on);
 
 			} catch (Exception e) {
                 AppLogger.log(TAG, e);

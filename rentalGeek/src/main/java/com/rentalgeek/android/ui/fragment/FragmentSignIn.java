@@ -67,6 +67,7 @@ import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.activity.ActivityRegistration;
 import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
+import com.rentalgeek.android.utils.OkAlert;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -76,8 +77,6 @@ import java.util.Arrays;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-
-import com.rentalgeek.android.utils.OkAlert;
 
 public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallbacks,
         OnConnectionFailedListener {
@@ -390,11 +389,11 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
             case RC_SIGN_IN:
                 if (resultCode == getActivity().RESULT_OK) {
                     // If the error resolution was successful we should continue
-                    // processing errors.
+                    // processing error.
                     mSignInProgress = STATE_SIGN_IN;
                 } else {
                     // If the error resolution was not successful or the user canceled,
-                    // we should stop processing errors.
+                    // we should stop processing error.
                     mSignInProgress = STATE_DEFAULT;
                 }
 
@@ -448,7 +447,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
             if (mSignInProgress == STATE_SIGN_IN) {
                 // STATE_SIGN_IN indicates the user already clicked the sign in button
-                // so we should continue processing errors until the user is signed in
+                // so we should continue processing error until the user is signed in
                 // or they click cancel.
                 resolveSignInError();
             }
@@ -619,7 +618,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                 callGooglePlusLink(personName, personPhotoUrl, currentPerson.getId(), email);
 
             } else {
-                Toast.makeText(getActivity(), "Person information is null  ", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity(), "Person information is null  ", Toast.LENGTH_LONG).show();
             }
         } catch (Exception e) {
             AppLogger.log(TAG, e);

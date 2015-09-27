@@ -283,6 +283,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();
+                            activity.finish();
                             Navigation.navigateActivity(activity, ActivityPayment.class, false);
                             //nextfragment(new FragmentGeekScoreMain(), false, R.id.container);
                         }
@@ -294,6 +295,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.cancel();
+                            activity.finish();
                             Navigation.navigateActivity(activity, ActivityHome.class, false);
                             //nextfragment(new FragmentListViewDetails(), false, R.id.container);
                         }
@@ -720,6 +722,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
+                                        activity.finish();
                                         Navigation.navigateActivity(activity, ActivityGeekScore.class, true);
                                     }
                                 });
@@ -730,6 +733,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.cancel();
+                                        activity.finish();
                                         Navigation.navigateActivity(activity, ActivityHome.class, true);
                                     }
                                 });

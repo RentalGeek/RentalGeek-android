@@ -5,6 +5,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/snackbarPosition">
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -92,20 +100,6 @@
             android:textColorHint="#FFFFFF" />
     </RelativeLayout>
 
-    <!--<FrameLayout-->
-        <!--android:id="@+id/containerregis"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:clickable="true"-->
-        <!--android:visibility="gone" >-->
-
-        <!--<com.luttu.utils.ProgressWheel-->
-            <!--android:id="@+id/progress_wheel"-->
-            <!--android:layout_width="80dp"-->
-            <!--android:layout_height="80dp"-->
-            <!--android:layout_gravity="center"-->
-            <!--wheel:barColor="#5588FF"-->
-            <!--wheel:progressIndeterminate="true" />-->
-    <!--</FrameLayout>-->
+    </android.support.design.widget.CoordinatorLayout>
 
 </FrameLayout>

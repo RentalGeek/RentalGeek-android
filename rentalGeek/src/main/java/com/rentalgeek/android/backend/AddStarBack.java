@@ -57,7 +57,7 @@ public class AddStarBack {
 
 	/**
 	 * 
-	 * @return The errors
+	 * @return The error
 	 */
 	public Errors getErrors() {
 		return errors;
@@ -66,7 +66,7 @@ public class AddStarBack {
 	/**
 	 * 
 	 * @param errors
-	 *            The errors
+	 *            The error
 	 */
 	public void setErrors(Errors errors) {
 		this.errors = errors;

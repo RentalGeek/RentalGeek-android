@@ -14,6 +14,7 @@ import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.pojos.CosignerInviteDTO;
 import com.rentalgeek.android.pojos.CosignerInviteSingleRootDTO;
+import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.CosignerDestinationLogic;
 
@@ -58,12 +59,14 @@ public class FragmentCosignerInvite extends GeekBaseFragment {
             @Override
             public void onSuccess(String content) {
                 super.onSuccess(content);
+                getActivity().finish();
                 updateDestinationLogic(content);
             }
 
             @Override
             public void onFailure(Throwable ex, String failureResponse) {
                 super.onFailure(ex, failureResponse);
+                DialogManager.showCrouton(activity, failureResponse);
             }
         });
     }
@@ -87,6 +90,7 @@ public class FragmentCosignerInvite extends GeekBaseFragment {
             @Override
             public void onSuccess(String content) {
                 super.onSuccess(content);
+                getActivity().finish();
                 updateDestinationLogic(content);
             }
 

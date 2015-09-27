@@ -29,7 +29,7 @@ public class CosignerInviteCaller {
     }
 
     public void fetchCosignerInvites() {
-        GlobalFunctions.getApiCall(activity, ApiManager.getCosignerInvitesUrl(), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
+        GlobalFunctions.getApiCall(activity, ApiManager.cosignerInvitesUrl(), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
             @Override
             public void onStart() {
                 super.onStart();

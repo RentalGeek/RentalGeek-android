@@ -175,10 +175,6 @@
             android:name=".ui.activity.ActivityCosignerApp4"
             android:screenOrientation="portrait"
             android:label="Progress (4/4)">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
         </activity>
         <activity
             android:name=".ui.activity.ActivitySignLease"
@@ -189,6 +185,10 @@
             android:name=".ui.activity.ActivityYourCosigner"
             android:screenOrientation="portrait"
             android:label="@string/your_cosigner">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity
             android:name=".ui.activity.ActivitySettings"

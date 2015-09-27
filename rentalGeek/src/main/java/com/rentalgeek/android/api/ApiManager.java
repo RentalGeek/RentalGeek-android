@@ -41,8 +41,16 @@ public class ApiManager {
         return getApplyUrl() + "?status=approved";
     }
 
-    public static String getCosignerInvitesUrl() {
+    public static String cosignerInvitesUrl() {
         return API_HOST + "/cosigner_invites";
+    }
+
+    public static String sentCosignerInvites() {
+        return cosignerInvitesUrl() + "?as_inviter=true";
+    }
+
+    public static String deleteCosignerInvite(int inviteId) {
+        return cosignerInvitesUrl() + "/" + inviteId;
     }
 
     public static String cosignerProfilesUrl(String cosignerProfileId) {
@@ -62,11 +70,11 @@ public class ApiManager {
     }
 
     public static String getAcceptCosignerInviteUrl(int inviteId) {
-        return getCosignerInvitesUrl() + "/" + inviteId + "/accept";
+        return cosignerInvitesUrl() + "/" + inviteId + "/accept";
     }
 
     public static String getDenyCosignerInviteUrl(int inviteId) {
-        return getCosignerInvitesUrl() + "/" + inviteId + "/deny";
+        return cosignerInvitesUrl() + "/" + inviteId + "/deny";
     }
 
 //    public static String getRemoveStarredPropertyUrl(String propertyId) {

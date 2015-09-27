@@ -10,9 +10,9 @@ public class ErrorArray {
 	
 	public class Error
 	{
-	public String code;
-	public String  attribute;
-	public String message;
+		public String code;
+		public String  attribute;
+		public String message;
 	}
 	
 }

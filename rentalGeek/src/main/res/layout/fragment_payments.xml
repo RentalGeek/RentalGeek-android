@@ -167,8 +167,7 @@
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="10dp">
+                        android:layout_marginRight="10dp">
 
                         <LinearLayout
                             android:orientation="vertical"
@@ -180,13 +179,14 @@
                             <Spinner
                                 android:id="@+id/ed_mm"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:entries="@array/months"
                                 android:hint="MM"
                                 android:inputType="number"
                                 android:maxLength="2"
                                 android:paddingLeft="10dp"
-                                android:paddingRight="10dp"/>
+                                android:paddingRight="10dp"
+                                android:spinnerMode="dialog"/>
                         </LinearLayout>
 
                         <LinearLayout
@@ -199,12 +199,13 @@
                         <Spinner
                             android:id="@+id/ed_yyyy"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:entries="@array/years"
                             android:hint="YYYY"
                             android:maxLength="4"
                             android:paddingLeft="10dp"
-                            android:paddingRight="10dp"/>
+                            android:paddingRight="10dp"
+                            android:spinnerMode="dialog" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -234,7 +235,8 @@
                         android:maxLength="3"
                         android:background="@drawable/thin_border"
                         android:textCursorDrawable="@null"
-                        android:padding="10dp" />
+                        android:padding="10dp"
+                        android:layout_marginTop="10dp" />
                 </LinearLayout>
 
             </LinearLayout>

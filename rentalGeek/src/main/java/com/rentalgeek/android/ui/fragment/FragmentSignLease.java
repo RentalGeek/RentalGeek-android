@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.rentalgeek.android.R;
@@ -35,6 +36,7 @@ public class FragmentSignLease  extends GeekBaseFragment {
     private String requestingFragment;
 
     @InjectView(R.id.web_view) WebView webView;
+    @InjectView(R.id.error_text_view) TextView errorTextView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,6 +69,8 @@ public class FragmentSignLease  extends GeekBaseFragment {
             @Override
             public void onFailure(Throwable ex, String failureResponse) {
                 super.onFailure(ex, failureResponse);
+                webView.setVisibility(View.GONE);
+                errorTextView.setVisibility(View.VISIBLE);
             }
         });
 

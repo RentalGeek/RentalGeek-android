@@ -11,6 +11,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'io.fabric'
 
+apply from: 'signing.gradle'
+
 repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
@@ -30,6 +32,14 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.release
+        }
+
+        assembleRelease {
+            debuggable false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            minifyEnabled false
+            signingConfig signingConfigs.release
         }
     }
     productFlavors {

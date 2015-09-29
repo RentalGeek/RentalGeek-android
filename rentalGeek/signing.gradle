@@ -1,0 +1,10 @@
+android {
+    signingConfigs {
+        release {
+            storeFile file("/home/alan/keys/rentalgeek.jks");
+            storePassword "rentalgeekdev"
+            keyAlias "rental geek"
+            keyPassword "rentalgeekdev"
+        }
+    }
+}

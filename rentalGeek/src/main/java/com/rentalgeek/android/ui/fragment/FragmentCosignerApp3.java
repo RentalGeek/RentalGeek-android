@@ -14,8 +14,9 @@ import com.rentalgeek.android.model.YesNoAnswer;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.activity.ActivityCosignerApp4;
-import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
+import com.rentalgeek.android.utils.ErrorParser;
+import com.rentalgeek.android.utils.OkAlert;
 import com.rentalgeek.android.utils.YesNoCheckChangedListener;
 
 import butterknife.ButterKnife;
@@ -93,7 +94,8 @@ public class FragmentCosignerApp3 extends GeekBaseFragment {
             @Override
             public void onFailure(Throwable ex, String failureResponse) {
                 super.onFailure(ex, failureResponse);
-                DialogManager.showCrouton(activity, failureResponse);
+                ErrorParser.ErrorMsg errorMsg = new ErrorParser().humanizedErrorMsg(failureResponse);
+                OkAlert.show(getActivity(), errorMsg.title, errorMsg.msg);
             }
         });
     }

@@ -218,7 +218,7 @@ public class GeekBaseActivity extends AppCompatActivity {
 
         if (navigationView != null && drawerLayout != null) {
 
-            hideGeekVision();
+            hideGeekVisionAndSettings();
             setVisibilityForCosignerMenuItem();
             setupDrawerListener();
 
@@ -298,8 +298,8 @@ public class GeekBaseActivity extends AppCompatActivity {
                     case R.id.cosigner:
                         decideWhichCosignScreenToShow();
                         return true;
-                    case R.id.your_cosigner:
-                        Navigation.navigateActivity(activity, ActivityYourCosigner.class);
+                    case R.id.my_cosigner:
+                        Navigation.navigateActivity(activity, ActivityMyCosigner.class);
                         return true;
                     case R.id.settings:
                         Navigation.navigateActivity(activity, ActivitySettings.class);
@@ -365,13 +365,18 @@ public class GeekBaseActivity extends AppCompatActivity {
         }
     }
 
-    protected void hideGeekVision() {
+    protected void hideGeekVisionAndSettings() {
         Menu menu = navigationView.getMenu();
 
         if (menu != null) {
             MenuItem menuItem = menu.findItem(R.id.geek_vision);
             if (menuItem != null) {
                 menuItem.setVisible(false);
+            }
+
+            MenuItem settingsMenuItem = menu.findItem(R.id.settings);
+            if (settingsMenuItem != null) {
+                settingsMenuItem.setVisible(false);
             }
         }
     }

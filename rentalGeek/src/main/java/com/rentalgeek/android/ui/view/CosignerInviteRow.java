@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.pojos.CosignerInviteDTO;
-import com.rentalgeek.android.ui.fragment.FragmentYourCosigner;
+import com.rentalgeek.android.ui.fragment.FragmentMyCosigner;
 
 /**
  * Created by rajohns on 9/26/15.
@@ -29,12 +29,12 @@ public class CosignerInviteRow extends LinearLayout {
         this.setGravity(Gravity.CENTER_VERTICAL);
     }
 
-    public void inflateView(final FragmentYourCosigner fragment, final CosignerInviteDTO invite) {
+    public void inflateView(final FragmentMyCosigner fragment, final CosignerInviteDTO invite) {
         ImageButton xButton = new ImageButton(fragment.getActivity());
-        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(30, 30);
-        buttonParams.setMargins(15, 0, 15, 0);
+        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(50, 50);
+        buttonParams.setMargins(5, 0, 5, 0);
         xButton.setLayoutParams(buttonParams);
-        xButton.setImageResource(R.drawable.x_icon);
+        xButton.setImageResource(R.drawable.ic_highlight_off_black_24dp);
         xButton.setBackground(null);
         xButton.setOnClickListener(new View.OnClickListener() {
             @Override

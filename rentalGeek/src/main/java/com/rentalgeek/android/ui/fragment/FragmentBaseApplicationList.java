@@ -18,7 +18,6 @@ import com.rentalgeek.android.pojos.ApplicationDTO;
 import com.rentalgeek.android.pojos.ApplicationDetailsDTO;
 import com.rentalgeek.android.pojos.ApplicationItem;
 import com.rentalgeek.android.pojos.CosignItem;
-import com.rentalgeek.android.pojos.PendingItem;
 import com.rentalgeek.android.ui.adapter.ApplicationListAdapter;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 
@@ -116,7 +115,7 @@ public class FragmentBaseApplicationList extends GeekBaseFragment {
         if (this instanceof FragmentCosignerProperties) {
             return new CosignItem(applicationDTO);
         } else if (this instanceof FragmentPendingProperties) {
-            return new PendingItem(applicationDTO);
+            return new ApplicationItem(applicationDTO);
         } else {
             return new ApplicationItem(applicationDTO);
         }

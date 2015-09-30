@@ -15,7 +15,7 @@ public class CosignItem extends ApplicationItem {
 
     @Override
     public String getButtonText() {
-        if (getAccepted() != null && getAccepted() == Boolean.TRUE) {
+        if (Boolean.TRUE.equals(getAccepted())) {
             return SIGN_LEASE;
         }
 

@@ -301,6 +301,7 @@ public class FragmentRoommates  extends GeekBaseFragment {
         RequestParams params = new RequestParams();
         params.put("roommate_invite[email]", email);
         params.put("roommate_invite[name]", name);
+        params.put("roommate_invite[roommate_group_id]", SessionManager.Instance.getCurrentUser().roommate_group_id);
 
         try {
 

@@ -183,9 +183,9 @@
             android:label="Lease">
         </activity>
         <activity
-            android:name=".ui.activity.ActivityYourCosigner"
+            android:name=".ui.activity.ActivityMyCosigner"
             android:screenOrientation="portrait"
-            android:label="@string/your_cosigner">
+            android:label="@string/my_cosigner">
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.MAIN" />-->
                 <!--<category android:name="android.intent.category.LAUNCHER" />-->

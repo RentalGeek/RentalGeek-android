@@ -19,6 +19,7 @@ public class ErrorObj {
 		public List<String> previous_home_moved_in_on;
 		public List<String> current_home_moved_in_on;
 		public List<String> desires_to_move_in_on;
+		public List<String> email;
 	}
 
 }

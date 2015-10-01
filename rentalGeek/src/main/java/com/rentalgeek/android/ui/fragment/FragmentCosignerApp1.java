@@ -21,9 +21,9 @@ import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.activity.ActivityCosignerApp2;
-import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.DateUtils;
+import com.rentalgeek.android.utils.ErrorParser;
 import com.rentalgeek.android.utils.OkAlert;
 
 import butterknife.ButterKnife;
@@ -122,7 +122,8 @@ public class FragmentCosignerApp1 extends GeekBaseFragment {
                 @Override
                 public void onFailure(Throwable ex, String failureResponse) {
                     super.onFailure(ex, failureResponse);
-                    DialogManager.showCrouton(activity, failureResponse);
+                    ErrorParser.ErrorMsg errorMsg = new ErrorParser().humanizedErrorMsg(failureResponse);
+                    OkAlert.show(getActivity(), errorMsg.title, errorMsg.msg);
                 }
             });
         }

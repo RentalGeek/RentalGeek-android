@@ -95,6 +95,8 @@ public class FragmentSignLease  extends GeekBaseFragment {
             public void onLoadResource(WebView view, String url) {
                 super.onLoadResource(view, url);
 
+                Log.d("UrlRedirectTag", "" + url);
+
                 if (url.equals("/success")) {
                     // take back to previous screen
                     // would also need to reload data so they can't click sign lease again
@@ -102,7 +104,7 @@ public class FragmentSignLease  extends GeekBaseFragment {
                 }
 
                 if (url.contains("success")) {
-                    Log.d("tag", "" + url);
+                    Log.d("UrlRedirectTag", "" + url);
                 }
             }
         });
@@ -111,12 +113,17 @@ public class FragmentSignLease  extends GeekBaseFragment {
     }
 
     private void navigateToNextScreen() {
-        if (requestingFragment.equals(FragmentBaseApplicationList.PENDING_PROPERTIES) || requestingFragment.equals(FragmentBaseApplicationList.APPROVED_PROPERTIES)) {
-            Navigation.navigateActivity(getActivity(), ActivityProperties.class);
-        } else if (requestingFragment.equals(FragmentBaseApplicationList.COSIGNER_PROPERTIES)) {
-            Navigation.navigateActivity(getActivity(), ActivityCosignerList.class);
-        } else {
-            Navigation.navigateActivity(getActivity(), ActivityHome.class);
+        switch (requestingFragment) {
+            case FragmentBaseApplicationList.PENDING_PROPERTIES:
+            case FragmentBaseApplicationList.APPROVED_PROPERTIES:
+                Navigation.navigateActivity(getActivity(), ActivityProperties.class);
+                break;
+            case FragmentBaseApplicationList.COSIGNER_PROPERTIES:
+                Navigation.navigateActivity(getActivity(), ActivityCosignerList.class);
+                break;
+            default:
+                Navigation.navigateActivity(getActivity(), ActivityHome.class);
+                break;
         }
     }
 

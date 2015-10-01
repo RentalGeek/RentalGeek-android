@@ -14,9 +14,10 @@ import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.pojos.CosignerInviteDTO;
 import com.rentalgeek.android.pojos.CosignerInviteSingleRootDTO;
-import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.CosignerDestinationLogic;
+import com.rentalgeek.android.utils.ErrorParser;
+import com.rentalgeek.android.utils.OkAlert;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -66,7 +67,8 @@ public class FragmentCosignerInvite extends GeekBaseFragment {
             @Override
             public void onFailure(Throwable ex, String failureResponse) {
                 super.onFailure(ex, failureResponse);
-                DialogManager.showCrouton(activity, failureResponse);
+                ErrorParser.ErrorMsg errorMsg = new ErrorParser().humanizedErrorMsg(failureResponse);
+                OkAlert.show(getActivity(), errorMsg.title, errorMsg.msg);
             }
         });
     }

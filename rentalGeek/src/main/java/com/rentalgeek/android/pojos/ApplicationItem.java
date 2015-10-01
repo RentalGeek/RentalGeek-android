@@ -17,7 +17,7 @@ public class ApplicationItem {
     private Address address;
     private int monthlyCost;
     private int numBedrooms;
-    private double numBathrooms;
+    private int numBathrooms;
     protected List<RoommateDTO> roommates;
     private PropertyContactInfo propertyContactInfo;
     private String imageUrl = "https://s3-us-west-2.amazonaws.com/rental-geek/property-header.jpg";
@@ -36,7 +36,7 @@ public class ApplicationItem {
         this.address = new Address(rentalOfferingDTO.address, rentalOfferingDTO.city, rentalOfferingDTO.state, rentalOfferingDTO.zipcode);
         this.monthlyCost = rentalOfferingDTO.monthly_rent_ceiling;
         this.numBedrooms = rentalOfferingDTO.bedroom_count;
-        this.numBathrooms = rentalOfferingDTO.full_bathroom_count + rentalOfferingDTO.half_bathroom_count/2;
+        this.numBathrooms = rentalOfferingDTO.full_bathroom_count;
         this.roommates = applicationDTO.roommates;
         this.propertyContactInfo = new PropertyContactInfo(rentalOfferingDTO.rental_complex_name, rentalOfferingDTO.customer_contact_email_address, rentalOfferingDTO.customer_contact_phone_number);
         this.unsignedLeaseDocumentUrl = applicationDTO.unsigned_lease_document_url;
@@ -75,7 +75,7 @@ public class ApplicationItem {
         this.numBedrooms = numBedrooms;
     }
 
-    public double getNumBathrooms() {
+    public int getNumBathrooms() {
         return numBathrooms;
     }
 
@@ -117,42 +117,75 @@ public class ApplicationItem {
 
     public Spanned getLeftTextForRoomate(RoommateDTO roommate) {
         String text = "";
-        if (roommate.lease_signed_on != null) {
-            text += "Lease signed by   <b>" + getNameText(roommate.full_name) + "</b>";
+
+        if (Boolean.TRUE.equals(accepted)) {
+            if (roommate.lease_signed_on != null) {
+                return statusLine("Lease signed by", roommate.full_name);
+            } else {
+                return statusLine("Awaiting signature from", roommate.full_name);
+            }
         } else {
-            text += "Awaiting signature from   <b>" + getNameText(roommate.full_name) + "</b>";
+            return statusLine("Approval from", roommate.full_name);
         }
 
-        text = text.replace("  ", "&nbsp;&nbsp;");
-        return Html.fromHtml(text);
     }
 
     public Spanned getLeftTextForCosigner(RoommateDTO roommate) {
         String text = "";
-        if (roommate.cosigner_lease_signed_on != null) {
-            text += "Lease cosigned by   <b>" + getNameText(roommate.cosigner_full_name) + "</b>";
+
+        if (Boolean.TRUE.equals(accepted)) {
+            if (roommate.cosigner_lease_signed_on != null) {
+                return statusLine("Lease cosigned by", roommate.cosigner_full_name);
+            } else {
+                return statusLine("Awaiting cosignature from", roommate.cosigner_full_name);
+            }
         } else {
-            text += "Awaiting cosignature from   <b>" + getNameText(roommate.cosigner_full_name) + "</b>";
+            return statusLine("Cosigner Approval", "");
         }
 
-        text = text.replace("  ", "&nbsp;&nbsp;");
+    }
+
+    private Spanned statusLine(String leadingText, String nameText) {
+        String text = leadingText + "&nbsp;<b>" + getNameText(nameText) + "</b>";
         return Html.fromHtml(text);
     }
 
     public Spanned getRightTextForRoommate(RoommateDTO roommate) {
-        if (roommate.lease_signed_on == null) {
-            return Html.fromHtml("");
+        if (Boolean.TRUE.equals(accepted)) {
+            if (roommate.lease_signed_on == null) {
+                return Html.fromHtml("");
+            } else {
+                return Html.fromHtml(formattedDate(roommate.lease_signed_on));
+            }
+        } else {
+            return Html.fromHtml(getStatusText(roommate.status));
         }
 
-        return Html.fromHtml(roommate.lease_signed_on);
     }
 
     public Spanned getRightTextForCosigner(RoommateDTO roommate) {
-        if (roommate.cosigner_lease_signed_on == null) {
-            return Html.fromHtml("");
+        if (Boolean.TRUE.equals(accepted)) {
+            if (roommate.cosigner_lease_signed_on == null) {
+                return Html.fromHtml("");
+            } else {
+                return Html.fromHtml(formattedDate(roommate.cosigner_lease_signed_on));
+            }
+        } else {
+            return Html.fromHtml(getStatusText(roommate.cosigner_status));
         }
 
-        return Html.fromHtml(roommate.cosigner_lease_signed_on);
+    }
+
+    private String getStatusText(String status) {
+        if (status != null) {
+            if (status.toLowerCase().equals("applied")) {
+                return "<b><font color='#23BC2A'>COMPLETE</font></b> ";
+            } else {
+                return "<b><font color='#1682CC'>" + status.toUpperCase() + "</font></b> ";
+            }
+        }
+
+        return "";
     }
 
     protected String getNameText(String name) {
@@ -161,6 +194,10 @@ public class ApplicationItem {
         }
 
         return name;
+    }
+
+    public String formattedDate(String inputDate) {
+        return inputDate.substring(0, 10);
     }
 
     public String getUnsignedLeaseDocumentUrl() {

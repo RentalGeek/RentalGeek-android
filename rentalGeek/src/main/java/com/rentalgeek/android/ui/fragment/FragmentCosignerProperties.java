@@ -30,7 +30,8 @@ public class FragmentCosignerProperties extends FragmentBaseApplicationList {
 
     public void applyToProperty(Integer rentalOfferingId) {
         RequestParams params = new RequestParams();
-        params.put("application[rental_offering_id]", rentalOfferingId);
+        params.put("application[rental_offering_id]", rentalOfferingId.toString());
+        params.put("application[as_cosigner]", "true");
 
         GlobalFunctions.postApiCall(getActivity(), ApiManager.postApplication(), params, AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
             @Override

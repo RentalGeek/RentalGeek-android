@@ -23,8 +23,8 @@
             android:id="@+id/cosigner"
             android:title="@string/cosigner" />
         <item
-            android:id="@+id/your_cosigner"
-            android:title="@string/your_cosigner" />
+            android:id="@+id/my_cosigner"
+            android:title="@string/my_cosigner" />
         <item
             android:id="@+id/geek_vision"
             android:title="@string/geek_vision_tm" />

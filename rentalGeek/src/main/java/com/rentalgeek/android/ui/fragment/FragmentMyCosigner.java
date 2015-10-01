@@ -19,10 +19,10 @@ import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.pojos.CosignerInviteDTO;
 import com.rentalgeek.android.pojos.CosignerInvitesArrayRootDTO;
-import com.rentalgeek.android.ui.activity.ActivityYourCosigner;
-import com.rentalgeek.android.ui.dialog.DialogManager;
+import com.rentalgeek.android.ui.activity.ActivityMyCosigner;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.ui.view.CosignerInviteRow;
+import com.rentalgeek.android.utils.ErrorParser;
 import com.rentalgeek.android.utils.OkAlert;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ import butterknife.OnClick;
  * Created by rajohns on 9/20/15.
  *
  */
-public class FragmentYourCosigner extends GeekBaseFragment {
+public class FragmentMyCosigner extends GeekBaseFragment {
 
     private ArrayList<CosignerInviteDTO> sentInvites = new ArrayList<>();
     private String name;
@@ -48,7 +48,7 @@ public class FragmentYourCosigner extends GeekBaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_your_cosigner, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_cosigner, container, false);
         ButterKnife.inject(this, view);
 
         GlobalFunctions.getApiCall(getActivity(), ApiManager.sentCosignerInvites(), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
@@ -103,13 +103,14 @@ public class FragmentYourCosigner extends GeekBaseFragment {
                 public void onSuccess(String content) {
                     super.onSuccess(content);
                     getActivity().finish();
-                    getActivity().startActivity(new Intent(getActivity(), ActivityYourCosigner.class));
+                    getActivity().startActivity(new Intent(getActivity(), ActivityMyCosigner.class));
                 }
 
                 @Override
                 public void onFailure(Throwable ex, String failureResponse) {
                     super.onFailure(ex, failureResponse);
-                    DialogManager.showCrouton(activity, failureResponse);
+                    ErrorParser.ErrorMsg errorMsg = new ErrorParser().humanizedErrorMsg(failureResponse);
+                    OkAlert.show(getActivity(), errorMsg.title, errorMsg.msg);
                 }
             });
         }
@@ -193,13 +194,14 @@ public class FragmentYourCosigner extends GeekBaseFragment {
             public void onSuccess(String content) {
                 super.onSuccess(content);
                 getActivity().finish();
-                getActivity().startActivity(new Intent(getActivity(), ActivityYourCosigner.class));
+                getActivity().startActivity(new Intent(getActivity(), ActivityMyCosigner.class));
             }
 
             @Override
             public void onFailure(Throwable ex, String failureResponse) {
                 super.onFailure(ex, failureResponse);
-                DialogManager.showCrouton(activity, failureResponse);
+                ErrorParser.ErrorMsg errorMsg = new ErrorParser().humanizedErrorMsg(failureResponse);
+                OkAlert.show(getActivity(), errorMsg.title, errorMsg.msg);
             }
         });
     }

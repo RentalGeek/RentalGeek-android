@@ -220,6 +220,7 @@ public class GeekBaseActivity extends AppCompatActivity {
 
             hideGeekVisionAndSettings();
             setVisibilityForCosignerMenuItem();
+            setVisibilityForPaymentsMenuItem();
             setupDrawerListener();
 
             if (AppSystem.isV1Build) setVisibilityForV1NavigationMenu();
@@ -352,6 +353,18 @@ public class GeekBaseActivity extends AppCompatActivity {
         if (SessionManager.Instance.getCurrentUser() != null && !SessionManager.Instance.getCurrentUser().is_cosigner) {
             hideCosignerMenuItem();
         }
+    }
+
+    private void setVisibilityForPaymentsMenuItem() {
+        Menu menu = navigationView.getMenu();
+
+        if (menu != null) {
+            MenuItem menuItem = menu.findItem(R.id.payment);
+            if (menuItem != null) {
+                menuItem.setVisible(SessionManager.Instance.hasCompletedLeaseId());
+            }
+        }
+
     }
 
     protected void hideCosignerMenuItem() {

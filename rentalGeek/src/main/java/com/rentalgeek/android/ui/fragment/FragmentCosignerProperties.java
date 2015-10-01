@@ -49,7 +49,6 @@ public class FragmentCosignerProperties extends FragmentBaseApplicationList {
             @Override
             public void onSuccess(String content) {
                 super.onSuccess(content);
-                // reload recycler view
                 fetchItemsWithUrl(getActivity(), ApiManager.getCosignerItemsUrl());
             }
 

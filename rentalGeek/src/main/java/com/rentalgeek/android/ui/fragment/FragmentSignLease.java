@@ -40,7 +40,7 @@ public class FragmentSignLease  extends GeekBaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_sign_lease, container, false);
+        View view = inflater.inflate(R.layout.fragment_lease, container, false);
         ButterKnife.inject(this, view);
 
         int leaseId = getArguments().getInt(LEASE_ID);
@@ -62,8 +62,14 @@ public class FragmentSignLease  extends GeekBaseFragment {
             @Override
             public void onSuccess(String content) {
                 super.onSuccess(content);
-                SignatureUrlDTO signatureUrlDTO = new Gson().fromJson(content, SignatureUrlDTO.class);
-                loadSignatureUrl(signatureUrlDTO.url);
+                if (content == null) {
+                    webView.setVisibility(View.GONE);
+                    errorTextView.setText("Landlord has not uploaded lease documents yet.");
+                    errorTextView.setVisibility(View.VISIBLE);
+                } else {
+                    SignatureUrlDTO signatureUrlDTO = new Gson().fromJson(content, SignatureUrlDTO.class);
+                    loadSignatureUrl(signatureUrlDTO.url);
+                }
             }
 
             @Override

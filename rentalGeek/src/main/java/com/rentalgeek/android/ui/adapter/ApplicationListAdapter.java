@@ -14,12 +14,15 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.pojos.ApplicationItem;
 import com.rentalgeek.android.pojos.RoommateDTO;
 import com.rentalgeek.android.ui.activity.ActivitySignLease;
+import com.rentalgeek.android.ui.activity.ActivityViewLease;
 import com.rentalgeek.android.ui.fragment.FragmentBaseApplicationList;
 import com.rentalgeek.android.ui.fragment.FragmentCosignerProperties;
 import com.rentalgeek.android.ui.fragment.FragmentSignLease;
+import com.rentalgeek.android.ui.fragment.FragmentViewLease;
 import com.rentalgeek.android.ui.view.PropertyLeftTextView;
 import com.rentalgeek.android.ui.view.PropertyPersonHorizontalLinearLayout;
 import com.rentalgeek.android.ui.view.PropertyRightTextView;
@@ -75,15 +78,14 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
         }
 
         public void setButtonEnabledness(ApplicationItem item) {
-            if (item.getSignedLeaseOn() != null) {
-                disableButton();
-            } else {
-                enableButton();
+            if (!Boolean.TRUE.equals(item.getAccepted())) {
+                if (item.getUserId() != null && item.getUserId().toString().equals(SessionManager.Instance.getCurrentUser().id)) {
+                    disableButton();
+                    return;
+                }
             }
 
-            // if we're coming from cosigner
-
-            // if we're coming from approved properties
+            enableButton();
         }
 
         public void setButtonTapListener(final ApplicationItem item) {
@@ -97,6 +99,10 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
                         context.startActivity(intent);
                     } else if (signApproveButton.getText().equals(ApplicationItem.APPROVE)) {
                         fragment.applyToProperty(item.getRentalOfferingId());
+                    } else if (signApproveButton.getText().equals(ApplicationItem.VIEW_LEASE)) {
+                        Intent intent = new Intent(context, ActivityViewLease.class);
+                        intent.putExtra(FragmentViewLease.LEASE_ID, item.getLeaseId());
+                        context.startActivity(intent);
                     }
                 }
             });

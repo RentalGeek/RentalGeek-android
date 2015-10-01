@@ -55,8 +55,8 @@ If you agree to share a Credit Report, we will also use this information to shar
 
     <string name="fragment_roommates_header_addroommate">Add a Roommate</string>
     <string name="fragment_roommates_header_roommates">Your Roommates</string>
-    <string name="fragment_roommates_field_firstlastname">First &amp; Last Name(Mandatory)</string>
-    <string name="fragment_roommates_field_emailaddress">Email Address (Mandatory)</string>
+    <string name="fragment_roommates_field_firstlastname">First &amp; Last Name (Mandatory) </string>
+    <string name="fragment_roommates_field_emailaddress">Email Address (Mandatory) </string>
 
     <string name="fragment_roommateinvite_message">You have been invited by <b>%1s</b> to join a roommate group.</string>
     <string name="fragment_roommateinvite_noinvites">You have no pending invites.</string>

@@ -2,8 +2,6 @@ package com.rentalgeek.android.ui.fragment;
 
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -21,14 +19,15 @@ import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Email;
 import com.mobsandgeeks.saripaar.annotation.Regex;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.mobsandgeeks.saripaar.annotation.Select;
@@ -53,7 +52,6 @@ import com.rentalgeek.android.ui.activity.ActivityGeekScore;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.activity.ActivityPayment;
 import com.rentalgeek.android.ui.preference.AppPreferences;
-import com.rentalgeek.android.utils.Constants;
 import com.rentalgeek.android.utils.ListUtils;
 import com.rentalgeek.android.utils.StringUtils;
 
@@ -79,10 +77,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class FragmentProfileForm extends GeekBaseFragment implements Validator.ValidationListener,
-        View.OnFocusChangeListener,
-        android.widget.AdapterView.OnItemSelectedListener,
-        AdapterView.OnItemClickListener {
+public class FragmentProfileForm extends GeekBaseFragment implements Validator.ValidationListener, AdapterView.OnItemClickListener {
 
     private static final String TAG = "FragmentProfileForm";
 
@@ -94,58 +89,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
     // Browser key required for these requests
     private static final String API_KEY = "AIzaSyDuVB1GHSKyz51m1w4VGs_XTyxVlK01INY";
-
-    @InjectView(R.id.evdesc)
-    RelativeLayout evdesc;
-
-    @InjectView(R.id.profile_submit)
-    Button buttonProfileSubmit;
-
-    @InjectView(R.id.buttonBack)
-    Button buttonBack;
-
-    @Required(order = 1, message = "Please fill all mandatory fields")
-    @InjectView(R.id.ed_first_name)
-    EditText ed_first_name;
-
-    @Required(order = 2, message = "Please fill all mandatory fields")
-    @InjectView(R.id.ed_last_name)
-    EditText ed_last_name;
-
-    @InjectView(R.id.is_felon_lay)
-    RelativeLayout is_felon_lay;
-
-    @InjectView(R.id.ed_license)
-    public EditText edLicense;
-
-    @InjectView(R.id.ed_license_state)
-    public Spinner ed_license_state;
-
-    @Required(order = 4, message = "Please fill all mandatory fields")
-    @TextRule(minLength = 10, maxLength = 10, message = "Please use 10 digit phone number", order = 5)
-    @Regex(order = 6, pattern = "[0-9]{10}", message = "Please use 10 digit phone number")
-    @InjectView(R.id.ed_ph)
-    public EditText edPh;
-
-    @InjectView(R.id.ed_desc_pets)
-    public EditText edDescPets;
-
-    @InjectView(R.id.ed_desc_vehicle)
-    public EditText edDescVehicle;
-
-    @Select(order = 7, message = "please select are you evicted")
-    @InjectView(R.id.ed_was_envicted)
-    public Spinner ed_was_envicted;
-
-    @InjectView(R.id.ed_envicted_desc)
-    public EditText edEnvicted;
-
-    @Select(order = 8, message = "Please select are you felon")
-    @InjectView(R.id.ed_felon)
-    public Spinner edFelon;
-
-    @InjectView(R.id.ed_felon_desc)
-    public EditText edFelonDesc;
 
     @InjectView(R.id.layoutForm1)
     LinearLayout layoutForm1;
@@ -165,88 +108,133 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
     @InjectView(R.id.layoutForm6)
     LinearLayout layoutForm6;
 
-    @InjectView(R.id.layoutProfileHeader)
-    LinearLayout layoutProfileHeader;
+    @InjectView(R.id.profile_layout_header)
+    LinearLayout profile_layout_header;
+
+    @InjectView(R.id.eviction_description_layout)
+    LinearLayout eviction_description_layout;
+
+    @InjectView(R.id.felony_description_layout)
+    LinearLayout felony_description_layout;
+
+    @InjectView(R.id.submit)
+    Button submit;
+
+    @InjectView(R.id.back)
+    Button back;
+
+    @Required(order = 1, message = "Please fill all mandatory fields")
+    @InjectView(R.id.first_name)
+    EditText first_name;
+
+    @Required(order = 2, message = "Please fill all mandatory fields")
+    @InjectView(R.id.last_name)
+    EditText last_name;
+
+    @InjectView(R.id.dob)
+    public DatePicker dob;
+
+    @InjectView(R.id.drivers_license)
+    public EditText drivers_license;
+
+    @InjectView(R.id.drivers_license_state)
+    public Spinner drivers_license_state;
+
+    @Required(order = 4, message = "Please fill all mandatory fields")
+    @TextRule(minLength = 10, maxLength = 10, message = "Please use 10 digit phone number", order = 5)
+    @Regex(order = 6, pattern = "[0-9]{10}", message = "Please use 10 digit phone number")
+    @InjectView(R.id.phone_number)
+    public EditText phone_number;
+
+    @InjectView(R.id.pets_description)
+    public EditText pets_description;
+
+    @InjectView(R.id.vehicle_description)
+    public EditText vehicle_description;
+
+    @Select(order = 7, message = "Please fill all mandatory fields")
+    @InjectView(R.id.was_evicted)
+    public Spinner was_evicted;
+
+    @InjectView(R.id.eviction_description)
+    public EditText eviction_description;
+
+    @Select(order = 8, message = "Please fill all mandatory fields")
+    @InjectView(R.id.was_felon)
+    public Spinner was_felon;
+
+    @InjectView(R.id.felony_description)
+    public EditText felony_description;
 
     @Required(order = 9, message = "Please fill all mandatory fields")
-    @InjectView(R.id.ed_char_ref)
+    @InjectView(R.id.character_reference_name)
     public EditText character_reference_name;
 
     @Required(order = 10, message = "Please fill all mandatory fields")
-    @InjectView(R.id.ed_char_ref_conifo)
-    public EditText character_reference_contact_info;
+    @InjectView(R.id.character_reference_phone)
+    public EditText character_reference_phone;
 
     @Required(order = 11, message = "Please fill all mandatory fields")
-    @InjectView(R.id.ed_emer_conifo)
+    @InjectView(R.id.emergency_contact_name)
     public EditText emergency_contact_name;
 
     @TextRule(order = 12, minLength = 10, maxLength = 10, message = "Should be 10 digits")
     @Regex(order = 13, pattern = "[0-9]{10}", message = "Please use 10 digit phone number")
     @Required(order = 14, message = "Please fill all mandatory fields")
-    @InjectView(R.id.ed_emer_ph)
-    public EditText emergency_contact_phone_number;
+    @InjectView(R.id.emergency_contact_phone)
+    public EditText emergency_contact_phone;
 
     @Required(order = 15, message = "Please fill all mandatory fields")
-    @InjectView(R.id.ed_home_addr)
-    public AutoCompleteTextView current_home_street_address;
+    @InjectView(R.id.current_home_address)
+    public AutoCompleteTextView current_home_address;
 
-    @Required(order = 16, message = "Please fill")
-    @InjectView(R.id.ed_curr_home_mov_in)
-    public EditText current_home_moved_in_on;
+    @InjectView(R.id.current_move_date)
+    public DatePicker current_move_date;
 
-    @InjectView(R.id.ed_curr_home_diss)
-    public EditText edCurrHomeDiss;
+    @InjectView(R.id.move_reason)
+    public EditText move_reason;
 
     @Required(order = 17, message = "Please fill all mandatory fields")
-    @InjectView(R.id.ed_curr_home_own)
+    @InjectView(R.id.current_home_owner)
     public EditText current_home_owner;
-    ActivityHome contexto;
 
     @Required(order = 18, message = "Please fill all mandatory fields")
-    @InjectView(R.id.ed_curr_own_cont)
-    public EditText current_home_owner_contact_info;
+    @InjectView(R.id.current_home_owner_phone)
+    public EditText current_home_owner_phone;
 
-    @InjectView(R.id.ed_prev_own_stree)
-    public EditText previous_home_street_address;
+    @InjectView(R.id.previous_home_address)
+    public EditText previous_home_address;
 
-    @InjectView(R.id.ed_prev_hme_movedin)
-    public EditText previous_home_moved_in_on;
+    @InjectView(R.id.previous_move_in_date)
+    public DatePicker previous_move_in_date;
 
-    @InjectView(R.id.ed_prev_hme_movedout)
-    public EditText previous_home_moved_out;
+    @InjectView(R.id.previous_move_out_date)
+    public DatePicker previous_move_out_date;
 
-    @InjectView(R.id.ed_prev_hme_own)
+    @InjectView(R.id.previous_home_owner)
     public EditText previous_home_owner;
 
-    @InjectView(R.id.ed_prev_hme_own_cnt)
-    public EditText previous_home_owner_contact_info;
+    @InjectView(R.id.previous_home_owner_phone)
+    public EditText previous_home_owner_phone;
+
+    @InjectView(R.id.current_supervisor)
+    public EditText current_supervisor;
 
     @Select(order = 19, message = "Please fill all mandatory fields")
-    @InjectView(R.id.ed_empl_sta)
+    @InjectView(R.id.employment_status)
     public Spinner employment_status;
 
-    @InjectView(R.id.ed_empl_super)
-    public EditText current_employment_supervisor;
-
     @Required(order = 20, message = "Please fill all mandatory fields")
-    @InjectView(R.id.ed_cosigner)
+    @InjectView(R.id.cosigner_name)
     public EditText cosigner_name;
 
     @Required(order = 21, message = "Please fill all mandatory fields")
-    @InjectView(R.id.ed_cosigner_email)
-    public EditText cosigner_email_address;
+    @Email(order = 22, message = "Must be in email format")
+    @InjectView(R.id.cosigner_email)
+    public EditText cosigner_email;
 
-    @InjectView(R.id.ed_desir_mov)
-    public EditText desires_to_move_in_on;
-
-    @InjectView(R.id.dob_day)
-    public Spinner days_spinner;
-
-    @InjectView(R.id.dob_month)
-    public Spinner months_spinner;
-
-    @InjectView(R.id.dob_year)
-    public Spinner years_spinner;
+    @InjectView(R.id.desired_move_date)
+    public DatePicker desired_move_date;
 
     private Validator validator;
 
@@ -254,15 +242,12 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
     ProfileTable profdets;
 
-    private DatePickerDialog toDatePickerDialog;
-
     protected GooglePlacesAutocompleteAdapter placesAdapter;
 
-    private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+    private SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
     public static FragmentProfileForm newInstance(int pos) {
         FragmentProfileForm fragment = new FragmentProfileForm();
-        //fragment.position = pos;
         Bundle args = new Bundle();
         args.putInt(Common.KEY_POSITION, pos);
         fragment.setArguments(args);
@@ -279,6 +264,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_profile_form, container, false);
+        ButterKnife.setDebug(true);
         ButterKnife.inject(this, v);
 
         if (!SessionManager.Instance.hasPayed()) {
@@ -292,7 +278,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                             dialog.cancel();
                             activity.finish();
                             Navigation.navigateActivity(activity, ActivityPayment.class, false);
-                            //nextfragment(new FragmentGeekScoreMain(), false, R.id.container);
                         }
                     });
 
@@ -304,7 +289,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                             dialog.cancel();
                             activity.finish();
                             Navigation.navigateActivity(activity, ActivityHome.class, false);
-                            //nextfragment(new FragmentListViewDetails(), false, R.id.container);
                         }
                     });
             AlertDialog alert11 = builder1.create();
@@ -316,32 +300,28 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
         validator = new Validator(this);
         validator.setValidationListener(this);
 
-        placesAdapter = new GooglePlacesAutocompleteAdapter(getActivity(), R.layout.list_item);
-        current_home_street_address.setAdapter(placesAdapter);
-        current_home_street_address.setOnItemClickListener(this);
-        current_home_street_address.setValidator(new AutoValidator());
-        current_home_street_address.setOnFocusChangeListener(new FocusListener());
-
         String[] states = RentalGeekApplication.getStringArray(R.array.state_list);
-        ArrayAdapter<String> statesAdapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item, R.id.item_text,states);
-        ed_license_state.setAdapter(statesAdapter);
+        ArrayAdapter<String> states_adapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item,R.id.item_text,states);
+        drivers_license_state.setAdapter(states_adapter);
+        
+        String[] booleans = RentalGeekApplication.getStringArray(R.array.tru);
+        ArrayAdapter<String> booleans_adapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item,R.id.item_text,booleans);
+        was_evicted.setAdapter(booleans_adapter);
+        was_felon.setAdapter(booleans_adapter);
 
-        String[] months = RentalGeekApplication.getStringArray(R.array.months);
-        String[] days = RentalGeekApplication.getStringArray(R.array.days);
-        String[] years = Constants.getYears();
+        String[] employment_statuses = RentalGeekApplication.getStringArray(R.array.empl);
+        ArrayAdapter<String> employment_status_adapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item,R.id.item_text,employment_statuses);
+        employment_status.setAdapter(employment_status_adapter);
 
-        ArrayAdapter<String> monthsAdapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item, R.id.item_text,months);
-        ArrayAdapter<String> daysAdapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item, R.id.item_text, days);
-        ArrayAdapter<String> yearsAdapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item, R.id.item_text, years);
-
-        months_spinner.setAdapter(monthsAdapter);
-        days_spinner.setAdapter(daysAdapter);
-        years_spinner.setAdapter(yearsAdapter);
-
+        placesAdapter = new GooglePlacesAutocompleteAdapter(getActivity(), R.layout.list_item);
+        current_home_address.setAdapter(placesAdapter);
+        current_home_address.setOnItemClickListener(this);
+        current_home_address.setValidator(new AutoValidator());
+        current_home_address.setOnFocusChangeListener(new FocusListener());
+        
         wasEverEnvicted();
         isFelon();
 
-        registerOnFocusChangeListeners();
         fetchProfileData();
         
         switchFormVisibility();
@@ -353,39 +333,39 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
         switch (this.position) {
             case 1:
                 layoutForm1.setVisibility(View.VISIBLE);
-                layoutProfileHeader.setVisibility(View.VISIBLE);
-                buttonProfileSubmit.setText("Next");
-                buttonBack.setVisibility(View.INVISIBLE);
+                profile_layout_header.setVisibility(View.VISIBLE);
+                submit.setText("Next");
+                back.setVisibility(View.INVISIBLE);
                 break;
             case 2:
                 layoutForm2.setVisibility(View.VISIBLE);
-                layoutProfileHeader.setVisibility(View.GONE);
-                buttonProfileSubmit.setText("Next");
-                buttonBack.setVisibility(View.VISIBLE);
+                profile_layout_header.setVisibility(View.GONE);
+                submit.setText("Next");
+                back.setVisibility(View.VISIBLE);
                 break;
             case 3:
                 layoutForm3.setVisibility(View.VISIBLE);
-                layoutProfileHeader.setVisibility(View.GONE);
-                buttonProfileSubmit.setText("Next");
-                buttonBack.setVisibility(View.VISIBLE);
+                profile_layout_header.setVisibility(View.GONE);
+                submit.setText("Next");
+                back.setVisibility(View.VISIBLE);
                 break;
             case 4:
                 layoutForm4.setVisibility(View.VISIBLE);
-                layoutProfileHeader.setVisibility(View.GONE);
-                buttonProfileSubmit.setText("Next");
-                buttonBack.setVisibility(View.VISIBLE);
+                profile_layout_header.setVisibility(View.GONE);
+                submit.setText("Next");
+                back.setVisibility(View.VISIBLE);
                 break;
             case 5:
                 layoutForm5.setVisibility(View.VISIBLE);
-                layoutProfileHeader.setVisibility(View.GONE);
-                buttonProfileSubmit.setText("Next");
-                buttonBack.setVisibility(View.VISIBLE);
+                profile_layout_header.setVisibility(View.GONE);
+                submit.setText("Next");
+                back.setVisibility(View.VISIBLE);
                 break;
             case 6:
                 layoutForm6.setVisibility(View.VISIBLE);
-                layoutProfileHeader.setVisibility(View.GONE);
-                buttonProfileSubmit.setText("Submit");
-                buttonBack.setVisibility(View.VISIBLE);
+                profile_layout_header.setVisibility(View.GONE);
+                submit.setText("Submit");
+                back.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -396,57 +376,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
         ButterKnife.reset(this);
     }
 
-
-    private void registerOnFocusChangeListeners() {
-
-        com.activeandroid.query.Select select = new com.activeandroid.query.Select();
-        List<ProfileTable> profcont = select.all().from(ProfileTable.class).execute();
-
-        if (profcont.size() > 0) {
-            profdets = new com.activeandroid.query.Select()
-                    .from(ProfileTable.class)
-                    .where("uid = ?", appPref.getData("Uid")).executeSingle();
-
-            if (profdets == null) {
-                profdets = new ProfileTable();
-                profdets.uid = appPref.getData("Uid");
-            }
-        } else {
-            profdets = new ProfileTable();
-            profdets.uid = appPref.getData("Uid");
-        }
-
-        edEnvicted.setOnFocusChangeListener(this);
-        ed_first_name.setOnFocusChangeListener(this);
-        ed_last_name.setOnFocusChangeListener(this);
-        edLicense.setOnFocusChangeListener(this);
-        edPh.setOnFocusChangeListener(this);
-        edDescPets.setOnFocusChangeListener(this);
-        edDescVehicle.setOnFocusChangeListener(this);
-        edEnvicted.setOnFocusChangeListener(this);
-        edFelonDesc.setOnFocusChangeListener(this);
-        character_reference_name.setOnFocusChangeListener(this);
-        character_reference_contact_info.setOnFocusChangeListener(this);
-        emergency_contact_name.setOnFocusChangeListener(this);
-        emergency_contact_phone_number.setOnFocusChangeListener(this);
-        current_home_street_address.setOnFocusChangeListener(this);
-        current_home_moved_in_on.setOnFocusChangeListener(this);
-        edCurrHomeDiss.setOnFocusChangeListener(this);
-        current_home_owner.setOnFocusChangeListener(this);
-        current_home_owner_contact_info.setOnFocusChangeListener(this);
-        previous_home_street_address.setOnFocusChangeListener(this);
-        previous_home_moved_in_on.setOnFocusChangeListener(this);
-        previous_home_moved_out.setOnFocusChangeListener(this);
-        previous_home_owner.setOnFocusChangeListener(this);
-        previous_home_owner_contact_info.setOnFocusChangeListener(this);
-        current_employment_supervisor.setOnFocusChangeListener(this);
-        cosigner_name.setOnFocusChangeListener(this);
-        cosigner_email_address.setOnFocusChangeListener(this);
-        desires_to_move_in_on.setOnFocusChangeListener(this);
-        ed_license_state.setOnItemSelectedListener(this);
-        employment_status.setOnItemSelectedListener(this);
-
-    }
 
     // setting profile data to view
     private void setProfileData(String response) {
@@ -465,206 +394,8 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                 }
                 Navigation.navigateActivity(getActivity(), ActivityGeekScore.class);
             }
-//
-//            if (detail != null) {
-//                if (detail.profiles != null && detail.profiles.size() > 0) {
-//
-//                    System.out.println("profile id " + detail.profiles.get(0).id);
-//                    appPref.SaveData("prof_id", detail.profiles.get(0).id);
-//                    System.out.println("profile born_on " + detail.profiles.get(0).born_on);
-//
-//                    ed_first_name.setText(detail.profiles.get(0).first_name);
-//                    ed_last_name.setText(detail.profiles.get(0).last_name);
-//
-//                    if (!detail.profiles.get(0).born_on.equals(" ")) {
-//                        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(detail.profiles.get(0).born_on);
-//                        String dateString = new SimpleDateFormat("MM-dd-yyyy").format(date);
-//                        edBornOn.setText(dateString);
-//                    }
-//
-//                    edLicense.setText(detail.profiles.get(0).drivers_license_number);
-//
-//                    ArrayAdapter<CharSequence> adapter = ArrayAdapter
-//                            .createFromResource(getActivity(),
-//                                    R.array.state_list,
-//                                    android.R.layout.simple_spinner_item);
-//                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//                    ed_license_state.setAdapter(adapter);
-//                    if (!detail.profiles.get(0).drivers_license_state.equals(null)) {
-//                        int spinnerPostion = adapter.getPosition(detail.profiles.get(0).drivers_license_state);
-//                        ed_license_state.setSelection(spinnerPostion);
-//                        spinnerPostion = 0;
-//                    }
-//                    edPh.setText(detail.profiles.get(0).phone_number);
-//
-//                    edDescPets.setText(detail.profiles.get(0).pets_description);
-//                    edDescVehicle.setText(detail.profiles.get(0).vehicles_description);
-//
-//                    if (detail.profiles.get(0).was_ever_evicted.equals("false")) {
-//                        ed_was_envicted.setSelection(2);
-//                    } else {
-//                        ed_was_envicted.setSelection(1);
-//                    }
-//
-//                    edEnvicted.setText(detail.profiles.get(0).was_ever_evicted_explanation);
-//
-//                    if (detail.profiles.get(0).is_felon.equals("false")) {
-//                        edFelon.setSelection(2);
-//                    } else {
-//                        edFelon.setSelection(1);
-//                    }
-//                    edFelonDesc.setText(detail.profiles.get(0).is_felon_explanation);
-//                    character_reference_name.setText(detail.profiles.get(0).character_reference_name);
-//                    character_reference_contact_info.setText(detail.profiles.get(0).character_reference_contact_info);
-//                    emergency_contact_name.setText(detail.profiles.get(0).emergency_contact_name);
-//                    emergency_contact_phone_number.setText(detail.profiles.get(0).emergency_contact_phone_number);
-//                    current_home_street_address.setText(detail.profiles.get(0).current_home_street_address);
-//
-//                    if (!detail.profiles.get(0).current_home_moved_in_on.equals(" ")) {
-//                        Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse(detail.profiles.get(0).current_home_moved_in_on);
-//                        String dateString2 = new SimpleDateFormat("MM-dd-yyyy").format(date2);
-//                        current_home_moved_in_on.setText(dateString2);
-//                    }
-//
-//                    edCurrHomeDiss.setText(detail.profiles.get(0).current_home_dissatisfaction_explanation);
-//                    current_home_owner.setText(detail.profiles.get(0).current_home_owner);
-//                    current_home_owner_contact_info.setText(detail.profiles
-//                            .get(0).current_home_owner_contact_info);
-//                    previous_home_street_address
-//                            .setText(detail.profiles.get(0).previous_home_street_address);
-//
-//                    if (!detail.profiles.get(0).previous_home_moved_in_on
-//                            .equals(" ")) {
-//                        Date date3 = new SimpleDateFormat("yyyy-MM-dd")
-//                                .parse(detail.profiles.get(0).previous_home_moved_in_on);
-//                        String dateString3 = new SimpleDateFormat("MM-dd-yyyy")
-//                                .format(date3);
-//                        previous_home_moved_in_on.setText(dateString3);
-//                    }
-//
-//                    if (!detail.profiles.get(0).previous_home_moved_out.equals(" ")) {
-//                        Date date4 = new SimpleDateFormat("yyyy-MM-dd").parse(detail.profiles.get(0).previous_home_moved_out);
-//                        String dateString4 = new SimpleDateFormat("MM-dd-yyyy")
-//                                .format(date4);
-//                        previous_home_moved_out.setText(dateString4);
-//                    }
-//
-//                    previous_home_owner
-//                            .setText(detail.profiles.get(0).previous_home_owner);
-//                    previous_home_owner_contact_info.setText(detail.profiles
-//                            .get(0).previous_home_owner_contact_info);
-//                    if (detail.profiles.get(0).employment_status
-//                            .equals("employed")) {
-//                        employment_status.setSelection(1);
-//                    } else {
-//                        employment_status.setSelection(2);
-//                    }
-//                    current_employment_supervisor.setText(detail.profiles
-//                            .get(0).current_employment_supervisor);
-//
-//                    cosigner_name.setText(detail.profiles.get(0).cosigner_name);
-//
-//                    cosigner_email_address.setText(detail.profiles.get(0).cosigner_email_address);
-//
-//                    if (!detail.profiles.get(0).desires_to_move_in_on
-//                            .equals(" ")) {
-//                        Date date5 = new SimpleDateFormat("yyyy-MM-dd")
-//                                .parse(detail.profiles.get(0).desires_to_move_in_on);
-//                        String dateString5 = new SimpleDateFormat("MM-dd-yyyy")
-//                                .format(date5);
-//                        desires_to_move_in_on.setText(dateString5);
-//                    }
-//
-//                } else {
-//                    setProfdetailsFromLocalDb();
-//                }
-//            }
         } catch (Exception e) {
             AppLogger.log(TAG, e);
-        }
-
-    }
-
-    private void setProfdetailsFromLocalDb() {
-
-        com.activeandroid.query.Select select = new com.activeandroid.query.Select();
-        List<ProfileTable> profs = select.all().from(ProfileTable.class).execute();
-
-        if (profs.size() > 0) {
-            try {
-
-                if (ed_first_name != null) ed_first_name.setText(profs.get(0).firstname);
-                if (ed_last_name != null) ed_last_name.setText(profs.get(0).lastname);
-                if (edLicense != null) edLicense.setText(profs.get(0).drivers_license_number);
-
-                if (edPh != null) edPh.setText(profs.get(0).phone_number);
-                if (edDescPets != null) edDescPets.setText(profs.get(0).pets_description);
-                if (edDescVehicle != null) edDescVehicle.setText(profs.get(0).vehicles_description);
-                if (character_reference_name != null) character_reference_name.setText(profs.get(0).character_reference_name);
-                if (character_reference_contact_info != null) character_reference_contact_info.setText(profs.get(0).character_reference_contact_info);
-                if (emergency_contact_name != null) emergency_contact_name.setText(profs.get(0).emergency_contact_name);
-                if (emergency_contact_phone_number != null) emergency_contact_phone_number.setText(profs.get(0).emergency_contact_phone_number);
-                if (current_home_street_address != null) current_home_street_address.setText(profs.get(0).current_home_street_address);
-                if (current_home_moved_in_on != null) current_home_moved_in_on.setText(profs.get(0).current_home_moved_in_on);
-                if (edCurrHomeDiss != null) edCurrHomeDiss.setText(profs.get(0).current_home_dissatisfaction_explanation);
-                if (current_home_owner != null) current_home_owner.setText(profs.get(0).current_home_owner);
-                if (current_home_owner_contact_info != null) current_home_owner_contact_info.setText(profs.get(0).current_home_owner_contact_info);
-                if (previous_home_street_address != null) previous_home_street_address.setText(profs.get(0).previous_home_street_address);
-                if (previous_home_owner != null) previous_home_owner.setText(profs.get(0).previous_home_owner);
-                if (previous_home_owner_contact_info != null) previous_home_owner_contact_info.setText(profs.get(0).previous_home_owner_contact_info);
-                if (current_employment_supervisor != null) current_employment_supervisor.setText(profs.get(0).current_employment_supervisor);
-                if (cosigner_name != null) cosigner_name.setText(profs.get(0).cosigner_name);
-                if (cosigner_email_address != null) cosigner_email_address.setText(profs.get(0).cosigner_email_address);
-                if (emergency_contact_phone_number != null) emergency_contact_phone_number.setText(profs.get(0).emergency_contact_phone_number);
-                if (desires_to_move_in_on != null) desires_to_move_in_on.setText(profs.get(0).desires_to_move_in_on);
-                if (previous_home_moved_in_on != null) previous_home_moved_in_on.setText(profs.get(0).previous_home_moved_in_on);
-                if (previous_home_moved_out != null)  previous_home_moved_out.setText(profs.get(0).previous_home_moved_out);
-
-                System.out.println("employment status seeting" + profs.get(0).employment_status);
-                if (profs.get(0).employment_status != null && profs.get(0).employment_status.equals("employed")) {
-                    if (employment_status != null) employment_status.setSelection(1);
-                } else {
-                    if (employment_status != null) employment_status.setSelection(2);
-                }
-
-                if (StringUtils.isNotNullAndEquals(profs.get(0).is_felon, "No")) {
-                    if (edFelon != null) edFelon.setSelection(2);
-                } else {
-                    if (edFelon != null) edFelon.setSelection(1);
-                }
-
-                if (edFelonDesc != null) edFelonDesc.setText(profs.get(0).is_felon_explanation);
-
-                if (StringUtils.isNotNullAndEquals(profs.get(0).was_ever_evicted, "No")) {
-                    if (ed_was_envicted != null) ed_was_envicted.setSelection(2);
-                    System.out.println("was ever evicted no" + profs.get(0).was_ever_evicted);
-                } else {
-                    System.out.println("was ever evicted yes" + profs.get(0).was_ever_evicted);
-                    if (ed_was_envicted != null) ed_was_envicted.setSelection(1);
-                }
-
-                if (edEnvicted != null)  edEnvicted.setText(profs.get(0).was_ever_evicted_explanation);
-
-                ArrayAdapter<CharSequence> adapter = ArrayAdapter
-                        .createFromResource(getActivity(), R.array.state_list,
-                                android.R.layout.simple_spinner_item);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-                if (ed_license_state != null) ed_license_state.setAdapter(adapter);
-                System.out.println("the value of state out " + profs.get(0).drivers_license_state);
-                if (!profs.get(0).drivers_license_state.equals(null)) {
-                    System.out.println("the value of state " + profs.get(0).drivers_license_state);
-                    int spinnerPostion = adapter.getPosition(profs.get(0).drivers_license_state);
-                    if (ed_license_state != null) ed_license_state.setSelection(spinnerPostion);
-                    spinnerPostion = 0;
-                }
-            } catch (Exception e) {
-                System.out.println("was ever evicted   catch" + e);
-                AppLogger.log(TAG, e);
-            }
-
-        } else {
-
         }
 
     }
@@ -771,174 +502,162 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
     private RequestParams buildParams(int position, RequestParams params) throws ParseException {
 
-        if (profdets == null) return params;
+        Calendar calendar = Calendar.getInstance();
 
         switch(position) {
             case 1:
-                if(!StringUtils.isTrimEmpty(profdets.firstname))
-                {
-                    params.put("profile[first_name]", StringUtils.getTrim(profdets.firstname));
+
+                //These are required fields so no need to check
+                params.put("profile[first_name]", first_name.getText().toString());
+                params.put("profile[last_name]", last_name.getText().toString());
+
+                calendar.set(dob.getYear(), dob.getMonth(), dob.getDayOfMonth());
+                Date date_dob = calendar.getTime();
+                params.put("profile[born_on]",date_format.format(date_dob));
+
+                System.out.println(String.format("First name: %s", first_name.getText().toString()));
+                System.out.println(String.format("Last name: %s", last_name.getText().toString()));
+                System.out.println(String.format("Born on: %s", date_format.format(date_dob)));
+
+                //Optional fields, so let's check
+                if( ! StringUtils.isTrimEmpty(drivers_license) && ! StringUtils.isNotNullAndEquals((String)drivers_license_state.getSelectedItem(),"States") ) {
+                    params.put("profile[drivers_license_number]",drivers_license.getText().toString());
+                    params.put("profile[drivers_license_state]", (String)drivers_license_state.getSelectedItem());
+
+                    System.out.println(String.format("Drivers License Number: %s", drivers_license.getText().toString()));
+                    System.out.println(String.format("Drivers License State: %s", (String) drivers_license_state.getSelectedItem()));
                 }
 
-                if(!StringUtils.isTrimEmpty(profdets.lastname))
-                {
-                    params.put("profile[last_name]", StringUtils.getTrim(profdets.lastname));
-                }
-
-                if (!StringUtils.isTrimEmpty(profdets.born_on)) {
-                    Date date = new SimpleDateFormat("MM-dd-yyyy").parse(StringUtils.getTrim(profdets.born_on));
-                    String dateString1 = new SimpleDateFormat("yyyy-MM-dd").format(date);
-
-                    params.put("profile[born_on]", dateString1);
-                }
-
-                if (!StringUtils.isTrimEmpty(profdets.drivers_license_number))
-                    params.put("profile[drivers_license_number]",
-                            StringUtils.getTrim(profdets.drivers_license_number));
-
-                if (!StringUtils.isNotNullAndEquals(profdets.drivers_license_state, "States"))
-                    params.put("profile[drivers_license_state]", profdets.drivers_license_state);
                 break;
             case 2:
-                if (!StringUtils.isTrimEmpty(profdets.phone_number))
-                    params.put("profile[phone_number]", StringUtils.getTrim(profdets.phone_number));
+                //These are required fields so no need to check
+                params.put("profile[phone_number]", phone_number.getText().toString());
 
-                if (!StringUtils.isTrimEmpty(profdets.pets_description))
-                    params.put("profile[pets_description]", StringUtils.getTrim(profdets.pets_description));
+                System.out.println(String.format("Phone number: %s",phone_number.getText().toString()));
 
-                if (!StringUtils.isTrimEmpty(profdets.vehicles_description))
-                    params.put("profile[vehicles_description]", StringUtils.getTrim(profdets.vehicles_description));
-
-                if (StringUtils.isNotNullAndEquals(profdets.was_ever_evicted, "Yes")) {
-                    params.put("profile[was_ever_evicted]", "true");
-                } else {
-                    params.put("profile[was_ever_evicted]", "false");
+                //Optional fields, let's check
+                if ( ! StringUtils.isTrimEmpty(pets_description) ) {
+                    params.put("profile[pets_description]", pets_description.getText().toString());
+                    System.out.println(String.format("Pet description: %s", pets_description.getText().toString()));
                 }
 
-                if (!StringUtils.isTrimEmpty(profdets.was_ever_evicted_explanation))
-                    params.put("profile[was_ever_evicted_explanation]", StringUtils.getTrim(profdets.was_ever_evicted_explanation));
+                if ( ! StringUtils.isTrimEmpty(vehicle_description) ) {
+                    params.put("profile[vehicles_description]", vehicle_description.getText().toString());
+                    System.out.println(String.format("Vehicle description: %s", vehicle_description.getText().toString()));
+                }
+
+                if ( ! StringUtils.isNotNullAndEquals((String)was_evicted.getSelectedItem(),"Select") ) {
+                    System.out.println(String.format("Evicted: %s",(String) was_evicted.getSelectedItem()));
+
+                    if( ((String)was_evicted.getSelectedItem()).equals("Yes") ) {
+                        params.put("profile[was_ever_evicted_explanation]", eviction_description.getText().toString());
+                        params.put("profile[was_ever_evicted]", "true");
+                        System.out.println(String.format("Evicted description: %s", eviction_description.getText().toString()));
+                    }
+
+                    else if ( ((String)was_evicted.getSelectedItem()).equals("No") ) {
+                        params.put("profile[was_ever_evicted]", "false");
+                    }
+                }
 
                 break;
             case 3:
-                if (StringUtils.isNotNullAndEquals(profdets.is_felon, "Yes")) {
-                    params.put("profile[is_felon]", "true");
-                } else {
-                    params.put("profile[is_felon]", "false");
+                //These are required fields so no need to check
+                if ( StringUtils.isNotNullAndEquals((String)was_felon.getSelectedItem(),"Select") ) {
+                    System.out.println(String.format("Felon: %s",(String) was_felon.getSelectedItem()));
+
+                    if( ((String)was_felon.getSelectedItem()).equals("Yes") ) {
+                        params.put("profile[is_felon_explanation]", felony_description.getText().toString());
+                        params.put("profile[is_felon]", "true");
+                        System.out.println(String.format("Felon description: %s", felony_description.getText().toString()));
+                    }
+
+                    else if ( ((String)was_felon.getSelectedItem()).equals("No") ) {
+                        params.put("profile[is_felon]", "false");
+                    }
                 }
 
-                if (!StringUtils.isTrimEmpty(profdets.is_felon_explanation))
-                    params.put("profile[is_felon_explanation]", StringUtils.getTrim(profdets.is_felon_explanation));
+                params.put("profile[character_reference_name]",character_reference_name.getText().toString());
+                params.put("profile[character_reference_contact_info]",character_reference_phone.getText().toString());
+                params.put("profile[emergency_contact_name]",emergency_contact_name.getText().toString());
+                params.put("profile[emergency_contact_phone_number]",emergency_contact_phone.getText().toString());
 
-                if (!StringUtils.isTrimEmpty(profdets.character_reference_name))
-                    params.put("profile[character_reference_name]",
-                            StringUtils.getTrim(profdets.character_reference_name));
-
-                if (!StringUtils.isTrimEmpty(profdets.character_reference_contact_info))
-                    params.put("profile[character_reference_contact_info]",
-                            StringUtils.getTrim(profdets.character_reference_contact_info));
-
-                if (!StringUtils.isTrimEmpty(profdets.emergency_contact_name))
-                    params.put("profile[emergency_contact_name]",
-                            StringUtils.getTrim(profdets.emergency_contact_name));
-
-                if (!StringUtils.isTrimEmpty(profdets.emergency_contact_phone_number))
-                    params.put("profile[emergency_contact_phone_number]",
-                            StringUtils.getTrim(profdets.emergency_contact_phone_number));
+                System.out.println(String.format("Character reference name: %s", character_reference_name.getText().toString()));
+                System.out.println(String.format("Character reference phone: %s",character_reference_phone.getText().toString()));
+                System.out.println(String.format("Emergency contact name: %s",emergency_contact_name.getText().toString()));
+                System.out.println(String.format("Emergency contact phone:",emergency_contact_phone.getText().toString()));
 
                 break;
             case 4:
-                if (!StringUtils.isTrimEmpty(profdets.current_home_street_address)) {
-                    //params.put("profile[current_home_street]", current_home_street_address.getText().toString().trim());
-                    params.put("profile[current_home_street]", String.format("%s %s", Common.streetNumber, Common.streetName));
-                    params.put("profile[current_home_city]", Common.city);
-                    params.put("profile[current_home_state]", Common.state);
-                    params.put("profile[current_home_zipcode]", Common.zip);
+                //These are required fields so no need to check
+                params.put("profile[current_home_street]", String.format("%s %s", Common.streetNumber, Common.streetName));
+                params.put("profile[current_home_city]", Common.city);
+                params.put("profile[current_home_state]", Common.state);
+                params.put("profile[current_home_zipcode]", Common.zip);
 
+                calendar.set(current_move_date.getYear(), current_move_date.getMonth(), current_move_date.getDayOfMonth());
+                Date date_move = calendar.getTime();
+                params.put("profile[current_home_moved_in_on]", date_format.format(date_move));
+
+                params.put("profile[current_home_owner]", current_home_owner.getText().toString());
+                params.put("profile[current_home_owner_contact_info]", current_home_owner_phone.getText().toString());
+
+                System.out.println(String.format("Address: %s %s, %s %s, %s", Common.streetNumber, Common.streetName, Common.city, Common.state, Common.zip));
+                System.out.println(String.format("Current home move in date: %s",date_format.format(date_move)));
+
+                //Optional fields, let's check
+                if ( ! StringUtils.isTrimEmpty(move_reason)) {
+                    params.put("profile[current_home_dissatisfaction_explanation]", move_reason.getText().toString());
+                    System.out.println(String.format("Reason for moving: %s",move_reason.getText().toString()));
                 }
 
-                if (!StringUtils.isTrimEmpty(profdets.current_home_moved_in_on)) {
-
-                    Date date = new SimpleDateFormat("MM-dd-yyyy")
-                            .parse(StringUtils.getTrim(profdets.current_home_moved_in_on));
-                    String dateString3 = new SimpleDateFormat("yyyy-MM-dd").format(date);
-                    params.put("profile[current_home_moved_in_on]", dateString3);
-
-                }
-
-                if (!StringUtils.isTrimEmpty(profdets.current_home_dissatisfaction_explanation))
-                    params.put("profile[current_home_dissatisfaction_explanation]",
-                            StringUtils.getTrim(profdets.current_home_dissatisfaction_explanation));
-
-                if (!StringUtils.isTrimEmpty(profdets.current_home_owner))
-                    params.put("profile[current_home_owner]",
-                            StringUtils.getTrim(profdets.current_home_owner));
-
-                if (!StringUtils.isTrimEmpty(profdets.current_home_owner_contact_info))
-                    params.put("profile[current_home_owner_contact_info]",
-                            StringUtils.getTrim(profdets.current_home_owner_contact_info));
                 break;
             case 5:
-                if (!StringUtils.isTrimEmpty(profdets.previous_home_street_address))
-                    params.put("profile[previous_home_street_address]",
-                            StringUtils.getTrim(profdets.previous_home_street_address));
 
-                if (!StringUtils.isTrimEmpty(profdets.previous_home_moved_in_on)) {
-                    Date date = new SimpleDateFormat("MM-dd-yyyy")
-                            .parse(StringUtils.getTrim(profdets.previous_home_moved_in_on));
-                    String dateString3 = new SimpleDateFormat("yyyy-MM-dd").format(date);
+                //All are optional
+                if ( ! StringUtils.isTrimEmpty(previous_home_address)) {
+                    params.put("profile[previous_home_street_address]", previous_home_address.getText().toString());
 
-                    params.put("profile[previous_home_moved_in_on]", dateString3);
+                    calendar.set(previous_move_in_date.getYear(), previous_move_in_date.getMonth(), previous_move_in_date.getDayOfMonth());
+                    Date date_move_in = calendar.getTime();
+                    params.put("profile[previous_home_moved_in_on]", date_format.format(date_move_in));
+
+                    calendar.set(previous_move_out_date.getYear(), previous_move_out_date.getMonth(), previous_move_out_date.getDayOfMonth());
+                    Date date_move_out = calendar.getTime();
+                    params.put("profile[previous_home_moved_out]", date_format.format(date_move_out));
+
+                    params.put("profile[previous_home_owner]",previous_home_owner.getText().toString());
+                    params.put("profile[previous_home_owner_contact_info]",previous_home_owner_phone.getText().toString());
+
+                    System.out.println(String.format("Previous home address: %s", previous_home_address.getText().toString()));
+                    System.out.println(String.format("Previous home move in date: %s", date_format.format(date_move_in)));
+                    System.out.println(String.format("Previous home move out date: %s", date_format.format(date_move_out)));
+                    System.out.println(String.format("Previous home move owner: %s", previous_home_owner.getText().toString()));
+                    System.out.println(String.format("Previous home move owner phone: %s", previous_home_owner_phone.getText().toString()));
                 }
-
-                if (!StringUtils.isTrimEmpty(profdets.previous_home_moved_out)) {
-                    Date date = new SimpleDateFormat("MM-dd-yyyy")
-                            .parse(StringUtils.getTrim(profdets.previous_home_moved_out));
-                    String dateString4 = new SimpleDateFormat("yyyy-MM-dd").format(date);
-                    params.put("profile[previous_home_moved_out]", dateString4);
-                }
-
-                if (!StringUtils.isTrimEmpty(profdets.previous_home_owner))
-                    params.put("profile[previous_home_owner]",
-                            StringUtils.getTrim(profdets.previous_home_owner));
-
-                if (!StringUtils.isTrimEmpty(profdets.previous_home_owner_contact_info))
-                    params.put("profile[previous_home_owner_contact_info]",
-                            StringUtils.getTrim(profdets.previous_home_owner_contact_info));
 
                 break;
             case 6:
-                if (!StringUtils.isTrimEmpty(profdets.employment_status)) {
-                    params.put("profile[employment_status]",
-                            StringUtils.getTrim(profdets.employment_status));
+                //These are required fields
+                params.put("profile[employment_status]", (String) employment_status.getSelectedItem());
+                params.put("profile[cosigner_name]", cosigner_name.getText().toString());
+                params.put("profile[cosigner_email_address]", cosigner_email.getText().toString());
+
+                calendar.set(desired_move_date.getYear(), desired_move_date.getMonth(), desired_move_date.getDayOfMonth());
+                Date date_desired_date = calendar.getTime();
+                params.put("profile[desires_to_move_in_on]", date_format.format(date_desired_date));
+
+                System.out.println(String.format("Employment status: %s", (String) employment_status.getSelectedItem()));
+                System.out.println(String.format("Cosigner name: %s",cosigner_name.getText().toString()));
+                System.out.println(String.format("Cosigner email: %s",cosigner_email.getText().toString()));
+                System.out.println(String.format("Desired move date: %s",date_format.format(date_desired_date)));
+
+                //Optional fields, let's check
+                if( !StringUtils.isTrimEmpty(current_supervisor) ) {
+                    params.put("profile[current_employment_supervisor]", current_supervisor.getText().toString());
+                    System.out.println(String.format("Employment surpervisor: %s", current_supervisor.getText().toString()));
                 }
 
-                if (!StringUtils.isTrimEmpty(profdets.current_employment_supervisor))
-                    params.put("profile[current_employment_supervisor]",
-                            StringUtils.getTrim(profdets.current_employment_supervisor));
-
-                if (!StringUtils.isTrimEmpty(profdets.cosigner_name))
-                    params.put("profile[cosigner_name]",
-                            StringUtils.getTrim(profdets.cosigner_name));
-
-                if (!StringUtils.isTrimEmpty(profdets.cosigner_email_address)) {
-                    if (isValidEmail(StringUtils.getTrim(profdets.cosigner_email_address))) {
-                        params.put("profile[cosigner_email_address]",
-                                StringUtils.getTrim(profdets.cosigner_email_address));
-                    } else {
-                        cosigner_email_address.setError("Please enter a valid email");
-                        cosigner_email_address.requestFocus();
-                    }
-
-                }
-
-                if (!StringUtils.isTrimEmpty(profdets.desires_to_move_in_on)) {
-                    Date date = new SimpleDateFormat("MM-dd-yyyy")
-                            .parse(StringUtils.getTrim(profdets.desires_to_move_in_on));
-
-                    String dateString5 = new SimpleDateFormat("yyyy-MM-dd") .format(date);
-
-                    params.put("profile[desires_to_move_in_on]", dateString5);
-                }
                 break;
         }
 
@@ -1019,14 +738,12 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                     toasts("Emergency Contact", sess.errors.emergency_contact_phone_number);
                     toasts("Current Home Move-in Date", sess.errors.current_home_moved_in_on);
                     toasts("Previous Home Date", sess.errors.previous_home_moved_in_on);
-
                     toasts("Previous Employer Email", sess.errors.previous_employment_employer_email_address);
                     toasts("Previous Employer Phone", sess.errors.previous_employment_employer_phone_number);
                     toasts("Employer Email", sess.errors.current_employment_employer_email_address);
                     toasts("Employer Phone", sess.errors.current_employment_employer_phone_number);
                     toasts("Cosigner Email Address", sess.errors.cosigner_email_address);
                     toasts("Move-in Date", sess.errors.desires_to_move_in_on);
-
                     toasts("SSN", sess.errors.ssn);
                 }
 
@@ -1049,51 +766,21 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
         }
     }
 
-    private List getErrorList(List<com.rentalgeek.android.backend.ErrorArray.Error> al) {
-
-        List<String> list = new ArrayList<String>();
-
-        for (int i = 0; i < al.size(); i++) {
-            list.add(al.get(i).message);
-        }
-
-        return list;
-
-    }
-
-    private void alertList(List<String> add) {
-
-        AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
-
-        builderSingle.setTitle("Errors");
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_singlechoice);
-        arrayAdapter.addAll(add);
-        builderSingle.setNegativeButton("cancel",
-                new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-
-        builderSingle.show();
-
-    }
-
     // Check on validation fail
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
 
         String message = failedRule.getFailureMessage();
+
         if (failedView instanceof EditText) {
             failedView.requestFocus();
             ((EditText) failedView).setError(message);
-        } else {
-            toast(message);
-            if (failedView instanceof Spinner) {
-                ((Spinner) failedView).requestFocusFromTouch();
-            }
+        }
+
+        else if ( failedView instanceof Spinner ) {
+            failedView.requestFocusFromTouch();
+            TextView selectedView = (TextView)(((Spinner) failedView).getSelectedView().findViewById(R.id.item_text));
+            selectedView.setError(message);
         }
     }
 
@@ -1124,41 +811,27 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
     }
 
     // Validate view and procced
-    @OnClick(R.id.profile_submit)
+    @OnClick(R.id.submit)
     public void ProfileSubmit() {
         validator.validate();
     }
 
-    @OnClick(R.id.buttonBack)
-    public void clickButtonBack() {
+    @OnClick(R.id.back)
+    public void clickback() {
         ActivityCreateProfile activity = (ActivityCreateProfile) getActivity();
-        activity.flipPager(position-2);
-    }
-
-    @OnClick({  R.id.ed_desir_mov,
-                R.id.ed_prev_hme_movedout,
-                R.id.ed_curr_home_mov_in,
-                R.id.ed_prev_hme_movedin })
-    public void edDesirMov(View view) {
-        dialogDatepicker((EditText) view, view);
-        edLicense.clearFocus();
+        activity.flipPager(position - 2);
     }
 
     private void wasEverEnvicted() {
 
-        ed_was_envicted.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        was_evicted.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                if (!parent.getSelectedItem().toString().equals("Select")) {
-                    profdets.was_ever_evicted = ed_was_envicted.getSelectedItem().toString();
-                    profdets.save();
-                }
-
                 if (position == 1) {
-                    evdesc.setVisibility(View.VISIBLE);
+                    eviction_description_layout.setVisibility(View.VISIBLE);
                 } else {
-                    evdesc.setVisibility(View.GONE);
+                    eviction_description_layout.setVisibility(View.GONE);
                 }
             }
 
@@ -1172,19 +845,15 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
     private void isFelon() {
 
-        edFelon.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        was_felon.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
 
-                if (!parent.getSelectedItem().toString().equals("Select")) {
-                    profdets.is_felon = edFelon.getSelectedItem().toString();
-                    profdets.save();
-                }
                 if (position == 1) {
-                    is_felon_lay.setVisibility(View.VISIBLE);
+                    felony_description_layout.setVisibility(View.VISIBLE);
                 } else {
-                    is_felon_lay.setVisibility(View.GONE);
+                    felony_description_layout.setVisibility(View.GONE);
                 }
 
             }
@@ -1204,6 +873,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
             params.put("profile[user_id]", appPref.getData("Uid"));
 
+            /**
             String url = ApiManager.getProfile("");
 
             GlobalFunctions.postApiCall(getActivity(), url, params,
@@ -1242,6 +912,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
                         }
                     });
+             **/
 
         } catch (Exception e) {
             AppLogger.log(TAG, e);
@@ -1292,87 +963,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
         }
     }
 
-    // check phone number
-    private boolean isPhoneValid(int len) {
-
-        if (len == 10) {
-            return true;
-        } else
-            return false;
-
-    }
-
-    private void dialogDatepicker(final EditText edit, final View viewv) {
-
-        final Dialog dialog = new Dialog(getActivity());
-        dialog.setContentView(R.layout.date_select);
-        final DatePicker datePicker = (DatePicker) dialog.findViewById(R.id.datePicker1);
-        datePicker.setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
-        Button bt_ok = (Button) dialog.findViewById(R.id.bt_ok);
-        Button bt_cancel = (Button) dialog.findViewById(R.id.bt_cancel);
-        bt_ok.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                int month = datePicker.getMonth() + 1;
-                String val = String.format("%02d-%02d-%d", month, datePicker.getDayOfMonth(), datePicker.getYear());
-                edit.setText(val);
-                switch (viewv.getId()) {
-                    case R.id.ed_curr_home_mov_in:
-                        profdets.current_home_moved_in_on = edit.getText().toString();
-                        profdets.save();
-                        break;
-                    case R.id.ed_prev_hme_movedin:
-                        profdets.previous_home_moved_in_on = edit.getText().toString();
-                        profdets.save();
-                        break;
-                    case R.id.ed_prev_hme_movedout:
-                        profdets.previous_home_moved_out = edit.getText().toString();
-                        profdets.save();
-                        break;
-                    case R.id.ed_desir_mov:
-                        System.out.println("desires to move 2" + edit.getText().toString());
-                        profdets.desires_to_move_in_on = edit.getText().toString();
-                        profdets.save();
-                        break;
-
-                    default:
-                        break;
-                }
-
-                dialog.cancel();
-            }
-        });
-        bt_cancel.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                dialog.cancel();
-            }
-        });
-        dialog.show();
-    }
-
-    private void setDateTimeField() {
-
-        Calendar newCalendar = Calendar.getInstance();
-        toDatePickerDialog = new DatePickerDialog(getActivity(),
-                new DatePickerDialog.OnDateSetListener() {
-
-                    @Override
-                    public void onDateSet(DatePicker view, int year,
-                                          int monthOfYear, int dayOfMonth) {
-
-
-                    }
-
-                }, newCalendar.get(Calendar.YEAR),
-                newCalendar.get(Calendar.MONTH),
-                newCalendar.get(Calendar.DAY_OF_MONTH));
-    }
-
     private void showAlert(String message) {
 
 
@@ -1397,142 +987,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
     }
 
-    // Auto Save Functionality in FragmentProfile
-    @Override
-    public void onFocusChange(View v, boolean hasFocus) {
-
-        if (v instanceof EditText) {
-
-            EditText ed = (EditText) v;
-
-            if (!hasFocus && !ed.getText().toString().equals("")) {
-                switch (v.getId()) {
-                    case R.id.ed_first_name:
-                        profdets.firstname = StringUtils.getTrimText(ed_first_name);
-                        profdets.save();
-                        break;
-                    case R.id.ed_last_name:
-                        profdets.lastname = StringUtils.getTrimText(ed_last_name);
-                        profdets.save();
-                        break;
-                    case R.id.ed_license:
-                        profdets.drivers_license_number = StringUtils.getTrimText(edLicense);
-                        profdets.save();
-                        break;
-                    case R.id.ed_ph:
-                        profdets.phone_number = StringUtils.getTrimText(edPh);
-                        profdets.save();
-                        break;
-                    case R.id.ed_desc_pets:
-                        profdets.pets_description = StringUtils.getTrimText(edDescPets);
-                        profdets.save();
-                        break;
-                    case R.id.ed_desc_vehicle:
-                        profdets.vehicles_description = StringUtils.getTrimText(edDescVehicle);
-                        profdets.save();
-                        break;
-                    case R.id.ed_envicted_desc:
-                        profdets.was_ever_evicted_explanation = StringUtils.getTrimText(edEnvicted);
-                        profdets.save();
-                        break;
-                    case R.id.ed_felon_desc:
-                        profdets.is_felon_explanation = StringUtils.getTrimText(edFelonDesc);
-                        profdets.save();
-                        break;
-                    case R.id.ed_char_ref:
-                        profdets.character_reference_name = StringUtils.getTrimText(character_reference_name);
-                        profdets.save();
-                        break;
-
-                    case R.id.ed_char_ref_conifo:
-                        profdets.character_reference_contact_info = StringUtils.getTrimText(character_reference_contact_info);
-                        profdets.save();
-                        break;
-                    case R.id.ed_emer_conifo:
-                        profdets.emergency_contact_name = StringUtils.getTrimText(emergency_contact_name);
-                        profdets.save();
-                        break;
-                    case R.id.ed_home_addr:
-                        profdets.current_home_street_address = StringUtils.getTrimText(current_home_street_address);
-                        profdets.save();
-                        break;
-                    case R.id.ed_curr_home_diss:
-                        profdets.current_home_dissatisfaction_explanation = StringUtils.getTrimText(edCurrHomeDiss);
-                        profdets.save();
-                        break;
-                    case R.id.ed_curr_home_own:
-                        profdets.current_home_owner = StringUtils.getTrimText(current_home_owner);
-                        profdets.save();
-                        break;
-                    case R.id.ed_curr_own_cont:
-                        profdets.current_home_owner_contact_info = StringUtils.getTrimText(current_home_owner_contact_info);
-                        profdets.save();
-                        break;
-                    case R.id.ed_prev_own_stree:
-                        profdets.previous_home_street_address = StringUtils.getTrimText(previous_home_street_address);
-                        profdets.save();
-                        break;
-                    case R.id.ed_prev_hme_own:
-                        profdets.previous_home_owner = StringUtils.getTrimText(previous_home_owner);
-                        profdets.save();
-                        break;
-                    case R.id.ed_prev_hme_own_cnt:
-                        profdets.previous_home_owner_contact_info = StringUtils.getTrimText(previous_home_owner_contact_info);
-                        profdets.save();
-                        break;
-                    case R.id.ed_empl_super:
-                        profdets.current_employment_supervisor = StringUtils.getTrimText(current_employment_supervisor);
-                        profdets.save();
-                        break;
-                    case R.id.ed_cosigner:
-                        profdets.cosigner_name = StringUtils.getTrimText(cosigner_name);
-                        profdets.save();
-                        break;
-                    case R.id.ed_cosigner_email:
-                        profdets.cosigner_email_address = StringUtils.getTrimText(cosigner_email_address);
-                        profdets.save();
-                        break;
-                    case R.id.ed_emer_ph:
-                        profdets.emergency_contact_phone_number = StringUtils.getTrimText(emergency_contact_phone_number);
-                        profdets.save();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
-
-        System.out.println("the value of state  onItemSelected  "  + parent.getSelectedItem());
-        if (parent instanceof Spinner && !parent.getSelectedItem().equals("Select")) {
-            switch (parent.getId()) {
-                case R.id.ed_license_state:
-                    System.out.println("lisense state " + ed_license_state.getSelectedItem().toString());
-                    profdets.drivers_license_state = ed_license_state.getSelectedItem().toString();
-                    profdets.save();
-                    break;
-                case R.id.ed_empl_sta:
-                    System.out.println("employment_status " + employment_status.getSelectedItem().toString());
-                    profdets.employment_status = employment_status.getSelectedItem().toString();
-                    profdets.save();
-                    break;
-
-                default:
-                    break;
-            }
-        }
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-
-    }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {

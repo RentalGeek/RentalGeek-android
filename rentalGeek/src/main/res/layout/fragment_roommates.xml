@@ -57,9 +57,13 @@
                     <EditText
                         android:id="@+id/editTextFirstLastName"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="45dp"
+                        android:textCursorDrawable="@null"
+                        android:padding="10dp"
+                        android:layout_marginTop="10dp"
+                        android:singleLine="true"
                         android:inputType="textCapWords"
-                        android:singleLine="true" />
+                        android:background="@drawable/thin_border" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -79,8 +83,13 @@
                     <EditText
                         android:id="@+id/editTextEmailAddress"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:singleLine="true" />
+                        android:layout_height="45dp"
+                        android:textCursorDrawable="@null"
+                        android:padding="10dp"
+                        android:layout_marginTop="10dp"
+                        android:singleLine="true"
+                        android:inputType="textEmailAddress"
+                        android:background="@drawable/thin_border" />
                 </LinearLayout>
 
                 <Button

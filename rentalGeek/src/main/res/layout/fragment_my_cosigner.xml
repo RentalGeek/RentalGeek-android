@@ -60,6 +60,8 @@
                     android:textCursorDrawable="@null"
                     android:padding="10dp"
                     android:layout_marginTop="10dp"
+                    android:singleLine="true"
+                    android:inputType="textCapWords"
                     android:background="@drawable/thin_border"/>
 
                 <TextView

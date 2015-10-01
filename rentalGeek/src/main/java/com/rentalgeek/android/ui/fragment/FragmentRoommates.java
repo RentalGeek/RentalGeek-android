@@ -15,6 +15,7 @@ import com.loopj.android.http.RequestParams;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.api.SessionManager;
+import com.rentalgeek.android.backend.ErrorObj;
 import com.rentalgeek.android.backend.RoommateGroupResponse;
 import com.rentalgeek.android.backend.RoommateInviteResponse;
 import com.rentalgeek.android.backend.model.RoommateGroup;
@@ -29,6 +30,7 @@ import com.rentalgeek.android.ui.activity.ActivityRoommateInvite;
 import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ListUtils;
+import com.rentalgeek.android.utils.OkAlert;
 
 import java.util.List;
 
@@ -40,6 +42,9 @@ import butterknife.OnClick;
 public class FragmentRoommates  extends GeekBaseFragment {
 
     private static final String TAG = FragmentRoommates.class.getSimpleName();
+
+    private String name;
+    private String email;
 
     @InjectView(R.id.editTextFirstLastName)
     EditText editTextFirstLastName;
@@ -72,15 +77,18 @@ public class FragmentRoommates  extends GeekBaseFragment {
 
     @OnClick(R.id.buttonAddRoommate)
     public void clickbuttonAddRoommate() {
-        String name = editTextFirstLastName.getText().toString();
-        String email = editTextEmailAddress.getText().toString();
-        if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(email)) {
+//        String name = editTextFirstLastName.getText().toString();
+//        String email = editTextEmailAddress.getText().toString();
+
+//        if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(email)) {
+        if (validInput()) {
             if (currentRoommateCount <= 3) {
                 addRoommateInvite(email, name);
             } else {
                 DialogManager.showCrouton(activity, "Max of 4 Roommates allowed.");
             }
         }
+//        }
     }
 
     @OnClick(R.id.buttonLeaveGroup)
@@ -108,6 +116,23 @@ public class FragmentRoommates  extends GeekBaseFragment {
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
 
+    }
+
+    private boolean validInput() {
+        name = editTextFirstLastName.getText().toString().trim();
+        email = editTextEmailAddress.getText().toString().trim();
+
+        if (name.equals("")) {
+            OkAlert.show(getActivity(), "Name", "Please enter first and last name.");
+            return false;
+        }
+
+        if (email.equals("")) {
+            OkAlert.show(getActivity(), "Email", "Please enter email address.");
+            return false;
+        }
+
+        return true;
     }
 
     protected void fetchGroups() {
@@ -309,7 +334,21 @@ public class FragmentRoommates  extends GeekBaseFragment {
                     @Override
                     public void onFailure(Throwable ex, String failureResponse) {
                         super.onFailure(ex, failureResponse);
-                        DialogManager.showCrouton(activity, failureResponse);
+
+                        try {
+                            ErrorObj errorObj = (new Gson()).fromJson(failureResponse, ErrorObj.class);
+
+                            if (errorObj != null && errorObj.errors != null) {
+                                if (!ListUtils.isNullOrEmpty(errorObj.errors.email)) {
+                                    OkAlert.show(getActivity(), "Email", errorObj.errors.email.get(0));
+                                }
+
+                            }
+
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
+                        }
+
                     }
 
                     @Override

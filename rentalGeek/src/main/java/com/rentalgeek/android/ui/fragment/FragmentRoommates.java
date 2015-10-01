@@ -218,7 +218,7 @@ public class FragmentRoommates  extends GeekBaseFragment {
 
                         @Override
                         public void onStart() {
-                            showProgressDialog(R.string.dialog_msg_loading);
+                            showProgressDialog(R.string.dialog_msg_loading_roommate_leave_group);
                         }
 
                         @Override
@@ -262,7 +262,7 @@ public class FragmentRoommates  extends GeekBaseFragment {
 
                         @Override
                         public void onStart() {
-                            showProgressDialog(R.string.dialog_msg_loading);
+                            showProgressDialog(R.string.dialog_msg_loading_roommate_remove_invite);
                         }
 
                         @Override
@@ -310,7 +310,7 @@ public class FragmentRoommates  extends GeekBaseFragment {
 
                     @Override
                     public void onStart() {
-                        showProgressDialog(R.string.dialog_msg_loading);
+                        showProgressDialog(R.string.dialog_msg_loading_roommate_add_invite);
                     }
 
                     @Override
@@ -368,7 +368,7 @@ public class FragmentRoommates  extends GeekBaseFragment {
 
                     @Override
                     public void onStart() {
-                        showProgressDialog(R.string.dialog_msg_loading);
+                        showProgressDialog(R.string.dialog_msg_loading_roommates);
                     }
 
                     @Override

@@ -3,11 +3,17 @@ package com.rentalgeek.android.api;
 
 import android.text.TextUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 public class ApiManager {
 
     // Default host
     private static final String PROD = "http://api.rentalgeek.com/api/v1";
     private static final String STAGE = "http://api.staging.rentalgeek.com/api/v1";
+
+    private static final String GOOGLE_MAPS = "https://maps.googleapis.com/maps/api/place/details/json";
+    private static final String GOOGLE_MAPS_API_KEY = "AIzaSyDuVB1GHSKyz51m1w4VGs_XTyxVlK01INY";
 
     public static String API_HOST = STAGE;//PROD;
 
@@ -168,6 +174,10 @@ public class ApiManager {
 
     public static String postApplication() {
         return String.format("%s/%s",API_HOST,"applications");
+    }
+
+    public static String getFullAddress(String place_id) {
+            return String.format("%s?placeid=%s&sensor=false&key=%s",GOOGLE_MAPS,place_id,GOOGLE_MAPS_API_KEY);
     }
 
 }

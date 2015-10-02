@@ -2,27 +2,23 @@ package com.rentalgeek.android.ui.fragment;
 
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.places.Places;
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 import com.mobsandgeeks.saripaar.Rule;
@@ -38,9 +34,7 @@ import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.ErrorObj;
 import com.rentalgeek.android.backend.ProfileIdFindBackend;
-import com.rentalgeek.android.backend.UserProfile;
 import com.rentalgeek.android.backend.model.Profile;
-import com.rentalgeek.android.database.ProfileTable;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
@@ -51,25 +45,17 @@ import com.rentalgeek.android.ui.activity.ActivityCreateProfile;
 import com.rentalgeek.android.ui.activity.ActivityGeekScore;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.activity.ActivityPayment;
+import com.rentalgeek.android.ui.adapter.PlaceAutocompleteAdapter;
 import com.rentalgeek.android.ui.preference.AppPreferences;
+import com.rentalgeek.android.ui.view.AutoCompleteAddressListener;
+import com.rentalgeek.android.ui.view.ProfileFieldBinarySelect;
+import com.rentalgeek.android.ui.view.ProfileFieldDateChange;
+import com.rentalgeek.android.ui.view.ProfileFieldSelect;
+import com.rentalgeek.android.ui.view.ProfileFieldTextWatcher;
 import com.rentalgeek.android.utils.ListUtils;
-import com.rentalgeek.android.utils.StringUtils;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.text.ParseException;
+import org.joda.time.DateTime;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -77,18 +63,11 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class FragmentProfileForm extends GeekBaseFragment implements Validator.ValidationListener, AdapterView.OnItemClickListener {
+public class FragmentProfileForm extends GeekBaseFragment implements Validator.ValidationListener, GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = "FragmentProfileForm";
 
     private int position;
-
-    private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api/place";
-    private static final String TYPE_AUTOCOMPLETE = "/autocomplete";
-    private static final String OUT_JSON = "/json";
-
-    // Browser key required for these requests
-    private static final String API_KEY = "AIzaSyDuVB1GHSKyz51m1w4VGs_XTyxVlK01INY";
 
     @InjectView(R.id.layoutForm1)
     LinearLayout layoutForm1;
@@ -203,7 +182,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
     public EditText current_home_owner_phone;
 
     @InjectView(R.id.previous_home_address)
-    public EditText previous_home_address;
+    public AutoCompleteTextView previous_home_address;
 
     @InjectView(R.id.previous_move_in_date)
     public DatePicker previous_move_in_date;
@@ -240,9 +219,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
     AppPrefes appPref;
 
-    ProfileTable profdets;
-
-    protected GooglePlacesAutocompleteAdapter placesAdapter;
+    GoogleApiClient googleApiClient;
 
     private SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
@@ -258,13 +235,11 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         position = getArguments().getInt(Common.KEY_POSITION);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_profile_form, container, false);
-        ButterKnife.setDebug(true);
         ButterKnife.inject(this, v);
 
         if (!SessionManager.Instance.hasPayed()) {
@@ -300,10 +275,35 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
         validator = new Validator(this);
         validator.setValidationListener(this);
 
+        googleApiClient = new GoogleApiClient.Builder(getActivity()).addApi(Places.GEO_DATA_API).build();
+
+        setup();
+
+        switchFormVisibility();
+
+        return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (googleApiClient != null)
+            googleApiClient.connect();
+    }
+
+    @Override
+    public void onStop() {
+        if (googleApiClient != null && googleApiClient.isConnected()) {
+            googleApiClient.disconnect();
+        }
+        super.onStop();
+    }
+
+    private void setup() {
         String[] states = RentalGeekApplication.getStringArray(R.array.state_list);
         ArrayAdapter<String> states_adapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item,R.id.item_text,states);
         drivers_license_state.setAdapter(states_adapter);
-        
+
         String[] booleans = RentalGeekApplication.getStringArray(R.array.tru);
         ArrayAdapter<String> booleans_adapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item,R.id.item_text,booleans);
         was_evicted.setAdapter(booleans_adapter);
@@ -313,20 +313,49 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
         ArrayAdapter<String> employment_status_adapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item,R.id.item_text,employment_statuses);
         employment_status.setAdapter(employment_status_adapter);
 
-        placesAdapter = new GooglePlacesAutocompleteAdapter(getActivity(), R.layout.list_item);
-        current_home_address.setAdapter(placesAdapter);
-        current_home_address.setOnItemClickListener(this);
-        current_home_address.setValidator(new AutoValidator());
-        current_home_address.setOnFocusChangeListener(new FocusListener());
-        
-        wasEverEnvicted();
-        isFelon();
+        first_name.addTextChangedListener(new ProfileFieldTextWatcher(first_name));
+        last_name.addTextChangedListener(new ProfileFieldTextWatcher(last_name));
+        drivers_license.addTextChangedListener(new ProfileFieldTextWatcher(drivers_license));
+        phone_number.addTextChangedListener(new ProfileFieldTextWatcher(phone_number));
+        pets_description.addTextChangedListener(new ProfileFieldTextWatcher(pets_description));
+        vehicle_description.addTextChangedListener(new ProfileFieldTextWatcher(vehicle_description));
+        eviction_description.addTextChangedListener(new ProfileFieldTextWatcher(eviction_description));
+        felony_description.addTextChangedListener(new ProfileFieldTextWatcher(felony_description));
+        character_reference_name.addTextChangedListener(new ProfileFieldTextWatcher(character_reference_name));
+        character_reference_phone.addTextChangedListener(new ProfileFieldTextWatcher(character_reference_phone));
+        emergency_contact_name.addTextChangedListener(new ProfileFieldTextWatcher(emergency_contact_name));
+        emergency_contact_phone.addTextChangedListener(new ProfileFieldTextWatcher(emergency_contact_phone));
+        move_reason.addTextChangedListener(new ProfileFieldTextWatcher(move_reason));
+        current_home_owner.addTextChangedListener(new ProfileFieldTextWatcher(current_home_owner));
+        current_home_owner_phone.addTextChangedListener(new ProfileFieldTextWatcher(current_home_owner_phone));
+        previous_home_owner.addTextChangedListener(new ProfileFieldTextWatcher(previous_home_owner));
+        previous_home_owner_phone.addTextChangedListener(new ProfileFieldTextWatcher(previous_home_owner_phone));
+        current_supervisor.addTextChangedListener(new ProfileFieldTextWatcher(current_supervisor));
+        cosigner_name.addTextChangedListener(new ProfileFieldTextWatcher(cosigner_name));
+        cosigner_email.addTextChangedListener(new ProfileFieldTextWatcher(cosigner_email));
 
-        fetchProfileData();
-        
-        switchFormVisibility();
+        DateTime now = DateTime.now();
 
-        return v;
+        //Not sure why month index are wrong, subtract 1
+        dob.init(now.getYear(), now.getMonthOfYear()-1, now.getDayOfMonth(), new ProfileFieldDateChange(dob));
+        current_move_date.init(now.getYear(), now.getMonthOfYear()-1, now.getDayOfMonth(), new ProfileFieldDateChange(current_move_date));
+        previous_move_in_date.init(now.getYear(), now.getMonthOfYear()-1, now.getDayOfMonth(), new ProfileFieldDateChange(previous_move_in_date));
+        previous_move_out_date.init(now.getYear(), now.getMonthOfYear()-1, now.getDayOfMonth(), new ProfileFieldDateChange(previous_move_out_date));
+        desired_move_date.init(now.getYear(), now.getMonthOfYear() - 1, now.getDayOfMonth(), new ProfileFieldDateChange(desired_move_date));
+
+        drivers_license_state.setOnItemSelectedListener(new ProfileFieldSelect(drivers_license_state));
+        was_evicted.setOnItemSelectedListener(new ProfileFieldBinarySelect(was_evicted,eviction_description_layout));
+        was_felon.setOnItemSelectedListener(new ProfileFieldBinarySelect(was_felon,felony_description_layout));
+        employment_status.setOnItemSelectedListener(new ProfileFieldSelect(employment_status));
+
+        PlaceAutocompleteAdapter current_home_address_adapter = new PlaceAutocompleteAdapter(getActivity(),googleApiClient);
+        current_home_address.setOnItemClickListener(new AutoCompleteAddressListener(current_home_address));
+        current_home_address.setAdapter(current_home_address_adapter);
+
+        PlaceAutocompleteAdapter previous_home_address_adapter = new PlaceAutocompleteAdapter(getActivity(),googleApiClient);
+        previous_home_address.setOnItemClickListener(new AutoCompleteAddressListener(previous_home_address));
+        previous_home_address.setAdapter(previous_home_address_adapter);
+
     }
 
     protected void switchFormVisibility() {
@@ -377,29 +406,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
     }
 
 
-    // setting profile data to view
-    private void setProfileData(String response) {
-        try {
-            // setting the values from the server
-            response = response.replaceAll("null", " \" \"");
-            AppLogger.log(TAG, "profile get response " + response);
-            UserProfile detail = (new Gson()).fromJson(response, UserProfile.class);
-
-            if (detail != null && detail.profiles != null && detail.profiles.size() > 0) {
-                Profile profile = detail.profiles.get(0);
-
-                String geekScore = profile.geek_score;
-                if (!TextUtils.isEmpty(geekScore)) {
-                    appPref.SaveData("geek_score", geekScore);
-                }
-                Navigation.navigateActivity(getActivity(), ActivityGeekScore.class);
-            }
-        } catch (Exception e) {
-            AppLogger.log(TAG, e);
-        }
-
-    }
-
     // parsing patch user response
     private void patchedUserParse(String response) {
         try {
@@ -449,234 +455,22 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
         }
     }
 
-    // parsing create user response
-    private void createUserParse(String response) {
-        try {
-            ProfileIdFindBackend detail = (new Gson()).fromJson(response, ProfileIdFindBackend.class);
-
-            if (detail != null) {
-                if (detail.profile != null) {
-                    SessionManager.Instance.getCurrentUser().profile_id = detail.profile.id;
-                    System.out.println("profile id is " + detail.profile.id);
-                    //callPatchUpdateLink(detail.profile.id);
-                    toast("Profile Updated Successfully");
-
-                    if (SessionManager.Instance.hasPayed()) {
-
-                        Navigation.navigateActivity(getActivity(), ActivityGeekScore.class);
-
-                    } else {
-                        AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
-                        builder1.setMessage(getActivity().getResources().getString(R.string.geek_go));
-                        builder1.setTitle("Alert");
-                        builder1.setCancelable(true);
-                        builder1.setPositiveButton("Go to payment",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                        activity.finish();
-                                        Navigation.navigateActivity(activity, ActivityGeekScore.class, true);
-                                    }
-                                });
-
-                        builder1.setNegativeButton("Home",
-                                new DialogInterface.OnClickListener() {
-
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.cancel();
-                                        activity.finish();
-                                        Navigation.navigateActivity(activity, ActivityHome.class, true);
-                                    }
-                                });
-                        AlertDialog alert11 = builder1.create();
-                        alert11.show();
-                    }
-                }
-            }
-        } catch (Exception e) {
-            AppLogger.log(TAG, e);
-        }
-
-    }
-
-    private RequestParams buildParams(int position, RequestParams params) throws ParseException {
-
-        Calendar calendar = Calendar.getInstance();
-
-        switch(position) {
-            case 1:
-
-                //These are required fields so no need to check
-                params.put("profile[first_name]", first_name.getText().toString());
-                params.put("profile[last_name]", last_name.getText().toString());
-
-                calendar.set(dob.getYear(), dob.getMonth(), dob.getDayOfMonth());
-                Date date_dob = calendar.getTime();
-                params.put("profile[born_on]",date_format.format(date_dob));
-
-                System.out.println(String.format("First name: %s", first_name.getText().toString()));
-                System.out.println(String.format("Last name: %s", last_name.getText().toString()));
-                System.out.println(String.format("Born on: %s", date_format.format(date_dob)));
-
-                //Optional fields, so let's check
-                if( ! StringUtils.isTrimEmpty(drivers_license) && ! StringUtils.isNotNullAndEquals((String)drivers_license_state.getSelectedItem(),"States") ) {
-                    params.put("profile[drivers_license_number]",drivers_license.getText().toString());
-                    params.put("profile[drivers_license_state]", (String)drivers_license_state.getSelectedItem());
-
-                    System.out.println(String.format("Drivers License Number: %s", drivers_license.getText().toString()));
-                    System.out.println(String.format("Drivers License State: %s", (String) drivers_license_state.getSelectedItem()));
-                }
-
-                break;
-            case 2:
-                //These are required fields so no need to check
-                params.put("profile[phone_number]", phone_number.getText().toString());
-
-                System.out.println(String.format("Phone number: %s",phone_number.getText().toString()));
-
-                //Optional fields, let's check
-                if ( ! StringUtils.isTrimEmpty(pets_description) ) {
-                    params.put("profile[pets_description]", pets_description.getText().toString());
-                    System.out.println(String.format("Pet description: %s", pets_description.getText().toString()));
-                }
-
-                if ( ! StringUtils.isTrimEmpty(vehicle_description) ) {
-                    params.put("profile[vehicles_description]", vehicle_description.getText().toString());
-                    System.out.println(String.format("Vehicle description: %s", vehicle_description.getText().toString()));
-                }
-
-                if ( ! StringUtils.isNotNullAndEquals((String)was_evicted.getSelectedItem(),"Select") ) {
-                    System.out.println(String.format("Evicted: %s",(String) was_evicted.getSelectedItem()));
-
-                    if( ((String)was_evicted.getSelectedItem()).equals("Yes") ) {
-                        params.put("profile[was_ever_evicted_explanation]", eviction_description.getText().toString());
-                        params.put("profile[was_ever_evicted]", "true");
-                        System.out.println(String.format("Evicted description: %s", eviction_description.getText().toString()));
-                    }
-
-                    else if ( ((String)was_evicted.getSelectedItem()).equals("No") ) {
-                        params.put("profile[was_ever_evicted]", "false");
-                    }
-                }
-
-                break;
-            case 3:
-                //These are required fields so no need to check
-                if ( StringUtils.isNotNullAndEquals((String)was_felon.getSelectedItem(),"Select") ) {
-                    System.out.println(String.format("Felon: %s",(String) was_felon.getSelectedItem()));
-
-                    if( ((String)was_felon.getSelectedItem()).equals("Yes") ) {
-                        params.put("profile[is_felon_explanation]", felony_description.getText().toString());
-                        params.put("profile[is_felon]", "true");
-                        System.out.println(String.format("Felon description: %s", felony_description.getText().toString()));
-                    }
-
-                    else if ( ((String)was_felon.getSelectedItem()).equals("No") ) {
-                        params.put("profile[is_felon]", "false");
-                    }
-                }
-
-                params.put("profile[character_reference_name]",character_reference_name.getText().toString());
-                params.put("profile[character_reference_contact_info]",character_reference_phone.getText().toString());
-                params.put("profile[emergency_contact_name]",emergency_contact_name.getText().toString());
-                params.put("profile[emergency_contact_phone_number]",emergency_contact_phone.getText().toString());
-
-                System.out.println(String.format("Character reference name: %s", character_reference_name.getText().toString()));
-                System.out.println(String.format("Character reference phone: %s",character_reference_phone.getText().toString()));
-                System.out.println(String.format("Emergency contact name: %s",emergency_contact_name.getText().toString()));
-                System.out.println(String.format("Emergency contact phone:",emergency_contact_phone.getText().toString()));
-
-                break;
-            case 4:
-                //These are required fields so no need to check
-                params.put("profile[current_home_street]", String.format("%s %s", Common.streetNumber, Common.streetName));
-                params.put("profile[current_home_city]", Common.city);
-                params.put("profile[current_home_state]", Common.state);
-                params.put("profile[current_home_zipcode]", Common.zip);
-
-                calendar.set(current_move_date.getYear(), current_move_date.getMonth(), current_move_date.getDayOfMonth());
-                Date date_move = calendar.getTime();
-                params.put("profile[current_home_moved_in_on]", date_format.format(date_move));
-
-                params.put("profile[current_home_owner]", current_home_owner.getText().toString());
-                params.put("profile[current_home_owner_contact_info]", current_home_owner_phone.getText().toString());
-
-                System.out.println(String.format("Address: %s %s, %s %s, %s", Common.streetNumber, Common.streetName, Common.city, Common.state, Common.zip));
-                System.out.println(String.format("Current home move in date: %s",date_format.format(date_move)));
-
-                //Optional fields, let's check
-                if ( ! StringUtils.isTrimEmpty(move_reason)) {
-                    params.put("profile[current_home_dissatisfaction_explanation]", move_reason.getText().toString());
-                    System.out.println(String.format("Reason for moving: %s",move_reason.getText().toString()));
-                }
-
-                break;
-            case 5:
-
-                //All are optional
-                if ( ! StringUtils.isTrimEmpty(previous_home_address)) {
-                    params.put("profile[previous_home_street_address]", previous_home_address.getText().toString());
-
-                    calendar.set(previous_move_in_date.getYear(), previous_move_in_date.getMonth(), previous_move_in_date.getDayOfMonth());
-                    Date date_move_in = calendar.getTime();
-                    params.put("profile[previous_home_moved_in_on]", date_format.format(date_move_in));
-
-                    calendar.set(previous_move_out_date.getYear(), previous_move_out_date.getMonth(), previous_move_out_date.getDayOfMonth());
-                    Date date_move_out = calendar.getTime();
-                    params.put("profile[previous_home_moved_out]", date_format.format(date_move_out));
-
-                    params.put("profile[previous_home_owner]",previous_home_owner.getText().toString());
-                    params.put("profile[previous_home_owner_contact_info]",previous_home_owner_phone.getText().toString());
-
-                    System.out.println(String.format("Previous home address: %s", previous_home_address.getText().toString()));
-                    System.out.println(String.format("Previous home move in date: %s", date_format.format(date_move_in)));
-                    System.out.println(String.format("Previous home move out date: %s", date_format.format(date_move_out)));
-                    System.out.println(String.format("Previous home move owner: %s", previous_home_owner.getText().toString()));
-                    System.out.println(String.format("Previous home move owner phone: %s", previous_home_owner_phone.getText().toString()));
-                }
-
-                break;
-            case 6:
-                //These are required fields
-                params.put("profile[employment_status]", (String) employment_status.getSelectedItem());
-                params.put("profile[cosigner_name]", cosigner_name.getText().toString());
-                params.put("profile[cosigner_email_address]", cosigner_email.getText().toString());
-
-                calendar.set(desired_move_date.getYear(), desired_move_date.getMonth(), desired_move_date.getDayOfMonth());
-                Date date_desired_date = calendar.getTime();
-                params.put("profile[desires_to_move_in_on]", date_format.format(date_desired_date));
-
-                System.out.println(String.format("Employment status: %s", (String) employment_status.getSelectedItem()));
-                System.out.println(String.format("Cosigner name: %s",cosigner_name.getText().toString()));
-                System.out.println(String.format("Cosigner email: %s",cosigner_email.getText().toString()));
-                System.out.println(String.format("Desired move date: %s",date_format.format(date_desired_date)));
-
-                //Optional fields, let's check
-                if( !StringUtils.isTrimEmpty(current_supervisor) ) {
-                    params.put("profile[current_employment_supervisor]", current_supervisor.getText().toString());
-                    System.out.println(String.format("Employment surpervisor: %s", current_supervisor.getText().toString()));
-                }
-
-                break;
-        }
-
-        return params;
-    }
-
-    private RequestParams buildRequestParams(boolean getAll) throws ParseException {
+    private RequestParams buildRequestParams() {
 
         RequestParams params = new RequestParams();
 
-        if (getAll) {
-            params = buildParams(1, params);
-            params = buildParams(2, params);
-            params = buildParams(3, params);
-            params = buildParams(4, params);
-            params = buildParams(5, params);
-            params = buildParams(6, params);
-        } else {
-            params = buildParams(position, params);
+        Profile profile = SessionManager.Instance.getDefaultProfile();
+
+        String format = "profile[%s]";
+
+        params.put("profile[user_id]", appPref.getData("Uid"));
+
+        for( String field : profile.getFieldNames() ) {
+
+            Object value = profile.get(field);
+
+            if( value != null && ! value.toString().isEmpty() )
+                params.put(String.format(format,field),value.toString());
         }
 
         return params;
@@ -688,7 +482,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
             String url = ApiManager.getProfile(id);
 
-            RequestParams params = buildRequestParams(false);
+            RequestParams params = buildRequestParams();
 
             params.put("profile[user_id]", appPref.getData("Uid"));
 
@@ -788,24 +582,14 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
     @Override
     public void onValidationSucceeded() {
 
-        boolean profileExists = SessionManager.Instance.hasProfile();
-
-        if (!profileExists) {
-            if (position < 6) {
-                // Just navigate to next screen
-                ActivityCreateProfile activity = (ActivityCreateProfile) getActivity();
-                activity.flipPager(position);
-            } else {
-                createProfile();
-            }
-
-        } else {
-            if (!profileExists) {
-                createProfile();
-            } else {
-                callPatchUpdateLink(SessionManager.Instance.getDefaultProfileId());
-            }
+        if (position >= 1 && position < 6 ) {
+            // Just navigate to next screen
+            ActivityCreateProfile activity = (ActivityCreateProfile) getActivity();
+            activity.flipPager(position);
+        } else if ( position == 6) {
+            createProfile();
         }
+
 
 
     }
@@ -822,58 +606,12 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
         activity.flipPager(position - 2);
     }
 
-    private void wasEverEnvicted() {
-
-        was_evicted.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                if (position == 1) {
-                    eviction_description_layout.setVisibility(View.VISIBLE);
-                } else {
-                    eviction_description_layout.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-    }
-
-    private void isFelon() {
-
-        was_felon.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id) {
-
-                if (position == 1) {
-                    felony_description_layout.setVisibility(View.VISIBLE);
-                } else {
-                    felony_description_layout.setVisibility(View.GONE);
-                }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-    }
-
     // Create profile params and Api call
     public void createProfile() {
         try {
-            final RequestParams params =  buildRequestParams(true);
 
-            params.put("profile[user_id]", appPref.getData("Uid"));
+            final RequestParams params =  buildRequestParams();
 
-            /**
             String url = ApiManager.getProfile("");
 
             GlobalFunctions.postApiCall(getActivity(), url, params,
@@ -893,7 +631,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                         @Override
                         public void onSuccess(String content) {
                             try {
-                                createUserParse(content);
+                                System.out.println(content);
                             } catch (Exception e) {
                                 AppLogger.log(TAG, e);
                             }
@@ -903,64 +641,17 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                         public void onFailure(Throwable ex, String failureResponse) {
                             super.onFailure(ex, failureResponse);
                             error(failureResponse, 0);
-
-                            //DialogManager.showCrouton(activity, failureResponse);
                         }
 
                         @Override
                         public void onAuthenticationFailed() {
-
+                            System.out.println("Failed authentication." +"");
                         }
                     });
-             **/
-
         } catch (Exception e) {
             AppLogger.log(TAG, e);
         }
 
-    }
-
-    // fetch user profile info
-    private void fetchProfileData() {
-
-        String url = ApiManager.getProfile("");
-        GlobalFunctions.getApiCall(getActivity(), url,
-                AppPreferences.getAuthToken(),
-                new GeekHttpResponseHandler() {
-
-                    @Override
-                    public void onStart() {
-
-                    }
-
-                    @Override
-                    public void onFinish() {
-
-                    }
-
-                    @Override
-                    public void onSuccess(String content) {
-                        try {
-                            setProfileData(content);
-                        } catch (Exception e) {
-                            AppLogger.log(TAG, e);
-                        }
-                    }
-
-                    @Override
-                    public void onAuthenticationFailed() {
-
-                    }
-                });
-    }
-
-    // email checking function
-    public boolean isValidEmail(CharSequence target) {
-        if (target == null) {
-            return false;
-        } else {
-            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
-        }
     }
 
     private void showAlert(String message) {
@@ -987,265 +678,8 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
     }
 
-
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        String str = (String) adapterView.getItemAtPosition(position);
-        String ref = (resultRefs != null && resultRefs.size() > position) ? resultRefs.get(position) : "";
-        Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
-        String place = getPlaceDetails(ref);
-    }
+    public void onConnectionFailed(ConnectionResult connectionResult) {
 
-    ArrayList<String> resultRefs = null;
-
-
-    public String getPlaceDetails(String ref) {
-
-        HttpURLConnection conn = null;
-        StringBuilder jsonResults = new StringBuilder();
-
-        try {
-            URL url = new URL(getPlaceDetailsUrl(ref));
-
-            System.out.println("URL: "+url);
-            conn = (HttpURLConnection) url.openConnection();
-            InputStreamReader in = new InputStreamReader(conn.getInputStream());
-
-            // Load the results into a StringBuilder
-            int read;
-            char[] buff = new char[1024];
-            while ((read = in.read(buff)) != -1) {
-                jsonResults.append(buff, 0, read);
-            }
-        } catch (MalformedURLException e) {
-            AppLogger.log(TAG, e);
-            return "";
-        } catch (IOException e) {
-            AppLogger.log(TAG, e);
-            return "";
-        } finally {
-            if (conn != null) {
-                conn.disconnect();
-            }
-        }
-
-        try {
-
-            // Create a JSON object hierarchy from the results
-            JSONObject jsonObj = new JSONObject(jsonResults.toString());
-
-            JSONObject result = jsonObj.getJSONObject("result");
-            JSONArray addressComponents = result.getJSONArray("address_components");
-
-            Common.streetNumber = getAddressComponent(addressComponents, "street_number");
-            Common.streetName = getAddressComponent(addressComponents, "route");
-            Common.city = getAddressComponent(addressComponents, "locality");
-            Common.state = getAddressComponent(addressComponents, "administrative_area_level_1");
-            Common.zip = getAddressComponent(addressComponents, "postal_code");
-
-        } catch (JSONException e) {
-            AppLogger.log(TAG, e);
-        }
-
-        return "";
-    }
-
-    public String getAddressComponent(JSONArray addressComponents, String type) {
-        if (addressComponents == null || addressComponents.length() == 0) return "";
-        try {
-            for (int i=0; i<addressComponents.length(); i++) {
-                JSONObject jsonObject = addressComponents.getJSONObject(i);
-                JSONArray typesObject = jsonObject.getJSONArray("types");
-                for (int j=0; j<typesObject.length();j++) {
-                    String typeValue = typesObject.getString(j);
-                    if (typeValue.equals(type)) {
-                        return jsonObject.getString("long_name");
-                    }
-                }
-            }
-        } catch (Exception e) {
-            AppLogger.log(TAG, e);
-        }
-        return "";
-    }
-
-    public ArrayList<String> autocomplete(String input) {
-        ArrayList<String> resultList = null;
-
-        HttpURLConnection conn = null;
-        StringBuilder jsonResults = new StringBuilder();
-
-        try {
-            StringBuilder sb = new StringBuilder(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON);
-            sb.append("?key=" + API_KEY);
-            sb.append("&components=country:us");
-            sb.append("&types=address");
-            sb.append("&input=" + URLEncoder.encode(input, "utf8"));
-
-            URL url = new URL(sb.toString());
-
-            System.out.println("URL: "+url);
-            conn = (HttpURLConnection) url.openConnection();
-            InputStreamReader in = new InputStreamReader(conn.getInputStream());
-
-            // Load the results into a StringBuilder
-            int read;
-            char[] buff = new char[1024];
-            while ((read = in.read(buff)) != -1) {
-                jsonResults.append(buff, 0, read);
-            }
-        } catch (MalformedURLException e) {
-            AppLogger.log(TAG, e);
-            return resultList;
-        } catch (IOException e) {
-            AppLogger.log(TAG, e);
-            return resultList;
-        } finally {
-            if (conn != null) {
-                conn.disconnect();
-            }
-        }
-
-        try {
-
-            // Create a JSON object hierarchy from the results
-            JSONObject jsonObj = new JSONObject(jsonResults.toString());
-            JSONArray predsJsonArray = jsonObj.getJSONArray("predictions");
-
-            // Extract the Place descriptions from the results
-            resultList = new ArrayList<String>(predsJsonArray.length());
-            resultRefs = new ArrayList<String>(predsJsonArray.length());
-
-            for (int i = 0; i < predsJsonArray.length(); i++) {
-                System.out.println(predsJsonArray.getJSONObject(i).getString("description"));
-                System.out.println("============================================================");
-                resultList.add(predsJsonArray.getJSONObject(i).getString("description"));
-                resultRefs.add(predsJsonArray.getJSONObject(i).getString("reference"));
-            }
-        } catch (JSONException e) {
-            AppLogger.log(TAG, e);
-        }
-
-        return resultList;
-    }
-
-    class GooglePlacesAutocompleteAdapter extends ArrayAdapter<String> implements Filterable {
-        private ArrayList<String> resultList;
-
-        public GooglePlacesAutocompleteAdapter(Context context, int textViewResourceId) {
-            super(context, textViewResourceId);
-        }
-
-        @Override
-        public int getCount() {
-            return resultList.size();
-        }
-
-        @Override
-        public String getItem(int index) {
-            return resultList.get(index);
-        }
-
-        @Override
-        public Filter getFilter() {
-            Filter filter = new Filter() {
-                @Override
-                protected FilterResults performFiltering(CharSequence constraint) {
-                    FilterResults filterResults = new FilterResults();
-                    if (constraint != null) {
-                        // Retrieve the autocomplete results.
-                        resultList = autocomplete(constraint.toString());
-
-                        // Assign the data to the FilterResults
-                        filterResults.values = resultList;
-                        filterResults.count = resultList.size();
-                    }
-                    return filterResults;
-                }
-
-                @Override
-                protected void publishResults(CharSequence constraint, Filter.FilterResults results) {
-                    if (results != null && results.count > 0) {
-                        notifyDataSetChanged();
-                    } else {
-                        notifyDataSetInvalidated();
-                    }
-                }
-            };
-            return filter;
-        }
-    }
-
-    private String getPlaceDetailsUrl(String ref){
-
-        // Obtain browser key from https://code.google.com/apis/console
-        String key = "key="+API_KEY;
-
-        // reference of place
-        String reference = "reference="+ref;
-
-        // Sensor enabled
-        String sensor = "sensor=false";
-
-        // Building the parameters to the web service
-        String parameters = reference+"&"+sensor+"&"+key;
-
-        // Output format
-        String output = "json";
-
-        // Building the url to the web service
-        String url = "https://maps.googleapis.com/maps/api/place/details/"+output+"?"+parameters;
-
-        return url;
-    }
-
-
-    protected class AutoValidator implements AutoCompleteTextView.Validator {
-
-        @Override
-        public boolean isValid(CharSequence text) {
-
-            if (!ListUtils.isNullOrEmpty(placesAdapter.resultList)) {
-                String[] validWords = placesAdapter.resultList.toArray(new String[placesAdapter.resultList.size()]);
-                Log.v("Test", "Checking if valid: " + text);
-                //Arrays.sort(validWords);
-                String searchFor = text.toString();
-                if (TextUtils.isEmpty(searchFor)) return false;
-
-                for (int i=0; i<placesAdapter.resultList.size(); i++) {
-                    String result = placesAdapter.resultList.get(i);
-                    if (searchFor.equals(result)) return true;
-                }
-//                if (Arrays.binarySearch(validWords, text.toString()) > 0) {
-//                    return true;
-//                }
-            }
-
-            return false;
-        }
-
-        @Override
-        public CharSequence fixText(CharSequence invalidText) {
-            Log.v("Test", "Returning fixed text");
-
-            /* I'm just returning an empty string here, so the field will be blanked,
-             * but you could put any kind of action here, like popping up a dialog?
-             *
-             * Whatever value you return here must be in the list of valid words.
-             */
-            return "";
-        }
-    }
-
-    class FocusListener implements View.OnFocusChangeListener {
-
-        @Override
-        public void onFocusChange(View v, boolean hasFocus) {
-            AppLogger.log("Test", "Focus changed");
-            if (v.getId() == R.id.ed_home_addr && !hasFocus) {
-                AppLogger.log(TAG, "Performing validation");
-                ((AutoCompleteTextView)v).performValidation();
-            }
-        }
     }
 }

@@ -240,10 +240,9 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 
 			if (!SessionManager.Instance.hasProfile()) {
 				profileAlert("Your payment is success. Please complete your profile in order to apply.");
-				// nextfragment(new FragmentProfile(), false, R.id.container);
+				Navigation.navigateActivity(getActivity(), ActivityCreateProfile.class);
 			} else {
 				Navigation.navigateActivity(getActivity(), ActivityGeekScore.class);
-				//nextfragment(new FragmentFinalGeekScore(), false, R.id.container);
 			}
 
 		}
@@ -340,7 +339,6 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 					public void onClick(DialogInterface dialog, int id) {
 
 						dialog.cancel();
-						//nextfragment(new FragmentProfile(), false, R.id.container);
                         Navigation.navigateActivity(getActivity(), ActivityCreateProfile.class);
 					}
 				});

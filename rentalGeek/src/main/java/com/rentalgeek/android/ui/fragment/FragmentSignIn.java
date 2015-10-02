@@ -221,9 +221,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                 .addOnConnectionFailedListener(this)
                 .addApi(Plus.API, Plus.PlusOptions.builder().build())
                 .addScope(Plus.SCOPE_PLUS_LOGIN)
-                .addScope(Plus.SCOPE_PLUS_PROFILE)
-
-                ;
+                .addScope(Plus.SCOPE_PLUS_PROFILE);
 
 //		if (mRequestServerAuthCode) {
 //			checkServerAuthConfiguration();

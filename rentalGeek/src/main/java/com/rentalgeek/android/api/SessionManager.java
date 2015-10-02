@@ -47,7 +47,7 @@ public enum SessionManager {
     public boolean hasGeekScore() {
         Profile profile = getDefaultProfile();
         if (profile != null) {
-            return !TextUtils.isEmpty(profile.geek_score);
+            return !TextUtils.isEmpty((String)profile.get("geek_score"));
         }
         return false;
     }
@@ -55,16 +55,17 @@ public enum SessionManager {
     public String getGeekScore() {
         Profile profile = getDefaultProfile();
         if (profile != null) {
-            return profile.geek_score;
+            return (String)profile.get("geek_score");
         }
         return null;
     }
 
     public Profile getDefaultProfile() {
-        if (!ListUtils.isNullOrEmpty(profiles)) {
-            return profiles.get(0);
+        if ( profiles.isEmpty() ) {
+            profiles.add(0,new Profile());
         }
-        return null;
+
+        return profiles.get(0);
     }
 
     public boolean hasProfile() {
@@ -74,7 +75,7 @@ public enum SessionManager {
     public String getDefaultProfileId() {
         Profile profile = getDefaultProfile();
         if (profile == null) return null;
-        return profile.id;
+        return (String)profile.get("id");
     }
 
     public void onUserLoggedIn(LoginBackend login) {
@@ -90,10 +91,6 @@ public enum SessionManager {
         appPref.SaveData("norm_log", "true");
         appPref.SaveData("Uid", appid);
         appPref.SaveData("email", currentUser.email);
-
-//        if (currentUser.payment) {
-//            appPref.SaveIntData("payed", 200);
-//        }
 
         appPref.SaveData("first", "logged");
 

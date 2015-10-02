@@ -82,6 +82,7 @@
                         android:layout_height="@dimen/edittext_profile_field_height"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="first_name"
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
@@ -108,6 +109,7 @@
                         android:layout_height="@dimen/edittext_profile_field_height"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="last_name"
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
@@ -130,6 +132,7 @@
 
                         <DatePicker
                             android:id="@+id/dob"
+                            android:tag="born_on"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
@@ -158,6 +161,7 @@
                         android:layout_height="@dimen/edittext_profile_field_height"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="drivers_license_number"
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
@@ -183,6 +187,7 @@
                         android:layout_height="@dimen/edittext_profile_field_height"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="drivers_license_state"
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
                         android:spinnerMode="dialog"/>
@@ -218,6 +223,7 @@
                         android:layout_height="@dimen/edittext_profile_field_height"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="phone_number"
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
@@ -244,6 +250,7 @@
                         android:layout_height="@dimen/edittext_profile_field_height"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="pets_description"
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
@@ -269,6 +276,7 @@
                         android:layout_height="@dimen/edittext_profile_field_height"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="vehicles_description"
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
@@ -294,6 +302,7 @@
                         android:layout_height="@dimen/edittext_profile_field_height"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="was_ever_evicted"
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
                         android:paddingBottom="5dp"
@@ -320,6 +329,7 @@
                         android:layout_height="@dimen/edittext_profile_field_height"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="was_ever_evicted_explanation"
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
@@ -356,10 +366,10 @@
                         android:layout_height="@dimen/edittext_profile_field_height"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="is_felon"
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
-                        android:spinnerMode="dialog"
-                        android:hint="No" />
+                        android:spinnerMode="dialog" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -384,6 +394,7 @@
                         android:layout_height="@dimen/edittext_profile_field_height"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="is_felon_description"
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
@@ -410,6 +421,7 @@
                         android:layout_height="@dimen/edittext_profile_field_height"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="character_reference_name"
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
@@ -436,6 +448,7 @@
                         android:layout_height="@dimen/edittext_profile_field_height"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="character_reference_contact_info"
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
@@ -463,6 +476,7 @@
                         android:layout_height="@dimen/edittext_profile_field_height"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="emergency_contact_name"
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
@@ -489,6 +503,7 @@
                         android:layout_height="@dimen/edittext_profile_field_height"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="emergency_contact_phone_number"
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
@@ -526,12 +541,12 @@
                         android:layout_height="@dimen/edittext_profile_field_height"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="current_home"
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
                         android:singleLine="true"
                         android:hint="Please enter your address" >
-
                     </AutoCompleteTextView>
                 </LinearLayout>
 
@@ -555,6 +570,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="current_home_moved_in_on"
                         android:background="@drawable/thin_border"/>
                 </LinearLayout>
 
@@ -578,6 +594,7 @@
                         android:layout_height="@dimen/edittext_profile_field_height"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="current_home_dissatisfaction_explanation"
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"/>
 
@@ -603,6 +620,7 @@
                         android:layout_height="@dimen/edittext_profile_field_height"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="current_home_owner"
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"/>
 
@@ -628,6 +646,7 @@
                         android:layout_height="@dimen/edittext_profile_field_height"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="current_home_owner_contact_info"
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
@@ -659,16 +678,19 @@
                         android:textColor="@color/blue"
                         android:textSize="@dimen/edittext_field_label_text_size"/>
 
-                    <EditText
+                    <AutoCompleteTextView
                         android:id="@+id/previous_home_address"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/edittext_profile_field_height"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="previous_home"
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
-                        android:singleLine="true" />
+                        android:singleLine="true">
+                    </AutoCompleteTextView>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -692,6 +714,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="previous_home_moved_in_on"
                         android:background="@drawable/thin_border" />
                 </LinearLayout>
 
@@ -715,6 +738,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="previous_home_moved_out"
                         android:background="@drawable/thin_border" />
                 </LinearLayout>
 
@@ -738,6 +762,7 @@
                         android:layout_height="@dimen/edittext_profile_field_height"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="previous_home_owner"
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
@@ -764,6 +789,7 @@
                         android:layout_height="@dimen/edittext_profile_field_height"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="previous_home_owner_contact_info"
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
@@ -801,6 +827,7 @@
                         android:layout_height="@dimen/edittext_profile_field_height"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="current_employment_supervisor"
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
@@ -827,6 +854,7 @@
                         android:layout_height="@dimen/edittext_profile_field_height"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="employment_status"
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
                         android:spinnerMode="dialog" />
@@ -852,6 +880,7 @@
                         android:layout_height="@dimen/edittext_profile_field_height"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="cosigner_name"
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
@@ -878,6 +907,7 @@
                         android:layout_height="@dimen/edittext_profile_field_height"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="cosigner_email_address"
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
                         android:singleLine="true"
@@ -904,6 +934,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="desires_to_move_in_on"
                         android:background="@drawable/thin_border" />
                 </LinearLayout>
             </LinearLayout>

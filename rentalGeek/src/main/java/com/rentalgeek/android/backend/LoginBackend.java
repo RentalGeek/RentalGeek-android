@@ -12,6 +12,4 @@ public class LoginBackend {
 	public List<Profile> profiles;
 	public List<Provider> providers;
     public List<String> error;
-
-
 }

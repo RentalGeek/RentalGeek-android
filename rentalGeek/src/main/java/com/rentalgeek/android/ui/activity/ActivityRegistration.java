@@ -28,6 +28,7 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.LoginBackend;
+import com.rentalgeek.android.backend.model.Profile;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
@@ -37,6 +38,9 @@ import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ListUtils;
 import com.rentalgeek.android.utils.Loading;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -133,9 +137,11 @@ public class ActivityRegistration extends GeekBaseActivity implements Validation
 						try {
                             detail = (new Gson()).fromJson(content.toString(), LoginBackend.class);
 
-							//System.out.println("the registration response " + content);
-
 							if (detail != null && detail.user != null) {
+
+								if( detail.profiles == null ) {
+									detail.profiles = new ArrayList<Profile>();
+								}
 
                                 SessionManager.Instance.onUserLoggedIn(detail);
 

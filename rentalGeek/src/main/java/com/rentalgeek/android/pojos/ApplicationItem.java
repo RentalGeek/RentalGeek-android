@@ -12,7 +12,9 @@ import java.util.List;
 public class ApplicationItem {
 
     public static final String SIGN_LEASE = "SIGN LEASE";
+    public static final String VIEW_LEASE = "VIEW LEASE";
     public static final String APPROVE = "APPROVE";
+    public static final String APPROVED = "APPROVED";
 
     private Address address;
     private int monthlyCost;
@@ -27,6 +29,7 @@ public class ApplicationItem {
     private Integer leaseId;
     private Boolean accepted;
     private Integer rentalOfferingId;
+    private Integer userId;
 
     public ApplicationItem() {
     }
@@ -45,6 +48,7 @@ public class ApplicationItem {
         this.signedLeaseOn = applicationDTO.signed_lease_on;
         this.accepted = applicationDTO.accepted;
         this.rentalOfferingId = applicationDTO.rental_offering_id;
+        this.userId = applicationDTO.user_id;
     }
 
     public Address getAddress() {
@@ -112,7 +116,11 @@ public class ApplicationItem {
     }
 
     public String getButtonText() {
-        return SIGN_LEASE;
+        if (signedLeaseOn == null) {
+            return SIGN_LEASE;
+        }
+
+        return VIEW_LEASE;
     }
 
     public Spanned getLeftTextForRoomate(RoommateDTO roommate) {
@@ -248,4 +256,11 @@ public class ApplicationItem {
         this.rentalOfferingId = rentalOfferingId;
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 }

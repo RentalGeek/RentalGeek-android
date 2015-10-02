@@ -65,6 +65,7 @@ public class FragmentBaseApplicationList extends GeekBaseFragment {
     }
 
     protected void fetchItemsWithUrl(Context context, String url) {
+        properties.clear();
         GlobalFunctions.getApiCall(context, url, AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
             @Override
             public void onStart() {

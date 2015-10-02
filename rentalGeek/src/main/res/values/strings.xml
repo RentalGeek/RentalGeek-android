@@ -31,6 +31,10 @@ If you agree to share a Credit Report, we will also use this information to shar
     <string name="last_msg_one">You have successfully completed the GeekScore&#8482; Application Process \n\n Take advantage of GeekVision&#8482; and choose from a wide selection of rental properties available only at RentalGeek. You can apply for the property of your choice from the property detail page.</string>
     <string name="bullet">&#8226;</string>
     <string name="dialog_msg_loading">Loading, Please wait\u2026</string>
+    <string name="dialog_msg_loading_roommates">Loading Roommates, Please wait\u2026</string>
+    <string name="dialog_msg_loading_roommate_leave_group">Leaving Group, Please wait\u2026</string>
+    <string name="dialog_msg_loading_roommate_remove_invite">Removing Invite, Please wait\u2026</string>
+    <string name="dialog_msg_loading_roommate_add_invite">Adding Invite, Please wait\u2026</string>
 
     <string name="signin">SignIn</string>
     <string name="demo_min_label">Min</string>
@@ -51,8 +55,8 @@ If you agree to share a Credit Report, we will also use this information to shar
 
     <string name="fragment_roommates_header_addroommate">Add a Roommate</string>
     <string name="fragment_roommates_header_roommates">Your Roommates</string>
-    <string name="fragment_roommates_field_firstlastname">First &amp; Last Name(Mandatory)</string>
-    <string name="fragment_roommates_field_emailaddress">Email Address (Mandatory)</string>
+    <string name="fragment_roommates_field_firstlastname">First &amp; Last Name (Mandatory) </string>
+    <string name="fragment_roommates_field_emailaddress">Email Address (Mandatory) </string>
 
     <string name="fragment_roommateinvite_message">You have been invited by <b>%1s</b> to join a roommate group.</string>
     <string name="fragment_roommateinvite_noinvites">You have no pending invites.</string>

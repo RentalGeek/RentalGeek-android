@@ -1,5 +1,7 @@
 package com.rentalgeek.android.pojos;
 
+import com.rentalgeek.android.api.SessionManager;
+
 /**
  * Created by rajohns on 9/14/15.
  *
@@ -16,9 +18,19 @@ public class CosignItem extends ApplicationItem {
     @Override
     public String getButtonText() {
         if (Boolean.TRUE.equals(getAccepted())) {
-            return SIGN_LEASE;
-        }
 
-        return APPROVE;
+            if (getSignedLeaseOn() != null) {
+                return VIEW_LEASE;
+            } else {
+                return SIGN_LEASE;
+            }
+        } else {
+            if (getUserId() != null && getUserId().toString().equals(SessionManager.Instance.getCurrentUser().id)) {
+                return APPROVED;
+            } else {
+                return APPROVE;
+            }
+        }
     }
+
 }

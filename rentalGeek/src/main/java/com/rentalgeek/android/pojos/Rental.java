@@ -5,6 +5,8 @@ public class Rental {
     private String id;
 	private double rental_complex_latitude;
 	private double rental_complex_longitude;
+    private double latitude;
+    private double longitude;
 	private boolean starred;
 	private int bedroom_count;
 	private int monthly_rent_floor;
@@ -30,11 +32,11 @@ public class Rental {
     }
 
     public double getLatitude() {
-        return rental_complex_latitude;
+        return latitude;
     }
 
     public double getLongitude() {
-        return rental_complex_longitude;
+        return longitude;
     }
 
     public int getBedroomCount() {

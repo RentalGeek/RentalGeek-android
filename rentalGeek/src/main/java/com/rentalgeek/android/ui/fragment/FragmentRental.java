@@ -31,7 +31,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 public class FragmentRental extends GeekBaseFragment implements RentalView, StarView {
-    
+
     @InjectView(R.id.price) TextView price_textview;
     @InjectView(R.id.rental_image) ImageView rental_imageview;
     @InjectView(R.id.room_count) TextView room_count_textview;
@@ -56,7 +56,7 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         View view = inflater.inflate(R.layout.fragment_rental,container,false);
         ButterKnife.inject(this, view);
-        
+
         if( ! fullView ) {
             hide();
 
@@ -64,17 +64,17 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
             view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                 @Override
                 public boolean onPreDraw() {
-                
+
                     getView().getViewTreeObserver().removeOnPreDrawListener(this);
-                
-        
+
+
                     int screenHeight = RentalGeekApplication.getScreenHeight();
                     ViewGroup.LayoutParams params = getView().getLayoutParams();
 
                     params.height = screenHeight/2;
 
                     getView().setLayoutParams(params);
-                
+
                     return true;
                 }
             });
@@ -90,18 +90,22 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
         return view;
     }
 
-    @Override 
+    @Override
     public void goToCreateProfile() {
         AppEventBus.post(new ShowProfileCreationEvent());
     }
-    
+
     public void setFullView(boolean fullView) {
         this.fullView = fullView;
     }
-    
+
     @Override
     public void onStart() {
         super.onStart();
+        if( getArguments() != null ) {
+            Bundle args = getArguments();
+            rental_id = args.getString("RENTAL_ID");
+        }
 
         presenter.getRental(rental_id);
     }
@@ -115,19 +119,19 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
     @Override
     public void show() {
         getFragmentManager().
-        beginTransaction().
-        setCustomAnimations( R.anim.abc_slide_in_bottom,0).
-        show(this).
-        commit();
+                beginTransaction().
+                setCustomAnimations( R.anim.abc_slide_in_bottom,0).
+                show(this).
+                commit();
     }
 
     @Override
     public void hide() {
         getFragmentManager().
-        beginTransaction().
-        setCustomAnimations(0,R.anim.abc_slide_out_bottom).
-        hide(this).
-        commit();
+                beginTransaction().
+                setCustomAnimations(0,R.anim.abc_slide_out_bottom).
+                hide(this).
+                commit();
     }
 
     @Override
@@ -136,18 +140,18 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
         if( rental == null ) {
             return;
         }
-        
+
         rental_id = rental.getId();
-        
+
         star_imageview.setTag(rental.getId());
         price_textview.setText(String.format("$%d",rental.getMonthlyRent()));
 
         room_count_textview.setText(String.format("%d BR, %d Bath",rental.getBedroomCount(),rental.getBathroomCount()));
 
         address_textview.setText(String.format("%s\n%s, %s %s",rental.getAddress(),rental.getCity(),rental.getState(),rental.getZipcode()));
- 
+
         description_textview.setText(rental.getDescription());
-        
+
         if( rental.applied() ) {
             String applied_text = RentalGeekApplication.getResourceString(R.string.applied_text);
             apply_btn.setText(applied_text);
@@ -155,7 +159,7 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
         }
 
         StringBuilder amenities = new StringBuilder();
-        
+
         for(String amenity : rental.getAmenities() ) {
             amenities.append(String.format("\u2022 %s\n",amenity));
         }
@@ -163,9 +167,9 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
         amenities_textview.setText(amenities);
 
         Picasso
-            .with(getActivity())
-            .load(rental.getImageUrl())
-            .into(rental_imageview);
+                .with(getActivity())
+                .load(rental.getImageUrl())
+                .into(rental_imageview);
 
         if( rental.isStarred() ) {
             selectStar();
@@ -220,23 +224,23 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
     @Override
     public void selectStar() {
         if( rental_imageview != null) {
-             Picasso
-                .with(getActivity())
-                .load(R.drawable.star_full)
-                .into(star_imageview);
+            Picasso
+                    .with(getActivity())
+                    .load(R.drawable.star_full)
+                    .into(star_imageview);
         }
     }
 
     @Override
     public void unselectStar() {
         if( rental_imageview != null ) {
-              Picasso
-                .with(getActivity())
-                .load(R.drawable.star_outline)
-                .into(star_imageview);
+            Picasso
+                    .with(getActivity())
+                    .load(R.drawable.star_outline)
+                    .into(star_imageview);
         }
     }
-    
+
     @OnClick(R.id.star_image)
     public void star(View view) {
         presenter.select(rental_id,this);

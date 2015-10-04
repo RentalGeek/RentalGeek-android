@@ -1,16 +1,16 @@
 package com.rentalgeek.android.ui.fragment;
 
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.ui.activity.ActivityPropertyPhoto;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
+import com.rentalgeek.android.ui.adapter.FullScreenImageAdapter;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -21,29 +21,19 @@ import butterknife.InjectView;
  */
 public class FragmentPropertyPhoto extends GeekBaseFragment {
 
-    @InjectView(R.id.property_photo_image_view) ImageView propertyPhotoImageView;
-    @InjectView(R.id.loading_text_view) TextView loadingTextView;
+    @InjectView(R.id.photo_pager) ViewPager photoPager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_property_photo, container, false);
         ButterKnife.inject(this, view);
 
-        String photoUrl = getArguments().getString(ActivityPropertyPhoto.PHOTO_URL);
+        ArrayList<String> photoUrls = getArguments().getStringArrayList(ActivityPropertyPhoto.PHOTO_URLS);
+        int originalPosition = getArguments().getInt(ActivityPropertyPhoto.ORIGINAL_POSITION);
 
-        Picasso.with(getActivity())
-            .load(photoUrl)
-            .into(propertyPhotoImageView, new Callback() {
-                @Override
-                public void onSuccess() {
-                    loadingTextView.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onError() {
-                    loadingTextView.setText("Error loading image");
-                }
-            });
+        FullScreenImageAdapter adapter = new FullScreenImageAdapter(getActivity(), photoUrls);
+        photoPager.setAdapter(adapter);
+        photoPager.setCurrentItem(originalPosition);
 
         return view;
     }

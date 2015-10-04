@@ -2,7 +2,6 @@ package com.rentalgeek.android.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -181,20 +180,27 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
 
     @Override
     public void showPropertyPhotos(ArrayList<PhotoDTO> propertyPhotos) {
-        for (final PhotoDTO photoInfo : propertyPhotos) {
-            ImageView imageView = new ImageView(getActivity());
+        final ArrayList<String> photoUrls = new ArrayList<>();
+        for (PhotoDTO photoDTO : propertyPhotos) {
+            photoUrls.add(photoDTO.photo);
+        }
+
+        for (int i = 0; i < propertyPhotos.size(); i++) {
+            final PhotoDTO photoInfo = propertyPhotos.get(i);
+            final ImageView imageView = new ImageView(getActivity());
             imageView.setPadding(2, 0, 2, 0);
             imageView.setImageDrawable(getResources().getDrawable(R.drawable.loading_gray_image_bg));
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             propertyPhotoGallery.addView(imageView);
             Picasso.with(getActivity()).load(photoInfo.thumb).into(imageView);
 
+            final int finalI = i;
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("tag", "full sized image: " + photoInfo.photo);
                     Intent intent = new Intent(getActivity(), ActivityPropertyPhoto.class);
-                    intent.putExtra(ActivityPropertyPhoto.PHOTO_URL, photoInfo.photo);
+                    intent.putExtra(ActivityPropertyPhoto.PHOTO_URLS, photoUrls);
+                    intent.putExtra(ActivityPropertyPhoto.ORIGINAL_POSITION, finalI);
                     getActivity().startActivity(intent);
                 }
             });

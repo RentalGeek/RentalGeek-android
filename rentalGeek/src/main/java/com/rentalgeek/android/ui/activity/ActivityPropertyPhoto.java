@@ -11,7 +11,8 @@ import com.rentalgeek.android.ui.fragment.FragmentPropertyPhoto;
  */
 public class ActivityPropertyPhoto extends GeekBaseActivity {
 
-    public static final String PHOTO_URL = "photoUrl";
+    public static final String PHOTO_URLS = "photoUrls";
+    public static final String ORIGINAL_POSITION = "originalPosition";
 
     public ActivityPropertyPhoto() {
         super(true, true, true);

@@ -5,18 +5,9 @@
     android:layout_height="match_parent"
     android:background="@color/black">
 
-    <ImageView
-        android:id="@+id/property_photo_image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
-
-    <TextView
-        android:id="@+id/loading_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Loading..."
-        android:textColor="@color/decline_gray"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/photo_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </FrameLayout>

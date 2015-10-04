@@ -41,8 +41,8 @@ public class FragmentMyCosigner extends GeekBaseFragment {
     private String name;
     private String email;
 
-    @InjectView(R.id.has_invited_layout) LinearLayout hasInvitedLayout;
-    @InjectView(R.id.none_accepted_layout) LinearLayout noneAcceptedLayout;
+    @InjectView(R.id.invited_people) LinearLayout invitedPeople;
+    @InjectView(R.id.invitation_forms) LinearLayout invitationForms;
     @InjectView(R.id.name_edittext) EditText nameEditText;
     @InjectView(R.id.email_edittext) EditText emailEdiText;
 
@@ -137,13 +137,7 @@ public class FragmentMyCosigner extends GeekBaseFragment {
         CosignerInvitesArrayRootDTO cosignerInvitesArrayRootDTO = new Gson().fromJson(response, CosignerInvitesArrayRootDTO.class);
         sentInvites = cosignerInvitesArrayRootDTO.cosigner_invites;
 
-        if (noAcceptedOffers()) {
-            noneAcceptedLayout.setVisibility(View.VISIBLE);
-        }
-
-        if (sentInvites.size() == 0) {
-            hasInvitedLayout.setVisibility(View.GONE);
-        }
+        setVisibilityOfUIElements();
 
         for (int i = 0; i < sentInvites.size(); i++) {
             final CosignerInviteDTO invite = sentInvites.get(i);
@@ -151,7 +145,7 @@ public class FragmentMyCosigner extends GeekBaseFragment {
             CosignerInviteRow inviteRow = new CosignerInviteRow(getActivity());
             inviteRow.inflateView(this, invite);
 
-            hasInvitedLayout.addView(inviteRow);
+            invitedPeople.addView(inviteRow);
         }
     }
 
@@ -206,14 +200,24 @@ public class FragmentMyCosigner extends GeekBaseFragment {
         });
     }
 
-    private boolean noAcceptedOffers() {
+    private void setVisibilityOfUIElements() {
+        if (!hasPendingOrAcceptedInvites()) {
+            invitationForms.setVisibility(View.VISIBLE);
+        }
+
+        if (sentInvites.size() > 0) {
+            invitedPeople.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private boolean hasPendingOrAcceptedInvites() {
         for (CosignerInviteDTO invite : sentInvites) {
-            if (Boolean.TRUE.equals(invite.accepted)) {
-                return false;
+            if (Boolean.TRUE.equals(invite.accepted) || invite.accepted == null) {
+                return true;
             }
         }
 
-        return true;
+        return false;
     }
 
 }

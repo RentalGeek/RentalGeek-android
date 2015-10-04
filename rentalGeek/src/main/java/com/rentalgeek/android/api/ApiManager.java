@@ -53,6 +53,10 @@ public class ApiManager {
         return cosignerInvitesUrl() + "/" + inviteId;
     }
 
+    public static String propertyPhotos(String rentalOfferingId) {
+        return API_HOST + "/property_photos?rental_offering_id=" + rentalOfferingId;
+    }
+
     public static String cosignerProfilesUrl(String cosignerProfileId) {
         return API_HOST + "/cosigner_profiles/" + cosignerProfileId;
     }

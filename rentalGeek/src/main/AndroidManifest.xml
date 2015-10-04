@@ -186,15 +186,16 @@
             android:name=".ui.activity.ActivityMyCosigner"
             android:screenOrientation="portrait"
             android:label="@string/my_cosigner">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
         </activity>
         <activity
             android:name=".ui.activity.ActivitySettings"
             android:screenOrientation="portrait"
             android:label="@string/settings">
+        </activity>
+        <activity
+            android:name=".ui.activity.ActivityPropertyPhoto"
+            android:screenOrientation="portrait"
+            android:label="">
         </activity>
 
         <service

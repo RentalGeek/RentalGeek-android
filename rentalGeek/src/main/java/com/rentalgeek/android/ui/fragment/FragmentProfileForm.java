@@ -405,56 +405,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
         ButterKnife.reset(this);
     }
 
-
-    // parsing patch user response
-    private void patchedUserParse(String response) {
-        try {
-            ProfileIdFindBackend detail = (new Gson()).fromJson(response, ProfileIdFindBackend.class);
-
-            if (detail != null) {
-
-                if (detail.profile != null) {
-
-                    toast("Profile Updated Successfully");
-                    //hidekey();
-
-                    if (SessionManager.Instance.hasPayed()) {
-
-                        Navigation.navigateActivity(getActivity(), ActivityGeekScore.class);
-
-                    } else {
-                        AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
-                        builder1.setMessage(getActivity().getResources().getString(R.string.geek_go));
-                        builder1.setTitle("Alert");
-                        builder1.setCancelable(true);
-                        builder1.setPositiveButton("Go to payment",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                        Navigation.navigateActivity(activity, ActivityGeekScore.class, true);
-                                    }
-                                });
-
-                        builder1.setNegativeButton("Home",
-                                new DialogInterface.OnClickListener() {
-
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.cancel();
-                                        Navigation.navigateActivity(activity, ActivityHome.class, true);
-                                    }
-                                });
-                        AlertDialog alert11 = builder1.create();
-                        alert11.show();
-                    }
-
-                }
-            }
-        } catch (Exception e) {
-            AppLogger.log(TAG, e);
-        }
-    }
-
     private RequestParams buildRequestParams() {
 
         RequestParams params = new RequestParams();
@@ -474,51 +424,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
         }
 
         return params;
-    }
-
-    // Calling Patch request to update the profile
-    private void callPatchUpdateLink(String id) {
-        try {
-
-            String url = ApiManager.getProfile(id);
-
-            RequestParams params = buildRequestParams();
-
-            params.put("profile[user_id]", appPref.getData("Uid"));
-
-            GlobalFunctions.putApiCall(getActivity(), url, params,
-                    AppPreferences.getAuthToken(),
-                    new GeekHttpResponseHandler() {
-
-                        @Override
-                        public void onStart() {
-
-                        }
-
-                        @Override
-                        public void onFinish() {
-
-                        }
-
-                        @Override
-                        public void onSuccess(String content) {
-                            try {
-                                patchedUserParse(content);
-                            } catch (Exception e) {
-                                AppLogger.log(TAG, e);
-                            }
-                        }
-
-                        @Override
-                        public void onAuthenticationFailed() {
-
-                        }
-                    });
-
-        } catch (Exception e) {
-            AppLogger.log(TAG, e);
-        }
-
     }
 
     public void error(String response, int value) {

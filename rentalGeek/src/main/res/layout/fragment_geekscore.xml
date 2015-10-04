@@ -1,0 +1,43 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/geek_icon"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="@string/your_geek_score"
+        android:textColor="@color/light_black"
+        android:textSize="24sp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/geek_score"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="123"
+        android:textColor="@color/blue"
+        android:textSize="144sp"
+        android:includeFontPadding="false"
+        android:gravity="center"/>
+
+    <Button
+        android:id="@+id/home_button"
+        android:layout_width="144dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_gravity="center"
+        android:background="@drawable/continue_bg"
+        android:text="@string/home"
+        android:textColor="@color/white"/>
+</LinearLayout>

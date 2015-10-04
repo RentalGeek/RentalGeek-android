@@ -52,6 +52,7 @@ If you agree to share a Credit Report, we will also use this information to shar
     <string name="geek_vision_tm">Geek Vision™</string>
     <string name="settings">Settings</string>
     <string name="logout">Logout</string>
+    <string name="home">Home</string>
 
     <string name="fragment_roommates_header_addroommate">Add a Roommate</string>
     <string name="fragment_roommates_header_roommates">Your Roommates</string>
@@ -113,9 +114,12 @@ If you agree to share a Credit Report, we will also use this information to shar
     
     <string name="search_rental">Searching for Rentals</string>
     <string name="loading_rentals">Loading Rentals, Please wait\u2026</string>
-
-
+    
     <string name="next_text">NEXT</string>
+    
+    <string name="geek_score_wait_msg">Your Geek Score&#8482;\nis being calculated\nand will be available shortly!</string>
+    <string name="geek_score_wait_thanks">Thank you for your patience</string>
+    <string name="your_geek_score">Your Geek Score&#8482;</string>
 
     <!--cosigner app-->
     <string-array name="months_array">

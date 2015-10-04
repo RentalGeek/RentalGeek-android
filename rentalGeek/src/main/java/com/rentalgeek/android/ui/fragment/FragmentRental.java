@@ -1,13 +1,15 @@
 package com.rentalgeek.android.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.RentalGeekApplication;
@@ -17,8 +19,12 @@ import com.rentalgeek.android.bus.events.ShowProfileCreationEvent;
 import com.rentalgeek.android.mvp.common.StarView;
 import com.rentalgeek.android.mvp.rental.RentalPresenter;
 import com.rentalgeek.android.mvp.rental.RentalView;
+import com.rentalgeek.android.pojos.PhotoDTO;
 import com.rentalgeek.android.pojos.Rental;
+import com.rentalgeek.android.ui.activity.ActivityPropertyPhoto;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -34,6 +40,7 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
     @InjectView(R.id.description) TextView description_textview;
     @InjectView(R.id.amenities) TextView amenities_textview;
     @InjectView(R.id.apply_btn) Button apply_btn;
+    @InjectView(R.id.property_photo_gallery) LinearLayout propertyPhotoGallery;
 
     private RentalPresenter presenter;
     private boolean fullView = false;
@@ -48,7 +55,7 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         View view = inflater.inflate(R.layout.fragment_rental,container,false);
-        ButterKnife.inject(this,view);
+        ButterKnife.inject(this, view);
         
         if( ! fullView ) {
             hide();
@@ -73,6 +80,13 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
             });
         }
 
+        if( getArguments() != null ) {
+            Bundle args = getArguments();
+            rental_id = args.getString("RENTAL_ID");
+        }
+
+        presenter.getPropertyPhotos(rental_id);
+
         return view;
     }
 
@@ -87,13 +101,9 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
     
     @Override
     public void onStart() {
-        super.onStart();       
-            if( getArguments() != null ) {
-                Bundle args = getArguments();
-                rental_id = args.getString("RENTAL_ID");
-            }
-            
-            presenter.getRental(rental_id);
+        super.onStart();
+
+        presenter.getRental(rental_id);
     }
 
     @Override
@@ -123,8 +133,9 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
     @Override
     public void showRental(Rental rental) {
 
-        if( rental == null )
+        if( rental == null ) {
             return;
+        }
         
         rental_id = rental.getId();
         
@@ -165,6 +176,35 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
         }
 
         show();
+    }
+
+    @Override
+    public void showPropertyPhotos(ArrayList<PhotoDTO> propertyPhotos) {
+        final ArrayList<String> photoUrls = new ArrayList<>();
+        for (PhotoDTO photoDTO : propertyPhotos) {
+            photoUrls.add(photoDTO.photo);
+        }
+
+        for (int i = 0; i < propertyPhotos.size(); i++) {
+            final PhotoDTO photoInfo = propertyPhotos.get(i);
+            final ImageView imageView = new ImageView(getActivity());
+            imageView.setPadding(2, 0, 2, 0);
+            imageView.setImageDrawable(getResources().getDrawable(R.drawable.loading_gray_image_bg));
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            propertyPhotoGallery.addView(imageView);
+            Picasso.with(getActivity()).load(photoInfo.thumb).into(imageView);
+
+            final int finalI = i;
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), ActivityPropertyPhoto.class);
+                    intent.putExtra(ActivityPropertyPhoto.PHOTO_URLS, photoUrls);
+                    intent.putExtra(ActivityPropertyPhoto.ORIGINAL_POSITION, finalI);
+                    getActivity().startActivity(intent);
+                }
+            });
+        }
     }
 
     @OnClick(R.id.rental_image) void onRentalClick() {

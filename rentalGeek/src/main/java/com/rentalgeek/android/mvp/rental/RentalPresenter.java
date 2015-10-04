@@ -2,15 +2,17 @@ package com.rentalgeek.android.mvp.rental;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.loopj.android.http.RequestParams;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.mvp.common.StarPresenter;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.pojos.PropertyPhotosRootDTO;
 import com.rentalgeek.android.pojos.Rental;
 import com.rentalgeek.android.storage.RentalCache;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.GeekGson;
-import com.loopj.android.http.RequestParams;
 
 import org.json.JSONObject;
 
@@ -119,8 +121,20 @@ public class RentalPresenter extends StarPresenter implements Presenter{
             });
         }
         
-        else
+        else {
             rentalView.showRental(rental);
+        }
+    }
+
+    @Override
+    public void getPropertyPhotos(String rental_id) {
+        GlobalFunctions.getApiCall(null, ApiManager.propertyPhotos(rental_id), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
+            @Override
+            public void onSuccess(String content) {
+                super.onSuccess(content);
+                PropertyPhotosRootDTO propertyPhotosRootDTO = new Gson().fromJson(content, PropertyPhotosRootDTO.class);
+                rentalView.showPropertyPhotos(propertyPhotosRootDTO.property_photos);
+            }
+        });
     }
 }
-

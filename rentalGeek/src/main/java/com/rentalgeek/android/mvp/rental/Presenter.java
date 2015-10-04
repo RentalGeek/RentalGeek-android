@@ -1,6 +1,7 @@
 package com.rentalgeek.android.mvp.rental;
 
 public interface Presenter {
-    public void getRental(String rental_id);
-    public void apply(String rental_id);
+    void getRental(String rental_id);
+    void getPropertyPhotos(String rental_id);
+    void apply(String rental_id);
 }

@@ -269,11 +269,6 @@ public class GeekBaseActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 drawerLayout.closeDrawers();
 
-                // don't re-open the currently selected option
-//                if (menuItem.isChecked()) {
-//                    return true;
-//                }
-
                 switch (menuItem.getItemId()) {
                     case R.id.roommates:
                         Navigation.navigateActivity(activity, ActivityRoommates.class);
@@ -325,7 +320,6 @@ public class GeekBaseActivity extends AppCompatActivity {
 
         //Hide menu items for all things in new release to create a v1 play store build
         int[] v2MenuItems = {
-                R.id.my_lease,
                 R.id.properties,
                 R.id.roommates,
                 R.id.payment,

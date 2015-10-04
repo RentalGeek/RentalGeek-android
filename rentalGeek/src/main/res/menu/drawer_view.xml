@@ -5,9 +5,6 @@
             android:id="@+id/geek_score"
             android:title="@string/geek_score_tm" />
         <item
-            android:id="@+id/my_lease"
-            android:title="@string/my_lease" />
-        <item
             android:id="@+id/favorites"
             android:title="@string/favorites" />
         <item

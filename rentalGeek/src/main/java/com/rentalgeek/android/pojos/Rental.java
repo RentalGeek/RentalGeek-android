@@ -94,6 +94,10 @@ public class Rental {
     }
 
     public String getDescription() {
+        if (salesy_description == null) {
+            return "No description available";
+        }
+
         return salesy_description;
     }
 

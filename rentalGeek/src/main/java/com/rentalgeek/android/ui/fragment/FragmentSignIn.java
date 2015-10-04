@@ -276,9 +276,12 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                                     String title = getResources().getString(R.string.login_title);
                                     String msg = getResources().getString(R.string.invalid_login);
                                     OkAlert.show(getActivity(),title,msg);
+                                    return;
                                 }
                             }
                         }
+
+                        OkAlert.showUnknownError(getActivity());
                     }
                 });
 
@@ -348,6 +351,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
         } catch (Exception e) {
             AppLogger.log(TAG, e);
+            OkAlert.showUnknownError(getActivity());
         }
     }
 

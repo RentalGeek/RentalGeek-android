@@ -23,4 +23,8 @@ public class OkAlert {
             .show();
     }
 
+    public static void showUnknownError(Context context) {
+        show(context, "Unknown Error", "An unknown error has occurred.");
+    }
+
 }

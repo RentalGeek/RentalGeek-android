@@ -17,7 +17,8 @@
         android:inputType="textEmailAddress"
         android:paddingLeft="5dp"
         android:textColor="@android:color/white"
-        android:textColorHint="#ffffff" />
+        android:textColorHint="#ffffff"
+        android:singleLine="true" />
 
     <EditText
         android:id="@+id/ed_password"
@@ -33,7 +34,8 @@
         android:inputType="textPassword"
         android:paddingLeft="5dp"
         android:textColor="@android:color/white"
-        android:textColorHint="#ffffff" />
+        android:textColorHint="#ffffff"
+        android:singleLine="true" />
 
     <TextView
         android:id="@+id/forgot_email"
@@ -42,7 +44,7 @@
         android:layout_alignLeft="@+id/ed_password"
         android:layout_below="@+id/ed_password"
         android:layout_marginTop="15dp"
-        android:text="Forgot Password?"
+        android:text="Forgot Password?  "
         android:textColor="@color/white" />
 
     <Button

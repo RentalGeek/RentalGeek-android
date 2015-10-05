@@ -425,6 +425,7 @@
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
+                        android:inputType="textCapWords"
                         android:singleLine="true" />
                 </LinearLayout>
 
@@ -480,6 +481,7 @@
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
+                        android:inputType="textCapWords"
                         android:singleLine="true" />
                 </LinearLayout>
 
@@ -622,7 +624,9 @@
                         android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
                         android:tag="current_home_owner"
                         android:paddingLeft="@dimen/profile_field_padding_left"
-                        android:background="@drawable/thin_border"/>
+                        android:background="@drawable/thin_border"
+                        android:inputType="textCapWords"
+                        android:singleLine="true"/>
 
                 </LinearLayout>
 
@@ -766,6 +770,7 @@
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
+                        android:inputType="textCapWords"
                         android:singleLine="true" />
                 </LinearLayout>
 
@@ -831,6 +836,7 @@
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
+                        android:inputType="textCapWords"
                         android:singleLine="true" />
                 </LinearLayout>
 
@@ -884,6 +890,7 @@
                         android:paddingLeft="@dimen/profile_field_padding_left"
                         android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
+                        android:inputType="textCapWords"
                         android:singleLine="true" />
                 </LinearLayout>
 

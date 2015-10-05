@@ -11,4 +11,6 @@ public interface RentalView {
     void showRental(Rental rental);
     void showPropertyPhotos(ArrayList<PhotoDTO> propertyPhotos);
     void goToCreateProfile();
+    void goToCosignApplication();
+    void applied();
 }

@@ -15,6 +15,7 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.ClickRentalEvent;
+import com.rentalgeek.android.bus.events.ShowCosignApplicationEvent;
 import com.rentalgeek.android.bus.events.ShowProfileCreationEvent;
 import com.rentalgeek.android.mvp.common.StarView;
 import com.rentalgeek.android.mvp.rental.RentalPresenter;
@@ -95,6 +96,18 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
         AppEventBus.post(new ShowProfileCreationEvent());
     }
 
+    @Override
+    public void goToCosignApplication() {
+        AppEventBus.post(new ShowCosignApplicationEvent());
+    }
+
+    @Override
+    public void applied() {
+        String applied_text = RentalGeekApplication.getResourceString(R.string.applied_text);
+        apply_btn.setText(applied_text);
+        apply_btn.setClickable(false);
+    }
+
     public void setFullView(boolean fullView) {
         this.fullView = fullView;
     }
@@ -102,6 +115,7 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
     @Override
     public void onStart() {
         super.onStart();
+        
         if( getArguments() != null ) {
             Bundle args = getArguments();
             rental_id = args.getString("RENTAL_ID");

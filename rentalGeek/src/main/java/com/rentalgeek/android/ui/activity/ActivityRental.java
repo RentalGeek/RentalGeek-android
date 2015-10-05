@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.rentalgeek.android.R;
 
+import com.rentalgeek.android.bus.events.ShowCosignApplicationEvent;
 import com.rentalgeek.android.ui.Navigation;
 
 import com.rentalgeek.android.mvp.rental.RentalView;
@@ -41,6 +42,10 @@ public class ActivityRental extends GeekBaseActivity {
     }
 
     public void onEventMainThread(ShowProfileCreationEvent event) {
-        Navigation.navigateActivity(this,ActivityCreateProfile.class);   
+        Navigation.navigateActivity(this, ActivityCreateProfile.class);
+    }
+
+    public void onEventMainThread(ShowCosignApplicationEvent event) {
+        Navigation.navigateActivity(this, ActivityCosignDecider.class);
     }
 }

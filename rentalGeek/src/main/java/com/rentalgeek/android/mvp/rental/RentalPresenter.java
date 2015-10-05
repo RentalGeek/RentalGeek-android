@@ -43,6 +43,11 @@ public class RentalPresenter extends StarPresenter implements Presenter{
                     try {
                         System.out.println(response);
                         JSONObject json = new JSONObject(response);
+
+                        if ( json.has("application") ) {
+                            //Change button to applied and disable
+                                rentalView.applied();
+                        }
                     }
 
                     catch(Exception e) {
@@ -66,6 +71,7 @@ public class RentalPresenter extends StarPresenter implements Presenter{
                                     
                                     //Redirect to cosigner profile creation process
                                     if( is_cosigner ) {
+                                        rentalView.goToCosignApplication();
                                     }
                                 
                                     //Redirect to profile creation process
@@ -73,11 +79,6 @@ public class RentalPresenter extends StarPresenter implements Presenter{
                                         rentalView.goToCreateProfile();
                                     }
                                 }
-                            }
-
-                            //Change button to applied and disable 
-                            else {
-                        
                             }
                         }
                     }

@@ -31,6 +31,10 @@ public class ApiManager {
         return String.format("%s%s%s",API_HOST,"/rental_offerings.json?",parameters);
     }
 
+    public static String getFavoritesUrl() {
+        return String.format("%s/%s",API_HOST,"rental_offerings?starred=true");
+    }
+
     public static String getApplyUrl() {
         return API_HOST + "/applications";
     }

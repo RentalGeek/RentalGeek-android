@@ -10,9 +10,8 @@ import com.rentalgeek.android.mvp.fav.FavPresenter;
 import com.rentalgeek.android.mvp.fav.FavView;
 import com.rentalgeek.android.mvp.list.rental.RentalListView;
 import com.rentalgeek.android.pojos.Rental;
+import com.rentalgeek.android.ui.fragment.FragmentNoFavorites;
 import com.rentalgeek.android.ui.fragment.FragmentRentalListView;
-
-import com.rentalgeek.android.utils.OkAlert;
 
 public class ActivityFavoriteRentals extends GeekBaseActivity implements FavView {
 
@@ -59,9 +58,9 @@ public class ActivityFavoriteRentals extends GeekBaseActivity implements FavView
     }
 
     @Override
-    public void showMessage(String title, String message) {
+    public void noFavorites() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, new FragmentNoFavorites()).commit();
         hideProgressDialog();
-        OkAlert.show(this,title,message);
     }
 
     public void onEventMainThread(ClickRentalEvent event) {

@@ -29,11 +29,9 @@ public class FavPresenter implements Presenter {
 
     @Override
     public void getFavoriteRentals() {
-        String url = ApiManager.getPropertySearchUrl();
+        String url = ApiManager.getFavoritesUrl();
         String token = AppPreferences.getAuthToken();
-        
-        url = String.format("%sstarred=true",url);
-        
+
         System.out.println(url);
 
         GlobalFunctions.getApiCall(null,url,token,new GeekHttpResponseHandler() {
@@ -58,9 +56,7 @@ public class FavPresenter implements Presenter {
                         }
 
                         else {
-                            String title = RentalGeekApplication.getResourceString(R.string.fav_title);
-                            String msg = RentalGeekApplication.getResourceString(R.string.fav_none);
-                            favView.showMessage(title,msg);
+                            favView.noFavorites();
                         }
                     }
 

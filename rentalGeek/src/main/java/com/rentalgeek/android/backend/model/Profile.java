@@ -51,6 +51,7 @@ public class Profile {
     private String cosigner_name;
     private String cosigner_email_address;
     private String desires_to_move_in_on;
+    private String geek_score;
 
     public List<String> getFieldNames() {
 

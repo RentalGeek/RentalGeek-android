@@ -22,6 +22,7 @@ import com.rentalgeek.android.ui.fragment.FragmentRentalListView;
 import com.rentalgeek.android.ui.view.NonSwipeableViewPager;
 import com.rentalgeek.android.utils.CosignerInviteCaller;
 import com.rentalgeek.android.ui.Navigation;
+import com.rentalgeek.android.utils.OkAlert;
 
 import java.lang.Runnable;
 
@@ -65,6 +66,11 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
 
         disableDrawerGesture();
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
     
     @Override
     public void onResume() {
@@ -72,20 +78,17 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
         showProgressDialog(R.string.loading_rentals);
         final Bundle extras = getIntent().getExtras();
 
-        if( extras == null ) {
-            presenter.getRentalOfferings();
-        }
-
-        else {
-
-            Handler handler = new Handler(Looper.getMainLooper());
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (extras == null) {
+                    presenter.getRentalOfferings();
+                } else {
                     presenter.getRentalOfferings(extras);
                 }
-            },3000);
-        }
+            }
+        }, 3000);
     }
 
     @Override
@@ -116,5 +119,11 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
 
     public void onEventMainThread(ShowProfileCreationEvent event) {
         Navigation.navigateActivity(this,ActivityCreateProfile.class);   
+    }
+
+    @Override
+    public void onError(String title, String message) {
+        hideProgressDialog();
+        OkAlert.show(this,title,message);
     }
 }

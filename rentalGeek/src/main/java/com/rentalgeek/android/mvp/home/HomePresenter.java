@@ -4,8 +4,8 @@ import android.util.Log;
 
 import android.os.Bundle;
 
-import com.google.android.gms.maps.model.LatLng;
-
+import com.rentalgeek.android.R;
+import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.api.ApiManager;
 
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
@@ -37,38 +37,59 @@ public class HomePresenter implements Presenter {
     @Override public void getRentalOfferings() {
         String url = ApiManager.getPropertySearchUrl();
         String token = AppPreferences.getAuthToken();
-            
-        GlobalFunctions.getApiCall(null,url,token,new GeekHttpResponseHandler() {
-            @Override public void onStart() {}
 
-            @Override public void onFinish() {}
+        System.out.println(url);
+        System.out.println(token);
 
-            @Override public void onSuccess(String response) {
-                    
+        GlobalFunctions.getApiCall(null, url, token, new GeekHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                System.out.println("onStart called.");
+            }
+
+            @Override
+            public void onFinish() {
+                System.out.println("onFinish called.");
+            }
+
+            @Override
+            public void onSuccess(String response) {
+
                 try {
-                        JSONObject json = new JSONObject(response);
-                        JSONArray rentalOfferings = json.getJSONArray("rental_offerings");
+                    System.out.println(response);
 
-                        Rental[] rentals = GeekGson.getInstance().fromJson(rentalOfferings.toString(),Rental[].class);
-                        
-                        if( rentals != null && rentals.length > 0 ) {
- 
-                            System.out.println(String.format("Found %d rentals based on query.",rentals.length));
+                    JSONObject json = new JSONObject(response);
+                    JSONArray rentalOfferings = json.getJSONArray("rental_offerings");
 
-                            for(Rental rental : rentals) {
-                                RentalCache.getInstance().add(rental);
-                            }
+                    Rental[] rentals = GeekGson.getInstance().fromJson(rentalOfferings.toString(), Rental[].class);
 
-                            homeView.setRentals(rentals);
+                    if (rentals != null && rentals.length > 0) {
+
+                        System.out.println(String.format("Found %d rentals based on query.", rentals.length));
+
+                        for (Rental rental : rentals) {
+                            RentalCache.getInstance().add(rental);
                         }
-                    }
 
-                    catch(Exception e) {
-                        Log.e(TAG,e.getMessage());
+                        homeView.setRentals(rentals);
                     }
+                } catch (Exception e) {
+                    Log.e(TAG, e.getMessage());
                 }
+            }
 
-            @Override public void onAuthenticationFailed() {}
+            @Override
+            public void onAuthenticationFailed() {
+                System.out.println("Authentication failed.");
+            }
+
+            @Override
+            public void onFailure(Throwable throwable, String response) {
+                System.out.println(String.format("Error: %s", response));
+                String title = RentalGeekApplication.getResourceString(R.string.home);
+                String message = RentalGeekApplication.getResourceString(R.string.oops);
+                homeView.onError(title, message);
+            }
         });
     }
 
@@ -92,6 +113,11 @@ public class HomePresenter implements Presenter {
             homeView.setRentals(rentals);
         }
 
-        homeView.setRentals(rentals);
+        else {
+            String title = RentalGeekApplication.getResourceString(R.string.home);
+            String message = RentalGeekApplication.getResourceString(R.string.oops);
+            homeView.onError(title,message);
+        }
+
     }
 }

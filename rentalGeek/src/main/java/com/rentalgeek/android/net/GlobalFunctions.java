@@ -2,6 +2,7 @@ package com.rentalgeek.android.net;
 
 
 import android.content.Context;
+import android.os.Looper;
 import android.text.TextUtils;
 
 import com.loopj.android.http.AsyncHttpClient;

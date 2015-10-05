@@ -121,6 +121,8 @@ If you agree to share a Credit Report, we will also use this information to shar
     <string name="geek_score_wait_thanks">Thank you for your patience</string>
     <string name="your_geek_score">Your Geek Score&#8482;</string>
 
+    <string name="oops">Oops, something went wrong</string>
+
     <!--cosigner app-->
     <string-array name="months_array">
         <item> </item>

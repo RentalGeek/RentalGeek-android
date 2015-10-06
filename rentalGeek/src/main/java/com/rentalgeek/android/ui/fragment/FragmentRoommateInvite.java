@@ -15,6 +15,7 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.ErrorObj;
+import com.rentalgeek.android.backend.RoommateInviteResponse;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
@@ -85,24 +86,24 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
 
     @OnClick(R.id.buttonAccept)
     void submitButtonAccept() {
-
+        inviteAcceptDecline(true, roommateInviteId);
     }
 
     @OnClick(R.id.buttonDecline)
     void submitButtonDecline() {
-
+        inviteAcceptDecline(false, roommateInviteId);
     }
 
 
-    protected void inviteAcceptDecline(boolean isAccept, String inviteId) {
+    protected void inviteAcceptDecline(boolean isAccept, int inviteId) {
 
         RequestParams params = new RequestParams();
 
-        params.put("roommate_invite[roommate_group_id]", String.valueOf(roommateGropuId));
+        params.put("roommate_invite[roommate_group_id]", String.valueOf(inviteId));
 
         try {
 
-            String url = isAccept ? ApiManager.getRoommateInviteAccept(inviteId) : ApiManager.getRoommateInviteDeny(inviteId);
+            String url = isAccept ? ApiManager.getRoommateInviteAccept(String.valueOf(inviteId)) : ApiManager.getRoommateInviteDeny(String.valueOf(inviteId));
 
             GlobalFunctions.postApiCall(activity, url, params, AppPreferences.getAuthToken(),
                     new GeekHttpResponseHandler() {
@@ -120,11 +121,13 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
                         @Override
                         public void onSuccess(String content) {
                             try {
-//                                RoommateInviteResponse roommateInvite = (new Gson()).fromJson(content, RoommateInviteResponse.class);
-//                                if (roommateInvite != null) {
-//                                    bindRoommateInvite(roommateInvite.roommate_invite);
-//                                    //clearFormValues();
-//                                }
+                                String response = content;
+                                AppLogger.log(TAG, "response:"+content);
+
+                                RoommateInviteResponse roommateInvite = (new Gson()).fromJson(content, RoommateInviteResponse.class);
+                                if (roommateInvite != null) {
+                                    activity.finish();
+                                }
                             } catch (Exception e) {
                                 AppLogger.log(TAG, e);
                             }

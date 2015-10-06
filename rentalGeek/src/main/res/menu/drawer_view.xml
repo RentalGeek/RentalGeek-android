@@ -8,8 +8,8 @@
             android:id="@+id/favorites"
             android:title="@string/favorites" />
         <item
-            android:id="@+id/properties"
-            android:title="@string/properties" />
+            android:id="@+id/applications"
+            android:title="@string/applications" />
         <item
             android:id="@+id/roommates"
             android:title="@string/roommates" />

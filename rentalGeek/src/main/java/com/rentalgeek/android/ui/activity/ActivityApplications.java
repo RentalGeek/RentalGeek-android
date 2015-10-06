@@ -5,18 +5,18 @@ import android.support.v4.view.ViewPager;
 
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.ui.adapter.PageAdapter;
-import com.rentalgeek.android.ui.fragment.FragmentApprovedProperties;
-import com.rentalgeek.android.ui.fragment.FragmentPendingProperties;
+import com.rentalgeek.android.ui.fragment.FragmentApprovedApplications;
+import com.rentalgeek.android.ui.fragment.FragmentPendingApplications;
 
 /**
  * Created by rajohns on 9/12/15.
  *
  */
-public class ActivityProperties extends GeekBaseActivity implements Container<ViewPager> {
+public class ActivityApplications extends GeekBaseActivity implements Container<ViewPager> {
 
     ViewPager viewPager;
 
-    public ActivityProperties() {
+    public ActivityApplications() {
         super(true, true, true);
     }
 
@@ -28,7 +28,7 @@ public class ActivityProperties extends GeekBaseActivity implements Container<Vi
         inflateStub(R.id.stub, R.layout.swipe_pager_container);
         setTabs(true);
         setupNavigation();
-        setMenuItemSelected(R.id.properties);
+        setMenuItemSelected(R.id.applications);
 
         viewPager = (ViewPager)findViewById(R.id.container);
         if (viewPager != null) {
@@ -40,8 +40,8 @@ public class ActivityProperties extends GeekBaseActivity implements Container<Vi
     @Override
     public void setupContainer(ViewPager container) {
         PageAdapter adapter = new PageAdapter(getSupportFragmentManager());
-        adapter.addFragment(new FragmentPendingProperties(), "Applied/Pending");
-        adapter.addFragment(new FragmentApprovedProperties(), "Approved");
+        adapter.addFragment(new FragmentPendingApplications(), "Applied/Pending");
+        adapter.addFragment(new FragmentApprovedApplications(), "Approved");
         container.setAdapter(adapter);
     }
 

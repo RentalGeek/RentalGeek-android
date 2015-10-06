@@ -18,7 +18,7 @@ import com.rentalgeek.android.pojos.SignatureUrlDTO;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityCosignerList;
 import com.rentalgeek.android.ui.activity.ActivityHome;
-import com.rentalgeek.android.ui.activity.ActivityProperties;
+import com.rentalgeek.android.ui.activity.ActivityApplications;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 
 import butterknife.ButterKnife;
@@ -122,7 +122,7 @@ public class FragmentSignLease  extends GeekBaseFragment {
         switch (requestingFragment) {
             case FragmentBaseApplicationList.PENDING_PROPERTIES:
             case FragmentBaseApplicationList.APPROVED_PROPERTIES:
-                Navigation.navigateActivity(getActivity(), ActivityProperties.class);
+                Navigation.navigateActivity(getActivity(), ActivityApplications.class);
                 break;
             case FragmentBaseApplicationList.COSIGNER_PROPERTIES:
                 Navigation.navigateActivity(getActivity(), ActivityCosignerList.class);

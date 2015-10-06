@@ -285,8 +285,8 @@ public class GeekBaseActivity extends AppCompatActivity {
                     case R.id.favorites:
                         Navigation.navigateActivity(activity, ActivityFavoriteRentals.class);
                         return true;
-                    case R.id.properties:
-                        Navigation.navigateActivity(activity, ActivityProperties.class);
+                    case R.id.applications:
+                        Navigation.navigateActivity(activity, ActivityApplications.class);
                         return true;
                     case R.id.payment:
                         Navigation.navigateActivity(activity, ActivityPayments.class);
@@ -320,7 +320,7 @@ public class GeekBaseActivity extends AppCompatActivity {
 
         //Hide menu items for all things in new release to create a v1 play store build
         int[] v2MenuItems = {
-                R.id.properties,
+                R.id.applications,
                 R.id.roommates,
                 R.id.payment,
                 R.id.cosigner,

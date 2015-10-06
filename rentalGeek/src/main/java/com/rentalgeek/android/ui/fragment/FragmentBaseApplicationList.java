@@ -115,8 +115,6 @@ public class FragmentBaseApplicationList extends GeekBaseFragment {
     private ApplicationItem itemFromType(ApplicationDTO applicationDTO) {
         if (this instanceof FragmentCosignerProperties) {
             return new CosignItem(applicationDTO);
-        } else if (this instanceof FragmentPendingProperties) {
-            return new ApplicationItem(applicationDTO);
         } else {
             return new ApplicationItem(applicationDTO);
         }

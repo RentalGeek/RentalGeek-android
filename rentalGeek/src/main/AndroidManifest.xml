@@ -123,8 +123,8 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".ui.activity.ActivityProperties"
-            android:label="Properties"
+            android:name=".ui.activity.ActivityApplications"
+            android:label="@string/applications"
             android:screenOrientation="portrait">
         </activity>
         <activity

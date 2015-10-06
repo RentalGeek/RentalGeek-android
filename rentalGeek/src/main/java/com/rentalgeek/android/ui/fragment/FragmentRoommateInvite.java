@@ -20,6 +20,7 @@ import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.Common;
+import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 
 import butterknife.ButterKnife;
@@ -127,6 +128,8 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
                                 RoommateInviteResponse roommateInvite = (new Gson()).fromJson(content, RoommateInviteResponse.class);
                                 if (roommateInvite != null) {
                                     activity.finish();
+                                } else {
+                                    DialogManager.showCrouton(activity, "Error with invite.");
                                 }
                             } catch (Exception e) {
                                 AppLogger.log(TAG, e);

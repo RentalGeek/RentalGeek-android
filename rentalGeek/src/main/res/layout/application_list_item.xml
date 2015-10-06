@@ -48,12 +48,13 @@
 
                     <!--left text portion of top imageview-->
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="15dp"
                         android:layout_marginBottom="15dp"
+                        android:layout_weight="0.7"
                         >
 
                         <TextView
@@ -89,8 +90,9 @@
                     <!--cost text view-->
                     <TextView
                         android:id="@+id/cost_text_view"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
                         android:layout_gravity="center_vertical"
                         android:gravity="right"
                         tools:text="$920"

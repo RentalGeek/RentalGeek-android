@@ -43,7 +43,7 @@ public class PropertyContactInfo {
     }
 
     public String getFormattedPhoneNumber() {
-        if (phoneNumber == null) {
+        if (phoneNumber == null || phoneNumber.equals("")) {
             return "Phone number: N/A";
         }
 

@@ -18,6 +18,7 @@ import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.ErrorObj;
 import com.rentalgeek.android.backend.RoommateGroupResponse;
 import com.rentalgeek.android.backend.RoommateInviteResponse;
+import com.rentalgeek.android.backend.RoommateInvites;
 import com.rentalgeek.android.backend.model.RoommateGroup;
 import com.rentalgeek.android.backend.model.RoommateInvite;
 import com.rentalgeek.android.logging.AppLogger;
@@ -142,6 +143,7 @@ public class FragmentRoommates  extends GeekBaseFragment {
         } else {
            // DialogManager.showCrouton(activity, "You don't belong to a Roommate Group");
             //activity.finish();
+            fetchRoommateInvites();
             layoutRoommates.setVisibility(View.GONE);
         }
 
@@ -178,21 +180,23 @@ public class FragmentRoommates  extends GeekBaseFragment {
 
         layoutRoommateInvites.removeAllViews();
 
-        int roommateInviteId = -1;
+        int inviteIdx = -1;
 
         if (!ListUtils.isNullOrEmpty(invites)) {
 
             currentRoommateCount = invites.size();
 
             int currentUserId = Integer.valueOf(SessionManager.Instance.getCurrentUser().id);
+            String currentUserEmail = SessionManager.Instance.getCurrentUser().email;
 
             for (int i=0; i<invites.size(); i++) {
 
                 RoommateInvite invite = invites.get(i);
 
-                if (!invite.accepted && currentUserId == invite.invited_id && !isInviteNotified) {
+                if (!invite.accepted && invite.invited_name.equals(currentUserEmail) && !isInviteNotified) {
                     isInviteNotified = true;
-                    roommateInviteId = invites.get(i).id;
+                    inviteIdx = i;
+                    //roommateInviteId = invites.get(i).id;
                     //break;
                 }
 
@@ -200,10 +204,13 @@ public class FragmentRoommates  extends GeekBaseFragment {
                     bindRoommateInvite(invites.get(i));
             }
 
-            if (roommateInviteId >= 0) {
+            if (inviteIdx >= 0) {
 
                 Bundle args = new Bundle();
-                args.putInt(Common.KEY_ROOMMATE_INVITE_ID, roommateInviteId);
+                args.putInt(Common.KEY_ROOMMATE_GROUP_ID, invites.get(inviteIdx).roommate_group_id);
+                args.putInt(Common.KEY_ROOMMATE_INVITE_ID, invites.get(inviteIdx).id);
+                args.putInt(Common.KEY_ROOMMATE_INVITER_ID, invites.get(inviteIdx).inviter_id);
+                args.putString(Common.KEY_ROOMMATE_INVITER_NAME, invites.get(inviteIdx).inviter_name);
                 Navigation.navigateActivity(activity, ActivityRoommateInvite.class, args, false);
             }
         }
@@ -400,6 +407,49 @@ public class FragmentRoommates  extends GeekBaseFragment {
                     @Override
                     public void onAuthenticationFailed() {
 
+                    }
+                });
+    }
+
+    protected void fetchRoommateInvites() {
+        String url =  ApiManager.getRoommateInvites(null);
+        GlobalFunctions.getApiCall(getActivity(), url, AppPreferences.getAuthToken(),
+                new GeekHttpResponseHandler() {
+
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        showProgressDialog(R.string.dialog_msg_loading);
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        hideProgressDialog();
+                    }
+
+                    @Override
+                    public void onSuccess(String content) {
+                        super.onSuccess(content);
+                        try {
+                            RoommateInvites roommateInvites = (new Gson()).fromJson(content, RoommateInvites.class);
+                            if (roommateInvites != null) {
+                                bindRoommateInvites(roommateInvites.roommate_invites);
+                            }
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
+                        }
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed() {
+                        super.onAuthenticationFailed();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable ex, String failureResponse) {
+                        super.onFailure(ex, failureResponse);
+                        DialogManager.showCrouton(activity, failureResponse);
                     }
                 });
     }

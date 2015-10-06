@@ -3,9 +3,6 @@ package com.rentalgeek.android.api;
 
 import android.text.TextUtils;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 public class ApiManager {
 
     // Default host
@@ -166,6 +163,18 @@ public class ApiManager {
         String url = API_HOST + "/roommate_invites";
         if (TextUtils.isEmpty(roommate_group_id)) return url;
         return String.format("%s/%s", url, roommate_group_id);
+    }
+
+    public static String getRoommateInviteAccept(String inviteId) {
+        if (TextUtils.isEmpty(inviteId)) return null;
+        String url = API_HOST + "/roommate_invites";
+        return String.format("%s/%s/accept", url, inviteId);
+    }
+
+    public static String getRoommateInviteDeny(String inviteId) {
+        if (TextUtils.isEmpty(inviteId)) return null;
+        String url = API_HOST + "/roommate_invites";
+        return String.format("%s/%s/deny", url, inviteId);
     }
 
     public static String getLease(String leaseId ) {

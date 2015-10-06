@@ -136,7 +136,7 @@ public class FragmentCosignerApp1 extends GeekBaseFragment {
         birthDay = daySpinner.getSelectedItem().toString();
         birthYear = yearEditText.getText().toString().trim();
         ssn = ssnEditText.getText().toString().trim();
-        maritalStatus = maritalStatusSpinner.getSelectedItem().toString();
+        maritalStatus = maritalStatusSpinner.getSelectedItem().toString().toLowerCase();
         phoneNumber = phoneNumberEditText.getText().toString().trim();
 
         if (firstName.equals("")) {

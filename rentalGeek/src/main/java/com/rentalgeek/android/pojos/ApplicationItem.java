@@ -130,7 +130,7 @@ public class ApplicationItem {
             if (roommate.lease_signed_on != null) {
                 return statusLine("Lease signed by", roommate.full_name);
             } else {
-                return statusLine("Awaiting signature from", roommate.full_name);
+                return statusLine("Awaiting signature from ", roommate.full_name);
             }
         } else {
             return statusLine("Approval from", roommate.full_name);
@@ -145,7 +145,7 @@ public class ApplicationItem {
             if (roommate.cosigner_lease_signed_on != null) {
                 return statusLine("Lease cosigned by", roommate.cosigner_full_name);
             } else {
-                return statusLine("Awaiting cosignature from", roommate.cosigner_full_name);
+                return statusLine("Awaiting cosignature from ", roommate.cosigner_full_name);
             }
         } else {
             return statusLine("Cosigner Approval", "");

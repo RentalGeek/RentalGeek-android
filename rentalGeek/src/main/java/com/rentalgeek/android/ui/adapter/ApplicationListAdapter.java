@@ -17,6 +17,7 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.pojos.ApplicationItem;
 import com.rentalgeek.android.pojos.RoommateDTO;
+import com.rentalgeek.android.ui.activity.ActivityRental;
 import com.rentalgeek.android.ui.activity.ActivitySignLease;
 import com.rentalgeek.android.ui.activity.ActivityViewLease;
 import com.rentalgeek.android.ui.fragment.FragmentBaseApplicationList;
@@ -43,7 +44,7 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
     private String requestingFragment;
     private FragmentCosignerProperties fragment;
 
-    public class ApplicationListViewHolder extends RecyclerView.ViewHolder {
+    public class ApplicationListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         @InjectView(R.id.top_image_layout) ImageView topImageLayout;
         @InjectView(R.id.street_address) TextView streetAddressTextView;
         @InjectView(R.id.city_state_zip_address) TextView cityStateZipAddressTextView;
@@ -63,6 +64,16 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
             ButterKnife.inject(this, view);
             context = signApproveButton.getContext();
             propertyEmailTextView.setPaintFlags(propertyEmailTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Context context = v.getContext();
+            ApplicationItem selectedItem = applicationItems.get(getAdapterPosition());
+            Intent intent = new Intent(context, ActivityRental.class);
+            intent.putExtra("RENTAL_ID", selectedItem.getRentalOfferingId().toString());
+            context.startActivity(intent);
         }
 
         public void setButtonVisibility(ApplicationItem item) {
@@ -214,6 +225,8 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
     public int getItemCount() {
         return applicationItems.size();
     }
+
+
 
     /**
      * Kind of a hack to prevent dynamic textviews from being re-added

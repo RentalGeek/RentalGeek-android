@@ -33,7 +33,6 @@ import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.ErrorObj;
-import com.rentalgeek.android.backend.ProfileIdFindBackend;
 import com.rentalgeek.android.backend.model.Profile;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
@@ -42,7 +41,6 @@ import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.Common;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityCreateProfile;
-import com.rentalgeek.android.ui.activity.ActivityGeekScore;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.activity.ActivityPayment;
 import com.rentalgeek.android.ui.adapter.PlaceAutocompleteAdapter;
@@ -55,6 +53,7 @@ import com.rentalgeek.android.ui.view.ProfileFieldTextWatcher;
 import com.rentalgeek.android.utils.ListUtils;
 
 import org.joda.time.DateTime;
+
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
@@ -115,6 +114,11 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
     @InjectView(R.id.drivers_license)
     public EditText drivers_license;
+
+    @Required(order = 3, message = "Please fill all mandatory fields")
+    @TextRule(minLength = 9, message = "Please enter a valid 9 digit SSN", order = 4)
+    @InjectView(R.id.ssn)
+    public EditText ssn;
 
     @InjectView(R.id.drivers_license_state)
     public Spinner drivers_license_state;
@@ -315,6 +319,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
         first_name.addTextChangedListener(new ProfileFieldTextWatcher(first_name));
         last_name.addTextChangedListener(new ProfileFieldTextWatcher(last_name));
+        ssn.addTextChangedListener(new ProfileFieldTextWatcher(ssn));
         drivers_license.addTextChangedListener(new ProfileFieldTextWatcher(drivers_license));
         phone_number.addTextChangedListener(new ProfileFieldTextWatcher(phone_number));
         pets_description.addTextChangedListener(new ProfileFieldTextWatcher(pets_description));

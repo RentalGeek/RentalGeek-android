@@ -51,6 +51,10 @@ import com.rentalgeek.android.ui.view.ProfileFieldDateChange;
 import com.rentalgeek.android.ui.view.ProfileFieldSelect;
 import com.rentalgeek.android.ui.view.ProfileFieldTextWatcher;
 import com.rentalgeek.android.utils.ListUtils;
+import com.rentalgeek.android.bus.AppEventBus;
+import com.rentalgeek.android.utils.GeekGson;
+import com.rentalgeek.android.api.SessionManager;
+import com.rentalgeek.android.bus.events.SubmitProfileEvent;
 
 import org.joda.time.DateTime;
 
@@ -433,8 +437,10 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
             Object value = profile.get(field);
 
-            if( value != null && ! value.toString().isEmpty() )
+            if( value != null && ! value.toString().isEmpty() ) {
+                System.out.println(String.format("%s : %s",field,value.toString()));
                 params.put(String.format(format,field),value.toString());
+            }
         }
 
         return params;
@@ -550,7 +556,9 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                         @Override
                         public void onSuccess(String content) {
                             try {
-                                System.out.println(content);
+                                Profile profile = GeekGson.getInstance().fromJson(content,Profile.class);
+                                SessionManager.Instance.setDefaultProfile(profile);
+                                AppEventBus.post(new SubmitProfileEvent());
                             } catch (Exception e) {
                                 AppLogger.log(TAG, e);
                             }
@@ -570,7 +578,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
         } catch (Exception e) {
             AppLogger.log(TAG, e);
         }
-
     }
 
     private void showAlert(String message) {

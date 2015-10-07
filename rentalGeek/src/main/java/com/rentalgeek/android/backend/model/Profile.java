@@ -2,7 +2,9 @@ package com.rentalgeek.android.backend.model;
 
 import java.lang.reflect.Field;
 import java.util.LinkedList;
+import java.util.Collections;
 import java.util.List;
+
 
 /**
  * Created by Alan R on 10/1/15.
@@ -65,6 +67,8 @@ public class Profile {
 
             field_names.add(field.getName());
         }
+        
+        Collections.sort(field_names);
 
         return field_names;
     }

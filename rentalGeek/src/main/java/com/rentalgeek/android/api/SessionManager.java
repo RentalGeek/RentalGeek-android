@@ -59,6 +59,14 @@ public enum SessionManager {
         }
         return null;
     }
+    
+    public void setDefaultProfile(Profile profile) {
+        if( profile == null )
+            return;
+        else {
+            profiles.set(0,profile);
+        }
+    }
 
     public Profile getDefaultProfile() {
         if ( profiles.isEmpty() ) {

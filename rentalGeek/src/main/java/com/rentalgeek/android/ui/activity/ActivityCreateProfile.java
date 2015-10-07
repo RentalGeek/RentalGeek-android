@@ -12,6 +12,8 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.ui.adapter.ProfileFormAdapter;
 import com.rentalgeek.android.ui.view.NonSwipeableViewPager;
+import com.rentalgeek.android.ui.Navigation;
+import com.rentalgeek.android.bus.events.SubmitProfileEvent;
 
 public class ActivityCreateProfile extends GeekBaseActivity implements Validator.ValidationListener {
 
@@ -68,5 +70,9 @@ public class ActivityCreateProfile extends GeekBaseActivity implements Validator
     @Override
     public void onValidationFailed(View view, Rule<?> rule) {
 
+    }
+
+    public void onEventMainThread(SubmitProfileEvent event) {
+        Navigation.navigateActivity(this,ActivityGeekScore.class);
     }
 }

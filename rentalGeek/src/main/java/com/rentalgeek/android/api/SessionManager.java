@@ -69,7 +69,8 @@ public enum SessionManager {
     }
 
     public boolean hasProfile() {
-        return getDefaultProfile() != null;
+        String id = (String) getDefaultProfile().get("id");
+        return ( id != null && ! id.isEmpty() );
     }
 
     public String getDefaultProfileId() {

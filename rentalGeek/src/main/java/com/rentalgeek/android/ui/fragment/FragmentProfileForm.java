@@ -342,7 +342,16 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
         DateTime now = DateTime.now();
 
         //Not sure why month index are wrong, subtract 1
-        dob.init(now.getYear(), now.getMonthOfYear()-1, now.getDayOfMonth(), new ProfileFieldDateChange(dob));
+        int maxYear = now.getYear() - 16;
+        int maxMonth = now.getMonthOfYear();
+        int maxDay = now.getDayOfMonth();
+
+        now = new DateTime(maxYear, maxMonth, maxDay, 0, 0);
+
+
+        dob.init(maxYear, maxMonth, maxDay, new ProfileFieldDateChange(dob));
+        dob.setMaxDate(now.getMillis());
+
         current_move_date.init(now.getYear(), now.getMonthOfYear()-1, now.getDayOfMonth(), new ProfileFieldDateChange(current_move_date));
         previous_move_in_date.init(now.getYear(), now.getMonthOfYear()-1, now.getDayOfMonth(), new ProfileFieldDateChange(previous_move_in_date));
         previous_move_out_date.init(now.getYear(), now.getMonthOfYear()-1, now.getDayOfMonth(), new ProfileFieldDateChange(previous_move_out_date));

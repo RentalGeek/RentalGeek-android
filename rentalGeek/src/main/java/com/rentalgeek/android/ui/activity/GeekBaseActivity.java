@@ -218,7 +218,7 @@ public class GeekBaseActivity extends AppCompatActivity {
 
         if (navigationView != null && drawerLayout != null) {
 
-            hideGeekVisionAndSettings();
+            //hideGeekVisionAndSettings();
             setVisibilityForCosignerMenuItem();
             setVisibilityForPaymentsMenuItem();
             setupDrawerListener();
@@ -324,7 +324,7 @@ public class GeekBaseActivity extends AppCompatActivity {
                 R.id.roommates,
                 R.id.payment,
                 R.id.cosigner,
-                R.id.settings
+//                R.id.settings
 //                R.id.geek_score,
 //                R.id.favorites,
 //                R.id.geek_vision,

@@ -34,7 +34,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    tools:text="Test"
+                    tools:text="324 Brookridge Drive\nManhattan, KS 66502"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -46,10 +46,12 @@
                     android:layout_below="@+id/address"
                     android:textColor="@color/white"
                     android:textSize="14sp"
+                    tools:text="3 BR, 2 Bath"
                     android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/star_image"
+                    tools:src="@drawable/star_outline"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_centerVertical="true"
@@ -65,6 +67,7 @@
                     android:layout_toLeftOf="@+id/star_image"
                     android:textColor="@color/white"
                     android:textSize="24sp"
+                    tools:text="$1450"
                     android:textStyle="bold" />
             </RelativeLayout>
 

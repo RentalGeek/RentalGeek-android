@@ -62,12 +62,13 @@ public class FragmentSignLease  extends GeekBaseFragment {
             @Override
             public void onSuccess(String content) {
                 super.onSuccess(content);
-                if (content == null) {
+                SignatureUrlDTO signatureUrlDTO = new Gson().fromJson(content, SignatureUrlDTO.class);
+
+                if (signatureUrlDTO.url == null) {
                     webView.setVisibility(View.GONE);
-                    errorTextView.setText("Landlord has not uploaded lease documents yet.");
+                    errorTextView.setText("The landlord hasn't uploaded the lease documents yet. Check back soon!");
                     errorTextView.setVisibility(View.VISIBLE);
                 } else {
-                    SignatureUrlDTO signatureUrlDTO = new Gson().fromJson(content, SignatureUrlDTO.class);
                     loadSignatureUrl(signatureUrlDTO.url);
                 }
             }

@@ -18,7 +18,6 @@ public class CosignItem extends ApplicationItem {
     @Override
     public String getButtonText() {
         if (Boolean.TRUE.equals(getAccepted())) {
-
             if (getSignedLeaseOn() != null) {
                 return VIEW_LEASE;
             } else {

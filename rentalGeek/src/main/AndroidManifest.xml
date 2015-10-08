@@ -90,7 +90,7 @@
             android:name=".ui.activity.ActivityCreateProfile"
             android:theme="@style/GeekFormTheme"
             android:label="Profile"
-            android:windowSoftInputMode="adjustNothing"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" >
         </activity>
         <activity

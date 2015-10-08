@@ -26,7 +26,47 @@ public class AppPreferences {
     public static final String PREF_AUTH_TOKEN = "PREF_AUTH_TOKEN";
     public static final String PREF_DATA_MARKETS = "PREF_DATA_MARKETS";
 
+    public static final String PREF_PROFILE = "PREF_PROFILE";
+    public static final String PREF_PROFILE_PAGE = "PREF_PROFILE_PAGE";
 
+    public static void putProfile(String profile) {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = tempSettings.edit();
+        editor.putString(PREF_PROFILE,profile);
+        editor.commit();
+        System.out.println("Saved profile");
+    }
+    
+    public static void putProfilePage(String profile_page) {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = tempSettings.edit();
+        editor.putString(PREF_PROFILE_PAGE,profile_page);
+        editor.commit();
+        System.out.println(String.format("Saved profile page %s",profile_page));
+    }
+
+    public static void removeProfile() {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = tempSettings.edit();
+        editor.remove(PREF_PROFILE);
+        editor.remove(PREF_PROFILE_PAGE);
+        editor.commit();
+    }
+
+    public static String getProfile() {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        return tempSettings.getString(PREF_PROFILE,null);
+    }
+
+    public static String getProfilePage() {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        return tempSettings.getString(PREF_PROFILE_PAGE,null);
+    }
 
     public static boolean getMessageServiceFirstRun() {
         final Context context = RentalGeekApplication.context;
@@ -43,7 +83,6 @@ public class AppPreferences {
     }
 
     public static boolean setUserName(String userName) {
-        //final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         final Context context = RentalGeekApplication.context;
         final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = tempSettings.edit();

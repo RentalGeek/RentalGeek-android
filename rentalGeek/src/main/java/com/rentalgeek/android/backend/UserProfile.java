@@ -7,7 +7,4 @@ import java.util.List;
 public class UserProfile {
 
 	public List<Profile> profiles;
-
-
-
 }

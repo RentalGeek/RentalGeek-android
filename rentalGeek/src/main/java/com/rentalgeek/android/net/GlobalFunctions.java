@@ -14,9 +14,12 @@ public class GlobalFunctions {
     static AsyncHttpClient client;
     static PersistentCookieStore mCookieStore;
 
+    private static final int TIMEOUT = 20000;
+
     protected static AsyncHttpClient getClient() {
         if (client == null) {
             client = new AsyncHttpClient();
+            client.setTimeout(TIMEOUT);
         }
         return client;
     }

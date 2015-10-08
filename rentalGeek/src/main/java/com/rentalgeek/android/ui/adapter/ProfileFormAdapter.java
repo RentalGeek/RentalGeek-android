@@ -23,7 +23,7 @@ public class ProfileFormAdapter extends FragmentPagerAdapter {
 		case 3:
 		case 4:
 		case 5:
-			return FragmentProfileForm.newInstance(position+1);
+			return FragmentProfileForm.newInstance(position);
 
 		default:
 			return null;

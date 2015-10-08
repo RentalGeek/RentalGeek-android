@@ -84,6 +84,7 @@ public class FragmentSettings extends GeekBaseFragment {
             @Override
             public void onSuccess(String content) {
                 super.onSuccess(content);
+                AppPreferences.removeProfile();
                 SessionManager.Instance.onUserLoggedOut();
                 Navigation.navigateActivity(getActivity(), ActivityLogin.class);
             }

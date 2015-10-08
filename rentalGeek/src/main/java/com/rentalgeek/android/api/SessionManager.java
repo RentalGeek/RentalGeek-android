@@ -9,6 +9,7 @@ import com.rentalgeek.android.backend.model.Profile;
 import com.rentalgeek.android.backend.model.User;
 import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.preference.AppPreferences;
+import com.rentalgeek.android.utils.GeekGson;
 import com.rentalgeek.android.utils.ListUtils;
 
 import java.util.List;
@@ -64,7 +65,13 @@ public enum SessionManager {
         if( profile == null )
             return;
         else {
-            profiles.set(0,profile);
+        
+            if ( profiles.isEmpty() ) {
+                profiles.add(0,profile);
+            }
+
+            else
+                profiles.set(0, profile);
         }
     }
 
@@ -91,6 +98,13 @@ public enum SessionManager {
 
         currentUser = login.user;
         profiles = login.profiles;
+
+        if( profiles.size() == 0 ) {
+            if( AppPreferences.getProfile() != null ) {
+                Profile profile = GeekGson.getInstance().fromJson(AppPreferences.getProfile(),Profile.class);
+                setDefaultProfile(profile);
+            }
+        }
 
         AppPreferences.setAuthToken(currentUser.authentication_token);
 

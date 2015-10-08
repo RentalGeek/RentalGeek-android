@@ -7,6 +7,7 @@ import android.view.Menu;
 
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.ui.fragment.FragmentSignIn;
+import com.rentalgeek.android.utils.Analytics;
 
 public class ActivityLogin extends GeekBaseActivity {
 
@@ -33,6 +34,8 @@ public class ActivityLogin extends GeekBaseActivity {
 
         setTabs(false);
         setupNavigation();
+
+        Analytics.instance(this).track("LoginActivity - onCreate called");
     }
 
     @Override

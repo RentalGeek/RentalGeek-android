@@ -88,4 +88,5 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.0.1'
     compile 'io.reactivex:rxjava:1.0.14'
     compile 'org.apache.commons:commons-lang3:3.4'
+    compile "com.mixpanel.android:mixpanel-android:4.6.4"
 }

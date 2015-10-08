@@ -2,6 +2,7 @@ package com.rentalgeek.android.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,7 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
     @InjectView(R.id.amenities) TextView amenities_textview;
     @InjectView(R.id.apply_btn) Button apply_btn;
     @InjectView(R.id.property_photo_gallery) LinearLayout propertyPhotoGallery;
+    @InjectView(R.id.view_below_image) LinearLayout viewBelowImage;
 
     private RentalPresenter presenter;
     private boolean fullView = false;
@@ -58,22 +60,20 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
         View view = inflater.inflate(R.layout.fragment_rental,container,false);
         ButterKnife.inject(this, view);
 
-        if( ! fullView ) {
+        if (!fullView) {
+            viewBelowImage.setVisibility(View.GONE);
             hide();
 
             //PreDraw guarantees measuring of screen size.
             view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                 @Override
                 public boolean onPreDraw() {
-
                     getView().getViewTreeObserver().removeOnPreDrawListener(this);
 
-
-                    int screenHeight = RentalGeekApplication.getScreenHeight();
+                    float imgHeight = getActivity().getResources().getDimension(R.dimen.img_height);
+                    int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, imgHeight, getActivity().getResources().getDisplayMetrics());
                     ViewGroup.LayoutParams params = getView().getLayoutParams();
-
-                    params.height = screenHeight/2;
-
+                    params.height = height;
                     getView().setLayoutParams(params);
 
                     return true;

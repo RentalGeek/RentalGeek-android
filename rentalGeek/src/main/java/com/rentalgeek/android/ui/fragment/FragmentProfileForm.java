@@ -331,7 +331,11 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
             if( profile.get("born_on") != null ) {
                 DateTime datetime = DateTime.parse((String)profile.get("born_on"));
-                dob.updateDate(datetime.getYear(), datetime.getMonthOfYear(), datetime.getDayOfMonth());
+                dob.updateDate(datetime.getYear(), datetime.getMonthOfYear()-1, datetime.getDayOfMonth());
+            }
+            
+            if( profile.get("ssn") != null ) {
+                ssn.setText((String)profile.get("ssn"));
             }
 
             if( profile.get("drivers_license_number") != null ) {
@@ -525,6 +529,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
             last_name.addTextChangedListener(new ProfileFieldTextWatcher(last_name));
             dob.init(maxYear, maxMonth, maxDay, new ProfileFieldDateChange(dob));
             dob.setMaxDate(now.getMillis());
+            ssn.addTextChangedListener(new ProfileFieldTextWatcher(ssn));
             drivers_license.addTextChangedListener(new ProfileFieldTextWatcher(drivers_license));
             drivers_license_state.setOnItemSelectedListener(new ProfileFieldSelect(drivers_license_state));
             drivers_license_state.setAdapter(states_adapter);
@@ -759,6 +764,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                         @Override
                         public void onSuccess(String content) {
                             try {
+                                System.out.println(content);
                                 Profile profile = GeekGson.getInstance().fromJson(content,Profile.class);
                                 SessionManager.Instance.setDefaultProfile(profile);
                                 AppPreferences.removeProfile();

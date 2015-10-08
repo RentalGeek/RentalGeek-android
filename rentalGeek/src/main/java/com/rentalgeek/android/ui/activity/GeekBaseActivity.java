@@ -277,7 +277,7 @@ public class GeekBaseActivity extends AppCompatActivity {
                         User user = SessionManager.Instance.getCurrentUser();
                         if (user == null)
                             Navigation.navigateActivity(activity, ActivityLogin.class, true);
-                        if (user.hasProfileId())
+                        if (SessionManager.Instance.hasProfile())
                             Navigation.navigateActivity(activity, ActivityGeekScore.class);
                         else
                             Navigation.navigateActivity(activity, ActivityCreateProfile.class);

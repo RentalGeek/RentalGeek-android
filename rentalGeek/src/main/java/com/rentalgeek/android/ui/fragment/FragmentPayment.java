@@ -239,7 +239,7 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
             SessionManager.Instance.setPayed(true);
 
 			if (!SessionManager.Instance.hasProfile()) {
-				profileAlert("Your payment is success. Please complete your profile in order to apply.");
+				profileAlert("Your payment was successful. Please complete your profile in order to apply.");
 				Navigation.navigateActivity(getActivity(), ActivityCreateProfile.class);
 			} else {
 				Navigation.navigateActivity(getActivity(), ActivityGeekScore.class);

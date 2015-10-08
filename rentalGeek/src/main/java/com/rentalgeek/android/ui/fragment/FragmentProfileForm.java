@@ -50,7 +50,9 @@ import com.rentalgeek.android.ui.view.ProfileFieldBinarySelect;
 import com.rentalgeek.android.ui.view.ProfileFieldDateChange;
 import com.rentalgeek.android.ui.view.ProfileFieldSelect;
 import com.rentalgeek.android.ui.view.ProfileFieldTextWatcher;
+import com.rentalgeek.android.utils.ErrorParser;
 import com.rentalgeek.android.utils.ListUtils;
+import com.rentalgeek.android.utils.OkAlert;
 
 import org.joda.time.DateTime;
 
@@ -550,7 +552,9 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                         @Override
                         public void onFailure(Throwable ex, String failureResponse) {
                             super.onFailure(ex, failureResponse);
-                            error(failureResponse, 0);
+                            //error(failureResponse, 0);
+                            ErrorParser.ErrorMsg errorMsg = new ErrorParser().humanizedErrorMsg(failureResponse);
+                            OkAlert.show(getActivity(), errorMsg.title, errorMsg.msg);
                         }
 
                         @Override

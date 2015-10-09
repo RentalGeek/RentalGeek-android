@@ -30,8 +30,7 @@
             android:gravity="center"
             tools:text="@string/geek_score_tm"
             android:textColor="@color/white"
-            android:lineSpacingExtra="-10dp"
-            android:textSize="40sp"/>
+            android:textSize="35sp"/>
 
         <TextView
             android:id="@+id/first_text_view"

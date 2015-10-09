@@ -65,7 +65,9 @@ public enum SessionManager {
         if( profile == null )
             return;
         else {
-        
+            
+            System.out.println(profile);
+
             if ( profiles.isEmpty() ) {
                 profiles.add(0,profile);
             }

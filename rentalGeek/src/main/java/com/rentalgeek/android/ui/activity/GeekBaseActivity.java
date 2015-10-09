@@ -218,7 +218,7 @@ public class GeekBaseActivity extends AppCompatActivity {
 
         if (navigationView != null && drawerLayout != null) {
             hideMenuItem(R.id.geek_vision);
-            hideMenuItem(R.id.settings);
+            //hideMenuItem(R.id.settings);
             setVisibilityForCosignerMenuItem();
             setVisibilityForMyCosignerMenuItem();
             setVisibilityForPaymentsMenuItem();

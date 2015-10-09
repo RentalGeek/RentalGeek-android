@@ -58,6 +58,8 @@ import com.rentalgeek.android.utils.OkAlert;
 
 import org.joda.time.DateTime;
 
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
@@ -764,8 +766,9 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                         @Override
                         public void onSuccess(String content) {
                             try {
-                                System.out.println(content);
-                                Profile profile = GeekGson.getInstance().fromJson(content,Profile.class);
+                                JSONObject json = new JSONObject(content);
+                                json = json.getJSONObject("profile");
+                                Profile profile = GeekGson.getInstance().fromJson(json.toString(),Profile.class);
                                 SessionManager.Instance.setDefaultProfile(profile);
                                 AppPreferences.removeProfile();
                                 AppEventBus.post(new SubmitProfileEvent());

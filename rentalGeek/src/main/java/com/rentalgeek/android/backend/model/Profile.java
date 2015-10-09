@@ -119,4 +119,8 @@ public class Profile {
             System.out.println("Illegal access to class");
         }
     }
+
+    public String toString() {
+        return String.format("Profile with id %s", id);
+    }
 }

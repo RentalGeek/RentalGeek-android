@@ -217,8 +217,8 @@ public class GeekBaseActivity extends AppCompatActivity {
         navigationView = (NavigationView) findViewById(R.id.navigationView);
 
         if (navigationView != null && drawerLayout != null) {
-
-            //hideGeekVisionAndSettings();
+            hideMenuItem(R.id.geek_vision);
+            hideMenuItem(R.id.settings);
             setVisibilityForCosignerMenuItem();
             setVisibilityForPaymentsMenuItem();
             setupDrawerListener();
@@ -246,7 +246,7 @@ public class GeekBaseActivity extends AppCompatActivity {
             @Override
             public void onDrawerOpened(View drawerView) {
                 if (SessionManager.Instance.getCurrentUser() != null && !SessionManager.Instance.getCurrentUser().is_cosigner) {
-                    hideCosignerMenuItem();
+                    hideMenuItem(R.id.cosigner);
                 }
             }
 
@@ -345,7 +345,7 @@ public class GeekBaseActivity extends AppCompatActivity {
 
     private void setVisibilityForCosignerMenuItem() {
         if (SessionManager.Instance.getCurrentUser() != null && !SessionManager.Instance.getCurrentUser().is_cosigner) {
-            hideCosignerMenuItem();
+            hideMenuItem(R.id.cosigner);
         }
     }
 
@@ -361,29 +361,13 @@ public class GeekBaseActivity extends AppCompatActivity {
 
     }
 
-    protected void hideCosignerMenuItem() {
+    protected void hideMenuItem(int menuItemId) {
         Menu menu = navigationView.getMenu();
 
         if (menu != null) {
-            MenuItem cosignerItem = menu.findItem(R.id.cosigner);
-            if (cosignerItem != null) {
-                cosignerItem.setVisible(false);
-            }
-        }
-    }
-
-    protected void hideGeekVisionAndSettings() {
-        Menu menu = navigationView.getMenu();
-
-        if (menu != null) {
-            MenuItem menuItem = menu.findItem(R.id.geek_vision);
+            MenuItem menuItem = menu.findItem(menuItemId);
             if (menuItem != null) {
                 menuItem.setVisible(false);
-            }
-
-            MenuItem settingsMenuItem = menu.findItem(R.id.settings);
-            if (settingsMenuItem != null) {
-                settingsMenuItem.setVisible(false);
             }
         }
     }

@@ -71,9 +71,15 @@ public class FragmentRoommates  extends GeekBaseFragment {
 
         View v = inflater.inflate(R.layout.fragment_roommates, container, false);
         ButterKnife.inject(this, v);
-        fetchGroups();
+        //fetchGroups();
         return v;
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        fetchGroups();
     }
 
     @OnClick(R.id.buttonAddRoommate)
@@ -200,7 +206,7 @@ public class FragmentRoommates  extends GeekBaseFragment {
                     //break;
                 }
 
-                //if (currentUserId != invite.invited_id)
+                if (currentUserId != invite.invited_id)
                     bindRoommateInvite(invites.get(i));
             }
 
@@ -330,7 +336,8 @@ public class FragmentRoommates  extends GeekBaseFragment {
                     public void onSuccess(String content) {
                         try {
                             RoommateInviteResponse roommateInvite = (new Gson()).fromJson(content, RoommateInviteResponse.class);
-                            if (roommateInvite != null) {
+                            if (roommateInvite != null && roommateInvite.roommate_invite != null) {
+                                SessionManager.Instance.getCurrentUser().setRoommateGroupId(String.valueOf(roommateInvite.roommate_invite.roommate_group_id));
                                 bindRoommateInvite(roommateInvite.roommate_invite);
                                 clearFormValues();
                             }

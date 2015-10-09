@@ -14,6 +14,7 @@ import com.loopj.android.http.RequestParams;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.api.ApiManager;
+import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.ErrorObj;
 import com.rentalgeek.android.backend.RoommateInviteResponse;
 import com.rentalgeek.android.logging.AppLogger;
@@ -126,7 +127,8 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
                                 AppLogger.log(TAG, "response:"+content);
 
                                 RoommateInviteResponse roommateInvite = (new Gson()).fromJson(content, RoommateInviteResponse.class);
-                                if (roommateInvite != null) {
+                                if (roommateInvite != null && roommateInvite.roommate_invite != null) {
+                                    SessionManager.Instance.getCurrentUser().setRoommateGroupId(String.valueOf(roommateInvite.roommate_invite.roommate_group_id));
                                     activity.finish();
                                 } else {
                                     DialogManager.showCrouton(activity, "Error with invite.");

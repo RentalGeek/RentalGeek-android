@@ -31,4 +31,8 @@ public class User {
         return !TextUtils.isEmpty(profile_id);
     }
 
+    public void setRoommateGroupId(String roommateGroupId) {
+        if (TextUtils.isEmpty(roommate_group_id))
+            roommate_group_id = roommateGroupId;
+    }
 }

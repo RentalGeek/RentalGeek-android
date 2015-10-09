@@ -20,6 +20,8 @@ public class ActivityRoommateInvite extends GeekBaseActivity {
 
         setContentView(R.layout.activity_with_fragment);
 
+        setupNavigation();
+
         if (savedInstanceState == null) {
             FragmentRoommateInvite fragment = new FragmentRoommateInvite();
             Bundle args = getIntent().getExtras();

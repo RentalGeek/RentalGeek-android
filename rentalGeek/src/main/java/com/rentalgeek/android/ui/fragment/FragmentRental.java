@@ -24,6 +24,7 @@ import com.rentalgeek.android.mvp.rental.RentalView;
 import com.rentalgeek.android.pojos.PhotoDTO;
 import com.rentalgeek.android.pojos.Rental;
 import com.rentalgeek.android.ui.activity.ActivityPropertyPhoto;
+import com.rentalgeek.android.utils.ResponseParser;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -175,6 +176,7 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
         StringBuilder amenities = new StringBuilder();
 
         for(String amenity : rental.getAmenities() ) {
+            amenity = ResponseParser.humanize(amenity);
             amenities.append(String.format("\u2022 %s\n",amenity));
         }
 

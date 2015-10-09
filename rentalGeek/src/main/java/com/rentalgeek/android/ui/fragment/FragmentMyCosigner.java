@@ -22,7 +22,7 @@ import com.rentalgeek.android.pojos.CosignerInvitesArrayRootDTO;
 import com.rentalgeek.android.ui.activity.ActivityMyCosigner;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.ui.view.CosignerInviteRow;
-import com.rentalgeek.android.utils.ErrorParser;
+import com.rentalgeek.android.utils.ResponseParser;
 import com.rentalgeek.android.utils.OkAlert;
 
 import java.util.ArrayList;
@@ -109,7 +109,7 @@ public class FragmentMyCosigner extends GeekBaseFragment {
                 @Override
                 public void onFailure(Throwable ex, String failureResponse) {
                     super.onFailure(ex, failureResponse);
-                    ErrorParser.ErrorMsg errorMsg = new ErrorParser().humanizedErrorMsg(failureResponse);
+                    ResponseParser.ErrorMsg errorMsg = new ResponseParser().humanizedErrorMsg(failureResponse);
                     OkAlert.show(getActivity(), errorMsg.title, errorMsg.msg);
                 }
             });
@@ -194,7 +194,7 @@ public class FragmentMyCosigner extends GeekBaseFragment {
             @Override
             public void onFailure(Throwable ex, String failureResponse) {
                 super.onFailure(ex, failureResponse);
-                ErrorParser.ErrorMsg errorMsg = new ErrorParser().humanizedErrorMsg(failureResponse);
+                ResponseParser.ErrorMsg errorMsg = new ResponseParser().humanizedErrorMsg(failureResponse);
                 OkAlert.show(getActivity(), errorMsg.title, errorMsg.msg);
             }
         });

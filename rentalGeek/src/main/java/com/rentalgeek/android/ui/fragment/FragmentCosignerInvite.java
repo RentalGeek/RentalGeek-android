@@ -16,7 +16,7 @@ import com.rentalgeek.android.pojos.CosignerInviteDTO;
 import com.rentalgeek.android.pojos.CosignerInviteSingleRootDTO;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.CosignerDestinationLogic;
-import com.rentalgeek.android.utils.ErrorParser;
+import com.rentalgeek.android.utils.ResponseParser;
 import com.rentalgeek.android.utils.OkAlert;
 
 import butterknife.ButterKnife;
@@ -67,7 +67,7 @@ public class FragmentCosignerInvite extends GeekBaseFragment {
             @Override
             public void onFailure(Throwable ex, String failureResponse) {
                 super.onFailure(ex, failureResponse);
-                ErrorParser.ErrorMsg errorMsg = new ErrorParser().humanizedErrorMsg(failureResponse);
+                ResponseParser.ErrorMsg errorMsg = new ResponseParser().humanizedErrorMsg(failureResponse);
                 OkAlert.show(getActivity(), errorMsg.title, errorMsg.msg);
             }
         });

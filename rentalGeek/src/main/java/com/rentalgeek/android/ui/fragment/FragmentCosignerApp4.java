@@ -15,7 +15,7 @@ import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.CosignerDestinationLogic;
-import com.rentalgeek.android.utils.ErrorParser;
+import com.rentalgeek.android.utils.ResponseParser;
 import com.rentalgeek.android.utils.OkAlert;
 import com.rentalgeek.android.utils.YesNoCheckChangedListener;
 
@@ -83,7 +83,7 @@ public class FragmentCosignerApp4 extends GeekBaseFragment {
                 @Override
                 public void onFailure(Throwable ex, String failureResponse) {
                     super.onFailure(ex, failureResponse);
-                    ErrorParser.ErrorMsg errorMsg = new ErrorParser().humanizedErrorMsg(failureResponse);
+                    ResponseParser.ErrorMsg errorMsg = new ResponseParser().humanizedErrorMsg(failureResponse);
                     OkAlert.show(getActivity(), errorMsg.title, errorMsg.msg);
                 }
             });

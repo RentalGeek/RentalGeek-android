@@ -9,7 +9,7 @@ import org.json.JSONObject;
  * Created by rajohns on 9/29/15.
  *
  */
-public class ErrorParser {
+public class ResponseParser {
 
     public ErrorMsg humanizedErrorMsg(String response) {
         String key = "";
@@ -34,9 +34,9 @@ public class ErrorParser {
     }
 
 
-    private String humanize(String str) {
-        str = WordUtils.capitalize(str);
-        return str.replace("_", " ");
+    public static String humanize(String str) {
+        str = str.replace("_", " ");
+        return WordUtils.capitalize(str);
     }
 
     public class ErrorMsg {

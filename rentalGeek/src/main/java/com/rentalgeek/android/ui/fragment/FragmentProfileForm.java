@@ -49,7 +49,7 @@ import com.rentalgeek.android.ui.view.ProfileFieldBinarySelect;
 import com.rentalgeek.android.ui.view.ProfileFieldDateChange;
 import com.rentalgeek.android.ui.view.ProfileFieldSelect;
 import com.rentalgeek.android.ui.view.ProfileFieldTextWatcher;
-import com.rentalgeek.android.utils.ErrorParser;
+import com.rentalgeek.android.utils.ResponseParser;
 import com.rentalgeek.android.utils.ListUtils;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.utils.GeekGson;
@@ -779,7 +779,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                             System.out.println(failureResponse);
                             super.onFailure(ex, failureResponse);
                             //error(failureResponse, 0);
-                            ErrorParser.ErrorMsg errorMsg = new ErrorParser().humanizedErrorMsg(failureResponse);
+                            ResponseParser.ErrorMsg errorMsg = new ResponseParser().humanizedErrorMsg(failureResponse);
                             OkAlert.show(getActivity(), errorMsg.title, errorMsg.msg);
                         }
 

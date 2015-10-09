@@ -133,7 +133,7 @@ public class ApplicationItem {
                 return statusLine("Awaiting signature from ", roommate.full_name);
             }
         } else {
-            return statusLine("Approval from", roommate.full_name);
+            return statusLine("", roommate.full_name);
         }
 
     }

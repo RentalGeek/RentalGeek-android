@@ -33,7 +33,7 @@ public class FragmentTutorialRoommates extends Fragment {
         View v=inflater.inflate(R.layout.fragment_tutorial_base, container,false);
         ButterKnife.inject(this, v);
 
-        backgroundLayout.setBackground(getActivity().getDrawable(R.drawable.tutorial_roommates_bg));
+        backgroundLayout.setBackgroundResource(R.drawable.tutorial_roommates_bg);
         titleTextView.setText("Invite\nRoommates");
         firstTextView.setText("Cool, right?");
         secondTextView.setText("Invite your roommates to\napply too! Do it all from right\ninside the app so it's not\nsuch a pain. Easy, digital,\nand fast, right?");

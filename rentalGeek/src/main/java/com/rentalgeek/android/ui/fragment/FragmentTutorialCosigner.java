@@ -33,7 +33,7 @@ public class FragmentTutorialCosigner extends Fragment {
         View v=inflater.inflate(R.layout.fragment_tutorial_base, container,false);
         ButterKnife.inject(this, v);
 
-        backgroundLayout.setBackground(getActivity().getDrawable(R.drawable.tutorial_cosigner_bg));
+        backgroundLayout.setBackgroundResource(R.drawable.tutorial_cosigner_bg);
         titleTextView.setText("Invite\nCosigner");
         firstTextView.setText("We thought of that too!");
         secondTextView.setText("Send a request to your co-\nsigner right from the app.\nThey can use the app to fill\nout their application and\ncheck on the status.");

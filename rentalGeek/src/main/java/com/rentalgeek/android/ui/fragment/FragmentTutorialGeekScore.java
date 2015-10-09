@@ -29,7 +29,7 @@ public class FragmentTutorialGeekScore extends Fragment {
 		View v=inflater.inflate(R.layout.fragment_tutorial_base, container,false);
 		ButterKnife.inject(this, v);
 
-        backgroundLayout.setBackground(getActivity().getDrawable(R.drawable.tutorial_geekscore_bg));
+        backgroundLayout.setBackgroundResource(R.drawable.tutorial_geekscore_bg);
         titleTextView.setText(getActivity().getString(R.string.geek_score_tm));
         firstTextView.setText("Get it done for $25!\nYour GeekScore is all you\nneed to apply to your first,\nsecond and even third\nchoices.");
         secondTextView.setText("It's your info so keep it\nsecure in one app!");

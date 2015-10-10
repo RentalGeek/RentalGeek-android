@@ -21,6 +21,8 @@ import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.Common;
+import com.rentalgeek.android.ui.Navigation;
+import com.rentalgeek.android.ui.activity.ActivityLogin;
 import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 
@@ -158,10 +160,6 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
 
                         }
 
-                        @Override
-                        public void onAuthenticationFailed() {
-
-                        }
                     });
 
         } catch (Exception e) {

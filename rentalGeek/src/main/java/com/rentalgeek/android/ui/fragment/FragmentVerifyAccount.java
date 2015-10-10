@@ -237,10 +237,6 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
                         }
                     }
 
-                    @Override
-                    public void onAuthenticationFailed() {
-
-                    }
                 });
         //asynkhttp(params, 1, ApiManager.getSignin(), AppPreferences.getAuthToken(), true);
 		
@@ -311,10 +307,6 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
                         }
                     }
 
-                    @Override
-                    public void onAuthenticationFailed() {
-
-                    }
                 });
 		//asynkhttp(params, 2, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
 
@@ -352,10 +344,6 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
                         }
                     }
 
-                    @Override
-                    public void onAuthenticationFailed() {
-
-                    }
                 });
         //asynkhttp(params, 3, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
 
@@ -393,10 +381,6 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
                         }
                     }
 
-                    @Override
-                    public void onAuthenticationFailed() {
-
-                    }
                 });
         //asynkhttp(params, 4, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
 

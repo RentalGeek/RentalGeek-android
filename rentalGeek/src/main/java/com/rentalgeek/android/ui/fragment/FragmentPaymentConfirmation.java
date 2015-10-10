@@ -149,10 +149,6 @@ public class FragmentPaymentConfirmation extends GeekBaseFragment {
                         super.onFailure(ex, failureResponse);
                     }
 
-                    @Override
-                    public void onAuthenticationFailed() {
-
-                    }
                 });
     }
 }

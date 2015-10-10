@@ -261,11 +261,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                     }
 
                     @Override
-                    public void onAuthenticationFailed() {
-
-                    }
-
-                    @Override
                     public void onFailure(Throwable ex, String failureResponse) {
                         super.onFailure(ex, failureResponse);
                         ErrorApi error = (new Gson()).fromJson(failureResponse, ErrorApi.class);
@@ -659,10 +654,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                         }
                     }
 
-                    @Override
-                    public void onAuthenticationFailed() {
-
-                    }
                 });
 
     }
@@ -699,10 +690,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                         }
                     }
 
-                    @Override
-                    public void onAuthenticationFailed() {
-
-                    }
                 });
 
     }
@@ -739,10 +726,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                         }
                     }
 
-                    @Override
-                    public void onAuthenticationFailed() {
-
-                    }
                 });
 
     }
@@ -916,10 +899,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                         }
                     }
 
-                    @Override
-                    public void onAuthenticationFailed() {
-
-                    }
                 });
 
     }

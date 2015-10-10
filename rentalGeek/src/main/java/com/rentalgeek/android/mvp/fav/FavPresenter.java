@@ -65,7 +65,6 @@ public class FavPresenter implements Presenter {
                     }
                 }
 
-                @Override public void onAuthenticationFailed() {}
             });
     }
 }

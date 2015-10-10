@@ -2,6 +2,7 @@ package com.rentalgeek.android.net;
 
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.rentalgeek.android.api.SessionManager;
 
 import org.apache.http.client.HttpResponseException;
 
@@ -11,7 +12,9 @@ public class GeekHttpResponseHandler extends AsyncHttpResponseHandler {
  
     private static final String TAG = GeekHttpResponseHandler.class.getSimpleName();
 
-    public void onAuthenticationFailed() { }
+    public void onAuthenticationFailed() {
+        SessionManager.Instance.onUserLoggedOut();
+    }
 
     //public void onBeforeStart() { }
 

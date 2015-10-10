@@ -122,7 +122,6 @@ public class SearchPresenter implements Presenter {
                     }
                 }
 
-                @Override public void onAuthenticationFailed() {}
             });
 
         }

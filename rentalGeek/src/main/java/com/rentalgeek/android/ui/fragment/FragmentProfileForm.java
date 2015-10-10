@@ -783,10 +783,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                             OkAlert.show(getActivity(), errorMsg.title, errorMsg.msg);
                         }
 
-                        @Override
-                        public void onAuthenticationFailed() {
-                            System.out.println("Failed authentication." +"");
-                        }
                     });
         } catch (Exception e) {
             AppLogger.log(TAG, e);

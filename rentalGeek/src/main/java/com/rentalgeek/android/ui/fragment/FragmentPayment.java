@@ -153,10 +153,6 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 						}
 					}
 
-					@Override
-					public void onAuthenticationFailed() {
-
-					}
 				});
 
 	}
@@ -316,10 +312,6 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 
 					}
 
-					@Override
-					public void onAuthenticationFailed() {
-
-					}
 				});
 		//asynkhttp(params, 1, url, AppPreferences.getAuthToken(), true);
 	}

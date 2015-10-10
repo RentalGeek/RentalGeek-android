@@ -255,10 +255,6 @@ public class FragmentRoommates  extends GeekBaseFragment {
                             DialogManager.showCrouton(activity, failureResponse);
                         }
 
-                        @Override
-                        public void onAuthenticationFailed() {
-
-                        }
                     });
 
         } catch (Exception e) {
@@ -298,10 +294,6 @@ public class FragmentRoommates  extends GeekBaseFragment {
                             DialogManager.showCrouton(activity, failureResponse);
                         }
 
-                        @Override
-                        public void onAuthenticationFailed() {
-
-                        }
                     });
 
         } catch (Exception e) {
@@ -366,10 +358,6 @@ public class FragmentRoommates  extends GeekBaseFragment {
 
                     }
 
-                    @Override
-                    public void onAuthenticationFailed() {
-
-                    }
                 });
 
         } catch (Exception e) {
@@ -411,10 +399,6 @@ public class FragmentRoommates  extends GeekBaseFragment {
                         Navigation.navigateActivity(activity, ActivityHome.class);
                     }
 
-                    @Override
-                    public void onAuthenticationFailed() {
-
-                    }
                 });
     }
 
@@ -448,10 +432,6 @@ public class FragmentRoommates  extends GeekBaseFragment {
                         }
                     }
 
-                    @Override
-                    public void onAuthenticationFailed() {
-                        super.onAuthenticationFailed();
-                    }
 
                     @Override
                     public void onFailure(Throwable ex, String failureResponse) {

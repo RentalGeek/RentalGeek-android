@@ -199,10 +199,6 @@ public class FragmentPayments extends GeekBaseFragment implements Validator.Vali
                         DialogManager.showCrouton(activity, failureResponse);
                     }
 
-                    @Override
-                    public void onAuthenticationFailed() {
-
-                    }
                 });
     }
 
@@ -280,10 +276,6 @@ public class FragmentPayments extends GeekBaseFragment implements Validator.Vali
 
                     }
 
-                    @Override
-                    public void onAuthenticationFailed() {
-
-                    }
                 });
     }
 }

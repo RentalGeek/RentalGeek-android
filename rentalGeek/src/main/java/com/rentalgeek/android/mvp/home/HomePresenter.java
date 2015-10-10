@@ -79,11 +79,6 @@ public class HomePresenter implements Presenter {
             }
 
             @Override
-            public void onAuthenticationFailed() {
-                System.out.println("Authentication failed.");
-            }
-
-            @Override
             public void onFailure(Throwable throwable, String response) {
                 System.out.println(String.format("Error: %s", response));
                 String title = RentalGeekApplication.getResourceString(R.string.home);

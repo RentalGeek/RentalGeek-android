@@ -10,7 +10,6 @@ import com.rentalgeek.android.backend.model.User;
 import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.GeekGson;
-import com.rentalgeek.android.utils.ListUtils;
 
 import java.util.List;
 
@@ -21,7 +20,14 @@ public enum SessionManager {
     private User currentUser;
     private List<Profile> profiles;
 
+    public boolean isUserLoggedIn() {
+        return getCurrentUser() != null;
+    }
+
     public User getCurrentUser() {
+        if (currentUser == null) {
+            currentUser = AppPreferences.getUser();
+        }
         return currentUser;
     }
 
@@ -107,6 +113,7 @@ public enum SessionManager {
         }
 
         AppPreferences.setAuthToken(currentUser.authentication_token);
+        AppPreferences.setUser(currentUser);
 
         AppPrefes appPref = new AppPrefes(RentalGeekApplication.context, "rentalgeek");
         String appid = String.valueOf(currentUser.id);
@@ -122,6 +129,7 @@ public enum SessionManager {
     public void onUserLoggedOut() {
         currentUser = null;
         AppPreferences.setAuthToken(null);
+        AppPreferences.setUser(null);
     }
 
 }

@@ -3,7 +3,9 @@ package com.rentalgeek.android.ui.preference;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
 import com.rentalgeek.android.RentalGeekApplication;
+import com.rentalgeek.android.backend.model.User;
 
 
 public class AppPreferences {
@@ -22,6 +24,7 @@ public class AppPreferences {
 
     private static final String PREF_USERNAME = "PREF_USERNAME";
     private static final String PREF_PASSWORD = "PREF_PASSWORD";
+    private static final String PREF_USER = "PREF_USER";
 
     public static final String PREF_AUTH_TOKEN = "PREF_AUTH_TOKEN";
     public static final String PREF_DATA_MARKETS = "PREF_DATA_MARKETS";
@@ -95,6 +98,23 @@ public class AppPreferences {
         final Context context = RentalGeekApplication.context;
         final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
         return tempSettings.getString(PREF_USERNAME, "");
+    }
+
+    public static boolean setUser(User user) {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = tempSettings.edit();
+        String userJson = (new Gson()).toJson(user, User.class);
+        editor.putString(PREF_USER, userJson);
+        final boolean success = editor.commit();
+        return success;
+    }
+
+    public static User getUser() {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        String userJson = tempSettings.getString(PREF_USER, null);
+        return (new Gson()).fromJson(userJson, User.class);
     }
 
     public static boolean setPassword(String passWord) {

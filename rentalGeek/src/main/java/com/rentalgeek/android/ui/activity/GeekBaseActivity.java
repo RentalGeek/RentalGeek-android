@@ -10,8 +10,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
 
@@ -20,6 +20,7 @@ import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.model.User;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.AppDialogRequestEvent;
+import com.rentalgeek.android.bus.events.AuthenticationFailedEvent;
 import com.rentalgeek.android.system.AppSystem;
 import com.rentalgeek.android.ui.Common;
 import com.rentalgeek.android.ui.Navigation;
@@ -315,6 +316,11 @@ public class GeekBaseActivity extends AppCompatActivity {
         GeekDialog.AppDialogFragment dialog = GeekDialog.showDialog(this, event.getClazz(), event.getArgs(), event.getCaller());
         if (dialog != null) dialog.setCancelable(event.isCancellable());
     }
+
+    public void onEventMainThread(AuthenticationFailedEvent event) {
+        Navigation.navigateActivity(this, ActivityLogin.class, true);
+    }
+
 
     private void setVisibilityForV1NavigationMenu() {
         Menu menu = navigationView.getMenu();

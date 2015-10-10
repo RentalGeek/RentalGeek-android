@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.activeandroid.query.Delete;
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.Navigation;
@@ -62,7 +63,14 @@ public class ActivityMain extends GeekBaseActivity {
 					}
 
 					appPref.SaveData("bysearch", "no");
-                    Navigation.navigateActivity(activity, ActivityLogin.class, true);
+
+					if (SessionManager.Instance.isUserLoggedIn()) {
+						Navigation.navigateActivity(activity, ActivityHome.class, true);
+					} else {
+						Navigation.navigateActivity(activity, ActivityLogin.class, true);
+					}
+
+
 				}
 
 			}

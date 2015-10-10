@@ -28,6 +28,26 @@ public class AppPreferences {
 
     public static final String PREF_PROFILE = "PREF_PROFILE";
     public static final String PREF_PROFILE_PAGE = "PREF_PROFILE_PAGE";
+    public static final String PREF_FIRST_NAME = "PREF_FIRST_NAME";
+    public static final String PREF_LAST_NAME = "PREF_LAST_NAME";
+
+    public static void putFirstName(String first_name) {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = tempSettings.edit();
+        editor.putString(PREF_FIRST_NAME,first_name);
+        editor.commit();
+        System.out.println("First name saved");
+    }
+
+    public static void putLastName(String last_name) {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = tempSettings.edit();
+        editor.putString(PREF_LAST_NAME,last_name);
+        editor.commit();
+        System.out.println("Last name saved");
+    }
 
     public static void putProfile(String profile) {
         final Context context = RentalGeekApplication.context;
@@ -53,7 +73,21 @@ public class AppPreferences {
         SharedPreferences.Editor editor = tempSettings.edit();
         editor.remove(PREF_PROFILE);
         editor.remove(PREF_PROFILE_PAGE);
+        editor.remove(PREF_FIRST_NAME);
+        editor.remove(PREF_LAST_NAME);
         editor.commit();
+    }
+    
+    public static String getFirstName() {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        return tempSettings.getString(PREF_FIRST_NAME,"");
+    }
+
+    public static String getLastName() {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        return tempSettings.getString(PREF_LAST_NAME,"");
     }
 
     public static String getProfile() {

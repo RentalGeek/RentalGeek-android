@@ -1,6 +1,7 @@
 package com.rentalgeek.android.backend.model;
 
 import android.text.TextUtils;
+import java.lang.reflect.Field;
 
 public class User {
 
@@ -35,4 +36,29 @@ public class User {
         if (TextUtils.isEmpty(roommate_group_id))
             roommate_group_id = roommateGroupId;
     }
+
+    public synchronized void set(String param, Object value) {
+        if( param == null || value == null)
+            return;
+
+        try {
+            Field field = User.class.getDeclaredField(param);
+
+            if( ! field.isAccessible() )
+                field.setAccessible(true);
+
+            field.set(this,value);
+
+            System.out.println(String.format("Setting %s to %s",param,value.toString()));
+        }
+
+        catch(NoSuchFieldException e) {
+            System.out.println("Parameter not found");
+        }
+
+        catch (IllegalAccessException e) {
+            System.out.println("Illegal access to class");
+        }
+    }
+
 }

@@ -13,8 +13,6 @@ public class Profile {
 
     private String id;
     private String ssn;
-    private String first_name;
-    private String last_name;
     private String born_on;
     private String drivers_license_number;
     private String drivers_license_state;

@@ -110,6 +110,14 @@ public enum SessionManager {
 
         AppPreferences.setAuthToken(currentUser.authentication_token);
 
+        String first_name = AppPreferences.getFirstName();
+        String last_name = AppPreferences.getLastName();
+
+        if( ! first_name.isEmpty() && ! last_name.isEmpty() ) {
+            currentUser.first_name = first_name;
+            currentUser.last_name = last_name;
+        }
+
         AppPrefes appPref = new AppPrefes(RentalGeekApplication.context, "rentalgeek");
         String appid = String.valueOf(currentUser.id);
 

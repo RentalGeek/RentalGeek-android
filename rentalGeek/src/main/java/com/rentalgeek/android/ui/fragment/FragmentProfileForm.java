@@ -33,6 +33,8 @@ import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.ErrorObj;
+import com.rentalgeek.android.backend.LoginBackend;
+import com.rentalgeek.android.backend.model.User;
 import com.rentalgeek.android.backend.model.Profile;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
@@ -48,11 +50,12 @@ import com.rentalgeek.android.ui.view.AutoCompleteAddressListener;
 import com.rentalgeek.android.ui.view.ProfileFieldBinarySelect;
 import com.rentalgeek.android.ui.view.ProfileFieldDateChange;
 import com.rentalgeek.android.ui.view.ProfileFieldSelect;
+import com.rentalgeek.android.ui.view.UserFieldTextWatcher;
 import com.rentalgeek.android.ui.view.ProfileFieldTextWatcher;
 import com.rentalgeek.android.utils.ResponseParser;
 import com.rentalgeek.android.utils.ListUtils;
-import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.utils.GeekGson;
+import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.SubmitProfileEvent;
 import com.rentalgeek.android.utils.OkAlert;
 
@@ -318,6 +321,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
     private void initialize() {
 
         Profile profile = SessionManager.Instance.getDefaultProfile();
+        User user = SessionManager.Instance.getCurrentUser();        
 
         if( profile == null )
             return;
@@ -325,11 +329,8 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
         else {
 
             //Page 1
-            if( profile.get("first_name") != null )
-                first_name.setText((String)profile.get("first_name"));
-
-            if( profile.get("last_name") != null )
-                last_name.setText((String)profile.get("last_name"));
+            first_name.setText(user.first_name);
+            last_name.setText(user.last_name);
 
             if( profile.get("born_on") != null ) {
                 DateTime datetime = DateTime.parse((String)profile.get("born_on"));
@@ -527,8 +528,8 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
         if( position == 0 ) {
 
-            first_name.addTextChangedListener(new ProfileFieldTextWatcher(first_name));
-            last_name.addTextChangedListener(new ProfileFieldTextWatcher(last_name));
+            first_name.addTextChangedListener(new UserFieldTextWatcher(first_name));
+            last_name.addTextChangedListener(new UserFieldTextWatcher(last_name));
             dob.init(maxYear, maxMonth, maxDay, new ProfileFieldDateChange(dob));
             dob.setMaxDate(now.getMillis());
             ssn.addTextChangedListener(new ProfileFieldTextWatcher(ssn));
@@ -638,20 +639,22 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
         RequestParams params = new RequestParams();
 
         Profile profile = SessionManager.Instance.getDefaultProfile();
-
-        String format = "profile[%s]";
-
-        params.put("profile[user_id]", appPref.getData("Uid"));
+        User user = SessionManager.Instance.getCurrentUser();
+        
+        String format = "user[profile_attributes][%s]";
 
         for( String field : profile.getFieldNames() ) {
 
             Object value = profile.get(field);
 
             if( value != null && ! value.toString().isEmpty() ) {
-                System.out.println(String.format("%s : %s",field,value.toString()));
                 params.put(String.format(format,field),value.toString());
             }
         }
+
+
+        params.put("user[first_name]",user.first_name);
+        params.put("user[last_name]",user.last_name);
 
         return params;
     }
@@ -716,6 +719,12 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
     // After validation success
     @Override
     public void onValidationSucceeded() {
+        
+        if( position == 0 ) {
+            User user = SessionManager.Instance.getCurrentUser();
+            AppPreferences.putFirstName(user.first_name);
+            AppPreferences.putLastName(user.last_name);
+        }
 
         if (position >= 0 && position <= 4 ) {
             // Just navigate to next screen
@@ -746,10 +755,11 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
         try {
 
             final RequestParams params =  buildRequestParams();
+            System.out.println(params);
 
-            String url = ApiManager.getProfile("");
+            String url = ApiManager.specificUserUrl(SessionManager.Instance.getCurrentUser().id);
 
-            GlobalFunctions.postApiCall(getActivity(), url, params,
+            GlobalFunctions.putApiCall(getActivity(), url, params,
                     AppPreferences.getAuthToken(),
                     new GeekHttpResponseHandler() {
 
@@ -766,10 +776,9 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                         @Override
                         public void onSuccess(String content) {
                             try {
-                                JSONObject json = new JSONObject(content);
-                                json = json.getJSONObject("profile");
-                                Profile profile = GeekGson.getInstance().fromJson(json.toString(),Profile.class);
-                                SessionManager.Instance.setDefaultProfile(profile);
+                                System.out.println(content);
+                                LoginBackend user = GeekGson.getInstance().fromJson(content,LoginBackend.class);
+                                SessionManager.Instance.onUserLoggedIn(user);
                                 AppPreferences.removeProfile();
                                 AppEventBus.post(new SubmitProfileEvent());
                             } catch (Exception e) {
@@ -781,7 +790,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                         public void onFailure(Throwable ex, String failureResponse) {
                             System.out.println(failureResponse);
                             super.onFailure(ex, failureResponse);
-                            //error(failureResponse, 0);
                             ResponseParser.ErrorMsg errorMsg = new ResponseParser().humanizedErrorMsg(failureResponse);
                             OkAlert.show(getActivity(), errorMsg.title, errorMsg.msg);
                         }

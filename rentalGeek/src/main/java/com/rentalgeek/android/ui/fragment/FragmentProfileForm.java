@@ -1,7 +1,6 @@
 package com.rentalgeek.android.ui.fragment;
 
-
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -266,7 +265,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
             builder1.setMessage(getActivity().getResources().getString(R.string.geek_go));
             builder1.setTitle("Alert");
             builder1.setCancelable(true);
-            builder1.setPositiveButton("Go to payment",
+            builder1.setPositiveButton("Create",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();
@@ -274,17 +273,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                             Navigation.navigateActivity(activity, ActivityPayment.class, false);
                         }
                     });
-
-            builder1.setNegativeButton("Home",
-                    new DialogInterface.OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                            activity.finish();
-                            Navigation.navigateActivity(activity, ActivityHome.class, false);
-                        }
-                    });
+            
             AlertDialog alert11 = builder1.create();
             alert11.show();
 

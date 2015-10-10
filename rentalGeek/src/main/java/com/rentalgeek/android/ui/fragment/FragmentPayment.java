@@ -1,6 +1,6 @@
 package com.rentalgeek.android.ui.fragment;
 
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;

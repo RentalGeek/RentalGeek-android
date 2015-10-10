@@ -62,7 +62,7 @@
                     <EditText
                         android:id="@+id/editTextNameOnCard"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/edittext_profile_field_height"
                         android:singleLine="true"
                         android:inputType="textCapWords"
                         android:background="@drawable/thin_border"
@@ -87,7 +87,7 @@
                     <EditText
                         android:id="@+id/editTextCardNumber"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/edittext_profile_field_height"
                         android:singleLine="true"
                         android:hint="####-####-####-####"
                         android:inputType="number"
@@ -131,13 +131,14 @@
                                 android:orientation="vertical"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
+                                android:layout_marginRight="10dp"
                                 android:background="@drawable/thin_border"
                                 android:layout_weight="1" >
 
                                 <Spinner
                                     android:id="@+id/ed_mm"
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
+                                    android:layout_height="@dimen/edittext_profile_field_height"
                                     android:entries="@array/months"
                                     android:hint="MM"
                                     android:inputType="number"
@@ -157,7 +158,7 @@
                                 <Spinner
                                     android:id="@+id/ed_yyyy"
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
+                                    android:layout_height="@dimen/edittext_profile_field_height"
                                     android:entries="@array/years"
                                     android:hint="YYYY"
                                     android:maxLength="4"
@@ -184,7 +185,7 @@
                         <EditText
                             android:id="@+id/editTextCVV"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/edittext_profile_field_height"
                             android:layout_marginRight="10dp"
                             android:ems="10"
                             android:hint="321"

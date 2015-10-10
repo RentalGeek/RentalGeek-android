@@ -12,7 +12,7 @@ public class ApiManager {
     private static final String GOOGLE_MAPS = "https://maps.googleapis.com/maps/api/place/details/json";
     private static final String GOOGLE_MAPS_API_KEY = "AIzaSyDuVB1GHSKyz51m1w4VGs_XTyxVlK01INY";
 
-    public static String API_HOST = STAGE;//PROD;
+    public static String API_HOST = PROD;
 
     public static String regis_link = API_HOST + "/users.json";
     // "api/"

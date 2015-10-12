@@ -275,7 +275,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                                 if (!TextUtils.isEmpty(message)) {
                                     String title = getResources().getString(R.string.login_title);
                                     String msg = getResources().getString(R.string.invalid_login);
-                                    OkAlert.show(getActivity(),title,msg);
+                                    OkAlert.show(getActivity(), title, msg);
                                     return;
                                 }
                             }
@@ -302,34 +302,55 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
     private void LinkedInParse(String response) {
 
-        LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
+        try {
 
-        SessionManager.Instance.onUserLoggedIn(detail);
-        
-        Navigation.navigateActivity(activity, ActivityHome.class, true);
+            LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
+
+            SessionManager.Instance.onUserLoggedIn(detail);
+
+            Navigation.navigateActivity(activity, ActivityHome.class, true);
+
+        } catch (Exception e) {
+            DialogManager.showCrouton(activity, e.getMessage());
+            AppLogger.log(TAG, e);
+        }
+
     }
 
     private void googlePlusParse(String response) {
 
-        LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
+        try {
 
-        signOutFromGplus();
+            LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
 
-        SessionManager.Instance.onUserLoggedIn(detail);
+            signOutFromGplus();
 
-        Navigation.navigateActivity(activity, ActivityHome.class, true);
+            SessionManager.Instance.onUserLoggedIn(detail);
 
+            Navigation.navigateActivity(activity, ActivityHome.class, true);
+
+        } catch (Exception e) {
+            DialogManager.showCrouton(activity, e.getMessage());
+            AppLogger.log(TAG, e);
+        }
     }
 
     private void FaceBookLogin(String response) {
 
-        LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
+        try {
 
-        LoginManager.getInstance().logOut();
+            LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
 
-        SessionManager.Instance.onUserLoggedIn(detail);
+            LoginManager.getInstance().logOut();
 
-        Navigation.navigateActivity(activity, ActivityHome.class, true);
+            SessionManager.Instance.onUserLoggedIn(detail);
+
+            Navigation.navigateActivity(activity, ActivityHome.class, true);
+
+        } catch (Exception e) {
+            DialogManager.showCrouton(activity, e.getMessage());
+            AppLogger.log(TAG, e);
+        }
 
     }
 
@@ -441,6 +462,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
             // may not be installed, such as the Android Wear application. You may need to use a
             // second GoogleApiClient to manage the application's optional APIs.
             Log.w(TAG, "API Unavailable.");
+            DialogManager.showCrouton(activity, "G+ API Unavailable.");
         } else if (mSignInProgress != STATE_IN_PROGRESS) {
             // We do not have an intent in progress so we should store the latest
             // error resolution intent for use when the sign in button is clicked.
@@ -620,6 +642,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                 callGooglePlusLink(personName, personPhotoUrl, currentPerson.getId(), email);
 
             } else {
+                DialogManager.showCrouton(activity, "G+ Info not available");
                 //Toast.makeText(getActivity(), "Person information is null  ", Toast.LENGTH_LONG).show();
             }
         } catch (Exception e) {
@@ -657,6 +680,26 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                         } catch (Exception e) {
                             AppLogger.log(TAG, e);
                         }
+                    }
+
+
+                    @Override
+                    public void onFailure(Throwable ex, String failureResponse) {
+                        super.onFailure(ex, failureResponse);
+                        ErrorApi error = (new Gson()).fromJson(failureResponse, ErrorApi.class);
+                        if (error != null) {
+                            if (!error.success) {
+                                String message = error.message;
+                                if (!TextUtils.isEmpty(message)) {
+                                    String title = getResources().getString(R.string.login_title);
+                                    String msg = getResources().getString(R.string.invalid_login);
+                                    OkAlert.show(getActivity(), title, msg);
+                                    return;
+                                }
+                            }
+                        }
+
+                        OkAlert.showUnknownError(getActivity());
                     }
 
                     @Override
@@ -699,6 +742,26 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                         }
                     }
 
+
+                    @Override
+                    public void onFailure(Throwable ex, String failureResponse) {
+                        super.onFailure(ex, failureResponse);
+                        ErrorApi error = (new Gson()).fromJson(failureResponse, ErrorApi.class);
+                        if (error != null) {
+                            if (!error.success) {
+                                String message = error.message;
+                                if (!TextUtils.isEmpty(message)) {
+                                    String title = getResources().getString(R.string.login_title);
+                                    String msg = getResources().getString(R.string.invalid_login);
+                                    OkAlert.show(getActivity(), title, msg);
+                                    return;
+                                }
+                            }
+                        }
+
+                        OkAlert.showUnknownError(getActivity());
+                    }
+
                     @Override
                     public void onAuthenticationFailed() {
 
@@ -737,6 +800,26 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                         } catch (Exception e) {
                             AppLogger.log(TAG, e);
                         }
+                    }
+
+
+                    @Override
+                    public void onFailure(Throwable ex, String failureResponse) {
+                        super.onFailure(ex, failureResponse);
+                        ErrorApi error = (new Gson()).fromJson(failureResponse, ErrorApi.class);
+                        if (error != null) {
+                            if (!error.success) {
+                                String message = error.message;
+                                if (!TextUtils.isEmpty(message)) {
+                                    String title = getResources().getString(R.string.login_title);
+                                    String msg = getResources().getString(R.string.invalid_login);
+                                    OkAlert.show(getActivity(), title, msg);
+                                    return;
+                                }
+                            }
+                        }
+
+                        OkAlert.showUnknownError(getActivity());
                     }
 
                     @Override
@@ -820,6 +903,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                                     @Override
                                     public void onApiError(LIApiError error) {
                                         AppLogger.log(TAG, error);
+                                        DialogManager.showCrouton(activity, error.getMessage());
                                     }
                                 });
 

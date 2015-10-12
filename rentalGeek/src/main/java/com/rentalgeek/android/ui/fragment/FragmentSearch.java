@@ -12,6 +12,7 @@ import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.SearchEvent;
 import com.rentalgeek.android.mvp.search.SearchPresenter;
 import com.rentalgeek.android.mvp.search.SearchView;
+import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.ui.view.SearchOptionButton;
 import com.rentalgeek.android.utils.OkAlert;
 
@@ -69,7 +70,32 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
             }
         });
 
+        rememberPreviousSearchSettings();
+
         return view;
+    }
+
+    private void rememberPreviousSearchSettings() {
+        priceSeeker.setProgress(AppPreferences.getSearchMaxPrice());
+
+        ArrayList<Integer> previouslySelectedButtonIds = AppPreferences.getSearchSelectedButtons();
+        ArrayList<SearchOptionButton> allButtons = new ArrayList<>();
+
+        for (SearchOptionButton button : bathBtns) {
+            allButtons.add(button);
+        }
+        for (SearchOptionButton button : bedBtns) {
+            allButtons.add(button);
+        }
+
+        for (SearchOptionButton button : allButtons) {
+            for (int selectedButtonId : previouslySelectedButtonIds) {
+                if (button.getId() == selectedButtonId) {
+                    button.pressed();
+                    break;
+                }
+            }
+        }
     }
     
     @Override
@@ -93,7 +119,7 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
 
     @OnClick(R.id.reset_search)
     public void onResetClick() {
-        priceSeeker.setProgress(0);
+        priceSeeker.setProgress(1000);
 
         for(SearchOptionButton button : bedBtns) {
             button.reset();
@@ -109,17 +135,21 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
         showProgressDialog(R.string.search_rental);
 
         ArrayList<String> bathValues = new ArrayList<String>();
+        ArrayList<Integer> bathIds = new ArrayList<>();
         ArrayList<String> bedValues = new ArrayList<String>();
+        ArrayList<Integer> bedIds = new ArrayList<>();
   
         for(SearchOptionButton button : bedBtns) {
             if( button.isSelected() ) {
                 bedValues.add(button.getValue());
+                bedIds.add(button.getId());
             }
         }
 
         for(SearchOptionButton button : bathBtns) {
             if( button.isSelected() ) {
                 bathValues.add(button.getValue());
+                bathIds.add(button.getId());
             }
         }
         
@@ -133,6 +163,9 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
         }
 
         bundle.putInt("MAX_PRICE", priceSeeker.getProgress());
+        AppPreferences.putSearchMaxPrice(priceSeeker.getProgress());
+        bathIds.addAll(bedIds);
+        AppPreferences.putSelectedSearchButtons(bathIds);
 
         presenter.getRentalOfferings(bundle);
     }

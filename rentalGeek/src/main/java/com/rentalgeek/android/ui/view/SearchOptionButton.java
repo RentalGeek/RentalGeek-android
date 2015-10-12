@@ -72,11 +72,13 @@ public class SearchOptionButton extends TextView {
     private void unselected() {
         setTextColor(unselected_txt_color);
         setBackgroundResource(unselected_bg);
+        selected = false;
     }
 
     private void selected() {
         setTextColor(selected_txt_color);
         setBackgroundResource(selected_bg);
+        selected = true;
     }
 
     public String getValue() {

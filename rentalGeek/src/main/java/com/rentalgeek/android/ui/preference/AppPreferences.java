@@ -5,6 +5,10 @@ import android.content.SharedPreferences;
 
 import com.rentalgeek.android.RentalGeekApplication;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
 
 public class AppPreferences {
 
@@ -31,6 +35,9 @@ public class AppPreferences {
     public static final String PREF_FIRST_NAME = "PREF_FIRST_NAME";
     public static final String PREF_LAST_NAME = "PREF_LAST_NAME";
 
+    public static final String PREF_SEARCH_MAX_PRICE = "PREF_SEARCH_MAX_PRICE";
+    public static final String PREF_SEARCH_SELECTED_BUTTONS = "PREF_SEARCH_SELECTED_BUTTONS";
+
     public static void putFirstName(String first_name) {
         final Context context = RentalGeekApplication.context;
         final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
@@ -47,6 +54,27 @@ public class AppPreferences {
         editor.putString(PREF_LAST_NAME,last_name);
         editor.commit();
         System.out.println("Last name saved");
+    }
+
+    public static void putSearchMaxPrice(int max_search_price) {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = tempSettings.edit();
+        editor.putInt(PREF_SEARCH_MAX_PRICE, max_search_price);
+        editor.commit();
+    }
+
+    public static void putSelectedSearchButtons(ArrayList<Integer> selected_buttons) {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = tempSettings.edit();
+
+        Set<String> selected_buttons_set = new HashSet<>();
+        for (Integer buttonId : selected_buttons) {
+            selected_buttons_set.add(String.valueOf(buttonId));
+        }
+        editor.putStringSet(PREF_SEARCH_SELECTED_BUTTONS, selected_buttons_set);
+        editor.commit();
     }
 
     public static void putProfile(String profile) {
@@ -88,6 +116,25 @@ public class AppPreferences {
         final Context context = RentalGeekApplication.context;
         final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
         return tempSettings.getString(PREF_LAST_NAME,"");
+    }
+
+    public static int getSearchMaxPrice() {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        return tempSettings.getInt(PREF_SEARCH_MAX_PRICE, 1000);
+    }
+
+    public static ArrayList<Integer>getSearchSelectedButtons() {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+
+        ArrayList<Integer> selectedButtonIds = new ArrayList<>();
+        Set<String> selectedButtonStrings = tempSettings.getStringSet(PREF_SEARCH_SELECTED_BUTTONS, new HashSet<String>());
+        for (String stringId : selectedButtonStrings) {
+            selectedButtonIds.add(Integer.parseInt(stringId));
+        }
+
+        return selectedButtonIds;
     }
 
     public static String getProfile() {

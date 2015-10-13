@@ -72,7 +72,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="First Name(Mandatory) "
+                        android:text="First Name (Mandatory) "
                         android:textColor="@color/blue"
                         android:textSize="@dimen/edittext_field_label_text_size" />
 

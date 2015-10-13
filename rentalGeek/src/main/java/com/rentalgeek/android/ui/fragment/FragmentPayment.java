@@ -61,21 +61,10 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 	@InjectView(R.id.editTextNameOnCard)
 	EditText cardName;
 
-	// @Required(order = 4, message = "Please enter a valid month")
-	// @TextRule(order = 4, minLength = 2, maxLength = 2, message =
-	// "Please enter a valid month")
-	// @Regex(order = 5, pattern = "0[1-9]|1[0-2]", message =
-	// "Please enter a valid month")
-	// @InjectView(R.id.ed_mm)
-	// EditText ed_mm;
-
 	@Select(order = 6, message = "Please select a valid month")
 	@InjectView(R.id.ed_mm)
 	Spinner ed_mm;
 
-	// @Required(order = 6, message = "Please enter a valid year")
-	// @TextRule(order = 7, minLength = 4, maxLength = 4, message =
-	// "Please enter a valid year")
 	@Select(order = 6, message = "Please enter a valid year")
 	@InjectView(R.id.ed_yyyy)
 	Spinner edYYYY;
@@ -101,35 +90,12 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 		ButterKnife.inject(this, v);
 		appPref = new AppPrefes(getActivity(), "rentalgeek");
 
-		// The done button click from a keyboard
-		//KeyListener();
-
 		CheckPaymentf();
 
 		return v;
 	}
 
-//	private void KeyListener() {
-//
-//		edCvv.setOnEditorActionListener(new OnEditorActionListener() {
-//
-//			@Override
-//			public boolean onEditorAction(TextView v, int actionId,
-//										  KeyEvent event) {
-//
-//				if (actionId != EditorInfo.IME_ACTION_DONE)
-//					return false;
-//				//hidekey();
-//				validator.validate();
-//				return true;
-//
-//			}
-//		});
-//
-//	}
-
 	private void CheckPaymentf() {
-
 		GlobalFunctions.getApiCall(getActivity(), ApiManager.getApplicants(appPref.getData("Uid")),
 				AppPreferences.getAuthToken(),
 				new GeekHttpResponseHandler() {
@@ -162,8 +128,6 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 	}
 
 	private void PaymentCheckParseNew(String response) {
-
-
 		try {
 			LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
 
@@ -182,8 +146,6 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 	}
 
 	public void PaymentCheckParse(String response) {
-
-
 		System.out.println("the payment check response " + response);
 
 		CheckPayment detail = (new Gson()).fromJson(response, CheckPayment.class);
@@ -197,7 +159,6 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 	}
 
 	private List getErroList(List<com.rentalgeek.android.backend.ErrorArray.Error> al) {
-
 		List<String> list = new ArrayList<String>();
 
 		for (int i = 0; i < al.size(); i++) {
@@ -205,11 +166,9 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 		}
 
 		return list;
-
 	}
 
 	private void alertList(String add) {
-
 		AlertDialog.Builder builderSingle = new AlertDialog.Builder(
 				getActivity());
 
@@ -225,11 +184,9 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 				});
 
 		builderSingle.show();
-
 	}
 
 	public void paymentParse(String response) {
-
 		PaymentBackend detail = (new Gson()).fromJson(response, PaymentBackend.class);
 
 		if (detail != null && detail.transaction != null) {
@@ -246,12 +203,10 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 			}
 
 		}
-
 	}
 
 	@Override
 	public void onValidationFailed(View failedView, Rule<?> failedRule) {
-
 		String message = failedRule.getFailureMessage();
 		if (failedView instanceof EditText) {
 			failedView.requestFocus();
@@ -264,13 +219,10 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 
 	@Override
 	public void onValidationSucceeded() {
-
 		makePayment();
-
 	}
 
 	private void makePayment() {
-
 		String url = ApiManager.getTransactions();
 
 		RequestParams params = new RequestParams();
@@ -321,7 +273,6 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 
 					}
 				});
-		//asynkhttp(params, 1, url, AppPreferences.getAuthToken(), true);
 	}
 
 	@OnClick(R.id.verify_card)

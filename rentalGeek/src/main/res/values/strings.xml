@@ -76,6 +76,7 @@ If you agree to share a Credit Report, we will also use this information to shar
     <string name="fill_invite_cosign_text">To continue please fill out\nour cosigner application</string>
     <string name="continue_text">CONTINUE</string>
     <string name="cosign_app_header_text">Verify Personal Information</string>
+    <string name="payment_header_text">Pay &amp; Get Your GeekScore</string>
     <string name="cosign_app_sub_header_text">This process is quick and secure. Your personal information is required in order for us to retrieve your credit report and verify your identity.</string>
     <string name="cosign_firstname_form_label">First Name (Mandatory)</string>
     <string name="cosign_lastname_form_label">Last Name (Mandatory)</string>

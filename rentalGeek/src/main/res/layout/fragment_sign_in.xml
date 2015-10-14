@@ -93,7 +93,7 @@
                 android:layout_height="50dp"
                 android:layout_marginRight="10dp"
                 android:src="@drawable/goog_icon"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <ImageView
                 android:id="@+id/facebook_lays"
@@ -106,7 +106,8 @@
                 android:id="@+id/linked_lay"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/link_icon" />
+                android:src="@drawable/link_icon"
+                android:visibility="visible"/>
 
         </LinearLayout>
 

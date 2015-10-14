@@ -7,7 +7,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="or">_________ or _________</string>
     <string name="pay_get_geek">Pay and get your Geek Score&#8482;</string>
-    <string name="not_member"><p>Not a member? <u>Create Account</u></p></string>
+    <string name="not_member">Not a Member?\n<u>Create an Account</u></string>
     <string name="tuto_one">Fill out our form once and apply to as many properties as you want</string>
     <string name="armed"><p>Armed with your GeekScore&#8482;, apply to any property with a single click and your completed app is instantly sent for speedy approval. Simply "Click-to-Rent" and you are done.</p></string>
     <string name="freshest">Check out the freshest digs, available now, right from your phone using our patent pending augmented reality technology.</string>

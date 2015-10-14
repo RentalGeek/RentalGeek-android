@@ -55,7 +55,7 @@ dependencies {
     compile project(':main')
     compile project(':library')
     compile project(':justifiedTextViewmaster')
-    compile 'com.facebook.android:facebook-android-sdk:4.0.0'
+    compile 'com.facebook.android:facebook-android-sdk:4.3.0'
     compile 'com.google.code.gson:gson:2.2.4'
     compile "com.google.android.gms:play-services-gcm:8.1.0"
     compile 'com.google.android.gms:play-services-plus:8.1.0'

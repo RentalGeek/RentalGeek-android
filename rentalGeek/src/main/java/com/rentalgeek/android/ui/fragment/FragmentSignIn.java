@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -144,16 +143,13 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         if (appPref.getData("first").equals("")) {
 
         }
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        View v = inflater.inflate(R.layout.sigin_latest, container, false);
+        View v = inflater.inflate(R.layout.fragment_sign_in, container, false);
 
         ButterKnife.inject(this, v);
-        create_aacnt.setText(Html.fromHtml("Not a member? <u>Create Account</u>"));
 
         setUpdateState();
 
@@ -289,54 +285,36 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
     @Override
     public void onDestroyView() {
-
         super.onDestroyView();
         ButterKnife.reset(this);
     }
 
     private void ForgotMailSentParse(String response) {
-
         DialogManager.showCrouton(activity, "Verification email sent to your mail please check");
-
     }
 
     private void LinkedInParse(String response) {
-
         LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
-
         SessionManager.Instance.onUserLoggedIn(detail);
-        
         Navigation.navigateActivity(activity, ActivityHome.class, true);
     }
 
     private void googlePlusParse(String response) {
-
         LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
-
         signOutFromGplus();
-
         SessionManager.Instance.onUserLoggedIn(detail);
-
         Navigation.navigateActivity(activity, ActivityHome.class, true);
-
     }
 
     private void FaceBookLogin(String response) {
-
         LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
-
         LoginManager.getInstance().logOut();
-
         SessionManager.Instance.onUserLoggedIn(detail);
-
         Navigation.navigateActivity(activity, ActivityHome.class, true);
-
     }
 
     private void NormalLogin(String response) {
-
         try {
-
             System.out.println("responseresponse" + response);
             LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
 
@@ -348,7 +326,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                 AppPreferences.setUserName(ed_username.getText().toString());
                 AppPreferences.setPassword(ed_password.getText().toString());
             }
-
         } catch (Exception e) {
             AppLogger.log(TAG, e);
             OkAlert.showUnknownError(getActivity());
@@ -357,18 +334,15 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
     @OnClick(R.id.create_aacnt)
     public void SignInButton(View v) {
-
         ed_username.setText("");
         ed_password.setText("");
         animation_obj = YoYo.with(Techniques.Flash).duration(1000).playOn(v);
 
         Navigation.navigateActivity(activity, ActivityRegistration.class, false);
-
     }
 
     @OnClick(R.id.login_aacnt)
     public void CreateAccount(View v) {
-
         animation_obj = YoYo.with(Techniques.Flash).duration(1000).playOn(v);
         if (ed_username.getText().toString().equals("")) {
             ed_username.setError("Please enter registered email");
@@ -377,7 +351,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         } else {
             signin(ed_username.getText().toString(), ed_password.getText().toString());
         }
-
     }
 
     @Override
@@ -462,7 +435,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
     private void onSignedOut() {
         // Update the UI to reflect that the user is signed out.
-
     }
 
     @Override
@@ -628,7 +600,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
     }
 
     private void callGooglePlusLink(String personName, String personPhotoUrl, String id, String email) {
-
         RequestParams params = new RequestParams();
         params.put("provider[uid]", id);
         params.put("provider[provider]", "Google+");
@@ -664,11 +635,9 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
                     }
                 });
-
     }
 
     public void callLinkedPlusLink(String personName, String personPhotoUrl, String id, String email) {
-
         RequestParams params = new RequestParams();
         params.put("provider[uid]", id);
         params.put("provider[provider]", "Linkedin");
@@ -708,7 +677,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
     }
 
     private void callFacebookLink(String personName, String personPhotoUrl, String id, String email) {
-
         RequestParams params = new RequestParams();
         params.put("provider[uid]", id);
         params.put("provider[provider]", "Facebook");
@@ -847,13 +815,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
     }
 
-
-
-
-
-
-
-
     // The dialog which shows to send forgot password confirmation email to user
     @OnClick(R.id.forgot_email)
     public void infoclick1() {
@@ -882,12 +843,10 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         });
 
         dialog.show();
-
     }
 
     // forgot password API call
     private void callForgotPassword(String email) {
-
         RequestParams params = new RequestParams();
         params.put("user[email]", email);
 
@@ -921,7 +880,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
                     }
                 });
-
     }
 
     // email checking function

@@ -39,6 +39,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.plus.Plus;
+import com.google.android.gms.common.Scopes;
 import com.google.android.gms.plus.model.people.Person;
 import com.google.gson.Gson;
 import com.linkedin.platform.APIHelper;
@@ -49,7 +50,6 @@ import com.linkedin.platform.errors.LIAuthError;
 import com.linkedin.platform.listeners.ApiListener;
 import com.linkedin.platform.listeners.ApiResponse;
 import com.linkedin.platform.listeners.AuthListener;
-import com.linkedin.platform.utils.Scope;
 import com.loopj.android.http.RequestParams;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
@@ -84,6 +84,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
     public static final int RC_SIGN_IN = 0;
     public static final int FB_SIGN_IN = 1;
+    public static final int GP_SIGN_IN = 2;
 
     private static final String TAG = "FragmentSignIn";
 
@@ -96,8 +97,10 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
     private boolean mIntentInProgress;
 
-    private boolean mSignInClicked;
+    private boolean mSignInClicked = false;
 
+    private boolean mResolveOnFail = false;
+    
     private ConnectionResult mConnectionResult;
 
     @InjectView(R.id.btn_sign_in)
@@ -139,10 +142,8 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         FacebookSdk.sdkInitialize(activity.getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
 
-        appPref = new AppPrefes(getActivity(), "rentalgeek");
-        if (appPref.getData("first").equals("")) {
-
-        }
+        if( mGoogleApiClient == null ) 
+            mGoogleApiClient = buildGoogleApiClient();
     }
 
     @Override
@@ -194,8 +195,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
             }
         });
 
-        // google plus initialization
-        mGoogleApiClient = buildGoogleApiClient();
 
         if (AppSystem.Instance.isDebugBuild(activity)) {
             ed_username.setText(AppPreferences.getUserName());
@@ -215,15 +214,10 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         GoogleApiClient.Builder builder = new GoogleApiClient.Builder(getActivity())
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
-                .addApi(Plus.API, Plus.PlusOptions.builder().build())
-                .addScope(Plus.SCOPE_PLUS_LOGIN)
-                .addScope(Plus.SCOPE_PLUS_PROFILE);
-
-//		if (mRequestServerAuthCode) {
-//			checkServerAuthConfiguration();
-//			builder = builder.requestServerAuthCode(WEB_CLIENT_ID, this);
-//		}
-
+                .addApi(Plus.API)
+                .addScope(new com.google.android.gms.common.api.Scope(Scopes.PLUS_LOGIN))
+                .addScope(new com.google.android.gms.common.api.Scope(Scopes.PLUS_ME));
+        System.out.println("Build Google API Client");
         return builder.build();
     }
 
@@ -311,76 +305,12 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         LoginManager.getInstance().logOut();
         SessionManager.Instance.onUserLoggedIn(detail);
         Navigation.navigateActivity(activity, ActivityHome.class, true);
-
-        try {
-
-            LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
-
-            SessionManager.Instance.onUserLoggedIn(detail);
-
-            Navigation.navigateActivity(activity, ActivityHome.class, true);
-
-        } catch (Exception e) {
-            DialogManager.showCrouton(activity, e.getMessage());
-            AppLogger.log(TAG, e);
-        }
-
-    }
-
-    private void googlePlusParse(String response) {
-
-        try {
-
-            LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
-
-            signOutFromGplus();
-
-            SessionManager.Instance.onUserLoggedIn(detail);
-
-            Navigation.navigateActivity(activity, ActivityHome.class, true);
-
-        } catch (Exception e) {
-            DialogManager.showCrouton(activity, e.getMessage());
-            AppLogger.log(TAG, e);
-        }
-    }
-
-    private void FaceBookLogin(String response) {
-
-        try {
-
-            LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
-
-            LoginManager.getInstance().logOut();
-
-            SessionManager.Instance.onUserLoggedIn(detail);
-
-            Navigation.navigateActivity(activity, ActivityHome.class, true);
-
-        } catch (Exception e) {
-            DialogManager.showCrouton(activity, e.getMessage());
-            AppLogger.log(TAG, e);
-        }
-
     }
 
     private void NormalLogin(String response) {
-        try {
-            System.out.println("responseresponse" + response);
-            LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
-
-            SessionManager.Instance.onUserLoggedIn(detail);
-
-            Navigation.navigateActivity(getActivity(), ActivityHome.class, true);
-
-            if (AppSystem.Instance.isDebugBuild(activity)) {
-                AppPreferences.setUserName(ed_username.getText().toString());
-                AppPreferences.setPassword(ed_password.getText().toString());
-            }
-        } catch (Exception e) {
-            AppLogger.log(TAG, e);
-            OkAlert.showUnknownError(getActivity());
-        }
+        LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
+        SessionManager.Instance.onUserLoggedIn(detail);
+        Navigation.navigateActivity(activity, ActivityHome.class, true);
     }
 
     @OnClick(R.id.create_aacnt)
@@ -423,16 +353,18 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                     mSignInProgress = STATE_DEFAULT;
                 }
 
-                if (!mGoogleApiClient.isConnecting()) {
-                    // If Google Play services resolved the issue with a dialog then
-                    // onStart is not called so we need to re-attempt connection here.
+                break;
+            case GP_SIGN_IN:
+                if( resultCode == getActivity().RESULT_OK ) {
+                    mResolveOnFail = false; 
+                    mSignInClicked = true;
                     mGoogleApiClient.connect();
                 }
                 break;
         }
 
-        if (callbackManager != null) callbackManager.onActivityResult(requestCode, resultCode, data);
-        LISessionManager.getInstance(activity.getApplicationContext()).onActivityResult(activity, requestCode, resultCode, data);
+        //if (callbackManager != null) callbackManager.onActivityResult(requestCode, resultCode, data);
+        //LISessionManager.getInstance(activity.getApplicationContext()).onActivityResult(activity, requestCode, resultCode, data);
     }
 
     private static final String SAVED_PROGRESS = "sign_in_progress";
@@ -458,41 +390,25 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         // Refer to the javadoc for ConnectionResult to see what error codes might
         // be returned in onConnectionFailed.
         Log.i(TAG, "onConnectionFailed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
+        
+        if( result.hasResolution() ) {
+            System.out.println("Resolution exists");
 
-        if (result.getErrorCode() == ConnectionResult.API_UNAVAILABLE) {
-            // An API requested for GoogleApiClient is not available. The device's current
-            // configuration might not be supported with the requested API or a required component
-            // may not be installed, such as the Android Wear application. You may need to use a
-            // second GoogleApiClient to manage the application's optional APIs.
-            Log.w(TAG, "API Unavailable.");
-            DialogManager.showCrouton(activity, "G+ API Unavailable.");
-        } else if (mSignInProgress != STATE_IN_PROGRESS) {
-            // We do not have an intent in progress so we should store the latest
-            // error resolution intent for use when the sign in button is clicked.
-            mSignInIntent = result.getResolution();
-            mSignInError = result.getErrorCode();
+            mConnectionResult = result;
 
-            if (mSignInProgress == STATE_SIGN_IN) {
-                // STATE_SIGN_IN indicates the user already clicked the sign in button
-                // so we should continue processing error until the user is signed in
-                // or they click cancel.
-                resolveSignInError();
+            if( mResolveOnFail ) {
+                mSignInClicked = false;
+                startGoogleResolution();    
             }
         }
-
-        // In this sample we consider the user signed out whenever they do not have
-        // a connection to Google Play services.
-        onSignedOut();
-    }
-
-    private void onSignedOut() {
-        // Update the UI to reflect that the user is signed out.
     }
 
     @Override
     public void onConnected(Bundle arg0) {
-        mSignInClicked = false;
-        getProfileInformation();
+        System.out.println("Connected to Google+");
+
+        if( mSignInClicked ) 
+            getProfileInformation();
     }
 
     @Override
@@ -500,50 +416,44 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         // The connection to Google Play services was lost for some reason.
         // We call connect() to attempt to re-establish the connection or get a
         // ConnectionResult that we can attempt to resolve.
+
+        if( cause == GoogleApiClient.ConnectionCallbacks.CAUSE_SERVICE_DISCONNECTED ) {
+            System.out.println("G+ API client service disconnected");
+        }
+
+        else if ( cause == GoogleApiClient.ConnectionCallbacks.CAUSE_NETWORK_LOST) {
+            System.out.println("Network lost while connecting to G+ API client service");
+        }
+
         mGoogleApiClient.connect();
     }
 
     @Override
     public void onStart() {
-        super.onStart();
         mGoogleApiClient.connect();
+        super.onStart();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if (mGoogleApiClient.isConnected()) {
+        if ( mGoogleApiClient != null && ( mGoogleApiClient.isConnected() || mGoogleApiClient.isConnecting() ) ) {
             mGoogleApiClient.disconnect();
+            System.out.println("Disconnecting G+ API client");
         }
     }
 
-    private void resolveSignInError() {
-        if (mSignInIntent != null) {
-            // We have an intent which will allow our user to sign in or
-            // resolve an error.  For example if the user needs to
-            // select an account to sign in with, or if they need to consent
-            // to the permissions your app is requesting.
-
+    private void startGoogleResolution() {
+        if( mConnectionResult != null ) {
             try {
-                // Send the pending intent that we stored on the most recent
-                // OnConnectionFailed callback.  This will allow the user to
-                // resolve the error currently preventing our connection to
-                // Google Play services.
-                mSignInProgress = STATE_IN_PROGRESS;
-                getActivity().startIntentSenderForResult(mSignInIntent.getIntentSender(), RC_SIGN_IN, null, 0, 0, 0);
-            } catch (SendIntentException e) {
-                Log.i(TAG, "Sign in intent could not be sent: " + e.getLocalizedMessage());
-                // The intent was canceled before it was sent.  Attempt to connect to
-                // get an updated ConnectionResult.
-                mSignInProgress = STATE_SIGN_IN;
+                mConnectionResult.startResolutionForResult(getActivity(),GP_SIGN_IN);
+                mConnectionResult = null;
+            }
+
+            catch(SendIntentException e){
+                System.out.println("Reconnecting");
                 mGoogleApiClient.connect();
             }
-        } else {
-            // Google Play services wasn't able to provide an intent for some
-            // error types, so we show the default Google Play services error
-            // dialog which may still start an intent on our behalf if the
-            // user can resolve the issue.
-            createErrorDialog().show();
         }
     }
 
@@ -600,24 +510,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
     private static final int STATE_SIGN_IN = 1;
     private static final int STATE_IN_PROGRESS = 2;
 
-    private void signInWithGplus() {
-
-        if (!mGoogleApiClient.isConnecting()) {
-            mSignInProgress = STATE_SIGN_IN;
-            mGoogleApiClient.connect();
-        }
-
-    }
-
-    @OnClick(R.id.btn_sign_in)
-    public void btn_sign_in() {
-
-        if (mConnectionResult != null) {
-            signInWithGplus();
-        }
-
-    }
-
     private void getProfileInformation() {
         try {
             mSignInProgress = STATE_DEFAULT;
@@ -645,7 +537,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
             } else {
                 DialogManager.showCrouton(activity, "G+ Info not available");
-                //Toast.makeText(getActivity(), "Person information is null  ", Toast.LENGTH_LONG).show();
+                System.out.println("G+ Info not available");
             }
         } catch (Exception e) {
             AppLogger.log(TAG, e);
@@ -830,9 +722,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
     private void signOutFromGplus() {
         if (mGoogleApiClient.isConnected()) {
-            Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
             mGoogleApiClient.disconnect();
-            mGoogleApiClient.connect();
         }
     }
 
@@ -846,9 +736,25 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
     @OnClick(R.id.google_plus)
     public void GooglePlusClick(View v) {
-        // btnSignIn.performClick();
         animation_obj = YoYo.with(Techniques.Flash).duration(1000).playOn(v);
-        signInWithGplus();
+
+        if( mConnectionResult != null && mConnectionResult.hasResolution() ) {
+            startGoogleResolution();
+            System.out.println("Starting Google Resolution");
+        }
+
+        else {
+
+            if( mGoogleApiClient.isConnected() ) {
+                mResolveOnFail = false;
+                getProfileInformation();
+            }
+
+            else {
+                mGoogleApiClient.connect();
+                mSignInClicked = true;
+            }
+        }
     }
 
     @OnClick(R.id.linked_lay)
@@ -918,8 +824,8 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                 }, true);
     }
 
-    private Scope buildScope() {
-        return Scope.build(Scope.R_BASICPROFILE, Scope.W_SHARE, Scope.R_EMAILADDRESS);
+    private com.linkedin.platform.utils.Scope buildScope() {
+        return com.linkedin.platform.utils.Scope.build(com.linkedin.platform.utils.Scope.R_BASICPROFILE, com.linkedin.platform.utils.Scope.W_SHARE, com.linkedin.platform.utils.Scope.R_EMAILADDRESS);
     }
 
     private void setUpdateState() {

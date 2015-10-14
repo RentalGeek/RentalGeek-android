@@ -40,8 +40,10 @@ public class ActivityLogin extends GeekBaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        
+        System.out.println(String.format("Request code %d Result code %d",requestCode,resultCode));
 
-        if (requestCode == FragmentSignIn.RC_SIGN_IN) {
+        if ( requestCode == FragmentSignIn.RC_SIGN_IN || requestCode == FragmentSignIn.GP_SIGN_IN ) {
             fragment.onActivityResult(requestCode, resultCode, data);
         } else if (data != null && data.getAction() != null && data.getAction().equals("com.linkedin.thirdparty.authorize.RESULT_ACTION")) {
             fragment.onActivityResult(requestCode, resultCode, data);

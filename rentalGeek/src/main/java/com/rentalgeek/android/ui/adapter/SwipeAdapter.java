@@ -1,5 +1,7 @@
 package com.rentalgeek.android.ui.adapter;
 
+import android.view.ViewGroup;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -10,6 +12,8 @@ import com.rentalgeek.android.ui.fragment.FragmentTutorialGeekScore;
 import com.rentalgeek.android.ui.fragment.FragmentTutorialRoommates;
 
 public class SwipeAdapter extends FragmentPagerAdapter {
+    
+    private String currentFragmentTag;
 
 	public SwipeAdapter(FragmentManager fm) {
 		super(fm);
@@ -31,10 +35,24 @@ public class SwipeAdapter extends FragmentPagerAdapter {
 				return null;
 		}
 	}
+    
+    public String getCurrentFragmentTag() {
+        return currentFragmentTag;
+    }
 
 	@Override
 	public int getCount() {
 		return 4;
 	}
+
+    @Override
+    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        
+        Fragment fragment = (Fragment)object;
+
+        currentFragmentTag = fragment.getTag();
+        
+        super.setPrimaryItem(container,position,object);   
+    }
 
 }

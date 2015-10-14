@@ -12,6 +12,8 @@ import android.util.Base64;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 
 import com.linkedin.platform.LISessionManager;
 import com.rentalgeek.android.R;
@@ -34,13 +36,6 @@ public class ActivityTutorials extends GeekBaseActivity {
 	private static final String TAG = ActivityTutorials.class.getSimpleName();
 	public static final String PACKAGE_MOBILE_SDK_SAMPLE_APP = "com.rentalgeek.android";
 
-//	private static final String host = "api.linkedin.com";
-//	private static final String topCardUrl = "https://"
-//			+ host
-//			+ "/v1/people/~:(first-name,last-name,picture-url,id,email-address)";
-//	private static final String shareUrl = "https://" + host
-//			+ "/v1/people/~/shares";
-
 	AppPrefes appPref;
 	SwipeAdapter mAdapter;
 	ViewPager mPager;
@@ -61,18 +56,13 @@ public class ActivityTutorials extends GeekBaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tutorials);
-		//setUpdateState();
 		getKeyHash(this, PACKAGE_MOBILE_SDK_SAMPLE_APP);
-		//containerlogin = (FrameLayout) findViewById(R.id.containertut);
 		mAdapter = new SwipeAdapter(getSupportFragmentManager());
 		mPager = (ViewPager) findViewById(R.id.pager);
 		mPager.setAdapter(mAdapter);
 		appPref = new AppPrefes(this, "rentalgeek");
 		mIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
 		mIndicator.setViewPager(mPager);
-
-		// mPager.beginFakeDrag();
-		// mPager.fakeDragBy(5);
 
 		handler = new Handler();
 		final Runnable Update = new Runnable() {
@@ -109,32 +99,34 @@ public class ActivityTutorials extends GeekBaseActivity {
 	public void remove() {
 		handler.removeCallbacks(Update);
 	}
+    
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        
+        System.out.println(String.format("Request code %d Result code %d",requestCode,resultCode));
+        
+        String currentFragmentTag = mAdapter.getCurrentFragmentTag();
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        System.out.println("Current fragment tag is " + currentFragmentTag);
 
-		LISessionManager.getInstance(getApplicationContext()).onActivityResult(
-				this, requestCode, resultCode, data);
-		if (requestCode == FragmentSignIn.RC_SIGN_IN) {
-			FragmentSignIn fragment = (FragmentSignIn) getSupportFragmentManager()
-					.findFragmentById(R.id.pager);
-			fragment.onActivityResult(requestCode, resultCode, data);
-		} else {
-			super.onActivityResult(requestCode, resultCode, data);
-		}
-	}
+        if( currentFragmentTag != null ) {
+            
+            Fragment fragment = (Fragment)getSupportFragmentManager().findFragmentByTag(currentFragmentTag);
 
-	// Linked in essentials
-//	private void setUpdateState() {
-//		LISessionManager sessionManager = LISessionManager
-//				.getInstance(getApplicationContext());
-//		LISession session = sessionManager.getSession();
-//		boolean accessTokenValid = session.isValid();
-//
-//	}
+            if ( requestCode == FragmentSignIn.RC_SIGN_IN || requestCode == FragmentSignIn.GP_SIGN_IN ) {
+                fragment.onActivityResult(requestCode, resultCode, data);
+            } else if (data != null && data.getAction() != null && data.getAction().equals("com.linkedin.thirdparty.authorize.RESULT_ACTION")) {
+                fragment.onActivityResult(requestCode, resultCode, data);
+            } 
+        }
 
+        else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 
-
+    
 	public static String getKeyHash(Context context, String packageName) {
 		try {
 			PackageInfo info = context.getPackageManager().getPackageInfo(packageName, PackageManager.GET_SIGNATURES);
@@ -154,52 +146,4 @@ public class ActivityTutorials extends GeekBaseActivity {
 		}
 		return null;
 	}
-
-//	public void SignInLinkedIn() {
-//		LISessionManager.getInstance(getApplicationContext()).init(
-//				this, buildScope(), new AuthListener() {
-//					@Override
-//					public void onAuthSuccess() {
-//						setUpdateState();
-//
-//						APIHelper apiHelper = APIHelper.getInstance(getApplicationContext());
-//						apiHelper.getRequest(ActivityTutorials.this, topCardUrl,
-//								new ApiListener() {
-//									@Override
-//									public void onApiSuccess(ApiResponse s) {
-//
-//										System.out.println("linked in response " + s.getResponseDataAsJson());
-//
-//										FragmentSignIn fragment = (FragmentSignIn) getSupportFragmentManager().findFragmentById(R.id.pager);
-//
-//										try {
-//											fragment.callLinkedPlusLink(
-//													s.getResponseDataAsJson().getString("firstName"),
-//													"", s.getResponseDataAsJson().getString("id"),
-//													s.getResponseDataAsJson().getString("emailAddress"));
-//										} catch (JSONException e) {
-//											AppLogger.log(TAG, e);
-//										}
-//
-//									}
-//
-//									@Override
-//									public void onApiError(LIApiError error) {
-//                                        AppLogger.log(TAG, error);
-//									}
-//								});
-//
-//					}
-//
-//					@Override
-//					public void onAuthError(LIAuthError error) {
-//						setUpdateState();
-//
-//						Toast.makeText(getApplicationContext(),
-//								"failed " + error.toString(), Toast.LENGTH_LONG)
-//								.show();
-//					}
-//				}, true);
-//	}
-
 }

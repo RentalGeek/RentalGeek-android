@@ -29,7 +29,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-sdk tools:overrideLibrary="com.linkedin.android.mobilesdk"/>
 
     <permission
         android:name="com.rentalgeek.android.permission.C2D_MESSAGE"
@@ -79,7 +78,8 @@
         </activity>
         <activity
             android:name=".ui.activity.ActivityRegistration"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name=".ui.activity.ActivityGeekScore"

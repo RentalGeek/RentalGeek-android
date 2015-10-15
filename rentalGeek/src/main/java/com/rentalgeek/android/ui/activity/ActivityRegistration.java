@@ -3,12 +3,11 @@ package com.rentalgeek.android.ui.activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.webkit.WebView;
-import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -19,6 +18,7 @@ import com.loopj.android.http.RequestParams;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.Validator.ValidationListener;
+import com.mobsandgeeks.saripaar.annotation.Checked;
 import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
 import com.mobsandgeeks.saripaar.annotation.Email;
 import com.mobsandgeeks.saripaar.annotation.Password;
@@ -38,9 +38,9 @@ import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ListUtils;
 import com.rentalgeek.android.utils.Loading;
+import com.rentalgeek.android.utils.OkAlert;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -61,18 +61,9 @@ public class ActivityRegistration extends GeekBaseActivity implements Validation
 
 	private YoYo.YoYoString animation_obj;
 
-//	@InjectView(R.id.terms)
-//	CheckBox terms;
-
-//	@InjectView(R.id.containerregis)
-//	FrameLayout prog;
-
-	@InjectView(R.id.terms_text)
-	TextView terms_text;
-
 	@Password(order = 3)
 	@TextRule(order = 5, minLength = 8, message = "Password length should be 8 characters")
-	@Required(order = 4, message = "Please enter pasword")
+	@Required(order = 4, message = "Please enter password")
 	@InjectView(R.id.password_regis)
 	EditText password_regis;
 
@@ -80,23 +71,18 @@ public class ActivityRegistration extends GeekBaseActivity implements Validation
 	@InjectView(R.id.confirm_password_regis)
 	EditText confirm_password_regis;
 
+    @Checked(order = 7, message = "You must agree to the terms.")
+	@InjectView(R.id.terms_checkbox) CheckBox termsCheckbox;
+
 	private Validator validator;
-
-	@InjectView(R.id.create_account)
-	Button create_account;
-
 	Loading load;
-
 	AppPrefes appPref;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_registration);
 		ButterKnife.inject(this);
-		terms_text.setSingleLine(false);
-		terms_text.setText(Html.fromHtml("By creating a RentalGeek account,\n you agree to our <u>Terms & Conditions</u>"));
 		validator = new Validator(this);
 		validator.setValidationListener(this);
 		load = new Loading(ActivityRegistration.this);
@@ -110,64 +96,60 @@ public class ActivityRegistration extends GeekBaseActivity implements Validation
 	}
 
 	private void callRegisterApi(String a, String b, String c) {
-
-        final AppCompatActivity activity = this;
-		//new GetSSl().getssl(client);
+		final AppCompatActivity activity = this;
 		RequestParams params = new RequestParams();
 		params.put("user[email]", a);
 		params.put("user[password]", b);
 		params.put("user[confirm_password]", c);
 
 		GlobalFunctions.postApiCall(this, ApiManager.regis_link, params, AppPreferences.getAuthToken(),
-				new GeekHttpResponseHandler() {
+			new GeekHttpResponseHandler() {
+				@Override
+				public void onStart() {
+					showProgressDialog(R.string.dialog_msg_loading);
+				}
 
-					@Override
-					public void onStart() {
-						showProgressDialog(R.string.dialog_msg_loading);
-					}
+				@Override
+				public void onFinish() {
+					hideProgressDialog();
+				}
 
-					@Override
-					public void onFinish() {
-                        hideProgressDialog();
-					}
+				@Override
+				public void onSuccess(String content) {
+					LoginBackend detail = null;
+					try {
+						detail = (new Gson()).fromJson(content.toString(), LoginBackend.class);
 
-					@Override
-					public void onSuccess(String content) {
-                        LoginBackend detail = null;
-						try {
-                            detail = (new Gson()).fromJson(content.toString(), LoginBackend.class);
+						if (detail != null && detail.user != null) {
 
-							if (detail != null && detail.user != null) {
-
-								if( detail.profiles == null ) {
-									detail.profiles = new ArrayList<Profile>();
-								}
-
-                                SessionManager.Instance.onUserLoggedIn(detail);
-
-                                Navigation.navigateActivity(activity, ActivityHome.class, true);
-
-							} else if (detail.error != null && !ListUtils.isNullOrEmpty(detail.error)) {
-								toast(detail.error.get(0).toString());
+							if( detail.profiles == null ) {
+								detail.profiles = new ArrayList<Profile>();
 							}
 
-						} catch (Exception e) {
-							AppLogger.log(TAG, e);
-							if (detail != null && !ListUtils.isNullOrEmpty(detail.error))
-								toast(detail.error.get(0).toString());
-							else
-								toast("No Connection");
+							SessionManager.Instance.onUserLoggedIn(detail);
+
+							Navigation.navigateActivity(activity, ActivityHome.class, true);
+
+						} else if (detail.error != null && !ListUtils.isNullOrEmpty(detail.error)) {
+							toast(detail.error.get(0).toString());
 						}
+
+					} catch (Exception e) {
+						AppLogger.log(TAG, e);
+						if (detail != null && !ListUtils.isNullOrEmpty(detail.error))
+							toast(detail.error.get(0).toString());
+						else
+							toast("No Connection");
 					}
+				}
 
-					@Override
-					public void onFailure(Throwable ex, String failureResponse) {
-						super.onFailure(ex, failureResponse);
-						DialogManager.showCrouton(activity, failureResponse);
-					}
+				@Override
+				public void onFailure(Throwable ex, String failureResponse) {
+					super.onFailure(ex, failureResponse);
+					DialogManager.showCrouton(activity, failureResponse);
+				}
 
-					});
-
+			});
 	}
 
 	public boolean isValidEmailAddress(String email) {
@@ -184,45 +166,26 @@ public class ActivityRegistration extends GeekBaseActivity implements Validation
 		if (failedView instanceof EditText) {
 			failedView.requestFocus();
 			((EditText) failedView).setError(message);
-		} else {
-			// Toast.makeText(getActivity(), message,
-			// Toast.LENGTH_SHORT).show();
-
+		} else if (failedView instanceof CheckBox){
+            OkAlert.show(this, "Agree to Terms", message);
 		}
 	}
 
 	@Override
 	public void onValidationSucceeded() {
-
 		callRegisterApi(email_add_regis.getText().toString(),
-				password_regis.getText().toString(),
-				confirm_password_regis.getText().toString());
-
-//		if (terms.isChecked()) {
-//			if (con.isConnectingToInternet()) {
-//				callRegisterApi(email_add_regis.getText().toString(),
-//						password_regis.getText().toString(),
-//						confirm_password_regis.getText().toString());
-//			} else {
-//				toast("No Connection");
-//			}
-//		} else {
-//			toast("Please accept terms and conditions");
-//		}
-
+			password_regis.getText().toString(),
+			confirm_password_regis.getText().toString());
 	}
 
 	public void toast(String message) {
 		DialogManager.showCrouton(this, message);
-//		Crouton crouton = Crouton.makeText(ActivityRegistration.this, message,
-//				Style.CONFIRM);
-//		crouton.show();
 	}
 
 	@OnClick(R.id.terms_text)
 	public void infoclick1() {
 		final Dialog dialog = new Dialog(ActivityRegistration.this,
-				R.style.MyDialogInner);
+			R.style.MyDialogInner);
 
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.terms_dialog);
@@ -243,7 +206,6 @@ public class ActivityRegistration extends GeekBaseActivity implements Validation
 		});
 
 		dialog.show();
-
 	}
 
 }

@@ -7,12 +7,12 @@ android {
             keyPassword "rentalgeekdev"
         }
        
-       debug {
-            storeFile file("/home/alan/.android/debug.keystore");
-            storePassword "android"
-            keyAlias "androiddebugkey"
-            keyPassword "android"
-        }
+//       debug {
+//            storeFile file("/home/alan/.android/debug.keystore");
+//            storePassword "android"
+//            keyAlias "androiddebugkey"
+//            keyPassword "android"
+//        }
 
     }
 }

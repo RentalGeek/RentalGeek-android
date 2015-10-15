@@ -80,10 +80,8 @@ import butterknife.OnClick;
 public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallbacks,
         OnConnectionFailedListener {
 
-    CallbackManager callbackManager;
 
-    public static final int RC_SIGN_IN = 0;
-    public static final int FB_SIGN_IN = 1;
+    public static final int LI_SIGN_IN = 0;
     public static final int GP_SIGN_IN = 2;
 
     private static final String TAG = "FragmentSignIn";
@@ -93,15 +91,20 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
     private static final int PROFILE_PIC_SIZE = 400;
 
     private GoogleApiClient mGoogleApiClient;
-    AppPrefes appPref;
+    
+    private AppPrefes appPref;
 
     private boolean mIntentInProgress;
 
-    private boolean mSignInClicked = false;
+    private boolean clickedGoogle = false;
+    private boolean clickedFacebook = false;
+    private boolean clickedLinkedIn = false;
 
     private boolean mResolveOnFail = false;
     
     private ConnectionResult mConnectionResult;
+    
+    private CallbackManager facebookCallbackManager;
 
     @InjectView(R.id.btn_sign_in)
     SignInButton btnSignIn;
@@ -140,7 +143,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         super.onCreate(savedInstanceState);
 
         FacebookSdk.sdkInitialize(activity.getApplicationContext());
-        callbackManager = CallbackManager.Factory.create();
+        facebookCallbackManager = CallbackManager.Factory.create();
 
         if( mGoogleApiClient == null ) 
             mGoogleApiClient = buildGoogleApiClient();
@@ -155,10 +158,8 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         setUpdateState();
 
         // facebook essentials
-        android.app.Fragment fragment = new NativeFragmentWrapper(this);
-        fbLoginButton.setFragment(this);
         fbLoginButton.setReadPermissions(Arrays.asList("public_profile", "email", "user_birthday"));
-        fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        fbLoginButton.registerCallback(facebookCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
 
@@ -186,12 +187,14 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
             @Override
             public void onCancel() {
                 DialogManager.showCrouton(activity, "Facebook Login Cancelled");
+                clickedFacebook = false;
             }
 
             @Override
             public void onError(FacebookException exception) {
                 AppLogger.log(TAG, exception);
                 DialogManager.showCrouton(activity, exception.getMessage());
+                clickedFacebook = false;
             }
         });
 
@@ -274,7 +277,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                         OkAlert.showUnknownError(getActivity());
                     }
                 });
-
     }
 
     @Override
@@ -341,27 +343,24 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case RC_SIGN_IN:
-                if (resultCode == getActivity().RESULT_OK) {
-                    // If the error resolution was successful we should continue
-                    // processing error.
-                    mSignInProgress = STATE_SIGN_IN;
-                } else {
-                    // If the error resolution was not successful or the user canceled,
-                    // we should stop processing error.
-                    mSignInProgress = STATE_DEFAULT;
-                }
+        
+        super.onActivityResult(requestCode,resultCode,data);
 
-                break;
-            case GP_SIGN_IN:
-                if( resultCode == getActivity().RESULT_OK ) {
-                    mResolveOnFail = false; 
-                    mSignInClicked = true;
-                    mGoogleApiClient.connect();
-                }
-                break;
-        }
+        if( resultCode == getActivity().RESULT_OK ) {
+        
+            if( clickedGoogle ) {
+                mResolveOnFail = false; 
+                mGoogleApiClient.connect();
+            }
+
+            else if( clickedFacebook ) {
+                facebookCallbackManager.onActivityResult(requestCode,resultCode,data);
+            }
+
+            else {
+            
+            }
+        }                    
 
         //if (callbackManager != null) callbackManager.onActivityResult(requestCode, resultCode, data);
         //LISessionManager.getInstance(activity.getApplicationContext()).onActivityResult(activity, requestCode, resultCode, data);
@@ -397,7 +396,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
             mConnectionResult = result;
 
             if( mResolveOnFail ) {
-                mSignInClicked = false;
                 startGoogleResolution();    
             }
         }
@@ -407,8 +405,10 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
     public void onConnected(Bundle arg0) {
         System.out.println("Connected to Google+");
 
-        if( mSignInClicked ) 
+        if( clickedGoogle ) {
             getProfileInformation();
+            clickedGoogle = false;
+        }
     }
 
     @Override
@@ -462,7 +462,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
             return GooglePlayServicesUtil.getErrorDialog(
                     mSignInError,
                     getActivity(),
-                    RC_SIGN_IN,
+                    GP_SIGN_IN,
                     new DialogInterface.OnCancelListener() {
                         @Override
                         public void onCancel(DialogInterface dialog) {
@@ -732,12 +732,16 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
     public void facebookClick(View v) {
         animation_obj = YoYo.with(Techniques.Flash).duration(1000).playOn(v);
         fbLoginButton.performClick();
+        clickedFacebook = true;
+        System.out.println("Clicked Facebook login button");
     }
 
     @OnClick(R.id.google_plus)
     public void GooglePlusClick(View v) {
         animation_obj = YoYo.with(Techniques.Flash).duration(1000).playOn(v);
 
+        clickedGoogle = true;
+        
         if( mConnectionResult != null && mConnectionResult.hasResolution() ) {
             startGoogleResolution();
             System.out.println("Starting Google Resolution");
@@ -752,7 +756,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
             else {
                 mGoogleApiClient.connect();
-                mSignInClicked = true;
             }
         }
     }

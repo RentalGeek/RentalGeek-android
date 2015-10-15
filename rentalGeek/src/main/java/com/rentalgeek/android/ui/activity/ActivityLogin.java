@@ -13,11 +13,11 @@ public class ActivityLogin extends GeekBaseActivity {
 
     private static final String TAG = ActivityLogin.class.getSimpleName();
 
-    private FragmentSignIn fragment;
-
     public ActivityLogin() {
         super(false, false, false);
     }
+
+    FragmentSignIn fragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,23 +39,16 @@ public class ActivityLogin extends GeekBaseActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        
-        System.out.println(String.format("Request code %d Result code %d",requestCode,resultCode));
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
 
-        if ( requestCode == FragmentSignIn.RC_SIGN_IN || requestCode == FragmentSignIn.GP_SIGN_IN ) {
-            fragment.onActivityResult(requestCode, resultCode, data);
-        } else if (data != null && data.getAction() != null && data.getAction().equals("com.linkedin.thirdparty.authorize.RESULT_ACTION")) {
-            fragment.onActivityResult(requestCode, resultCode, data);
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
+        if( fragment != null ) {
+            fragment.onActivityResult(requestCode,resultCode,data);
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.action_bar, menu);
         return true;
     }
 

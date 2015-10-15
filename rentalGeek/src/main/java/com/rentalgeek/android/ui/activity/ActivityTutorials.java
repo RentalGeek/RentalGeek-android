@@ -104,6 +104,7 @@ public class ActivityTutorials extends GeekBaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         
+        
         System.out.println(String.format("Request code %d Result code %d",requestCode,resultCode));
         
         String currentFragmentTag = mAdapter.getCurrentFragmentTag();
@@ -113,17 +114,13 @@ public class ActivityTutorials extends GeekBaseActivity {
         if( currentFragmentTag != null ) {
             
             Fragment fragment = (Fragment)getSupportFragmentManager().findFragmentByTag(currentFragmentTag);
-
-            if ( requestCode == FragmentSignIn.RC_SIGN_IN || requestCode == FragmentSignIn.GP_SIGN_IN ) {
-                fragment.onActivityResult(requestCode, resultCode, data);
-            } else if (data != null && data.getAction() != null && data.getAction().equals("com.linkedin.thirdparty.authorize.RESULT_ACTION")) {
-                fragment.onActivityResult(requestCode, resultCode, data);
-            } 
+            fragment.onActivityResult(requestCode, resultCode, data);
         }
 
         else {
-            super.onActivityResult(requestCode, resultCode, data);
         }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     

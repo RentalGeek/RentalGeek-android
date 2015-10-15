@@ -99,15 +99,16 @@
                 android:id="@+id/facebook_lays"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:layout_marginRight="10dp"
                 android:src="@drawable/face_icon"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <ImageView
                 android:id="@+id/linked_lay"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/link_icon"
-                android:visibility="visible"/>
+                android:visibility="gone"/>
 
         </LinearLayout>
 

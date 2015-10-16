@@ -359,13 +359,10 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                 facebookCallbackManager.onActivityResult(requestCode,resultCode,data);
             }
 
-            else {
-            
+            else if ( clickedLinkedIn ) {
+                LISessionManager.getInstance(activity.getApplicationContext()).onActivityResult(activity, requestCode, resultCode, data);
             }
         }                    
-
-        //if (callbackManager != null) callbackManager.onActivityResult(requestCode, resultCode, data);
-        //LISessionManager.getInstance(activity.getApplicationContext()).onActivityResult(activity, requestCode, resultCode, data);
     }
 
     private static final String SAVED_PROGRESS = "sign_in_progress";
@@ -765,7 +762,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
     @OnClick(R.id.linked_lay)
     public void LinkedInClick(View v) {
         animation_obj = YoYo.with(Techniques.Flash).duration(1000).playOn(v);
-        //((ActivityTutorials) getActivity()).SignInLinkedIn();
+        clickedLinkedIn = true;
         SignInLinkedIn();
     }
 
@@ -796,8 +793,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
                                         System.out.println("linked in response " + s.getResponseDataAsJson());
 
-                                        //FragmentSignIn fragment = (FragmentSignIn) activity.getSupportFragmentManager().findFragmentById(R.id.pager);
-
                                         try {
                                             callLinkedPlusLink(
                                                     s.getResponseDataAsJson().getString("firstName"),
@@ -813,6 +808,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                                     public void onApiError(LIApiError error) {
                                         AppLogger.log(TAG, error);
                                         DialogManager.showCrouton(activity, error.getMessage());
+                                        clickedLinkedIn = false;
                                     }
                                 });
 

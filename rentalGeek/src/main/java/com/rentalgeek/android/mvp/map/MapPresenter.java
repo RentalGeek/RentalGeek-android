@@ -25,24 +25,23 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class MapPresenter implements Presenter {
- 
+
     private static final String TAG = MapPresenter.class.getSimpleName();
 
     private MapView mapView;
-    
+
     public MapPresenter(MapView mapView) {
         this.mapView = mapView;
     }
-    
+
     @Override public void getRental(String rental_id) {
         Rental rental = RentalCache.getInstance().get(rental_id);
-        
-        if( rental == null ) {
 
+        if (rental == null) {
             System.out.println("Not found in cache");
             String url = ApiManager.getRental(rental_id);
             String token = AppPreferences.getAuthToken();
-            
+
             GlobalFunctions.getApiCall(null,url,token, new GeekHttpResponseHandler() {
                 @Override
                 public void onSuccess(String response) {
@@ -64,10 +63,9 @@ public class MapPresenter implements Presenter {
                     }
                 }
             });
-        }
-        
-        else
+        }  else {
             mapView.setRental(rental);
+        }
     }
 
     @Override public void addRentals(Rental[] rentals) {
@@ -77,7 +75,7 @@ public class MapPresenter implements Presenter {
 
         else {
             Observable<Rental> setRentalObservable = Observable.from(rentals);
-            
+
             //Receives Rental objects and returns MarkerOptions
             setRentalObservable.map(new Func1<Rental,RentalMarker>() {
                 @Override
@@ -92,20 +90,20 @@ public class MapPresenter implements Presenter {
                     return rentalMarker;
                 }
             })
-            .toList()
-            .subscribeOn(Schedulers.newThread())//Want to do work on a new thread
-            .observeOn(AndroidSchedulers.mainThread())//Want to receive results from work on main thread since we're going to tamper UI
-            .subscribe( new Action1<List<RentalMarker>>() {
-                @Override
-                public void call(List<RentalMarker> markers) {
+                .toList()
+                .subscribeOn(Schedulers.newThread())//Want to do work on a new thread
+                .observeOn(AndroidSchedulers.mainThread())//Want to receive results from work on main thread since we're going to tamper UI
+                .subscribe( new Action1<List<RentalMarker>>() {
+                    @Override
+                    public void call(List<RentalMarker> markers) {
 
-                    for( int i = 0; i < markers.size(); i++ ) {
-                        mapView.addMarker(markers.get(i)); 
+                        for( int i = 0; i < markers.size(); i++ ) {
+                            mapView.addMarker(markers.get(i));
+                        }
+
+                        mapView.boundbox();
                     }
-
-                    mapView.boundbox();
-                }
-            });
+                });
         }
     }
 }

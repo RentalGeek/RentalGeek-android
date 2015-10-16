@@ -2,7 +2,6 @@ package com.rentalgeek.android.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,9 +71,8 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
                     getView().getViewTreeObserver().removeOnPreDrawListener(this);
 
                     float imgHeight = getActivity().getResources().getDimension(R.dimen.img_height);
-                    int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, imgHeight, getActivity().getResources().getDisplayMetrics());
                     ViewGroup.LayoutParams params = getView().getLayoutParams();
-                    params.height = height;
+                    params.height = (int)imgHeight;
                     getView().setLayoutParams(params);
 
                     return true;
@@ -116,7 +114,7 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
     @Override
     public void onStart() {
         super.onStart();
-        
+
         if( getArguments() != null ) {
             Bundle args = getArguments();
             rental_id = args.getString("RENTAL_ID");
@@ -134,24 +132,23 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
     @Override
     public void show() {
         getFragmentManager().
-                beginTransaction().
-                setCustomAnimations( R.anim.abc_slide_in_bottom,0).
-                show(this).
-                commit();
+            beginTransaction().
+            setCustomAnimations( R.anim.abc_slide_in_bottom,0).
+            show(this).
+            commit();
     }
 
     @Override
     public void hide() {
         getFragmentManager().
-                beginTransaction().
-                setCustomAnimations(0,R.anim.abc_slide_out_bottom).
-                hide(this).
-                commit();
+            beginTransaction().
+            setCustomAnimations(0,R.anim.abc_slide_out_bottom).
+            hide(this).
+            commit();
     }
 
     @Override
     public void showRental(Rental rental) {
-
         if( rental == null ) {
             return;
         }
@@ -183,9 +180,9 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
         amenities_textview.setText(amenities);
 
         Picasso
-                .with(getActivity())
-                .load(rental.getImageUrl())
-                .into(rental_imageview);
+            .with(getActivity())
+            .load(rental.getImageUrl())
+            .into(rental_imageview);
 
         if( rental.isStarred() ) {
             selectStar();
@@ -228,11 +225,9 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
     }
 
     @OnClick(R.id.rental_image) void onRentalClick() {
-        if( ! fullView ) {
-
+        if (!fullView) {
             Bundle bundle = new Bundle();
             bundle.putString("RENTAL_ID",rental_id);
-
             AppEventBus.post(new ClickRentalEvent(bundle));
         }
     }
@@ -241,9 +236,9 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
     public void selectStar() {
         if( rental_imageview != null) {
             Picasso
-                    .with(getActivity())
-                    .load(R.drawable.star_full)
-                    .into(star_imageview);
+                .with(getActivity())
+                .load(R.drawable.star_full)
+                .into(star_imageview);
         }
     }
 
@@ -251,9 +246,9 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
     public void unselectStar() {
         if( rental_imageview != null ) {
             Picasso
-                    .with(getActivity())
-                    .load(R.drawable.star_outline)
-                    .into(star_imageview);
+                .with(getActivity())
+                .load(R.drawable.star_outline)
+                .into(star_imageview);
         }
     }
 

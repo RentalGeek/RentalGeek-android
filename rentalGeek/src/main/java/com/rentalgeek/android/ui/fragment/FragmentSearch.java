@@ -24,8 +24,6 @@ import butterknife.InjectView;
 import butterknife.InjectViews;
 import butterknife.OnClick;
 
-
-
 public class FragmentSearch extends GeekBaseFragment implements SearchView {
     
     @InjectViews({R.id.btn_bed0,R.id.btn_bed1,R.id.btn_bed2,R.id.btn_bed3,R.id.btn_bed4})
@@ -179,4 +177,5 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
              hideProgressDialog();   
              OkAlert.show(getActivity(),title,msg);
     }
+
 }

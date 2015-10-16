@@ -50,14 +50,12 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
 		View view = inflater.inflate(R.layout.map, container, false);
         
         SupportMapFragment mapFragment = (SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);//Waits until map is available for us to use
         
         rentalView = (RentalView)getChildFragmentManager().findFragmentById(R.id.rental);
-
         presenter = new MapPresenter(this);
         
 		return view;
@@ -101,9 +99,8 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
         }
 
         int width = RentalGeekApplication.getScreenWidth();
-        
         int mapPadding = (int)RentalGeekApplication.getDimension(R.dimen.map_padding);
-   
+
         map.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(),width,width,mapPadding));
     }
 
@@ -124,10 +121,10 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
 
     @Override
     public void setRental(Rental rental) {
-
-         if( rental != null ) {
-            zoomTo(rental.getLatitude(),rental.getLongitude(),15);
+         if (rental != null) {
+            zoomTo(rental.getLatitude(), rental.getLongitude(), 15);
             rentalView.showRental(rental);    
         }
     }
+
 }

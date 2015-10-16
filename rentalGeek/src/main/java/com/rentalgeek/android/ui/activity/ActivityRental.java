@@ -27,11 +27,9 @@ public class ActivityRental extends GeekBaseActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_with_fragment);
-
         setupNavigation();
 
         if (savedInstanceState == null) {
-
             rentalView = new FragmentRental();
 
             Bundle args = getIntent().getExtras();

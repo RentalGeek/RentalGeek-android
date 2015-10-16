@@ -107,7 +107,6 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
     }
     
     public void onEventMainThread(ClickRentalEvent event) {
-        
         Bundle bundle = event.getBundle();
 
         if( bundle != null ) {

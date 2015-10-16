@@ -179,7 +179,6 @@ public class AppPreferences {
     }
 
     public static boolean setPassword(String passWord) {
-        //final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         final Context context = RentalGeekApplication.context;
         final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = tempSettings.edit();

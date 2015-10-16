@@ -51,6 +51,7 @@ import com.linkedin.platform.listeners.ApiListener;
 import com.linkedin.platform.listeners.ApiResponse;
 import com.linkedin.platform.listeners.AuthListener;
 import com.loopj.android.http.RequestParams;
+import com.rentalgeek.android.BuildConfig;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.api.SessionManager;
@@ -77,9 +78,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallbacks,
-        OnConnectionFailedListener {
-
+public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallbacks, OnConnectionFailedListener {
 
     public static final int LI_SIGN_IN = 0;
     public static final int GP_SIGN_IN = 2;
@@ -207,7 +206,6 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         layoutThirdPartyLogins.setVisibility(AppSystem.isV1Build ? View.GONE : View.VISIBLE);
 
         return v;
-
     }
 
     private GoogleApiClient buildGoogleApiClient() {
@@ -231,52 +229,52 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         params.put("user[password]", b);
 
         GlobalFunctions.postApiCall(getActivity(), ApiManager.getSignin(),
-                params, AppPreferences.getAuthToken(),
-                new GeekHttpResponseHandler() {
+            params, AppPreferences.getAuthToken(),
+            new GeekHttpResponseHandler() {
 
-                    @Override
-                    public void onStart() {
-                        showProgressDialog(R.string.dialog_msg_loading);
+                @Override
+                public void onStart() {
+                    showProgressDialog(R.string.dialog_msg_loading);
+                }
+
+                @Override
+                public void onFinish() {
+                    hideProgressDialog();
+                }
+
+                @Override
+                public void onSuccess(String content) {
+                    try {
+                        NormalLogin(content);
+                    } catch (Exception e) {
+                        AppLogger.log(TAG, e);
                     }
+                }
 
-                    @Override
-                    public void onFinish() {
-                        hideProgressDialog();
-                    }
+                @Override
+                public void onAuthenticationFailed() {
 
-                    @Override
-                    public void onSuccess(String content) {
-                        try {
-                            NormalLogin(content);
-                        } catch (Exception e) {
-                            AppLogger.log(TAG, e);
-                        }
-                    }
+                }
 
-                    @Override
-                    public void onAuthenticationFailed() {
-
-                    }
-
-                    @Override
-                    public void onFailure(Throwable ex, String failureResponse) {
-                        super.onFailure(ex, failureResponse);
-                        ErrorApi error = (new Gson()).fromJson(failureResponse, ErrorApi.class);
-                        if (error != null) {
-                            if (!error.success) {
-                                String message = error.message;
-                                if (!TextUtils.isEmpty(message)) {
-                                    String title = getResources().getString(R.string.login_title);
-                                    String msg = getResources().getString(R.string.invalid_login);
-                                    OkAlert.show(getActivity(), title, msg);
-                                    return;
-                                }
+                @Override
+                public void onFailure(Throwable ex, String failureResponse) {
+                    super.onFailure(ex, failureResponse);
+                    ErrorApi error = (new Gson()).fromJson(failureResponse, ErrorApi.class);
+                    if (error != null) {
+                        if (!error.success) {
+                            String message = error.message;
+                            if (!TextUtils.isEmpty(message)) {
+                                String title = getResources().getString(R.string.login_title);
+                                String msg = getResources().getString(R.string.invalid_login);
+                                OkAlert.show(getActivity(), title, msg);
+                                return;
                             }
                         }
-
-                        OkAlert.showUnknownError(getActivity());
                     }
-                });
+
+                    OkAlert.showUnknownError(getActivity());
+                }
+            });
     }
 
     @Override
@@ -310,6 +308,10 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
     }
 
     private void NormalLogin(String response) {
+        if (BuildConfig.DEBUG) {
+            AppPreferences.setUserName(ed_username.getText().toString());
+            AppPreferences.setPassword(ed_password.getText().toString());
+        }
         LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
         SessionManager.Instance.onUserLoggedIn(detail);
         Navigation.navigateActivity(activity, ActivityHome.class, true);

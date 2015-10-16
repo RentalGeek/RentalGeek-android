@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="img_height">200dp</dimen>
-     <dimen name="loho_hei">150dp</dimen>
-     <dimen name="loho_wid">200dp</dimen>
-     <dimen name="ed_apply">180dp</dimen>
-     <dimen name="map_padding">25dp</dimen>
-     <dimen name="edittext_profile_field_height">50dp</dimen>
-     <dimen name="edittext_profile_field_margin_top">12dp</dimen>
-     <dimen name="edittext_profile_field_margin_bottom">32dp</dimen>
-     <dimen name="profile_field_padding_left">5dp</dimen>
-     <dimen name="edittext_field_label_text_size">18sp</dimen>
-     <dimen name="profile_form_side_padding">20dp</dimen>
+    <dimen name="loho_hei">150dp</dimen>
+    <dimen name="loho_wid">200dp</dimen>
+    <dimen name="ed_apply">180dp</dimen>
+    <dimen name="map_padding">25dp</dimen>
+    <dimen name="edittext_profile_field_height">50dp</dimen>
+    <dimen name="edittext_profile_field_margin_top">12dp</dimen>
+    <dimen name="edittext_profile_field_margin_bottom">32dp</dimen>
+    <dimen name="profile_field_padding_left">5dp</dimen>
+    <dimen name="edittext_field_label_text_size">18sp</dimen>
+    <dimen name="profile_form_side_padding">20dp</dimen>
 </resources>

@@ -205,10 +205,13 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
         for (int i = 0; i < propertyPhotos.size(); i++) {
             final PhotoDTO photoInfo = propertyPhotos.get(i);
             final ImageView imageView = new ImageView(getActivity());
-            imageView.setPadding(2, 0, 2, 0);
+            propertyPhotoGallery.addView(imageView);
+            imageView.setPadding(4, 0, 4, 0);
             imageView.setImageDrawable(getResources().getDrawable(R.drawable.loading_gray_image_bg));
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            propertyPhotoGallery.addView(imageView);
+            float imgHeight = getActivity().getResources().getDimension(R.dimen.thumb_img_height);
+            imageView.getLayoutParams().width = (int)imgHeight;
+            imageView.getLayoutParams().height = (int)imgHeight;
             Picasso.with(getActivity()).load(photoInfo.thumb).into(imageView);
 
             final int finalI = i;

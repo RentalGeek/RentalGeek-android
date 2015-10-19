@@ -34,8 +34,8 @@ public class ActivitySearch extends GeekBaseActivity {
     }
     
     public void onEventMainThread(SearchEvent event) {
-        if( event.getBundle() != null ) {
-            Navigation.navigateActivity(this,ActivityHome.class,event.getBundle(),true);
+        if (event.getBundle() != null) {
+            Navigation.navigateActivity(this, ActivityHome.class, event.getBundle(), true);
         }
     }
 

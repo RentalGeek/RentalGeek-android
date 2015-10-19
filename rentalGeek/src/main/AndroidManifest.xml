@@ -63,6 +63,7 @@
         <activity
             android:name=".ui.activity.ActivityHome"
             android:label="Home"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <data android:scheme="rentalgeek" android:host="open"/>

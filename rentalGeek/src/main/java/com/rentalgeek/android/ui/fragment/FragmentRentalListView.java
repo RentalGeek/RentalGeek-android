@@ -37,12 +37,10 @@ public class FragmentRentalListView extends GeekBaseFragment implements RentalLi
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        
         View view = inflater.inflate(R.layout.geek_listview, container, false);
         ButterKnife.inject(this, view);
         
         rentalListView.setAdapter(adapter);
-
         System.out.println(TAG + "onCreateView called");
 
         return view;
@@ -86,4 +84,5 @@ public class FragmentRentalListView extends GeekBaseFragment implements RentalLi
     public void removeItem(int position) {
         adapter.remove(adapter.getItem(position));
     }
+
 }

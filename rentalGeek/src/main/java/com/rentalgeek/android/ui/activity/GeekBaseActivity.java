@@ -10,8 +10,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
 
@@ -88,10 +88,10 @@ public class GeekBaseActivity extends AppCompatActivity {
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
             case R.id.action_map:
-                Navigation.navigateActivity(this,ActivityHome.class,true);
+                Navigation.navigateActivity(this, ActivityHome.class, false);
                 return true;
             case R.id.action_search:
-                Navigation.navigateActivity(this,ActivitySearch.class,false);
+                Navigation.navigateActivity(this, ActivitySearch.class, false);
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
                 return true;
         }

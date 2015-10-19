@@ -31,6 +31,7 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
     private HomePresenter presenter;
     private MapView mapView;
     private RentalListView rentalListView;
+    private boolean shouldReload = false;
 
     public ActivityHome() {
         super(true, true, true);
@@ -40,6 +41,7 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
 
+        shouldReload = true;
         setContentView(R.layout.activity_with_tabs);
         inflateStub(R.id.stub, R.layout.pager_container);
         setTabs(true);
@@ -70,32 +72,37 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
     @Override
     public void onPause() {
         super.onPause();
+        shouldReload = false;
     }
     
     @Override
     public void onResume() {
         super.onResume();
-        showProgressDialog(R.string.loading_rentals);
-        final Bundle extras = getIntent().getExtras();
+        hideProgressDialog();
 
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (extras == null) {
-                    presenter.getRentalOfferings();
-                } else {
-                    presenter.getRentalOfferings(extras);
+        if (shouldReload) {
+            showProgressDialog(R.string.loading_rentals);
+            final Bundle extras = getIntent().getExtras();
+
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (extras == null) {
+                        presenter.getRentalOfferings();
+                    } else {
+                        presenter.getRentalOfferings(extras);
+                    }
                 }
-            }
-        }, 3000);
+            }, 3000);
+        }
     }
 
     @Override
     public void setupContainer(ViewPager container) {
         PageAdapter adapter = new PageAdapter(getSupportFragmentManager());
         adapter.addFragment((FragmentMap)mapView,"Map View");
-        adapter.addFragment((FragmentRentalListView)rentalListView,"List View");
+        adapter.addFragment((FragmentRentalListView) rentalListView, "List View");
         container.setAdapter(adapter);
     }
 

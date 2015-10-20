@@ -14,7 +14,7 @@ public class FragmentNoFavorites extends GeekBaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstance) {
-        View view = inflater.inflate(R.layout.fragment_no_favorites,viewGroup,false);
+        View view = inflater.inflate(R.layout.fragment_no_favorites, viewGroup, false);
         return view;
     }
 }

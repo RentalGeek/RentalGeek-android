@@ -23,8 +23,8 @@ import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.activity.ActivityCosignerApp2;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.DateUtils;
-import com.rentalgeek.android.utils.ResponseParser;
 import com.rentalgeek.android.utils.OkAlert;
+import com.rentalgeek.android.utils.ResponseParser;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -32,14 +32,22 @@ import butterknife.OnClick;
 
 public class FragmentCosignerApp1 extends GeekBaseFragment {
 
-	@InjectView(R.id.first_name_edittext) EditText firstNameEditText;
-	@InjectView(R.id.last_name_edittext) EditText lastNameEditText;
-	@InjectView(R.id.month_spinner) Spinner monthSpinner;
-	@InjectView(R.id.day_spinner) Spinner daySpinner;
-	@InjectView(R.id.year_edittext) EditText yearEditText;
-    @InjectView(R.id.ssn_edittext) EditText ssnEditText;
-    @InjectView(R.id.marital_status_spinner) Spinner maritalStatusSpinner;
-    @InjectView(R.id.phone_number_edittext) EditText phoneNumberEditText;
+    @InjectView(R.id.first_name_edittext)
+    EditText firstNameEditText;
+    @InjectView(R.id.last_name_edittext)
+    EditText lastNameEditText;
+    @InjectView(R.id.month_spinner)
+    Spinner monthSpinner;
+    @InjectView(R.id.day_spinner)
+    Spinner daySpinner;
+    @InjectView(R.id.year_edittext)
+    EditText yearEditText;
+    @InjectView(R.id.ssn_edittext)
+    EditText ssnEditText;
+    @InjectView(R.id.marital_status_spinner)
+    Spinner maritalStatusSpinner;
+    @InjectView(R.id.phone_number_edittext)
+    EditText phoneNumberEditText;
 
     private String firstName;
     private String lastName;
@@ -51,9 +59,9 @@ public class FragmentCosignerApp1 extends GeekBaseFragment {
     private String phoneNumber;
 
     @Override
-	public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_cosigner_app1, container, false);
-		ButterKnife.inject(this, view);
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_cosigner_app1, container, false);
+        ButterKnife.inject(this, view);
 
         phoneNumberEditText.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 
@@ -81,14 +89,14 @@ public class FragmentCosignerApp1 extends GeekBaseFragment {
             }
         });
 
-		setUpSpinners();
+        setUpSpinners();
 
-		return view;
-	}
+        return view;
+    }
 
-	@OnClick(R.id.next_button)
-	public void nextButtonTapped() {
-		if (validInput()) {
+    @OnClick(R.id.next_button)
+    public void nextButtonTapped() {
+        if (validInput()) {
             RequestParams params = new RequestParams();
             params.put("user[cosigner_profile_attributes][step]", "personal_info");
             params.put("user[first_name]", firstName);
@@ -127,9 +135,9 @@ public class FragmentCosignerApp1 extends GeekBaseFragment {
                 }
             });
         }
-	}
+    }
 
-	private boolean validInput() {
+    private boolean validInput() {
         firstName = firstNameEditText.getText().toString().trim();
         lastName = lastNameEditText.getText().toString().trim();
         birthMonth = monthSpinner.getSelectedItem().toString();
@@ -192,9 +200,9 @@ public class FragmentCosignerApp1 extends GeekBaseFragment {
         }
 
         return true;
-	}
+    }
 
-	private void setUpSpinners() {
+    private void setUpSpinners() {
         ArrayAdapter<CharSequence> monthAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.months_array, android.R.layout.simple_spinner_item);
         monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         monthSpinner.setAdapter(monthAdapter);

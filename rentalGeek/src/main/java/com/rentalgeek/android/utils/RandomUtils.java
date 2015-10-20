@@ -5,11 +5,8 @@ import junit.framework.Assert;
 import java.util.Random;
 
 /**
- * 
  * @author George
- * 
  * @purpose Utils class which generate random numbers
- *
  */
 public class RandomUtils extends Random {
 

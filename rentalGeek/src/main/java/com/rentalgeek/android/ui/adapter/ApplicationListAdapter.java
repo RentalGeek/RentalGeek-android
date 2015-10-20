@@ -36,7 +36,6 @@ import butterknife.InjectView;
 
 /**
  * Created by rajohns on 9/7/15.
- *
  */
 public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationListAdapter.ApplicationListViewHolder> {
 
@@ -44,18 +43,29 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
     private String requestingFragment;
     private FragmentCosignerProperties fragment;
 
-    public class ApplicationListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        @InjectView(R.id.top_image_layout) ImageView topImageLayout;
-        @InjectView(R.id.street_address) TextView streetAddressTextView;
-        @InjectView(R.id.city_state_zip_address) TextView cityStateZipAddressTextView;
-        @InjectView(R.id.num_beds_baths) TextView numBedsBathsTextView;
-        @InjectView(R.id.cost_text_view) TextView costTextView;
-        @InjectView(R.id.sign_approve_button) Button signApproveButton;
-        @InjectView(R.id.property_name) TextView propertyNameTextView;
-        @InjectView(R.id.property_email) TextView propertyEmailTextView;
-        @InjectView(R.id.property_phone) TextView propertyPhoneTextView;
-        @InjectView(R.id.lease_signed_lines) LinearLayout dynamicNamesLayout;
-        @InjectView(R.id.bottom_contact_blue_box) LinearLayout bottomContactBlueBox;
+    public class ApplicationListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        @InjectView(R.id.top_image_layout)
+        ImageView topImageLayout;
+        @InjectView(R.id.street_address)
+        TextView streetAddressTextView;
+        @InjectView(R.id.city_state_zip_address)
+        TextView cityStateZipAddressTextView;
+        @InjectView(R.id.num_beds_baths)
+        TextView numBedsBathsTextView;
+        @InjectView(R.id.cost_text_view)
+        TextView costTextView;
+        @InjectView(R.id.sign_approve_button)
+        Button signApproveButton;
+        @InjectView(R.id.property_name)
+        TextView propertyNameTextView;
+        @InjectView(R.id.property_email)
+        TextView propertyEmailTextView;
+        @InjectView(R.id.property_phone)
+        TextView propertyPhoneTextView;
+        @InjectView(R.id.lease_signed_lines)
+        LinearLayout dynamicNamesLayout;
+        @InjectView(R.id.bottom_contact_blue_box)
+        LinearLayout bottomContactBlueBox;
 
         Context context;
 
@@ -121,7 +131,7 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
 
         /**
          * View hierarchy:
-         *
+         * <p/>
          * wholeLayout
          * --roommateAndCosignerLayout
          * ----roommateLine
@@ -140,19 +150,19 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
                 roommateAndCosignerLayout.setOrientation(LinearLayout.VERTICAL);
                 roommateAndCosignerLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-                    PropertyPersonHorizontalLinearLayout roommateLine = new PropertyPersonHorizontalLinearLayout(context);
-                        PropertyLeftTextView roommateLeftText = new PropertyLeftTextView(context);
-                        roommateLeftText.setText(item.getLeftTextForRoomate(roommate));
-                        PropertyRightTextView roommateRightText = new PropertyRightTextView(context);
-                        roommateRightText.setText(item.getRightTextForRoommate(roommate));
-                        makeLeftFullWidthIfNoRight(roommateRightText.getText().toString(), roommateLeftText, roommateRightText);
+                PropertyPersonHorizontalLinearLayout roommateLine = new PropertyPersonHorizontalLinearLayout(context);
+                PropertyLeftTextView roommateLeftText = new PropertyLeftTextView(context);
+                roommateLeftText.setText(item.getLeftTextForRoomate(roommate));
+                PropertyRightTextView roommateRightText = new PropertyRightTextView(context);
+                roommateRightText.setText(item.getRightTextForRoommate(roommate));
+                makeLeftFullWidthIfNoRight(roommateRightText.getText().toString(), roommateLeftText, roommateRightText);
 
-                    PropertyPersonHorizontalLinearLayout cosignerLine = new PropertyPersonHorizontalLinearLayout(context);
-                        PropertyLeftTextView cosignerLeftText = new PropertyLeftTextView(context);
-                        cosignerLeftText.setText(item.getLeftTextForCosigner(roommate));
-                        PropertyRightTextView cosignerRightText = new PropertyRightTextView(context);
-                        cosignerRightText.setText(item.getRightTextForCosigner(roommate));
-                        makeLeftFullWidthIfNoRight(cosignerRightText.getText().toString(), cosignerLeftText, cosignerRightText);
+                PropertyPersonHorizontalLinearLayout cosignerLine = new PropertyPersonHorizontalLinearLayout(context);
+                PropertyLeftTextView cosignerLeftText = new PropertyLeftTextView(context);
+                cosignerLeftText.setText(item.getLeftTextForCosigner(roommate));
+                PropertyRightTextView cosignerRightText = new PropertyRightTextView(context);
+                cosignerRightText.setText(item.getRightTextForCosigner(roommate));
+                makeLeftFullWidthIfNoRight(cosignerRightText.getText().toString(), cosignerLeftText, cosignerRightText);
 
                 roommateLine.addView(roommateLeftText);
                 roommateLine.addView(roommateRightText);
@@ -225,7 +235,6 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
     public int getItemCount() {
         return applicationItems.size();
     }
-
 
 
     /**

@@ -7,7 +7,6 @@ import com.rentalgeek.android.ui.fragment.FragmentCosignerProperties;
 
 /**
  * Created by rajohns on 9/7/15.
- *
  */
 public class ActivityCosignerList extends GeekBaseActivity {
 

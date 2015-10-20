@@ -27,6 +27,7 @@ public class GeekDialog {
 
     public interface AppDialogListener {
         public void onDialogButtonClick(AppDialogFragment sender, int which, Bundle args);
+
         public void onDialogDismissed(AppDialogFragment sender);
     }
 
@@ -35,7 +36,8 @@ public class GeekDialog {
         protected int priority = 0;
         protected boolean required = false;
 
-        public AppDialogFragment() { }
+        public AppDialogFragment() {
+        }
 
         public String getFragmentId() {
             return GeekDialog.getTagName(getClass());

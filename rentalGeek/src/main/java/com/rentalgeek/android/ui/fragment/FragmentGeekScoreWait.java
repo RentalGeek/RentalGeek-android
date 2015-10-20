@@ -10,11 +10,11 @@ import com.rentalgeek.android.R;
 
 public class FragmentGeekScoreWait extends GeekBaseFragment {
 
-	private static final String TAG = "FragmentGeekScoreWait";
+    private static final String TAG = "FragmentGeekScoreWait";
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle bundle) {
-		View view = inflater.inflate(R.layout.fragment_geekscore_wait,viewGroup,false);
-		return view;
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle bundle) {
+        View view = inflater.inflate(R.layout.fragment_geekscore_wait, viewGroup, false);
+        return view;
+    }
 }

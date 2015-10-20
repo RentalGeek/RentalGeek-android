@@ -93,7 +93,7 @@ public class FragmentPaymentConfirmation extends GeekBaseFragment {
 
         if (!ListUtils.isNullOrEmpty(roommatePayments)) {
 
-            for (int i=0; i<roommatePayments.size(); i++) {
+            for (int i = 0; i < roommatePayments.size(); i++) {
                 LinearLayout layoutListItemRoommatePayment = (LinearLayout) activity.getLayoutInflater().inflate(R.layout.layout_listitem_roommate_payment, null);
 
                 TextView textViewRoommateName = getView(R.id.textViewRoommateName, layoutListItemRoommatePayment);
@@ -134,7 +134,8 @@ public class FragmentPaymentConfirmation extends GeekBaseFragment {
                         try {
                             //String data = content;
                             //AppLogger.log(TAG, content);
-                            Type listType = new TypeToken<List<RoommatePayment>>(){}.getType();
+                            Type listType = new TypeToken<List<RoommatePayment>>() {
+                            }.getType();
                             List<RoommatePayment> response = (new Gson()).fromJson(content, listType);
                             if (response != null && response.size() > 0) {
                                 bindRoommatePayment(response);

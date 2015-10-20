@@ -18,80 +18,80 @@ import butterknife.OnClick;
 
 public class FragmentLegalJargonMore extends GeekBaseFragment {
 
-	@InjectView(R.id.more_terms)
-	WebView wv;
+    @InjectView(R.id.more_terms)
+    WebView wv;
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
 
-		View v = inflater.inflate(R.layout.fragment_legal_jargon_more, container, false);
-		ButterKnife.inject(this, v);
-		wv.loadUrl("file:///android_asset/termstwo.html");
-		return v;
-	}
+        View v = inflater.inflate(R.layout.fragment_legal_jargon_more, container, false);
+        ButterKnife.inject(this, v);
+        wv.loadUrl("file:///android_asset/termstwo.html");
+        return v;
+    }
 
-	@Override
-	public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
 
-		super.onDestroyView();
-		ButterKnife.reset(this);
-	}
+        super.onDestroyView();
+        ButterKnife.reset(this);
+    }
 
-	@OnClick(R.id.agree)
-	public void agree() {
+    @OnClick(R.id.agree)
+    public void agree() {
         nextfragment(new FragmentPayment(), false, R.id.container);
-	}
+    }
 
-	@OnClick(R.id.infoclick2)
-	public void infoclick2() {
-		final Dialog dialog = new Dialog(getActivity(), R.style.MyDialogInner);
+    @OnClick(R.id.infoclick2)
+    public void infoclick2() {
+        final Dialog dialog = new Dialog(getActivity(), R.style.MyDialogInner);
 
-		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		dialog.setContentView(R.layout.apply_confirm_dialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.apply_confirm_dialog);
 
-		TextView ok = (TextView) dialog.findViewById(R.id.ok_apply_dialog);
+        TextView ok = (TextView) dialog.findViewById(R.id.ok_apply_dialog);
 
-		ok.setOnClickListener(new OnClickListener() {
+        ok.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
 
 
-				dialog.dismiss();
+                dialog.dismiss();
 
-			}
-		});
+            }
+        });
 
-		dialog.show();
+        dialog.show();
 
-	}
+    }
 
-	@OnClick(R.id.infoclick1)
-	public void infoclick1() {
-		final Dialog dialog = new Dialog(getActivity(), R.style.MyDialogInner);
+    @OnClick(R.id.infoclick1)
+    public void infoclick1() {
+        final Dialog dialog = new Dialog(getActivity(), R.style.MyDialogInner);
 
-		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		dialog.setContentView(R.layout.terms_dialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.terms_dialog);
 
-		WebView wv;
-		TextView close;
-		wv = (WebView) dialog.findViewById(R.id.terms_web);
-		close = (TextView) dialog.findViewById(R.id.close);
-		wv.loadUrl("file:///android_asset/terms.html");
+        WebView wv;
+        TextView close;
+        wv = (WebView) dialog.findViewById(R.id.terms_web);
+        close = (TextView) dialog.findViewById(R.id.close);
+        wv.loadUrl("file:///android_asset/terms.html");
 
-		close.setOnClickListener(new OnClickListener() {
+        close.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
 
-				dialog.dismiss();
-			}
-		});
+                dialog.dismiss();
+            }
+        });
 
-		dialog.show();
+        dialog.show();
 
-	}
+    }
 
 }

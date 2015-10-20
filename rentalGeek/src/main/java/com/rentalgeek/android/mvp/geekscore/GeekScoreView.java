@@ -5,5 +5,6 @@ package com.rentalgeek.android.mvp.geekscore;
  */
 public interface GeekScoreView {
     public void showGeekScore(String geek_score);
+
     public void showGeekScoreWait();
 }

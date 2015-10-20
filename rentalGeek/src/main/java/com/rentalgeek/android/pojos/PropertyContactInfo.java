@@ -4,7 +4,6 @@ import android.telephony.PhoneNumberUtils;
 
 /**
  * Created by rajohns on 9/7/15.
- *
  */
 public class PropertyContactInfo {
 

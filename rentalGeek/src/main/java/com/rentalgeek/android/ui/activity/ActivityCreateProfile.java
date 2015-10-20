@@ -6,11 +6,11 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.bus.events.SubmitProfileEvent;
+import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.adapter.ProfileFormAdapter;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.ui.view.NonSwipeableViewPager;
-import com.rentalgeek.android.ui.Navigation;
-import com.rentalgeek.android.bus.events.SubmitProfileEvent;
 
 public class ActivityCreateProfile extends GeekBaseActivity {
 
@@ -22,7 +22,7 @@ public class ActivityCreateProfile extends GeekBaseActivity {
     public ActivityCreateProfile() {
         super(true, true, true);
     }
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +52,7 @@ public class ActivityCreateProfile extends GeekBaseActivity {
 
         setupNavigation();
 
-        if( AppPreferences.getProfilePage() != null) {
+        if (AppPreferences.getProfilePage() != null) {
             int page = Integer.parseInt(AppPreferences.getProfilePage());
             System.out.println(page);
             flipPager(page);
@@ -65,6 +65,6 @@ public class ActivityCreateProfile extends GeekBaseActivity {
     }
 
     public void onEventMainThread(SubmitProfileEvent event) {
-        Navigation.navigateActivity(this,ActivityGeekScore.class);
+        Navigation.navigateActivity(this, ActivityGeekScore.class);
     }
 }

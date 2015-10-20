@@ -1,8 +1,8 @@
 package com.rentalgeek.android.backend.model;
 
 import java.lang.reflect.Field;
-import java.util.LinkedList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -59,61 +59,53 @@ public class Profile {
 
         List<String> field_names = new LinkedList<>();
 
-        for(Field field : fields) {
-            if( ! field.isAccessible() )
+        for (Field field : fields) {
+            if (!field.isAccessible())
                 field.setAccessible(true);
 
             field_names.add(field.getName());
         }
-        
+
         Collections.sort(field_names);
 
         return field_names;
     }
-    
+
     public synchronized Object get(String param) {
 
         try {
             Field field = Profile.class.getDeclaredField(param);
 
-            if( ! field.isAccessible() )
+            if (!field.isAccessible())
                 field.setAccessible(true);
 
             return field.get(this);
-        }
-
-        catch (NoSuchFieldException e) {
+        } catch (NoSuchFieldException e) {
             System.out.println("Parameter not found");
 
-        }
-
-        catch (IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             System.out.println("Illegal access to class");
         }
 
         return null;
     }
-    
+
     public synchronized void set(String param, Object value) {
-        if( param == null || value == null)
+        if (param == null || value == null)
             return;
 
         try {
             Field field = Profile.class.getDeclaredField(param);
 
-            if( ! field.isAccessible() )
+            if (!field.isAccessible())
                 field.setAccessible(true);
 
-            field.set(this,value);
+            field.set(this, value);
 
-            System.out.println(String.format("Setting %s to %s",param,value.toString()));
-        }
-
-        catch(NoSuchFieldException e) {
+            System.out.println(String.format("Setting %s to %s", param, value.toString()));
+        } catch (NoSuchFieldException e) {
             System.out.println("Parameter not found");
-        }
-
-        catch (IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             System.out.println("Illegal access to class");
         }
     }

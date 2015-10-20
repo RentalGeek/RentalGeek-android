@@ -2,15 +2,13 @@ package com.rentalgeek.android.ui.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-
-import android.widget.TextView;
-
 import android.util.AttributeSet;
+import android.widget.TextView;
 
 import com.rentalgeek.android.R;
 
 public class SearchOptionButton extends TextView {
-   
+
     private String value;
     private boolean selected = false;
     private int selected_bg;
@@ -23,32 +21,32 @@ public class SearchOptionButton extends TextView {
     }
 
     public SearchOptionButton(Context context, AttributeSet attrs) {
-        super(context,attrs);
+        super(context, attrs);
 
-        TypedArray tarray = context.obtainStyledAttributes(attrs,R.styleable.SearchOptionButton);
+        TypedArray tarray = context.obtainStyledAttributes(attrs, R.styleable.SearchOptionButton);
 
         final int count = tarray.getIndexCount();
 
-        for(int i = 0; i < count; i++) {
+        for (int i = 0; i < count; i++) {
 
             int attr = tarray.getIndex(i);
 
-            switch(attr) {
+            switch (attr) {
                 case R.styleable.SearchOptionButton_value:
                     value = tarray.getString(attr);
                     break;
                 case R.styleable.SearchOptionButton_unselected_bg:
-                    unselected_bg = tarray.getResourceId(attr,-1);
+                    unselected_bg = tarray.getResourceId(attr, -1);
                     break;
                 case R.styleable.SearchOptionButton_selected_bg:
-                    selected_bg = tarray.getResourceId(attr,-1);
+                    selected_bg = tarray.getResourceId(attr, -1);
                     break;
                 case R.styleable.SearchOptionButton_selected_txt_color:
-                    selected_txt_color = tarray.getColor(attr,-1);
+                    selected_txt_color = tarray.getColor(attr, -1);
                     break;
                 case R.styleable.SearchOptionButton_unselected_txt_color:
-                    unselected_txt_color = tarray.getColor(attr,-1);
-                    break;            
+                    unselected_txt_color = tarray.getColor(attr, -1);
+                    break;
             }
         }
 
@@ -61,9 +59,9 @@ public class SearchOptionButton extends TextView {
     }
 
     public void pressed() {
-        selected = ! selected;
+        selected = !selected;
 
-        if( selected )
+        if (selected)
             selected();
         else
             unselected();

@@ -5,9 +5,11 @@ import android.support.v4.widget.DrawerLayout;
 
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.bus.events.SearchEvent;
+import com.rentalgeek.android.bus.events.ShowMessageAlert;
 import com.rentalgeek.android.mvp.search.SearchView;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.fragment.FragmentSearch;
+import com.rentalgeek.android.utils.OkAlert;
 
 public class ActivitySearch extends GeekBaseActivity {
 
@@ -32,10 +34,17 @@ public class ActivitySearch extends GeekBaseActivity {
 
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
-    
+
     public void onEventMainThread(SearchEvent event) {
         if (event.getBundle() != null) {
             Navigation.navigateActivity(this, ActivityHome.class, event.getBundle(), true);
+        }
+    }
+
+    public void onEventMainThread(ShowMessageAlert event) {
+        if (event.getTitle() != null && event.getMessage() != null) {
+            hideProgressDialog();
+            OkAlert.show(this, event.getTitle(), event.getMessage());
         }
     }
 

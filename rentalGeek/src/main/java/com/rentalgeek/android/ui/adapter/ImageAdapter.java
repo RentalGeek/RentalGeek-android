@@ -17,13 +17,13 @@ public class ImageAdapter extends PagerAdapter {
 
     CopyOnWriteArrayList<HashMap> photos = new CopyOnWriteArrayList<HashMap>();
 
-//    private int[] GalImages = new int[] {
+    //    private int[] GalImages = new int[] {
 //            R.drawable.one,
 //            R.drawable.two,
 //            R.drawable.three
 //    };
-    ImageAdapter(Context context, List<HashMap> photos){
-        this.context=context;
+    ImageAdapter(Context context, List<HashMap> photos) {
+        this.context = context;
     }
 
     @Override

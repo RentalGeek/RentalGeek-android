@@ -16,12 +16,12 @@ import com.rentalgeek.android.utils.ParseAddress;
 /**
  * Created by Alan R on 10/2/15.
  */
-public class AutoCompleteAddressListener implements AdapterView.OnItemClickListener{
+public class AutoCompleteAddressListener implements AdapterView.OnItemClickListener {
 
     private AutoCompleteTextView autoCompleteTextView;
 
     public AutoCompleteAddressListener(AutoCompleteTextView autoCompleteTextView) {
-        this.autoCompleteTextView =  autoCompleteTextView;
+        this.autoCompleteTextView = autoCompleteTextView;
     }
 
     @Override
@@ -32,32 +32,32 @@ public class AutoCompleteAddressListener implements AdapterView.OnItemClickListe
              read the place ID and title.
               */
 
-        String place_id = ((PlaceAutocompleteAdapter)parent.getAdapter()).getItem(position).getPlaceId();
+        String place_id = ((PlaceAutocompleteAdapter) parent.getAdapter()).getItem(position).getPlaceId();
 
-        if( place_id != null && ! place_id.isEmpty() ) {
+        if (place_id != null && !place_id.isEmpty()) {
             String url = ApiManager.getFullAddress(place_id);
 
             System.out.println(url);
 
-            GlobalFunctions.getApiCall(null,url,null, new GeekHttpResponseHandler() {
+            GlobalFunctions.getApiCall(null, url, null, new GeekHttpResponseHandler() {
                         @Override
                         public void onSuccess(String response) {
                             ParseAddress.Address address = ParseAddress.parse(response);
 
                             String prefix = (String) autoCompleteTextView.getTag();
 
-                            if( prefix != null && ! prefix.isEmpty() ) {
-                                String street_field = String.format("%s_street",prefix);
-                                String city_field = String.format("%s_city",prefix);
-                                String state_field = String.format("%s_state",prefix);
-                                String zipcode_field = String.format("%s_zipcode",prefix);
+                            if (prefix != null && !prefix.isEmpty()) {
+                                String street_field = String.format("%s_street", prefix);
+                                String city_field = String.format("%s_city", prefix);
+                                String state_field = String.format("%s_state", prefix);
+                                String zipcode_field = String.format("%s_zipcode", prefix);
 
                                 Profile profile = SessionManager.Instance.getDefaultProfile();
 
                                 profile.set(street_field, String.format("%s %s", address.getStreetNumber(), address.getStreetName()));
                                 profile.set(city_field, address.getCity());
                                 profile.set(state_field, address.getState());
-                                profile.set(zipcode_field,address.getZipcode());
+                                profile.set(zipcode_field, address.getZipcode());
                             }
                         }
 

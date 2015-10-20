@@ -4,15 +4,14 @@ import java.util.List;
 
 public class ErrorArray {
 
-	
-	public List<Error> errors;
-	
-	
-	public class Error
-	{
-		public String code;
-		public String  attribute;
-		public String message;
-	}
-	
+
+    public List<Error> errors;
+
+
+    public class Error {
+        public String code;
+        public String attribute;
+        public String message;
+    }
+
 }

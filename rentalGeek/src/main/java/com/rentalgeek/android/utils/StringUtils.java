@@ -4,7 +4,7 @@ import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class StringUtils  {
+public class StringUtils {
 
     public static boolean isNotNullAndEquals(String value, String equalTo) {
         if (value == null) return false;

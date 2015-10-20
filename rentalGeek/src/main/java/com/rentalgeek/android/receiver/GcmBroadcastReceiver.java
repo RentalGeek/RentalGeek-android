@@ -10,7 +10,7 @@ import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.service.GcmIntentService;
 
 
-public class GcmBroadcastReceiver extends WakefulBroadcastReceiver  {
+public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
 
     private static final String TAG = "GcmBroadcastReceiver";
 

@@ -17,10 +17,12 @@
 package com.rentalgeek.android.ui.view;
 
 public interface LifecycleCallback {
-  /** Will be called when your Crouton has been displayed. */
-  public void onDisplayed();
+    /**
+     * Will be called when your Crouton has been displayed.
+     */
+    public void onDisplayed();
 
-  public void onRemoved();
+    public void onRemoved();
 
-  //public void onCeasarDressing();
+    //public void onCeasarDressing();
 }

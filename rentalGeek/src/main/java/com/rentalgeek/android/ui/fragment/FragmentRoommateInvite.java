@@ -76,13 +76,13 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
 
     protected void bindRoommateInvite() {
 
-            if (TextUtils.isEmpty(roommateInviterName)) {
-                textViewInviteMessage.setText(R.string.fragment_roommateinvite_noinvites);
-                layoutInviteButtons.setVisibility(View.GONE);
-            } else {
-                textViewInviteMessage.setText(Html.fromHtml(RentalGeekApplication.getResourceString(R.string.fragment_roommateinvite_message, roommateInviterName)));
-                layoutInviteButtons.setVisibility(View.VISIBLE);
-            }
+        if (TextUtils.isEmpty(roommateInviterName)) {
+            textViewInviteMessage.setText(R.string.fragment_roommateinvite_noinvites);
+            layoutInviteButtons.setVisibility(View.GONE);
+        } else {
+            textViewInviteMessage.setText(Html.fromHtml(RentalGeekApplication.getResourceString(R.string.fragment_roommateinvite_message, roommateInviterName)));
+            layoutInviteButtons.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -124,7 +124,7 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
                         public void onSuccess(String content) {
                             try {
                                 String response = content;
-                                AppLogger.log(TAG, "response:"+content);
+                                AppLogger.log(TAG, "response:" + content);
 
                                 RoommateInviteResponse roommateInvite = (new Gson()).fromJson(content, RoommateInviteResponse.class);
                                 if (roommateInvite != null && roommateInvite.roommate_invite != null) {

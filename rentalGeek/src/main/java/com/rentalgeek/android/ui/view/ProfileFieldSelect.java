@@ -19,17 +19,16 @@ public class ProfileFieldSelect extends ProfileFieldAbstractSelect {
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-        String tag = (String)spinner.getTag();
-        String item = (String)spinner.getSelectedItem();
+        String tag = (String) spinner.getTag();
+        String item = (String) spinner.getSelectedItem();
 
-        if( tag != null && ! tag.isEmpty() ) {
+        if (tag != null && !tag.isEmpty()) {
             Profile profile = SessionManager.Instance.getDefaultProfile();
 
-            if( position != 0) {
-                profile.set(tag,item);
-            }
-            else {
-                profile.set(tag,"");
+            if (position != 0) {
+                profile.set(tag, item);
+            } else {
+                profile.set(tag, "");
             }
         }
     }

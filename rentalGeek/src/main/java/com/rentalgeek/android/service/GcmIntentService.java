@@ -45,7 +45,7 @@ public class GcmIntentService extends NonStopIntentService {
                 gcm = GoogleCloudMessaging.getInstance(this);
                 if (gcm == null) return;
                 String messageType = gcm.getMessageType(intent);
-                AppLogger.log(TAG, "onhandle gcm:"+messageType);
+                AppLogger.log(TAG, "onhandle gcm:" + messageType);
                 if (extras != null && !extras.isEmpty()) {
                     if (GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR.equals(messageType)) {
                         //sendNotification("Send error: " + extras.toString());

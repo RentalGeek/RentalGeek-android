@@ -9,31 +9,28 @@ import android.view.ViewGroup;
 import com.rentalgeek.android.R;
 
 /**
- * 
  * @author George
- * 
  * @purpose Fourtht slide introduction
- *
  */
 public class FragmentTutorialApplicationInstructions extends Fragment {
 
-	public static FragmentTutorialApplicationInstructions newInstance() {
-		FragmentTutorialApplicationInstructions fragment = new FragmentTutorialApplicationInstructions();
+    public static FragmentTutorialApplicationInstructions newInstance() {
+        FragmentTutorialApplicationInstructions fragment = new FragmentTutorialApplicationInstructions();
 
-		return fragment;
-	}
+        return fragment;
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-		View v = inflater.inflate(R.layout.fragment_tutorial_appinstructions, container, false);
-		
-		//volley=new VolleyForAll(getActivity(), this);
+        View v = inflater.inflate(R.layout.fragment_tutorial_appinstructions, container, false);
 
-		return v;
+        //volley=new VolleyForAll(getActivity(), this);
 
-	}
+        return v;
+
+    }
 
 
 }

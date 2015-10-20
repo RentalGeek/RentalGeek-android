@@ -24,41 +24,41 @@ import java.security.NoSuchAlgorithmException;
 
 public class ActivityMain extends GeekBaseActivity {
 
-	AppPrefes appPref;
+    AppPrefes appPref;
 
-	public ActivityMain() {
-		super(true, true, false);
-	}
+    public ActivityMain() {
+        super(true, true, false);
+    }
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.splash_page);
-		appPref = new AppPrefes(getApplicationContext(), "rentalgeek");
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.splash_page);
+        appPref = new AppPrefes(getApplicationContext(), "rentalgeek");
 
-		getHash();
-		timer();
-	}
+        getHash();
+        timer();
+    }
 
-	private void timer() {
+    private void timer() {
         final AppCompatActivity activity = this;
 
-		new CountDownTimer(4000, 1000) {
-			@Override
-			public void onTick(long millisUntilFinished) {
-			}
+        new CountDownTimer(4000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+            }
 
-			@Override
-			public void onFinish() {
-				if (!appPref.getData("first").equals("logged")) {
-					appPref.SaveData("bysearch", "no");
-					Navigation.navigateActivity(activity, ActivityTutorials.class, true);
-				} else {
-					if (appPref.getData("bysearch").equals("yes")) {
-						new Delete().from(PropertyTable.class).execute();
-					}
+            @Override
+            public void onFinish() {
+                if (!appPref.getData("first").equals("logged")) {
+                    appPref.SaveData("bysearch", "no");
+                    Navigation.navigateActivity(activity, ActivityTutorials.class, true);
+                } else {
+                    if (appPref.getData("bysearch").equals("yes")) {
+                        new Delete().from(PropertyTable.class).execute();
+                    }
 
-					appPref.SaveData("bysearch", "no");
+                    appPref.SaveData("bysearch", "no");
 
                     LoginBackend persistedLogin = AppPreferences.getPersistedLogin();
                     if (persistedLogin != null) {
@@ -67,31 +67,31 @@ public class ActivityMain extends GeekBaseActivity {
                     } else {
                         Navigation.navigateActivity(activity, ActivityLogin.class, true);
                     }
-				}
+                }
 
-			}
-		}.start();
-	}
+            }
+        }.start();
+    }
 
-	private void getHash() {
-		PackageInfo info;
-		try {
-			info = getPackageManager().getPackageInfo("com.rentalgeek.android", PackageManager.GET_SIGNATURES);
-			for (Signature signature : info.signatures) {
-				MessageDigest md;
-				md = MessageDigest.getInstance("SHA");
-				md.update(signature.toByteArray());
-				String something = new String(Base64.encode(md.digest(), 0));
-				Log.e("facebook hash key", something);
-				System.out.println("hash key" + something);
-			}
-		} catch (NameNotFoundException e1) {
-			Log.e("name not found", e1.toString());
-		} catch (NoSuchAlgorithmException e) {
-			Log.e("no such an algorithm", e.toString());
-		} catch (Exception e) {
-			Log.e("exception", e.toString());
-		}
-	}
+    private void getHash() {
+        PackageInfo info;
+        try {
+            info = getPackageManager().getPackageInfo("com.rentalgeek.android", PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md;
+                md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String something = new String(Base64.encode(md.digest(), 0));
+                Log.e("facebook hash key", something);
+                System.out.println("hash key" + something);
+            }
+        } catch (NameNotFoundException e1) {
+            Log.e("name not found", e1.toString());
+        } catch (NoSuchAlgorithmException e) {
+            Log.e("no such an algorithm", e.toString());
+        } catch (Exception e) {
+            Log.e("exception", e.toString());
+        }
+    }
 
 }

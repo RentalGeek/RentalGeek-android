@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.bus.events.ClickHomeEvent;
+import com.rentalgeek.android.bus.events.ShowGeekScore;
+import com.rentalgeek.android.bus.events.ShowGeekScoreWait;
 import com.rentalgeek.android.mvp.geekscore.GeekScorePresenter;
 import com.rentalgeek.android.mvp.geekscore.GeekScoreView;
 import com.rentalgeek.android.ui.Navigation;
@@ -33,12 +35,13 @@ public class ActivityGeekScore extends GeekBaseActivity implements GeekScoreView
         presenter.getGeekScore();
     }
 
+
     @Override
     public void showGeekScore(String geek_score) {
         FragmentGeekScore fragment = new FragmentGeekScore();
         Bundle args = getIntent().getExtras();
 
-        if( args == null )
+        if (args == null)
             args = new Bundle();
 
         args.putString("GEEK_SCORE", geek_score);
@@ -55,6 +58,14 @@ public class ActivityGeekScore extends GeekBaseActivity implements GeekScoreView
     }
 
     public void onEventMainThread(ClickHomeEvent event) {
-        Navigation.navigateActivity(this,ActivityHome.class,true);
+        Navigation.navigateActivity(this, ActivityHome.class, true);
+    }
+
+    public void onEventMainThread(ShowGeekScore event) {
+        showGeekScore(event.getScore());
+    }
+
+    public void onEventMainThread(ShowGeekScoreWait event) {
+        showGeekScoreWait();
     }
 }

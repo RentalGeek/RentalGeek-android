@@ -8,13 +8,10 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.bus.AppEventBus;
-import com.rentalgeek.android.bus.events.SearchEvent;
 import com.rentalgeek.android.mvp.search.SearchPresenter;
 import com.rentalgeek.android.mvp.search.SearchView;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.ui.view.SearchOptionButton;
-import com.rentalgeek.android.utils.OkAlert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,22 +22,24 @@ import butterknife.InjectViews;
 import butterknife.OnClick;
 
 public class FragmentSearch extends GeekBaseFragment implements SearchView {
-    
-    @InjectViews({R.id.btn_bed0,R.id.btn_bed1,R.id.btn_bed2,R.id.btn_bed3,R.id.btn_bed4})
+
+    @InjectViews({R.id.btn_bed0, R.id.btn_bed1, R.id.btn_bed2, R.id.btn_bed3, R.id.btn_bed4})
     List<SearchOptionButton> bedBtns;
 
-    @InjectViews({R.id.btn_bath1,R.id.btn_bath2,R.id.btn_bath3,R.id.btn_bath4})
+    @InjectViews({R.id.btn_bath1, R.id.btn_bath2, R.id.btn_bath3, R.id.btn_bath4})
     List<SearchOptionButton> bathBtns;
 
-    @InjectView(R.id.price_seek) SeekBar priceSeeker;
-    @InjectView(R.id.rent_range) TextView rentRangeTextView;
+    @InjectView(R.id.price_seek)
+    SeekBar priceSeeker;
+    @InjectView(R.id.rent_range)
+    TextView rentRangeTextView;
 
     private SearchPresenter presenter;
 
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        presenter = new SearchPresenter(this);
+        presenter = new SearchPresenter();
 
         bedBtns = new ArrayList<SearchOptionButton>();
         bathBtns = new ArrayList<SearchOptionButton>();
@@ -48,7 +47,7 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        View view = inflater.inflate(R.layout.fragment_search,container,false);
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
         ButterKnife.inject(this, view);
 
         priceSeeker.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -95,7 +94,7 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
             }
         }
     }
-    
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -103,14 +102,14 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
     }
 
     @OnClick({R.id.btn_bed0,
-             R.id.btn_bed1,
-             R.id.btn_bed2,
-             R.id.btn_bed3,
-             R.id.btn_bed4,
-             R.id.btn_bath1,
-             R.id.btn_bath2,
-             R.id.btn_bath3,
-             R.id.btn_bath4}) 
+            R.id.btn_bed1,
+            R.id.btn_bed2,
+            R.id.btn_bed3,
+            R.id.btn_bed4,
+            R.id.btn_bath1,
+            R.id.btn_bath2,
+            R.id.btn_bath3,
+            R.id.btn_bath4})
     public void onSearchOptionClick(SearchOptionButton button) {
         button.pressed();
     }
@@ -119,11 +118,11 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
     public void onResetClick() {
         priceSeeker.setProgress(1000);
 
-        for(SearchOptionButton button : bedBtns) {
+        for (SearchOptionButton button : bedBtns) {
             button.reset();
         }
 
-        for(SearchOptionButton button : bathBtns) {
+        for (SearchOptionButton button : bathBtns) {
             button.reset();
         }
     }
@@ -136,27 +135,27 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
         ArrayList<Integer> bathIds = new ArrayList<>();
         ArrayList<String> bedValues = new ArrayList<String>();
         ArrayList<Integer> bedIds = new ArrayList<>();
-  
-        for(SearchOptionButton button : bedBtns) {
-            if( button.isSelected() ) {
+
+        for (SearchOptionButton button : bedBtns) {
+            if (button.isSelected()) {
                 bedValues.add(button.getValue());
                 bedIds.add(button.getId());
             }
         }
 
-        for(SearchOptionButton button : bathBtns) {
-            if( button.isSelected() ) {
+        for (SearchOptionButton button : bathBtns) {
+            if (button.isSelected()) {
                 bathValues.add(button.getValue());
                 bathIds.add(button.getId());
             }
         }
-        
+
         Bundle bundle = new Bundle();
 
-        if( bedValues.size() != 0 ) {
+        if (bedValues.size() != 0) {
             bundle.putStringArrayList("BED_VALUES", bedValues);
         }
-        if( bathValues.size() != 0 ) {
+        if (bathValues.size() != 0) {
             bundle.putStringArrayList("BATH_VALUES", bathValues);
         }
 
@@ -167,15 +166,4 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
 
         presenter.getRentalOfferings(bundle);
     }
-
-    @Override public void returnRentals(Bundle bundle) {
-        hideProgressDialog();   
-        AppEventBus.post(new SearchEvent(bundle));
-    }
-
-    @Override public void showMessage(String title, String msg) {
-             hideProgressDialog();   
-             OkAlert.show(getActivity(),title,msg);
-    }
-
 }

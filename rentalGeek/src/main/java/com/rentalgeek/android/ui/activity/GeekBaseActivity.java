@@ -55,7 +55,7 @@ public class GeekBaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
     }
-    
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -73,14 +73,14 @@ public class GeekBaseActivity extends AppCompatActivity {
         super.onStop();
         unregisterMessaging();
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.action_bar, menu);
         return true;
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -127,7 +127,7 @@ public class GeekBaseActivity extends AppCompatActivity {
      * replace stub with.
      */
     protected void inflateStub(int stubViewId, int layoutContainerId) {
-        ViewStub stub = (ViewStub)findViewById(stubViewId);
+        ViewStub stub = (ViewStub) findViewById(stubViewId);
         stub.setLayoutResource(layoutContainerId);
         stub.inflate();
     }
@@ -145,11 +145,9 @@ public class GeekBaseActivity extends AppCompatActivity {
      * Should be called after inflateStub
      */
     protected void setupNavigation() {
-        if ( tabbed ) {
+        if (tabbed) {
             setupFull();
-        }
-
-        else {
+        } else {
             setupPartial();
         }
     }
@@ -163,6 +161,7 @@ public class GeekBaseActivity extends AppCompatActivity {
         showDrawerMenuIcon();
         setupNavigationView();
     }
+
     /*
      * Set of methods for navigation and toolbar setup
      */
@@ -176,7 +175,7 @@ public class GeekBaseActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        if( toolbar != null) {
+        if (toolbar != null) {
             if (showActionBar) {
                 setSupportActionBar(toolbar);
             } else {
@@ -186,9 +185,9 @@ public class GeekBaseActivity extends AppCompatActivity {
     }
 
     private void setupTabs() {
-        tabLayout = (TabLayout)findViewById(R.id.tab_layout);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
 
-        if( tabLayout != null ) {
+        if (tabLayout != null) {
             tabLayout.addTab(tabLayout.newTab().setText("Map View"));
             tabLayout.addTab(tabLayout.newTab().setText("List View"));
         }
@@ -334,7 +333,7 @@ public class GeekBaseActivity extends AppCompatActivity {
 
         if (menu != null) {
 
-            for (int i=0; i<v2MenuItems.length; i++) {
+            for (int i = 0; i < v2MenuItems.length; i++) {
                 MenuItem menuItem = menu.findItem(v2MenuItems[i]);
                 if (menuItem != null) {
                     menuItem.setVisible(false);

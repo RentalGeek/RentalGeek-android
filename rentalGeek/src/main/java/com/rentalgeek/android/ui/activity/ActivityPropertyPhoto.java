@@ -7,7 +7,6 @@ import com.rentalgeek.android.ui.fragment.FragmentPropertyPhoto;
 
 /**
  * Created by rajohns on 10/3/15.
- *
  */
 public class ActivityPropertyPhoto extends GeekBaseActivity {
 

@@ -15,14 +15,17 @@ import butterknife.InjectView;
 
 /**
  * Created by rajohns on 10/7/15.
- *
  */
 public class FragmentTutorialRoommates extends Fragment {
 
-    @InjectView(R.id.background_layout) LinearLayout backgroundLayout;
-    @InjectView(R.id.title_text_view) TextView titleTextView;
-    @InjectView(R.id.first_text_view) TextView firstTextView;
-    @InjectView(R.id.second_text_view) TextView secondTextView;
+    @InjectView(R.id.background_layout)
+    LinearLayout backgroundLayout;
+    @InjectView(R.id.title_text_view)
+    TextView titleTextView;
+    @InjectView(R.id.first_text_view)
+    TextView firstTextView;
+    @InjectView(R.id.second_text_view)
+    TextView secondTextView;
 
     public static FragmentTutorialRoommates newInstance() {
         return new FragmentTutorialRoommates();
@@ -30,7 +33,7 @@ public class FragmentTutorialRoommates extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v=inflater.inflate(R.layout.fragment_tutorial_base, container,false);
+        View v = inflater.inflate(R.layout.fragment_tutorial_base, container, false);
         ButterKnife.inject(this, v);
 
         backgroundLayout.setBackgroundResource(R.drawable.tutorial_roommates_bg);

@@ -17,7 +17,6 @@ import java.util.ArrayList;
 
 /**
  * Created by rajohns on 10/3/15.
- *
  */
 public class FullScreenImageAdapter extends PagerAdapter {
 
@@ -44,22 +43,22 @@ public class FullScreenImageAdapter extends PagerAdapter {
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.layout_fullscreen_image, container, false);
 
-        ImageView photoImageView = (ImageView)view.findViewById(R.id.property_photo_image_view);
-        final TextView loadingTextView = (TextView)view.findViewById(R.id.loading_text_view);
+        ImageView photoImageView = (ImageView) view.findViewById(R.id.property_photo_image_view);
+        final TextView loadingTextView = (TextView) view.findViewById(R.id.loading_text_view);
 
         Picasso.with(activity)
-            .load(photoUrls.get(position))
-            .into(photoImageView, new Callback() {
-                @Override
-                public void onSuccess() {
-                    loadingTextView.setVisibility(View.GONE);
-                }
+                .load(photoUrls.get(position))
+                .into(photoImageView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        loadingTextView.setVisibility(View.GONE);
+                    }
 
-                @Override
-                public void onError() {
-                    loadingTextView.setText("Error loading image");
-                }
-            });
+                    @Override
+                    public void onError() {
+                        loadingTextView.setText("Error loading image");
+                    }
+                });
 
         container.addView(view);
 

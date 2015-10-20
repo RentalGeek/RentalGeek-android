@@ -9,6 +9,6 @@ public class RoommateInvites {
     public int id;
     public String name;
 
-	public List<RoommateInvite> roommate_invites;
+    public List<RoommateInvite> roommate_invites;
 
 }

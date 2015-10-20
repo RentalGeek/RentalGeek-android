@@ -40,10 +40,10 @@ public class ActivityLogin extends GeekBaseActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode,resultCode,data);
+        super.onActivityResult(requestCode, resultCode, data);
 
-        if( fragment != null ) {
-            fragment.onActivityResult(requestCode,resultCode,data);
+        if (fragment != null) {
+            fragment.onActivityResult(requestCode, resultCode, data);
         }
     }
 

@@ -1,8 +1,8 @@
 package com.rentalgeek.android.ui.fragment;
 
-import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,269 +44,269 @@ import butterknife.OnClick;
 
 public class FragmentPayment extends GeekBaseFragment implements Validator.ValidationListener {
 
-	private static final String TAG = "FragmentPayment";
+    private static final String TAG = "FragmentPayment";
 
-	private Validator validator;
-	AppPrefes appPref;
+    private Validator validator;
+    AppPrefes appPref;
 
-	@InjectView(R.id.verify_card)
-	Button verify_card;
+    @InjectView(R.id.verify_card)
+    Button verify_card;
 
-	@Required(order = 1, message = "Please enter a valid card")
-	@TextRule(order = 2, minLength = 16, maxLength = 16, message = "Please enter a 16 digit card number")
-	@InjectView(com.rentalgeek.android.R.id.editTextCardNumber)
-	EditText cardNo;
+    @Required(order = 1, message = "Please enter a valid card")
+    @TextRule(order = 2, minLength = 16, maxLength = 16, message = "Please enter a 16 digit card number")
+    @InjectView(com.rentalgeek.android.R.id.editTextCardNumber)
+    EditText cardNo;
 
-	@Required(order = 3, message = "Please enter a valid card name")
-	@InjectView(R.id.editTextNameOnCard)
-	EditText cardName;
+    @Required(order = 3, message = "Please enter a valid card name")
+    @InjectView(R.id.editTextNameOnCard)
+    EditText cardName;
 
-	@Select(order = 6, message = "Please select a valid month")
-	@InjectView(R.id.ed_mm)
-	Spinner ed_mm;
+    @Select(order = 6, message = "Please select a valid month")
+    @InjectView(R.id.ed_mm)
+    Spinner ed_mm;
 
-	@Select(order = 6, message = "Please enter a valid year")
-	@InjectView(R.id.ed_yyyy)
-	Spinner edYYYY;
+    @Select(order = 6, message = "Please enter a valid year")
+    @InjectView(R.id.ed_yyyy)
+    Spinner edYYYY;
 
-	@Required(order = 8, message = "Please enter a valid cvv")
-	@TextRule(order = 9, minLength = 3, maxLength = 3, message = "Please enter a valid cvv")
-	@InjectView(R.id.editTextCVV)
-	EditText edCvv;
+    @Required(order = 8, message = "Please enter a valid cvv")
+    @TextRule(order = 9, minLength = 3, maxLength = 3, message = "Please enter a valid cvv")
+    @InjectView(R.id.editTextCVV)
+    EditText edCvv;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
 
-		super.onCreate(savedInstanceState);
-		validator = new Validator(this);
-		validator.setValidationListener(this);
-	}
+        super.onCreate(savedInstanceState);
+        validator = new Validator(this);
+        validator.setValidationListener(this);
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-		View v = inflater.inflate(R.layout.fragment_card_info_dialog, container, false);
+        View v = inflater.inflate(R.layout.fragment_card_info_dialog, container, false);
 
-		ButterKnife.inject(this, v);
-		appPref = new AppPrefes(getActivity(), "rentalgeek");
+        ButterKnife.inject(this, v);
+        appPref = new AppPrefes(getActivity(), "rentalgeek");
 
-		CheckPaymentf();
+        CheckPaymentf();
 
-		return v;
-	}
+        return v;
+    }
 
-	private void CheckPaymentf() {
-		GlobalFunctions.getApiCall(getActivity(), ApiManager.getApplicants(appPref.getData("Uid")),
-				AppPreferences.getAuthToken(),
-				new GeekHttpResponseHandler() {
+    private void CheckPaymentf() {
+        GlobalFunctions.getApiCall(getActivity(), ApiManager.getApplicants(appPref.getData("Uid")),
+                AppPreferences.getAuthToken(),
+                new GeekHttpResponseHandler() {
 
-					@Override
-					public void onStart() {
-						showProgressDialog(R.string.dialog_msg_loading);
-					}
+                    @Override
+                    public void onStart() {
+                        showProgressDialog(R.string.dialog_msg_loading);
+                    }
 
-					@Override
-					public void onFinish() {
-						hideProgressDialog();
-					}
+                    @Override
+                    public void onFinish() {
+                        hideProgressDialog();
+                    }
 
-					@Override
-					public void onSuccess(String content) {
-						try {
-							PaymentCheckParseNew(content);
-						} catch (Exception e) {
-							AppLogger.log(TAG, e);
-						}
-					}
+                    @Override
+                    public void onSuccess(String content) {
+                        try {
+                            PaymentCheckParseNew(content);
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
+                        }
+                    }
 
-					@Override
-					public void onAuthenticationFailed() {
+                    @Override
+                    public void onAuthenticationFailed() {
 
-					}
-				});
+                    }
+                });
 
-	}
+    }
 
-	private void PaymentCheckParseNew(String response) {
-		try {
-			LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
+    private void PaymentCheckParseNew(String response) {
+        try {
+            LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
 
-			if (detail.user.payment) {
-				toast("You have already paid");
-				appPref.SaveData("hasPay", "yes");
-				SessionManager.Instance.setPayed(true);
-				verify_card.setEnabled(false);
-			} else {
+            if (detail.user.payment) {
+                toast("You have already paid");
+                appPref.SaveData("hasPay", "yes");
+                SessionManager.Instance.setPayed(true);
+                verify_card.setEnabled(false);
+            } else {
 
-			}
-		} catch (Exception e) {
-			AppLogger.log(TAG, e);
-		}
+            }
+        } catch (Exception e) {
+            AppLogger.log(TAG, e);
+        }
 
-	}
+    }
 
-	public void PaymentCheckParse(String response) {
-		System.out.println("the payment check response " + response);
+    public void PaymentCheckParse(String response) {
+        System.out.println("the payment check response " + response);
 
-		CheckPayment detail = (new Gson()).fromJson(response, CheckPayment.class);
+        CheckPayment detail = (new Gson()).fromJson(response, CheckPayment.class);
 
-		if (detail.transactions.size() > 0) {
-			toast("You have already paid");
+        if (detail.transactions.size() > 0) {
+            toast("You have already paid");
             SessionManager.Instance.setPayed(true);
-			verify_card.setEnabled(false);
-		}
+            verify_card.setEnabled(false);
+        }
 
-	}
+    }
 
-	private List getErroList(List<com.rentalgeek.android.backend.ErrorArray.Error> al) {
-		List<String> list = new ArrayList<String>();
+    private List getErroList(List<com.rentalgeek.android.backend.ErrorArray.Error> al) {
+        List<String> list = new ArrayList<String>();
 
-		for (int i = 0; i < al.size(); i++) {
-			list.add(al.get(i).message);
-		}
+        for (int i = 0; i < al.size(); i++) {
+            list.add(al.get(i).message);
+        }
 
-		return list;
-	}
+        return list;
+    }
 
-	private void alertList(String add) {
-		AlertDialog.Builder builderSingle = new AlertDialog.Builder(
-				getActivity());
+    private void alertList(String add) {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(
+                getActivity());
 
-		builderSingle.setTitle("Error");
-		builderSingle.setMessage(add);
-		builderSingle.setNegativeButton("cancel",
-				new DialogInterface.OnClickListener() {
+        builderSingle.setTitle("Error");
+        builderSingle.setMessage(add);
+        builderSingle.setNegativeButton("cancel",
+                new DialogInterface.OnClickListener() {
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-					}
-				});
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
 
-		builderSingle.show();
-	}
+        builderSingle.show();
+    }
 
-	public void paymentParse(String response) {
-		PaymentBackend detail = (new Gson()).fromJson(response, PaymentBackend.class);
+    public void paymentParse(String response) {
+        PaymentBackend detail = (new Gson()).fromJson(response, PaymentBackend.class);
 
-		if (detail != null && detail.transaction != null) {
+        if (detail != null && detail.transaction != null) {
 
-			toast("Payment successful, transaction ID" + detail.transaction.transaction_id);
+            toast("Payment successful, transaction ID" + detail.transaction.transaction_id);
 
             SessionManager.Instance.setPayed(true);
 
-			if (!SessionManager.Instance.hasProfile()) {
-				profileAlert("Your payment was successful. Please complete your profile in order to apply.");
-				Navigation.navigateActivity(getActivity(), ActivityCreateProfile.class);
-			} else {
-				Navigation.navigateActivity(getActivity(), ActivityGeekScore.class);
-			}
+            if (!SessionManager.Instance.hasProfile()) {
+                profileAlert("Your payment was successful. Please complete your profile in order to apply.");
+                Navigation.navigateActivity(getActivity(), ActivityCreateProfile.class);
+            } else {
+                Navigation.navigateActivity(getActivity(), ActivityGeekScore.class);
+            }
 
-		}
-	}
+        }
+    }
 
-	@Override
-	public void onValidationFailed(View failedView, Rule<?> failedRule) {
-		String message = failedRule.getFailureMessage();
-		if (failedView instanceof EditText) {
-			failedView.requestFocus();
-			((EditText) failedView).setError(message);
-		} else {
-			toast(message);
+    @Override
+    public void onValidationFailed(View failedView, Rule<?> failedRule) {
+        String message = failedRule.getFailureMessage();
+        if (failedView instanceof EditText) {
+            failedView.requestFocus();
+            ((EditText) failedView).setError(message);
+        } else {
+            toast(message);
 
-		}
-	}
+        }
+    }
 
-	@Override
-	public void onValidationSucceeded() {
-		makePayment();
-	}
+    @Override
+    public void onValidationSucceeded() {
+        makePayment();
+    }
 
-	private void makePayment() {
-		String url = ApiManager.getTransactions();
+    private void makePayment() {
+        String url = ApiManager.getTransactions();
 
-		RequestParams params = new RequestParams();
-		params.put("card[name_on_card]", cardName.getText().toString().trim());
-		params.put("card[card_no]", cardNo.getText().toString().trim());
-		params.put("card[cvv]", edCvv.getText().toString().trim());
-		params.put("card[mm]", ed_mm.getSelectedItem().toString().trim());
-		params.put("card[yyyy]", edYYYY.getSelectedItem().toString().trim());
-		params.put("card[user_id]", appPref.getData("Uid"));
+        RequestParams params = new RequestParams();
+        params.put("card[name_on_card]", cardName.getText().toString().trim());
+        params.put("card[card_no]", cardNo.getText().toString().trim());
+        params.put("card[cvv]", edCvv.getText().toString().trim());
+        params.put("card[mm]", ed_mm.getSelectedItem().toString().trim());
+        params.put("card[yyyy]", edYYYY.getSelectedItem().toString().trim());
+        params.put("card[user_id]", appPref.getData("Uid"));
 
-		GlobalFunctions.postApiCall(activity, url,
-				params, AppPreferences.getAuthToken(),
-				new GeekHttpResponseHandler() {
+        GlobalFunctions.postApiCall(activity, url,
+                params, AppPreferences.getAuthToken(),
+                new GeekHttpResponseHandler() {
 
-					@Override
-					public void onStart() {
-						showProgressDialog(R.string.dialog_msg_loading);
-					}
+                    @Override
+                    public void onStart() {
+                        showProgressDialog(R.string.dialog_msg_loading);
+                    }
 
-					@Override
-					public void onFinish() {
-						hideProgressDialog();
-					}
+                    @Override
+                    public void onFinish() {
+                        hideProgressDialog();
+                    }
 
-					@Override
-					public void onSuccess(String content) {
-						try {
-							paymentParse(content);
-						} catch (Exception e) {
-							AppLogger.log(TAG, e);
-						}
-					}
+                    @Override
+                    public void onSuccess(String content) {
+                        try {
+                            paymentParse(content);
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
+                        }
+                    }
 
-					@Override
-					public void onFailure(Throwable ex, String failureResponse) {
-						super.onFailure(ex, failureResponse);
+                    @Override
+                    public void onFailure(Throwable ex, String failureResponse) {
+                        super.onFailure(ex, failureResponse);
 
-						ErrorArray errorResponse = (new Gson()).fromJson(failureResponse, ErrorArray.class);
+                        ErrorArray errorResponse = (new Gson()).fromJson(failureResponse, ErrorArray.class);
 
-						if (errorResponse != null && !ListUtils.isNullOrEmpty(errorResponse.errors)) {
-							DialogManager.showCrouton(activity, errorResponse.errors.get(0).message);
-						}
+                        if (errorResponse != null && !ListUtils.isNullOrEmpty(errorResponse.errors)) {
+                            DialogManager.showCrouton(activity, errorResponse.errors.get(0).message);
+                        }
 
-					}
+                    }
 
-					@Override
-					public void onAuthenticationFailed() {
+                    @Override
+                    public void onAuthenticationFailed() {
 
-					}
-				});
-	}
+                    }
+                });
+    }
 
-	@OnClick(R.id.verify_card)
-	public void Payment() {
-		validator.validate();
-	}
+    @OnClick(R.id.verify_card)
+    public void Payment() {
+        validator.validate();
+    }
 
-	public void profileAlert(String message) {
-		AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
-		builder1.setMessage(message);
-		builder1.setTitle("Alert");
-		builder1.setCancelable(false);
-		builder1.setPositiveButton("Go to Profile",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
+    public void profileAlert(String message) {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+        builder1.setMessage(message);
+        builder1.setTitle("Alert");
+        builder1.setCancelable(false);
+        builder1.setPositiveButton("Go to Profile",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
 
-						dialog.cancel();
+                        dialog.cancel();
                         Navigation.navigateActivity(getActivity(), ActivityCreateProfile.class);
-					}
-				});
+                    }
+                });
 
-		builder1.setNegativeButton("Home",
-				new DialogInterface.OnClickListener() {
+        builder1.setNegativeButton("Home",
+                new DialogInterface.OnClickListener() {
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-						dialog.cancel();
+                        dialog.cancel();
 
-						//nextfragment(new FragmentListViewDetails(), false ,R.id.container);
-					}
-				});
-		AlertDialog alert11 = builder1.create();
-		alert11.show();
-	}
+                        //nextfragment(new FragmentListViewDetails(), false ,R.id.container);
+                    }
+                });
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+    }
 
 }

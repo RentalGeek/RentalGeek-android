@@ -22,9 +22,9 @@ import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.dialog.manager.GeekDialog;
 
 public class GeekBaseFragment extends Fragment {
-    
+
     protected AppCompatActivity activity;
-    
+
     protected void toast(String message) {
         if (!TextUtils.isEmpty(message)) {
             DialogManager.showCrouton(activity, message);
@@ -89,14 +89,14 @@ public class GeekBaseFragment extends Fragment {
 
     @Override
     public void onStop() {
-        super.onStop();
         unregisterBus();
+        super.onStop();
     }
 
     @Override
     public void onStart() {
-        registerBus();
         super.onStart();
+        registerBus();
     }
 
     protected void unregisterBus() {
@@ -107,7 +107,8 @@ public class GeekBaseFragment extends Fragment {
         AppEventBus.register(this);
     }
 
-    public void onEventMainThread(NonEvent event) { }
+    public void onEventMainThread(NonEvent event) {
+    }
 
 
     protected void hideProgressDialog() {

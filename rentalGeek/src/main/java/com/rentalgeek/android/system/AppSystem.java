@@ -23,7 +23,7 @@ public enum AppSystem {
     private String gcmDeviceId;
 
     public boolean isDebugBuild(Context context) {
-        return ( 0 != ( context.getApplicationInfo().flags &= ApplicationInfo.FLAG_DEBUGGABLE ) );
+        return (0 != (context.getApplicationInfo().flags &= ApplicationInfo.FLAG_DEBUGGABLE));
     }
 
 
@@ -31,7 +31,7 @@ public enum AppSystem {
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(context);
 
         gcmDeviceId = AppPreferences.getMessageServiceDeviceId();
-        if(TextUtils.isEmpty(gcmDeviceId)) {
+        if (TextUtils.isEmpty(gcmDeviceId)) {
             registerGCM(gcm);
         }
     }
@@ -51,8 +51,7 @@ public enum AppSystem {
                 try {
                     gcmDeviceId = gcm.register(RentalGeekApplication.GCM_CLIENT_ID);
                     AppLogger.log(TAG, "DEVICE_ID:" + gcmDeviceId);
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     AppLogger.log(TAG, e);
                 }
                 return gcmDeviceId;

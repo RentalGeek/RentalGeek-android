@@ -8,8 +8,8 @@ import java.util.List;
 
 public class LoginBackend {
 
-	public User user;
-	public List<Profile> profiles;
-	public List<Provider> providers;
+    public User user;
+    public List<Profile> profiles;
+    public List<Provider> providers;
     public List<String> error;
 }

@@ -50,7 +50,7 @@ public enum SessionManager {
         Profile profile = getDefaultProfile();
 
         if (profile != null) {
-            return !TextUtils.isEmpty((String)profile.get("geek_score"));
+            return !TextUtils.isEmpty((String) profile.get("geek_score"));
         }
 
         return false;
@@ -60,12 +60,12 @@ public enum SessionManager {
         Profile profile = getDefaultProfile();
 
         if (profile != null) {
-            return (String)profile.get("geek_score");
+            return (String) profile.get("geek_score");
         }
 
         return null;
     }
-    
+
     public void setDefaultProfile(Profile profile) {
         if (profile != null) {
             System.out.println(profile);
@@ -88,13 +88,13 @@ public enum SessionManager {
 
     public boolean hasProfile() {
         String id = (String) getDefaultProfile().get("id");
-        return (id != null && ! id.isEmpty());
+        return (id != null && !id.isEmpty());
     }
 
     public String getDefaultProfileId() {
         Profile profile = getDefaultProfile();
         if (profile == null) return null;
-        return (String)profile.get("id");
+        return (String) profile.get("id");
     }
 
     public void onUserLoggedIn(LoginBackend login) {

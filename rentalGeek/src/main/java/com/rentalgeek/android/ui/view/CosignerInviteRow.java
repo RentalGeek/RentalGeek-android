@@ -15,7 +15,6 @@ import com.rentalgeek.android.ui.fragment.FragmentMyCosigner;
 
 /**
  * Created by rajohns on 9/26/15.
- *
  */
 public class CosignerInviteRow extends LinearLayout {
 

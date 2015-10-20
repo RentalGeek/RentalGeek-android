@@ -2,7 +2,6 @@ package com.rentalgeek.android.utils;
 
 /**
  * Created by rajohns on 9/23/15.
- *
  */
 public class DateUtils {
 

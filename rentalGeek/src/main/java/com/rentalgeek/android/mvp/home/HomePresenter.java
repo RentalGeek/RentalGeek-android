@@ -1,23 +1,20 @@
 package com.rentalgeek.android.mvp.home;
 
-import android.util.Log;
-
 import android.os.Bundle;
+import android.util.Log;
 
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.api.ApiManager;
-
+import com.rentalgeek.android.bus.AppEventBus;
+import com.rentalgeek.android.bus.events.ErrorAlertEvent;
+import com.rentalgeek.android.bus.events.SetRentalsEvent;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
-
 import com.rentalgeek.android.pojos.Rental;
-
-import com.rentalgeek.android.ui.preference.AppPreferences;
-
-import com.rentalgeek.android.utils.GeekGson;
-
 import com.rentalgeek.android.storage.RentalCache;
+import com.rentalgeek.android.ui.preference.AppPreferences;
+import com.rentalgeek.android.utils.GeekGson;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,16 +22,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class HomePresenter implements Presenter {
-    
+
     private static final String TAG = HomePresenter.class.getSimpleName();
 
-    private HomeView homeView;
-
-    public HomePresenter(HomeView homeView) {
-        this.homeView = homeView;
-    }
-
-    @Override public void getRentalOfferings() {
+    @Override
+    public void getRentalOfferings() {
         String url = ApiManager.getPropertySearchUrl();
         String token = AppPreferences.getAuthToken();
 
@@ -71,7 +63,7 @@ public class HomePresenter implements Presenter {
                             RentalCache.getInstance().add(rental);
                         }
 
-                        homeView.setRentals(rentals);
+                        AppEventBus.post(new SetRentalsEvent(rentals));
                     }
                 } catch (Exception e) {
                     Log.e(TAG, e.getMessage());
@@ -88,35 +80,33 @@ public class HomePresenter implements Presenter {
                 System.out.println(String.format("Error: %s", response));
                 String title = RentalGeekApplication.getResourceString(R.string.home);
                 String message = RentalGeekApplication.getResourceString(R.string.oops);
-                homeView.onError(title, message);
+                AppEventBus.post(new ErrorAlertEvent(title, message));
             }
         });
     }
 
-    @Override 
+    @Override
     public void getRentalOfferings(Bundle bundle) {
-        
+
         Rental[] rentals = {};
 
-        if( bundle != null) {
-            
+        if (bundle != null) {
+
             ArrayList<String> rental_ids = bundle.getStringArrayList("RENTALS");
-            
+
             int size = rental_ids.size();
 
             rentals = new Rental[size];
 
-            for(int i = 0; i < size; i++) {
+            for (int i = 0; i < size; i++) {
                 rentals[i] = RentalCache.getInstance().get(rental_ids.get(i));
             }
 
-            homeView.setRentals(rentals);
-        }
-
-        else {
+            AppEventBus.post(new SetRentalsEvent(rentals));
+        } else {
             String title = RentalGeekApplication.getResourceString(R.string.home);
             String message = RentalGeekApplication.getResourceString(R.string.oops);
-            homeView.onError(title,message);
+            AppEventBus.post(new ErrorAlertEvent(title, message));
         }
 
     }

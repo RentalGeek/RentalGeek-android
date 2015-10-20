@@ -17,7 +17,7 @@ public class DialogManager {
 
         if (coordinatorLayoutView != null) {
             Snackbar.make(coordinatorLayoutView, Html.fromHtml(croutonText), Snackbar.LENGTH_LONG)
-                            //.setAction(R.string.snackbar_action_undo, clickListener)
+                    //.setAction(R.string.snackbar_action_undo, clickListener)
                     .show();
         }
 

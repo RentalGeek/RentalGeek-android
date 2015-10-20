@@ -22,8 +22,8 @@ import com.rentalgeek.android.pojos.CosignerInvitesArrayRootDTO;
 import com.rentalgeek.android.ui.activity.ActivityMyCosigner;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.ui.view.CosignerInviteRow;
-import com.rentalgeek.android.utils.ResponseParser;
 import com.rentalgeek.android.utils.OkAlert;
+import com.rentalgeek.android.utils.ResponseParser;
 
 import java.util.ArrayList;
 
@@ -33,7 +33,6 @@ import butterknife.OnClick;
 
 /**
  * Created by rajohns on 9/20/15.
- *
  */
 public class FragmentMyCosigner extends GeekBaseFragment {
 
@@ -41,10 +40,14 @@ public class FragmentMyCosigner extends GeekBaseFragment {
     private String name;
     private String email;
 
-    @InjectView(R.id.invited_people) LinearLayout invitedPeople;
-    @InjectView(R.id.invitation_forms) LinearLayout invitationForms;
-    @InjectView(R.id.name_edittext) EditText nameEditText;
-    @InjectView(R.id.email_edittext) EditText emailEdiText;
+    @InjectView(R.id.invited_people)
+    LinearLayout invitedPeople;
+    @InjectView(R.id.invitation_forms)
+    LinearLayout invitationForms;
+    @InjectView(R.id.name_edittext)
+    EditText nameEditText;
+    @InjectView(R.id.email_edittext)
+    EditText emailEdiText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -151,22 +154,22 @@ public class FragmentMyCosigner extends GeekBaseFragment {
 
     public void deleteInviteAlert(final CosignerInviteDTO invite) {
         new AlertDialog.Builder(getActivity())
-            .setTitle("Remove Cosigner")
-            .setMessage("Are you sure you want to remove " + invite.invited_name + " as a cosigner?")
-            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                    deleteInvite(invite);
-                }
-            })
-            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            })
-            .show();
+                .setTitle("Remove Cosigner")
+                .setMessage("Are you sure you want to remove " + invite.invited_name + " as a cosigner?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                        deleteInvite(invite);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .show();
     }
 
     private void deleteInvite(CosignerInviteDTO invite) {

@@ -6,13 +6,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.rentalgeek.android.R;
 
 public class MarkerUtils {
-    
+
     public static MarkerOptions createRentalMarker(LatLng point, int bedroomCount) {
-        
+
         MarkerOptions marker = new MarkerOptions();
         marker.position(point);
 
-        switch( bedroomCount ) {
+        switch (bedroomCount) {
             case 1:
                 marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.rental_marker_1));
                 break;

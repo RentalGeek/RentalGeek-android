@@ -9,7 +9,6 @@ import com.rentalgeek.android.api.ApiManager;
 
 /**
  * Created by rajohns on 9/12/15.
- *
  */
 public class FragmentPendingApplications extends FragmentBaseApplicationList {
 

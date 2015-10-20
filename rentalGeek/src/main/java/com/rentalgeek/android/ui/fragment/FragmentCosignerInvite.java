@@ -16,8 +16,8 @@ import com.rentalgeek.android.pojos.CosignerInviteDTO;
 import com.rentalgeek.android.pojos.CosignerInviteSingleRootDTO;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.CosignerDestinationLogic;
-import com.rentalgeek.android.utils.ResponseParser;
 import com.rentalgeek.android.utils.OkAlert;
+import com.rentalgeek.android.utils.ResponseParser;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -25,21 +25,24 @@ import butterknife.OnClick;
 
 public class FragmentCosignerInvite extends GeekBaseFragment {
 
-    @InjectView(R.id.invite_cosign_textview) TextView inviteTextView;
-    @InjectView(R.id.accept_button) Button acceptButton;
-    @InjectView(R.id.decline_button) Button declineButton;
+    @InjectView(R.id.invite_cosign_textview)
+    TextView inviteTextView;
+    @InjectView(R.id.accept_button)
+    Button acceptButton;
+    @InjectView(R.id.decline_button)
+    Button declineButton;
 
     @Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_cosigner_invite, container, false);
-		ButterKnife.inject(this,view);
-        
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_cosigner_invite, container, false);
+        ButterKnife.inject(this, view);
+
         String inviteText = getResources().getString(R.string.invite_cosign_text);
         inviteText = String.format(inviteText, CosignerDestinationLogic.INSTANCE.getNameOfInviter());
         this.inviteTextView.setText(inviteText);
 
-		return view;
-	}
+        return view;
+    }
 
     @OnClick(R.id.accept_button)
     public void acceptInvite() {

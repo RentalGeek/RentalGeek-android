@@ -22,14 +22,15 @@ import butterknife.InjectView;
 
 /**
  * Created by rajohns on 9/30/15.
- *
  */
 public class FragmentViewLease extends GeekBaseFragment {
 
     public static final String LEASE_ID = "leaseId";
 
-    @InjectView(R.id.web_view) WebView pdfWebView;
-    @InjectView(R.id.error_text_view) TextView errorTextView;
+    @InjectView(R.id.web_view)
+    WebView pdfWebView;
+    @InjectView(R.id.error_text_view)
+    TextView errorTextView;
 
     @Nullable
     @Override

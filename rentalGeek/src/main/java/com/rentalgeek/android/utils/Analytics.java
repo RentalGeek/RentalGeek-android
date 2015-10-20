@@ -8,7 +8,6 @@ import com.rentalgeek.android.backend.model.User;
 
 /**
  * Created by rajohns on 10/7/15.
- *
  */
 public final class Analytics {
 

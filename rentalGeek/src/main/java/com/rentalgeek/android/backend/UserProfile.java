@@ -6,5 +6,5 @@ import java.util.List;
 
 public class UserProfile {
 
-	public List<Profile> profiles;
+    public List<Profile> profiles;
 }

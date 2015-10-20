@@ -18,8 +18,8 @@ import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.activity.ActivityCosignerApp3;
 import com.rentalgeek.android.ui.preference.AppPreferences;
-import com.rentalgeek.android.utils.ResponseParser;
 import com.rentalgeek.android.utils.OkAlert;
+import com.rentalgeek.android.utils.ResponseParser;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -28,16 +28,21 @@ import info.hoang8f.android.segmented.SegmentedGroup;
 
 /**
  * Created by rajohns on 9/19/15.
- *
  */
 public class FragmentCosignerApp2 extends GeekBaseFragment {
 
-    @InjectView(R.id.address_edittext) EditText addressEditText;
-    @InjectView(R.id.city_edittext) EditText cityEditText;
-    @InjectView(R.id.state_spinner) Spinner stateSpinner;
-    @InjectView(R.id.zip_edittext) EditText zipEditText;
-    @InjectView(R.id.own_or_rent_segment) SegmentedGroup ownOrRentSegment;
-    @InjectView(R.id.monthly_payment_edittext) EditText monthlyPaymentEditText;
+    @InjectView(R.id.address_edittext)
+    EditText addressEditText;
+    @InjectView(R.id.city_edittext)
+    EditText cityEditText;
+    @InjectView(R.id.state_spinner)
+    Spinner stateSpinner;
+    @InjectView(R.id.zip_edittext)
+    EditText zipEditText;
+    @InjectView(R.id.own_or_rent_segment)
+    SegmentedGroup ownOrRentSegment;
+    @InjectView(R.id.monthly_payment_edittext)
+    EditText monthlyPaymentEditText;
 
     private String address;
     private String city;

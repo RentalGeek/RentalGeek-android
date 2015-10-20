@@ -16,16 +16,6 @@
 
 package com.rentalgeek.android.ui.adapter;
 
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.common.data.DataBufferUtils;
-import com.google.android.gms.location.places.AutocompleteFilter;
-import com.google.android.gms.location.places.AutocompletePrediction;
-import com.google.android.gms.location.places.AutocompletePredictionBuffer;
-import com.google.android.gms.location.places.Places;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.text.style.CharacterStyle;
@@ -37,6 +27,17 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.common.data.DataBufferUtils;
+import com.google.android.gms.location.places.AutocompleteFilter;
+import com.google.android.gms.location.places.AutocompletePrediction;
+import com.google.android.gms.location.places.AutocompletePredictionBuffer;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -44,7 +45,7 @@ import java.util.concurrent.TimeUnit;
  * Adapter that handles Autocomplete requests from the Places Geo Data API.
  * {@link AutocompletePrediction} results from the API are frozen and stored directly in this
  * adapter. (See {@link AutocompletePrediction#freeze()}.)
- * <p>
+ * <p/>
  * Note that this adapter requires a valid {@link com.google.android.gms.common.api.GoogleApiClient}.
  * The API client must be maintained in the encapsulating Activity, including all lifecycle and
  * connection states. The API client must be connected with the {@link Places#GEO_DATA_API} API.
@@ -66,7 +67,8 @@ public class PlaceAutocompleteAdapter extends ArrayAdapter<AutocompletePredictio
     /**
      * The bounds used for Places Geo Data autocomplete API requests.
      */
-    private static final LatLngBounds mBounds = new LatLngBounds(new LatLng(18.005611,-124.626080),new LatLng(48.987386,-62.361014));;
+    private static final LatLngBounds mBounds = new LatLngBounds(new LatLng(18.005611, -124.626080), new LatLng(48.987386, -62.361014));
+    ;
 
     /**
      * The autocomplete filter used to restrict queries to a specific set of place types.
@@ -182,7 +184,7 @@ public class PlaceAutocompleteAdapter extends ArrayAdapter<AutocompletePredictio
      * @see Places#GEO_DATA_API#getAutocomplete(CharSequence)
      * @see AutocompletePrediction#freeze()
      */
-    private void  getAutocomplete(CharSequence constraint) {
+    private void getAutocomplete(CharSequence constraint) {
         if (mGoogleApiClient.isConnected()) {
 
             // Submit the query to the autocomplete API and retrieve a PendingResult that will

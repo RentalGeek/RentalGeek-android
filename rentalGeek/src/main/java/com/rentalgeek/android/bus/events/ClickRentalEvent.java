@@ -1,6 +1,7 @@
 package com.rentalgeek.android.bus.events;
 
 import android.os.Bundle;
+
 public class ClickRentalEvent {
     private Bundle bundle;
 

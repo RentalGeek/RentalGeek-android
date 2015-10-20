@@ -15,28 +15,25 @@ import butterknife.OnClick;
 
 
 /**
- * 
  * @author George
- * 
  * @purpose This class which shows the Augment reality[ Current work in progress]
- *
  */
 public class GeekVision extends Fragment {
 
-	private YoYo.YoYoString animation_obj;
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    private YoYo.YoYoString animation_obj;
 
-		View v= inflater.inflate(R.layout.geekvision, container,false);
-		ButterKnife.inject(this,v);
-		return v;
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-	
-	@OnClick(R.id.coming_soon)
-	public void ComingSoon(View v)
-	{
-		animation_obj=YoYo.with(Techniques.Tada).duration(1000).playOn(v);
-	}
+        View v = inflater.inflate(R.layout.geekvision, container, false);
+        ButterKnife.inject(this, v);
+        return v;
+    }
+
+
+    @OnClick(R.id.coming_soon)
+    public void ComingSoon(View v) {
+        animation_obj = YoYo.with(Techniques.Tada).duration(1000).playOn(v);
+    }
 
 }

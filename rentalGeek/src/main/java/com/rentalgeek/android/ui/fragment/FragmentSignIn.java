@@ -34,12 +34,12 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.plus.Plus;
-import com.google.android.gms.common.Scopes;
 import com.google.android.gms.plus.model.people.Person;
 import com.google.gson.Gson;
 import com.linkedin.platform.APIHelper;
@@ -90,7 +90,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
     private static final int PROFILE_PIC_SIZE = 400;
 
     private GoogleApiClient mGoogleApiClient;
-    
+
     private AppPrefes appPref;
 
     private boolean mIntentInProgress;
@@ -100,9 +100,9 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
     private boolean clickedLinkedIn = false;
 
     private boolean mResolveOnFail = false;
-    
+
     private ConnectionResult mConnectionResult;
-    
+
     private CallbackManager facebookCallbackManager;
 
     @InjectView(R.id.btn_sign_in)
@@ -144,7 +144,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         FacebookSdk.sdkInitialize(activity.getApplicationContext());
         facebookCallbackManager = CallbackManager.Factory.create();
 
-        if( mGoogleApiClient == null ) 
+        if (mGoogleApiClient == null)
             mGoogleApiClient = buildGoogleApiClient();
     }
 
@@ -162,7 +162,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
             @Override
             public void onSuccess(LoginResult loginResult) {
 
-                AppLogger.log(TAG, "fb success:"+loginResult.getAccessToken());
+                AppLogger.log(TAG, "fb success:" + loginResult.getAccessToken());
 
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(),
@@ -229,52 +229,52 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         params.put("user[password]", b);
 
         GlobalFunctions.postApiCall(getActivity(), ApiManager.getSignin(),
-            params, AppPreferences.getAuthToken(),
-            new GeekHttpResponseHandler() {
+                params, AppPreferences.getAuthToken(),
+                new GeekHttpResponseHandler() {
 
-                @Override
-                public void onStart() {
-                    showProgressDialog(R.string.dialog_msg_loading);
-                }
-
-                @Override
-                public void onFinish() {
-                    hideProgressDialog();
-                }
-
-                @Override
-                public void onSuccess(String content) {
-                    try {
-                        NormalLogin(content);
-                    } catch (Exception e) {
-                        AppLogger.log(TAG, e);
+                    @Override
+                    public void onStart() {
+                        showProgressDialog(R.string.dialog_msg_loading);
                     }
-                }
 
-                @Override
-                public void onAuthenticationFailed() {
+                    @Override
+                    public void onFinish() {
+                        hideProgressDialog();
+                    }
 
-                }
-
-                @Override
-                public void onFailure(Throwable ex, String failureResponse) {
-                    super.onFailure(ex, failureResponse);
-                    ErrorApi error = (new Gson()).fromJson(failureResponse, ErrorApi.class);
-                    if (error != null) {
-                        if (!error.success) {
-                            String message = error.message;
-                            if (!TextUtils.isEmpty(message)) {
-                                String title = getResources().getString(R.string.login_title);
-                                String msg = getResources().getString(R.string.invalid_login);
-                                OkAlert.show(getActivity(), title, msg);
-                                return;
-                            }
+                    @Override
+                    public void onSuccess(String content) {
+                        try {
+                            NormalLogin(content);
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
                         }
                     }
 
-                    OkAlert.showUnknownError(getActivity());
-                }
-            });
+                    @Override
+                    public void onAuthenticationFailed() {
+
+                    }
+
+                    @Override
+                    public void onFailure(Throwable ex, String failureResponse) {
+                        super.onFailure(ex, failureResponse);
+                        ErrorApi error = (new Gson()).fromJson(failureResponse, ErrorApi.class);
+                        if (error != null) {
+                            if (!error.success) {
+                                String message = error.message;
+                                if (!TextUtils.isEmpty(message)) {
+                                    String title = getResources().getString(R.string.login_title);
+                                    String msg = getResources().getString(R.string.invalid_login);
+                                    OkAlert.show(getActivity(), title, msg);
+                                    return;
+                                }
+                            }
+                        }
+
+                        OkAlert.showUnknownError(getActivity());
+                    }
+                });
     }
 
     @Override
@@ -345,24 +345,20 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        
-        super.onActivityResult(requestCode,resultCode,data);
 
-        if( resultCode == getActivity().RESULT_OK ) {
-        
-            if( clickedGoogle ) {
-                mResolveOnFail = false; 
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == getActivity().RESULT_OK) {
+
+            if (clickedGoogle) {
+                mResolveOnFail = false;
                 mGoogleApiClient.connect();
-            }
-
-            else if( clickedFacebook ) {
-                facebookCallbackManager.onActivityResult(requestCode,resultCode,data);
-            }
-
-            else if ( clickedLinkedIn ) {
+            } else if (clickedFacebook) {
+                facebookCallbackManager.onActivityResult(requestCode, resultCode, data);
+            } else if (clickedLinkedIn) {
                 LISessionManager.getInstance(activity.getApplicationContext()).onActivityResult(activity, requestCode, resultCode, data);
             }
-        }                    
+        }
     }
 
     private static final String SAVED_PROGRESS = "sign_in_progress";
@@ -388,14 +384,14 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         // Refer to the javadoc for ConnectionResult to see what error codes might
         // be returned in onConnectionFailed.
         Log.i(TAG, "onConnectionFailed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
-        
-        if( result.hasResolution() ) {
+
+        if (result.hasResolution()) {
             System.out.println("Resolution exists");
 
             mConnectionResult = result;
 
-            if( mResolveOnFail ) {
-                startGoogleResolution();    
+            if (mResolveOnFail) {
+                startGoogleResolution();
             }
         }
     }
@@ -404,7 +400,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
     public void onConnected(Bundle arg0) {
         System.out.println("Connected to Google+");
 
-        if( clickedGoogle ) {
+        if (clickedGoogle) {
             getProfileInformation();
             clickedGoogle = false;
         }
@@ -416,11 +412,9 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         // We call connect() to attempt to re-establish the connection or get a
         // ConnectionResult that we can attempt to resolve.
 
-        if( cause == GoogleApiClient.ConnectionCallbacks.CAUSE_SERVICE_DISCONNECTED ) {
+        if (cause == GoogleApiClient.ConnectionCallbacks.CAUSE_SERVICE_DISCONNECTED) {
             System.out.println("G+ API client service disconnected");
-        }
-
-        else if ( cause == GoogleApiClient.ConnectionCallbacks.CAUSE_NETWORK_LOST) {
+        } else if (cause == GoogleApiClient.ConnectionCallbacks.CAUSE_NETWORK_LOST) {
             System.out.println("Network lost while connecting to G+ API client service");
         }
 
@@ -436,20 +430,18 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
     @Override
     public void onStop() {
         super.onStop();
-        if ( mGoogleApiClient != null && ( mGoogleApiClient.isConnected() || mGoogleApiClient.isConnecting() ) ) {
+        if (mGoogleApiClient != null && (mGoogleApiClient.isConnected() || mGoogleApiClient.isConnecting())) {
             mGoogleApiClient.disconnect();
             System.out.println("Disconnecting G+ API client");
         }
     }
 
     private void startGoogleResolution() {
-        if( mConnectionResult != null ) {
+        if (mConnectionResult != null) {
             try {
-                mConnectionResult.startResolutionForResult(getActivity(),GP_SIGN_IN);
+                mConnectionResult.startResolutionForResult(getActivity(), GP_SIGN_IN);
                 mConnectionResult = null;
-            }
-
-            catch(SendIntentException e){
+            } catch (SendIntentException e) {
                 System.out.println("Reconnecting");
                 mGoogleApiClient.connect();
             }
@@ -485,9 +477,10 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                             }).create();
         }
     }
+
     /**
      * Sign-in into google
-     * */
+     */
     private int mSignInProgress;
 
     // Used to store the PendingIntent most recently returned by Google Play
@@ -523,7 +516,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                         + personGooglePlusProfile + ", email: " + email
                         + ", Image: " + personPhotoUrl);
 
-                System.out.println("birthday "+currentPerson.getBirthday());
+                System.out.println("birthday " + currentPerson.getBirthday());
 
                 // by default the profile url gives 50x50 px image only
                 // we can replace the value with whatever dimension we want by
@@ -740,20 +733,16 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         animation_obj = YoYo.with(Techniques.Flash).duration(1000).playOn(v);
 
         clickedGoogle = true;
-        
-        if( mConnectionResult != null && mConnectionResult.hasResolution() ) {
+
+        if (mConnectionResult != null && mConnectionResult.hasResolution()) {
             startGoogleResolution();
             System.out.println("Starting Google Resolution");
-        }
+        } else {
 
-        else {
-
-            if( mGoogleApiClient.isConnected() ) {
+            if (mGoogleApiClient.isConnected()) {
                 mResolveOnFail = false;
                 getProfileInformation();
-            }
-
-            else {
+            } else {
                 mGoogleApiClient.connect();
             }
         }
@@ -768,7 +757,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
 
 
     /***********************************************
-     *  LinkedIn Login
+     * LinkedIn Login
      **********************************************/
 
     private static final String host = "api.linkedin.com";

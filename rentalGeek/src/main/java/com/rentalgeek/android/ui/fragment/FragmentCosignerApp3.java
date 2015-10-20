@@ -15,8 +15,8 @@ import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.activity.ActivityCosignerApp4;
 import com.rentalgeek.android.ui.preference.AppPreferences;
-import com.rentalgeek.android.utils.ResponseParser;
 import com.rentalgeek.android.utils.OkAlert;
+import com.rentalgeek.android.utils.ResponseParser;
 import com.rentalgeek.android.utils.YesNoCheckChangedListener;
 
 import butterknife.ButterKnife;
@@ -26,15 +26,19 @@ import info.hoang8f.android.segmented.SegmentedGroup;
 
 /**
  * Created by rajohns on 9/19/15.
- *
  */
 public class FragmentCosignerApp3 extends GeekBaseFragment {
 
-    @InjectView(R.id.lost_court_segment) SegmentedGroup lostCourtSegment;
-    @InjectView(R.id.lawsuit_segment) SegmentedGroup lawsuitSegment;
-    @InjectView(R.id.foreclosed_segment) SegmentedGroup foreclosedSegment;
-    @InjectView(R.id.bankruptcy_segment) SegmentedGroup bankruptcySegment;
-    @InjectView(R.id.felon_segment) SegmentedGroup felonSegment;
+    @InjectView(R.id.lost_court_segment)
+    SegmentedGroup lostCourtSegment;
+    @InjectView(R.id.lawsuit_segment)
+    SegmentedGroup lawsuitSegment;
+    @InjectView(R.id.foreclosed_segment)
+    SegmentedGroup foreclosedSegment;
+    @InjectView(R.id.bankruptcy_segment)
+    SegmentedGroup bankruptcySegment;
+    @InjectView(R.id.felon_segment)
+    SegmentedGroup felonSegment;
 
     private YesNoAnswer lostCourt = new YesNoAnswer();
     private YesNoAnswer lawsuit = new YesNoAnswer();

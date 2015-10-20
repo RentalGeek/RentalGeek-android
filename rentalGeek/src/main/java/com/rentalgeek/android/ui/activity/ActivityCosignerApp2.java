@@ -7,7 +7,6 @@ import com.rentalgeek.android.ui.fragment.FragmentCosignerApp2;
 
 /**
  * Created by rajohns on 9/19/15.
- *
  */
 public class ActivityCosignerApp2 extends GeekBaseActivity {
 

@@ -15,7 +15,6 @@ public class GeekBaseActionBarActivity extends ActionBarActivity {
 
     /*****************************
      * Progress Dialog
-     *
      *****************************/
 
     protected void hideProgressDialog() {

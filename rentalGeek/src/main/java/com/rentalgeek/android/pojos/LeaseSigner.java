@@ -2,7 +2,6 @@ package com.rentalgeek.android.pojos;
 
 /**
  * Created by rajohns on 9/7/15.
- *
  */
 public class LeaseSigner {
 

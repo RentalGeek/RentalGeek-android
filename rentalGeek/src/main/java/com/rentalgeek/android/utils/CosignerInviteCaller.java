@@ -16,7 +16,6 @@ import java.util.Map;
 
 /**
  * Created by rajohns on 9/17/15.
- *
  */
 public class CosignerInviteCaller {
 

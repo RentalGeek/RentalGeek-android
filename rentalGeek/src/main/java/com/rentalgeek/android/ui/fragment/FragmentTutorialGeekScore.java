@@ -15,32 +15,36 @@ import butterknife.InjectView;
 
 public class FragmentTutorialGeekScore extends Fragment {
 
-	@InjectView(R.id.background_layout) LinearLayout backgroundLayout;
-    @InjectView(R.id.title_text_view) TextView titleTextView;
-    @InjectView(R.id.first_text_view) TextView firstTextView;
-    @InjectView(R.id.second_text_view) TextView secondTextView;
+    @InjectView(R.id.background_layout)
+    LinearLayout backgroundLayout;
+    @InjectView(R.id.title_text_view)
+    TextView titleTextView;
+    @InjectView(R.id.first_text_view)
+    TextView firstTextView;
+    @InjectView(R.id.second_text_view)
+    TextView secondTextView;
 
-	public static FragmentTutorialGeekScore newInstance() {
-		return new FragmentTutorialGeekScore();
-	}
+    public static FragmentTutorialGeekScore newInstance() {
+        return new FragmentTutorialGeekScore();
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v=inflater.inflate(R.layout.fragment_tutorial_base, container,false);
-		ButterKnife.inject(this, v);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_tutorial_base, container, false);
+        ButterKnife.inject(this, v);
 
         backgroundLayout.setBackgroundResource(R.drawable.tutorial_geekscore_bg);
         titleTextView.setText(getActivity().getString(R.string.geek_score_tm));
         firstTextView.setText("Get it done for $25!\nYour GeekScore is all you\nneed to apply to your first,\nsecond and even third\nchoices.");
         secondTextView.setText("It's your info so keep it\nsecure in one app!");
 
-		return v;
-	}
+        return v;
+    }
 
-	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-		ButterKnife.reset(this);
-	}
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
+    }
 
 }

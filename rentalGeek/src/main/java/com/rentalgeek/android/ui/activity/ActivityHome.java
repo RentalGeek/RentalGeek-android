@@ -9,12 +9,11 @@ import android.support.v4.view.ViewPager;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.bus.events.ClickRentalEvent;
+import com.rentalgeek.android.bus.events.ErrorAlertEvent;
 import com.rentalgeek.android.bus.events.ShowProfileCreationEvent;
 import com.rentalgeek.android.mvp.home.HomePresenter;
-import com.rentalgeek.android.mvp.home.HomeView;
 import com.rentalgeek.android.mvp.list.rental.RentalListView;
 import com.rentalgeek.android.mvp.map.MapView;
-import com.rentalgeek.android.pojos.Rental;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.adapter.PageAdapter;
 import com.rentalgeek.android.ui.fragment.FragmentMap;
@@ -24,8 +23,8 @@ import com.rentalgeek.android.utils.Analytics;
 import com.rentalgeek.android.utils.CosignerInviteCaller;
 import com.rentalgeek.android.utils.OkAlert;
 
-        
-public class ActivityHome extends GeekBaseActivity implements Container<ViewPager>, HomeView {
+
+public class ActivityHome extends GeekBaseActivity implements Container<ViewPager> {
 
     private static String TAG = ActivityHome.class.getSimpleName();
     private HomePresenter presenter;
@@ -52,13 +51,13 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
 
         NonSwipeableViewPager viewPager = (NonSwipeableViewPager) findViewById(R.id.container);
 
-        if( viewPager != null ) {
+        if (viewPager != null) {
             setupContainer(viewPager);
             tabLayout.setupWithViewPager(viewPager);
         }
-        
-        presenter = new HomePresenter(this);
-        
+
+        presenter = new HomePresenter();
+
         // silently fetch cosigner invites to know which page to go to
         if (SessionManager.Instance.getCurrentUser() != null) {
             new CosignerInviteCaller(this, false).fetchCosignerInvites();
@@ -74,7 +73,7 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
         super.onPause();
         shouldReload = false;
     }
-    
+
     @Override
     public void onResume() {
         super.onResume();
@@ -101,22 +100,16 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
     @Override
     public void setupContainer(ViewPager container) {
         PageAdapter adapter = new PageAdapter(getSupportFragmentManager());
-        adapter.addFragment((FragmentMap)mapView,"Map View");
+        adapter.addFragment((FragmentMap) mapView, "Map View");
         adapter.addFragment((FragmentRentalListView) rentalListView, "List View");
         container.setAdapter(adapter);
     }
 
-    @Override
-    public void setRentals(Rental[] rentals) {
-        mapView.setRentals(rentals);
-        rentalListView.setRentals(rentals);
-        hideProgressDialog();
-    }
-    
+
     public void onEventMainThread(ClickRentalEvent event) {
         Bundle bundle = event.getBundle();
 
-        if( bundle != null ) {
+        if (bundle != null) {
             Intent intent = new Intent(this, ActivityRental.class);
             intent.putExtras(bundle);
             startActivity(intent);
@@ -124,12 +117,15 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
     }
 
     public void onEventMainThread(ShowProfileCreationEvent event) {
-        Navigation.navigateActivity(this,ActivityCreateProfile.class);   
+        Navigation.navigateActivity(this, ActivityCreateProfile.class);
     }
 
-    @Override
-    public void onError(String title, String message) {
-        hideProgressDialog();
-        OkAlert.show(this,title,message);
+    public void onEventMainThread(ErrorAlertEvent event) {
+        if (event.getTitle() != null && event.getMessage() != null) {
+            String title = event.getTitle();
+            String message = event.getMessage();
+            hideProgressDialog();
+            OkAlert.show(this, title, message);
+        }
     }
 }

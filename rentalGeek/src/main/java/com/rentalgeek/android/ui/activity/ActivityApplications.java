@@ -10,7 +10,6 @@ import com.rentalgeek.android.ui.fragment.FragmentPendingApplications;
 
 /**
  * Created by rajohns on 9/12/15.
- *
  */
 public class ActivityApplications extends GeekBaseActivity implements Container<ViewPager> {
 
@@ -30,7 +29,7 @@ public class ActivityApplications extends GeekBaseActivity implements Container<
         setupNavigation();
         setMenuItemSelected(R.id.applications);
 
-        viewPager = (ViewPager)findViewById(R.id.container);
+        viewPager = (ViewPager) findViewById(R.id.container);
         if (viewPager != null) {
             setupContainer(viewPager);
             tabLayout.setupWithViewPager(viewPager);

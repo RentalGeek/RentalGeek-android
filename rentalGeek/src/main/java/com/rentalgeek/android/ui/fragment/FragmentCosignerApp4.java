@@ -15,8 +15,8 @@ import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.CosignerDestinationLogic;
-import com.rentalgeek.android.utils.ResponseParser;
 import com.rentalgeek.android.utils.OkAlert;
+import com.rentalgeek.android.utils.ResponseParser;
 import com.rentalgeek.android.utils.YesNoCheckChangedListener;
 
 import butterknife.ButterKnife;
@@ -26,14 +26,17 @@ import info.hoang8f.android.segmented.SegmentedGroup;
 
 /**
  * Created by rajohns on 9/19/15.
- *
  */
 public class FragmentCosignerApp4 extends GeekBaseFragment {
 
-    @InjectView(R.id.employer_edittext) EditText employerEditText;
-    @InjectView(R.id.position_edittext) EditText positionEditText;
-    @InjectView(R.id.income_edittext) EditText incomeEditText;
-    @InjectView(R.id.cover_rent_segment) SegmentedGroup coverRentSegment;
+    @InjectView(R.id.employer_edittext)
+    EditText employerEditText;
+    @InjectView(R.id.position_edittext)
+    EditText positionEditText;
+    @InjectView(R.id.income_edittext)
+    EditText incomeEditText;
+    @InjectView(R.id.cover_rent_segment)
+    SegmentedGroup coverRentSegment;
 
     private String employer;
     private String position;

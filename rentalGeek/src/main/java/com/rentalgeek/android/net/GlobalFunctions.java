@@ -24,17 +24,17 @@ public class GlobalFunctions {
     }
 
     public static void postApiCall(final Context context, final String url,
-			RequestParams params, final String authToken, final GeekHttpResponseHandler handler) {
+                                   RequestParams params, final String authToken, final GeekHttpResponseHandler handler) {
 
         if (!TextUtils.isEmpty(authToken)) {
             getClient().addHeader("Authorization", String.format("Token token=%s", authToken));
         }
 
         getClient().post(url, params, handler);
-	}
+    }
 
-	public static void getApiCall(final Context context, final String url, final String authToken,
-								  final GeekHttpResponseHandler handler) {
+    public static void getApiCall(final Context context, final String url, final String authToken,
+                                  final GeekHttpResponseHandler handler) {
 
         if (!TextUtils.isEmpty(authToken)) {
             getClient().addHeader("Authorization", String.format("Token token=%s", authToken));
@@ -42,11 +42,11 @@ public class GlobalFunctions {
 
         getClient().get(url, handler);
 
-	}
+    }
 
-	public static void deleteApiCall(final Context context, final String url,
+    public static void deleteApiCall(final Context context, final String url,
                                      final String authToken,
-			                         final GeekHttpResponseHandler handler) {
+                                     final GeekHttpResponseHandler handler) {
 
         if (!TextUtils.isEmpty(authToken)) {
             getClient().addHeader("Authorization", String.format("Token token=%s", authToken));
@@ -54,12 +54,12 @@ public class GlobalFunctions {
 
         getClient().delete(url, handler);
 
-	}
+    }
 
-	// Put request
-	public static void putApiCall(final Context context, final String url,
-			RequestParams params, final String authToken,
-			final GeekHttpResponseHandler handler) {
+    // Put request
+    public static void putApiCall(final Context context, final String url,
+                                  RequestParams params, final String authToken,
+                                  final GeekHttpResponseHandler handler) {
 
         if (!TextUtils.isEmpty(authToken)) {
             getClient().addHeader("Authorization", String.format("Token token=%s", authToken));
@@ -67,6 +67,6 @@ public class GlobalFunctions {
 
         getClient().put(url, params, handler);
 
-	}
+    }
 
 }

@@ -11,35 +11,32 @@ import com.rentalgeek.android.R;
 
 
 /**
- * 
  * @author George
- * 
  * @purpose First slide introduction
- *
  */
-public class FragmentTutorialGeekVision extends Fragment{
-	
-	public static FragmentTutorialGeekVision newInstance() {
-		FragmentTutorialGeekVision fragment = new FragmentTutorialGeekVision();
+public class FragmentTutorialGeekVision extends Fragment {
+
+    public static FragmentTutorialGeekVision newInstance() {
+        FragmentTutorialGeekVision fragment = new FragmentTutorialGeekVision();
 
 
         return fragment;
     }
-	
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
 
-		super.onCreate(savedInstanceState);
-	}
-	
-	
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
 
-		View v=inflater.inflate(R.layout.fragment_tutorial_geekvision, container,false);
-		
-		return v;
-	}
+        super.onCreate(savedInstanceState);
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View v = inflater.inflate(R.layout.fragment_tutorial_geekvision, container, false);
+
+        return v;
+    }
 
 }

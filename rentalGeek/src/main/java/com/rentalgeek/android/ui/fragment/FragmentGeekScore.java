@@ -2,7 +2,6 @@ package com.rentalgeek.android.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -31,15 +30,15 @@ public class FragmentGeekScore extends GeekBaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstance) {
-        View view = inflater.inflate(R.layout.fragment_geekscore,viewGroup,false);
-        ButterKnife.inject(this,view);
+        View view = inflater.inflate(R.layout.fragment_geekscore, viewGroup, false);
+        ButterKnife.inject(this, view);
 
         Bundle bundle = getArguments();
 
-        if( bundle != null ) {
+        if (bundle != null) {
             String geek_score = bundle.getString("GEEK_SCORE");
 
-            if( geek_score != null && ! geek_score.isEmpty() )
+            if (geek_score != null && !geek_score.isEmpty())
                 geek_score_textview.setText(geek_score);
         }
 

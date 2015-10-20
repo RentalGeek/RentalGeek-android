@@ -1,4 +1,4 @@
-package  com.rentalgeek.android.bus.events;
+package com.rentalgeek.android.bus.events;
 
 public class SubmitProfileEvent {
 

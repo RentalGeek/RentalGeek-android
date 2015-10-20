@@ -19,10 +19,10 @@ public class AppLogger {
 
     public static final EnumSet<LogLevel> loggingLevels =
             EnumSet.of(LogLevel.DEBUG
-                    ,LogLevel.ERROR
-                    ,LogLevel.NETWORK
-                    ,LogLevel.DATABASE
-                    ,LogLevel.IMAGING
+                    , LogLevel.ERROR
+                    , LogLevel.NETWORK
+                    , LogLevel.DATABASE
+                    , LogLevel.IMAGING
                     //,LogLevel.LOCATION
             );
 
@@ -57,7 +57,7 @@ public class AppLogger {
     }
 
     public static void log(String tag, String message) {
-        if(message != null)
+        if (message != null)
             Log.d(tag, message);
     }
 

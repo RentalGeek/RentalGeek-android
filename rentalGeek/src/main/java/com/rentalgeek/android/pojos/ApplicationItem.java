@@ -7,7 +7,6 @@ import java.util.List;
 
 /**
  * Created by rajohns on 9/7/15.
- *
  */
 public class ApplicationItem {
 

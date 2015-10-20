@@ -17,6 +17,7 @@ public class ApiManager {
     public static String API_HOST = BuildConfig.DEBUG ? STAGE : PROD;
 
     public static String regis_link = API_HOST + "/users.json";
+
     // "api/"
     public static String getApplicants(String uid) {
         return API_HOST + "/users/" + uid;
@@ -25,13 +26,13 @@ public class ApiManager {
     public static String getPropertySearchUrl() {
         return API_HOST + "/rental_offerings.json";
     }
- 
+
     public static String getPropertySearchUrl(String parameters) {
-        return String.format("%s%s%s",API_HOST,"/rental_offerings.json?",parameters);
+        return String.format("%s%s%s", API_HOST, "/rental_offerings.json?", parameters);
     }
 
     public static String getFavoritesUrl() {
-        return String.format("%s/%s",API_HOST,"rental_offerings?starred=true");
+        return String.format("%s/%s", API_HOST, "rental_offerings?starred=true");
     }
 
     public static String getApplyUrl() {
@@ -95,24 +96,24 @@ public class ApiManager {
 //        if (TextUtils.isEmpty(propertyId)) return url;
 //        return String.format("%s/%s", url, propertyId);
 //    }
-    
+
     public static String getRental(String rental_id) {
-        return String.format("%s/%s/%s",API_HOST,"rental_offerings",rental_id);
+        return String.format("%s/%s/%s", API_HOST, "rental_offerings", rental_id);
     }
 
     //TODO remove this crap
     public static String getStarredPrpoertiesUrl(String id) {
         return id;
     }
-    
+
     public static String getRentalStar(String rental_id) {
         String url = API_HOST + "/starred_properties";
         if (TextUtils.isEmpty(rental_id)) return url;
         return String.format("%s/%s", url, rental_id);
     }
-    
+
     public static String deleteRentalStar(String star_id) {
-        return String.format("%s/%s/%s",API_HOST,"starred_properties",star_id);
+        return String.format("%s/%s/%s", API_HOST, "starred_properties", star_id);
     }
 
     public static String postRentalStar() {
@@ -161,7 +162,7 @@ public class ApiManager {
         return String.format("%s/%s/remove_user?user_id=%s", url, groupId, userId);
     }
 
-    public static String getRoommateInvites(String roommate_group_id ) {
+    public static String getRoommateInvites(String roommate_group_id) {
         String url = API_HOST + "/roommate_invites";
         if (TextUtils.isEmpty(roommate_group_id)) return url;
         return String.format("%s/%s", url, roommate_group_id);
@@ -179,7 +180,7 @@ public class ApiManager {
         return String.format("%s/%s/deny", url, inviteId);
     }
 
-    public static String getLease(String leaseId ) {
+    public static String getLease(String leaseId) {
         String url = API_HOST + "/leases";
         if (TextUtils.isEmpty(leaseId)) return null;
         return String.format("%s/%s", url, leaseId);
@@ -192,11 +193,11 @@ public class ApiManager {
     }
 
     public static String postApplication() {
-        return String.format("%s/%s",API_HOST,"applications");
+        return String.format("%s/%s", API_HOST, "applications");
     }
 
     public static String getFullAddress(String place_id) {
-            return String.format("%s?placeid=%s&sensor=false&key=%s",GOOGLE_MAPS,place_id,GOOGLE_MAPS_API_KEY);
+        return String.format("%s?placeid=%s&sensor=false&key=%s", GOOGLE_MAPS, place_id, GOOGLE_MAPS_API_KEY);
     }
 
 }

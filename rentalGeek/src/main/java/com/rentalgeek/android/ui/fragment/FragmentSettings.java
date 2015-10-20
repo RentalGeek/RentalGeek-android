@@ -14,15 +14,14 @@ import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityCreateProfile;
 import com.rentalgeek.android.ui.activity.ActivityLogin;
 import com.rentalgeek.android.ui.preference.AppPreferences;
-import com.rentalgeek.android.utils.ResponseParser;
 import com.rentalgeek.android.utils.OkAlert;
+import com.rentalgeek.android.utils.ResponseParser;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
  * Created by rajohns on 9/21/15.
- *
  */
 public class FragmentSettings extends GeekBaseFragment {
 

@@ -1,19 +1,19 @@
 package com.rentalgeek.android.pojos;
 
 public class Rental {
-		
+
     private String id;
-	private double rental_complex_latitude;
-	private double rental_complex_longitude;
+    private double rental_complex_latitude;
+    private double rental_complex_longitude;
     private double latitude;
     private double longitude;
-	private boolean starred;
-	private int bedroom_count;
-	private int monthly_rent_floor;
-	private int monthly_rent_ceiling;
-	private String headline;
-	private int full_bathroom_count;
-	private String primary_property_photo_url;
+    private boolean starred;
+    private int bedroom_count;
+    private int monthly_rent_floor;
+    private int monthly_rent_ceiling;
+    private String headline;
+    private int full_bathroom_count;
+    private String primary_property_photo_url;
     private String address;
     private String city;
     private String zipcode;
@@ -24,7 +24,7 @@ public class Rental {
     private boolean already_applied;
 
     public String toString() {
-        return String.format("id: %s, starred: %s",id,starred);
+        return String.format("id: %s, starred: %s", id, starred);
     }
 
     public String getId() {
@@ -54,7 +54,7 @@ public class Rental {
     public String getImageUrl() {
         return primary_property_photo_url;
     }
-    
+
     public int getBathroomCount() {
         return full_bathroom_count;
     }
@@ -68,7 +68,7 @@ public class Rental {
     }
 
     public void setStarId(String star_id) {
-        if( star_id != null && !star_id.isEmpty() ) {
+        if (star_id != null && !star_id.isEmpty()) {
             starred_property_id = star_id;
         }
     }

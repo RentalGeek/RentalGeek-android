@@ -18,91 +18,90 @@ import butterknife.OnClick;
 
 public class FragmentLegalJargon extends GeekBaseFragment {
 
-	/**
-	 * @author george
-	 * 
-	 * @purpose This page shows the user the terms and condition of using the
-	 *          application
-	 */
+    /**
+     * @author george
+     * @purpose This page shows the user the terms and condition of using the
+     * application
+     */
 
-	@InjectView(R.id.terms_web_main)
-	WebView wv;
+    @InjectView(R.id.terms_web_main)
+    WebView wv;
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-
-
-		View v = inflater.inflate(R.layout.fragment_legal_jargon, container, false);
-		ButterKnife.inject(this, v);
-
-		wv.loadUrl("file:///android_asset/terms.html");
-		return v;
-
-	}
-
-	@Override
-	public void onDestroyView() {
-
-		super.onDestroyView();
-		ButterKnife.reset(this);
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
 
-	@OnClick(R.id.continue_one)
-	public void continueOne() {
+        View v = inflater.inflate(R.layout.fragment_legal_jargon, container, false);
+        ButterKnife.inject(this, v);
 
-		nextfragment(new FragmentLegalJargonMore(), false, R.id.container);
-	}
+        wv.loadUrl("file:///android_asset/terms.html");
+        return v;
 
-	@OnClick(R.id.infoclick2)
-	public void infoclick2() {
-		final Dialog dialog = new Dialog(getActivity(), R.style.MyDialogInner);
+    }
 
-		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		dialog.setContentView(R.layout.apply_confirm_dialog);
+    @Override
+    public void onDestroyView() {
 
-		TextView ok = (TextView) dialog.findViewById(R.id.ok_apply_dialog);
-
-		ok.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
+        super.onDestroyView();
+        ButterKnife.reset(this);
+    }
 
 
-				dialog.dismiss();
+    @OnClick(R.id.continue_one)
+    public void continueOne() {
 
-			}
-		});
+        nextfragment(new FragmentLegalJargonMore(), false, R.id.container);
+    }
 
-		dialog.show();
+    @OnClick(R.id.infoclick2)
+    public void infoclick2() {
+        final Dialog dialog = new Dialog(getActivity(), R.style.MyDialogInner);
 
-	}
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.apply_confirm_dialog);
 
-	@OnClick(R.id.infoclick1)
-	public void infoclick1() {
-		final Dialog dialog = new Dialog(getActivity(), R.style.MyDialogInner);
+        TextView ok = (TextView) dialog.findViewById(R.id.ok_apply_dialog);
 
-		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		dialog.setContentView(R.layout.terms_dialog);
+        ok.setOnClickListener(new OnClickListener() {
 
-		 WebView wv;
-		 TextView close;
-		 wv = (WebView) dialog.findViewById(R.id.terms_web);
-		 close = (TextView) dialog.findViewById(R.id.close);
-		 wv.loadUrl("file:///android_asset/terms.html");
-		
-		 close.setOnClickListener(new OnClickListener() {
-		
-		 @Override
-		 public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
 
-		 dialog.dismiss();
-		 }
-		 });
 
-		dialog.show();
+                dialog.dismiss();
 
-	}
+            }
+        });
+
+        dialog.show();
+
+    }
+
+    @OnClick(R.id.infoclick1)
+    public void infoclick1() {
+        final Dialog dialog = new Dialog(getActivity(), R.style.MyDialogInner);
+
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.terms_dialog);
+
+        WebView wv;
+        TextView close;
+        wv = (WebView) dialog.findViewById(R.id.terms_web);
+        close = (TextView) dialog.findViewById(R.id.close);
+        wv.loadUrl("file:///android_asset/terms.html");
+
+        close.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
+    }
 
 }

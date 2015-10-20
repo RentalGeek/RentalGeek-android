@@ -17,7 +17,7 @@ public class ProfileFieldBinarySelect extends ProfileFieldAbstractSelect {
     }
 
     public ProfileFieldBinarySelect(Spinner spinner, View layoutView) {
-        super(spinner,layoutView);
+        super(spinner, layoutView);
     }
 
     @Override
@@ -36,9 +36,7 @@ public class ProfileFieldBinarySelect extends ProfileFieldAbstractSelect {
                 if (layoutToShowHide != null) {
                     layoutToShowHide.setVisibility(View.GONE);
                 }
-            }
-
-            else if ( position == 1) {
+            } else if (position == 1) {
                 profile.set(tag, true);
 
                 if (layoutToShowHide != null) {

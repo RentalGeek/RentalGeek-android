@@ -15,7 +15,7 @@ public class ParseAddress {
 
     public static Address parse(String response) {
 
-        if( response != null && ! response.isEmpty() ) {
+        if (response != null && !response.isEmpty()) {
             Address address = new Address();
 
             try {
@@ -28,13 +28,11 @@ public class ParseAddress {
                 address.setState(getAddressComponent(addressComponents, "administrative_area_level_1"));
                 address.setZipcode(getAddressComponent(addressComponents, "postal_code"));
                 address.setStreetName(getAddressComponent(addressComponents, "route"));
-                address.setCity(getAddressComponent(addressComponents,"locality"));
+                address.setCity(getAddressComponent(addressComponents, "locality"));
                 address.setStreetNumber(getAddressComponent(addressComponents, "street_number"));
 
                 return address;
-            }
-
-            catch (JSONException e) {
+            } catch (JSONException e) {
                 AppLogger.log(TAG, e);
             }
         }
@@ -45,12 +43,12 @@ public class ParseAddress {
     private static String getAddressComponent(JSONArray addressComponents, String type) {
         if (addressComponents == null || addressComponents.length() == 0) return "";
         try {
-            for (int i=0; i<addressComponents.length(); i++) {
+            for (int i = 0; i < addressComponents.length(); i++) {
                 JSONObject jsonObject = addressComponents.getJSONObject(i);
                 JSONArray typesObject = jsonObject.getJSONArray("types");
-                for (int j=0; j<typesObject.length();j++) {
+                for (int j = 0; j < typesObject.length(); j++) {
                     String typeValue = typesObject.getString(j);
-                    if (typeValue.equals(type) || typeValue.contains(type) ) {
+                    if (typeValue.equals(type) || typeValue.contains(type)) {
                         return jsonObject.getString("long_name");
                     }
                 }
@@ -109,7 +107,7 @@ public class ParseAddress {
         }
 
         public String toString() {
-            return String.format("%s %s,%s,%s %s",street_number,street_name,city,state,zipcode);
+            return String.format("%s %s,%s,%s %s", street_number, street_name, city, state, zipcode);
         }
     }
 }

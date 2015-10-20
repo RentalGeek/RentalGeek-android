@@ -5,6 +5,9 @@ import android.util.Log;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.rentalgeek.android.api.ApiManager;
+import com.rentalgeek.android.bus.AppEventBus;
+import com.rentalgeek.android.bus.events.AddMarkersEvent;
+import com.rentalgeek.android.bus.events.SetRentalEvent;
 import com.rentalgeek.android.model.RentalMarker;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
@@ -28,13 +31,8 @@ public class MapPresenter implements Presenter {
 
     private static final String TAG = MapPresenter.class.getSimpleName();
 
-    private MapView mapView;
-
-    public MapPresenter(MapView mapView) {
-        this.mapView = mapView;
-    }
-
-    @Override public void getRental(String rental_id) {
+    @Override
+    public void getRental(String rental_id) {
         Rental rental = RentalCache.getInstance().get(rental_id);
 
         if (rental == null) {
@@ -42,46 +40,43 @@ public class MapPresenter implements Presenter {
             String url = ApiManager.getRental(rental_id);
             String token = AppPreferences.getAuthToken();
 
-            GlobalFunctions.getApiCall(null,url,token, new GeekHttpResponseHandler() {
+            GlobalFunctions.getApiCall(null, url, token, new GeekHttpResponseHandler() {
                 @Override
                 public void onSuccess(String response) {
 
                     try {
-                        Log.i(TAG,response);
+                        Log.i(TAG, response);
                         JSONObject json = new JSONObject(response);
 
-                        if( json.has("rental_offering") ) {
+                        if (json.has("rental_offering")) {
                             JSONObject rental_json = json.getJSONObject("rental_offering");
-                            Rental rental = GeekGson.getInstance().fromJson(rental_json.toString(),Rental.class);
+                            Rental rental = GeekGson.getInstance().fromJson(rental_json.toString(), Rental.class);
                             RentalCache.getInstance().add(rental);
-                            mapView.setRental(rental);
+                            AppEventBus.post(new SetRentalEvent(rental));
                         }
-                    }
-
-                    catch(Exception e) {
-                        Log.e(TAG,e.getMessage());
+                    } catch (Exception e) {
+                        Log.e(TAG, e.getMessage());
                     }
                 }
             });
-        }  else {
-            mapView.setRental(rental);
+        } else {
+            AppEventBus.post(new SetRentalEvent(rental));
         }
     }
 
-    @Override public void addRentals(Rental[] rentals) {
-        if( rentals == null || rentals.length == 0 ) {
+    @Override
+    public void addRentals(Rental[] rentals) {
+        if (rentals == null || rentals.length == 0) {
             return;
-        }
-
-        else {
+        } else {
             Observable<Rental> setRentalObservable = Observable.from(rentals);
 
             //Receives Rental objects and returns MarkerOptions
-            setRentalObservable.map(new Func1<Rental,RentalMarker>() {
+            setRentalObservable.map(new Func1<Rental, RentalMarker>() {
                 @Override
                 public RentalMarker call(Rental rental) {
                     RentalCache.getInstance().add(rental);
-                    MarkerOptions marker = MarkerUtils.createRentalMarker(new LatLng(rental.getLatitude(),rental.getLongitude()),rental.getBedroomCount());
+                    MarkerOptions marker = MarkerUtils.createRentalMarker(new LatLng(rental.getLatitude(), rental.getLongitude()), rental.getBedroomCount());
 
                     RentalMarker rentalMarker = new RentalMarker();
                     rentalMarker.setRental(rental);
@@ -90,20 +85,15 @@ public class MapPresenter implements Presenter {
                     return rentalMarker;
                 }
             })
-                .toList()
-                .subscribeOn(Schedulers.newThread())//Want to do work on a new thread
-                .observeOn(AndroidSchedulers.mainThread())//Want to receive results from work on main thread since we're going to tamper UI
-                .subscribe( new Action1<List<RentalMarker>>() {
-                    @Override
-                    public void call(List<RentalMarker> markers) {
-
-                        for( int i = 0; i < markers.size(); i++ ) {
-                            mapView.addMarker(markers.get(i));
+                    .toList()
+                    .subscribeOn(Schedulers.newThread())//Want to do work on a new thread
+                    .observeOn(AndroidSchedulers.mainThread())//Want to receive results from work on main thread since we're going to tamper UI
+                    .subscribe(new Action1<List<RentalMarker>>() {
+                        @Override
+                        public void call(List<RentalMarker> markers) {
+                            AppEventBus.post(new AddMarkersEvent(markers));
                         }
-
-                        mapView.boundbox();
-                    }
-                });
+                    });
         }
     }
 }

@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 /**
  * Created by rajohns on 9/17/15.
- *
  */
 public enum CosignerDestinationLogic {
 

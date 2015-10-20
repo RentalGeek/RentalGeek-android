@@ -19,7 +19,7 @@ public class UserFieldTextWatcher implements TextWatcher {
     }
 
     @Override
-    public void onTextChanged (CharSequence s, int start, int before, int count) {
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
 
     }
 
@@ -31,11 +31,11 @@ public class UserFieldTextWatcher implements TextWatcher {
     @Override
     public void afterTextChanged(Editable editable) {
 
-        String tag = (String)editText.getTag();
+        String tag = (String) editText.getTag();
 
-        if( tag != null && ! tag.isEmpty() ) {
+        if (tag != null && !tag.isEmpty()) {
             User user = SessionManager.Instance.getCurrentUser();
-            user.set(tag,editable.toString());
+            user.set(tag, editable.toString());
         }
     }
 }

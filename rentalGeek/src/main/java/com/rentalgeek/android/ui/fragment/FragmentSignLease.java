@@ -16,9 +16,9 @@ import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.pojos.SignatureUrlDTO;
 import com.rentalgeek.android.ui.Navigation;
+import com.rentalgeek.android.ui.activity.ActivityApplications;
 import com.rentalgeek.android.ui.activity.ActivityCosignerList;
 import com.rentalgeek.android.ui.activity.ActivityHome;
-import com.rentalgeek.android.ui.activity.ActivityApplications;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 
 import butterknife.ButterKnife;
@@ -26,17 +26,18 @@ import butterknife.InjectView;
 
 /**
  * Created by rajohns on 9/20/15.
- *
  */
-public class FragmentSignLease  extends GeekBaseFragment {
+public class FragmentSignLease extends GeekBaseFragment {
 
     public static final String LEASE_ID = "leaseId";
     public static final String REQUESTING_FRAGMENT = "requestingFragment";
 
     private String requestingFragment;
 
-    @InjectView(R.id.web_view) WebView webView;
-    @InjectView(R.id.error_text_view) TextView errorTextView;
+    @InjectView(R.id.web_view)
+    WebView webView;
+    @InjectView(R.id.error_text_view)
+    TextView errorTextView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

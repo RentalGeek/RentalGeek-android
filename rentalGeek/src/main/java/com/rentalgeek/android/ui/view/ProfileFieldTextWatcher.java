@@ -19,7 +19,7 @@ public class ProfileFieldTextWatcher implements TextWatcher {
     }
 
     @Override
-    public void onTextChanged (CharSequence s, int start, int before, int count) {
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
 
     }
 
@@ -31,12 +31,12 @@ public class ProfileFieldTextWatcher implements TextWatcher {
     @Override
     public void afterTextChanged(Editable editable) {
 
-        String tag = (String)editText.getTag();
+        String tag = (String) editText.getTag();
 
-        if( tag != null && ! tag.isEmpty() ) {
+        if (tag != null && !tag.isEmpty()) {
             Profile profile = SessionManager.Instance.getDefaultProfile();
 
-            profile.set(tag,editable.toString());
+            profile.set(tag, editable.toString());
         }
     }
 }

@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.ClickStarEvent;
+import com.rentalgeek.android.bus.events.SelectStarEvent;
+import com.rentalgeek.android.bus.events.SetRentalsEvent;
+import com.rentalgeek.android.bus.events.UnSelectStarEvent;
 import com.rentalgeek.android.mvp.list.rental.RentalListPresenter;
 import com.rentalgeek.android.mvp.list.rental.RentalListView;
 import com.rentalgeek.android.pojos.Rental;
@@ -19,18 +21,19 @@ import butterknife.InjectView;
 
 
 public class FragmentRentalListView extends GeekBaseFragment implements RentalListView {
-    
+
     private static final String TAG = FragmentRentalListView.class.getSimpleName();
     private RentalAdapter adapter;
     private RentalListPresenter presenter;
 
-    @InjectView(R.id.slidelist) ListView rentalListView;
-    
+    @InjectView(R.id.slidelist)
+    ListView rentalListView;
+
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        adapter = new RentalAdapter(getActivity(),R.layout.rental_listview_row);
-        presenter = new RentalListPresenter(this);
+        adapter = new RentalAdapter(getActivity(), R.layout.rental_listview_row);
+        presenter = new RentalListPresenter();
 
         System.out.println(TAG + "onCreate called");
     }
@@ -39,27 +42,13 @@ public class FragmentRentalListView extends GeekBaseFragment implements RentalLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.geek_listview, container, false);
         ButterKnife.inject(this, view);
-        
+
         rentalListView.setAdapter(adapter);
         System.out.println(TAG + "onCreateView called");
 
         return view;
     }
-    
-    @Override
-    public void onStart() {
-        AppEventBus.register(this);
-        super.onStart();
-        System.out.println(TAG + "onStart called");
-    }
 
-    @Override
-    public void onStop() {
-        AppEventBus.unregister(this);
-        super.onStop();
-        System.out.println(TAG + "onStop called");
-    }
-   
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -74,15 +63,37 @@ public class FragmentRentalListView extends GeekBaseFragment implements RentalLi
     }
 
     public void onEventMainThread(ClickStarEvent event) {
-        if( event.getBundle() != null && event.getBundle().getString("RENTAL_ID") != null) {
+        if (event.getBundle() != null && event.getBundle().getString("RENTAL_ID") != null) {
             String rental_id = event.getBundle().getString("RENTAL_ID");
-            presenter.select(rental_id,event.getStarView());   
+            int position = event.getBundle().getInt("POSITION");
+            presenter.select(rental_id, position);
         }
     }
-    
+
+    public void onEventMainThread(SelectStarEvent event) {
+        int position = event.getPosition();
+        View view = rentalListView.getChildAt(position - rentalListView.getFirstVisiblePosition());
+
+        RentalAdapter.ViewHolder viewHolder = (RentalAdapter.ViewHolder) view.getTag();
+        viewHolder.selectStar();
+    }
+
+    public void onEventMainThread(UnSelectStarEvent event) {
+        int position = event.getPosition();
+        View view = rentalListView.getChildAt(position - rentalListView.getFirstVisiblePosition());
+
+        RentalAdapter.ViewHolder viewHolder = (RentalAdapter.ViewHolder) view.getTag();
+        viewHolder.unselectStar();
+    }
+
+    public void onEventMainThread(SetRentalsEvent event) {
+        if (event.getRentals() != null) {
+            setRentals(event.getRentals());
+        }
+    }
+
     @Override
     public void removeItem(int position) {
         adapter.remove(adapter.getItem(position));
     }
-
 }

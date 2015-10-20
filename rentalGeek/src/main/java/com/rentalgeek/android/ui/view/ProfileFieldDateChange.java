@@ -22,16 +22,16 @@ public class ProfileFieldDateChange implements DatePicker.OnDateChangedListener 
 
     @Override
     public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-        if( year == 0 || monthOfYear == 0 || dayOfMonth == 0)
+        if (year == 0 || monthOfYear == 0 || dayOfMonth == 0)
             return;
 
-        String tag = (String)datePicker.getTag();
+        String tag = (String) datePicker.getTag();
 
-        DateTime date = new DateTime(year,monthOfYear+1,dayOfMonth,0,0);
+        DateTime date = new DateTime(year, monthOfYear + 1, dayOfMonth, 0, 0);
 
-        if( tag != null && ! tag.isEmpty() ) {
+        if (tag != null && !tag.isEmpty()) {
             Profile profile = SessionManager.Instance.getDefaultProfile();
-            profile.set(tag,date_format.print(date));
+            profile.set(tag, date_format.print(date));
         }
     }
 }

@@ -7,7 +7,6 @@ import com.rentalgeek.android.model.YesNoAnswer;
 
 /**
  * Created by rajohns on 9/22/15.
- *
  */
 public class YesNoCheckChangedListener implements RadioGroup.OnCheckedChangeListener {
 

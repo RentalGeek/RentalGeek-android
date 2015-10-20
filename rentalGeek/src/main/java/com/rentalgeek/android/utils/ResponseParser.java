@@ -7,7 +7,6 @@ import org.json.JSONObject;
 
 /**
  * Created by rajohns on 9/29/15.
- *
  */
 public class ResponseParser {
 

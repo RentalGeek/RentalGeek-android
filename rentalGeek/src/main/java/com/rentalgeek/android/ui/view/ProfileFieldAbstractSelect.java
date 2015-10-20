@@ -13,7 +13,8 @@ public abstract class ProfileFieldAbstractSelect implements AdapterView.OnItemSe
     protected Spinner spinner;
     protected View layoutToShowHide;
 
-    public ProfileFieldAbstractSelect(){}
+    public ProfileFieldAbstractSelect() {
+    }
 
     public ProfileFieldAbstractSelect(Spinner spinner) {
         this.spinner = spinner;

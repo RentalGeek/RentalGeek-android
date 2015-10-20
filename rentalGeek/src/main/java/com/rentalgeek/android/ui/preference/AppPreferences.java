@@ -3,7 +3,9 @@ package com.rentalgeek.android.ui.preference;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
 import com.rentalgeek.android.RentalGeekApplication;
+import com.rentalgeek.android.backend.LoginBackend;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,6 +26,7 @@ public class AppPreferences {
     private static final String PREF_MSG_SVC_ID_REGISTERED = "PREF_MSG_SVC_ID_REGISTERED";
     private static final String PREF_MSG_SVC_DEVICE_ID = "PREF_MSG_SVC_DEVICE_ID";
 
+    private static final String PREF_LOGIN_DATA = "PREF_LOGIN_DATA";
     private static final String PREF_USERNAME = "PREF_USERNAME";
     private static final String PREF_PASSWORD = "PREF_PASSWORD";
 
@@ -37,6 +40,18 @@ public class AppPreferences {
 
     public static final String PREF_SEARCH_MAX_PRICE = "PREF_SEARCH_MAX_PRICE";
     public static final String PREF_SEARCH_SELECTED_BUTTONS = "PREF_SEARCH_SELECTED_BUTTONS";
+
+    public static void persistLogin(LoginBackend login) {
+        final  Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = tempSettings.edit();
+
+        // do gson object to json string conversion
+        String loginJson = new Gson().toJson(login);
+
+        editor.putString(PREF_LOGIN_DATA, loginJson);
+        editor.commit();
+    }
 
     public static void putFirstName(String first_name) {
         final Context context = RentalGeekApplication.context;
@@ -104,6 +119,17 @@ public class AppPreferences {
         editor.remove(PREF_FIRST_NAME);
         editor.remove(PREF_LAST_NAME);
         editor.commit();
+    }
+
+    public static LoginBackend getPersistedLogin() {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        String loginJson = tempSettings.getString(PREF_LOGIN_DATA, "");
+
+        // do gson json string conversion to object
+        LoginBackend login = new Gson().fromJson(loginJson, LoginBackend.class);
+
+        return login;
     }
     
     public static String getFirstName() {

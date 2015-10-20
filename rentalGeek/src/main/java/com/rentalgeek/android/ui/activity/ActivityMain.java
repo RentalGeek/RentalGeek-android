@@ -12,9 +12,12 @@ import android.util.Log;
 
 import com.activeandroid.query.Delete;
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.api.SessionManager;
+import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.Navigation;
+import com.rentalgeek.android.ui.preference.AppPreferences;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -35,19 +38,14 @@ public class ActivityMain extends GeekBaseActivity {
 
 		getHash();
 		timer();
-
 	}
 
 	private void timer() {
-
         final AppCompatActivity activity = this;
 
 		new CountDownTimer(4000, 1000) {
-
 			@Override
 			public void onTick(long millisUntilFinished) {
-
-
 			}
 
 			@Override
@@ -56,13 +54,19 @@ public class ActivityMain extends GeekBaseActivity {
 					appPref.SaveData("bysearch", "no");
 					Navigation.navigateActivity(activity, ActivityTutorials.class, true);
 				} else {
-
 					if (appPref.getData("bysearch").equals("yes")) {
 						new Delete().from(PropertyTable.class).execute();
 					}
 
 					appPref.SaveData("bysearch", "no");
-                    Navigation.navigateActivity(activity, ActivityLogin.class, true);
+
+                    LoginBackend persistedLogin = AppPreferences.getPersistedLogin();
+                    if (persistedLogin != null) {
+                        SessionManager.Instance.onUserLoggedIn(persistedLogin);
+                        Navigation.navigateActivity(activity, ActivityHome.class, true);
+                    } else {
+                        Navigation.navigateActivity(activity, ActivityLogin.class, true);
+                    }
 				}
 
 			}
@@ -70,19 +74,14 @@ public class ActivityMain extends GeekBaseActivity {
 	}
 
 	private void getHash() {
-
 		PackageInfo info;
 		try {
-			// info = getPackageManager().getPackageInfo("com.blacktie",
-			// PackageManager.GET_SIGNATURES);
 			info = getPackageManager().getPackageInfo("com.rentalgeek.android", PackageManager.GET_SIGNATURES);
 			for (Signature signature : info.signatures) {
 				MessageDigest md;
 				md = MessageDigest.getInstance("SHA");
 				md.update(signature.toByteArray());
 				String something = new String(Base64.encode(md.digest(), 0));
-				// String something = new
-				// String(Base64.encodeBytes(md.digest()));
 				Log.e("facebook hash key", something);
 				System.out.println("hash key" + something);
 			}

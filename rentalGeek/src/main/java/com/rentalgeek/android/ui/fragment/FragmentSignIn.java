@@ -312,7 +312,7 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
             AppPreferences.setUserName(ed_username.getText().toString());
             AppPreferences.setPassword(ed_password.getText().toString());
         }
-        LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
+        LoginBackend detail = new Gson().fromJson(response, LoginBackend.class);
         SessionManager.Instance.onUserLoggedIn(detail);
         Navigation.navigateActivity(activity, ActivityHome.class, true);
     }

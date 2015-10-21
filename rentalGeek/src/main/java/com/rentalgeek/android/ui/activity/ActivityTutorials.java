@@ -15,8 +15,11 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.bus.AppEventBus;
+import com.rentalgeek.android.bus.events.ShowHomeEvent;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.ui.AppPrefes;
+import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.adapter.SwipeAdapter;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.viewpagerindicator.PageIndicator;
@@ -33,16 +36,16 @@ public class ActivityTutorials extends GeekBaseActivity {
     private static final String TAG = ActivityTutorials.class.getSimpleName();
     public static final String PACKAGE_MOBILE_SDK_SAMPLE_APP = "com.rentalgeek.android";
 
-    AppPrefes appPref;
-    SwipeAdapter mAdapter;
-    ViewPager mPager;
-    PageIndicator mIndicator;
+    private AppPrefes appPref;
+    private SwipeAdapter mAdapter;
+    private ViewPager mPager;
+    private PageIndicator mIndicator;
 
-    Handler handler;
-    Runnable Update;
+    private Handler handler;
+    private Runnable Update;
 
-    int currentPage = 0;
-    int NUM_PAGES = 4;
+    private int currentPage = 0;
+    private int NUM_PAGES = 4;
     private Timer swipeTimer;
 
     public ActivityTutorials() {
@@ -100,22 +103,8 @@ public class ActivityTutorials extends GeekBaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-
-        System.out.println(String.format("Request code %d Result code %d", requestCode, resultCode));
-
-        String currentFragmentTag = mAdapter.getCurrentFragmentTag();
-
-        System.out.println("Current fragment tag is " + currentFragmentTag);
-
-        if (currentFragmentTag != null) {
-
-            Fragment fragment = (Fragment) getSupportFragmentManager().findFragmentByTag(currentFragmentTag);
-            fragment.onActivityResult(requestCode, resultCode, data);
-        } else {
-        }
-
         super.onActivityResult(requestCode, resultCode, data);
+        AppEventBus.post(new LoginResult(data, resultCode, requestCode));
     }
 
 
@@ -137,5 +126,9 @@ public class ActivityTutorials extends GeekBaseActivity {
             return null;
         }
         return null;
+    }
+
+    public void onEventMainThread(ShowHomeEvent event) {
+        Navigation.navigateActivity(this, ActivityHome.class, true);
     }
 }

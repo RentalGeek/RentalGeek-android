@@ -18,6 +18,7 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.ErrorAlertEvent;
 import com.rentalgeek.android.bus.events.ShowHomeEvent;
+import com.rentalgeek.android.bus.events.ShowRegistrationEvent;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.ui.AppPrefes;
 import com.rentalgeek.android.ui.Navigation;
@@ -127,5 +128,9 @@ public class ActivityTutorials extends GeekBaseActivity {
             return null;
         }
         return null;
+    }
+
+    public void onEventMainThread(ShowRegistrationEvent event) {
+        Navigation.navigateActivity(this,ActivityRegistration.class);
     }
 }

@@ -138,4 +138,9 @@ public class LinkedInLogin implements LoginInterface {
             sessionManager.onActivityResult(context,requestCode,resultCode,data);
         }
     }
+
+    @Override
+    public void setValidation(Object controller) {
+
+    }
 }

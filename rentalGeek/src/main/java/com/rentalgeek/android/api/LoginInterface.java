@@ -13,4 +13,5 @@ public interface LoginInterface  {
     void onStart(Activity context);
     void onStop(Activity context);
     void onActivityResult(Activity context,int requestCode, int resultCode, Intent data);
+    void setValidation(Object controller);
 }

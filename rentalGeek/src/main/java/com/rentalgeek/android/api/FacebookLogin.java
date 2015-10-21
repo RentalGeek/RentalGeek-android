@@ -127,4 +127,9 @@ public class FacebookLogin implements LoginInterface {
             callbackManager.onActivityResult(requestCode,resultCode,data);
         }
     }
+
+    @Override
+    public void setValidation(Object controller) {
+
+    }
 }

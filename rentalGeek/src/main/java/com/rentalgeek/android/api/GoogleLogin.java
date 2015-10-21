@@ -75,7 +75,7 @@ public class GoogleLogin implements LoginInterface, GoogleApiClient.ConnectionCa
     }
 
     @Override
-    public void onActivityResult(Activity context, int requestCode, int resultCode,Intent data) {
+    public void onActivityResult(Activity context,int requestCode, int resultCode,Intent data) {
         System.out.println("Google+ onActivityResult");
 
         if( resultCode != Activity.RESULT_OK ) {
@@ -88,6 +88,11 @@ public class GoogleLogin implements LoginInterface, GoogleApiClient.ConnectionCa
             googleApiClient.disconnect();
             googleApiClient.connect();
         }
+    }
+
+    @Override
+    public void setValidation(Object controller) {
+
     }
 
     @Override

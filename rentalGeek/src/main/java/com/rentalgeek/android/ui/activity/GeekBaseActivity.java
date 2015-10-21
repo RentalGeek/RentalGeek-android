@@ -1,5 +1,6 @@
 package com.rentalgeek.android.ui.activity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -420,10 +421,16 @@ public class GeekBaseActivity extends AppCompatActivity {
     }
 
     public void onEventMainThread(ErrorAlertEvent event) {
-        AlertDialog errorDialog = new AlertDialog
+        final AlertDialog errorDialog = new AlertDialog
                 .Builder(this)
                 .setTitle(event.getTitle())
                 .setMessage(event.getMessage())
+                .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
                 .create();
         errorDialog.show();
     }

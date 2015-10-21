@@ -1,11 +1,13 @@
 package com.rentalgeek.android.ui.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
@@ -131,15 +133,6 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
 
     public void onEventMainThread(ShowProfileCreationEvent event) {
         Navigation.navigateActivity(this, ActivityCreateProfile.class);
-    }
-
-    public void onEventMainThread(ErrorAlertEvent event) {
-        if (event.getTitle() != null && event.getMessage() != null) {
-            String title = event.getTitle();
-            String message = event.getMessage();
-            hideProgressDialog();
-            OkAlert.show(this, title, message);
-        }
     }
 
     private void silentUserDataUpdate() {

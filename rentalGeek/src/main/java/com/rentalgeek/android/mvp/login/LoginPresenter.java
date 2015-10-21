@@ -5,10 +5,12 @@ import android.util.Log;
 
 import com.loopj.android.http.RequestParams;
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.bus.AppEventBus;
+import com.rentalgeek.android.bus.events.ErrorAlertEvent;
 import com.rentalgeek.android.bus.events.HideProgressEvent;
 import com.rentalgeek.android.bus.events.ShowHomeEvent;
 import com.rentalgeek.android.bus.events.ShowProgressEvent;
@@ -35,7 +37,7 @@ public class LoginPresenter implements Presenter {
         params.put("provider[name]", fullname);
         params.put("provider[google_image]", photoUrl);
 
-        login(params);
+        socialLogin(params);
     }
 
     @Override
@@ -47,7 +49,7 @@ public class LoginPresenter implements Presenter {
         params.put("provider[name]", fullname);
         params.put("provider[linkedIn_image]", "");
 
-        login(params);
+        socialLogin(params);
     }
 
     @Override
@@ -59,10 +61,21 @@ public class LoginPresenter implements Presenter {
         params.put("provider[name]", fullname);
         params.put("provider[facebook_image]", "");
 
-        login(params);
+        socialLogin(params);
     }
 
-    private void login(RequestParams params){
+    @Override
+    public void rentalgeekLogin(String email, String password) {
+        RequestParams params = new RequestParams();
+        params.put("user[email]", email);
+        params.put("user[password]", password);
+
+        AppPreferences.setUserName(email);
+
+        geekLogin(params);
+    }
+
+    private void socialLogin(RequestParams params){
         GlobalFunctions.postApiCall(null, ApiManager.getAddProvider(""),
                 params, AppPreferences.getAuthToken(),
                 new GeekHttpResponseHandler() {
@@ -85,10 +98,53 @@ public class LoginPresenter implements Presenter {
                             AppLogger.log(TAG, e);
                         }
                     }
+
+                    @Override
+                    public void onFailure(Throwable ex, String error) {
+                        AppLogger.log(TAG,ex);
+                        String title = RentalGeekApplication.getResourceString(R.string.login_title);
+                        String message = RentalGeekApplication.getResourceString(R.string.oops);
+                        AppEventBus.post(new ErrorAlertEvent(title, message));
+                    }
+                });
+    }
+
+    private void geekLogin(RequestParams params){
+        GlobalFunctions.postApiCall(null, ApiManager.getSignin(),
+                params, AppPreferences.getAuthToken(),
+                new GeekHttpResponseHandler() {
+
+                    @Override
+                    public void onStart() {
+                        AppEventBus.post(new ShowProgressEvent(R.string.dialog_msg_loading));
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        AppEventBus.post(new HideProgressEvent());
+                    }
+
+                    @Override
+                    public void onSuccess(String content) {
+                        try {
+                            parseResponse(content);
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable ex, String error) {
+                        AppLogger.log(TAG, ex);
+                        String title = RentalGeekApplication.getResourceString(R.string.login_title);
+                        String message = RentalGeekApplication.getResourceString(R.string.invalid_login);
+                        AppEventBus.post(new ErrorAlertEvent(title,message));
+                    }
                 });
     }
 
     private void parseResponse(String response) {
+        System.out.println(response);
         LoginBackend detail = GeekGson.getInstance().fromJson(response,LoginBackend.class);
         SessionManager.Instance.onUserLoggedIn(detail);
         AppEventBus.post(new ShowHomeEvent());

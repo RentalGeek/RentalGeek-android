@@ -126,6 +126,11 @@ If you agree to share a Credit Report, we will also use this information to shar
 
     <string name="linkedin_auth_error">Something went wrong authenticating LinkedIn</string>
 
+    <string name="email_required">Email required</string>
+    <string name="email_format">Must be in email format</string>
+    <string name="password_required">Password required</string>
+    <string name="password_min_length">Password must be 8 characters</string>
+
     <!--cosigner app-->
     <string-array name="months_array">
         <item> </item>

@@ -1,34 +1,50 @@
 package com.rentalgeek.android.ui.fragment;
 
+import android.content.DialogInterface;
 import android.content.IntentSender;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.facebook.FacebookSdk;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.mobsandgeeks.saripaar.annotation.Email;
+import com.mobsandgeeks.saripaar.annotation.Password;
+import com.mobsandgeeks.saripaar.annotation.Required;
+import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.FacebookLogin;
 import com.rentalgeek.android.api.GoogleLogin;
 import com.rentalgeek.android.api.LinkedInLogin;
 import com.rentalgeek.android.api.LoginInterface;
+import com.rentalgeek.android.api.RentalGeekLogin;
+import com.rentalgeek.android.bus.AppEventBus;
+import com.rentalgeek.android.bus.events.ErrorAlertEvent;
 import com.rentalgeek.android.bus.events.FacebookLoginEvent;
 import com.rentalgeek.android.bus.events.GoogleErrorEvent;
 import com.rentalgeek.android.bus.events.GoogleLoginEvent;
 import com.rentalgeek.android.bus.events.GoogleResolutionEvent;
 import com.rentalgeek.android.bus.events.HideProgressEvent;
 import com.rentalgeek.android.bus.events.LinkedInLoginEvent;
+import com.rentalgeek.android.bus.events.RentalGeekLoginEvent;
 import com.rentalgeek.android.bus.events.ShowProgressEvent;
+import com.rentalgeek.android.bus.events.ShowRegistrationEvent;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.mvp.login.LoginPresenter;
 import com.rentalgeek.android.ui.activity.LoginResult;
+import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.Constants;
 
 import butterknife.ButterKnife;
+import butterknife.InjectView;
 import butterknife.OnClick;
 
 public class FragmentSignIn extends GeekBaseFragment {
@@ -38,6 +54,20 @@ public class FragmentSignIn extends GeekBaseFragment {
     private LoginInterface login;
     private YoYo.YoYoString btnAnimation;
     private LoginPresenter presenter;
+
+    @InjectView(R.id.username)
+    @Required(order = 1, messageResId = R.string.email_required)
+    @Email(order = 2,messageResId = R.string.email_format )
+    EditText username_edittext;
+
+    @InjectView(R.id.password)
+    @Required(order = 3, messageResId = R.string.password_required)
+    @Password(order = 4)
+    @TextRule(order = 5, minLength = 8, messageResId = R.string.password_min_length)
+    EditText password_edittext;
+
+    @InjectView(R.id.create_account)
+    TextView create_account_textview;
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -53,6 +83,7 @@ public class FragmentSignIn extends GeekBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
         ButterKnife.inject(this, view);
+        username_edittext.setText(AppPreferences.getUserName());
         return view;
     }
 
@@ -110,6 +141,20 @@ public class FragmentSignIn extends GeekBaseFragment {
         login.clicked(getActivity());
     }
 
+    @OnClick(R.id.rentalgeek)
+    public void onRentalGeekLoginClick(View btn) {
+        btnAnimation = YoYo.with(Techniques.Flash).duration(1000).playOn(btn);
+        login = new RentalGeekLogin();
+        login.setup(getActivity());
+        login.setValidation(this);
+        login.clicked(getActivity());
+    }
+
+    @OnClick(R.id.create_account)
+    public void onCreateAccountClick() {
+        AppEventBus.post(new ShowRegistrationEvent());
+    }
+
     public void onEventMainThread(LoginResult event){
         super.onActivityResult(event.getRequestCode(), event.getResultCode(), event.getData());
         login.onActivityResult(getActivity(), event.getRequestCode(), event.getResultCode(), event.getData());
@@ -138,7 +183,7 @@ public class FragmentSignIn extends GeekBaseFragment {
             String id = bundle.getString(Constants.ID);
             String email = bundle.getString(Constants.EMAIL);
 
-            presenter.googleLogin(fullname,photoUrl,id,email);
+            presenter.googleLogin(fullname, photoUrl, id, email);
         }
     }
 
@@ -161,8 +206,15 @@ public class FragmentSignIn extends GeekBaseFragment {
             String fullname = bundle.getString(Constants.FULLNAME);
             String email = bundle.getString(Constants.EMAIL);
 
-            presenter.facebookLogin(fullname,email);
+            presenter.facebookLogin(fullname, email);
         }
+    }
+
+    public void onEventMainThread(RentalGeekLoginEvent event) {
+        String email = username_edittext.getText().toString();
+        String password = password_edittext.getText().toString();
+
+        presenter.rentalgeekLogin(email, password);
     }
 
     public void onEventMainThread(ShowProgressEvent event) {
@@ -176,7 +228,7 @@ public class FragmentSignIn extends GeekBaseFragment {
     public void onEventMainThread(GoogleErrorEvent event) {
         if( event.getConnectionResult() != null  ) {
             ConnectionResult result = event.getConnectionResult();
-            GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(),getActivity(),0);
+            GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), getActivity(), 0);
         }
     }
 }

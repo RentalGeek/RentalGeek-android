@@ -12,7 +12,7 @@
         android:focusableInTouchMode="true">
         
         <ImageView
-            android:id="@+id/imageView1"
+            android:id="@+id/logo"
             android:layout_width="150dp"
             android:layout_height="77dp"
             android:layout_marginTop="20dp"
@@ -20,7 +20,7 @@
             android:src="@drawable/simple_logo"/>
 
         <EditText
-            android:id="@+id/ed_username"
+            android:id="@+id/username"
             android:layout_width="250dp"
             android:layout_height="45dp"
             android:textCursorDrawable="@null"
@@ -35,7 +35,7 @@
             android:background="@drawable/thin_border_transparent"/>
 
         <EditText
-            android:id="@+id/ed_password"
+            android:id="@+id/password"
             android:layout_width="250dp"
             android:layout_height="45dp"
             android:textCursorDrawable="@null"
@@ -59,7 +59,7 @@
             android:layout_gravity="center_horizontal"/>
 
         <Button
-            android:id="@+id/login_aacnt"
+            android:id="@+id/rentalgeek"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -113,7 +113,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/create_aacnt"
+            android:id="@+id/create_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"

@@ -24,6 +24,10 @@ public class AppEventBus {
         }
     }
 
+    public static boolean isRegistered(Object object){
+        return RentalGeekApplication.eventBus.isRegistered(object);
+    }
+
     public static void post(Object event) {
         RentalGeekApplication.eventBus.post(event);
     }

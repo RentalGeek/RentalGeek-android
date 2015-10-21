@@ -14,9 +14,15 @@ public class ApiManager {
     private static final String GOOGLE_MAPS = "https://maps.googleapis.com/maps/api/place/details/json";
     private static final String GOOGLE_MAPS_API_KEY = "AIzaSyDuVB1GHSKyz51m1w4VGs_XTyxVlK01INY";
 
+    private static final String LINKEDIN_URL = "https://api.linkedin.com/v1/people/~:(first-name,last-name,picture-url,id,email-address)";
+
     public static String API_HOST = BuildConfig.DEBUG ? STAGE : PROD;
 
     public static String regis_link = API_HOST + "/users.json";
+
+    public static String getLinkedInUrl() {
+        return LINKEDIN_URL;
+    }
 
     // "api/"
     public static String getApplicants(String uid) {

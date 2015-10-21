@@ -124,6 +124,8 @@ If you agree to share a Credit Report, we will also use this information to shar
 
     <string name="oops">Oops, something went wrong</string>
 
+    <string name="linkedin_auth_error">Something went wrong authenticating LinkedIn</string>
+
     <!--cosigner app-->
     <string-array name="months_array">
         <item> </item>

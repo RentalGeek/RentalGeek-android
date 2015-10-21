@@ -4,6 +4,12 @@ import java.util.Calendar;
 
 public class Constants {
 
+    public static final String FULLNAME = "FULLNAME";
+    public static final String PHOTO_URL = "PHOTO_URL";
+    public static final String PROFILE_URL = "PROFILE_URL";
+    public static final String EMAIL = "EMAIL";
+    public static final String ID = "ID";
+
     private static String[] years;
     private static final int START_YEAR = 1900;
 
@@ -23,4 +29,6 @@ public class Constants {
 
         return years;
     }
+
+
 }

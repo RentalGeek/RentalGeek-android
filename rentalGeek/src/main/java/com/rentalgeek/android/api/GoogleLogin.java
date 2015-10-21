@@ -1,6 +1,7 @@
 package com.rentalgeek.android.api;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -15,6 +16,7 @@ import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.GoogleErrorEvent;
 import com.rentalgeek.android.bus.events.GoogleLoginEvent;
 import com.rentalgeek.android.bus.events.GoogleResolutionEvent;
+import com.rentalgeek.android.utils.Constants;
 
 /**
  * Created by Alan R on 10/21/15.
@@ -26,14 +28,9 @@ public class GoogleLogin implements LoginInterface, GoogleApiClient.ConnectionCa
     private boolean shouldResolve = false;
     private boolean isResolving = false;
 
-    public static final String FULLNAME = "FULLNAME";
-    public static final String PHOTO_URL = "PHOTO_URL";
-    public static final String PROFILE_URL = "PROFILE_URL";
-    public static final String EMAIL = "EMAIL";
-    public static final String ID = "ID";
 
     @Override
-    public void clicked() {
+    public void clicked(Activity context) {
         System.out.println("Google+ clicked");
         if( googleApiClient != null && google_plus_btn != null ) {
             shouldResolve = true;
@@ -62,7 +59,7 @@ public class GoogleLogin implements LoginInterface, GoogleApiClient.ConnectionCa
     }
 
     @Override
-    public void onStart() {
+    public void onStart(Activity context) {
         System.out.println("Google+ onStart");
         if( googleApiClient != null ) {
             googleApiClient.connect();
@@ -70,7 +67,7 @@ public class GoogleLogin implements LoginInterface, GoogleApiClient.ConnectionCa
     }
 
     @Override
-    public void onStop() {
+    public void onStop(Activity context) {
         System.out.println("Google+ onStop");
         if( googleApiClient != null ) {
             googleApiClient.disconnect();
@@ -78,7 +75,7 @@ public class GoogleLogin implements LoginInterface, GoogleApiClient.ConnectionCa
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode) {
+    public void onActivityResult(Activity context, int requestCode, int resultCode,Intent data) {
         System.out.println("Google+ onActivityResult");
 
         if( resultCode != Activity.RESULT_OK ) {
@@ -112,11 +109,11 @@ public class GoogleLogin implements LoginInterface, GoogleApiClient.ConnectionCa
             System.out.println(String.format("Id: %s\nFullname: %s\nPhoto URL: %s\nProfile URL: %s\nEmail: %s",id,fullname,photoUrl,profileUrl,email));
 
             Bundle googleBundle = new Bundle();
-            googleBundle.putString(FULLNAME,fullname);
-            googleBundle.putString(PHOTO_URL,photoUrl);
-            googleBundle.putString(PROFILE_URL,profileUrl);
-            googleBundle.putString(EMAIL,email);
-            googleBundle.putString(ID,id);
+            googleBundle.putString(Constants.FULLNAME,fullname);
+            googleBundle.putString(Constants.PHOTO_URL,photoUrl);
+            googleBundle.putString(Constants.PROFILE_URL,profileUrl);
+            googleBundle.putString(Constants.EMAIL,email);
+            googleBundle.putString(Constants.ID,id);
 
             if( googleApiClient != null ) {
                 googleApiClient.disconnect();

@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -20,10 +21,14 @@ import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.model.User;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.AppDialogRequestEvent;
+import com.rentalgeek.android.bus.events.ErrorAlertEvent;
+import com.rentalgeek.android.bus.events.ErrorCroutonEvent;
+import com.rentalgeek.android.bus.events.ShowHomeEvent;
 import com.rentalgeek.android.system.AppSystem;
 import com.rentalgeek.android.ui.Common;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.dialog.AppProgressDialog;
+import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.dialog.manager.GeekDialog;
 import com.rentalgeek.android.utils.CosignerDestinationLogic;
 
@@ -410,4 +415,20 @@ public class GeekBaseActivity extends AppCompatActivity {
         }
     }
 
+    public void onEventMainThread(ShowHomeEvent event) {
+        Navigation.navigateActivity(this, ActivityHome.class, true);
+    }
+
+    public void onEventMainThread(ErrorAlertEvent event) {
+        AlertDialog errorDialog = new AlertDialog
+                .Builder(this)
+                .setTitle(event.getTitle())
+                .setMessage(event.getMessage())
+                .create();
+        errorDialog.show();
+    }
+
+    public void onEventMainThread(ErrorCroutonEvent event) {
+        DialogManager.showCrouton(this,event.getMessage());
+    }
 }

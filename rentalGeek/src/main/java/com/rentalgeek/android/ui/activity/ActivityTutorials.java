@@ -16,6 +16,7 @@ import android.view.View.OnTouchListener;
 
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.bus.AppEventBus;
+import com.rentalgeek.android.bus.events.ErrorAlertEvent;
 import com.rentalgeek.android.bus.events.ShowHomeEvent;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.ui.AppPrefes;
@@ -126,9 +127,5 @@ public class ActivityTutorials extends GeekBaseActivity {
             return null;
         }
         return null;
-    }
-
-    public void onEventMainThread(ShowHomeEvent event) {
-        Navigation.navigateActivity(this, ActivityHome.class, true);
     }
 }

@@ -13,15 +13,19 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.GoogleLogin;
+import com.rentalgeek.android.api.LinkedInLogin;
 import com.rentalgeek.android.api.LoginInterface;
+import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.GoogleErrorEvent;
 import com.rentalgeek.android.bus.events.GoogleLoginEvent;
 import com.rentalgeek.android.bus.events.GoogleResolutionEvent;
 import com.rentalgeek.android.bus.events.HideProgressEvent;
+import com.rentalgeek.android.bus.events.LinkedInLoginEvent;
 import com.rentalgeek.android.bus.events.ShowProgressEvent;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.mvp.login.LoginPresenter;
 import com.rentalgeek.android.ui.activity.LoginResult;
+import com.rentalgeek.android.utils.Constants;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -57,7 +61,7 @@ public class FragmentSignIn extends GeekBaseFragment {
         super.onStart();
 
         if( login != null ){
-            login.onStart();
+            login.onStart(getActivity());
         }
     }
 
@@ -65,9 +69,17 @@ public class FragmentSignIn extends GeekBaseFragment {
     public void onStop() {
         super.onStop();
 
+        registerBus();//Silly hack incase you authenticate using a social login activity such as LinkedIn
+
         if( login != null ) {
-            login.onStop();
+            login.onStop(getActivity());
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        unregisterBus();//Silly hack incase you authenticate using a social login activity such as LinkedIn
+        super.onDestroy();
     }
 
     @OnClick(R.id.google_plus)
@@ -75,12 +87,20 @@ public class FragmentSignIn extends GeekBaseFragment {
         btnAnimation = YoYo.with(Techniques.Flash).duration(1000).playOn(btn);
         login = new GoogleLogin();
         login.setup(getActivity());
-        login.clicked();
+        login.clicked(getActivity());
+    }
+
+    @OnClick(R.id.linkedin)
+    public void onLinkedInLoginClick(View btn) {
+        btnAnimation = YoYo.with(Techniques.Flash).duration(1000).playOn(btn);
+        login = new LinkedInLogin();
+        login.setup(getActivity());
+        login.clicked(getActivity());
     }
 
     public void onEventMainThread(LoginResult event){
         super.onActivityResult(event.getRequestCode(), event.getResultCode(), event.getData());
-         login.onActivityResult(event.getRequestCode(), event.getResultCode());
+        login.onActivityResult(getActivity(),event.getRequestCode(), event.getResultCode(), event.getData());
     }
 
     public void onEventMainThread(GoogleResolutionEvent event) {
@@ -101,12 +121,24 @@ public class FragmentSignIn extends GeekBaseFragment {
         if( event.getBundle() != null ) {
             Bundle bundle = event.getBundle();
 
-            String fullname = bundle.getString(GoogleLogin.FULLNAME);
-            String photoUrl = bundle.getString(GoogleLogin.PHOTO_URL);
-            String id = bundle.getString(GoogleLogin.ID);
-            String email = bundle.getString(GoogleLogin.EMAIL);
+            String fullname = bundle.getString(Constants.FULLNAME);
+            String photoUrl = bundle.getString(Constants.PHOTO_URL);
+            String id = bundle.getString(Constants.ID);
+            String email = bundle.getString(Constants.EMAIL);
 
             presenter.googelLogin(fullname,photoUrl,id,email);
+        }
+    }
+
+    public void onEventMainThread(LinkedInLoginEvent event) {
+        if( event.getBundle() != null ) {
+            Bundle bundle = event.getBundle();
+
+            String fullname = bundle.getString(Constants.FULLNAME);
+            String id = bundle.getString(Constants.ID);
+            String email = bundle.getString(Constants.EMAIL);
+
+            presenter.linkedinLogin(fullname,id,email);
         }
     }
 
@@ -124,6 +156,4 @@ public class FragmentSignIn extends GeekBaseFragment {
             GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(),getActivity(),0);
         }
     }
-
-
 }

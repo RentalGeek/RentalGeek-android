@@ -87,6 +87,7 @@ public class GeekBaseFragment extends Fragment {
         return null;
     }
 
+
     @Override
     public void onStop() {
         unregisterBus();
@@ -99,8 +100,7 @@ public class GeekBaseFragment extends Fragment {
         registerBus();
     }
 
-    protected void unregisterBus() {
-        AppEventBus.unregister(this);
+    protected void unregisterBus() { AppEventBus.unregister(this);
     }
 
     protected void registerBus() {

@@ -54,7 +54,41 @@ public class LoginPresenter implements Presenter {
                         try {
                             parseResponse(content);
                         } catch (Exception e) {
-                            AppLogger.log(e);
+                            AppLogger.log(TAG,e);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void linkedinLogin(String fullname, String id, String email) {
+        RequestParams params = new RequestParams();
+        params.put("provider[uid]", id);
+        params.put("provider[provider]", "Linkedin");
+        params.put("provider[email]", email);
+        params.put("provider[name]", fullname);
+        params.put("provider[google_image]", "");
+
+        GlobalFunctions.postApiCall(null, ApiManager.getAddProvider(""),
+                params, AppPreferences.getAuthToken(),
+                new GeekHttpResponseHandler() {
+
+                    @Override
+                    public void onStart() {
+                        AppEventBus.post(new ShowProgressEvent(R.string.dialog_msg_loading));
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        AppEventBus.post(new HideProgressEvent());
+                    }
+
+                    @Override
+                    public void onSuccess(String content) {
+                        try {
+                            parseResponse(content);
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
                         }
                     }
                 });

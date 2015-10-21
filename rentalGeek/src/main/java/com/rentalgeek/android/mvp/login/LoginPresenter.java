@@ -26,38 +26,16 @@ public class LoginPresenter implements Presenter {
     private static final String TAG = LoginPresenter.class.getSimpleName();
 
     @Override
-    public void googelLogin(String fullname, String photoUrl, String id, String email) {
+    public void googleLogin(String fullname, String photoUrl, String id, String email) {
 
         RequestParams params = new RequestParams();
         params.put("provider[uid]", id);
         params.put("provider[provider]", "Google+");
         params.put("provider[email]", email);
         params.put("provider[name]", fullname);
-        params.put("provider[linkedIn_image]", photoUrl);
+        params.put("provider[google_image]", photoUrl);
 
-        GlobalFunctions.postApiCall(null, ApiManager.getAddProvider(""),
-                params, AppPreferences.getAuthToken(),
-                new GeekHttpResponseHandler() {
-
-                    @Override
-                    public void onStart() {
-                        AppEventBus.post(new ShowProgressEvent(R.string.dialog_msg_loading));
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        AppEventBus.post(new HideProgressEvent());
-                    }
-
-                    @Override
-                    public void onSuccess(String content) {
-                        try {
-                            parseResponse(content);
-                        } catch (Exception e) {
-                            AppLogger.log(TAG,e);
-                        }
-                    }
-                });
+        login(params);
     }
 
     @Override
@@ -67,8 +45,24 @@ public class LoginPresenter implements Presenter {
         params.put("provider[provider]", "Linkedin");
         params.put("provider[email]", email);
         params.put("provider[name]", fullname);
-        params.put("provider[google_image]", "");
+        params.put("provider[linkedIn_image]", "");
 
+        login(params);
+    }
+
+    @Override
+    public void facebookLogin(String fullname, String email) {
+        RequestParams params = new RequestParams();
+        params.put("provider[uid]","");
+        params.put("provider[provider]", "Facebook");
+        params.put("provider[email]", email);
+        params.put("provider[name]", fullname);
+        params.put("provider[facebook_image]", "");
+
+        login(params);
+    }
+
+    private void login(RequestParams params){
         GlobalFunctions.postApiCall(null, ApiManager.getAddProvider(""),
                 params, AppPreferences.getAuthToken(),
                 new GeekHttpResponseHandler() {

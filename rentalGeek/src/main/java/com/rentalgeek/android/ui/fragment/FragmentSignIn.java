@@ -12,10 +12,11 @@ import com.facebook.FacebookSdk;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.api.FacebookLogin;
 import com.rentalgeek.android.api.GoogleLogin;
 import com.rentalgeek.android.api.LinkedInLogin;
 import com.rentalgeek.android.api.LoginInterface;
-import com.rentalgeek.android.bus.AppEventBus;
+import com.rentalgeek.android.bus.events.FacebookLoginEvent;
 import com.rentalgeek.android.bus.events.GoogleErrorEvent;
 import com.rentalgeek.android.bus.events.GoogleLoginEvent;
 import com.rentalgeek.android.bus.events.GoogleResolutionEvent;
@@ -41,7 +42,10 @@ public class FragmentSignIn extends GeekBaseFragment {
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
+
+        //Unfortunately called since we are using facebook sdk button in layout
         FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
+
         presenter = new LoginPresenter();
     }
 
@@ -98,9 +102,17 @@ public class FragmentSignIn extends GeekBaseFragment {
         login.clicked(getActivity());
     }
 
+    @OnClick(R.id.facebook)
+    public void onFacebookLoginClick(View btn) {
+        btnAnimation = YoYo.with(Techniques.Flash).duration(1000).playOn(btn);
+        login = new FacebookLogin();
+        login.setup(getActivity());
+        login.clicked(getActivity());
+    }
+
     public void onEventMainThread(LoginResult event){
         super.onActivityResult(event.getRequestCode(), event.getResultCode(), event.getData());
-        login.onActivityResult(getActivity(),event.getRequestCode(), event.getResultCode(), event.getData());
+        login.onActivityResult(getActivity(), event.getRequestCode(), event.getResultCode(), event.getData());
     }
 
     public void onEventMainThread(GoogleResolutionEvent event) {
@@ -126,7 +138,7 @@ public class FragmentSignIn extends GeekBaseFragment {
             String id = bundle.getString(Constants.ID);
             String email = bundle.getString(Constants.EMAIL);
 
-            presenter.googelLogin(fullname,photoUrl,id,email);
+            presenter.googleLogin(fullname,photoUrl,id,email);
         }
     }
 
@@ -138,7 +150,18 @@ public class FragmentSignIn extends GeekBaseFragment {
             String id = bundle.getString(Constants.ID);
             String email = bundle.getString(Constants.EMAIL);
 
-            presenter.linkedinLogin(fullname,id,email);
+            presenter.linkedinLogin(fullname, id, email);
+        }
+    }
+
+    public void onEventMainThread(FacebookLoginEvent event) {
+        if( event.getBundle() != null ) {
+            Bundle bundle = event.getBundle();
+
+            String fullname = bundle.getString(Constants.FULLNAME);
+            String email = bundle.getString(Constants.EMAIL);
+
+            presenter.facebookLogin(fullname,email);
         }
     }
 

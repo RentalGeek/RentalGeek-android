@@ -20,7 +20,6 @@ import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.api.SessionManager;
-import com.rentalgeek.android.backend.CheckPayment;
 import com.rentalgeek.android.backend.ErrorArray;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.backend.PaymentBackend;
@@ -34,9 +33,6 @@ import com.rentalgeek.android.ui.activity.ActivityGeekScore;
 import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ListUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -76,7 +72,6 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         validator = new Validator(this);
         validator.setValidationListener(this);
@@ -84,14 +79,10 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View v = inflater.inflate(R.layout.fragment_card_info_dialog, container, false);
-
         ButterKnife.inject(this, v);
         appPref = new AppPrefes(getActivity(), "rentalgeek");
-
         CheckPaymentf();
-
         return v;
     }
 
@@ -99,7 +90,6 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
         GlobalFunctions.getApiCall(getActivity(), ApiManager.getApplicants(appPref.getData("Uid")),
                 AppPreferences.getAuthToken(),
                 new GeekHttpResponseHandler() {
-
                     @Override
                     public void onStart() {
                         showProgressDialog(R.string.dialog_msg_loading);
@@ -113,7 +103,7 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
                     @Override
                     public void onSuccess(String content) {
                         try {
-                            PaymentCheckParseNew(content);
+                            PaymentCheckParse(content);
                         } catch (Exception e) {
                             AppLogger.log(TAG, e);
                         }
@@ -124,73 +114,28 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 
                     }
                 });
-
     }
 
-    private void PaymentCheckParseNew(String response) {
+    private void PaymentCheckParse(String response) {
         try {
-            LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
+            LoginBackend detail = new Gson().fromJson(response, LoginBackend.class);
+            SessionManager.Instance.onUserLoggedIn(detail);
 
             if (detail.user.payment) {
                 toast("You have already paid");
                 appPref.SaveData("hasPay", "yes");
                 SessionManager.Instance.setPayed(true);
                 verify_card.setEnabled(false);
-            } else {
-
             }
         } catch (Exception e) {
             AppLogger.log(TAG, e);
         }
-
-    }
-
-    public void PaymentCheckParse(String response) {
-        System.out.println("the payment check response " + response);
-
-        CheckPayment detail = (new Gson()).fromJson(response, CheckPayment.class);
-
-        if (detail.transactions.size() > 0) {
-            toast("You have already paid");
-            SessionManager.Instance.setPayed(true);
-            verify_card.setEnabled(false);
-        }
-
-    }
-
-    private List getErroList(List<com.rentalgeek.android.backend.ErrorArray.Error> al) {
-        List<String> list = new ArrayList<String>();
-
-        for (int i = 0; i < al.size(); i++) {
-            list.add(al.get(i).message);
-        }
-
-        return list;
-    }
-
-    private void alertList(String add) {
-        AlertDialog.Builder builderSingle = new AlertDialog.Builder(
-                getActivity());
-
-        builderSingle.setTitle("Error");
-        builderSingle.setMessage(add);
-        builderSingle.setNegativeButton("cancel",
-                new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-
-        builderSingle.show();
     }
 
     public void paymentParse(String response) {
-        PaymentBackend detail = (new Gson()).fromJson(response, PaymentBackend.class);
+        PaymentBackend detail = new Gson().fromJson(response, PaymentBackend.class);
 
         if (detail != null && detail.transaction != null) {
-
             toast("Payment successful, transaction ID" + detail.transaction.transaction_id);
 
             SessionManager.Instance.setPayed(true);
@@ -201,7 +146,6 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
             } else {
                 Navigation.navigateActivity(getActivity(), ActivityGeekScore.class);
             }
-
         }
     }
 

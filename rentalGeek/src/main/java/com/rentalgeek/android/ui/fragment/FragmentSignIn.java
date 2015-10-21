@@ -2,6 +2,7 @@ package com.rentalgeek.android.ui.fragment;
 
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
@@ -67,6 +68,7 @@ import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.activity.ActivityRegistration;
 import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
+import com.rentalgeek.android.utils.ObscuredSharedPreferences;
 import com.rentalgeek.android.utils.OkAlert;
 
 import org.json.JSONException;
@@ -222,11 +224,11 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
         return builder.build();
     }
 
-    private void signin(String a, String b) {
+    private void signin(final String email, final String password) {
 
         RequestParams params = new RequestParams();
-        params.put("user[email]", a);
-        params.put("user[password]", b);
+        params.put("user[email]", email);
+        params.put("user[password]", password);
 
         GlobalFunctions.postApiCall(getActivity(), ApiManager.getSignin(),
                 params, AppPreferences.getAuthToken(),
@@ -245,6 +247,9 @@ public class FragmentSignIn extends GeekBaseFragment implements ConnectionCallba
                     @Override
                     public void onSuccess(String content) {
                         try {
+                            ObscuredSharedPreferences prefs = new ObscuredSharedPreferences(getActivity(), getActivity().getSharedPreferences("com.android.rentalgeek", Context.MODE_PRIVATE));
+                            prefs.edit().putString(ObscuredSharedPreferences.USERNAME_PREF, email).commit();
+                            prefs.edit().putString(ObscuredSharedPreferences.PASSWORD_PREF, password).commit();
                             NormalLogin(content);
                         } catch (Exception e) {
                             AppLogger.log(TAG, e);

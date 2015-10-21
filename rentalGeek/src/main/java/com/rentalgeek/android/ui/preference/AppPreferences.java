@@ -45,10 +45,7 @@ public class AppPreferences {
         final Context context = RentalGeekApplication.context;
         final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = tempSettings.edit();
-
-        // do gson object to json string conversion
         String loginJson = new Gson().toJson(login);
-
         editor.putString(PREF_LOGIN_DATA, loginJson);
         editor.commit();
     }
@@ -125,10 +122,7 @@ public class AppPreferences {
         final Context context = RentalGeekApplication.context;
         final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
         String loginJson = tempSettings.getString(PREF_LOGIN_DATA, "");
-
-        // do gson json string conversion to object
         LoginBackend login = new Gson().fromJson(loginJson, LoginBackend.class);
-
         return login;
     }
 
@@ -250,4 +244,5 @@ public class AppPreferences {
         final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
         return tempSettings.getString(PREF_MSG_SVC_DEVICE_ID, "");
     }
+
 }

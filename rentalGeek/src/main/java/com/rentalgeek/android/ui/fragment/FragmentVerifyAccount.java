@@ -43,14 +43,12 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
 
     private static final String TAG = "FragmentVerifyAccount";
 
-
     @Required(order = 1, message = "Please enter password")
     @InjectView(R.id.verify_account)
     EditText verify_password;
 
     private Validator validator;
     AppPrefes appPref;
-
 
     @InjectView(R.id.face_verify)
     ImageView face_verify;
@@ -64,13 +62,9 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
     @InjectView(R.id.rent_verify)
     ImageView rent_verify;
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_verify_identity, container, false);
-
 
         ButterKnife.inject(this, v);
         validator = new Validator(this);
@@ -83,12 +77,9 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
         actionDonekeyListener();
 
         return v;
-
     }
 
     private void CheckWhichLogin() {
-
-
         if (appPref.getData("socialid_link").equals("")) {
             link_verify.setVisibility(View.GONE);
         }
@@ -104,97 +95,46 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
         if (appPref.getData("norm_log").equals("")) {
             rent_verify.setVisibility(View.GONE);
         }
-
     }
 
     private void actionDonekeyListener() {
-
-
         verify_password.setOnEditorActionListener(new OnEditorActionListener() {
-
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
-
-                if (actionId != EditorInfo.IME_ACTION_DONE)
+                if (actionId != EditorInfo.IME_ACTION_DONE) {
                     return false;
-                //hidekey();
+                }
+
                 validator.validate();
                 return true;
             }
         });
-
     }
 
     @Override
     public void onDestroyView() {
-
         super.onDestroyView();
         ButterKnife.reset(this);
     }
 
-/*	@Override
-    public void parseresult(String response, boolean success, int value) {
-
-		switch (value) {
-		case 1:
-			NormalLogin(response);
-			break;
-		case 2:
-			FacebookParse(response);
-			break;
-		case 3:
-			GoogleParse(response);
-			break;
-		case 4:
-			LinkedParse(response);
-			break;
-		default:
-			break;
-		}
-	}*/
-
     private void LinkedParse(String response) {
-
         nextfragment(new FragmentPayment(), false, R.id.container);
     }
 
     private void GoogleParse(String response) {
-
         nextfragment(new FragmentPayment(), false, R.id.container);
-
     }
 
     private void FacebookParse(String response) {
-
         nextfragment(new FragmentPayment(), false, R.id.container);
     }
 
-/*	@Override
-	public void error(String response, int value) {
-
-		
-		ErrorApi detail = (new Gson()).fromJson(response,
-				ErrorApi.class);
-		
-		if(!detail.success)
-		{
-			DialogManager.showCrouton(getActivity(), detail.message);
-		}
-
-	}*/
-
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
-
         String message = failedRule.getFailureMessage();
         if (failedView instanceof EditText) {
             failedView.requestFocus();
             ((EditText) failedView).setError(message);
-        } else {
-            // Toast.makeText(getActivity(), message,
-            // Toast.LENGTH_SHORT).show();
-
         }
     }
 
@@ -204,7 +144,6 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
     }
 
     private void callNormalLogin() {
-
         RequestParams params = new RequestParams();
         params.put("user[email]", appPref.getData("email"));
         params.put("user[password]", verify_password.getText().toString().trim());
@@ -237,8 +176,6 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
 
                     }
                 });
-        //asynkhttp(params, 1, ApiManager.getSignin(), AppPreferences.getAuthToken(), true);
-
     }
 
     @OnClick(R.id.rent_verify)
@@ -247,24 +184,13 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
     }
 
     private void NormalLogin(String response) {
-
         try {
-
             System.out.println("responseresponse" + response);
             LoginBackend detail = (new Gson()).fromJson(response, LoginBackend.class);
 
             User appin = detail.user;
-//			log("my id is " + appin.id);
-//			log("my id is " + detail.user.id);
 
             SessionManager.Instance.onUserLoggedIn(detail);
-
-//			String appid = String.valueOf(detail.user.id);
-//			System.out.println("my id is " + appid);
-
-//			appPref.SaveData("Uid", appid);
-//			appPref.SaveData("email", detail.user.email);
-
             nextfragment(new FragmentPayment(), false, R.id.container);
 
         } catch (Exception e) {
@@ -272,9 +198,7 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
         }
     }
 
-
     private void callFacebookLink() {
-
         RequestParams params = new RequestParams();
         params.put("provider[uid]", appPref.getData("socialid_fb"));
         params.put("provider[provider]", "Facebook");
@@ -309,13 +233,9 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
 
                     }
                 });
-        //asynkhttp(params, 2, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
-
     }
 
-
     private void callGoogleLink() {
-
         RequestParams params = new RequestParams();
         params.put("provider[uid]", appPref.getData("socialid_goog"));
         params.put("provider[provider]", "Google+");
@@ -350,13 +270,9 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
 
                     }
                 });
-        //asynkhttp(params, 3, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
-
     }
 
-
     private void callLinkedLink() {
-
         RequestParams params = new RequestParams();
         params.put("provider[uid]", appPref.getData("socialid_link"));
         params.put("provider[provider]", "LinkedIn+");
@@ -391,8 +307,6 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
 
                     }
                 });
-        //asynkhttp(params, 4, ApiManager.getAddProvider(""), AppPreferences.getAuthToken(), true);
-
     }
 
     @OnClick(R.id.face_verify)
@@ -420,7 +334,6 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
             startActivity(intent);
             getActivity().overridePendingTransition(R.anim.three_, R.anim.four_);
         }
-
     }
 
     @OnClick(R.id.goog_verify)
@@ -450,28 +363,10 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
         }
     }
 
-
     @OnClick(R.id.link_verify)
     public void LinkedClick() {
         if (!appPref.getData("socialid_link").equals("")) {
             callLinkedLink();
-        } else {
-            //		toast("");
-//			PersistentCookieStore mCookieStore=new PersistentCookieStore(getActivity());
-//			mCookieStore.clear();
-//			Session session = Session.getActiveSession();
-//			if(session!=null)
-//			session.closeAndClearTokenInformation();
-//			appPref.deleteAll();
-//			appPref.SaveData("first", "");
-//			getActivity().finish();
-//			Intent intent = new Intent(getActivity(),SignIn.class);
-//			intent.addCategory(Intent.CATEGORY_HOME);
-//			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//			//intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//			startActivity(intent);
-//			getActivity().overridePendingTransition(
-//					R.anim.three_, R.anim.four_);
         }
     }
 
@@ -495,7 +390,6 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
         });
 
         dialog.show();
-
     }
 
 
@@ -513,7 +407,6 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
         wv.loadUrl("file:///android_asset/terms.html");
 
         close.setOnClickListener(new OnClickListener() {
-
             @Override
             public void onClick(View v) {
 
@@ -522,7 +415,6 @@ public class FragmentVerifyAccount extends GeekBaseFragment implements Validatio
         });
 
         dialog.show();
-
     }
 
 }

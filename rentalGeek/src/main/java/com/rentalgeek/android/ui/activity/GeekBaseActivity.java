@@ -245,9 +245,7 @@ public class GeekBaseActivity extends AppCompatActivity {
 
             @Override
             public void onDrawerOpened(View drawerView) {
-                if (SessionManager.Instance.getCurrentUser() != null && !SessionManager.Instance.getCurrentUser().is_cosigner) {
-                    hideMenuItem(R.id.cosigner);
-                }
+                setVisibilityForCosignerMenuItem();
             }
 
             @Override
@@ -346,12 +344,16 @@ public class GeekBaseActivity extends AppCompatActivity {
     private void setVisibilityForCosignerMenuItem() {
         if (SessionManager.Instance.getCurrentUser() != null && !SessionManager.Instance.getCurrentUser().is_cosigner) {
             hideMenuItem(R.id.cosigner);
+        } else {
+            showMenuItem(R.id.cosigner);
         }
     }
 
     private void setVisibilityForMyCosignerMenuItem() {
         if (SessionManager.Instance.getCurrentUser() == null || SessionManager.Instance.getCurrentUser().profile_id == null) {
             hideMenuItem(R.id.my_cosigner);
+        } else {
+            showMenuItem(R.id.my_cosigner);
         }
     }
 
@@ -374,6 +376,17 @@ public class GeekBaseActivity extends AppCompatActivity {
             MenuItem menuItem = menu.findItem(menuItemId);
             if (menuItem != null) {
                 menuItem.setVisible(false);
+            }
+        }
+    }
+
+    protected void showMenuItem(int menuItemId) {
+        Menu menu = navigationView.getMenu();
+
+        if (menu != null) {
+            MenuItem menuItem = menu.findItem(menuItemId);
+            if (menuItem != null) {
+                menuItem.setVisible(true);
             }
         }
     }

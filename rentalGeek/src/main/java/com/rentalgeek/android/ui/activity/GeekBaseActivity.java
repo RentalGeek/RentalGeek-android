@@ -252,6 +252,8 @@ public class GeekBaseActivity extends AppCompatActivity {
             @Override
             public void onDrawerOpened(View drawerView) {
                 setVisibilityForCosignerMenuItem();
+                setVisibilityForMyCosignerMenuItem();
+                setVisibilityForPaymentsMenuItem();
             }
 
             @Override

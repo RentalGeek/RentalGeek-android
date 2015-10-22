@@ -1,10 +1,7 @@
 package com.rentalgeek.android.ui.fragment;
 
-import android.content.DialogInterface;
 import android.content.IntentSender;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +24,6 @@ import com.rentalgeek.android.api.LinkedInLogin;
 import com.rentalgeek.android.api.LoginInterface;
 import com.rentalgeek.android.api.RentalGeekLogin;
 import com.rentalgeek.android.bus.AppEventBus;
-import com.rentalgeek.android.bus.events.ErrorAlertEvent;
 import com.rentalgeek.android.bus.events.FacebookLoginEvent;
 import com.rentalgeek.android.bus.events.GoogleErrorEvent;
 import com.rentalgeek.android.bus.events.GoogleLoginEvent;
@@ -76,7 +72,7 @@ public class FragmentSignIn extends GeekBaseFragment {
         //Unfortunately called since we are using facebook sdk button in layout
         FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
 
-        presenter = new LoginPresenter();
+        presenter = new LoginPresenter(this);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.rentalgeek.android.mvp.login;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.loopj.android.http.RequestParams;
 import com.rentalgeek.android.R;
@@ -17,8 +16,10 @@ import com.rentalgeek.android.bus.events.ShowProgressEvent;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.ui.fragment.FragmentSignIn;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.GeekGson;
+import com.rentalgeek.android.utils.ObscuredSharedPreferences;
 
 /**
  * Created by Alan R on 10/21/15.
@@ -26,6 +27,11 @@ import com.rentalgeek.android.utils.GeekGson;
 public class LoginPresenter implements Presenter {
 
     private static final String TAG = LoginPresenter.class.getSimpleName();
+    private FragmentSignIn view;
+
+    public LoginPresenter(FragmentSignIn view) {
+        this.view = view;
+    }
 
     @Override
     public void googleLogin(String fullname, String photoUrl, String id, String email) {
@@ -66,13 +72,8 @@ public class LoginPresenter implements Presenter {
 
     @Override
     public void rentalgeekLogin(String email, String password) {
-        RequestParams params = new RequestParams();
-        params.put("user[email]", email);
-        params.put("user[password]", password);
-
         AppPreferences.setUserName(email);
-
-        geekLogin(params);
+        geekLogin(email, password);
     }
 
     private void socialLogin(RequestParams params){
@@ -109,7 +110,11 @@ public class LoginPresenter implements Presenter {
                 });
     }
 
-    private void geekLogin(RequestParams params){
+    private void geekLogin(final String email, final String password){
+        final RequestParams params = new RequestParams();
+        params.put("user[email]", email);
+        params.put("user[password]", password);
+
         GlobalFunctions.postApiCall(null, ApiManager.getSignin(),
                 params, AppPreferences.getAuthToken(),
                 new GeekHttpResponseHandler() {
@@ -127,6 +132,9 @@ public class LoginPresenter implements Presenter {
                     @Override
                     public void onSuccess(String content) {
                         try {
+                            ObscuredSharedPreferences prefs = new ObscuredSharedPreferences(view.getActivity(), view.getActivity().getSharedPreferences("com.android.rentalgeek", Context.MODE_PRIVATE));
+                            prefs.edit().putString(ObscuredSharedPreferences.USERNAME_PREF, email).commit();
+                            prefs.edit().putString(ObscuredSharedPreferences.PASSWORD_PREF, password).commit();
                             parseResponse(content);
                         } catch (Exception e) {
                             AppLogger.log(TAG, e);

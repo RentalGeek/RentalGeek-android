@@ -20,6 +20,7 @@ public class ActivityCosignerApp4 extends GeekBaseActivity {
         setContentView(R.layout.activity_with_fragment);
 
         setupNavigation();
+        setMenuItemSelected(R.id.cosigner);
 
         if (savedInstanceState == null) {
             FragmentCosignerApp4 fragment = new FragmentCosignerApp4();

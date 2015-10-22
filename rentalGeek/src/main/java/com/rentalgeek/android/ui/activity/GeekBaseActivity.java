@@ -275,6 +275,11 @@ public class GeekBaseActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 drawerLayout.closeDrawers();
 
+                // don't re-open the currently selected option
+                if (menuItem.isChecked()) {
+                    return true;
+                }
+
                 switch (menuItem.getItemId()) {
                     case R.id.roommates:
                         Navigation.navigateActivity(activity, ActivityRoommates.class);
@@ -311,6 +316,7 @@ public class GeekBaseActivity extends AppCompatActivity {
                         Navigation.navigateActivity(activity, ActivityLogin.class, true);
                         return true;
                 }
+
                 return false;
             }
         });

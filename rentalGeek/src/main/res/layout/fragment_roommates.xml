@@ -26,7 +26,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_horizontal"
-                    android:background="#CCCCCC"
+                    android:background="@color/light_creme"
                     android:padding="5dp">
 
                     <TextView
@@ -116,7 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_horizontal"
-                android:background="#CCCCCC"
+                android:background="@color/light_creme"
                 android:padding="5dp">
 
                 <TextView

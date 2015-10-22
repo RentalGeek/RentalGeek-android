@@ -88,6 +88,7 @@ public class ActivityRegistration extends GeekBaseActivity implements Validation
         validator.setValidationListener(this);
         load = new Loading(ActivityRegistration.this);
         appPref = new AppPrefes(getApplicationContext(), "rentalgeek");
+        getWindow().setBackgroundDrawableResource(R.drawable.splash_bg);
     }
 
     @OnClick(R.id.create_account)

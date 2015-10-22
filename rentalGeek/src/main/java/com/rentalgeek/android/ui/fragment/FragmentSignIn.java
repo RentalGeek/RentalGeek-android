@@ -80,6 +80,7 @@ public class FragmentSignIn extends GeekBaseFragment {
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
         ButterKnife.inject(this, view);
         username_edittext.setText(AppPreferences.getUserName());
+        getActivity().getWindow().setBackgroundDrawableResource(R.drawable.splash_bg);
         return view;
     }
 

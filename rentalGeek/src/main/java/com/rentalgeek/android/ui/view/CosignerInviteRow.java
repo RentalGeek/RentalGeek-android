@@ -30,8 +30,8 @@ public class CosignerInviteRow extends LinearLayout {
 
     public void inflateView(final FragmentMyCosigner fragment, final CosignerInviteDTO invite) {
         ImageButton xButton = new ImageButton(fragment.getActivity());
-        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(50, 50);
-        buttonParams.setMargins(5, 0, 5, 0);
+        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(100, 100);
+        buttonParams.setMargins(20, 0, 20, 0);
         xButton.setLayoutParams(buttonParams);
         xButton.setImageResource(R.drawable.ic_highlight_off_black_24dp);
         xButton.setBackground(null);

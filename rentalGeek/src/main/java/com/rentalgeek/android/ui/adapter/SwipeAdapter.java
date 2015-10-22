@@ -12,15 +12,12 @@ import com.rentalgeek.android.ui.fragment.FragmentTutorialRoommates;
 
 public class SwipeAdapter extends FragmentPagerAdapter {
 
-    private String currentFragmentTag;
-
     public SwipeAdapter(FragmentManager fm) {
         super(fm);
     }
 
     @Override
     public Fragment getItem(int position) {
-
         switch (position) {
             case 0:
                 return FragmentTutorialGeekScore.newInstance();
@@ -35,10 +32,6 @@ public class SwipeAdapter extends FragmentPagerAdapter {
         }
     }
 
-    public String getCurrentFragmentTag() {
-        return currentFragmentTag;
-    }
-
     @Override
     public int getCount() {
         return 4;
@@ -46,11 +39,6 @@ public class SwipeAdapter extends FragmentPagerAdapter {
 
     @Override
     public void setPrimaryItem(ViewGroup container, int position, Object object) {
-
-        Fragment fragment = (Fragment) object;
-
-        currentFragmentTag = fragment.getTag();
-
         super.setPrimaryItem(container, position, object);
     }
 

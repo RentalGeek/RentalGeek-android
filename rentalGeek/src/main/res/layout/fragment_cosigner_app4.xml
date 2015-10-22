@@ -78,17 +78,20 @@
                 android:textSize="14sp"
                 android:textColor="@color/blue"/>
 
-            <info.hoang8f.android.segmented.SegmentedGroup
-                android:id="@+id/cover_rent_segment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
                 android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                android:background="@drawable/thin_border" >
 
-                <RadioButton style="@style/NoSegment" />
-                <RadioButton style="@style/YesSegment" />
+                <Spinner
+                    android:id="@+id/cover_rent_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"/>
 
-            </info.hoang8f.android.segmented.SegmentedGroup>
+            </FrameLayout>
 
             <Button
                 android:id="@+id/submit_button"

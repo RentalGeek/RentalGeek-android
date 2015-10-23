@@ -24,9 +24,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-/**
- * Created by rajohns on 9/19/15.
- */
 public class FragmentCosignerApp4 extends GeekBaseFragment {
 
     @InjectView(R.id.employer_edittext)

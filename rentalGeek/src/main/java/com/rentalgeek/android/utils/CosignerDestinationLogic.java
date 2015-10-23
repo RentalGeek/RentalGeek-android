@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.rentalgeek.android.api.SessionManager;
+import com.rentalgeek.android.backend.model.CosignerProfile;
 import com.rentalgeek.android.pojos.CosignerInviteDTO;
 import com.rentalgeek.android.ui.activity.ActivityCosignerApp1;
 import com.rentalgeek.android.ui.activity.ActivityCosignerInvite;
@@ -83,7 +84,13 @@ public enum CosignerDestinationLogic {
     }
 
     public boolean hasCompletedCosignerProfile() {
-        return SessionManager.Instance.getCurrentUser().cosigner_profile_id != null;
+        CosignerProfile cosignerProfile = SessionManager.Instance.getCosignerProfile();
+
+        if (cosignerProfile != null) {
+            return Boolean.TRUE.equals(cosignerProfile.completed);
+        } else {
+            return false;
+        }
     }
 
     public void navigateToNextCosignActivity(Activity activity) {

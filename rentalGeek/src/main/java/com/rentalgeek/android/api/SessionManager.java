@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.backend.LoginBackend;
+import com.rentalgeek.android.backend.model.CosignerProfile;
 import com.rentalgeek.android.backend.model.Profile;
 import com.rentalgeek.android.backend.model.User;
 import com.rentalgeek.android.ui.AppPrefes;
@@ -19,6 +20,7 @@ public enum SessionManager {
 
     private User currentUser;
     private List<Profile> profiles;
+    private CosignerProfile cosignerProfile;
 
     public User getCurrentUser() {
         return currentUser;
@@ -97,9 +99,14 @@ public enum SessionManager {
         return (String) profile.get("id");
     }
 
+    public CosignerProfile getCosignerProfile() {
+        return cosignerProfile;
+    }
+
     public void onUserLoggedIn(LoginBackend login) {
         currentUser = login.user;
         profiles = login.profiles;
+        cosignerProfile = login.cosigner_profiles.size() > 0 ? login.cosigner_profiles.get(0) : null;
 
         if (profiles.size() == 0) {
             if (AppPreferences.getProfile() != null) {

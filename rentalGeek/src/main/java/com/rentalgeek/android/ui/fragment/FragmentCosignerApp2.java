@@ -26,9 +26,6 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import info.hoang8f.android.segmented.SegmentedGroup;
 
-/**
- * Created by rajohns on 9/19/15.
- */
 public class FragmentCosignerApp2 extends GeekBaseFragment {
 
     @InjectView(R.id.address_edittext)

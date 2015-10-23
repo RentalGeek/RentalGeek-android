@@ -98,7 +98,7 @@ If you agree to share a Credit Report, we will also use this information to shar
     <string name="employer_form_label">Employer Name (Mandatory)</string>
     <string name="position_form_label">Employment Position (Mandatory)</string>
     <string name="income_form_label">Monthly Income (Mandatory)</string>
-    <string name="cover_rent_form_label">Do you intend on paying the rent amount each month on behalf of the renter for the duration of the lease agreement?</string>
+    <string name="cover_rent_form_label">Do you intend on paying the rent amount each month on behalf of the renter for the duration of the lease agreement? (Mandatory)</string>
     <string name="geek_title">Geek Score&#8482;</string>
 
     <string name="cosigner_invite_accept">ACCEPT</string>
@@ -191,6 +191,7 @@ If you agree to share a Credit Report, we will also use this information to shar
     </string-array>
 
     <string-array name="cover_rent_array">
+        <item> </item>
         <item>Yes</item>
         <item>Most of the time</item>
         <item>Rarely</item>

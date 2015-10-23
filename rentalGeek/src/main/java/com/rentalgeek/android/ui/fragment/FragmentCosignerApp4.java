@@ -113,6 +113,11 @@ public class FragmentCosignerApp4 extends GeekBaseFragment {
             return false;
         }
 
+        if (coverRent.equals("")) {
+            OkAlert.show(getActivity(), "Rent", "Please answer if you intend to cover rent or not.");
+            return false;
+        }
+
         return true;
     }
 

@@ -7,14 +7,15 @@ import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.model.CosignerProfile;
 import com.rentalgeek.android.pojos.CosignerInviteDTO;
 import com.rentalgeek.android.ui.activity.ActivityCosignerApp1;
+import com.rentalgeek.android.ui.activity.ActivityCosignerApp2;
+import com.rentalgeek.android.ui.activity.ActivityCosignerApp3;
+import com.rentalgeek.android.ui.activity.ActivityCosignerApp4;
 import com.rentalgeek.android.ui.activity.ActivityCosignerInvite;
 import com.rentalgeek.android.ui.activity.ActivityCosignerList;
+import com.rentalgeek.android.ui.preference.AppPreferences;
 
 import java.util.ArrayList;
 
-/**
- * Created by rajohns on 9/17/15.
- */
 public enum CosignerDestinationLogic {
 
     INSTANCE;
@@ -102,9 +103,30 @@ public enum CosignerDestinationLogic {
         if (hasOutstandingInvites()) {
             activity.startActivity(new Intent(activity, ActivityCosignerInvite.class));
         } else if (!hasCompletedCosignerProfile()) {
-            activity.startActivity(new Intent(activity, ActivityCosignerApp1.class));
+            goToCurrentPageInCosignerApplication(activity);
         } else {
             activity.startActivity(new Intent(activity, ActivityCosignerList.class));
+        }
+    }
+
+    private void goToCurrentPageInCosignerApplication(Activity activity) {
+        int currentCosignerAppPage = AppPreferences.getCosignerProfilePosition();
+        switch (currentCosignerAppPage) {
+            case 1:
+                activity.startActivity(new Intent(activity, ActivityCosignerApp1.class));
+                break;
+            case 2:
+                activity.startActivity(new Intent(activity, ActivityCosignerApp2.class));
+                break;
+            case 3:
+                activity.startActivity(new Intent(activity, ActivityCosignerApp3.class));
+                break;
+            case 4:
+                activity.startActivity(new Intent(activity, ActivityCosignerApp4.class));
+                break;
+            default:
+                activity.startActivity(new Intent(activity, ActivityCosignerApp1.class));
+                break;
         }
     }
 

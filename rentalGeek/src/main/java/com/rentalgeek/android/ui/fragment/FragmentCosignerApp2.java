@@ -53,6 +53,8 @@ public class FragmentCosignerApp2 extends GeekBaseFragment {
         View view = inflater.inflate(R.layout.fragment_cosigner_app2, container, false);
         ButterKnife.inject(this, view);
 
+        AppPreferences.putCosignerProfilePosition(2);
+
         ownOrRentSegment.setTintColor(getActivity().getResources().getColor(R.color.blue));
         ownOrRentSegment.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override

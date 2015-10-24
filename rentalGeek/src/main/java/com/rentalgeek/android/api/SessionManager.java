@@ -3,9 +3,11 @@ package com.rentalgeek.android.api;
 
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
 import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.backend.model.CosignerProfile;
+import com.rentalgeek.android.backend.model.CosignerProfileSingleRootDTO;
 import com.rentalgeek.android.backend.model.Profile;
 import com.rentalgeek.android.backend.model.User;
 import com.rentalgeek.android.ui.AppPrefes;
@@ -101,6 +103,11 @@ public enum SessionManager {
 
     public CosignerProfile getCosignerProfile() {
         return cosignerProfile;
+    }
+
+    public void setCosignerProfile(String cosignerProfileJson) {
+        CosignerProfileSingleRootDTO cosignerProfileSingleRootDTO = new Gson().fromJson(cosignerProfileJson, CosignerProfileSingleRootDTO.class);
+        cosignerProfile = cosignerProfileSingleRootDTO.cosigner_profile;
     }
 
     public void onUserLoggedIn(LoginBackend login) {

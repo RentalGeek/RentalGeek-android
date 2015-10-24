@@ -63,6 +63,7 @@ public class FragmentCosignerApp1 extends GeekBaseFragment {
         View view = inflater.inflate(R.layout.fragment_cosigner_app1, container, false);
         ButterKnife.inject(this, view);
 
+        AppPreferences.putCosignerProfilePosition(1);
         phoneNumberEditText.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 
         ssnEditText.addTextChangedListener(new TextWatcher() {

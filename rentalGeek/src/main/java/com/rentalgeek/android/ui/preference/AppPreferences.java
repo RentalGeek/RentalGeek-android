@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.backend.LoginBackend;
+import com.rentalgeek.android.utils.ObscuredSharedPreferences;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -107,6 +108,18 @@ public class AppPreferences {
         System.out.println(String.format("Saved profile page %s", profile_page));
     }
 
+    public static void putCosignerProfilePosition(int pageNumber) {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = tempSettings.edit();
+
+        ObscuredSharedPreferences prefs = new ObscuredSharedPreferences(context, context.getSharedPreferences("com.android.rentalgeek", Context.MODE_PRIVATE));
+        String email = prefs.getString(ObscuredSharedPreferences.USERNAME_PREF, "");
+
+        editor.putInt(email, pageNumber);
+        editor.commit();
+    }
+
     public static void removeProfile() {
         final Context context = RentalGeekApplication.context;
         final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
@@ -167,6 +180,16 @@ public class AppPreferences {
         final Context context = RentalGeekApplication.context;
         final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
         return tempSettings.getString(PREF_PROFILE_PAGE, null);
+    }
+
+    public static int getCosignerProfilePosition() {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+
+        ObscuredSharedPreferences prefs = new ObscuredSharedPreferences(context, context.getSharedPreferences("com.android.rentalgeek", Context.MODE_PRIVATE));
+        String email = prefs.getString(ObscuredSharedPreferences.USERNAME_PREF, "");
+
+        return tempSettings.getInt(email, 1);
     }
 
     public static boolean getMessageServiceFirstRun() {

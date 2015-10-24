@@ -48,6 +48,8 @@ public class FragmentCosignerApp3 extends GeekBaseFragment {
         View view = inflater.inflate(R.layout.fragment_cosigner_app3, container, false);
         ButterKnife.inject(this, view);
 
+        AppPreferences.putCosignerProfilePosition(3);
+
         lostCourtSegment.setTintColor(getActivity().getResources().getColor(R.color.blue));
         lawsuitSegment.setTintColor(getActivity().getResources().getColor(R.color.blue));
         foreclosedSegment.setTintColor(getActivity().getResources().getColor(R.color.blue));

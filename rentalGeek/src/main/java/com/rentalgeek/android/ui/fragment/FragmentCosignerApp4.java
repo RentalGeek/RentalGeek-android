@@ -45,6 +45,7 @@ public class FragmentCosignerApp4 extends GeekBaseFragment {
         View view = inflater.inflate(R.layout.fragment_cosigner_app4, container, false);
         ButterKnife.inject(this, view);
 
+        AppPreferences.putCosignerProfilePosition(4);
         setUpSpinners();
 
         return view;
@@ -76,7 +77,9 @@ public class FragmentCosignerApp4 extends GeekBaseFragment {
                 @Override
                 public void onSuccess(String content) {
                     super.onSuccess(content);
+                    SessionManager.Instance.setCosignerProfile(content);
                     CosignerDestinationLogic.INSTANCE.navigateToNextCosignActivity(getActivity());
+                    AppPreferences.putCosignerProfilePosition(1);
                 }
 
                 @Override

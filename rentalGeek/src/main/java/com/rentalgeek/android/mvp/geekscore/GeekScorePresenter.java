@@ -10,25 +10,17 @@ import com.rentalgeek.android.bus.events.ShowGeekScoreWait;
  */
 public class GeekScorePresenter implements Presenter {
 
-    private GeekScoreView geekScoreView;
-
-    public GeekScorePresenter(GeekScoreView geekScoreView) {
-        this.geekScoreView = geekScoreView;
-    }
-
     @Override
     public void getGeekScore() {
 
         String geek_score = SessionManager.Instance.getGeekScore();
 
         if (geek_score != null && !geek_score.isEmpty()) {
-            if (geekScoreView != null) {
+                System.out.println("Showing Geek score.");
                 AppEventBus.post(new ShowGeekScore(geek_score));
-            }
         } else {
-            if (geekScoreView != null) {
+            System.out.println("Showing Geek score wait");
                 AppEventBus.post(new ShowGeekScoreWait());
-            }
         }
     }
 }

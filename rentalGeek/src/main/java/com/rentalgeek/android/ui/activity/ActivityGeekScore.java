@@ -30,8 +30,13 @@ public class ActivityGeekScore extends GeekBaseActivity implements GeekScoreView
 
         setupNavigation();
         setMenuItemSelected(R.id.geek_score);
+        presenter = new GeekScorePresenter();
 
-        presenter = new GeekScorePresenter(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         presenter.getGeekScore();
     }
 

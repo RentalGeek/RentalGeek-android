@@ -14,6 +14,8 @@ public class Common {
 
     public static final String DIALOG_MSG_ID = "DIALOG_MSG_ID";
 
+    public static final String KEY_DO_SILENT_UPDATE = "KEY_DO_SILENT_UPDATE";
+
     public static String streetNumber;
     public static String streetName;
     public static String city;

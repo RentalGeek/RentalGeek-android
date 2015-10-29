@@ -1,13 +1,11 @@
 package com.rentalgeek.android.ui.activity;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
@@ -16,7 +14,6 @@ import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.bus.events.ClickRentalEvent;
-import com.rentalgeek.android.bus.events.ErrorAlertEvent;
 import com.rentalgeek.android.bus.events.ShowProfileCreationEvent;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.mvp.home.HomePresenter;
@@ -24,6 +21,7 @@ import com.rentalgeek.android.mvp.list.rental.RentalListView;
 import com.rentalgeek.android.mvp.map.MapView;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.ui.Common;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.adapter.PageAdapter;
 import com.rentalgeek.android.ui.fragment.FragmentMap;
@@ -33,7 +31,8 @@ import com.rentalgeek.android.ui.view.NonSwipeableViewPager;
 import com.rentalgeek.android.utils.Analytics;
 import com.rentalgeek.android.utils.CosignerInviteCaller;
 import com.rentalgeek.android.utils.ObscuredSharedPreferences;
-import com.rentalgeek.android.utils.OkAlert;
+
+import java.util.ArrayList;
 
 
 public class ActivityHome extends GeekBaseActivity implements Container<ViewPager> {
@@ -75,8 +74,14 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
             new CosignerInviteCaller(this, false).fetchCosignerInvites();
         }
 
-        // silently fetch current user data in case persisted user data has gotten stale
-        silentUserDataUpdate();
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            boolean shouldDoSilentUpdate = extras.getBoolean(Common.KEY_DO_SILENT_UPDATE, false);
+            if (shouldDoSilentUpdate) {
+                // silently fetch current user data in case persisted user data has gotten stale
+                silentUserDataUpdate();
+            }
+        }
 
         disableDrawerGesture();
 
@@ -105,7 +110,12 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
                     if (extras == null) {
                         presenter.getRentalOfferings();
                     } else {
-                        presenter.getRentalOfferings(extras);
+                        ArrayList<String> rental_ids = extras.getStringArrayList("RENTALS");
+                        if (rental_ids == null) {
+                            presenter.getRentalOfferings();
+                        } else {
+                            presenter.getRentalOfferings(extras);
+                        }
                     }
                 }
             }, 3000);

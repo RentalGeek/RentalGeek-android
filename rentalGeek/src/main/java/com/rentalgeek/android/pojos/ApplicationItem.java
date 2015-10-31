@@ -5,9 +5,6 @@ import android.text.Spanned;
 
 import java.util.List;
 
-/**
- * Created by rajohns on 9/7/15.
- */
 public class ApplicationItem {
 
     public static final String SIGN_LEASE = "SIGN LEASE";

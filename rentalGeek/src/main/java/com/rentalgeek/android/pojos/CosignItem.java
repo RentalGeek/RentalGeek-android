@@ -2,9 +2,6 @@ package com.rentalgeek.android.pojos;
 
 import com.rentalgeek.android.api.SessionManager;
 
-/**
- * Created by rajohns on 9/14/15.
- */
 public class CosignItem extends ApplicationItem {
 
     public CosignItem() {

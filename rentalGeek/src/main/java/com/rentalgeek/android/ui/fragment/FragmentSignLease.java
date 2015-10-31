@@ -24,9 +24,6 @@ import com.rentalgeek.android.ui.preference.AppPreferences;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-/**
- * Created by rajohns on 9/20/15.
- */
 public class FragmentSignLease extends GeekBaseFragment {
 
     public static final String LEASE_ID = "leaseId";

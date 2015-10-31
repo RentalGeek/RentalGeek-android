@@ -15,14 +15,10 @@ import butterknife.InjectView;
 
 public class FragmentTutorialGeekScore extends Fragment {
 
-    @InjectView(R.id.background_layout)
-    LinearLayout backgroundLayout;
-    @InjectView(R.id.title_text_view)
-    TextView titleTextView;
-    @InjectView(R.id.first_text_view)
-    TextView firstTextView;
-    @InjectView(R.id.second_text_view)
-    TextView secondTextView;
+    @InjectView(R.id.background_layout) LinearLayout backgroundLayout;
+    @InjectView(R.id.title_text_view) TextView titleTextView;
+    @InjectView(R.id.first_text_view) TextView firstTextView;
+    @InjectView(R.id.second_text_view) TextView secondTextView;
 
     public static FragmentTutorialGeekScore newInstance() {
         return new FragmentTutorialGeekScore();

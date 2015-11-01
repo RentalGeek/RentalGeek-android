@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rentalgeek.android.R;
@@ -15,7 +15,7 @@ import butterknife.InjectView;
 
 public class FragmentTutorialRoommates extends Fragment {
 
-    @InjectView(R.id.background_layout) LinearLayout backgroundLayout;
+    @InjectView(R.id.background_image_view) ImageView backgroundImageView;
     @InjectView(R.id.title_text_view) TextView titleTextView;
     @InjectView(R.id.first_text_view) TextView firstTextView;
     @InjectView(R.id.second_text_view) TextView secondTextView;
@@ -29,7 +29,7 @@ public class FragmentTutorialRoommates extends Fragment {
         View v = inflater.inflate(R.layout.fragment_tutorial_base, container, false);
         ButterKnife.inject(this, v);
 
-        backgroundLayout.setBackgroundResource(R.drawable.tutorial_roommates_bg);
+        backgroundImageView.setImageResource(R.drawable.tutorial_roommates_bg);
         titleTextView.setText("Invite\nRoommates");
         firstTextView.setText("Cool, right?");
         secondTextView.setText("Invite your roommates to\napply too! Do it all from right\ninside the app so it's not\nsuch a pain. Easy, digital,\nand fast, right?");

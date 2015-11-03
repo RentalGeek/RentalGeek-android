@@ -45,6 +45,10 @@ public class ApiManager {
         return API_HOST + "/applications";
     }
 
+    public static String propertyManagersUrl() {
+        return API_HOST + "/property_managers";
+    }
+
     public static String getCosignerItemsUrl() {
         return getApplyUrl() + "?as_cosigner=true";
     }

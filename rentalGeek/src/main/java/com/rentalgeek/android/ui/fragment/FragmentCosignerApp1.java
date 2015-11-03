@@ -32,22 +32,14 @@ import butterknife.OnClick;
 
 public class FragmentCosignerApp1 extends GeekBaseFragment {
 
-    @InjectView(R.id.first_name_edittext)
-    EditText firstNameEditText;
-    @InjectView(R.id.last_name_edittext)
-    EditText lastNameEditText;
-    @InjectView(R.id.month_spinner)
-    Spinner monthSpinner;
-    @InjectView(R.id.day_spinner)
-    Spinner daySpinner;
-    @InjectView(R.id.year_edittext)
-    EditText yearEditText;
-    @InjectView(R.id.ssn_edittext)
-    EditText ssnEditText;
-    @InjectView(R.id.marital_status_spinner)
-    Spinner maritalStatusSpinner;
-    @InjectView(R.id.phone_number_edittext)
-    EditText phoneNumberEditText;
+    @InjectView(R.id.first_name_edittext) EditText firstNameEditText;
+    @InjectView(R.id.last_name_edittext) EditText lastNameEditText;
+    @InjectView(R.id.month_spinner) Spinner monthSpinner;
+    @InjectView(R.id.day_spinner) Spinner daySpinner;
+    @InjectView(R.id.year_edittext) EditText yearEditText;
+    @InjectView(R.id.ssn_edittext) EditText ssnEditText;
+    @InjectView(R.id.marital_status_spinner) Spinner maritalStatusSpinner;
+    @InjectView(R.id.phone_number_edittext) EditText phoneNumberEditText;
 
     private String firstName;
     private String lastName;

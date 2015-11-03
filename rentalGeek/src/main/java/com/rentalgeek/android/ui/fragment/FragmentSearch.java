@@ -7,11 +7,18 @@ import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.api.ApiManager;
+import com.rentalgeek.android.backend.model.PropertyManager;
+import com.rentalgeek.android.backend.model.PropertyManagerRoot;
 import com.rentalgeek.android.mvp.search.SearchPresenter;
 import com.rentalgeek.android.mvp.search.SearchView;
+import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.ui.view.SearchOptionButton;
+import com.rentalgeek.android.ui.view.SimpleSpinner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +36,9 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
     @InjectViews({R.id.btn_bath1, R.id.btn_bath2, R.id.btn_bath3, R.id.btn_bath4})
     List<SearchOptionButton> bathBtns;
 
-    @InjectView(R.id.price_seek)
-    SeekBar priceSeeker;
-    @InjectView(R.id.rent_range)
-    TextView rentRangeTextView;
+    @InjectView(R.id.price_seek) SeekBar priceSeeker;
+    @InjectView(R.id.rent_range) TextView rentRangeTextView;
+    @InjectView(R.id.management_company_spinner) SimpleSpinner managementCompanySpinner;
 
     private SearchPresenter presenter;
 
@@ -68,6 +74,8 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
         });
 
         rememberPreviousSearchSettings();
+        setUpSpinner();
+        retrievePropertyManagers();
 
         return view;
     }
@@ -166,4 +174,43 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
 
         presenter.getRentalOfferings(bundle);
     }
+
+    private void setUpSpinner() {
+        managementCompanySpinner.populate(getActivity(), "Loading...");
+    }
+
+    private void retrievePropertyManagers() {
+        GlobalFunctions.getApiCall(getActivity(), ApiManager.propertyManagersUrl(), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+            }
+
+            @Override
+            public void onSuccess(String content) {
+                super.onSuccess(content);
+                PropertyManagerRoot propertyManagerRoot = new Gson().fromJson(content, PropertyManagerRoot.class);
+
+                List<String> propertyNames = new ArrayList<>();
+                propertyNames.add("");
+                for (PropertyManager property : propertyManagerRoot.property_managers) {
+                    propertyNames.add(property.name);
+                }
+
+                managementCompanySpinner.populate(getActivity(), propertyNames);
+            }
+
+            @Override
+            public void onFailure(Throwable ex, String failureResponse) {
+                super.onFailure(ex, failureResponse);
+                managementCompanySpinner.populate(getActivity(), "");
+            }
+        });
+    }
+
 }

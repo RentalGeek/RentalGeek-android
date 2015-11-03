@@ -105,53 +105,53 @@ public class ActivityRegistration extends GeekBaseActivity implements Validation
         params.put("user[confirm_password]", c);
 
         GlobalFunctions.postApiCall(this, ApiManager.regis_link, params, AppPreferences.getAuthToken(),
-                new GeekHttpResponseHandler() {
-                    @Override
-                    public void onStart() {
-                        showProgressDialog(R.string.dialog_msg_loading);
-                    }
+            new GeekHttpResponseHandler() {
+                @Override
+                public void onStart() {
+                    showProgressDialog(R.string.dialog_msg_loading);
+                }
 
-                    @Override
-                    public void onFinish() {
-                        hideProgressDialog();
-                    }
+                @Override
+                public void onFinish() {
+                    hideProgressDialog();
+                }
 
-                    @Override
-                    public void onSuccess(String content) {
-                        LoginBackend detail = null;
-                        try {
-                            detail = (new Gson()).fromJson(content.toString(), LoginBackend.class);
+                @Override
+                public void onSuccess(String content) {
+                    LoginBackend detail = null;
+                    try {
+                        detail = (new Gson()).fromJson(content, LoginBackend.class);
 
-                            if (detail != null && detail.user != null) {
+                        if (detail != null && detail.user != null) {
 
-                                if (detail.profiles == null) {
-                                    detail.profiles = new ArrayList<Profile>();
-                                }
-
-                                SessionManager.Instance.onUserLoggedIn(detail);
-
-                                Navigation.navigateActivity(activity, ActivityHome.class, true);
-
-                            } else if (detail.error != null && !ListUtils.isNullOrEmpty(detail.error)) {
-                                toast(detail.error.get(0).toString());
+                            if (detail.profiles == null) {
+                                detail.profiles = new ArrayList<Profile>();
                             }
 
-                        } catch (Exception e) {
-                            AppLogger.log(TAG, e);
-                            if (detail != null && !ListUtils.isNullOrEmpty(detail.error))
-                                toast(detail.error.get(0).toString());
-                            else
-                                toast("No Connection");
+                            SessionManager.Instance.onUserLoggedIn(detail);
+
+                            Navigation.navigateActivity(activity, ActivityHome.class, true);
+
+                        } else if (detail != null && detail.error != null && !ListUtils.isNullOrEmpty(detail.error)) {
+                            OkAlert.show(ActivityRegistration.this, "Error", detail.error.get(0));
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Throwable ex, String failureResponse) {
-                        super.onFailure(ex, failureResponse);
-                        DialogManager.showCrouton(activity, failureResponse);
+                    } catch (Exception e) {
+                        AppLogger.log(TAG, e);
+                        if (detail != null && !ListUtils.isNullOrEmpty(detail.error))
+                            toast(detail.error.get(0));
+                        else
+                            toast("No Connection");
                     }
+                }
 
-                });
+                @Override
+                public void onFailure(Throwable ex, String failureResponse) {
+                    super.onFailure(ex, failureResponse);
+                    DialogManager.showCrouton(activity, failureResponse);
+                }
+
+            });
     }
 
     public boolean isValidEmailAddress(String email) {
@@ -163,7 +163,6 @@ public class ActivityRegistration extends GeekBaseActivity implements Validation
 
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
-
         String message = failedRule.getFailureMessage();
         if (failedView instanceof EditText) {
             failedView.requestFocus();
@@ -186,8 +185,7 @@ public class ActivityRegistration extends GeekBaseActivity implements Validation
 
     @OnClick(R.id.terms_text)
     public void infoclick1() {
-        final Dialog dialog = new Dialog(ActivityRegistration.this,
-                R.style.MyDialogInner);
+        final Dialog dialog = new Dialog(ActivityRegistration.this, R.style.MyDialogInner);
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.terms_dialog);
@@ -199,7 +197,6 @@ public class ActivityRegistration extends GeekBaseActivity implements Validation
         wv.loadUrl("file:///android_asset/terms.html");
 
         close.setOnClickListener(new OnClickListener() {
-
             @Override
             public void onClick(View v) {
 

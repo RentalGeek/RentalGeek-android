@@ -37,6 +37,7 @@ public class SearchPresenter implements Presenter {
             List<String> bedValues = bundle.getStringArrayList("BED_VALUES");
             List<String> bathValues = bundle.getStringArrayList("BATH_VALUES");
             int maxPrice = bundle.getInt("MAX_PRICE");
+            int managementCompanyId = bundle.getInt("MANAGEMENT_COMPANY_ID");
 
             if (bedValues != null) {
                 parameters.append("&search[bedroom]=");
@@ -53,7 +54,6 @@ public class SearchPresenter implements Presenter {
             }
 
             if (bathValues != null) {
-
                 parameters.append("&search[bathroom]=");
 
                 final int count = bathValues.size();
@@ -65,6 +65,11 @@ public class SearchPresenter implements Presenter {
                         parameters.append(bathValues.get(i) + " ");
                     }
                 }
+            }
+
+            if (managementCompanyId != 0) {
+                parameters.append("&search[property_manager_id]=");
+                parameters.append(managementCompanyId);
             }
 
             parameters.append("&search[maxPrice]=");

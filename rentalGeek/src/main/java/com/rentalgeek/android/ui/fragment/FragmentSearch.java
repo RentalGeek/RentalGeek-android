@@ -16,6 +16,7 @@ import com.rentalgeek.android.mvp.search.SearchPresenter;
 import com.rentalgeek.android.mvp.search.SearchView;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.storage.PropertyManagementCache;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.ui.view.SearchOptionButton;
 import com.rentalgeek.android.ui.view.SimpleSpinner;
@@ -41,6 +42,7 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
     @InjectView(R.id.management_company_spinner) SimpleSpinner managementCompanySpinner;
 
     private SearchPresenter presenter;
+    private static final String LOADING_TEXT = "Loading...";
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -75,7 +77,6 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
 
         rememberPreviousSearchSettings();
         setUpSpinner();
-        retrievePropertyManagers();
 
         return view;
     }
@@ -167,6 +168,14 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
             bundle.putStringArrayList("BATH_VALUES", bathValues);
         }
 
+        String selectedPropertyManagementCompany = managementCompanySpinner.getSelectedItem().toString();
+        if (!selectedPropertyManagementCompany.equals("") && !selectedPropertyManagementCompany.equals(LOADING_TEXT)) {
+            int selectedPropertyId = PropertyManagementCache.INSTANCE.getIdFromName(selectedPropertyManagementCompany);
+            if (selectedPropertyId != PropertyManagementCache.ID_NOT_FOUND) {
+                bundle.putInt("MANAGEMENT_COMPANY_ID", selectedPropertyId);
+            }
+        }
+
         bundle.putInt("MAX_PRICE", priceSeeker.getProgress());
         AppPreferences.putSearchMaxPrice(priceSeeker.getProgress());
         bathIds.addAll(bedIds);
@@ -176,10 +185,16 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
     }
 
     private void setUpSpinner() {
-        managementCompanySpinner.populate(getActivity(), "Loading...");
+        managementCompanySpinner.populate(getActivity(), LOADING_TEXT);
+
+        if (PropertyManagementCache.INSTANCE.propertyManagers == null) {
+            retrievePropertyManagersFromBackend();
+        } else {
+            populateFromPropertyManagers(PropertyManagementCache.INSTANCE.propertyManagers);
+        }
     }
 
-    private void retrievePropertyManagers() {
+    private void retrievePropertyManagersFromBackend() {
         GlobalFunctions.getApiCall(getActivity(), ApiManager.propertyManagersUrl(), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
             @Override
             public void onStart() {
@@ -195,14 +210,8 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
             public void onSuccess(String content) {
                 super.onSuccess(content);
                 PropertyManagerRoot propertyManagerRoot = new Gson().fromJson(content, PropertyManagerRoot.class);
-
-                List<String> propertyNames = new ArrayList<>();
-                propertyNames.add("");
-                for (PropertyManager property : propertyManagerRoot.property_managers) {
-                    propertyNames.add(property.name);
-                }
-
-                managementCompanySpinner.populate(getActivity(), propertyNames);
+                populateFromPropertyManagers(propertyManagerRoot.property_managers);
+                PropertyManagementCache.INSTANCE.propertyManagers = propertyManagerRoot.property_managers;
             }
 
             @Override
@@ -211,6 +220,16 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
                 managementCompanySpinner.populate(getActivity(), "");
             }
         });
+    }
+
+    private void populateFromPropertyManagers(ArrayList<PropertyManager> propertyManagers) {
+        List<String> propertyNames = new ArrayList<>();
+        propertyNames.add("");
+        for (PropertyManager property : propertyManagers) {
+            propertyNames.add(property.name);
+        }
+
+        managementCompanySpinner.populate(getActivity(), propertyNames);
     }
 
 }

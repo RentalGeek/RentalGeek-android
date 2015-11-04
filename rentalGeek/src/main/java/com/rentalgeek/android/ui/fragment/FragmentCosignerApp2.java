@@ -5,10 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 
 import com.loopj.android.http.RequestParams;
 import com.rentalgeek.android.R;
@@ -18,6 +16,7 @@ import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.activity.ActivityCosignerApp3;
 import com.rentalgeek.android.ui.preference.AppPreferences;
+import com.rentalgeek.android.ui.view.SimpleSpinner;
 import com.rentalgeek.android.utils.OkAlert;
 import com.rentalgeek.android.utils.ResponseParser;
 
@@ -28,18 +27,12 @@ import info.hoang8f.android.segmented.SegmentedGroup;
 
 public class FragmentCosignerApp2 extends GeekBaseFragment {
 
-    @InjectView(R.id.address_edittext)
-    EditText addressEditText;
-    @InjectView(R.id.city_edittext)
-    EditText cityEditText;
-    @InjectView(R.id.state_spinner)
-    Spinner stateSpinner;
-    @InjectView(R.id.zip_edittext)
-    EditText zipEditText;
-    @InjectView(R.id.own_or_rent_segment)
-    SegmentedGroup ownOrRentSegment;
-    @InjectView(R.id.monthly_payment_edittext)
-    EditText monthlyPaymentEditText;
+    @InjectView(R.id.address_edittext) EditText addressEditText;
+    @InjectView(R.id.city_edittext) EditText cityEditText;
+    @InjectView(R.id.state_spinner) SimpleSpinner stateSpinner;
+    @InjectView(R.id.zip_edittext) EditText zipEditText;
+    @InjectView(R.id.own_or_rent_segment) SegmentedGroup ownOrRentSegment;
+    @InjectView(R.id.monthly_payment_edittext) EditText monthlyPaymentEditText;
 
     private String address;
     private String city;
@@ -164,9 +157,7 @@ public class FragmentCosignerApp2 extends GeekBaseFragment {
     }
 
     private void setUpSpinners() {
-        ArrayAdapter<CharSequence> stateAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.state_array, android.R.layout.simple_spinner_item);
-        stateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        stateSpinner.setAdapter(stateAdapter);
+        stateSpinner.populate(getActivity(), R.array.state_array);
     }
 
 }

@@ -26,16 +26,11 @@ import info.hoang8f.android.segmented.SegmentedGroup;
 
 public class FragmentCosignerApp3 extends GeekBaseFragment {
 
-    @InjectView(R.id.lost_court_segment)
-    SegmentedGroup lostCourtSegment;
-    @InjectView(R.id.lawsuit_segment)
-    SegmentedGroup lawsuitSegment;
-    @InjectView(R.id.foreclosed_segment)
-    SegmentedGroup foreclosedSegment;
-    @InjectView(R.id.bankruptcy_segment)
-    SegmentedGroup bankruptcySegment;
-    @InjectView(R.id.felon_segment)
-    SegmentedGroup felonSegment;
+    @InjectView(R.id.lost_court_segment) SegmentedGroup lostCourtSegment;
+    @InjectView(R.id.lawsuit_segment) SegmentedGroup lawsuitSegment;
+    @InjectView(R.id.foreclosed_segment) SegmentedGroup foreclosedSegment;
+    @InjectView(R.id.bankruptcy_segment) SegmentedGroup bankruptcySegment;
+    @InjectView(R.id.felon_segment) SegmentedGroup felonSegment;
 
     private YesNoAnswer lostCourt = new YesNoAnswer();
     private YesNoAnswer lawsuit = new YesNoAnswer();

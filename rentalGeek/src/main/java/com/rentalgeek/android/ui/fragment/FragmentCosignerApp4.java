@@ -4,9 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.Spinner;
 
 import com.loopj.android.http.RequestParams;
 import com.rentalgeek.android.R;
@@ -15,6 +13,7 @@ import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.preference.AppPreferences;
+import com.rentalgeek.android.ui.view.SimpleSpinner;
 import com.rentalgeek.android.utils.CosignerDestinationLogic;
 import com.rentalgeek.android.utils.OkAlert;
 import com.rentalgeek.android.utils.Request;
@@ -26,14 +25,10 @@ import butterknife.OnClick;
 
 public class FragmentCosignerApp4 extends GeekBaseFragment {
 
-    @InjectView(R.id.employer_edittext)
-    EditText employerEditText;
-    @InjectView(R.id.position_edittext)
-    EditText positionEditText;
-    @InjectView(R.id.income_edittext)
-    EditText incomeEditText;
-    @InjectView(R.id.cover_rent_spinner)
-    Spinner coverRentSpinner;
+    @InjectView(R.id.employer_edittext) EditText employerEditText;
+    @InjectView(R.id.position_edittext) EditText positionEditText;
+    @InjectView(R.id.income_edittext) EditText incomeEditText;
+    @InjectView(R.id.cover_rent_spinner) SimpleSpinner coverRentSpinner;
 
     private String employer;
     private String position;
@@ -122,9 +117,7 @@ public class FragmentCosignerApp4 extends GeekBaseFragment {
     }
 
     private void setUpSpinners() {
-        ArrayAdapter<CharSequence> coverRentAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.cover_rent_array, android.R.layout.simple_spinner_item);
-        coverRentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        coverRentSpinner.setAdapter(coverRentAdapter);
+        coverRentSpinner.populate(getActivity(), R.array.cover_rent_array);
     }
 
 }

@@ -100,7 +100,7 @@
                     android:orientation="vertical"
                     android:background="@drawable/thin_border" >
 
-                    <Spinner
+                    <com.rentalgeek.android.ui.view.SimpleSpinner
                         android:id="@+id/month_spinner"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -117,7 +117,7 @@
                     android:orientation="vertical"
                     android:background="@drawable/thin_border">
 
-                    <Spinner
+                    <com.rentalgeek.android.ui.view.SimpleSpinner
                         android:id="@+id/day_spinner"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -176,7 +176,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/thin_border">
 
-                <Spinner
+                <com.rentalgeek.android.ui.view.SimpleSpinner
                     android:id="@+id/marital_status_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

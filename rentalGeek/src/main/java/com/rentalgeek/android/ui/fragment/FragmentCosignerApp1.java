@@ -8,9 +8,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.Spinner;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
@@ -22,6 +20,7 @@ import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.activity.ActivityCosignerApp2;
 import com.rentalgeek.android.ui.preference.AppPreferences;
+import com.rentalgeek.android.ui.view.SimpleSpinner;
 import com.rentalgeek.android.utils.DateUtils;
 import com.rentalgeek.android.utils.OkAlert;
 import com.rentalgeek.android.utils.ResponseParser;
@@ -34,11 +33,11 @@ public class FragmentCosignerApp1 extends GeekBaseFragment {
 
     @InjectView(R.id.first_name_edittext) EditText firstNameEditText;
     @InjectView(R.id.last_name_edittext) EditText lastNameEditText;
-    @InjectView(R.id.month_spinner) Spinner monthSpinner;
-    @InjectView(R.id.day_spinner) Spinner daySpinner;
+    @InjectView(R.id.month_spinner) SimpleSpinner monthSpinner;
+    @InjectView(R.id.day_spinner) SimpleSpinner daySpinner;
     @InjectView(R.id.year_edittext) EditText yearEditText;
     @InjectView(R.id.ssn_edittext) EditText ssnEditText;
-    @InjectView(R.id.marital_status_spinner) Spinner maritalStatusSpinner;
+    @InjectView(R.id.marital_status_spinner) SimpleSpinner maritalStatusSpinner;
     @InjectView(R.id.phone_number_edittext) EditText phoneNumberEditText;
 
     private String firstName;
@@ -196,17 +195,9 @@ public class FragmentCosignerApp1 extends GeekBaseFragment {
     }
 
     private void setUpSpinners() {
-        ArrayAdapter<CharSequence> monthAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.months_array, android.R.layout.simple_spinner_item);
-        monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        monthSpinner.setAdapter(monthAdapter);
-
-        ArrayAdapter<CharSequence> dayAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.days_array, android.R.layout.simple_spinner_item);
-        dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        daySpinner.setAdapter(dayAdapter);
-
-        ArrayAdapter<CharSequence> maritalStatusAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.marital_status_array, android.R.layout.simple_spinner_item);
-        maritalStatusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        maritalStatusSpinner.setAdapter(maritalStatusAdapter);
+        monthSpinner.populate(getActivity(), R.array.months_array);
+        daySpinner.populate(getActivity(), R.array.days_array);
+        maritalStatusSpinner.populate(getActivity(), R.array.marital_status_array);
     }
 
 }

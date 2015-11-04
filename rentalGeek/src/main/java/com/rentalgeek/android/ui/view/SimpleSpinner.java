@@ -30,4 +30,10 @@ public class SimpleSpinner extends Spinner {
         this.setAdapter(adapter);
     }
 
+    public void populate(Context context, int textArrayResId) {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context, textArrayResId, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        this.setAdapter(adapter);
+    }
+
 }

@@ -75,8 +75,8 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
             }
         });
 
-        rememberPreviousSearchSettings();
         setUpSpinner();
+        rememberPreviousSearchSettings();
 
         return view;
     }
@@ -101,6 +101,16 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
                     break;
                 }
             }
+        }
+
+        restorePreviousManagementCompanySelection();
+    }
+
+    private void restorePreviousManagementCompanySelection() {
+        String currentlySelectedSpinnerItem = managementCompanySpinner.getSelectedItem().toString();
+        if (!currentlySelectedSpinnerItem.equals(LOADING_TEXT)) {
+            int indexToSelect = AppPreferences.getManagementCompanySelectionIndex();
+            managementCompanySpinner.setSelection(indexToSelect);
         }
     }
 
@@ -134,6 +144,8 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
         for (SearchOptionButton button : bathBtns) {
             button.reset();
         }
+
+        managementCompanySpinner.setSelection(0);
     }
 
     @OnClick(R.id.search_submit)
@@ -180,6 +192,7 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
         AppPreferences.putSearchMaxPrice(priceSeeker.getProgress());
         bathIds.addAll(bedIds);
         AppPreferences.putSelectedSearchButtons(bathIds);
+        AppPreferences.putManagementCompanySelectionIndex(managementCompanySpinner.getSelectedItemPosition());
 
         presenter.getRentalOfferings(bundle);
     }

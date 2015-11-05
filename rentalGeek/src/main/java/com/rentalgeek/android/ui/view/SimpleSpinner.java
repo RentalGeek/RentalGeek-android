@@ -1,6 +1,7 @@
 package com.rentalgeek.android.ui.view;
 
 import android.content.Context;
+import android.support.annotation.ArrayRes;
 import android.util.AttributeSet;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -30,7 +31,7 @@ public class SimpleSpinner extends Spinner {
         this.setAdapter(adapter);
     }
 
-    public void populate(Context context, int textArrayResId) {
+    public void populate(Context context, @ArrayRes int textArrayResId) {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context, textArrayResId, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         this.setAdapter(adapter);

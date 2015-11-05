@@ -5,9 +5,6 @@ import android.os.Bundle;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.ui.fragment.FragmentViewLease;
 
-/**
- * Created by rajohns on 9/30/15.
- */
 public class ActivityViewLease extends GeekBaseActivity {
 
     public ActivityViewLease() {

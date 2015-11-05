@@ -31,10 +31,8 @@ public class FragmentSignLease extends GeekBaseFragment {
 
     private String requestingFragment;
 
-    @InjectView(R.id.web_view)
-    WebView webView;
-    @InjectView(R.id.error_text_view)
-    TextView errorTextView;
+    @InjectView(R.id.web_view) WebView webView;
+    @InjectView(R.id.error_text_view) TextView errorTextView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -37,30 +37,21 @@ import butterknife.OnClick;
 
 public class FragmentRental extends GeekBaseFragment implements RentalView, StarView {
 
-    @InjectView(R.id.price)
-    TextView price_textview;
-    @InjectView(R.id.rental_image)
-    ImageView rental_imageview;
-    @InjectView(R.id.room_count)
-    TextView room_count_textview;
-    @InjectView(R.id.address)
-    TextView address_textview;
-    @InjectView(R.id.star_image)
-    ImageView star_imageview;
-    @InjectView(R.id.description)
-    TextView description_textview;
-    @InjectView(R.id.amenities)
-    TextView amenities_textview;
-    @InjectView(R.id.apply_btn)
-    Button apply_btn;
-    @InjectView(R.id.property_photo_gallery)
-    LinearLayout propertyPhotoGallery;
-    @InjectView(R.id.view_below_image)
-    LinearLayout viewBelowImage;
+    @InjectView(R.id.price) TextView price_textview;
+    @InjectView(R.id.rental_image) ImageView rental_imageview;
+    @InjectView(R.id.room_count) TextView room_count_textview;
+    @InjectView(R.id.address) TextView address_textview;
+    @InjectView(R.id.star_image) ImageView star_imageview;
+    @InjectView(R.id.description) TextView description_textview;
+    @InjectView(R.id.amenities) TextView amenities_textview;
+    @InjectView(R.id.apply_btn) Button apply_btn;
+    @InjectView(R.id.property_photo_gallery) LinearLayout propertyPhotoGallery;
+    @InjectView(R.id.view_below_image) LinearLayout viewBelowImage;
 
     private RentalPresenter presenter;
     private boolean fullView = false;
     private String rental_id;
+    private final ArrayList<String> photoUrls = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -157,14 +148,10 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
         Rental rental = event.getRental();
 
         rental_id = rental.getId();
-
         star_imageview.setTag(rental.getId());
         price_textview.setText(String.format("$%d", rental.getMonthlyRent()));
-
         room_count_textview.setText(String.format("%d BR, %d Bath", rental.getBedroomCount(), rental.getBathroomCount()));
-
         address_textview.setText(String.format("%s\n%s, %s %s", rental.getAddress(), rental.getCity(), rental.getState(), rental.getZipcode()));
-
         description_textview.setText(rental.getDescription());
 
         if (rental.applied()) {
@@ -182,10 +169,9 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
 
         amenities_textview.setText(amenities);
 
-        Picasso
-                .with(getActivity())
-                .load(rental.getImageUrl())
-                .into(rental_imageview);
+        Picasso.with(getActivity())
+            .load(rental.getImageUrl())
+            .into(rental_imageview);
 
         if (rental.isStarred()) {
             selectStar();
@@ -202,8 +188,6 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
         }
 
         ArrayList<PhotoDTO> propertyPhotos = event.getPropertyPhotos();
-
-        final ArrayList<String> photoUrls = new ArrayList<>();
 
         for (PhotoDTO photoDTO : propertyPhotos) {
             photoUrls.add(photoDTO.photo);
@@ -225,10 +209,7 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), ActivityPropertyPhoto.class);
-                    intent.putExtra(ActivityPropertyPhoto.PHOTO_URLS, photoUrls);
-                    intent.putExtra(ActivityPropertyPhoto.ORIGINAL_POSITION, finalI);
-                    getActivity().startActivity(intent);
+                    openPhotoGallery(finalI);
                 }
             });
         }
@@ -240,26 +221,33 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
             Bundle bundle = new Bundle();
             bundle.putString("RENTAL_ID", rental_id);
             AppEventBus.post(new ClickRentalEvent(bundle));
+        } else {
+            openPhotoGallery(0);
         }
+    }
+
+    private void openPhotoGallery(int originalPhotoIndex) {
+        Intent intent = new Intent(getActivity(), ActivityPropertyPhoto.class);
+        intent.putExtra(ActivityPropertyPhoto.PHOTO_URLS, photoUrls);
+        intent.putExtra(ActivityPropertyPhoto.ORIGINAL_POSITION, originalPhotoIndex);
+        getActivity().startActivity(intent);
     }
 
     @Override
     public void selectStar() {
         if (rental_imageview != null) {
-            Picasso
-                    .with(getActivity())
-                    .load(R.drawable.star_full)
-                    .into(star_imageview);
+            Picasso.with(getActivity())
+                .load(R.drawable.star_full)
+                .into(star_imageview);
         }
     }
 
     @Override
     public void unselectStar() {
         if (rental_imageview != null) {
-            Picasso
-                    .with(getActivity())
-                    .load(R.drawable.star_outline)
-                    .into(star_imageview);
+            Picasso.with(getActivity())
+                .load(R.drawable.star_outline)
+                .into(star_imageview);
         }
     }
 

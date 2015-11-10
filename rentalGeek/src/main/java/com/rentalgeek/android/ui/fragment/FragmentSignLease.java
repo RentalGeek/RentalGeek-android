@@ -1,12 +1,12 @@
 package com.rentalgeek.android.ui.fragment;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -81,38 +81,9 @@ public class FragmentSignLease extends GeekBaseFragment {
     }
 
     private void loadSignatureUrl(String signatureUrl) {
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setBuiltInZoomControls(true);
-        webView.getSettings().setLoadWithOverviewMode(true);
-        webView.getSettings().setUseWideViewPort(true);
-        webView.setInitialScale(1);
-
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
-            }
-
-            @Override
-            public void onLoadResource(WebView view, String url) {
-                super.onLoadResource(view, url);
-
-                Log.d("UrlRedirectTag", "" + url);
-
-                if (url.equals("/success")) {
-                    // take back to previous screen
-                    // would also need to reload data so they can't click sign lease again
-                    navigateToNextScreen();
-                }
-
-                if (url.contains("success")) {
-                    Log.d("UrlRedirectTag", "" + url);
-                }
-            }
-        });
-
-        webView.loadUrl(signatureUrl);
+        Uri uri = Uri.parse(signatureUrl);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
     }
 
     private void navigateToNextScreen() {

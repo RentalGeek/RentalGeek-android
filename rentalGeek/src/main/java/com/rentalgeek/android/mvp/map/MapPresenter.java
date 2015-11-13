@@ -86,8 +86,8 @@ public class MapPresenter implements Presenter {
                 }
             })
                     .toList()
-                    .subscribeOn(Schedulers.newThread())//Want to do work on a new thread
-                    .observeOn(AndroidSchedulers.mainThread())//Want to receive results from work on main thread since we're going to tamper UI
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Action1<List<RentalMarker>>() {
                         @Override
                         public void call(List<RentalMarker> markers) {

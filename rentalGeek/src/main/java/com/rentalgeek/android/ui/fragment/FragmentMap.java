@@ -1,6 +1,7 @@
 package com.rentalgeek.android.ui.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
+import com.google.maps.android.clustering.Cluster;
+import com.google.maps.android.clustering.ClusterManager;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.bus.AppEventBus;
@@ -36,6 +39,7 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
     private static final String TAG = "FragmentMap";
 
     private GoogleMap map;
+    private ClusterManager<RentalMarker> clusterManager;
     private MapPresenter presenter;
     private RentalView rentalView;
 
@@ -69,16 +73,54 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
     @Override
     public void onMapReady(final GoogleMap map) {
         this.map = map;
-        this.map.setOnMarkerClickListener(this);
+//        this.map.setOnMarkerClickListener(this);
         this.map.setOnMapClickListener(this);
+        setUpClusterer();
     }
+
+    private void setUpClusterer() {
+//        this.map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(51.503186, -0.126446), 10));
+        clusterManager = new ClusterManager<>(getActivity(), this.map);
+        this.map.setOnCameraChangeListener(clusterManager);
+        this.map.setOnMarkerClickListener(clusterManager);
+        clusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<RentalMarker>() {
+            @Override
+            public boolean onClusterClick(Cluster<RentalMarker> cluster) {
+                Log.d("tag", "cluster clicked");
+                return false;
+            }
+        });
+        clusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<RentalMarker>() {
+            @Override
+            public boolean onClusterItemClick(RentalMarker rentalMarker) {
+                Log.d("tag", "item clicked");
+                return false;
+            }
+        });
+//        addItems();
+    }
+
+//    private void addItems() {
+//        // Set some lat/lng coordinates to start with.
+//        double lat = 51.5145160;
+//        double lng = -0.1270060;
+//
+//        // Add ten cluster items in close proximity, for purposes of this example.
+//        for (int i = 0; i < 10; i++) {
+//            double offset = i / 60d;
+//            lat = lat + offset;
+//            lng = lng + offset;
+//            RentalItem offsetItem = new RentalItem(lat, lng);
+//            clusterManager.addItem(offsetItem);
+//        }
+//    }
 
     @Override
     public void setRentals(Rental[] rentals) {
         if (map != null) {
-            map.clear();
-            markers.clear();
-            markerRentalMap.clear();
+//            map.clear();
+//            markers.clear();
+//            markerRentalMap.clear();
             presenter.addRentals(rentals);
         }
     }
@@ -132,15 +174,17 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
     }
 
     public void onEventMainThread(AddMarkersEvent event) {
+//        addItems();
         if (event.getMarkers() != null) {
             if (map != null) {
                 for (RentalMarker rentalMarker : event.getMarkers()) {
                     Marker mapMarker = map.addMarker(rentalMarker.getMarker());
-                    markerRentalMap.put(mapMarker.getId(), rentalMarker.getRental().getId());
-                    markers.add(mapMarker);
+                    clusterManager.addItem(rentalMarker);
+//                    markerRentalMap.put(mapMarker.getId(), rentalMarker.getRental().getId());
+//                    markers.add(mapMarker);
                 }
 
-                boundbox();
+//                boundbox();
                 hideProgressDialog();
             }
         }

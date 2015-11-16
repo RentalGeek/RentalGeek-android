@@ -1,7 +1,6 @@
 package com.rentalgeek.android.ui.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,13 +8,11 @@ import android.view.ViewGroup;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
-import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.RentalGeekApplication;
@@ -30,11 +27,10 @@ import com.rentalgeek.android.mvp.map.MapView;
 import com.rentalgeek.android.mvp.rental.RentalView;
 import com.rentalgeek.android.pojos.Rental;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback, MapView, OnMarkerClickListener, OnMapClickListener {
+public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback, MapView, OnMapClickListener, ClusterManager.OnClusterItemClickListener<RentalMarker> {
 
     private static final String TAG = "FragmentMap";
 
@@ -50,12 +46,35 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
      * hashmap to see which rental to show.
      */
 
-    private HashMap<String, String> markerRentalMap = new HashMap<String, String>();
+//    private HashMap<String, String> markerRentalMap = new HashMap<String, String>();
 
     /*
      * Since Google doesnt let us iterate through markers...
      */
     private List<Marker> markers = new LinkedList<Marker>();
+
+    @Override
+    public boolean onClusterItemClick(RentalMarker rentalMarker) {
+//        String marker_id = marker.getId();
+        String rental_id = rentalMarker.getRental().getId();// markerRentalMap.get(marker_id);
+
+        presenter.getRental(rental_id);
+
+        return true;
+    }
+
+    // Used for clustering
+//    private class RentalRenderer extends DefaultClusterRenderer<RentalMarker> {
+//        public RentalRenderer() {
+//            super(getActivity().getApplicationContext(), map, clusterManager);
+//        }
+//
+//        @Override
+//        protected void onClusterItemRendered(RentalMarker rentalMarker, Marker marker) {
+//            super.onClusterItemRendered(rentalMarker, marker);
+//            markerRentalMap.put(marker.getId(), rentalMarker.getRental().getId());
+//        }
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -81,22 +100,10 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
     private void setUpClusterer() {
 //        this.map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(51.503186, -0.126446), 10));
         clusterManager = new ClusterManager<>(getActivity(), this.map);
+//        clusterManager.setRenderer(new RentalRenderer());
         this.map.setOnCameraChangeListener(clusterManager);
         this.map.setOnMarkerClickListener(clusterManager);
-        clusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<RentalMarker>() {
-            @Override
-            public boolean onClusterClick(Cluster<RentalMarker> cluster) {
-                Log.d("tag", "cluster clicked");
-                return false;
-            }
-        });
-        clusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<RentalMarker>() {
-            @Override
-            public boolean onClusterItemClick(RentalMarker rentalMarker) {
-                Log.d("tag", "item clicked");
-                return false;
-            }
-        });
+        clusterManager.setOnClusterItemClickListener(this);
 //        addItems();
     }
 
@@ -144,15 +151,15 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), zoom));
     }
 
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-        String marker_id = marker.getId();
-        String rental_id = markerRentalMap.get(marker_id);
-
-        presenter.getRental(rental_id);
-
-        return true;
-    }
+//    @Override
+//    public boolean onMarkerClick(Marker marker) {
+//        String marker_id = marker.getId();
+//        String rental_id = markerRentalMap.get(marker_id);
+//
+//        presenter.getRental(rental_id);
+//
+//        return true;
+//    }
 
     @Override
     public void onMapClick(LatLng position) {
@@ -178,7 +185,7 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
         if (event.getMarkers() != null) {
             if (map != null) {
                 for (RentalMarker rentalMarker : event.getMarkers()) {
-                    Marker mapMarker = map.addMarker(rentalMarker.getMarker());
+//                    Marker mapMarker = map.addMarker(rentalMarker.getMarker());
                     clusterManager.addItem(rentalMarker);
 //                    markerRentalMap.put(mapMarker.getId(), rentalMarker.getRental().getId());
 //                    markers.add(mapMarker);

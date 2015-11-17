@@ -40,41 +40,9 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
     private RentalView rentalView;
 
     /*
-     * Need this for onClick of marker...since google made Marker class final and can not be extended....dumb
-     * Idea is to use the auto generated marker Id as an association with the
-     * rental id of a property. When clicking on a marker, reference this
-     * hashmap to see which rental to show.
-     */
-
-//    private HashMap<String, String> markerRentalMap = new HashMap<String, String>();
-
-    /*
      * Since Google doesnt let us iterate through markers...
      */
     private List<Marker> markers = new LinkedList<Marker>();
-
-    @Override
-    public boolean onClusterItemClick(RentalMarker rentalMarker) {
-//        String marker_id = marker.getId();
-        String rental_id = rentalMarker.getRental().getId();// markerRentalMap.get(marker_id);
-
-        presenter.getRental(rental_id);
-
-        return true;
-    }
-
-    // Used for clustering
-//    private class RentalRenderer extends DefaultClusterRenderer<RentalMarker> {
-//        public RentalRenderer() {
-//            super(getActivity().getApplicationContext(), map, clusterManager);
-//        }
-//
-//        @Override
-//        protected void onClusterItemRendered(RentalMarker rentalMarker, Marker marker) {
-//            super.onClusterItemRendered(rentalMarker, marker);
-//            markerRentalMap.put(marker.getId(), rentalMarker.getRental().getId());
-//        }
-//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -133,10 +101,14 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
     }
 
     @Override
-    public void boundbox() {
+    public void boundbox(List<RentalMarker> markers) {
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
-        for (Marker marker : markers) {
+//        for (Marker marker : markers) {
+//            builder.include(marker.getPosition());
+//        }
+
+        for (RentalMarker marker : markers) {
             builder.include(marker.getPosition());
         }
 
@@ -148,7 +120,7 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
 
     @Override
     public void zoomTo(double latitude, double longitude, int zoom) {
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), zoom));
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude-0.002, longitude), zoom));
     }
 
 //    @Override
@@ -165,6 +137,25 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
     public void onMapClick(LatLng position) {
         rentalView.hide();
     }
+
+    @Override
+    public boolean onClusterItemClick(RentalMarker rentalMarker) {
+        String rental_id = rentalMarker.getRental().getId();
+        presenter.getRental(rental_id);
+        return true;
+    }
+
+    // Used for clustering for custom markers
+//    private class RentalRenderer extends DefaultClusterRenderer<RentalMarker> {
+//        public RentalRenderer() {
+//            super(getActivity().getApplicationContext(), map, clusterManager);
+//        }
+//
+//        @Override
+//        protected void onClusterItemRendered(RentalMarker rentalMarker, Marker marker) {
+//            super.onClusterItemRendered(rentalMarker, marker);
+//        }
+//    }
 
     public void onEventMainThread(SetRentalsEvent event) {
         if (event.getRentals() != null) {
@@ -191,7 +182,7 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
 //                    markers.add(mapMarker);
                 }
 
-//                boundbox();
+                boundbox(event.getMarkers());
                 hideProgressDialog();
             }
         }

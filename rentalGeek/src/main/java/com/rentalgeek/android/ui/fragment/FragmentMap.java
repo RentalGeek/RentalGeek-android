@@ -12,7 +12,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
 import com.google.maps.android.clustering.ClusterManager;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.RentalGeekApplication;
@@ -27,22 +26,14 @@ import com.rentalgeek.android.mvp.map.MapView;
 import com.rentalgeek.android.mvp.rental.RentalView;
 import com.rentalgeek.android.pojos.Rental;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback, MapView, OnMapClickListener, ClusterManager.OnClusterItemClickListener<RentalMarker> {
-
-    private static final String TAG = "FragmentMap";
 
     private GoogleMap map;
     private ClusterManager<RentalMarker> clusterManager;
     private MapPresenter presenter;
     private RentalView rentalView;
-
-    /*
-     * Since Google doesnt let us iterate through markers...
-     */
-    private List<Marker> markers = new LinkedList<Marker>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,35 +51,18 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
     @Override
     public void onMapReady(final GoogleMap map) {
         this.map = map;
-//        this.map.setOnMarkerClickListener(this);
         this.map.setOnMapClickListener(this);
         setUpClusterer();
     }
 
     private void setUpClusterer() {
-//        this.map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(51.503186, -0.126446), 10));
+        this.map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(38, 263), 3.0f));
         clusterManager = new ClusterManager<>(getActivity(), this.map);
 //        clusterManager.setRenderer(new RentalRenderer());
         this.map.setOnCameraChangeListener(clusterManager);
         this.map.setOnMarkerClickListener(clusterManager);
         clusterManager.setOnClusterItemClickListener(this);
-//        addItems();
     }
-
-//    private void addItems() {
-//        // Set some lat/lng coordinates to start with.
-//        double lat = 51.5145160;
-//        double lng = -0.1270060;
-//
-//        // Add ten cluster items in close proximity, for purposes of this example.
-//        for (int i = 0; i < 10; i++) {
-//            double offset = i / 60d;
-//            lat = lat + offset;
-//            lng = lng + offset;
-//            RentalItem offsetItem = new RentalItem(lat, lng);
-//            clusterManager.addItem(offsetItem);
-//        }
-//    }
 
     @Override
     public void setRentals(Rental[] rentals) {
@@ -104,10 +78,6 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
     public void boundbox(List<RentalMarker> markers) {
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
-//        for (Marker marker : markers) {
-//            builder.include(marker.getPosition());
-//        }
-
         for (RentalMarker marker : markers) {
             builder.include(marker.getPosition());
         }
@@ -122,16 +92,6 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
     public void zoomTo(double latitude, double longitude, int zoom) {
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude-0.002, longitude), zoom));
     }
-
-//    @Override
-//    public boolean onMarkerClick(Marker marker) {
-//        String marker_id = marker.getId();
-//        String rental_id = markerRentalMap.get(marker_id);
-//
-//        presenter.getRental(rental_id);
-//
-//        return true;
-//    }
 
     @Override
     public void onMapClick(LatLng position) {
@@ -172,14 +132,10 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
     }
 
     public void onEventMainThread(AddMarkersEvent event) {
-//        addItems();
         if (event.getMarkers() != null) {
             if (map != null) {
                 for (RentalMarker rentalMarker : event.getMarkers()) {
-//                    Marker mapMarker = map.addMarker(rentalMarker.getMarker());
                     clusterManager.addItem(rentalMarker);
-//                    markerRentalMap.put(mapMarker.getId(), rentalMarker.getRental().getId());
-//                    markers.add(mapMarker);
                 }
 
                 boundbox(event.getMarkers());

@@ -40,7 +40,7 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
         View view = inflater.inflate(R.layout.map, container, false);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);//Waits until map is available for us to use
+        mapFragment.getMapAsync(this);
 
         rentalView = (RentalView) getChildFragmentManager().findFragmentById(R.id.rental);
         presenter = new MapPresenter();
@@ -105,7 +105,7 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
         return true;
     }
 
-    // Used for clustering for custom markers
+////     Used for clustering for custom markers
 //    private class RentalRenderer extends DefaultClusterRenderer<RentalMarker> {
 //        public RentalRenderer() {
 //            super(getActivity().getApplicationContext(), map, clusterManager);

@@ -1,9 +1,12 @@
 package com.rentalgeek.android.ui.fragment;
 
+import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -34,6 +37,9 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
     private ClusterManager<RentalMarker> clusterManager;
     private MapPresenter presenter;
     private RentalView rentalView;
+    private DecelerateInterpolator decelerateInterpolator = new DecelerateInterpolator();
+    private AccelerateInterpolator accelerateInterpolator = new AccelerateInterpolator();
+    private boolean mapPaddingIsAdjusted = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -83,18 +89,61 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
         }
 
         int width = RentalGeekApplication.getScreenWidth();
+        int height = RentalGeekApplication.getScreenHeight();
         int mapPadding = (int) RentalGeekApplication.getDimension(R.dimen.map_padding);
 
-        map.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), width, width, mapPadding));
+        map.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), width, height, mapPadding));
     }
 
     @Override
     public void zoomTo(double latitude, double longitude, int zoom) {
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude-0.002, longitude), zoom));
+        final int bottomPreviewHeight = (int)getActivity().getResources().getDimension(R.dimen.img_height);
+
+        // Have to jump through some hoops here with setting the padding to make sure the animateCamera
+        // call has desired padding at its beginning
+        map.setPadding(0, 0, 0, bottomPreviewHeight);
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), zoom));
+
+        if (!mapPaddingIsAdjusted) {
+            map.setPadding(0, 0, 0, 0);
+            animateMapPadding(0, bottomPreviewHeight);
+        }
+    }
+
+    private void animateMapPadding(int startingBottomPadding, int endingBottomPadding) {
+        ValueAnimator animator = ValueAnimator.ofInt(startingBottomPadding, endingBottomPadding);
+        final int animationTime = getActivity().getResources().getInteger(android.R.integer.config_mediumAnimTime);
+        animator.setDuration(animationTime);
+
+        if (movingUp(startingBottomPadding, endingBottomPadding)) {
+            mapPaddingIsAdjusted = true;
+            animator.setInterpolator(decelerateInterpolator);
+        } else {
+            mapPaddingIsAdjusted = false;
+            animator.setInterpolator(accelerateInterpolator);
+        }
+
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                map.setPadding(0, 0, 0, Integer.parseInt(animation.getAnimatedValue().toString()));
+            }
+        });
+        animator.start();
+    }
+
+    private boolean movingUp(int begin, int end) {
+        return end > begin;
     }
 
     @Override
     public void onMapClick(LatLng position) {
+        final int bottomPreviewHeight = (int)getActivity().getResources().getDimension(R.dimen.img_height);
+
+        if (mapPaddingIsAdjusted) {
+            animateMapPadding(bottomPreviewHeight, 0);
+        }
+
         rentalView.hide();
     }
 

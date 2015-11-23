@@ -78,11 +78,6 @@ public class MapPresenter implements Presenter {
                     RentalCache.getInstance().add(rental);
                     MarkerOptions marker = MarkerUtils.createRentalMarker(new LatLng(rental.getLatitude(), rental.getLongitude()), rental.getBedroomCount());
 
-                    if (rental.getLatitude() == 39.0141289) {
-                        Log.d("tagzzz", "{ \"lat\" : " + rental.getLatitude() + ", \"lng\" : " + rental.getLongitude() + " },");
-                        Log.d("tagzzz", "bed count: " + rental.getBedroomCount());
-                    }
-
                     RentalMarker rentalMarker = new RentalMarker();
                     rentalMarker.setRental(rental);
                     rentalMarker.setMarker(marker);

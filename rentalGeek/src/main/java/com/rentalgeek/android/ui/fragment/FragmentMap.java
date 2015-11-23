@@ -72,12 +72,7 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
 
     @Override
     public void setRentals(Rental[] rentals) {
-        if (map != null) {
-//            map.clear();
-//            markers.clear();
-//            markerRentalMap.clear();
-            presenter.addRentals(rentals);
-        }
+        presenter.addRentals(rentals);
     }
 
     @Override

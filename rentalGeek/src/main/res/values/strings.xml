@@ -103,6 +103,8 @@ If you agree to share a Credit Report, we will also use this information to shar
     <string name="cover_rent_form_label">Do you intend on paying the rent amount each month on behalf of the renter for the duration of the lease agreement? (Mandatory)</string>
     <string name="geek_title">Geek Score&#8482;</string>
 
+    <string name="location_label">Location</string>
+    <string name="monthly_rent_label">Monthly Rent</string>
     <string name="bedrooms_label">Bedrooms</string>
     <string name="bathroom_label">Bathrooms</string>
     <string name="management_company_label">Property Management Company</string>

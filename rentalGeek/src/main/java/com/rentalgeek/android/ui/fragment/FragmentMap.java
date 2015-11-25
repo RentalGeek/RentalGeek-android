@@ -1,9 +1,12 @@
 package com.rentalgeek.android.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -38,6 +41,7 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
     private GoogleMap map;
     private MapPresenter presenter;
     private RentalView rentalView;
+    private EditText locationEditText;
 
     /*
      * Need this for onClick of marker...since google made Marker class final and can not be extended....dumb
@@ -62,6 +66,8 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
 
         rentalView = (RentalView) getChildFragmentManager().findFragmentById(R.id.rental);
         presenter = new MapPresenter();
+
+        locationEditText = (EditText)view.findViewById(R.id.location_edittext);
 
         return view;
     }
@@ -109,12 +115,22 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
 
         presenter.getRental(rental_id);
 
+        locationEditText.clearFocus();
+        dismissSearchEditText();
+
         return true;
     }
 
     @Override
     public void onMapClick(LatLng position) {
         rentalView.hide();
+        dismissSearchEditText();
+    }
+
+    private void dismissSearchEditText() {
+        locationEditText.clearFocus();
+        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(locationEditText.getWindowToken(), 0);
     }
 
     public void onEventMainThread(SetRentalsEvent event) {

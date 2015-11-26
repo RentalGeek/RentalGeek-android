@@ -38,7 +38,7 @@ import java.util.ArrayList;
 public class ActivityHome extends GeekBaseActivity implements Container<ViewPager> {
 
     private static String TAG = ActivityHome.class.getSimpleName();
-    private HomePresenter presenter;
+    public HomePresenter presenter;
     private MapView mapView;
     private RentalListView rentalListView;
     private boolean shouldReload = false;
@@ -108,11 +108,11 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
                 @Override
                 public void run() {
                     if (extras == null) {
-                        presenter.getRentalOfferings();
+                        presenter.getRentalOfferings("");
                     } else {
                         ArrayList<String> rental_ids = extras.getStringArrayList("RENTALS");
                         if (rental_ids == null) {
-                            presenter.getRentalOfferings();
+                            presenter.getRentalOfferings("");
                         } else {
                             presenter.getRentalOfferings(extras);
                         }

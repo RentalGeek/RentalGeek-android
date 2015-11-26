@@ -2,6 +2,8 @@ package com.rentalgeek.android.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.AddMarkersEvent;
+import com.rentalgeek.android.bus.events.NoRentalsEvent;
 import com.rentalgeek.android.bus.events.SetRentalEvent;
 import com.rentalgeek.android.bus.events.SetRentalsEvent;
 import com.rentalgeek.android.bus.events.ShowRentalEvent;
@@ -29,6 +32,8 @@ import com.rentalgeek.android.mvp.map.MapPresenter;
 import com.rentalgeek.android.mvp.map.MapView;
 import com.rentalgeek.android.mvp.rental.RentalView;
 import com.rentalgeek.android.pojos.Rental;
+import com.rentalgeek.android.ui.activity.ActivityHome;
+import com.rentalgeek.android.utils.OkAlert;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -68,6 +73,28 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
         presenter = new MapPresenter();
 
         locationEditText = (EditText)view.findViewById(R.id.location_edittext);
+
+        locationEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    Log.d("tagzzz", "pressed enter key");
+                    dismissSearchEditText();
+                    rentalView.hide();
+
+                    String location = locationEditText.getText().toString().trim();
+                    if (!location.equals("")) {
+                        ActivityHome activityHome = (ActivityHome) getActivity();
+                        showProgressDialog(R.string.loading_rentals);
+                        activityHome.presenter.getRentalOfferings(location);
+                    }
+
+                    return true;
+                }
+
+                return false;
+            }
+        });
 
         return view;
     }
@@ -145,6 +172,11 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
             zoomTo(rental.getLatitude(), rental.getLongitude(), 15);
             AppEventBus.post(new ShowRentalEvent(rental));
         }
+    }
+
+    public void onEventMainThread(NoRentalsEvent event) {
+        hideProgressDialog();
+        OkAlert.show(getActivity(), "No Results", "No properties were found for that location.");
     }
 
     public void onEventMainThread(AddMarkersEvent event) {

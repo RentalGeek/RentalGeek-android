@@ -56,7 +56,7 @@ If you agree to share a Credit Report, we will also use this information to shar
 
     <string name="lease">Lease</string>
 
-    <string name="fragment_roommates_header_addroommate">Add a Roommate</string>
+    <string name="fragment_roommates_header_addroommate">Have roommates you need to apply with?\nInvite them here one at a time.</string>
     <string name="fragment_roommates_header_roommates">Your Roommates</string>
     <string name="fragment_roommates_field_firstlastname">First &amp; Last Name (Mandatory) </string>
     <string name="fragment_roommates_field_emailaddress">Email Address (Mandatory) </string>

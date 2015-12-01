@@ -12,10 +12,6 @@ import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.adapter.PlaceAutocompleteAdapter;
 import com.rentalgeek.android.utils.ParseAddress;
 
-
-/**
- * Created by Alan R on 10/2/15.
- */
 public class AutoCompleteAddressListener implements AdapterView.OnItemClickListener {
 
     private AutoCompleteTextView autoCompleteTextView;

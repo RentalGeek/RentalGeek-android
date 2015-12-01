@@ -8,8 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
+import android.widget.AutoCompleteTextView;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
@@ -33,20 +36,23 @@ import com.rentalgeek.android.mvp.map.MapView;
 import com.rentalgeek.android.mvp.rental.RentalView;
 import com.rentalgeek.android.pojos.Rental;
 import com.rentalgeek.android.ui.activity.ActivityHome;
+import com.rentalgeek.android.ui.adapter.PlaceAutocompleteAdapter;
+import com.rentalgeek.android.ui.view.AutoCompleteAddressListener;
 import com.rentalgeek.android.utils.OkAlert;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback, MapView, OnMarkerClickListener, OnMapClickListener {
+public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback, MapView, OnMarkerClickListener, OnMapClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = "FragmentMap";
 
     private GoogleMap map;
     private MapPresenter presenter;
     private RentalView rentalView;
-    private EditText locationEditText;
+    private AutoCompleteTextView locationAutoCompleteTextView;
+    GoogleApiClient googleApiClient;
 
     /*
      * Need this for onClick of marker...since google made Marker class final and can not be extended....dumb
@@ -72,9 +78,9 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
         rentalView = (RentalView) getChildFragmentManager().findFragmentById(R.id.rental);
         presenter = new MapPresenter();
 
-        locationEditText = (EditText)view.findViewById(R.id.location_edittext);
+        locationAutoCompleteTextView = (AutoCompleteTextView)view.findViewById(R.id.location_autocompletetextview);
 
-        locationEditText.setOnKeyListener(new View.OnKeyListener() {
+        locationAutoCompleteTextView.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
@@ -82,7 +88,7 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
                     dismissSearchEditText();
                     rentalView.hide();
 
-                    String location = locationEditText.getText().toString().trim();
+                    String location = locationAutoCompleteTextView.getText().toString().trim();
                     if (!location.equals("")) {
                         ActivityHome activityHome = (ActivityHome) getActivity();
                         showProgressDialog(R.string.loading_rentals);
@@ -96,7 +102,31 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
             }
         });
 
+        setUpGooglePlacesAutocomplete();
+
         return view;
+    }
+    
+    private void setUpGooglePlacesAutocomplete() {
+        googleApiClient = new GoogleApiClient.Builder(getActivity()).addApi(Places.GEO_DATA_API).build();
+        PlaceAutocompleteAdapter locationSearchAdapter = new PlaceAutocompleteAdapter(getActivity(), googleApiClient);
+        locationAutoCompleteTextView.setOnItemClickListener(new AutoCompleteAddressListener(locationAutoCompleteTextView));
+        locationAutoCompleteTextView.setAdapter(locationSearchAdapter);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (googleApiClient != null)
+            googleApiClient.connect();
+    }
+
+    @Override
+    public void onStop() {
+        if (googleApiClient != null && googleApiClient.isConnected()) {
+            googleApiClient.disconnect();
+        }
+        super.onStop();
     }
 
     @Override
@@ -142,7 +172,7 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
 
         presenter.getRental(rental_id);
 
-        locationEditText.clearFocus();
+        locationAutoCompleteTextView.clearFocus();
         dismissSearchEditText();
 
         return true;
@@ -155,9 +185,9 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
     }
 
     private void dismissSearchEditText() {
-        locationEditText.clearFocus();
+        locationAutoCompleteTextView.clearFocus();
         InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(locationEditText.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(locationAutoCompleteTextView.getWindowToken(), 0);
     }
 
     public void onEventMainThread(SetRentalsEvent event) {
@@ -192,5 +222,10 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
                 hideProgressDialog();
             }
         }
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
     }
 }

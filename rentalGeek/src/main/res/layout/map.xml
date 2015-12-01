@@ -27,8 +27,8 @@
 
     </FrameLayout>
 
-    <EditText
-        android:id="@+id/location_edittext"
+    <AutoCompleteTextView
+        android:id="@+id/location_autocompletetextview"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:hint="Search by City, State"

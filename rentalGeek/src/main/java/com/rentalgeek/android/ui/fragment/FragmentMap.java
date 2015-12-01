@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -44,15 +43,13 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback, MapView, OnMarkerClickListener, OnMapClickListener, GoogleApiClient.OnConnectionFailedListener {
-
-    private static final String TAG = "FragmentMap";
+public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback, MapView, OnMarkerClickListener, OnMapClickListener {
 
     private GoogleMap map;
     private MapPresenter presenter;
     private RentalView rentalView;
     private AutoCompleteTextView locationAutoCompleteTextView;
-    GoogleApiClient googleApiClient;
+    private GoogleApiClient googleApiClient;
 
     /*
      * Need this for onClick of marker...since google made Marker class final and can not be extended....dumb
@@ -61,12 +58,12 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
      * hashmap to see which rental to show.
      */
 
-    private HashMap<String, String> markerRentalMap = new HashMap<String, String>();
+    private HashMap<String, String> markerRentalMap = new HashMap<>();
 
     /*
      * Since Google doesnt let us iterate through markers...
      */
-    private List<Marker> markers = new LinkedList<Marker>();
+    private List<Marker> markers = new LinkedList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -106,7 +103,7 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
 
         return view;
     }
-    
+
     private void setUpGooglePlacesAutocomplete() {
         googleApiClient = new GoogleApiClient.Builder(getActivity()).addApi(Places.GEO_DATA_API).build();
         PlaceAutocompleteAdapter locationSearchAdapter = new PlaceAutocompleteAdapter(getActivity(), googleApiClient);
@@ -117,8 +114,9 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
     @Override
     public void onStart() {
         super.onStart();
-        if (googleApiClient != null)
+        if (googleApiClient != null) {
             googleApiClient.connect();
+        }
     }
 
     @Override
@@ -224,8 +222,4 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
         }
     }
 
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-
-    }
 }

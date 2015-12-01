@@ -47,6 +47,7 @@
             android:textColorHint="@color/white"
             android:textColor="@color/white"
             android:inputType="textPassword"
+            android:fontFamily="@string/sans_serif"
             android:singleLine="true"
             android:background="@drawable/thin_border_transparent"/>
 
@@ -62,6 +63,7 @@
             android:textColorHint="@color/white"
             android:textColor="@color/white"
             android:inputType="textPassword"
+            android:fontFamily="@string/sans_serif"
             android:singleLine="true"
             android:background="@drawable/thin_border_transparent"/>
 

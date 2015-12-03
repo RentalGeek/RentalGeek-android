@@ -1,137 +1,52 @@
 package com.rentalgeek.android.ui.fragment;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.TextView;
 
-import com.luttu.fragmentutils.AppPrefes;
-import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.logging.AppLogger;
-import com.rentalgeek.android.ui.Navigation;
-import com.rentalgeek.android.ui.activity.ActivityHome;
-import com.rentalgeek.android.utils.ConnectionDetector;
-import com.rentalgeek.android.utils.StringUtils;
+import com.rentalgeek.android.bus.AppEventBus;
+import com.rentalgeek.android.bus.events.ClickHomeEvent;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class FragmentGeekScore extends LuttuBaseAbstract {
+/**
+ * Created by Alan R on 10/3/15.
+ */
+public class FragmentGeekScore extends GeekBaseFragment {
 
-	private static final String TAG = "FragmentGeekScore";
+    private static final String TAG = "FragmentGeekScore";
 
-	@InjectView(R.id.click_rent)
-	TextView click_rent;
+    @InjectView(R.id.geek_score)
+    TextView geek_score_textview;
 
-//	@InjectView(R.id.get_started_paid_already)
-//	Button get_started_paid_already;
-//
-	@InjectView(R.id.textViewGeekScore)
-	TextView textViewGeekScore;
+    @InjectView(R.id.home_button)
+    Button home_button;
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstance) {
+        View view = inflater.inflate(R.layout.fragment_geekscore, viewGroup, false);
+        ButterKnife.inject(this, view);
 
-//	@InjectView(R.id.get_started)
-//	Button getStarted;
+        Bundle bundle = getArguments();
 
-	AppPrefes appPref;
-	ConnectionDetector con;
+        if (bundle != null) {
+            String geek_score = bundle.getString("GEEK_SCORE");
 
-	String geekScore;
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-		View v = inflater.inflate(R.layout.fragment_message_geek_score, container,false);
-
-		appPref=new AppPrefes(getActivity(), "rentalgeek");
-		ButterKnife.inject(this,v);
-
-		geekScore = appPref.getData("geek_score");
-
-        if (!StringUtils.isTrimEmpty(geekScore)) {
-            textViewGeekScore.setText(geekScore);
+            if (geek_score != null && !geek_score.isEmpty())
+                geek_score_textview.setText(geek_score);
         }
 
-		return v;
-	}
+        return view;
+    }
 
-	@Override
-	public void parseresult(String response, boolean success, int value) {
-
-
-	}
-
-	@Override
-	public void error(String response, int value) {
-
-
-	}
-
-	@OnClick(R.id.click_rent)
-	public void ClickFinal()
-	{
-		try {
-			appPref.SaveData("map_list", "");
-			Navigation.navigateActivity(getActivity(), ActivityHome.class, true);
-		} catch (Exception e) {
-			AppLogger.log(TAG, e);
-		}
-	}
-
-
-	@OnClick(R.id.infoclick2)
-	public void infoclick2()
-	{
-		final Dialog dialog = new Dialog(getActivity(), R.style.MyDialogInner);
-
-		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		dialog.setContentView(R.layout.apply_confirm_dialog);
-
-		TextView ok=(TextView) dialog.findViewById(R.id.ok_apply_dialog);
-
-		ok.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				dialog.dismiss();
-			}
-		});
-
-		dialog.show();
-
-	}
-
-	@OnClick(R.id.infoclick1)
-	public void infoclick1()
-	{
-		final Dialog dialog = new Dialog(getActivity(), R.style.MyDialogInner);
-
-		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		dialog.setContentView(R.layout.terms_dialog);
-
-		WebView wv;
-		TextView close;
-		wv = (WebView) dialog.findViewById(R.id.terms_web);
-		close = (TextView) dialog.findViewById(R.id.close);
-		wv.loadUrl("file:///android_asset/terms.html");
-
-		close.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-				dialog.dismiss();
-			}
-		});
-
-		dialog.show();
-
-	}
+    @OnClick(R.id.home_button)
+    public void onHomeClick() {
+        AppEventBus.post(new ClickHomeEvent());
+    }
 }

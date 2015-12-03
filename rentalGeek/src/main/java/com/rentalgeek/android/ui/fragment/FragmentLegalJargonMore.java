@@ -10,118 +10,88 @@ import android.view.Window;
 import android.webkit.WebView;
 import android.widget.TextView;
 
-import com.luttu.fragmentutils.LuttuBaseAbstract;
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.utils.ConnectionDetector;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class FragmentLegalJargonMore extends LuttuBaseAbstract {
+public class FragmentLegalJargonMore extends GeekBaseFragment {
 
-	/**
-	 * @author george
-	 * 
-	 * @purpose This page shows the user more about the terms and condition the
-	 *          user has to comply to use this application
-	 */
-	@InjectView(R.id.more_terms)
-	WebView wv;
-	ConnectionDetector con;
+    @InjectView(R.id.more_terms)
+    WebView wv;
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
 
-		View v = inflater.inflate(R.layout.fragment_legal_jargon_more, container, false);
-		ButterKnife.inject(this, v);
-		wv.loadUrl("file:///android_asset/termstwo.html");
-		con = new ConnectionDetector(getActivity());
-		return v;
-	}
+        View v = inflater.inflate(R.layout.fragment_legal_jargon_more, container, false);
+        ButterKnife.inject(this, v);
+        wv.loadUrl("file:///android_asset/termstwo.html");
+        return v;
+    }
 
-	@Override
-	public void parseresult(String response, boolean success, int value) {
+    @Override
+    public void onDestroyView() {
 
+        super.onDestroyView();
+        ButterKnife.reset(this);
+    }
 
-	}
+    @OnClick(R.id.agree)
+    public void agree() {
+        nextfragment(new FragmentPayment(), false, R.id.container);
+    }
 
-	@Override
-	public void onDestroyView() {
+    @OnClick(R.id.infoclick2)
+    public void infoclick2() {
+        final Dialog dialog = new Dialog(getActivity(), R.style.MyDialogInner);
 
-		super.onDestroyView();
-		ButterKnife.reset(this);
-	}
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.apply_confirm_dialog);
 
-	@Override
-	public void error(String response, int value) {
+        TextView ok = (TextView) dialog.findViewById(R.id.ok_apply_dialog);
 
+        ok.setOnClickListener(new OnClickListener() {
 
-	}
-
-	@OnClick(R.id.agree)
-	public void agree() {
-
-		if (con.isConnectingToInternet()) {
-			nextfragment(new FragmentPayment(), false, R.id.container);
-		}
-		else
-		{
-			toast("Please check you internet connection");
-		}
-
-	}
-
-	@OnClick(R.id.infoclick2)
-	public void infoclick2() {
-		final Dialog dialog = new Dialog(getActivity(), R.style.MyDialogInner);
-
-		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		dialog.setContentView(R.layout.apply_confirm_dialog);
-
-		TextView ok = (TextView) dialog.findViewById(R.id.ok_apply_dialog);
-
-		ok.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
 
 
-				dialog.dismiss();
+                dialog.dismiss();
 
-			}
-		});
+            }
+        });
 
-		dialog.show();
+        dialog.show();
 
-	}
+    }
 
-	@OnClick(R.id.infoclick1)
-	public void infoclick1() {
-		final Dialog dialog = new Dialog(getActivity(), R.style.MyDialogInner);
+    @OnClick(R.id.infoclick1)
+    public void infoclick1() {
+        final Dialog dialog = new Dialog(getActivity(), R.style.MyDialogInner);
 
-		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		dialog.setContentView(R.layout.terms_dialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.terms_dialog);
 
-		WebView wv;
-		TextView close;
-		wv = (WebView) dialog.findViewById(R.id.terms_web);
-		close = (TextView) dialog.findViewById(R.id.close);
-		wv.loadUrl("file:///android_asset/terms.html");
+        WebView wv;
+        TextView close;
+        wv = (WebView) dialog.findViewById(R.id.terms_web);
+        close = (TextView) dialog.findViewById(R.id.close);
+        wv.loadUrl("file:///android_asset/terms.html");
 
-		close.setOnClickListener(new OnClickListener() {
+        close.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
 
-				dialog.dismiss();
-			}
-		});
+                dialog.dismiss();
+            }
+        });
 
-		dialog.show();
+        dialog.show();
 
-	}
+    }
 
 }

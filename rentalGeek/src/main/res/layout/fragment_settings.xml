@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="30dp"
+            android:paddingTop="25dp"
+            android:paddingBottom="25dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:gravity="center_horizontal"
+            android:background="@color/light_creme">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/light_black"
+                android:text="Changes in your information? Want to add a cosigner? Click below to resubmit your Geek Score application."
+                android:gravity="center"
+                android:lineSpacingExtra="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Note: You will be charged again"
+                android:textColor="@color/red"
+                />
+
+            <Button
+                android:id="@+id/resubmit_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/continue_bg"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:text="RESUBMIT"
+                />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="40dp"
+            >
+
+            <Button
+                android:id="@+id/delete_button"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:background="@color/decline_gray"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:text="DELETE YOUR ACCOUNT"
+                android:layout_gravity="center_horizontal|bottom"
+                />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</ScrollView>

@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="terms"><p>By creating a RentalGeek account, you agree to our <u>Terms &amp; Conditions</u></p></string>
     <string name="app_name">RentalGeek</string>
-    <!-- <string name="app_id">1573984086213286</string> -->
-    <string name="app_id">591726704291176</string>
+    <string name="fb_app_id">1630631863882274</string>
+
     <string name="hello_world">Hello world!</string>
     <string name="or">_________ or _________</string>
     <string name="pay_get_geek">Pay and get your Geek Score&#8482;</string>
-    <string name="not_member"><p>Not a member? <u>Create Account</u></p></string>
+    <string name="not_member">Not a Member?\n<u>Create an Account</u></string>
     <string name="tuto_one">Fill out our form once and apply to as many properties as you want</string>
     <string name="armed"><p>Armed with your GeekScore&#8482;, apply to any property with a single click and your completed app is instantly sent for speedy approval. Simply "Click-to-Rent" and you are done.</p></string>
     <string name="freshest">Check out the freshest digs, available now, right from your phone using our patent pending augmented reality technology.</string>
@@ -31,72 +30,185 @@ If you agree to share a Credit Report, we will also use this information to shar
     <string name="click_rent">Search for RENTAL</string>
     <string name="last_msg_one">You have successfully completed the GeekScore&#8482; Application Process \n\n Take advantage of GeekVision&#8482; and choose from a wide selection of rental properties available only at RentalGeek. You can apply for the property of your choice from the property detail page.</string>
     <string name="bullet">&#8226;</string>
-
-    <string-array name="slidelist">
-        <item>Geek Score&#8482;</item>
-        <item>Favorite Properties</item>
-        <item>Geek Vision&#8482;</item>
-        <item>Logout</item>
-    </string-array>
-    <string-array name="tru">
-        <item>Select</item>
-        <item>Yes</item>
-        <item>No</item>
-    </string-array>
-    <string-array name="empl">
-        <item>Select</item>
-        <item>employed</item>
-        <item>unemployed</item>
-    </string-array>
+    <string name="dialog_msg_loading">Loading, Please wait\u2026</string>
+    <string name="dialog_msg_loading_roommates">Loading Roommates, Please wait\u2026</string>
+    <string name="dialog_msg_loading_roommate_leave_group">Leaving Group, Please wait\u2026</string>
+    <string name="dialog_msg_loading_roommate_remove_invite">Removing Invite, Please wait\u2026</string>
+    <string name="dialog_msg_loading_roommate_add_invite">Adding Invite, Please wait\u2026</string>
 
     <string name="signin">SignIn</string>
+    <string name="demo_min_label">Min</string>
+    <string name="demo_max_label">Max</string>
 
-    <string-array name="years">
-        <item>YYYY</item>
-        <item>2015</item>
-        <item>2016</item>
-        <item>2017</item>
-        <item>2018</item>
-        <item>2019</item>
-        <item>2020</item>
-        <item>2021</item>
-        <item>2022</item>
-        <item>2023</item>
-        <item>2024</item>
-        <item>2025</item>
-        <item>2026</item>
-        <item>2027</item>
-        <item>2028</item>
-        <item>2029</item>
-        <item>2030</item>
-        <item>2031</item>
-        <item>2032</item>
-        <item>2033</item>
-        <item>2034</item>
-        <item>2035</item>
-        <item>2036</item>
-        <item>2037</item>
-        <item>2038</item>
-        <item>2039</item>
-        <item>2040</item>
-        <item>2041</item>
-        <item>2042</item>
-        <item>2043</item>
-        <item>2044</item>
-        <item>2045</item>
-        <item>2046</item>
-        <item>2047</item>
-        <item>2048</item>
-        <item>2049</item>
-        <item>2050</item>
-        <item>2051</item>
-        <item>2052</item>
-        <item>2053</item>
-        <item>2054</item>
-        <item>2055</item>
+    <!--navigation menu-->
+    <string name="geek_score_tm">Geek Score™</string>
+    <string name="my_lease">My Lease</string>
+    <string name="favorites">Favorites</string>
+    <string name="applications">Applications</string>
+    <string name="roommates">Roommates</string>
+    <string name="payment">Payment</string>
+    <string name="cosigner">Cosigner</string>
+    <string name="my_cosigner">My Cosigner</string>
+    <string name="geek_vision_tm">Geek Vision™</string>
+    <string name="settings">Settings</string>
+    <string name="logout">Logout</string>
+    <string name="home">Home</string>
+
+    <string name="lease">Lease</string>
+
+    <string name="fragment_roommates_header_addroommate">Have roommates you need to apply with?\nInvite them here one at a time.</string>
+    <string name="fragment_roommates_header_roommates">Your Roommates</string>
+    <string name="fragment_roommates_field_firstlastname">First &amp; Last Name (Mandatory) </string>
+    <string name="fragment_roommates_field_emailaddress">Email Address (Mandatory) </string>
+
+    <string name="fragment_roommateinvite_message"><![CDATA[You have been invited by <b>%1s</b> to join a roommate group.]]></string>
+    <string name="fragment_roommateinvite_noinvites">You have no pending invites.</string>
+    <string name="fragment_roommateinvite_btn_accept">Accept</string>
+    <string name="fragment_roommateinvite_btn_decline">Decline</string>
+
+    <string name="fragment_payment_totaldue"><![CDATA[Your total amount due includes the <b>first months rent (&#36;%1$s) &amp; the security deposit (&#36;%2$s)</b> payed equally between all the members of your roommates group.]]></string>
+    <string name="fragment_payment_nonedue">You have no pending payments at this time.</string>
+    <string name="fragment_payment_yourtotal">Your total</string>
+    <string name="fragment_payment_label_nameoncard">Name on Card</string>
+    <string name="fragment_payment_label_cardnumber">Card Number</string>
+    <string name="fragment_payment_btn_submit">Submit</string>
+
+    <string name="geek_go">You must create your GeekScore&#8482; to apply for rentals</string>
+    <string name="invite_cosign_text">%s has invited you to be a cosigner!</string>
+    <string name="fill_invite_cosign_text">To continue please fill out\nour cosigner application</string>
+    <string name="continue_text">CONTINUE</string>
+    <string name="cosign_app_header_text">Verify Personal Information</string>
+    <string name="payment_header_text">Pay &amp; Get Your GeekScore</string>
+    <string name="cosign_app_sub_header_text">This process is quick and secure. Your personal information is required in order for us to retrieve your credit report and verify your identity.</string>
+    <string name="cosign_firstname_form_label">First Name (Mandatory)</string>
+    <string name="cosign_lastname_form_label">Last Name (Mandatory)</string>
+    <string name="cosign_dob_form_label">Date of Birth (Mandatory)</string>
+    <string name="ssn_form_label">SSN (Mandatory)</string>
+    <string name="marital_status_form_label">Marital Status (Mandatory)</string>
+    <string name="phone_number_form_label">Phone Number (Mandatory)</string>
+    <string name="address_form_label">Address (Mandatory)</string>
+    <string name="city_form_label">City (Mandatory)</string>
+    <string name="state_form_label">State (Mandatory)</string>
+    <string name="zip_form_label">Zip Code (Mandatory)</string>
+    <string name="rent_or_own_form_label">Do You Currently Own or Rent (Mandatory)</string>
+    <string name="monthly_payment_form_label">Monthly Rent or Mortgage Payment (Mandatory)</string>
+    <string name="lost_court_form_label">Have You Ever Lost a Court Judgement?</string>
+    <string name="lawsuit_filed_form_label">Have You Ever had a Lawsuit Filed?</string>
+    <string name="foreclosed_form_label">Have you been Foreclosed Upon?</string>
+    <string name="bankruptcy_form_label">Have you ever Declared Bankruptcy?</string>
+    <string name="felon_form_label">Are you a Felon?</string>
+    <string name="employer_form_label">Employer Name (Mandatory)</string>
+    <string name="position_form_label">Employment Position (Mandatory)</string>
+    <string name="income_form_label">Monthly Income (Mandatory)</string>
+    <string name="cover_rent_form_label">Do you intend on paying the rent amount each month on behalf of the renter for the duration of the lease agreement? (Mandatory)</string>
+    <string name="geek_title">Geek Score&#8482;</string>
+
+    <string name="location_label">Location</string>
+    <string name="monthly_rent_label">Monthly Rent</string>
+    <string name="bedrooms_label">Bedrooms</string>
+    <string name="bathroom_label">Bathrooms</string>
+    <string name="management_company_label">Property Management Company</string>
+
+    <string name="cosigner_invite_accept">ACCEPT</string>
+    <string name="cosigner_invite_decline">DECLINE</string>
+    <string name="search_title">Search</string>
+    <string name="search_none">No rentals found.</string>
+    <string name="fav_title">Favorites</string>
+    <string name="fav_none">No favorite rentals found.</string>
+    <string name="login_title">Login</string>
+    <string name="invalid_login">Invalid username and/or password</string>
+
+    <string name="apply_text">APPLY</string>
+    <string name="applied_text">APPLIED &#x2713;</string>
+    
+    <string name="search_rental">Searching for Rentals</string>
+    <string name="loading_rentals">Loading Rentals, Please wait\u2026</string>
+    
+    <string name="next_text">NEXT</string>
+    
+    <string name="geek_score_wait_msg">Your Geek Score&#8482;\nis being calculated\nand will be available shortly!</string>
+    <string name="geek_score_wait_thanks">Thank you for your patience</string>
+    <string name="your_geek_score">Your Geek Score&#8482;</string>
+
+    <string name="oops">Oops, something went wrong</string>
+
+    <string name="linkedin_auth_error">Something went wrong authenticating LinkedIn</string>
+
+    <string name="email_required">Email required</string>
+    <string name="email_format">Must be in email format</string>
+    <string name="password_required">Password required</string>
+    <string name="password_min_length">Password must be 8 characters</string>
+
+    <!--cosigner app-->
+    <string-array name="months_array">
+        <item> </item>
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
     </string-array>
-    <string-array name="state_list">
-        <item>Select</item>
+
+    <string-array name="days_array">
+        <item> </item>
+        <item>01</item>
+        <item>02</item>
+        <item>03</item>
+        <item>04</item>
+        <item>05</item>
+        <item>06</item>
+        <item>07</item>
+        <item>08</item>
+        <item>09</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+    </string-array>
+
+    <string-array name="marital_status_array">
+        <item> </item>
+        <item>Single</item>
+        <item>Married</item>
+        <item>Divorced</item>
+    </string-array>
+
+    <string-array name="cover_rent_array">
+        <item> </item>
+        <item>Yes</item>
+        <item>Most of the time</item>
+        <item>Rarely</item>
+        <item>No</item>
+    </string-array>
+
+    <string-array name="state_array">
+        <item> </item>
+        <item>AL</item>
         <item>AK</item>
         <item>AZ</item>
         <item>AR</item>
@@ -146,40 +258,6 @@ If you agree to share a Credit Report, we will also use this information to shar
         <item>WV</item>
         <item>WI</item>
         <item>WY</item>
-        <item>AS</item>
-        <item>DC</item>
-        <item>FM</item>
-        <item>GU</item>
-        <item>MH</item>
-        <item>MP</item>
-        <item>PW</item>
-        <item>PR</item>
-        <item>VI</item>
-        <item>AE</item>
-        <item>AA</item>
-        <item>AP</item>
     </string-array>
-    <string-array name="months">
-        <item>MM</item>
-        <item>01</item>
-        <item>02</item>
-        <item>03</item>
-        <item>04</item>
-        <item>05</item>
-        <item>06</item>
-        <item>07</item>
-        <item>08</item>
-        <item>09</item>
-        <item>10</item>
-        <item>11</item>
-        <item>12</item>
-    </string-array>
-
-    <string name="demo_min_label">Min</string>
-    <string name="demo_max_label">Max</string>
-    
-    
-    
-     <string name="geek_go">You must create your GeekScore&#8482; to apply</string>
 
 </resources>

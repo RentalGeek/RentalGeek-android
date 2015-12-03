@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item 
+        android:id="@+id/action_map"
+        android:icon="@drawable/action_map_icon"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/action_search_icon"
+        app:showAsAction="always"/>
+    <!--<item-->
+        <!--android:id="@+id/action_notifications"-->
+        <!--android:icon="@drawable/action_bell_icon"-->
+        <!--app:showAsAction="always"/>-->
+</menu>

@@ -2,26 +2,26 @@ package com.rentalgeek.android.ui.activity;
 
 
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.luttu.fragmentutils.LuttuBaseActionbarActivity;
-import com.mobsandgeeks.saripaar.Rule;
-import com.mobsandgeeks.saripaar.Validator;
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.bus.events.SubmitProfileEvent;
+import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.adapter.ProfileFormAdapter;
+import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.ui.view.NonSwipeableViewPager;
-import com.viewpagerindicator.CirclePageIndicator;
-import com.viewpagerindicator.PageIndicator;
 
-public class ActivityCreateProfile extends LuttuBaseActionbarActivity implements Validator.ValidationListener {
+public class ActivityCreateProfile extends GeekBaseActivity {
 
     private static final String TAG = ActivityCreateProfile.class.getSimpleName();
 
     NonSwipeableViewPager mPager;
-    PageIndicator mIndicator;
     ProfileFormAdapter mAdapter;
+
+    public ActivityCreateProfile() {
+        super(true, true, true);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class ActivityCreateProfile extends LuttuBaseActionbarActivity implements
         setContentView(R.layout.activity_create_profile);
 
         mAdapter = new ProfileFormAdapter(getSupportFragmentManager());
-       // con = new ConnectionDetector(getApplicationContext());
+
         mPager = (NonSwipeableViewPager) findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);
         mPager.setOnTouchListener(new View.OnTouchListener() {
@@ -38,10 +38,6 @@ public class ActivityCreateProfile extends LuttuBaseActionbarActivity implements
                 return true;
             }
         });
-
-       // appPref = new AppPrefes(thisActivity, "rentalgeek");
-        mIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
-        mIndicator.setViewPager(mPager);
 
         mPager.setOnTouchListener(new View.OnTouchListener() {
 
@@ -54,21 +50,21 @@ public class ActivityCreateProfile extends LuttuBaseActionbarActivity implements
             }
         });
 
+        setupNavigation();
+
+        if (AppPreferences.getProfilePage() != null) {
+            int page = Integer.parseInt(AppPreferences.getProfilePage());
+            System.out.println(page);
+            flipPager(page);
+        }
+
     }
 
     public void flipPager(int position) {
         mPager.setCurrentItem(position, false);
     }
 
-    @Override
-    public void onValidationSucceeded() {
-
+    public void onEventMainThread(SubmitProfileEvent event) {
+        Navigation.navigateActivity(this, ActivityGeekScore.class);
     }
-
-    @Override
-    public void onValidationFailed(View view, Rule<?> rule) {
-
-    }
-
-
 }

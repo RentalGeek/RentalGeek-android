@@ -1,0 +1,139 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/light_creme"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/rental_image"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/img_height"
+                android:scaleType="centerCrop" />
+
+            <RelativeLayout
+                android:id="@+id/black_overlay_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_gravity="bottom"
+                android:background="@color/transparent_black">
+
+                <TextView
+                    android:id="@+id/address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    tools:text="324 Brookridge Drive\nManhattan, KS 66502"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/room_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/address"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    tools:text="3 BR, 2 Bath"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/star_image"
+                    tools:src="@drawable/star_outline"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="center" />
+
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@+id/star_image"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    tools:text="$1450"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/view_below_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/apply_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="25dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/continue_bg"
+                android:text="@string/apply_text"
+                android:textColor="@color/white"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/light_black"
+                android:textSize="16sp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:src="@drawable/rental_divider" />
+
+            <TextView
+                android:id="@+id/amenities"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/light_black"
+                android:textSize="16sp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="75dp">
+
+                <LinearLayout
+                    android:id="@+id/property_photo_gallery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"/>
+
+            </HorizontalScrollView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
+    

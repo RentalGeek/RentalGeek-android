@@ -1,0 +1,70 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/rental_imageview"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/img_height"
+            android:scaleType="centerCrop"/>
+
+        <RelativeLayout
+            android:id="@+id/black_overlay_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_gravity="bottom"
+            android:background="@color/transparent_black">
+
+            <TextView
+                android:id="@+id/address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                tools:text="324 Brookridge Drive\nManhattan, KS 66502"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/room_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/address"
+                android:textColor="@color/white"
+                tools:text="3 BR, 2 Bath"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/star_imageview"
+                tools:src="@drawable/star_outline"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@+id/star_imageview"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                tools:text="$1450"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+    </FrameLayout>
+
+</LinearLayout>

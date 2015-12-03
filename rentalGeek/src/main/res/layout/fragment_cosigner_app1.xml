@@ -1,0 +1,223 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:focusableInTouchMode="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:gravity="center"
+            android:background="@color/light_creme">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cosign_app_header_text"
+                android:textSize="18sp"
+                android:textColor="@color/light_black"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="@string/cosign_app_sub_header_text"
+                android:textSize="14sp"
+                android:textColor="@color/light_black"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="40dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cosign_firstname_form_label"
+                android:textSize="14sp"
+                android:textColor="@color/blue"/>
+
+            <EditText
+                android:id="@+id/first_name_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:textCursorDrawable="@null"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/thin_border"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/cosign_lastname_form_label"
+                android:textSize="14sp"
+                android:textColor="@color/blue"/>
+
+            <EditText
+                android:id="@+id/last_name_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:textCursorDrawable="@null"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/thin_border"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/cosign_dob_form_label"
+                android:textSize="14sp"
+                android:textColor="@color/blue"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="0.5"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/thin_border" >
+
+                    <com.rentalgeek.android.ui.view.SimpleSpinner
+                        android:id="@+id/month_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="0.25"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/thin_border">
+
+                    <com.rentalgeek.android.ui.view.SimpleSpinner
+                        android:id="@+id/day_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"/>
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/year_edittext"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="0.25"
+                    android:textCursorDrawable="@null"
+                    android:inputType="number"
+                    android:padding="10dp"
+                    android:hint="YYYY"
+                    android:maxLength="4"
+                    android:background="@drawable/thin_border"
+                    />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/ssn_form_label"
+                android:textSize="14sp"
+                android:textColor="@color/blue"/>
+
+            <EditText
+                android:id="@+id/ssn_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:textCursorDrawable="@null"
+                android:padding="10dp"
+                android:inputType="number"
+                android:digits="0123456789-"
+                android:maxLength="11"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/thin_border"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/marital_status_form_label"
+                android:textSize="14sp"
+                android:textColor="@color/blue"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/thin_border">
+
+                <com.rentalgeek.android.ui.view.SimpleSpinner
+                    android:id="@+id/marital_status_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/phone_number_form_label"
+                android:textSize="14sp"
+                android:textColor="@color/blue"/>
+
+            <EditText
+                android:id="@+id/phone_number_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:inputType="phone"
+                android:textCursorDrawable="@null"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/thin_border"/>
+
+            <Button
+                android:id="@+id/next_button"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="110dp"
+                android:background="@drawable/continue_bg"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:text="NEXT"
+                android:layout_gravity="right"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

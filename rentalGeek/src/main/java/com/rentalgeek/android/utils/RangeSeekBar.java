@@ -17,9 +17,9 @@ import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 import android.widget.ImageView;
 
-import java.math.BigDecimal;
-
 import com.rentalgeek.android.R;
+
+import java.math.BigDecimal;
 
 /**
  * Widget that lets users select a minimum and maximum value on a given numerical range.

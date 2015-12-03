@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/geek_score"
+            android:title="@string/geek_score_tm" />
+        <item
+            android:id="@+id/favorites"
+            android:title="@string/favorites" />
+        <item
+            android:id="@+id/applications"
+            android:title="@string/applications" />
+        <item
+            android:id="@+id/roommates"
+            android:title="@string/roommates" />
+        <item
+            android:id="@+id/payment"
+            android:title="@string/payment" />
+        <item
+            android:id="@+id/cosigner"
+            android:title="@string/cosigner" />
+        <item
+            android:id="@+id/my_cosigner"
+            android:title="@string/my_cosigner" />
+        <item
+            android:id="@+id/geek_vision"
+            android:title="@string/geek_vision_tm" />
+        <item
+            android:id="@+id/settings"
+            android:title="@string/settings" />
+        <item
+            android:id="@+id/logout"
+            android:title="@string/logout" />
+    </group>
+</menu>

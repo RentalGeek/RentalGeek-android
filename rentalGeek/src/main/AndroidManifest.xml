@@ -12,6 +12,12 @@
         android:protectionLevel="signature" >
     </permission>
 
+    <uses-permission android:name="com.rentalgeek.android.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.REGISTER" />
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -23,17 +29,10 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-sdk tools:overrideLibrary="com.linkedin.android.mobilesdk"/>
 
     <permission
         android:name="com.rentalgeek.android.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
-
-    <uses-permission android:name="com.rentalgeek.android.permission.C2D_MESSAGE" />
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".RentalGeekApplication"
@@ -41,7 +40,9 @@
         android:icon="@drawable/appicon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
-        tools:replace="android:icon,android:theme">
+        tools:replace="android:icon">
+    
+        <activity android:name="com.mixpanel.android.surveys.SurveyActivity"/>
         <activity
             android:name=".ui.activity.ActivityMain"
             android:label="@string/app_name"
@@ -56,7 +57,31 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name=".ui.activity.ActivityFavoriteRentals"
+            android:label="Favorites"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
             android:name=".ui.activity.ActivityHome"
+            android:label="Home"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="rentalgeek" android:host="open"/>
+                <data android:scheme="http"
+                      android:host="staging.rentalgeek.com"
+                      android:pathPrefix="/success" />
+                <data android:scheme="http"
+                      android:host="rentalgeek.com"
+                      android:pathPrefix="/success" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activity.ActivityLogin"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -65,28 +90,149 @@
         </activity>
         <activity
             android:name=".ui.activity.ActivityGeekScore"
+            android:label="GeekScore"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ui.activity.ActivityCreateProfile"
-            android:theme="@style/CustomActionBarTheme"
+            android:theme="@style/GeekFormTheme"
+            android:label="Profile"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.facebook.LoginActivity"
+            android:name=".ui.activity.ActivityRoommates"
+            android:label="Roommates"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ui.activity.ActivityPayments"
+            android:label="Payments"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ui.activity.ActivityPayment"
+            android:label="Payment"
+            android:noHistory="true"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ui.activity.ActivityPaymentConfirmation"
+            android:label="Payment"
+            android:noHistory="true"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ui.activity.ActivityRoommateInvite"
+            android:label="Roommates"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ui.activity.ActivityNotifications"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ui.activity.ActivityApplications"
+            android:label="@string/applications"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".ui.activity.ActivityCosignDecider"
+            android:label="@string/cosigner"
+            android:screenOrientation="portrait"
+            android:noHistory="true">
+        </activity>
+        <activity
+            android:name=".ui.activity.ActivityRental"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".ui.activity.ActivitySearch"
+            android:screenOrientation="portrait"
+            android:label="Search"
+            android:noHistory="true">
+        </activity>
+        <activity
+            android:name="com.facebook.FacebookActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".ui.activity.ActivityCosignerList"
+            android:screenOrientation="portrait"
+            android:label="Cosigner">
+        </activity>
+        <activity
+            android:name=".ui.activity.ActivityCosignerInvite"
+            android:screenOrientation="portrait"
+            android:label="Cosigner">
+        </activity>
+        <activity
+            android:name=".ui.activity.ActivityCosignerApp1"
+            android:screenOrientation="portrait"
+            android:label="Progress (1/4)">
+        </activity>
+        <activity
+            android:name=".ui.activity.ActivityCosignerApp2"
+            android:screenOrientation="portrait"
+            android:label="Progress (2/4)">
+        </activity>
+        <activity
+            android:name=".ui.activity.ActivityCosignerApp3"
+            android:screenOrientation="portrait"
+            android:label="Progress (3/4)">
+        </activity>
+        <activity
+            android:name=".ui.activity.ActivityCosignerApp4"
+            android:screenOrientation="portrait"
+            android:label="Progress (4/4)">
+        </activity>
+        <activity
+            android:name=".ui.activity.ActivitySignLease"
+            android:configChanges="orientation|screenSize"
+            android:label="Lease">
+        </activity>
+        <activity
+            android:name=".ui.activity.ActivityMyCosigner"
+            android:screenOrientation="portrait"
+            android:label="@string/my_cosigner">
+        </activity>
+        <activity
+            android:name=".ui.activity.ActivitySettings"
+            android:screenOrientation="portrait"
+            android:label="@string/settings">
+        </activity>
+        <activity
+            android:name=".ui.activity.ActivityViewLease"
+            android:screenOrientation="portrait"
+            android:label="@string/lease">
+        </activity>
+        <activity
+            android:name=".ui.activity.ActivityPropertyPhoto"
+            android:screenOrientation="portrait"
+            android:label="">
+        </activity>
 
-         
-        <receiver
-            android:name="com.luttu.utils.NetworkChangeReceiver"
-            android:label="NetworkChangeReceiver" >
+        <service
+            android:name=".service.GcmIntentService"
+            android:label="GCM Intent Service" >
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+                <action android:name=".ui.activity.ActivityHome" />
+                <action android:name=".receivers.GcmBroadcastReceiver" />
+                <category android:name="com.rentalgeek.android" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name=".receiver.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                <action android:name="com.google.android.c2dm.intent.REGISTER" />
+                <category android:name="com.rentalgeek.android" />
             </intent-filter>
         </receiver>
-
+        
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -94,17 +240,12 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCpQ8H48Hx-GH6jpn5x-89PCz1T3gFgOvU"/>
-        <!--<meta-data-->
-            <!--android:name="com.google.android.maps.v2.API_KEY"-->
-            <!--android:value="AIzaSyCpQ8H48Hx-GH6jpn5x-89PCz1T3gFgOvU" />-->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/app_id" />
-        
-        <meta-data android:name="AA_DB_VERSION" android:value="2" />
-     
+            android:value="@string/fb_app_id" />
 
-        <service android:name=".GCMIntentService" />
+        <meta-data android:name="AA_DB_VERSION" android:value="2" />
+        
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="46b01a6239e2aa8d4bc6ccdc17a0961adc142556" />

@@ -1,111 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:wheel="http://schemas.android.com/apk/res-auto"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    tools:background="@drawable/splash_bg">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/signin" >
+        android:orientation="vertical"
+        android:focusableInTouchMode="true">
 
         <ImageView
             android:id="@+id/imageView1"
-            android:layout_width="@dimen/loho_wid"
-            android:layout_height="@dimen/loho_hei"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/logo" />
-
-        <EditText
-            android:id="@+id/password_regis"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/email_add_regis"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/editext"
-            android:ems="10"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:paddingLeft="5dp"
-            android:textColor="#ffffff"
-            android:textColorHint="#FFFFFF" />
-
-        <EditText
-            android:id="@+id/confirm_password_regis"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/password_regis"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/editext"
-            android:ems="10"
-            android:hint="Confirm Password"
-            android:inputType="textPassword"
-            android:paddingLeft="5dp"
-            android:textColor="#ffffff"
-            android:textColorHint="#FFFFFF" />
-
-        <TextView
-            android:id="@+id/terms_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="40dp"
-            android:text="TextView"
-            android:textColor="@android:color/white"
-            android:textSize="12dp"
-            android:layout_below="@+id/confirm_password_regis"
-            android:layout_alignLeft="@+id/confirm_password_regis"
-            android:layout_marginTop="20dp" />
-
-        <Button
-            android:id="@+id/create_account"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/terms_text"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="18dp"
-            android:background="@drawable/loginb"
-            android:text="Sign Up"
-            android:textColor="#ffffff" />
+            android:layout_width="150dp"
+            android:layout_height="77dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/simple_logo"/>
 
         <EditText
             android:id="@+id/email_add_regis"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/imageView1"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:background="@drawable/editext"
-            android:ems="10"
+            android:layout_width="250dp"
+            android:layout_height="45dp"
+            android:textCursorDrawable="@null"
+            android:padding="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
             android:hint="Email Address"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"
+            android:singleLine="true"
             android:inputType="textEmailAddress"
-            android:paddingLeft="5dp"
-            android:textColor="#ffffff"
-            android:textColorHint="#FFFFFF" />
-    </RelativeLayout>
+            android:background="@drawable/thin_border_transparent"/>
 
-    <FrameLayout
-        android:id="@+id/containerregis"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true"
-        android:visibility="gone" >
+        <EditText
+            android:id="@+id/password_regis"
+            android:layout_width="250dp"
+            android:layout_height="45dp"
+            android:textCursorDrawable="@null"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
+            android:hint="Password"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"
+            android:inputType="textPassword"
+            android:fontFamily="@string/sans_serif"
+            android:singleLine="true"
+            android:background="@drawable/thin_border_transparent"/>
 
-        <com.luttu.utils.ProgressWheel
-            android:id="@+id/progress_wheel"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center"
-            wheel:barColor="#5588FF"
-            wheel:progressIndeterminate="true" />
-    </FrameLayout>
+        <EditText
+            android:id="@+id/confirm_password_regis"
+            android:layout_width="250dp"
+            android:layout_height="45dp"
+            android:textCursorDrawable="@null"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
+            android:hint="Confirm Password"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"
+            android:inputType="textPassword"
+            android:fontFamily="@string/sans_serif"
+            android:singleLine="true"
+            android:background="@drawable/thin_border_transparent"/>
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/terms_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:buttonTint="@color/white"/>
+
+            <TextView
+                android:id="@+id/terms_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="By creating a RentalGeek account,\nyou agree to our Terms &amp; Conditions"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/create_account"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="50dp"
+            android:background="@drawable/continue_bg"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:text="SIGN UP"
+            android:layout_gravity="center_horizontal"
+            />
+
+    </LinearLayout>
+
+</ScrollView>

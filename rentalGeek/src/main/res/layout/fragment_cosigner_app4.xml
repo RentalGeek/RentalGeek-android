@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:focusableInTouchMode="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="40dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/employer_form_label"
+                android:textSize="14sp"
+                android:textColor="@color/blue"/>
+
+            <EditText
+                android:id="@+id/employer_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:textCursorDrawable="@null"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/thin_border"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/position_form_label"
+                android:textSize="14sp"
+                android:textColor="@color/blue"/>
+
+            <EditText
+                android:id="@+id/position_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:textCursorDrawable="@null"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/thin_border"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/income_form_label"
+                android:textSize="14sp"
+                android:textColor="@color/blue"/>
+
+            <EditText
+                android:id="@+id/income_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:textCursorDrawable="@null"
+                android:padding="10dp"
+                android:inputType="number"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/thin_border"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/cover_rent_form_label"
+                android:textSize="14sp"
+                android:textColor="@color/blue"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/thin_border" >
+
+                <com.rentalgeek.android.ui.view.SimpleSpinner
+                    android:id="@+id/cover_rent_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"/>
+
+            </FrameLayout>
+
+            <Button
+                android:id="@+id/submit_button"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="110dp"
+                android:background="@drawable/continue_bg"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:text="SUBMIT"
+                android:layout_gravity="right"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

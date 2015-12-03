@@ -25,12 +25,18 @@
 		    <enum name="round" value="2" />
 		</attr>
 	</declare-styleable>
-	
-	
+
 	 <declare-styleable name="RangeSeekBar">
         <attr name="absoluteMinValue" format="integer|float"/>
         <attr name="absoluteMaxValue" format="integer|float"/>
         <attr name="singleThumb" format="boolean"/>
     </declare-styleable>
-	
+    
+    <declare-styleable name="SearchOptionButton">
+        <attr name="value" format="string"/>
+        <attr name="unselected_bg" format="reference"/>
+        <attr name="selected_bg" format="reference"/>
+        <attr name="selected_txt_color" format="reference"/>
+        <attr name="unselected_txt_color" format="reference"/>
+    </declare-styleable>
 </resources>

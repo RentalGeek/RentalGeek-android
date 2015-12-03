@@ -9,7 +9,7 @@ import java.util.EnumSet;
 
 public class AppLogger {
 
-    private static final String TAG = "CargoLogger";
+    private static final String TAG = "AppLogger";
 
     public static final boolean isEnabled = true;
 
@@ -17,16 +17,12 @@ public class AppLogger {
         INFO, WARN, DEBUG, ERROR, NETWORK, DATABASE, LOCATION, IMAGING
     }
 
-    //@Inject protected static Provider<Context> contextProvider;
-    //@Inject protected static CargoModule cargoModule;
-    //@Inject static CargomaticApplication application;
-
     public static final EnumSet<LogLevel> loggingLevels =
             EnumSet.of(LogLevel.DEBUG
-                    ,LogLevel.ERROR
-                    ,LogLevel.NETWORK
-                    ,LogLevel.DATABASE
-                    ,LogLevel.IMAGING
+                    , LogLevel.ERROR
+                    , LogLevel.NETWORK
+                    , LogLevel.DATABASE
+                    , LogLevel.IMAGING
                     //,LogLevel.LOCATION
             );
 
@@ -51,7 +47,7 @@ public class AppLogger {
                 Log.e(tag, ex.getMessage());
             if (ex != null && printStackTrace)
                 ex.printStackTrace();
-            //Context context = cargoModule.getContext();
+
             try {
                 Crashlytics.logException(ex);
             } catch (Exception e) {
@@ -61,7 +57,7 @@ public class AppLogger {
     }
 
     public static void log(String tag, String message) {
-        if(message != null)
+        if (message != null)
             Log.d(tag, message);
     }
 

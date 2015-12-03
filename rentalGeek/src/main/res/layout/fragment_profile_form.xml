@@ -3,10 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:focusableInTouchMode="true">
 
     <ScrollView
-        android:id="@+id/scrollView1"
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1" >
@@ -20,45 +21,34 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#f3f3f3"
-                android:id="@+id/layoutProfileHeader">
+                android:background="@color/light_creme"
+                android:id="@+id/profile_layout_header">
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-
-                    android:layout_marginTop="20dp"
-                    android:layout_marginLeft="20dip"
-                    android:layout_marginRight="20dip">
+                    android:paddingTop="28dp"
+                    android:paddingLeft="12dip"
+                    android:paddingRight="12dip"
+                    android:paddingBottom="12dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Verify Personal Information"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="#000000"
-                        android:layout_gravity="center_horizontal" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginRight="10dip"
-                        android:layout_marginTop="10dip"
-                        android:text="@string/personal_info_txt"
-                        android:textColor="#000000" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginRight="10dip"
-                        android:layout_marginTop="10dip"
-                        android:text="Personal Information"
-                        android:textColor="#000000"
+                        android:textColor="@color/light_black"
+                        android:textSize="@dimen/edittext_field_label_text_size"
                         android:textStyle="bold"
-                        android:visibility="gone" />
+                        android:gravity="center" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/personal_info_txt"
+                        android:textColor="@color/light_black"
+                        android:textSize="16sp"
+                        android:gravity="center"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -67,793 +57,921 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dip"
-                android:layout_marginRight="20dip"
+                android:paddingLeft="@dimen/profile_form_side_padding"
+                android:paddingRight="@dimen/profile_form_side_padding"
                 android:id="@+id/layoutForm1"
                 android:visibility="gone">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginTop="5dp">
+                    android:paddingTop="60dp"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/first_tag"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="First Name(Mandatory)"
-                        android:textColor="@color/blue"
-                        android:layout_marginLeft="5dp" />
-
-                    <EditText
-                        android:id="@+id/ed_first_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"
-                        android:singleLine="true"
-                        android:layout_below="@id/first_tag" />
-                </RelativeLayout>
+                        android:text="First Name (Mandatory) "
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/edittext_field_label_text_size" />
 
-                <RelativeLayout
+                    <EditText
+                        android:id="@+id/first_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edittext_profile_field_height"
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="first_name"
+                        android:paddingLeft="@dimen/profile_field_padding_left"
+                        android:background="@drawable/thin_border"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords"
+                        android:singleLine="true" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                     android:layout_marginTop="5dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/last_tag"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Last Name (Mandatory) "
                         android:textColor="@color/blue"
-                        android:layout_marginLeft="5dp" />
+                        android:textSize="@dimen/edittext_field_label_text_size" />
 
                     <EditText
-                        android:id="@+id/ed_last_name"
+                        android:id="@+id/last_name"
                         android:layout_width="match_parent"
+                        android:layout_height="@dimen/edittext_profile_field_height"
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="last_name"
+                        android:paddingLeft="@dimen/profile_field_padding_left"
+                        android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
                         android:singleLine="true"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/last_tag" />
-                </RelativeLayout>
+                        android:inputType="textCapWords" />
+                </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginTop="5dp" >
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/born_tag"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Date of Birth (Mandatory)"
-                        android:textColor="@color/blue"
-                        android:layout_marginLeft="5dp" />
-
-                    <EditText
-                        android:id="@+id/ed_born_on"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/born_tag"
-                        android:focusable="false"
-                        android:hint="MM-DD-YYYY" />
-                </RelativeLayout>
+                        android:text="@string/cosign_dob_form_label"
+                        android:textColor="@color/blue"
+                        android:textSize="18sp" />
 
-                <RelativeLayout
+                        <DatePicker
+                            android:id="@+id/dob"
+                            android:tag="born_on"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                            android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                            android:background="@drawable/thin_border">
+                        </DatePicker>
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/license_tag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SSN (Mandatory)"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/edittext_field_label_text_size"  />
+
+                    <EditText
+                        android:id="@+id/ssn"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edittext_profile_field_height"
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="ssn"
+                        android:inputType="number"
+                        android:maxLength="9"
+                        android:paddingLeft="@dimen/profile_field_padding_left"
+                        android:background="@drawable/thin_border"
+                        android:imeOptions="actionNext"
+                        android:singleLine="true" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Drivers License Number"
                         android:textColor="@color/blue"
-                        android:layout_marginLeft="5dp" />
+                        android:textSize="@dimen/edittext_field_label_text_size"  />
 
                     <EditText
-                        android:id="@+id/ed_license"
+                        android:id="@+id/drivers_license"
                         android:layout_width="match_parent"
+                        android:layout_height="@dimen/edittext_profile_field_height"
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="drivers_license_number"
+                        android:paddingLeft="@dimen/profile_field_padding_left"
+                        android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
-                        android:singleLine="true"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/license_tag" />
-                </RelativeLayout>
+                        android:singleLine="true" />
+                </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginTop="5dp">
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/license_state_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Drivers License State"
                         android:textColor="@color/blue"
-                        android:layout_marginLeft="5dp" />
+                        android:textSize="@dimen/edittext_field_label_text_size" />
 
                     <Spinner
-                        android:id="@+id/ed_license_state"
+                        android:id="@+id/drivers_license_state"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/license_state_tag"
-                        android:background="@drawable/underlines"
-                        android:entries="@array/state_list"
-                        android:paddingBottom="9dp" />
-                </RelativeLayout>
+                        android:layout_height="@dimen/edittext_profile_field_height"
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="drivers_license_state"
+                        android:paddingLeft="@dimen/profile_field_padding_left"
+                        android:background="@drawable/thin_border"
+                        android:spinnerMode="dialog"/>
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dip"
-                android:layout_marginRight="20dip"
+                android:paddingLeft="@dimen/profile_form_side_padding"
+                android:paddingRight="@dimen/profile_form_side_padding"
                 android:id="@+id/layoutForm2"
                 android:visibility="gone">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/ph_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dip"
                         android:text="Phone Number (Mandatory)"
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/edittext_field_label_text_size"/>
 
                     <EditText
-                        android:id="@+id/ed_ph"
+                        android:id="@+id/phone_number"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/ph_tag"
+                        android:layout_height="@dimen/edittext_profile_field_height"
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="phone_number"
+                        android:paddingLeft="@dimen/profile_field_padding_left"
+                        android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
                         android:inputType="number"
                         android:maxLength="10" />
-                </RelativeLayout>
+                </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/pets_desc_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dip"
                         android:text="Describe Pets (if any)"
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/edittext_field_label_text_size"/>
 
                     <EditText
-                        android:id="@+id/ed_desc_pets"
+                        android:id="@+id/pets_description"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/edittext_profile_field_height"
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="pets_description"
+                        android:paddingLeft="@dimen/profile_field_padding_left"
+                        android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
-                        android:singleLine="true"
-                        android:layout_below="@id/pets_desc_tag" />
-                </RelativeLayout>
+                        android:singleLine="true" />
+                </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/vehicle_desc_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dip"
                         android:text="Vehicle Make and Model"
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/edittext_field_label_text_size"/>
 
                     <EditText
-                        android:id="@+id/ed_desc_vehicle"
+                        android:id="@+id/vehicle_description"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/edittext_profile_field_height"
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="vehicles_description"
+                        android:paddingLeft="@dimen/profile_field_padding_left"
+                        android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
-                        android:singleLine="true"
-                        android:layout_below="@id/vehicle_desc_tag" />
-                </RelativeLayout>
+                        android:singleLine="true" />
+                </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/was_ecvicted"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dip"
                         android:text="Have you ever been evicted? (Mandatory)"
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/edittext_field_label_text_size"/>
 
                     <Spinner
-                        android:id="@+id/ed_was_envicted"
+                        android:id="@+id/was_evicted"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/was_ecvicted"
-                        android:background="@drawable/underlines"
-                        android:entries="@array/tru"
-                        android:paddingBottom="5dp" />
-                </RelativeLayout>
+                        android:layout_height="@dimen/edittext_profile_field_height"
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="was_ever_evicted"
+                        android:paddingLeft="@dimen/profile_field_padding_left"
+                        android:background="@drawable/thin_border"
+                        android:paddingBottom="5dp"
+                        android:spinnerMode="dialog"/>
+                </LinearLayout>
 
-                <RelativeLayout
-                    android:id="@+id/evdesc"
+                <LinearLayout
+                    android:id="@+id/eviction_description_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/ecvicted_desc_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dip"
                         android:text="Reasons for Eviction"
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/edittext_field_label_text_size"/>
 
                     <EditText
-                        android:id="@+id/ed_envicted_desc"
+                        android:id="@+id/eviction_description"
                         android:layout_width="match_parent"
+                        android:layout_height="@dimen/edittext_profile_field_height"
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="was_ever_evicted_explanation"
+                        android:paddingLeft="@dimen/profile_field_padding_left"
+                        android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
-                        android:singleLine="true"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/ecvicted_desc_tag" />
-                </RelativeLayout>
+                        android:singleLine="true" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dip"
-                android:layout_marginRight="20dip"
+                android:paddingLeft="@dimen/profile_form_side_padding"
+                android:paddingRight="@dimen/profile_form_side_padding"
                 android:id="@+id/layoutForm3"
                 android:visibility="gone">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/is_felon_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dip"
                         android:text="Have you ever been convicted of a felony? (Mandatory)"
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/edittext_field_label_text_size"/>
 
                     <Spinner
-                        android:id="@+id/ed_felon"
+                        android:id="@+id/was_felon"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/is_felon_tag"
-                        android:background="@drawable/underlines"
-                        android:entries="@array/tru"
-                        android:hint="No"
-                        android:paddingBottom="5dp" />
-                </RelativeLayout>
+                        android:layout_height="@dimen/edittext_profile_field_height"
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="is_felon"
+                        android:paddingLeft="@dimen/profile_field_padding_left"
+                        android:background="@drawable/thin_border"
+                        android:spinnerMode="dialog" />
+                </LinearLayout>
 
-                <RelativeLayout
-                    android:id="@+id/is_felon_lay"
+                <LinearLayout
+                    android:id="@+id/felony_description_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/is_felon_desc_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dip"
                         android:text="Please describe felony"
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/edittext_field_label_text_size"/>
 
                     <EditText
-                        android:id="@+id/ed_felon_desc"
+                        android:id="@+id/felony_description"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/edittext_profile_field_height"
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="is_felon_description"
+                        android:paddingLeft="@dimen/profile_field_padding_left"
+                        android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
-                        android:singleLine="true"
-                        android:layout_below="@id/is_felon_desc_tag"
-                        android:hint="" />
-                </RelativeLayout>
+                        android:singleLine="true" />
+                </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/char_ref_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dip"
                         android:text="Please provide the name of a character reference (Mandatory)"
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/edittext_field_label_text_size"/>
 
                     <EditText
-                        android:id="@+id/ed_char_ref"
+                        android:id="@+id/character_reference_name"
                         android:layout_width="match_parent"
+                        android:layout_height="@dimen/edittext_profile_field_height"
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="character_reference_name"
+                        android:paddingLeft="@dimen/profile_field_padding_left"
+                        android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
-                        android:singleLine="true"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/char_ref_tag" />
-                </RelativeLayout>
+                        android:inputType="textCapWords"
+                        android:singleLine="true" />
+                </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/char_ref_contact_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dip"
-                        android:text="Phone Number of Character Reference (Mandatory)"
-                        android:textColor="@color/blue" />
+                        android:text="Phone number of character reference (Mandatory)"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/edittext_field_label_text_size"/>
 
                     <EditText
-                        android:id="@+id/ed_char_ref_conifo"
+                        android:id="@+id/character_reference_phone"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/edittext_profile_field_height"
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="character_reference_contact_info"
+                        android:paddingLeft="@dimen/profile_field_padding_left"
+                        android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
-                        android:layout_below="@id/char_ref_contact_tag"
                         android:inputType="phone"
                         android:maxLength="10" />
-                </RelativeLayout>
+                </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/emer_contact_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dip"
-                        android:text=" Please provide emergency contact name (Mandatory)"
-                        android:textColor="@color/blue" />
+                        android:text="Please provide emergency contact name (Mandatory)"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/edittext_field_label_text_size"/>
 
                     <EditText
-                        android:id="@+id/ed_emer_conifo"
+                        android:id="@+id/emergency_contact_name"
                         android:layout_width="match_parent"
+                        android:layout_height="@dimen/edittext_profile_field_height"
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="emergency_contact_name"
+                        android:paddingLeft="@dimen/profile_field_padding_left"
+                        android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
-                        android:singleLine="true"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/emer_contact_tag" />
-                </RelativeLayout>
+                        android:inputType="textCapWords"
+                        android:singleLine="true" />
+                </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/emer_contact_ph_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dip"
                         android:text="Please provide an emergency contact phone number (Mandatory)"
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/edittext_field_label_text_size"/>
 
                     <EditText
-                        android:id="@+id/ed_emer_ph"
+                        android:id="@+id/emergency_contact_phone"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/edittext_profile_field_height"
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="emergency_contact_phone_number"
+                        android:paddingLeft="@dimen/profile_field_padding_left"
+                        android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
-                        android:layout_below="@id/emer_contact_ph_tag"
                         android:inputType="number"
                         android:maxLength="10" />
-                </RelativeLayout>
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dip"
-                android:layout_marginRight="20dip"
+                android:layout_marginLeft="@dimen/profile_form_side_padding"
+                android:layout_marginRight="@dimen/profile_form_side_padding"
                 android:id="@+id/layoutForm4"
                 android:visibility="gone">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/curr_home_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dip"
                         android:text="Current home address (Mandatory) "
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/edittext_field_label_text_size"/>
 
                     <AutoCompleteTextView
-                        android:id="@+id/ed_home_addr"
+                        android:id="@+id/current_home_address"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/edittext_profile_field_height"
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="current_home"
+                        android:paddingLeft="@dimen/profile_field_padding_left"
+                        android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
                         android:singleLine="true"
-                        android:layout_below="@id/curr_home_tag"
                         android:hint="Please enter your address" >
-
                     </AutoCompleteTextView>
-                    <!--<EditText-->
-                        <!--android:id="@+id/ed_home_addr"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:imeOptions="actionNext"-->
-                        <!--android:singleLine="true"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_below="@id/curr_home_tag" />-->
-                </RelativeLayout>
+                </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/curr_home_mov_in_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dip"
                         android:text="Date you moved into your current address. (Mandatory)"
-                        android:textColor="@color/blue" />
-
-                    <EditText
-                        android:id="@+id/ed_curr_home_mov_in"
-                        android:layout_width="match_parent"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/edittext_field_label_text_size"/>
+                    
+                    <DatePicker
+                        android:id="@+id/current_move_date"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/curr_home_mov_in_tag"
-                        android:focusable="false" />
-                </RelativeLayout>
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="current_home_moved_in_on"
+                        android:background="@drawable/thin_border"/>
+                </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/curr_own_dis_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dip"
                         android:text="Reason for moving"
-                        android:textColor="@color/blue" />
-
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/edittext_field_label_text_size"/>
+ 
                     <EditText
-                        android:id="@+id/ed_curr_home_diss"
+                        android:id="@+id/move_reason"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"
-                        android:singleLine="true"
-                        android:layout_below="@id/curr_own_dis_tag" />
-                </RelativeLayout>
+                        android:layout_height="@dimen/edittext_profile_field_height"
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="current_home_dissatisfaction_explanation"
+                        android:paddingLeft="@dimen/profile_field_padding_left"
+                        android:background="@drawable/thin_border"/>
 
-                <RelativeLayout
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:layout_weight="1" >
-
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    
                     <TextView
-                        android:id="@+id/curr_own_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dip"
-                        android:text="Owner/ landlord of your current residence (Mandatory)"
-                        android:textColor="@color/blue" />
+                        android:text="Owner/landlord of your current residence (Mandatory)"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/edittext_field_label_text_size"/>
 
                     <EditText
-                        android:id="@+id/ed_curr_home_own"
+                        android:id="@+id/current_home_owner"
                         android:layout_width="match_parent"
-                        android:imeOptions="actionNext"
-                        android:singleLine="true"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/curr_own_tag" />
-                </RelativeLayout>
+                        android:layout_height="@dimen/edittext_profile_field_height"
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="current_home_owner"
+                        android:paddingLeft="@dimen/profile_field_padding_left"
+                        android:background="@drawable/thin_border"
+                        android:inputType="textCapWords"
+                        android:singleLine="true"/>
 
-                <RelativeLayout
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/curr_own_cont_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dip"
-                        android:text="Phone number of the Owner/ Landlord of your current residence (Mandatory)"
-                        android:textColor="@color/blue" />
+                        android:text="Phone number of the Owner/Landlord of your current residence (Mandatory)"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/edittext_field_label_text_size"/>
 
                     <EditText
-                        android:id="@+id/ed_curr_own_cont"
+                        android:id="@+id/current_home_owner_phone"
                         android:layout_width="match_parent"
+                        android:layout_height="@dimen/edittext_profile_field_height"
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="current_home_owner_contact_info"
+                        android:paddingLeft="@dimen/profile_field_padding_left"
+                        android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/curr_own_cont_tag"
                         android:inputType="number"
                         android:maxLength="10" />
-                </RelativeLayout>
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dip"
-                android:layout_marginRight="20dip"
+                android:layout_marginLeft="@dimen/profile_form_side_padding"
+                android:layout_marginRight="@dimen/profile_form_side_padding"
                 android:id="@+id/layoutForm5"
                 android:visibility="gone">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/prev_own_stree_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dip"
                         android:text="Previous home address"
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/edittext_field_label_text_size"/>
 
-                    <EditText
-                        android:id="@+id/ed_prev_own_stree"
+                    <AutoCompleteTextView
+                        android:id="@+id/previous_home_address"
                         android:layout_width="match_parent"
+                        android:layout_height="@dimen/edittext_profile_field_height"
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="previous_home"
+                        android:paddingLeft="@dimen/profile_field_padding_left"
+                        android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
-                        android:singleLine="true"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/prev_own_stree_tag" />
-                </RelativeLayout>
+                        android:singleLine="true">
+                    </AutoCompleteTextView>
 
-                <RelativeLayout
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/prev_own_movedin_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dip"
                         android:focusable="false"
                         android:text="Date you moved into your previous address"
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/edittext_field_label_text_size"/>
 
-                    <EditText
-                        android:id="@+id/ed_prev_hme_movedin"
-                        android:layout_width="match_parent"
+                    <DatePicker
+                        android:id="@+id/previous_move_in_date"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/prev_own_movedin_tag"
-                        android:focusable="false" />
-                </RelativeLayout>
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="previous_home_moved_in_on"
+                        android:background="@drawable/thin_border" />
+                </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/prev_own_movedout_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dip"
                         android:text="Date you moved out of your previous address"
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/edittext_field_label_text_size"/>
 
-                    <EditText
-                        android:id="@+id/ed_prev_hme_movedout"
-                        android:layout_width="match_parent"
+                    <DatePicker
+                        android:id="@+id/previous_move_out_date"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/prev_own_movedout_tag"
-                        android:focusable="false" />
-                </RelativeLayout>
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="previous_home_moved_out"
+                        android:background="@drawable/thin_border" />
+                </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/prev_own_hme_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dip"
                         android:text="Previous Home Owner"
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/edittext_field_label_text_size"/>
 
                     <EditText
-                        android:id="@+id/ed_prev_hme_own"
+                        android:id="@+id/previous_home_owner"
                         android:layout_width="match_parent"
+                        android:layout_height="@dimen/edittext_profile_field_height"
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="previous_home_owner"
+                        android:paddingLeft="@dimen/profile_field_padding_left"
+                        android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
-                        android:singleLine="true"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/prev_own_hme_tag" />
-                </RelativeLayout>
+                        android:inputType="textCapWords"
+                        android:singleLine="true" />
+                </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/prev_own_hme_cnt_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dip"
                         android:text="Phone number of the Owner/Landlord of your previous residence"
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/edittext_field_label_text_size"/>
 
                     <EditText
-                        android:id="@+id/ed_prev_hme_own_cnt"
+                        android:id="@+id/previous_home_owner_phone"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/edittext_profile_field_height"
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="previous_home_owner_contact_info"
+                        android:paddingLeft="@dimen/profile_field_padding_left"
+                        android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
-                        android:layout_below="@id/prev_own_hme_cnt_tag"
                         android:inputType="number"
                         android:maxLength="10" />
-                </RelativeLayout>
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dip"
-                android:layout_marginRight="20dip"
+                android:layout_marginLeft="@dimen/profile_form_side_padding"
+                android:layout_marginRight="@dimen/profile_form_side_padding"
                 android:id="@+id/layoutForm6"
                 android:visibility="gone">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/empl_super_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dip"
                         android:text="Current Employment Supervisor"
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/edittext_field_label_text_size"/>
 
                     <EditText
-                        android:id="@+id/ed_empl_super"
+                        android:id="@+id/current_supervisor"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/edittext_profile_field_height"
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="current_employment_supervisor"
+                        android:paddingLeft="@dimen/profile_field_padding_left"
+                        android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
-                        android:singleLine="true"
-                        android:layout_below="@id/empl_super_tag" />
-                </RelativeLayout>
+                        android:inputType="textCapWords"
+                        android:singleLine="true" />
+                </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/empl_sta_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dip"
                         android:text="Employment Status (Mandatory)"
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/edittext_field_label_text_size"/>
 
                     <Spinner
-                        android:id="@+id/ed_empl_sta"
+                        android:id="@+id/employment_status"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/empl_sta_tag"
-                        android:background="@drawable/underlines"
-                        android:entries="@array/empl"
-                        android:paddingBottom="5dp" />
-                </RelativeLayout>
+                        android:layout_height="@dimen/edittext_profile_field_height"
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="employment_status"
+                        android:paddingLeft="@dimen/profile_field_padding_left"
+                        android:background="@drawable/thin_border"
+                        android:spinnerMode="dialog" />
+                </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/cosigner_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dip"
                         android:text="Cosigner Name (Mandatory)"
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/edittext_field_label_text_size"/>
 
                     <EditText
-                        android:id="@+id/ed_cosigner"
+                        android:id="@+id/cosigner_name"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/edittext_profile_field_height"
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="cosigner_name"
+                        android:paddingLeft="@dimen/profile_field_padding_left"
+                        android:background="@drawable/thin_border"
                         android:imeOptions="actionNext"
-                        android:singleLine="true"
-                        android:layout_below="@id/cosigner_tag" />
-                </RelativeLayout>
+                        android:inputType="textCapWords"
+                        android:singleLine="true" />
+                </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/cosigner_email_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dip"
                         android:text="Cosigner Email Address (Mandatory)"
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/edittext_field_label_text_size"/>
 
                     <EditText
-                        android:id="@+id/ed_cosigner_email"
+                        android:id="@+id/cosigner_email"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/edittext_profile_field_height"
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="cosigner_email_address"
+                        android:paddingLeft="@dimen/profile_field_padding_left"
+                        android:background="@drawable/thin_border"
                         android:singleLine="true"
-                        android:layout_below="@id/cosigner_email_tag"
                         android:inputType="textEmailAddress" />
-                </RelativeLayout>
+                </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/mov_desir_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dip"
-                        android:text="Desire To Move In On"
-                        android:textColor="@color/blue" />
+                        android:text="Desired Date To Move In"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/edittext_field_label_text_size"/>
 
-                    <EditText
-                        android:id="@+id/ed_desir_mov"
-                        android:layout_width="match_parent"
+                    <DatePicker
+                        android:id="@+id/desired_move_date"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/mov_desir_tag"
-                        android:focusable="false" />
-                </RelativeLayout>
+                        android:layout_marginTop="@dimen/edittext_profile_field_margin_top"
+                        android:layout_marginBottom="@dimen/edittext_profile_field_margin_bottom"
+                        android:tag="desires_to_move_in_on"
+                        android:background="@drawable/thin_border" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -863,7 +981,7 @@
                 android:layout_margin="20dp">
 
                 <Button
-                    android:id="@+id/buttonBack"
+                    android:id="@+id/back"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -874,7 +992,7 @@
                     android:layout_margin="10dp" />
 
                 <Button
-                    android:id="@+id/profile_submit"
+                    android:id="@+id/submit"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -883,10 +1001,7 @@
                     android:textColor="#ffffff"
                     android:layout_weight="1"
                     android:layout_margin="10dp" />
-
             </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
-
 </LinearLayout>

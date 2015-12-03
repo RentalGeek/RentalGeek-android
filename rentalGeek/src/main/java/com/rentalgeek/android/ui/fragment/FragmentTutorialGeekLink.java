@@ -14,40 +14,38 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 /**
- * 
  * @author George
- * 
  * @purpose Third slide introduction
- *
  */
 public class FragmentTutorialGeekLink extends Fragment {
-  
-	@InjectView(R.id.armed)
-	TextView armed;
 
-	public static FragmentTutorialGeekLink newInstance() {
-		FragmentTutorialGeekLink fragment = new FragmentTutorialGeekLink();
+    @InjectView(R.id.armed)
+    TextView armed;
 
-		return fragment;
-	}
+    public static FragmentTutorialGeekLink newInstance() {
+        FragmentTutorialGeekLink fragment = new FragmentTutorialGeekLink();
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+        return fragment;
+    }
 
-		View v = inflater.inflate(R.layout.fragment_tutorial_geeklink, container, false);
-		
-		ButterKnife.inject(this,v);
-		armed.setText(Html.fromHtml(getActivity().getResources().getString(R.string.armed)));
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-		return v;
+        View v = inflater.inflate(R.layout.fragment_tutorial_geeklink, container, false);
 
-	}
-	@Override
-	public void onDestroyView() {
+        ButterKnife.inject(this, v);
+        armed.setText(Html.fromHtml(getActivity().getResources().getString(R.string.armed)));
 
-		super.onDestroyView();
-		ButterKnife.reset(this);
-	}
+        return v;
+
+    }
+
+    @Override
+    public void onDestroyView() {
+
+        super.onDestroyView();
+        ButterKnife.reset(this);
+    }
 
 }

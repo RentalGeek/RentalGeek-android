@@ -2,16 +2,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/splashnewone"
+    android:background="@drawable/splash_bg"
     android:orientation="vertical" >
+
+    <View
+        android:id="@+id/anchor_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"/>
 
     <ImageView
         android:id="@+id/imageView1"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_width="150dp"
+        android:layout_height="77dp"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="20dp"
-        android:src="@drawable/logo" />
+        android:layout_above="@id/anchor_view"
+        android:src="@drawable/simple_logo" />
 
 </RelativeLayout>

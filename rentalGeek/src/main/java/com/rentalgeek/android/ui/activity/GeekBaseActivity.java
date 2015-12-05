@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
 
+import com.facebook.appevents.AppEventsLogger;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.model.User;
@@ -66,6 +67,13 @@ public class GeekBaseActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (authRequired) checkLogin();
+        AppEventsLogger.activateApp(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AppEventsLogger.deactivateApp(this);
     }
 
     @Override

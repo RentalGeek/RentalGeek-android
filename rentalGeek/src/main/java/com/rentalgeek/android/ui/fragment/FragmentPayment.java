@@ -45,30 +45,24 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
     private Validator validator;
     AppPrefes appPref;
 
-    @InjectView(R.id.verify_card)
-    Button verify_card;
+    @InjectView(R.id.verify_card) Button verify_card;
 
     @Required(order = 1, message = "Please enter a valid card")
     @TextRule(order = 2, minLength = 16, maxLength = 16, message = "Please enter a 16 digit card number")
-    @InjectView(com.rentalgeek.android.R.id.editTextCardNumber)
-    EditText cardNo;
+    @InjectView(com.rentalgeek.android.R.id.editTextCardNumber) EditText cardNo;
 
     @Required(order = 3, message = "Please enter a valid card name")
-    @InjectView(R.id.editTextNameOnCard)
-    EditText cardName;
+    @InjectView(R.id.editTextNameOnCard) EditText cardName;
 
     @Select(order = 6, message = "Please select a valid month")
-    @InjectView(R.id.ed_mm)
-    Spinner ed_mm;
+    @InjectView(R.id.ed_mm) Spinner ed_mm;
 
     @Select(order = 6, message = "Please enter a valid year")
-    @InjectView(R.id.ed_yyyy)
-    Spinner edYYYY;
+    @InjectView(R.id.ed_yyyy) Spinner edYYYY;
 
     @Required(order = 8, message = "Please enter a valid cvv")
     @TextRule(order = 9, minLength = 3, maxLength = 3, message = "Please enter a valid cvv")
-    @InjectView(R.id.editTextCVV)
-    EditText edCvv;
+    @InjectView(R.id.editTextCVV) EditText edCvv;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -209,7 +203,6 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
                         if (errorResponse != null && !ListUtils.isNullOrEmpty(errorResponse.errors)) {
                             DialogManager.showCrouton(activity, errorResponse.errors.get(0).message);
                         }
-
                     }
 
                     @Override
@@ -243,10 +236,7 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                         dialog.cancel();
-
-                        //nextfragment(new FragmentListViewDetails(), false ,R.id.container);
                     }
                 });
         AlertDialog alert11 = builder1.create();

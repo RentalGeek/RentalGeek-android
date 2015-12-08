@@ -5,21 +5,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by rajohns on 9/29/15.
- */
 public class ResponseParser {
 
     public ErrorMsg humanizedErrorMsg(String response) {
-        String key = "";
-        String msg = "";
+        String key;
+        String msg;
         try {
             JSONObject outerObject = new JSONObject(response);
             JSONObject innerError = outerObject.getJSONObject("errors");
             key = innerError.keys().next();
 
             JSONArray errorArray = innerError.getJSONArray(key);
-            msg = errorArray.getString(0).toString();
+            msg = errorArray.getString(0);
 
             key = humanize(key);
             msg = humanize(msg);
@@ -31,7 +28,6 @@ public class ResponseParser {
 
         return new ErrorMsg("", "");
     }
-
 
     public static String humanize(String str) {
         str = str.replace("_", " ");

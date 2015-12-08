@@ -41,9 +41,7 @@ import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.AppPrefes;
-import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityCreateProfile;
-import com.rentalgeek.android.ui.activity.ActivityPayment;
 import com.rentalgeek.android.ui.adapter.PlaceAutocompleteAdapter;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.ui.view.AutoCompleteAddressListener;
@@ -254,25 +252,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_profile_form, container, false);
         ButterKnife.inject(this, v);
-
-        if (!SessionManager.Instance.hasPayed()) {
-            AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
-            builder1.setMessage(getActivity().getResources().getString(R.string.geek_go));
-            builder1.setTitle("Alert");
-            builder1.setCancelable(true);
-            builder1.setPositiveButton("Create",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                            activity.finish();
-                            Navigation.navigateActivity(activity, ActivityPayment.class, false);
-                        }
-                    });
-
-            AlertDialog alert11 = builder1.create();
-            alert11.show();
-
-        }
 
         appPref = new AppPrefes(getActivity(), "rentalgeek");
         validator = new Validator(this);
@@ -609,7 +588,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
     }
 
     private RequestParams buildRequestParams() {
-
         RequestParams params = new RequestParams();
 
         Profile profile = SessionManager.Instance.getDefaultProfile();
@@ -625,7 +603,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                 params.put(String.format(format, field), value.toString());
             }
         }
-
 
         params.put("user[first_name]", user.first_name);
         params.put("user[last_name]", user.last_name);
@@ -804,4 +781,10 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
     }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
 }

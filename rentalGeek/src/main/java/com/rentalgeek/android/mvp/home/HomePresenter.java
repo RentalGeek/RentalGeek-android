@@ -8,6 +8,7 @@ import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.ErrorAlertEvent;
+import com.rentalgeek.android.bus.events.NoRentalsEvent;
 import com.rentalgeek.android.bus.events.SetRentalsEvent;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
@@ -26,8 +27,12 @@ public class HomePresenter implements Presenter {
     private static final String TAG = HomePresenter.class.getSimpleName();
 
     @Override
-    public void getRentalOfferings() {
+    public void getRentalOfferings(String location) {
         String url = ApiManager.getPropertySearchUrl();
+        if (!location.equals("")) {
+            url += "?search[location]=" + location;
+        }
+
         String token = AppPreferences.getAuthToken();
 
         System.out.println(url);
@@ -64,6 +69,8 @@ public class HomePresenter implements Presenter {
                         }
 
                         AppEventBus.post(new SetRentalsEvent(rentals));
+                    } else {
+                        AppEventBus.post(new NoRentalsEvent());
                     }
                 } catch (Exception e) {
                     Log.e(TAG, e.getMessage());

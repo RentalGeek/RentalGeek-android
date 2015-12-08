@@ -111,6 +111,11 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name=".ui.activity.ActivityNeedPayment"
+            android:label="Make Payment"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name=".ui.activity.ActivityPayment"
             android:label="Payment"
             android:noHistory="true"

@@ -1,20 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/map_frame_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:focusableInTouchMode="true">
 
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+    <FrameLayout
+        android:id="@+id/map_frame_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-    
-    <fragment
-        android:id="@+id/rental"
-        android:name="com.rentalgeek.android.ui.fragment.FragmentRental"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="65dp">
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <fragment
+            android:id="@+id/rental"
+            android:name="com.rentalgeek.android.ui.fragment.FragmentRental"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"/>
+
+    </FrameLayout>
+
+    <AutoCompleteTextView
+        android:id="@+id/location_autocompletetextview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"/>
-</FrameLayout>
+        android:layout_height="45dp"
+        android:hint="Search by City, State"
+        android:singleLine="true"
+        android:padding="10dp"
+        android:layout_marginTop="-55dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/thin_border"/>
+
+</LinearLayout>

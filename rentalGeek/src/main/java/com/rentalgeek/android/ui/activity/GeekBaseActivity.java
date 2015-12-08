@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
 
+import com.facebook.appevents.AppEventsLogger;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.model.User;
@@ -45,8 +46,6 @@ public class GeekBaseActivity extends AppCompatActivity {
     protected DrawerLayout drawerLayout;
     protected NavigationView navigationView;
 
-    //final View coordinatorLayoutView = findViewById(R.id.snackbarPosition);
-
     protected boolean showSlider;
     protected boolean showActionBar;
     protected boolean authRequired;
@@ -66,6 +65,13 @@ public class GeekBaseActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (authRequired) checkLogin();
+        AppEventsLogger.activateApp(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AppEventsLogger.deactivateApp(this);
     }
 
     @Override
@@ -286,12 +292,15 @@ public class GeekBaseActivity extends AppCompatActivity {
                         return true;
                     case R.id.geek_score:
                         User user = SessionManager.Instance.getCurrentUser();
-                        if (user == null)
+                        if (user == null) {
                             Navigation.navigateActivity(activity, ActivityLogin.class, true);
-                        if (SessionManager.Instance.hasProfile())
-                            Navigation.navigateActivity(activity, ActivityGeekScore.class);
-                        else
+                        } else if (!SessionManager.Instance.hasProfile()) {
                             Navigation.navigateActivity(activity, ActivityCreateProfile.class);
+                        } else if (!SessionManager.Instance.hasPayed()) {
+                            Navigation.navigateActivity(activity, ActivityNeedPayment.class);
+                        } else {
+                            Navigation.navigateActivity(activity, ActivityGeekScore.class);
+                        }
                         return true;
                     case R.id.favorites:
                         Navigation.navigateActivity(activity, ActivityFavoriteRentals.class);
@@ -344,7 +353,6 @@ public class GeekBaseActivity extends AppCompatActivity {
         };
 
         if (menu != null) {
-
             for (int i = 0; i < v2MenuItems.length; i++) {
                 MenuItem menuItem = menu.findItem(v2MenuItems[i]);
                 if (menuItem != null) {
@@ -446,4 +454,5 @@ public class GeekBaseActivity extends AppCompatActivity {
     public void onEventMainThread(ErrorCroutonEvent event) {
         DialogManager.showCrouton(this,event.getMessage());
     }
+
 }

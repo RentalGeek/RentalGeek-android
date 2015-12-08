@@ -14,8 +14,6 @@ import com.rentalgeek.android.ui.view.NonSwipeableViewPager;
 
 public class ActivityCreateProfile extends GeekBaseActivity {
 
-    private static final String TAG = ActivityCreateProfile.class.getSimpleName();
-
     NonSwipeableViewPager mPager;
     ProfileFormAdapter mAdapter;
 
@@ -40,13 +38,9 @@ public class ActivityCreateProfile extends GeekBaseActivity {
         });
 
         mPager.setOnTouchListener(new View.OnTouchListener() {
-
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-
-                //swipeTimer.cancel();
                 return false;
-
             }
         });
 
@@ -57,7 +51,6 @@ public class ActivityCreateProfile extends GeekBaseActivity {
             System.out.println(page);
             flipPager(page);
         }
-
     }
 
     public void flipPager(int position) {
@@ -65,6 +58,7 @@ public class ActivityCreateProfile extends GeekBaseActivity {
     }
 
     public void onEventMainThread(SubmitProfileEvent event) {
-        Navigation.navigateActivity(this, ActivityGeekScore.class);
+        Navigation.navigateActivity(this, ActivityNeedPayment.class);
     }
+
 }

@@ -8,8 +8,6 @@ import com.rentalgeek.android.ui.fragment.FragmentPayment;
 
 public class ActivityPayment extends GeekBaseActivity {
 
-    private static final String TAG = ActivityPayment.class.getSimpleName();
-
     public ActivityPayment() {
         super(true, true, true);
     }
@@ -29,4 +27,5 @@ public class ActivityPayment extends GeekBaseActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
         }
     }
+
 }

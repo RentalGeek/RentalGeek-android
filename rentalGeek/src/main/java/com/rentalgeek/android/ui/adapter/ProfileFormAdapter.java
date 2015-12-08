@@ -15,7 +15,6 @@ public class ProfileFormAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-
         switch (position) {
             case 0:
             case 1:
@@ -24,7 +23,6 @@ public class ProfileFormAdapter extends FragmentPagerAdapter {
             case 4:
             case 5:
                 return FragmentProfileForm.newInstance(position);
-
             default:
                 return null;
         }
@@ -32,7 +30,6 @@ public class ProfileFormAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-
         return 6;
     }
 

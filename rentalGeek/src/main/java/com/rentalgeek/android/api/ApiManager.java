@@ -101,12 +101,6 @@ public class ApiManager {
         return cosignerInvitesUrl() + "/" + inviteId + "/deny";
     }
 
-//    public static String getRemoveStarredPropertyUrl(String propertyId) {
-//        String url = API_HOST + "/starred_properties/remove_star";
-//        if (TextUtils.isEmpty(propertyId)) return url;
-//        return String.format("%s/%s", url, propertyId);
-//    }
-
     public static String getRental(String rental_id) {
         return String.format("%s/%s/%s", API_HOST, "rental_offerings", rental_id);
     }

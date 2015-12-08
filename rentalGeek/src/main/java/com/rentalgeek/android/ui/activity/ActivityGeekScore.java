@@ -15,7 +15,6 @@ import com.rentalgeek.android.ui.fragment.FragmentGeekScoreWait;
 
 public class ActivityGeekScore extends GeekBaseActivity implements GeekScoreView {
 
-    private static final String TAG = ActivityGeekScore.class.getSimpleName();
     private GeekScorePresenter presenter;
 
     public ActivityGeekScore() {
@@ -31,7 +30,6 @@ public class ActivityGeekScore extends GeekBaseActivity implements GeekScoreView
         setupNavigation();
         setMenuItemSelected(R.id.geek_score);
         presenter = new GeekScorePresenter();
-
     }
 
     @Override
@@ -40,14 +38,14 @@ public class ActivityGeekScore extends GeekBaseActivity implements GeekScoreView
         presenter.getGeekScore();
     }
 
-
     @Override
     public void showGeekScore(String geek_score) {
         FragmentGeekScore fragment = new FragmentGeekScore();
         Bundle args = getIntent().getExtras();
 
-        if (args == null)
+        if (args == null) {
             args = new Bundle();
+        }
 
         args.putString("GEEK_SCORE", geek_score);
         fragment.setArguments(args);
@@ -73,4 +71,5 @@ public class ActivityGeekScore extends GeekBaseActivity implements GeekScoreView
     public void onEventMainThread(ShowGeekScoreWait event) {
         showGeekScoreWait();
     }
+
 }

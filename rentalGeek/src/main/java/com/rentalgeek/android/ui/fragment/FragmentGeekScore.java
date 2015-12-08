@@ -15,18 +15,10 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-/**
- * Created by Alan R on 10/3/15.
- */
 public class FragmentGeekScore extends GeekBaseFragment {
 
-    private static final String TAG = "FragmentGeekScore";
-
-    @InjectView(R.id.geek_score)
-    TextView geek_score_textview;
-
-    @InjectView(R.id.home_button)
-    Button home_button;
+    @InjectView(R.id.geek_score) TextView geek_score_textview;
+    @InjectView(R.id.home_button) Button home_button;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstance) {
@@ -49,4 +41,5 @@ public class FragmentGeekScore extends GeekBaseFragment {
     public void onHomeClick() {
         AppEventBus.post(new ClickHomeEvent());
     }
+
 }

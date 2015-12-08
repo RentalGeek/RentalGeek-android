@@ -28,10 +28,10 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingTop="28dp"
+                    android:paddingTop="15dp"
                     android:paddingLeft="12dip"
                     android:paddingRight="12dip"
-                    android:paddingBottom="12dp">
+                    android:paddingBottom="15dp">
 
                     <TextView
                         android:layout_width="match_parent"

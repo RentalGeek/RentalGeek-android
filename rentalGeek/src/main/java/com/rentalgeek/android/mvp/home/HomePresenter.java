@@ -21,10 +21,16 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class HomePresenter implements Presenter {
 
     private static final String TAG = HomePresenter.class.getSimpleName();
+    Map<String, Integer> numDuplicatesAtLocation = new HashMap<>();
 
     @Override
     public void getRentalOfferings(String location) {
@@ -34,9 +40,6 @@ public class HomePresenter implements Presenter {
         }
 
         String token = AppPreferences.getAuthToken();
-
-        System.out.println(url);
-        System.out.println(token);
 
         GlobalFunctions.getApiCall(null, url, token, new GeekHttpResponseHandler() {
             @Override
@@ -51,7 +54,6 @@ public class HomePresenter implements Presenter {
 
             @Override
             public void onSuccess(String response) {
-
                 try {
                     System.out.println(response);
 
@@ -59,16 +61,16 @@ public class HomePresenter implements Presenter {
                     JSONArray rentalOfferings = json.getJSONArray("rental_offerings");
 
                     Rental[] rentals = GeekGson.getInstance().fromJson(rentalOfferings.toString(), Rental[].class);
+                    Rental[] offsetRentals = offsetDuplicateLocations(rentals);
 
-                    if (rentals != null && rentals.length > 0) {
+                    if (offsetRentals.length > 0) {
+                        System.out.println(String.format("Found %d rentals based on query.", offsetRentals.length));
 
-                        System.out.println(String.format("Found %d rentals based on query.", rentals.length));
-
-                        for (Rental rental : rentals) {
+                        for (Rental rental : offsetRentals) {
                             RentalCache.getInstance().add(rental);
                         }
 
-                        AppEventBus.post(new SetRentalsEvent(rentals));
+                        AppEventBus.post(new SetRentalsEvent(offsetRentals));
                     } else {
                         AppEventBus.post(new NoRentalsEvent());
                     }
@@ -92,17 +94,47 @@ public class HomePresenter implements Presenter {
         });
     }
 
+    private Rental[] offsetDuplicateLocations(Rental[] originalRentals) {
+        Set<String> locations = new HashSet<>();
+        List<Rental> offsetRentals = new ArrayList<>();
+
+        for (Rental rental : originalRentals) {
+            if (!locations.add(rental.coordinates())) {
+                Rental offsetRental = slightlyOffsetDuplicate(rental);
+                offsetRentals.add(offsetRental);
+            } else {
+                offsetRentals.add(rental);
+            }
+        }
+
+        return offsetRentals.toArray(new Rental[offsetRentals.size()]);
+    }
+
+    private Rental slightlyOffsetDuplicate(Rental rental) {
+        Integer countAtThisLocation = 1;
+        if (numDuplicatesAtLocation.containsKey(rental.coordinates())) {
+            countAtThisLocation = numDuplicatesAtLocation.get(rental.coordinates());
+            numDuplicatesAtLocation.put(rental.coordinates(), ++countAtThisLocation);
+        } else {
+            numDuplicatesAtLocation.put(rental.coordinates(), countAtThisLocation);
+        }
+
+        Rental offsetRental = rental;
+        String tinyOffset = "0.00" + Integer.toString(countAtThisLocation);
+        Double tinyOffsetNum = Double.parseDouble(tinyOffset);
+        offsetRental.offsetLatitude(tinyOffsetNum);
+        offsetRental.offsetLongitude(tinyOffsetNum);
+
+        return offsetRental;
+    }
+
     @Override
     public void getRentalOfferings(Bundle bundle) {
-
         Rental[] rentals = {};
 
         if (bundle != null) {
-
             ArrayList<String> rental_ids = bundle.getStringArrayList("RENTALS");
-
             int size = rental_ids.size();
-
             rentals = new Rental[size];
 
             for (int i = 0; i < size; i++) {
@@ -115,6 +147,5 @@ public class HomePresenter implements Presenter {
             String message = RentalGeekApplication.getResourceString(R.string.oops);
             AppEventBus.post(new ErrorAlertEvent(title, message));
         }
-
     }
 }

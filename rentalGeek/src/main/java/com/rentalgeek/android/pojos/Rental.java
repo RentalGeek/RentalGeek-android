@@ -35,8 +35,16 @@ public class Rental {
         return latitude;
     }
 
+    public void offsetLatitude(double offset) {
+        this.latitude = latitude + offset;
+    }
+
     public double getLongitude() {
         return longitude;
+    }
+
+    public void offsetLongitude(double offset) {
+        this.longitude = longitude + offset;
     }
 
     public int getBedroomCount() {
@@ -108,4 +116,9 @@ public class Rental {
     public boolean applied() {
         return already_applied;
     }
+
+    public String coordinates() {
+        return Double.toString(getLatitude()) + ", " + Double.toString(getLongitude());
+    }
+
 }

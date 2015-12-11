@@ -15,6 +15,7 @@ import com.rentalgeek.android.pojos.Rental;
 import com.rentalgeek.android.storage.RentalCache;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.GeekGson;
+import com.rentalgeek.android.utils.GeoLocationUtils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -99,15 +100,15 @@ public class SearchPresenter implements Presenter {
                         JSONArray rentalOfferings = json.getJSONArray("rental_offerings");
 
                         Rental[] rentals = GeekGson.getInstance().fromJson(rentalOfferings.toString(), Rental[].class);
+                        Rental[] offsetRentals = GeoLocationUtils.offsetDuplicateLocations(rentals);
 
+                        if (offsetRentals.length > 0) {
 
-                        if (rentals != null && rentals.length > 0) {
-
-                            System.out.println(String.format("Found %d rentals based on query.", rentals.length));
+                            System.out.println(String.format("Found %d rentals based on query.", offsetRentals.length));
 
                             ArrayList<String> rental_ids = new ArrayList<String>();
 
-                            for (Rental rental : rentals) {
+                            for (Rental rental : offsetRentals) {
                                 RentalCache.getInstance().add(rental);
                                 rental_ids.add(rental.getId());
                             }

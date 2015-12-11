@@ -16,21 +16,16 @@ import com.rentalgeek.android.pojos.Rental;
 import com.rentalgeek.android.storage.RentalCache;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.GeekGson;
+import com.rentalgeek.android.utils.GeoLocationUtils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class HomePresenter implements Presenter {
 
     private static final String TAG = HomePresenter.class.getSimpleName();
-    Map<String, Integer> numDuplicatesAtLocation = new HashMap<>();
 
     @Override
     public void getRentalOfferings(String location) {
@@ -61,7 +56,7 @@ public class HomePresenter implements Presenter {
                     JSONArray rentalOfferings = json.getJSONArray("rental_offerings");
 
                     Rental[] rentals = GeekGson.getInstance().fromJson(rentalOfferings.toString(), Rental[].class);
-                    Rental[] offsetRentals = offsetDuplicateLocations(rentals);
+                    Rental[] offsetRentals = GeoLocationUtils.offsetDuplicateLocations(rentals);
 
                     if (offsetRentals.length > 0) {
                         System.out.println(String.format("Found %d rentals based on query.", offsetRentals.length));
@@ -92,40 +87,6 @@ public class HomePresenter implements Presenter {
                 AppEventBus.post(new ErrorAlertEvent(title, message));
             }
         });
-    }
-
-    private Rental[] offsetDuplicateLocations(Rental[] originalRentals) {
-        Set<String> locations = new HashSet<>();
-        List<Rental> offsetRentals = new ArrayList<>();
-
-        for (Rental rental : originalRentals) {
-            if (!locations.add(rental.coordinates())) {
-                Rental offsetRental = slightlyOffsetDuplicate(rental);
-                offsetRentals.add(offsetRental);
-            } else {
-                offsetRentals.add(rental);
-            }
-        }
-
-        return offsetRentals.toArray(new Rental[offsetRentals.size()]);
-    }
-
-    private Rental slightlyOffsetDuplicate(Rental rental) {
-        Integer countAtThisLocation = 1;
-        if (numDuplicatesAtLocation.containsKey(rental.coordinates())) {
-            countAtThisLocation = numDuplicatesAtLocation.get(rental.coordinates());
-            numDuplicatesAtLocation.put(rental.coordinates(), ++countAtThisLocation);
-        } else {
-            numDuplicatesAtLocation.put(rental.coordinates(), countAtThisLocation);
-        }
-
-        Rental offsetRental = rental;
-        String tinyOffset = "0.00" + Integer.toString(countAtThisLocation);
-        Double tinyOffsetNum = Double.parseDouble(tinyOffset);
-        offsetRental.offsetLatitude(tinyOffsetNum);
-        offsetRental.offsetLongitude(tinyOffsetNum);
-
-        return offsetRental;
     }
 
     @Override

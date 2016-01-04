@@ -26,7 +26,6 @@ import com.rentalgeek.android.bus.events.AppDialogRequestEvent;
 import com.rentalgeek.android.bus.events.ErrorAlertEvent;
 import com.rentalgeek.android.bus.events.ErrorCroutonEvent;
 import com.rentalgeek.android.bus.events.ShowHomeEvent;
-import com.rentalgeek.android.system.AppSystem;
 import com.rentalgeek.android.ui.Common;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.dialog.AppProgressDialog;
@@ -228,20 +227,15 @@ public class GeekBaseActivity extends AppCompatActivity {
         navigationView = (NavigationView) findViewById(R.id.navigationView);
 
         if (navigationView != null && drawerLayout != null) {
-            hideMenuItem(R.id.geek_vision);
-            hideMenuItem(R.id.settings);
-            setVisibilityForCosignerMenuItem();
-            setVisibilityForMyCosignerMenuItem();
-            setVisibilityForPaymentsMenuItem();
+            showMenuItem(R.id.geek_vision, false);
+            showMenuItem(R.id.settings, false);
+            setVisibilityForMenuItems();
             setupDrawerListener();
-
-            if (AppSystem.isV1Build) setVisibilityForV1NavigationMenu();
 
             if (showSlider) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                 setupNavViewListener(navigationView);
             } else {
-                //drawerLayout.setVisibility(View.GONE);
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
                 navigationView.setVisibility(View.GONE);
             }
@@ -257,9 +251,7 @@ public class GeekBaseActivity extends AppCompatActivity {
 
             @Override
             public void onDrawerOpened(View drawerView) {
-                setVisibilityForCosignerMenuItem();
-                setVisibilityForMyCosignerMenuItem();
-                setVisibilityForPaymentsMenuItem();
+                setVisibilityForMenuItems();
             }
 
             @Override
@@ -336,79 +328,30 @@ public class GeekBaseActivity extends AppCompatActivity {
         if (dialog != null) dialog.setCancelable(event.isCancellable());
     }
 
-    private void setVisibilityForV1NavigationMenu() {
-        Menu menu = navigationView.getMenu();
-
-        //Hide menu items for all things in new release to create a v1 play store build
-        int[] v2MenuItems = {
-                R.id.applications,
-                R.id.roommates,
-                R.id.payment,
-                R.id.cosigner,
-//                R.id.settings
-//                R.id.geek_score,
-//                R.id.favorites,
-//                R.id.geek_vision,
-//                R.id.logout
-        };
-
-        if (menu != null) {
-            for (int i = 0; i < v2MenuItems.length; i++) {
-                MenuItem menuItem = menu.findItem(v2MenuItems[i]);
-                if (menuItem != null) {
-                    menuItem.setVisible(false);
-                }
-            }
-
-        }
-    }
-
-    private void setVisibilityForCosignerMenuItem() {
-        if (SessionManager.Instance.getCurrentUser() != null && !SessionManager.Instance.getCurrentUser().is_cosigner) {
-            hideMenuItem(R.id.cosigner);
-        } else {
-            showMenuItem(R.id.cosigner);
-        }
-    }
-
-    private void setVisibilityForMyCosignerMenuItem() {
-        if (SessionManager.Instance.getCurrentUser() == null || SessionManager.Instance.getCurrentUser().profile_id == null) {
-            hideMenuItem(R.id.my_cosigner);
-        } else {
-            showMenuItem(R.id.my_cosigner);
-        }
-    }
-
-    private void setVisibilityForPaymentsMenuItem() {
-        Menu menu = navigationView.getMenu();
-
-        if (menu != null) {
-            MenuItem menuItem = menu.findItem(R.id.payment);
-            if (menuItem != null) {
-                menuItem.setVisible(SessionManager.Instance.hasCompletedLeaseId());
-            }
+    private void setVisibilityForMenuItems() {
+        if (SessionManager.Instance.getCurrentUser() == null) {
+            return;
         }
 
+        boolean isCosigner = SessionManager.Instance.getCurrentUser().is_cosigner;
+        boolean userHasProfile = SessionManager.Instance.getCurrentUser().profile_id != null;
+        boolean hasCompletedLeaseId = SessionManager.Instance.hasCompletedLeaseId();
+
+        showMenuItem(R.id.cosigner, isCosigner);
+        showMenuItem(R.id.geek_score, !isCosigner);
+        showMenuItem(R.id.applications, !isCosigner);
+        showMenuItem(R.id.roommates, !isCosigner);
+        showMenuItem(R.id.my_cosigner, userHasProfile);
+        showMenuItem(R.id.payment, hasCompletedLeaseId);
     }
 
-    protected void hideMenuItem(int menuItemId) {
+    protected void showMenuItem(int menuItemId, boolean shouldShow) {
         Menu menu = navigationView.getMenu();
 
         if (menu != null) {
             MenuItem menuItem = menu.findItem(menuItemId);
             if (menuItem != null) {
-                menuItem.setVisible(false);
-            }
-        }
-    }
-
-    protected void showMenuItem(int menuItemId) {
-        Menu menu = navigationView.getMenu();
-
-        if (menu != null) {
-            MenuItem menuItem = menu.findItem(menuItemId);
-            if (menuItem != null) {
-                menuItem.setVisible(true);
+                menuItem.setVisible(shouldShow);
             }
         }
     }

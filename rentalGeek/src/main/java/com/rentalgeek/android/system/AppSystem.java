@@ -1,7 +1,6 @@
 package com.rentalgeek.android.system;
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
@@ -17,15 +16,7 @@ public enum AppSystem {
 
     private static final String TAG = "AppSystem";
 
-    public static final boolean isV1Build = false;
-
-
     private String gcmDeviceId;
-
-    public boolean isDebugBuild(Context context) {
-        return (0 != (context.getApplicationInfo().flags &= ApplicationInfo.FLAG_DEBUGGABLE));
-    }
-
 
     public void checkGCMRegistration(Context context) {
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(context);

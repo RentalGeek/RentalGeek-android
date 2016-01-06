@@ -22,52 +22,37 @@ import io.fabric.sdk.android.Fabric;
 public class RentalGeekApplication extends Application {
 
     public static final String GCM_CLIENT_ID = "433959508661";
-
     public static Context context;
     public static final EventBus eventBus = EventBus.builder().logSubscriberExceptions(false).throwSubscriberException(false).build();
 
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        //MultiDex.install(this);
     }
 
     private static Thread.UncaughtExceptionHandler mDefaultUEH;
     private static Thread.UncaughtExceptionHandler mCaughtExceptionHandler = new Thread.UncaughtExceptionHandler() {
         @Override
         public void uncaughtException(Thread thread, Throwable ex) {
-            // Custom logic goes here
-
-            // This will make Crashlytics do its job
             mDefaultUEH.uncaughtException(thread, ex);
         }
     };
 
     @Override
     public void onCreate() {
-
         super.onCreate();
         context = this;
-
         Fabric.with(this, new Crashlytics());
-
         mDefaultUEH = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(mCaughtExceptionHandler);
-
-
         AppEventBus.register(this);
-        /// AppEventBus.register(AppSystem.Instance);
-
-
         initializeDB();
-
         AppSystem.Instance.checkGCMRegistration(this);
     }
 
 
     @SuppressWarnings("unchecked")
     private void initializeDB() {
-
         Configuration.Builder configurationBuilder = new Configuration.Builder(this);
         configurationBuilder.addModelClasses(PropertyTable.class);
         configurationBuilder.addModelClasses(ProfileTable.class);
@@ -121,4 +106,5 @@ public class RentalGeekApplication extends Application {
     public void onEvent(NonEvent event) {
 
     }
+
 }

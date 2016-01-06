@@ -27,19 +27,14 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-/**
- * Created by rajohns on 9/13/15.
- */
 public class FragmentBaseApplicationList extends GeekBaseFragment {
 
     public static final String PENDING_PROPERTIES = "pendingProperties";
     public static final String APPROVED_PROPERTIES = "approvedProperties";
     public static final String COSIGNER_PROPERTIES = "cosignerProperties";
 
-    @InjectView(R.id.recyclerView)
-    RecyclerView recyclerView;
-    @InjectView(R.id.no_items_view)
-    TextView noItemsView;
+    @InjectView(R.id.recyclerView) RecyclerView recyclerView;
+    @InjectView(R.id.no_items_view) TextView noItemsView;
     List<ApplicationItem> properties = new ArrayList<>();
     ApplicationListAdapter adapter;
 

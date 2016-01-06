@@ -120,6 +120,7 @@ If you agree to share a Credit Report, we will also use this information to shar
 
     <string name="apply_text">APPLY</string>
     <string name="applied_text">APPLIED &#x2713;</string>
+    <string name="approved_text">APPROVED &#x2713;</string>
     
     <string name="search_rental">Searching for Rentals</string>
     <string name="loading_rentals">Loading Rentals, Please wait\u2026</string>

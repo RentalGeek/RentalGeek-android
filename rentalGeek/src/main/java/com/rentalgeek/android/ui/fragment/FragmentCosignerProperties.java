@@ -12,9 +12,6 @@ import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 
-/**
- * Created by rajohns on 9/11/15.
- */
 public class FragmentCosignerProperties extends FragmentBaseApplicationList {
 
     @Override

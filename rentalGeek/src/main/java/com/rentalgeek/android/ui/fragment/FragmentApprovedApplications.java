@@ -7,9 +7,6 @@ import android.view.ViewGroup;
 
 import com.rentalgeek.android.api.ApiManager;
 
-/**
- * Created by rajohns on 9/12/15.
- */
 public class FragmentApprovedApplications extends FragmentBaseApplicationList {
 
     private boolean alreadyMadeApplicationsApiCall = false;

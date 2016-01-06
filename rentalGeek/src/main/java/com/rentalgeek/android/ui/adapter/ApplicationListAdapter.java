@@ -34,9 +34,6 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-/**
- * Created by rajohns on 9/7/15.
- */
 public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationListAdapter.ApplicationListViewHolder> {
 
     private List<ApplicationItem> applicationItems;
@@ -44,28 +41,17 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
     private FragmentCosignerProperties fragment;
 
     public class ApplicationListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @InjectView(R.id.top_image_layout)
-        ImageView topImageLayout;
-        @InjectView(R.id.street_address)
-        TextView streetAddressTextView;
-        @InjectView(R.id.city_state_zip_address)
-        TextView cityStateZipAddressTextView;
-        @InjectView(R.id.num_beds_baths)
-        TextView numBedsBathsTextView;
-        @InjectView(R.id.cost_text_view)
-        TextView costTextView;
-        @InjectView(R.id.sign_approve_button)
-        Button signApproveButton;
-        @InjectView(R.id.property_name)
-        TextView propertyNameTextView;
-        @InjectView(R.id.property_email)
-        TextView propertyEmailTextView;
-        @InjectView(R.id.property_phone)
-        TextView propertyPhoneTextView;
-        @InjectView(R.id.lease_signed_lines)
-        LinearLayout dynamicNamesLayout;
-        @InjectView(R.id.bottom_contact_blue_box)
-        LinearLayout bottomContactBlueBox;
+        @InjectView(R.id.top_image_layout) ImageView topImageLayout;
+        @InjectView(R.id.street_address) TextView streetAddressTextView;
+        @InjectView(R.id.city_state_zip_address) TextView cityStateZipAddressTextView;
+        @InjectView(R.id.num_beds_baths) TextView numBedsBathsTextView;
+        @InjectView(R.id.cost_text_view) TextView costTextView;
+        @InjectView(R.id.sign_approve_button) Button signApproveButton;
+        @InjectView(R.id.property_name) TextView propertyNameTextView;
+        @InjectView(R.id.property_email) TextView propertyEmailTextView;
+        @InjectView(R.id.property_phone) TextView propertyPhoneTextView;
+        @InjectView(R.id.lease_signed_lines) LinearLayout dynamicNamesLayout;
+        @InjectView(R.id.bottom_contact_blue_box) LinearLayout bottomContactBlueBox;
 
         Context context;
 

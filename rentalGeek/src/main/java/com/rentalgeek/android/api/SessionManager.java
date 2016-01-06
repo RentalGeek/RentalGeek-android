@@ -4,6 +4,7 @@ package com.rentalgeek.android.api;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
+import com.rentalgeek.android.R;
 import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.backend.model.CosignerProfile;
@@ -42,6 +43,18 @@ public enum SessionManager {
         }
 
         return false;
+    }
+
+    public String applyApproveButtonText() {
+        if (currentUser == null) {
+            return RentalGeekApplication.getResourceString(R.string.applied_text);
+        }
+
+        if (currentUser.is_cosigner) {
+            return RentalGeekApplication.getResourceString(R.string.approved_text);
+        } else {
+            return RentalGeekApplication.getResourceString(R.string.applied_text);
+        }
     }
 
     public void setPayed(boolean payed) {

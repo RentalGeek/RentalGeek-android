@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.RentalGeekApplication;
+import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.AppliedEvent;
 import com.rentalgeek.android.bus.events.ClickRentalEvent;
@@ -95,8 +95,7 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
     }
 
     public void onEventMainThread(AppliedEvent event) {
-        String applied_text = RentalGeekApplication.getResourceString(R.string.applied_text);
-        apply_btn.setText(applied_text);
+        apply_btn.setText(SessionManager.Instance.applyApproveButtonText());
         apply_btn.setClickable(false);
     }
 
@@ -154,9 +153,12 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
         address_textview.setText(String.format("%s\n%s, %s %s", rental.getAddress(), rental.getCity(), rental.getState(), rental.getZipcode()));
         description_textview.setText(rental.getDescription());
 
+        if (SessionManager.Instance.getCurrentUser().is_cosigner) {
+            apply_btn.setText("APPROVE");
+        }
+
         if (rental.applied()) {
-            String applied_text = RentalGeekApplication.getResourceString(R.string.applied_text);
-            apply_btn.setText(applied_text);
+            apply_btn.setText(SessionManager.Instance.applyApproveButtonText());
             apply_btn.setClickable(false);
         }
 

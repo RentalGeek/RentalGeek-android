@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 import com.rentalgeek.android.api.ApiManager;
+import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.AppliedEvent;
 import com.rentalgeek.android.bus.events.ShowCosignApplicationEvent;
@@ -35,6 +36,10 @@ public class RentalPresenter extends StarPresenter implements Presenter {
 
             RequestParams params = new RequestParams();
             params.put("application[rental_offering_id]", rental_id);
+
+            if (SessionManager.Instance.getCurrentUser().is_cosigner) {
+                params.put("application[as_cosigner]", "true");
+            }
 
             System.out.println(url);
 

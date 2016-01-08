@@ -39,41 +39,25 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-
 public class FragmentRoommates extends GeekBaseFragment {
 
     private static final String TAG = FragmentRoommates.class.getSimpleName();
-
     private String name;
     private String email;
-
-    @InjectView(R.id.editTextFirstLastName)
-    EditText editTextFirstLastName;
-
-    @InjectView(R.id.editTextEmailAddress)
-    EditText editTextEmailAddress;
-
-    @InjectView(R.id.layoutRoommateInvites)
-    LinearLayout layoutRoommateInvites;
-
-    @InjectView(R.id.layoutRoommates)
-    LinearLayout layoutRoommates;
-
-
     private String currentGroupId;
     private boolean isGroupOwner = false;
     private boolean isInviteNotified = false;
 
-    private int currentRoommateCount = 0;
+    @InjectView(R.id.editTextFirstLastName) EditText editTextFirstLastName;
+    @InjectView(R.id.editTextEmailAddress) EditText editTextEmailAddress;
+    @InjectView(R.id.layoutRoommateInvites) LinearLayout layoutRoommateInvites;
+    @InjectView(R.id.layoutRoommates) LinearLayout layoutRoommates;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View v = inflater.inflate(R.layout.fragment_roommates, container, false);
         ButterKnife.inject(this, v);
-        //fetchGroups();
         return v;
-
     }
 
     @Override
@@ -84,25 +68,16 @@ public class FragmentRoommates extends GeekBaseFragment {
 
     @OnClick(R.id.buttonAddRoommate)
     public void clickbuttonAddRoommate() {
-//        String name = editTextFirstLastName.getText().toString();
-//        String email = editTextEmailAddress.getText().toString();
-
-//        if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(email)) {
         if (validInput()) {
-            if (currentRoommateCount <= 3) {
-                addRoommateInvite(email, name);
-            } else {
-                DialogManager.showCrouton(activity, "Max of 4 Roommates allowed.");
-            }
+            addRoommateInvite(email, name);
         }
-//        }
     }
 
     @OnClick(R.id.buttonLeaveGroup)
     public void clickButtonLeaveGroup() {
         if (SessionManager.Instance.getCurrentUser() != null &&
-                SessionManager.Instance.getCurrentUser().id != null &&
-                !TextUtils.isEmpty(currentGroupId))
+            SessionManager.Instance.getCurrentUser().id != null &&
+            !TextUtils.isEmpty(currentGroupId))
             removeRoommateGroupUser(currentGroupId, SessionManager.Instance.getCurrentUser().id);
     }
 
@@ -122,7 +97,6 @@ public class FragmentRoommates extends GeekBaseFragment {
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
-
     }
 
     private boolean validInput() {
@@ -147,8 +121,6 @@ public class FragmentRoommates extends GeekBaseFragment {
             fetchRoommateGroups(SessionManager.Instance.getCurrentUser().roommate_group_id);
             layoutRoommates.setVisibility(View.VISIBLE);
         } else {
-            // DialogManager.showCrouton(activity, "You don't belong to a Roommate Group");
-            //activity.finish();
             fetchRoommateInvites();
             layoutRoommates.setVisibility(View.GONE);
         }
@@ -183,35 +155,27 @@ public class FragmentRoommates extends GeekBaseFragment {
     }
 
     protected void bindRoommateInvites(List<RoommateInvite> invites) {
-
         layoutRoommateInvites.removeAllViews();
 
         int inviteIdx = -1;
 
         if (!ListUtils.isNullOrEmpty(invites)) {
-
-            currentRoommateCount = invites.size();
-
             int currentUserId = Integer.valueOf(SessionManager.Instance.getCurrentUser().id);
-            String currentUserEmail = SessionManager.Instance.getCurrentUser().email;
 
             for (int i = 0; i < invites.size(); i++) {
-
                 RoommateInvite invite = invites.get(i);
 
-                if (!invite.accepted && invite.invited_name.equals(currentUserEmail) && !isInviteNotified) {
+                if (!invite.accepted && !isInviteNotified) {
                     isInviteNotified = true;
                     inviteIdx = i;
-                    //roommateInviteId = invites.get(i).id;
-                    //break;
                 }
 
-                if (currentUserId != invite.invited_id)
+                if (currentUserId != invite.invited_id) {
                     bindRoommateInvite(invites.get(i));
+                }
             }
 
             if (inviteIdx >= 0) {
-
                 Bundle args = new Bundle();
                 args.putInt(Common.KEY_ROOMMATE_GROUP_ID, invites.get(inviteIdx).roommate_group_id);
                 args.putInt(Common.KEY_ROOMMATE_INVITE_ID, invites.get(inviteIdx).id);
@@ -223,43 +187,40 @@ public class FragmentRoommates extends GeekBaseFragment {
     }
 
     protected void removeRoommateGroupUser(String groupId, String userId) {
-
         try {
-
             GlobalFunctions.deleteApiCall(activity, ApiManager.getRoommateGroupRemoveUser(groupId, userId), AppPreferences.getAuthToken(),
-                    new GeekHttpResponseHandler() {
+                new GeekHttpResponseHandler() {
+                    @Override
+                    public void onStart() {
+                        showProgressDialog(R.string.dialog_msg_loading_roommate_leave_group);
+                    }
 
-                        @Override
-                        public void onStart() {
-                            showProgressDialog(R.string.dialog_msg_loading_roommate_leave_group);
+                    @Override
+                    public void onFinish() {
+                        hideProgressDialog();
+                    }
+
+                    @Override
+                    public void onSuccess(String content) {
+                        try {
+                            Navigation.navigateActivity(activity, ActivityHome.class);
+                            SessionManager.Instance.getCurrentUser().roommate_group_id = null;
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
                         }
+                    }
 
-                        @Override
-                        public void onFinish() {
-                            hideProgressDialog();
-                        }
+                    @Override
+                    public void onFailure(Throwable ex, String failureResponse) {
+                        super.onFailure(ex, failureResponse);
+                        DialogManager.showCrouton(activity, failureResponse);
+                    }
 
-                        @Override
-                        public void onSuccess(String content) {
-                            try {
-                                Navigation.navigateActivity(activity, ActivityHome.class);
-                                SessionManager.Instance.getCurrentUser().roommate_group_id = null;
-                            } catch (Exception e) {
-                                AppLogger.log(TAG, e);
-                            }
-                        }
+                    @Override
+                    public void onAuthenticationFailed() {
 
-                        @Override
-                        public void onFailure(Throwable ex, String failureResponse) {
-                            super.onFailure(ex, failureResponse);
-                            DialogManager.showCrouton(activity, failureResponse);
-                        }
-
-                        @Override
-                        public void onAuthenticationFailed() {
-
-                        }
-                    });
+                    }
+                });
 
         } catch (Exception e) {
             AppLogger.log(TAG, e);
@@ -267,42 +228,39 @@ public class FragmentRoommates extends GeekBaseFragment {
     }
 
     protected void removeRoommateInvite(String inviteId) {
-
         try {
-
             GlobalFunctions.deleteApiCall(activity, ApiManager.getRoommateInvites(inviteId), AppPreferences.getAuthToken(),
-                    new GeekHttpResponseHandler() {
+                new GeekHttpResponseHandler() {
+                    @Override
+                    public void onStart() {
+                        showProgressDialog(R.string.dialog_msg_loading_roommate_remove_invite);
+                    }
 
-                        @Override
-                        public void onStart() {
-                            showProgressDialog(R.string.dialog_msg_loading_roommate_remove_invite);
+                    @Override
+                    public void onFinish() {
+                        hideProgressDialog();
+                    }
+
+                    @Override
+                    public void onSuccess(String content) {
+                        try {
+                            fetchGroups();
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
                         }
+                    }
 
-                        @Override
-                        public void onFinish() {
-                            hideProgressDialog();
-                        }
+                    @Override
+                    public void onFailure(Throwable ex, String failureResponse) {
+                        super.onFailure(ex, failureResponse);
+                        DialogManager.showCrouton(activity, failureResponse);
+                    }
 
-                        @Override
-                        public void onSuccess(String content) {
-                            try {
-                                fetchGroups();
-                            } catch (Exception e) {
-                                AppLogger.log(TAG, e);
-                            }
-                        }
+                    @Override
+                    public void onAuthenticationFailed() {
 
-                        @Override
-                        public void onFailure(Throwable ex, String failureResponse) {
-                            super.onFailure(ex, failureResponse);
-                            DialogManager.showCrouton(activity, failureResponse);
-                        }
-
-                        @Override
-                        public void onAuthenticationFailed() {
-
-                        }
-                    });
+                    }
+                });
 
         } catch (Exception e) {
             AppLogger.log(TAG, e);
@@ -310,67 +268,63 @@ public class FragmentRoommates extends GeekBaseFragment {
     }
 
     protected void addRoommateInvite(String email, String name) {
-
         RequestParams params = new RequestParams();
         params.put("roommate_invite[email]", email);
         params.put("roommate_invite[name]", name);
         params.put("roommate_invite[roommate_group_id]", SessionManager.Instance.getCurrentUser().roommate_group_id);
 
         try {
-
-
             GlobalFunctions.postApiCall(activity, ApiManager.getRoommateInvites(""), params, AppPreferences.getAuthToken(),
-                    new GeekHttpResponseHandler() {
+                new GeekHttpResponseHandler() {
+                    @Override
+                    public void onStart() {
+                        showProgressDialog(R.string.dialog_msg_loading_roommate_add_invite);
+                    }
 
-                        @Override
-                        public void onStart() {
-                            showProgressDialog(R.string.dialog_msg_loading_roommate_add_invite);
-                        }
+                    @Override
+                    public void onFinish() {
+                        hideProgressDialog();
+                    }
 
-                        @Override
-                        public void onFinish() {
-                            hideProgressDialog();
-                        }
-
-                        @Override
-                        public void onSuccess(String content) {
-                            try {
-                                RoommateInviteResponse roommateInvite = (new Gson()).fromJson(content, RoommateInviteResponse.class);
-                                if (roommateInvite != null && roommateInvite.roommate_invite != null) {
-                                    SessionManager.Instance.getCurrentUser().setRoommateGroupId(String.valueOf(roommateInvite.roommate_invite.roommate_group_id));
-                                    bindRoommateInvite(roommateInvite.roommate_invite);
-                                    clearFormValues();
-                                }
-                            } catch (Exception e) {
-                                AppLogger.log(TAG, e);
+                    @Override
+                    public void onSuccess(String content) {
+                        try {
+                            RoommateInviteResponse roommateInvite = (new Gson()).fromJson(content, RoommateInviteResponse.class);
+                            if (roommateInvite != null && roommateInvite.roommate_invite != null) {
+                                SessionManager.Instance.getCurrentUser().setRoommateGroupId(String.valueOf(roommateInvite.roommate_invite.roommate_group_id));
+                                bindRoommateInvite(roommateInvite.roommate_invite);
+                                clearFormValues();
                             }
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
                         }
+                    }
 
-                        @Override
-                        public void onFailure(Throwable ex, String failureResponse) {
-                            super.onFailure(ex, failureResponse);
+                    @Override
+                    public void onFailure(Throwable ex, String failureResponse) {
+                        super.onFailure(ex, failureResponse);
 
-                            try {
-                                ErrorObj errorObj = (new Gson()).fromJson(failureResponse, ErrorObj.class);
+                        try {
+                            ErrorObj errorObj = (new Gson()).fromJson(failureResponse, ErrorObj.class);
 
-                                if (errorObj != null && errorObj.errors != null) {
-                                    if (!ListUtils.isNullOrEmpty(errorObj.errors.email)) {
-                                        OkAlert.show(getActivity(), "Email", errorObj.errors.email.get(0));
-                                    }
-
+                            if (errorObj != null && errorObj.errors != null) {
+                                if (!ListUtils.isNullOrEmpty(errorObj.errors.email)) {
+                                    OkAlert.show(getActivity(), "Email", errorObj.errors.email.get(0));
                                 }
 
-                            } catch (Exception e) {
-                                AppLogger.log(TAG, e);
                             }
 
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
                         }
 
-                        @Override
-                        public void onAuthenticationFailed() {
+                    }
 
-                        }
-                    });
+                    @Override
+                    public void onAuthenticationFailed() {
+
+                    }
+                });
 
         } catch (Exception e) {
             AppLogger.log(TAG, e);
@@ -379,85 +333,84 @@ public class FragmentRoommates extends GeekBaseFragment {
 
     protected void fetchRoommateGroups(String groupId) {
         GlobalFunctions.getApiCall(activity, ApiManager.getRoommateGroups(groupId), AppPreferences.getAuthToken(),
-                new GeekHttpResponseHandler() {
+            new GeekHttpResponseHandler() {
+                @Override
+                public void onStart() {
+                    showProgressDialog(R.string.dialog_msg_loading_roommates);
+                }
 
-                    @Override
-                    public void onStart() {
-                        showProgressDialog(R.string.dialog_msg_loading_roommates);
-                    }
+                @Override
+                public void onFinish() {
+                    hideProgressDialog();
+                }
 
-                    @Override
-                    public void onFinish() {
-                        hideProgressDialog();
-                    }
-
-                    @Override
-                    public void onSuccess(String content) {
-                        try {
-                            RoommateGroupResponse roommateGroup = (new Gson()).fromJson(content, RoommateGroupResponse.class);
-                            if (roommateGroup != null) {
-                                currentGroupId = String.valueOf(roommateGroup.roommate_group.id);
-                                evaluateGroupOwner(roommateGroup.roommate_group);
-                                bindRoommateInvites(roommateGroup.roommate_group.roommate_invites);
-                            }
-                        } catch (Exception e) {
-                            AppLogger.log(TAG, e);
+                @Override
+                public void onSuccess(String content) {
+                    try {
+                        RoommateGroupResponse roommateGroup = (new Gson()).fromJson(content, RoommateGroupResponse.class);
+                        if (roommateGroup != null) {
+                            currentGroupId = String.valueOf(roommateGroup.roommate_group.id);
+                            evaluateGroupOwner(roommateGroup.roommate_group);
+                            bindRoommateInvites(roommateGroup.roommate_group.roommate_invites);
                         }
+                    } catch (Exception e) {
+                        AppLogger.log(TAG, e);
                     }
+                }
 
-                    @Override
-                    public void onFailure(Throwable ex, String failureResponse) {
-                        super.onFailure(ex, failureResponse);
-                        Navigation.navigateActivity(activity, ActivityHome.class);
-                    }
+                @Override
+                public void onFailure(Throwable ex, String failureResponse) {
+                    super.onFailure(ex, failureResponse);
+                    Navigation.navigateActivity(activity, ActivityHome.class);
+                }
 
-                    @Override
-                    public void onAuthenticationFailed() {
+                @Override
+                public void onAuthenticationFailed() {
 
-                    }
-                });
+                }
+            });
     }
 
     protected void fetchRoommateInvites() {
         String url = ApiManager.getRoommateInvites(null);
         GlobalFunctions.getApiCall(getActivity(), url, AppPreferences.getAuthToken(),
-                new GeekHttpResponseHandler() {
+            new GeekHttpResponseHandler() {
+                @Override
+                public void onStart() {
+                    super.onStart();
+                    showProgressDialog(R.string.dialog_msg_loading);
+                }
 
-                    @Override
-                    public void onStart() {
-                        super.onStart();
-                        showProgressDialog(R.string.dialog_msg_loading);
-                    }
+                @Override
+                public void onFinish() {
+                    super.onFinish();
+                    hideProgressDialog();
+                }
 
-                    @Override
-                    public void onFinish() {
-                        super.onFinish();
-                        hideProgressDialog();
-                    }
-
-                    @Override
-                    public void onSuccess(String content) {
-                        super.onSuccess(content);
-                        try {
-                            RoommateInvites roommateInvites = (new Gson()).fromJson(content, RoommateInvites.class);
-                            if (roommateInvites != null) {
-                                bindRoommateInvites(roommateInvites.roommate_invites);
-                            }
-                        } catch (Exception e) {
-                            AppLogger.log(TAG, e);
+                @Override
+                public void onSuccess(String content) {
+                    super.onSuccess(content);
+                    try {
+                        RoommateInvites roommateInvites = (new Gson()).fromJson(content, RoommateInvites.class);
+                        if (roommateInvites != null) {
+                            bindRoommateInvites(roommateInvites.roommate_invites);
                         }
+                    } catch (Exception e) {
+                        AppLogger.log(TAG, e);
                     }
+                }
 
-                    @Override
-                    public void onAuthenticationFailed() {
-                        super.onAuthenticationFailed();
-                    }
+                @Override
+                public void onAuthenticationFailed() {
+                    super.onAuthenticationFailed();
+                }
 
-                    @Override
-                    public void onFailure(Throwable ex, String failureResponse) {
-                        super.onFailure(ex, failureResponse);
-                        DialogManager.showCrouton(activity, failureResponse);
-                    }
-                });
+                @Override
+                public void onFailure(Throwable ex, String failureResponse) {
+                    super.onFailure(ex, failureResponse);
+                    DialogManager.showCrouton(activity, failureResponse);
+                }
+            });
     }
+
 }

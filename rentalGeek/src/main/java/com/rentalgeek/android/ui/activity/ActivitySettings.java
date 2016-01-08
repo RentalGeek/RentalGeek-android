@@ -5,9 +5,6 @@ import android.os.Bundle;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.ui.fragment.FragmentSettings;
 
-/**
- * Created by rajohns on 9/21/15.
- */
 public class ActivitySettings extends GeekBaseActivity {
 
     public ActivitySettings() {

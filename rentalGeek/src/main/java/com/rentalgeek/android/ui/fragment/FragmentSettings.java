@@ -20,9 +20,6 @@ import com.rentalgeek.android.utils.ResponseParser;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * Created by rajohns on 9/21/15.
- */
 public class FragmentSettings extends GeekBaseFragment {
 
     @Override

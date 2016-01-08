@@ -1,8 +1,5 @@
 package com.rentalgeek.android.pojos;
 
-/**
- * Created by rajohns on 9/16/15.
- */
 public class CosignerInviteDTO {
 
     public Integer id;

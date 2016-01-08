@@ -18,6 +18,7 @@ import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.pojos.CosignerInviteDTO;
+import com.rentalgeek.android.pojos.CosignerInviteSingleRootDTO;
 import com.rentalgeek.android.pojos.CosignerInvitesArrayRootDTO;
 import com.rentalgeek.android.ui.activity.ActivityMyCosigner;
 import com.rentalgeek.android.ui.preference.AppPreferences;
@@ -31,23 +32,16 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-/**
- * Created by rajohns on 9/20/15.
- */
 public class FragmentMyCosigner extends GeekBaseFragment {
 
     private ArrayList<CosignerInviteDTO> sentInvites = new ArrayList<>();
     private String name;
     private String email;
 
-    @InjectView(R.id.invited_people)
-    LinearLayout invitedPeople;
-    @InjectView(R.id.invitation_forms)
-    LinearLayout invitationForms;
-    @InjectView(R.id.name_edittext)
-    EditText nameEditText;
-    @InjectView(R.id.email_edittext)
-    EditText emailEdiText;
+    @InjectView(R.id.invited_people) LinearLayout invitedPeople;
+    @InjectView(R.id.invitation_forms) LinearLayout invitationForms;
+    @InjectView(R.id.name_edittext) EditText nameEditText;
+    @InjectView(R.id.email_edittext) EditText emailEdiText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -105,8 +99,13 @@ public class FragmentMyCosigner extends GeekBaseFragment {
                 @Override
                 public void onSuccess(String content) {
                     super.onSuccess(content);
-                    getActivity().finish();
-                    getActivity().startActivity(new Intent(getActivity(), ActivityMyCosigner.class));
+                    CosignerInviteSingleRootDTO cosignerInviteSingleRootDTO = new Gson().fromJson(content, CosignerInviteSingleRootDTO.class);
+                    if (Boolean.TRUE.equals(cosignerInviteSingleRootDTO.cosigner_invite.accepted)) {
+                        OkAlert.show(getActivity(), "Cosigner Not Available", cosignerInviteSingleRootDTO.cosigner_invite.invited_name + " is already a cosigner for someone else.");
+                    } else {
+                        getActivity().finish();
+                        getActivity().startActivity(new Intent(getActivity(), ActivityMyCosigner.class));
+                    }
                 }
 
                 @Override

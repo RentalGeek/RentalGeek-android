@@ -5,10 +5,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-
-/**
- * Created by Alan R on 10/1/15.
- */
 public class Profile {
 
     private String id;

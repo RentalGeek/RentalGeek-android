@@ -228,7 +228,6 @@ public class GeekBaseActivity extends AppCompatActivity {
 
         if (navigationView != null && drawerLayout != null) {
             showMenuItem(R.id.geek_vision, false);
-            showMenuItem(R.id.settings, false);
             setVisibilityForMenuItems();
             setupDrawerListener();
 

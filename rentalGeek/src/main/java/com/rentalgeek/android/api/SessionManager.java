@@ -82,6 +82,8 @@ public enum SessionManager {
             } else {
                 profiles.set(0, profile);
             }
+        } else {
+            profiles.clear();
         }
     }
 

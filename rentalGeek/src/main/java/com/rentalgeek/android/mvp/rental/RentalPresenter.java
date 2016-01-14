@@ -9,6 +9,7 @@ import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.AppliedEvent;
 import com.rentalgeek.android.bus.events.ShowCosignApplicationEvent;
+import com.rentalgeek.android.bus.events.ShowNeedPaymentEvent;
 import com.rentalgeek.android.bus.events.ShowProfileCreationEvent;
 import com.rentalgeek.android.bus.events.ShowPropertyPhotosEvent;
 import com.rentalgeek.android.bus.events.ShowRentalEvent;
@@ -29,67 +30,81 @@ public class RentalPresenter extends StarPresenter implements Presenter {
 
     @Override
     public void apply(String rental_id) {
-        if (rental_id != null && !rental_id.isEmpty()) {
+        if (rental_id == null || rental_id.isEmpty()) {
+            return;
+        }
+        if (SessionManager.Instance.hasPayed()) {
+            sendApplication(rental_id);
+            return;
+        }
+        if (SessionManager.Instance.hasProfile()) {
+            AppEventBus.post(new ShowNeedPaymentEvent());
+            return;
+        }
+        if (SessionManager.Instance.getCurrentUser().is_cosigner) {
+            AppEventBus.post(new ShowCosignApplicationEvent());
+            return;
+        }
 
-            String url = ApiManager.postApplication();
-            String token = AppPreferences.getAuthToken();
+        AppEventBus.post(new ShowProfileCreationEvent());
+    }
 
-            RequestParams params = new RequestParams();
-            params.put("application[rental_offering_id]", rental_id);
+    private void sendApplication(String rental_id) {
+        String url = ApiManager.postApplication();
+        String token = AppPreferences.getAuthToken();
 
-            if (SessionManager.Instance.getCurrentUser().is_cosigner) {
-                params.put("application[as_cosigner]", "true");
+        RequestParams params = new RequestParams();
+        params.put("application[rental_offering_id]", rental_id);
+
+        if (SessionManager.Instance.getCurrentUser().is_cosigner) {
+            params.put("application[as_cosigner]", "true");
+        }
+
+        GlobalFunctions.postApiCall(null, url, params, token, new GeekHttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+                try {
+                    System.out.println(response);
+                    JSONObject json = new JSONObject(response);
+
+                    if (json.has("application")) {
+                        AppEventBus.post(new AppliedEvent());
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, e.getMessage());
+                }
             }
 
-            System.out.println(url);
+            @Override
+            public void onFailure(Throwable ex, String response) {
+                try {
+                    System.out.println(response);
+                    JSONObject json = new JSONObject(response);
 
-            GlobalFunctions.postApiCall(null, url, params, token, new GeekHttpResponseHandler() {
-                @Override
-                public void onSuccess(String response) {
-                    try {
-                        System.out.println(response);
-                        JSONObject json = new JSONObject(response);
+                    if (json.has("success")) {
+                        boolean success = json.getBoolean("success");
 
-                        if (json.has("application")) {
-                            AppEventBus.post(new AppliedEvent());
-                        }
-                    } catch (Exception e) {
-                        Log.e(TAG, e.getMessage());
-                    }
-                }
+                        if (!success) {
+                            if (json.has("is_cosigner")) {
+                                boolean is_cosigner = json.getBoolean("is_cosigner");
 
-                @Override
-                public void onFailure(Throwable ex, String response) {
-                    try {
+                                //Redirect to cosigner profile creation process
+                                if (is_cosigner) {
+                                    AppEventBus.post(new ShowCosignApplicationEvent());
+                                }
 
-                        System.out.println(response);
-                        JSONObject json = new JSONObject(response);
-
-                        if (json.has("success")) {
-                            boolean success = json.getBoolean("success");
-
-                            if (!success) {
-                                if (json.has("is_cosigner")) {
-                                    boolean is_cosigner = json.getBoolean("is_cosigner");
-
-                                    //Redirect to cosigner profile creation process
-                                    if (is_cosigner) {
-                                        AppEventBus.post(new ShowCosignApplicationEvent());
-                                    }
-
-                                    //Redirect to profile creation process
-                                    else {
-                                        AppEventBus.post(new ShowProfileCreationEvent());
-                                    }
+                                //Redirect to profile creation process
+                                else {
+                                    AppEventBus.post(new ShowProfileCreationEvent());
                                 }
                             }
                         }
-                    } catch (Exception e) {
-                        Log.e(TAG, e.getMessage());
                     }
+                } catch (Exception e) {
+                    Log.e(TAG, e.getMessage());
                 }
-            });
-        }
+            }
+        });
     }
 
     @Override

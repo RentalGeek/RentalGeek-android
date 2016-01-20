@@ -6,9 +6,6 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.model.User;
 
-/**
- * Created by rajohns on 10/7/15.
- */
 public final class Analytics {
 
     public static final String token = "3c61141d84771e0c6bcfc0f84fb8db95";
@@ -30,7 +27,6 @@ public final class Analytics {
             mixpanel.getPeople().set("payment", currentUser.payment);
             updateIfNonNull(mixpanel, "profile_id", currentUser.profile_id);
             updateIfNonNull(mixpanel, "cosigner_profile_id", currentUser.cosigner_profile_id);
-            updateIfNonNull(mixpanel, "property_namager_id", currentUser.property_manager_id);
             updateIfNonNull(mixpanel, "roommate_group_id", currentUser.roommate_group_id);
             updateIfNonNull(mixpanel, "completed_lease_id", currentUser.completed_lease_id);
             mixpanel.getPeople().set("is_cosigner", currentUser.is_cosigner);

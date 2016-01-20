@@ -12,8 +12,6 @@ import com.crashlytics.android.Crashlytics;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.NonEvent;
 import com.rentalgeek.android.bus.events.UserNotificationEvent;
-import com.rentalgeek.android.database.ProfileTable;
-import com.rentalgeek.android.database.PropertyTable;
 import com.rentalgeek.android.system.AppSystem;
 
 import de.greenrobot.event.EventBus;
@@ -54,8 +52,6 @@ public class RentalGeekApplication extends Application {
     @SuppressWarnings("unchecked")
     private void initializeDB() {
         Configuration.Builder configurationBuilder = new Configuration.Builder(this);
-        configurationBuilder.addModelClasses(PropertyTable.class);
-        configurationBuilder.addModelClasses(ProfileTable.class);
         ActiveAndroid.initialize(configurationBuilder.create());
     }
 

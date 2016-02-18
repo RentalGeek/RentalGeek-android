@@ -22,21 +22,14 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.model.User;
 import com.rentalgeek.android.bus.AppEventBus;
-import com.rentalgeek.android.bus.events.AppDialogRequestEvent;
 import com.rentalgeek.android.bus.events.ErrorAlertEvent;
 import com.rentalgeek.android.bus.events.ErrorCroutonEvent;
 import com.rentalgeek.android.bus.events.ShowHomeEvent;
-import com.rentalgeek.android.ui.Common;
 import com.rentalgeek.android.ui.Navigation;
-import com.rentalgeek.android.ui.dialog.AppProgressDialog;
 import com.rentalgeek.android.ui.dialog.DialogManager;
-import com.rentalgeek.android.ui.dialog.manager.GeekDialog;
+import com.rentalgeek.android.ui.dialog.GeekProgressDialog;
 import com.rentalgeek.android.utils.CosignerDestinationLogic;
 
-/**
- * Created by rajohns on 9/1/15.
- * Make sure to call appropriate setup method
- */
 public class GeekBaseActivity extends AppCompatActivity {
 
     private boolean tabbed = true;
@@ -212,14 +205,12 @@ public class GeekBaseActivity extends AppCompatActivity {
         }
     }
 
-    protected void showProgressDialog(int messageResId) {
-        Bundle args = new Bundle();
-        args.putInt(Common.DIALOG_MSG_ID, messageResId);
-        AppEventBus.post(new AppDialogRequestEvent<AppProgressDialog>(AppProgressDialog.class, args, null, true));
+    protected void showProgressDialog(int messageResourceId) {
+        GeekProgressDialog.show(this, messageResourceId);
     }
 
     protected void hideProgressDialog() {
-        GeekDialog.dismiss(this, AppProgressDialog.class);
+        GeekProgressDialog.dismiss();
     }
 
     protected void setupNavigationView() {
@@ -320,11 +311,6 @@ public class GeekBaseActivity extends AppCompatActivity {
                 return false;
             }
         });
-    }
-
-    public void onEventMainThread(AppDialogRequestEvent<?> event) {
-        GeekDialog.AppDialogFragment dialog = GeekDialog.showDialog(this, event.getClazz(), event.getArgs(), event.getCaller());
-        if (dialog != null) dialog.setCancelable(event.isCancellable());
     }
 
     private void setVisibilityForMenuItems() {

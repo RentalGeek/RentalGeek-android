@@ -4,9 +4,7 @@ import java.util.List;
 
 public class ErrorArray {
 
-
     public List<Error> errors;
-
 
     public class Error {
         public String code;

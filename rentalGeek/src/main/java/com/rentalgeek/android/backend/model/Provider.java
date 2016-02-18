@@ -8,4 +8,5 @@ public class Provider {
     public String email;
     public String name;
     public boolean connected;
+
 }

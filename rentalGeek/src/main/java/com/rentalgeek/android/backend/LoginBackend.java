@@ -14,4 +14,5 @@ public class LoginBackend {
     public List<CosignerProfile> cosigner_profiles;
     public List<Provider> providers;
     public List<String> error;
+
 }

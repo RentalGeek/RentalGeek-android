@@ -9,4 +9,5 @@ public class LeasePayment {
     public String created_at;
     public String amount;
     public String gateway_id;
+
 }

@@ -81,10 +81,6 @@ public class RentalGeekApplication extends Application {
         return string;
     }
 
-    public static int getColor(int colorId) {
-        return context.getResources().getColor(colorId);
-    }
-
     public static String[] getStringArray(int resId) {
         return context.getResources().getStringArray(resId);
     }

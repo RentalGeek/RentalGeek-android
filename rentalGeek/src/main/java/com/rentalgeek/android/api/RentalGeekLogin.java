@@ -10,9 +10,6 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.RentalGeekLoginEvent;
 
-/**
- * Created by Alan R on 10/21/15.
- */
 public class RentalGeekLogin implements LoginInterface, Validator.ValidationListener {
 
     private Validator validator;
@@ -68,4 +65,5 @@ public class RentalGeekLogin implements LoginInterface, Validator.ValidationList
             ((EditText) view).setError(message);
         }
     }
+
 }

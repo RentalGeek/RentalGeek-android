@@ -4,7 +4,6 @@ public class PaymentBackend {
 
     public Transaction transaction;
 
-
     public class Transaction {
         public String id;
         public String transaction_id;

@@ -21,9 +21,6 @@ import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.GeekGson;
 import com.rentalgeek.android.utils.ObscuredSharedPreferences;
 
-/**
- * Created by Alan R on 10/21/15.
- */
 public class LoginPresenter implements Presenter {
 
     private static final String TAG = LoginPresenter.class.getSimpleName();
@@ -157,4 +154,5 @@ public class LoginPresenter implements Presenter {
         SessionManager.Instance.onUserLoggedIn(detail);
         AppEventBus.post(new ShowHomeEvent());
     }
+
 }

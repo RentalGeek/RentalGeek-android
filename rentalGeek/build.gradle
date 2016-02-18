@@ -31,12 +31,13 @@ repositories {
 
 
 android {
-    compileSdkVersion "Google Inc.:Google APIs:21"
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
+    useLibrary "org.apache.http.legacy"
     defaultConfig {
         applicationId "com.rentalgeek.android"
         minSdkVersion 14
-        targetSdkVersion 21
+        targetSdkVersion 23
         versionCode 1013
         versionName '1.0.1.3'
     }

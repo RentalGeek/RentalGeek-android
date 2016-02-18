@@ -25,9 +25,6 @@ import com.rentalgeek.android.utils.Constants;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by Alan R on 10/21/15.
- */
 public class LinkedInLogin implements LoginInterface {
 
     private static final String TAG = LinkedInLogin.class.getSimpleName();
@@ -143,4 +140,5 @@ public class LinkedInLogin implements LoginInterface {
     public void setValidation(Object controller) {
 
     }
+
 }

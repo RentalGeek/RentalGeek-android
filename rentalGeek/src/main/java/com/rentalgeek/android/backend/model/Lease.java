@@ -13,7 +13,6 @@ public class Lease {
     public double total_paid;
 
     public String last_payment_date;
-
     public String applicable_type;
     public String fully_executed_lease_url;
     public String lease_document_guid;
@@ -21,4 +20,5 @@ public class Lease {
 
     public boolean complete;
     public boolean paid;
+
 }

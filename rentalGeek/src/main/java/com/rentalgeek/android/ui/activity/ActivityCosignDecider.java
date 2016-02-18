@@ -5,9 +5,6 @@ import android.os.Bundle;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.utils.CosignerInviteCaller;
 
-/**
- * Created by rajohns on 9/16/15.
- */
 public class ActivityCosignDecider extends GeekBaseActivity {
 
     public ActivityCosignDecider() {

@@ -18,16 +18,12 @@ import com.rentalgeek.android.bus.events.GoogleLoginEvent;
 import com.rentalgeek.android.bus.events.GoogleResolutionEvent;
 import com.rentalgeek.android.utils.Constants;
 
-/**
- * Created by Alan R on 10/21/15.
- */
 public class GoogleLogin implements LoginInterface, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
     private GoogleApiClient googleApiClient;
     private SignInButton google_plus_btn;
     private boolean shouldResolve = false;
     private boolean isResolving = false;
-
 
     @Override
     public void clicked(Activity context) {
@@ -154,4 +150,5 @@ public class GoogleLogin implements LoginInterface, GoogleApiClient.ConnectionCa
             }
         }
     }
+
 }

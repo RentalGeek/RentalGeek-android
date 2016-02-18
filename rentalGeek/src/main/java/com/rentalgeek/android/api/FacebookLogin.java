@@ -23,9 +23,6 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 
-/**
- * Created by Alan R on 10/21/15.
- */
 public class FacebookLogin implements LoginInterface {
 
     public static final String TAG = FacebookLogin.class.getSimpleName();

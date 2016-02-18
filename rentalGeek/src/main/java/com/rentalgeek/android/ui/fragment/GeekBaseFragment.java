@@ -3,7 +3,6 @@ package com.rentalgeek.android.ui.fragment;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.PorterDuff;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -14,12 +13,9 @@ import android.widget.ImageView;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.bus.AppEventBus;
-import com.rentalgeek.android.bus.events.AppDialogRequestEvent;
 import com.rentalgeek.android.bus.events.NonEvent;
-import com.rentalgeek.android.ui.Common;
-import com.rentalgeek.android.ui.dialog.AppProgressDialog;
 import com.rentalgeek.android.ui.dialog.DialogManager;
-import com.rentalgeek.android.ui.dialog.manager.GeekDialog;
+import com.rentalgeek.android.ui.dialog.GeekProgressDialog;
 
 public class GeekBaseFragment extends Fragment {
 
@@ -40,7 +36,7 @@ public class GeekBaseFragment extends Fragment {
         ft.setCustomAnimations(R.anim.one_, R.anim.two_, R.anim.three_, R.anim.four_);
         ft.replace(id, fragment);
         if (stack)
-            ft.addToBackStack(fragment.getClass().getName().toString());
+            ft.addToBackStack(fragment.getClass().getName());
         ft.commitAllowingStateLoss();
     }
 
@@ -54,7 +50,7 @@ public class GeekBaseFragment extends Fragment {
         ft.setCustomAnimations(R.anim.one_, R.anim.two_, R.anim.three_, R.anim.four_);
         ft.add(id, fragment);
         if (stack)
-            ft.addToBackStack(fragment.getClass().getName().toString());
+            ft.addToBackStack(fragment.getClass().getName());
         ft.commitAllowingStateLoss();
     }
 
@@ -66,7 +62,6 @@ public class GeekBaseFragment extends Fragment {
 
     protected void changeColor(ImageView view, int colorId) {
         Resources res = RentalGeekApplication.context.getResources();
-        //View view = getView(imageViewId);
         if (view != null) {
             final ImageView image = (ImageView) view;
             final int newColor = res.getColor(colorId);
@@ -112,12 +107,11 @@ public class GeekBaseFragment extends Fragment {
 
 
     protected void hideProgressDialog() {
-        GeekDialog.dismiss(getActivity(), AppProgressDialog.class);
+        GeekProgressDialog.dismiss();
     }
 
-    protected void showProgressDialog(int messageResId) {
-        Bundle args = new Bundle();
-        args.putInt(Common.DIALOG_MSG_ID, messageResId);
-        AppEventBus.post(new AppDialogRequestEvent<AppProgressDialog>(AppProgressDialog.class, args, this, true));
+    protected void showProgressDialog(int messageResourceId) {
+        GeekProgressDialog.show(activity, messageResourceId);
     }
+
 }

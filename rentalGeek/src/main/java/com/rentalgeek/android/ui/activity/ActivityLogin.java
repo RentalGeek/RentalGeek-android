@@ -16,8 +16,6 @@ import com.rentalgeek.android.utils.Analytics;
 
 public class ActivityLogin extends GeekBaseActivity {
 
-    private static final String TAG = ActivityLogin.class.getSimpleName();
-
     public ActivityLogin() {
         super(false, false, false);
     }

@@ -25,4 +25,5 @@ public class ActivityViewLease extends GeekBaseActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
         }
     }
+
 }

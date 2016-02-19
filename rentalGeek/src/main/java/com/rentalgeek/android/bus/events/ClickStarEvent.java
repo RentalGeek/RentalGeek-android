@@ -3,6 +3,7 @@ package com.rentalgeek.android.bus.events;
 import android.os.Bundle;
 
 public class ClickStarEvent {
+
     private Bundle bundle;
 
     public ClickStarEvent(Bundle bundle) {
@@ -13,5 +14,6 @@ public class ClickStarEvent {
     public Bundle getBundle() {
         return bundle;
     }
+
 }
 

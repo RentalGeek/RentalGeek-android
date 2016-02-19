@@ -5,9 +5,6 @@ import android.os.Bundle;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.ui.fragment.FragmentCosignerApp3;
 
-/**
- * Created by rajohns on 9/19/15.
- */
 public class ActivityCosignerApp3 extends GeekBaseActivity {
 
     public ActivityCosignerApp3() {

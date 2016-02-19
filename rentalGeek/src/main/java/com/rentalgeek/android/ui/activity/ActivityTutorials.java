@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Base64;
 import android.view.MotionEvent;
@@ -16,8 +15,6 @@ import android.view.View.OnTouchListener;
 
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.bus.AppEventBus;
-import com.rentalgeek.android.bus.events.ErrorAlertEvent;
-import com.rentalgeek.android.bus.events.ShowHomeEvent;
 import com.rentalgeek.android.bus.events.ShowRegistrationEvent;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.ui.AppPrefes;
@@ -133,4 +130,5 @@ public class ActivityTutorials extends GeekBaseActivity {
     public void onEventMainThread(ShowRegistrationEvent event) {
         Navigation.navigateActivity(this,ActivityRegistration.class);
     }
+
 }

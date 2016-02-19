@@ -10,7 +10,6 @@ import java.util.EnumSet;
 public class AppLogger {
 
     private static final String TAG = "AppLogger";
-
     public static final boolean isEnabled = true;
 
     public enum LogLevel {
@@ -19,11 +18,10 @@ public class AppLogger {
 
     public static final EnumSet<LogLevel> loggingLevels =
             EnumSet.of(LogLevel.DEBUG
-                    , LogLevel.ERROR
-                    , LogLevel.NETWORK
-                    , LogLevel.DATABASE
-                    , LogLevel.IMAGING
-                    //,LogLevel.LOCATION
+                    ,LogLevel.ERROR
+                    ,LogLevel.NETWORK
+                    ,LogLevel.DATABASE
+                    ,LogLevel.IMAGING
             );
 
     private static final int loggingLevelBits = encode(loggingLevels);
@@ -41,7 +39,6 @@ public class AppLogger {
     }
 
     public static void log(String tag, Throwable ex, boolean printStackTrace) {
-
         if (isEnabled) {
             if (ex != null && ex.getMessage() != null)
                 Log.e(tag, ex.getMessage());
@@ -68,7 +65,6 @@ public class AppLogger {
     public static void logError(String tag, String message) {
         log(tag, new Exception(message));
     }
-
 
     public static void log(String message, LogLevel level) {
         if (level == LogLevel.ERROR) {
@@ -118,9 +114,7 @@ public class AppLogger {
         return ret;
     }
 
-    public static <E extends Enum<E>> EnumSet<E> decode(int encoded,
-                                                        Class<E> enumKlazz) {
-
+    public static <E extends Enum<E>> EnumSet<E> decode(int encoded, Class<E> enumKlazz) {
         SparseArray<E> ordinalMap = new SparseArray<E>();
         for (E val : EnumSet.allOf(enumKlazz)) {
             ordinalMap.put(val.ordinal(), val);
@@ -138,4 +132,5 @@ public class AppLogger {
 
         return ret;
     }
+
 }

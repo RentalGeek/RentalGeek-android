@@ -3,6 +3,7 @@ package com.rentalgeek.android.bus.events;
 import com.rentalgeek.android.pojos.Rental;
 
 public class SetRentalsEvent {
+
     private Rental[] rentals;
 
     public SetRentalsEvent(Rental[] rentals) {
@@ -12,4 +13,5 @@ public class SetRentalsEvent {
     public Rental[] getRentals() {
         return this.rentals;
     }
+
 }

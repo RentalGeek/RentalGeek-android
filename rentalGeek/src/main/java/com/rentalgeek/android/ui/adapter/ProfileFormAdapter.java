@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.rentalgeek.android.ui.fragment.FragmentProfileForm;
 
-
 public class ProfileFormAdapter extends FragmentPagerAdapter {
 
     public ProfileFormAdapter(FragmentManager fm) {

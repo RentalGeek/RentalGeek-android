@@ -1,8 +1,5 @@
 package com.rentalgeek.android.bus.events;
 
-/**
- * Created by alan on 10/20/15.
- */
 abstract class BaseAlertEvent {
 
     private String title;
@@ -20,4 +17,5 @@ abstract class BaseAlertEvent {
     public String getMessage() {
         return message;
     }
+
 }

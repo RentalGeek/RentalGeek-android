@@ -47,22 +47,11 @@ import butterknife.OnClick;
 public class FragmentPayments extends GeekBaseFragment implements Validator.ValidationListener {
 
     private static final String TAG = FragmentPayments.class.getSimpleName();
-
     private Validator validator;
 
-    @InjectView(R.id.textViewPaymentSummary)
-    TextView textViewPaymentSummary;
-
-    @InjectView(R.id.textViewPaymentTotal)
-    TextView textViewPaymentTotal;
-
-
-    @InjectView(R.id.layoutProcessPayment)
-    LinearLayout layoutProcessPayment;
-
-
-//    @InjectView(R.id.verify_card)
-//    Button verify_card;
+    @InjectView(R.id.textViewPaymentSummary) TextView textViewPaymentSummary;
+    @InjectView(R.id.textViewPaymentTotal) TextView textViewPaymentTotal;
+    @InjectView(R.id.layoutProcessPayment) LinearLayout layoutProcessPayment;
 
     @Required(order = 1, message = "Please enter a valid card")
     @TextRule(order = 2, minLength = 16, maxLength = 16, message = "Please enter a 16 digit card number")
@@ -73,21 +62,10 @@ public class FragmentPayments extends GeekBaseFragment implements Validator.Vali
     @InjectView(R.id.editTextNameOnCard)
     EditText editTextNameOnCard;
 
-    // @Required(order = 4, message = "Please enter a valid month")
-    // @TextRule(order = 4, minLength = 2, maxLength = 2, message =
-    // "Please enter a valid month")
-    // @Regex(order = 5, pattern = "0[1-9]|1[0-2]", message =
-    // "Please enter a valid month")
-    // @InjectView(R.id.ed_mm)
-    // EditText ed_mm;
-
     @Select(order = 6, message = "Please select a valid month")
     @InjectView(R.id.ed_mm)
     Spinner ed_mm;
 
-    // @Required(order = 6, message = "Please enter a valid year")
-    // @TextRule(order = 7, minLength = 4, maxLength = 4, message =
-    // "Please enter a valid year")
     @Select(order = 6, message = "Please enter a valid year")
     @InjectView(R.id.ed_yyyy)
     Spinner edYYYY;
@@ -105,8 +83,6 @@ public class FragmentPayments extends GeekBaseFragment implements Validator.Vali
         ButterKnife.inject(this, v);
 
         evaluatePendingPayments();
-
-        //KeyListener();
 
         return v;
     }
@@ -127,32 +103,25 @@ public class FragmentPayments extends GeekBaseFragment implements Validator.Vali
     }
 
     private void KeyListener() {
-
         editTextCVV.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
-                if (actionId != EditorInfo.IME_ACTION_DONE)
+                if (actionId != EditorInfo.IME_ACTION_DONE) {
                     return false;
-                //hidekey();
+                }
+
                 validator.validate();
                 return true;
-
             }
         });
-
     }
-
 
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         validator = new Validator(this);
         validator.setValidationListener(this);
-
-//        if (ApiManager.currentUser != null && ApiManager.currentUser.roommate_group_id != null)
-//           fetchRoommateGroups(ApiManager.currentUser.roommate_group_id);
     }
 
     protected void bindLeasePayment(Lease lease) {
@@ -162,48 +131,46 @@ public class FragmentPayments extends GeekBaseFragment implements Validator.Vali
     }
 
     protected void fetchLeaseAmountDue(String leaseId) {
-
         String url = ApiManager.getLease(leaseId);
 
         GlobalFunctions.getApiCall(activity, url, AppPreferences.getAuthToken(),
-                new GeekHttpResponseHandler() {
+            new GeekHttpResponseHandler() {
+                @Override
+                public void onStart() {
+                    showProgressDialog(R.string.dialog_msg_loading);
+                }
 
-                    @Override
-                    public void onStart() {
-                        showProgressDialog(R.string.dialog_msg_loading);
-                    }
+                @Override
+                public void onFinish() {
+                    hideProgressDialog();
+                }
 
-                    @Override
-                    public void onFinish() {
-                        hideProgressDialog();
-                    }
-
-                    @Override
-                    public void onSuccess(String content) {
-                        try {
-                            String data = content;
-                            AppLogger.log(TAG, content);
-                            LeaseResponse leaseResponse = (new Gson()).fromJson(content, LeaseResponse.class);
-                            if (leaseResponse != null && leaseResponse.lease != null) {
-                                currentLease = leaseResponse.lease;
-                                bindLeasePayment(leaseResponse.lease);
-                            }
-                        } catch (Exception e) {
-                            AppLogger.log(TAG, e);
+                @Override
+                public void onSuccess(String content) {
+                    try {
+                        String data = content;
+                        AppLogger.log(TAG, content);
+                        LeaseResponse leaseResponse = (new Gson()).fromJson(content, LeaseResponse.class);
+                        if (leaseResponse != null && leaseResponse.lease != null) {
+                            currentLease = leaseResponse.lease;
+                            bindLeasePayment(leaseResponse.lease);
                         }
+                    } catch (Exception e) {
+                        AppLogger.log(TAG, e);
                     }
+                }
 
-                    @Override
-                    public void onFailure(Throwable ex, String failureResponse) {
-                        super.onFailure(ex, failureResponse);
-                        DialogManager.showCrouton(activity, failureResponse);
-                    }
+                @Override
+                public void onFailure(Throwable ex, String failureResponse) {
+                    super.onFailure(ex, failureResponse);
+                    DialogManager.showCrouton(activity, failureResponse);
+                }
 
-                    @Override
-                    public void onAuthenticationFailed() {
+                @Override
+                public void onAuthenticationFailed() {
 
-                    }
-                });
+                }
+            });
     }
 
     @Override
@@ -224,7 +191,6 @@ public class FragmentPayments extends GeekBaseFragment implements Validator.Vali
     }
 
     private void makePayment() {
-
         String url = ApiManager.getPayments();
 
         RequestParams params = new RequestParams();
@@ -238,52 +204,53 @@ public class FragmentPayments extends GeekBaseFragment implements Validator.Vali
         params.put("payment[user_id]", SessionManager.Instance.getCurrentUser().id);
 
         GlobalFunctions.postApiCall(activity, url,
-                params, AppPreferences.getAuthToken(),
-                new GeekHttpResponseHandler() {
+            params, AppPreferences.getAuthToken(),
+            new GeekHttpResponseHandler() {
 
-                    @Override
-                    public void onStart() {
-                        showProgressDialog(R.string.dialog_msg_loading);
-                    }
+                @Override
+                public void onStart() {
+                    showProgressDialog(R.string.dialog_msg_loading);
+                }
 
-                    @Override
-                    public void onFinish() {
-                        hideProgressDialog();
-                    }
+                @Override
+                public void onFinish() {
+                    hideProgressDialog();
+                }
 
-                    @Override
-                    public void onSuccess(String content) {
-                        try {
-                            PaymentsBackend detail = (new Gson()).fromJson(content, PaymentsBackend.class);
+                @Override
+                public void onSuccess(String content) {
+                    try {
+                        PaymentsBackend detail = (new Gson()).fromJson(content, PaymentsBackend.class);
 
-                            if (detail != null && detail.payment != null) {
-                                Bundle args = new Bundle();
-                                args.putDouble(Common.KEY_TOTAL_DUE, currentLease.total_due);
-                                args.putInt(Common.KEY_LEASE_ID, currentLease.id);
-                                Navigation.navigateActivity(activity, ActivityPaymentConfirmation.class, args, false);
-                            }
-
-                        } catch (Exception e) {
-                            AppLogger.log(TAG, e);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Throwable ex, String failureResponse) {
-                        super.onFailure(ex, failureResponse);
-
-                        ErrorArray errorResponse = (new Gson()).fromJson(failureResponse, ErrorArray.class);
-
-                        if (errorResponse != null && !ListUtils.isNullOrEmpty(errorResponse.errors)) {
-                            DialogManager.showCrouton(activity, errorResponse.errors.get(0).message);
+                        if (detail != null && detail.payment != null) {
+                            Bundle args = new Bundle();
+                            args.putDouble(Common.KEY_TOTAL_DUE, currentLease.total_due);
+                            args.putInt(Common.KEY_LEASE_ID, currentLease.id);
+                            Navigation.navigateActivity(activity, ActivityPaymentConfirmation.class, args, false);
                         }
 
+                    } catch (Exception e) {
+                        AppLogger.log(TAG, e);
+                    }
+                }
+
+                @Override
+                public void onFailure(Throwable ex, String failureResponse) {
+                    super.onFailure(ex, failureResponse);
+
+                    ErrorArray errorResponse = (new Gson()).fromJson(failureResponse, ErrorArray.class);
+
+                    if (errorResponse != null && !ListUtils.isNullOrEmpty(errorResponse.errors)) {
+                        DialogManager.showCrouton(activity, errorResponse.errors.get(0).message);
                     }
 
-                    @Override
-                    public void onAuthenticationFailed() {
+                }
 
-                    }
-                });
+                @Override
+                public void onAuthenticationFailed() {
+
+                }
+            });
     }
+
 }

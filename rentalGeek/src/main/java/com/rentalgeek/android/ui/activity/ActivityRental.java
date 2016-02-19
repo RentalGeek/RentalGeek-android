@@ -47,4 +47,5 @@ public class ActivityRental extends GeekBaseActivity {
     public void onEventMainThread(ShowNeedPaymentEvent event) {
         Navigation.navigateActivity(this, ActivityNeedPayment.class);
     }
+
 }

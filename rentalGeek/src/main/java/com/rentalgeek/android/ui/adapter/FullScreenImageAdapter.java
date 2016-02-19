@@ -15,9 +15,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-/**
- * Created by rajohns on 10/3/15.
- */
 public class FullScreenImageAdapter extends PagerAdapter {
 
     private Activity activity;

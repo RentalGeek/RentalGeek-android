@@ -9,13 +9,11 @@ import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 
-
 public enum AppSystem {
 
     Instance;
 
     private static final String TAG = "AppSystem";
-
     private String gcmDeviceId;
 
     public void checkGCMRegistration(Context context) {
@@ -29,7 +27,6 @@ public enum AppSystem {
 
     private void registerGCM(final GoogleCloudMessaging gcm) {
         new AsyncTask<Void, Void, String>() {
-
             @Override
             protected void onPostExecute(String result) {
                 super.onPostExecute(result);
@@ -50,4 +47,5 @@ public enum AppSystem {
 
         }.execute(null, null, null);
     }
+
 }

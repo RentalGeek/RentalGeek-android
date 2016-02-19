@@ -112,7 +112,6 @@ public class RentalPresenter extends StarPresenter implements Presenter {
         Rental rental = RentalCache.getInstance().get(rental_id);
 
         if (rental == null) {
-
             System.out.println("Not found in cache");
             String url = ApiManager.getRental(rental_id);
             String token = AppPreferences.getAuthToken();
@@ -151,4 +150,5 @@ public class RentalPresenter extends StarPresenter implements Presenter {
             }
         });
     }
+
 }

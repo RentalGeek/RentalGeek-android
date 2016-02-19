@@ -68,164 +68,108 @@ import butterknife.OnClick;
 public class FragmentProfileForm extends GeekBaseFragment implements Validator.ValidationListener, GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = "FragmentProfileForm";
-
     private int position;
 
-    @InjectView(R.id.layoutForm1)
-    LinearLayout layoutForm1;
-
-    @InjectView(R.id.layoutForm2)
-    LinearLayout layoutForm2;
-
-    @InjectView(R.id.layoutForm3)
-    LinearLayout layoutForm3;
-
-    @InjectView(R.id.layoutForm4)
-    LinearLayout layoutForm4;
-
-    @InjectView(R.id.layoutForm5)
-    LinearLayout layoutForm5;
-
-    @InjectView(R.id.layoutForm6)
-    LinearLayout layoutForm6;
-
-    @InjectView(R.id.profile_layout_header)
-    LinearLayout profile_layout_header;
-
-    @InjectView(R.id.eviction_description_layout)
-    LinearLayout eviction_description_layout;
-
-    @InjectView(R.id.felony_description_layout)
-    LinearLayout felony_description_layout;
-
-    @InjectView(R.id.submit)
-    Button submit;
-
-    @InjectView(R.id.back)
-    Button back;
+    @InjectView(R.id.layoutForm1) LinearLayout layoutForm1;
+    @InjectView(R.id.layoutForm2) LinearLayout layoutForm2;
+    @InjectView(R.id.layoutForm3) LinearLayout layoutForm3;
+    @InjectView(R.id.layoutForm4) LinearLayout layoutForm4;
+    @InjectView(R.id.layoutForm5) LinearLayout layoutForm5;
+    @InjectView(R.id.layoutForm6) LinearLayout layoutForm6;
+    @InjectView(R.id.profile_layout_header) LinearLayout profile_layout_header;
+    @InjectView(R.id.eviction_description_layout) LinearLayout eviction_description_layout;
+    @InjectView(R.id.felony_description_layout) LinearLayout felony_description_layout;
+    @InjectView(R.id.submit) Button submit;
+    @InjectView(R.id.back) Button back;
 
     @Required(order = 1, message = "Please fill all mandatory fields")
-    @InjectView(R.id.first_name)
-    EditText first_name;
+    @InjectView(R.id.first_name) EditText first_name;
 
     @Required(order = 2, message = "Please fill all mandatory fields")
-    @InjectView(R.id.last_name)
-    EditText last_name;
+    @InjectView(R.id.last_name) EditText last_name;
 
-    @InjectView(R.id.dob)
-    public DatePicker dob;
+    @InjectView(R.id.dob) public DatePicker dob;
 
-    @InjectView(R.id.drivers_license)
-    public EditText drivers_license;
+    @InjectView(R.id.drivers_license) public EditText drivers_license;
 
     @Required(order = 3, message = "Please fill all mandatory fields")
     @TextRule(minLength = 9, message = "Please enter a valid 9 digit SSN", order = 4)
-    @InjectView(R.id.ssn)
-    public EditText ssn;
+    @InjectView(R.id.ssn) public EditText ssn;
 
-    @InjectView(R.id.drivers_license_state)
-    public Spinner drivers_license_state;
+    @InjectView(R.id.drivers_license_state) public Spinner drivers_license_state;
 
     @Required(order = 4, message = "Please fill all mandatory fields")
     @TextRule(minLength = 10, maxLength = 10, message = "Please use 10 digit phone number", order = 5)
     @Regex(order = 6, pattern = "[0-9]{10}", message = "Please use 10 digit phone number")
-    @InjectView(R.id.phone_number)
-    public EditText phone_number;
+    @InjectView(R.id.phone_number) public EditText phone_number;
 
-    @InjectView(R.id.pets_description)
-    public EditText pets_description;
+    @InjectView(R.id.pets_description) public EditText pets_description;
 
-    @InjectView(R.id.vehicle_description)
-    public EditText vehicle_description;
+    @InjectView(R.id.vehicle_description) public EditText vehicle_description;
 
     @Select(order = 7, message = "Please fill all mandatory fields")
-    @InjectView(R.id.was_evicted)
-    public Spinner was_evicted;
+    @InjectView(R.id.was_evicted) public Spinner was_evicted;
 
-    @InjectView(R.id.eviction_description)
-    public EditText eviction_description;
+    @InjectView(R.id.eviction_description) public EditText eviction_description;
 
     @Select(order = 8, message = "Please fill all mandatory fields")
-    @InjectView(R.id.was_felon)
-    public Spinner was_felon;
+    @InjectView(R.id.was_felon) public Spinner was_felon;
 
-    @InjectView(R.id.felony_description)
-    public EditText felony_description;
+    @InjectView(R.id.felony_description) public EditText felony_description;
 
     @Required(order = 9, message = "Please fill all mandatory fields")
-    @InjectView(R.id.character_reference_name)
-    public EditText character_reference_name;
+    @InjectView(R.id.character_reference_name) public EditText character_reference_name;
 
     @Required(order = 10, message = "Please fill all mandatory fields")
-    @InjectView(R.id.character_reference_phone)
-    public EditText character_reference_phone;
+    @InjectView(R.id.character_reference_phone) public EditText character_reference_phone;
 
     @Required(order = 11, message = "Please fill all mandatory fields")
-    @InjectView(R.id.emergency_contact_name)
-    public EditText emergency_contact_name;
+    @InjectView(R.id.emergency_contact_name) public EditText emergency_contact_name;
 
     @TextRule(order = 12, minLength = 10, maxLength = 10, message = "Should be 10 digits")
     @Regex(order = 13, pattern = "[0-9]{10}", message = "Please use 10 digit phone number")
     @Required(order = 14, message = "Please fill all mandatory fields")
-    @InjectView(R.id.emergency_contact_phone)
-    public EditText emergency_contact_phone;
+    @InjectView(R.id.emergency_contact_phone) public EditText emergency_contact_phone;
 
     @Required(order = 15, message = "Please fill all mandatory fields")
-    @InjectView(R.id.current_home_address)
-    public AutoCompleteTextView current_home_address;
+    @InjectView(R.id.current_home_address) public AutoCompleteTextView current_home_address;
 
-    @InjectView(R.id.current_move_date)
-    public DatePicker current_move_date;
+    @InjectView(R.id.current_move_date) public DatePicker current_move_date;
 
-    @InjectView(R.id.move_reason)
-    public EditText move_reason;
+    @InjectView(R.id.move_reason) public EditText move_reason;
 
     @Required(order = 17, message = "Please fill all mandatory fields")
-    @InjectView(R.id.current_home_owner)
-    public EditText current_home_owner;
+    @InjectView(R.id.current_home_owner) public EditText current_home_owner;
 
     @Required(order = 18, message = "Please fill all mandatory fields")
-    @InjectView(R.id.current_home_owner_phone)
-    public EditText current_home_owner_phone;
+    @InjectView(R.id.current_home_owner_phone) public EditText current_home_owner_phone;
 
-    @InjectView(R.id.previous_home_address)
-    public AutoCompleteTextView previous_home_address;
+    @InjectView(R.id.previous_home_address) public AutoCompleteTextView previous_home_address;
 
-    @InjectView(R.id.previous_move_in_date)
-    public DatePicker previous_move_in_date;
+    @InjectView(R.id.previous_move_in_date) public DatePicker previous_move_in_date;
 
-    @InjectView(R.id.previous_move_out_date)
-    public DatePicker previous_move_out_date;
+    @InjectView(R.id.previous_move_out_date) public DatePicker previous_move_out_date;
 
-    @InjectView(R.id.previous_home_owner)
-    public EditText previous_home_owner;
+    @InjectView(R.id.previous_home_owner) public EditText previous_home_owner;
 
-    @InjectView(R.id.previous_home_owner_phone)
-    public EditText previous_home_owner_phone;
+    @InjectView(R.id.previous_home_owner_phone) public EditText previous_home_owner_phone;
 
-    @InjectView(R.id.current_supervisor)
-    public EditText current_supervisor;
+    @InjectView(R.id.current_supervisor) public EditText current_supervisor;
 
     @Select(order = 19, message = "Please fill all mandatory fields")
-    @InjectView(R.id.employment_status)
-    public Spinner employment_status;
+    @InjectView(R.id.employment_status) public Spinner employment_status;
 
     @Required(order = 20, message = "Please fill all mandatory fields")
-    @InjectView(R.id.cosigner_name)
-    public EditText cosigner_name;
+    @InjectView(R.id.cosigner_name) public EditText cosigner_name;
 
     @Required(order = 21, message = "Please fill all mandatory fields")
     @Email(order = 22, message = "Must be in email format")
-    @InjectView(R.id.cosigner_email)
-    public EditText cosigner_email;
+    @InjectView(R.id.cosigner_email) public EditText cosigner_email;
 
-    @InjectView(R.id.desired_move_date)
-    public DatePicker desired_move_date;
+    @InjectView(R.id.desired_move_date) public DatePicker desired_move_date;
 
     private Validator validator;
-
     AppPrefes appPref;
-
     GoogleApiClient googleApiClient;
 
     ArrayAdapter<String> booleans_adapter;
@@ -282,15 +226,12 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
     }
 
     private void initialize() {
-
         Profile profile = SessionManager.Instance.getDefaultProfile();
         User user = SessionManager.Instance.getCurrentUser();
 
         if (profile == null)
             return;
-
         else {
-
             //Page 1
             first_name.setText(user.first_name);
             last_name.setText(user.last_name);
@@ -381,9 +322,9 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
             //Page 4
             if (profile.get("current_home_street") != null &&
-                    profile.get("current_home_city") != null &&
-                    profile.get("current_home_state") != null &&
-                    profile.get("current_home_zipcode") != null) {
+                profile.get("current_home_city") != null &&
+                profile.get("current_home_state") != null &&
+                profile.get("current_home_zipcode") != null) {
 
                 String street = profile.get("current_home_street").toString();
                 String city = profile.get("current_home_city").toString();
@@ -413,9 +354,9 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
             //Page 5
             if (profile.get("previous_home_street") != null &&
-                    profile.get("previous_home_city") != null &&
-                    profile.get("previous_home_state") != null &&
-                    profile.get("previous_home_zipcode") != null) {
+                profile.get("previous_home_city") != null &&
+                profile.get("previous_home_state") != null &&
+                profile.get("previous_home_zipcode") != null) {
 
                 String street = profile.get("previous_home_street").toString();
                 String city = profile.get("previous_home_city").toString();
@@ -471,7 +412,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
     }
 
     private void setup() {
-
         String[] booleans = RentalGeekApplication.getStringArray(R.array.tru);
         String[] states = RentalGeekApplication.getStringArray(R.array.state_list);
         String[] employment_statuses = RentalGeekApplication.getStringArray(R.array.empl);
@@ -611,7 +551,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
     }
 
     public void error(String response, int value) {
-
         try {
             ErrorObj sess = (new Gson()).fromJson(response, ErrorObj.class);
 
@@ -633,12 +572,9 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
         } catch (Exception e) {
             AppLogger.log(TAG, e);
         }
-
-
     }
 
     private void toasts(String field, List<String> message) {
-
         try {
             if (!ListUtils.isNullOrEmpty(message))
                 showAlert(String.format("%s: %s", field, message.get(0)));
@@ -652,7 +588,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
     // Check on validation fail
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
-
         String message = failedRule.getFailureMessage();
 
         if (failedView instanceof EditText) {
@@ -668,7 +603,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
     // After validation success
     @Override
     public void onValidationSucceeded() {
-
         if (position == 0) {
             User user = SessionManager.Instance.getCurrentUser();
             AppPreferences.putFirstName(user.first_name);
@@ -702,73 +636,69 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
     // Create profile params and Api call
     public void createProfile() {
         try {
-
             final RequestParams params = buildRequestParams();
             System.out.println(params);
 
             String url = ApiManager.specificUserUrl(SessionManager.Instance.getCurrentUser().id);
 
             GlobalFunctions.putApiCall(getActivity(), url, params,
-                    AppPreferences.getAuthToken(),
-                    new GeekHttpResponseHandler() {
+                AppPreferences.getAuthToken(),
+                new GeekHttpResponseHandler() {
 
-                        @Override
-                        public void onStart() {
-                            showProgressDialog(R.string.dialog_msg_loading);
-                        }
+                    @Override
+                    public void onStart() {
+                        showProgressDialog(R.string.dialog_msg_loading);
+                    }
 
-                        @Override
-                        public void onFinish() {
-                            hideProgressDialog();
-                        }
+                    @Override
+                    public void onFinish() {
+                        hideProgressDialog();
+                    }
 
-                        @Override
-                        public void onSuccess(String content) {
-                            try {
-                                System.out.println(content);
-                                LoginBackend user = GeekGson.getInstance().fromJson(content, LoginBackend.class);
-                                SessionManager.Instance.onUserLoggedIn(user);
-                                AppPreferences.removeProfile();
-                                AppEventBus.post(new SubmitProfileEvent());
-                            } catch (Exception e) {
-                                AppLogger.log(TAG, e);
-                            }
+                    @Override
+                    public void onSuccess(String content) {
+                        try {
+                            System.out.println(content);
+                            LoginBackend user = GeekGson.getInstance().fromJson(content, LoginBackend.class);
+                            SessionManager.Instance.onUserLoggedIn(user);
+                            AppPreferences.removeProfile();
+                            AppEventBus.post(new SubmitProfileEvent());
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
                         }
+                    }
 
-                        @Override
-                        public void onFailure(Throwable ex, String failureResponse) {
-                            System.out.println(failureResponse);
-                            super.onFailure(ex, failureResponse);
-                            ResponseParser.ErrorMsg errorMsg = new ResponseParser().humanizedErrorMsg(failureResponse);
-                            OkAlert.show(getActivity(), errorMsg.title, errorMsg.msg);
-                        }
+                    @Override
+                    public void onFailure(Throwable ex, String failureResponse) {
+                        System.out.println(failureResponse);
+                        super.onFailure(ex, failureResponse);
+                        ResponseParser.ErrorMsg errorMsg = new ResponseParser().humanizedErrorMsg(failureResponse);
+                        OkAlert.show(getActivity(), errorMsg.title, errorMsg.msg);
+                    }
 
-                        @Override
-                        public void onAuthenticationFailed() {
-                            System.out.println("Failed authentication." + "");
-                        }
-                    });
+                    @Override
+                    public void onAuthenticationFailed() {
+                        System.out.println("Failed authentication." + "");
+                    }
+                });
         } catch (Exception e) {
             AppLogger.log(TAG, e);
         }
     }
 
     private void showAlert(String message) {
-
-
         try {
             AlertDialog.Builder builder1 = new AlertDialog.Builder(
-                    getActivity());
+                getActivity());
             builder1.setMessage(message);
             builder1.setTitle("Alert");
             builder1.setCancelable(true);
             builder1.setPositiveButton("OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-
-                            dialog.cancel();
-                        }
-                    });
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
             AlertDialog alert11 = builder1.create();
             alert11.show();
         } catch (Exception e) {

@@ -3,6 +3,7 @@ package com.rentalgeek.android.bus.events;
 import android.os.Bundle;
 
 public class ClickRentalEvent {
+
     private Bundle bundle;
 
     public ClickRentalEvent(Bundle bundle) {
@@ -12,5 +13,6 @@ public class ClickRentalEvent {
     public Bundle getBundle() {
         return bundle;
     }
+
 }
 

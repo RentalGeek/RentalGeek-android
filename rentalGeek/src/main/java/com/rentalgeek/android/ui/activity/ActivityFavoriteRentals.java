@@ -15,7 +15,6 @@ import com.rentalgeek.android.ui.fragment.FragmentRentalListView;
 
 public class ActivityFavoriteRentals extends GeekBaseActivity {
 
-    private static final String TAG = ActivityFavoriteRentals.class.getSimpleName();
     private RentalListView rentalListView;
     private FavPresenter presenter;
 
@@ -28,7 +27,6 @@ public class ActivityFavoriteRentals extends GeekBaseActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_with_fragment);
-
         setupNavigation();
         setMenuItemSelected(R.id.favorites);
 
@@ -72,4 +70,5 @@ public class ActivityFavoriteRentals extends GeekBaseActivity {
             startActivity(intent);
         }
     }
+
 }

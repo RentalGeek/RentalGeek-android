@@ -5,9 +5,6 @@ import android.os.Bundle;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.ui.fragment.FragmentMyCosigner;
 
-/**
- * Created by rajohns on 9/20/15.
- */
 public class ActivityMyCosigner extends GeekBaseActivity {
 
     public ActivityMyCosigner() {

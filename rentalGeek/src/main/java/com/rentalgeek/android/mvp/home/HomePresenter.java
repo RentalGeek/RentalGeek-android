@@ -51,7 +51,6 @@ public class HomePresenter implements Presenter {
 
             @Override
             public void onSuccess(String response) {
-
                 try {
                     System.out.println(response);
 
@@ -94,11 +93,9 @@ public class HomePresenter implements Presenter {
 
     @Override
     public void getRentalOfferings(Bundle bundle) {
-
         Rental[] rentals = {};
 
         if (bundle != null) {
-
             ArrayList<String> rental_ids = bundle.getStringArrayList("RENTALS");
 
             int size = rental_ids.size();
@@ -115,6 +112,6 @@ public class HomePresenter implements Presenter {
             String message = RentalGeekApplication.getResourceString(R.string.oops);
             AppEventBus.post(new ErrorAlertEvent(title, message));
         }
-
     }
+
 }

@@ -25,12 +25,9 @@ import butterknife.OnClick;
 
 public class FragmentCosignerInvite extends GeekBaseFragment {
 
-    @InjectView(R.id.invite_cosign_textview)
-    TextView inviteTextView;
-    @InjectView(R.id.accept_button)
-    Button acceptButton;
-    @InjectView(R.id.decline_button)
-    Button declineButton;
+    @InjectView(R.id.invite_cosign_textview) TextView inviteTextView;
+    @InjectView(R.id.accept_button) Button acceptButton;
+    @InjectView(R.id.decline_button) Button declineButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

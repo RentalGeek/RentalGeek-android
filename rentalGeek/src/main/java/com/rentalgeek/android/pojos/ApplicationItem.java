@@ -120,8 +120,6 @@ public class ApplicationItem {
     }
 
     public Spanned getLeftTextForRoomate(RoommateDTO roommate) {
-        String text = "";
-
         if (Boolean.TRUE.equals(accepted)) {
             if (roommate.lease_signed_on != null) {
                 return statusLine("Lease signed by", roommate.full_name);
@@ -177,7 +175,6 @@ public class ApplicationItem {
         } else {
             return Html.fromHtml(getStatusText(roommate.cosigner_status));
         }
-
     }
 
     private String getStatusText(String status) {
@@ -204,20 +201,8 @@ public class ApplicationItem {
         return inputDate.substring(0, 10);
     }
 
-    public String getUnsignedLeaseDocumentUrl() {
-        return unsignedLeaseDocumentUrl;
-    }
-
     public void setUnsignedLeaseDocumentUrl(String unsignedLeaseDocumentUrl) {
         this.unsignedLeaseDocumentUrl = unsignedLeaseDocumentUrl;
-    }
-
-    public String getSignedLeaseUrl() {
-        return signedLeaseUrl;
-    }
-
-    public void setSignedLeaseUrl(String signedLeaseUrl) {
-        this.signedLeaseUrl = signedLeaseUrl;
     }
 
     public int getLeaseId() {
@@ -232,10 +217,6 @@ public class ApplicationItem {
         return signedLeaseOn;
     }
 
-    public void setSignedLeaseOn(String signedLeaseOn) {
-        this.signedLeaseOn = signedLeaseOn;
-    }
-
     public Boolean getAccepted() {
         return accepted;
     }
@@ -248,15 +229,8 @@ public class ApplicationItem {
         return rentalOfferingId;
     }
 
-    public void setRentalOfferingId(Integer rentalOfferingId) {
-        this.rentalOfferingId = rentalOfferingId;
-    }
-
     public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
 }

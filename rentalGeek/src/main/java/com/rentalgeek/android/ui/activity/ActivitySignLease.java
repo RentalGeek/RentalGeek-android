@@ -5,9 +5,6 @@ import android.os.Bundle;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.ui.fragment.FragmentSignLease;
 
-/**
- * Created by rajohns on 9/20/15.
- */
 public class ActivitySignLease extends GeekBaseActivity {
 
     public ActivitySignLease() {

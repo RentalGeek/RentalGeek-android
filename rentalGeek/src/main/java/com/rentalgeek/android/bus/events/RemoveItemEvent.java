@@ -1,6 +1,7 @@
 package com.rentalgeek.android.bus.events;
 
 public class RemoveItemEvent {
+
     private int position;
 
     public RemoveItemEvent(int position) {
@@ -10,4 +11,5 @@ public class RemoveItemEvent {
     public int getPosition() {
         return position;
     }
+
 }

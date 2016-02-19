@@ -7,9 +7,6 @@ import android.view.ViewGroup;
 
 import com.rentalgeek.android.R;
 
-/**
- * Created by Alan R on 10/5/15.
- */
 public class FragmentNoFavorites extends GeekBaseFragment {
 
     @Override
@@ -17,4 +14,5 @@ public class FragmentNoFavorites extends GeekBaseFragment {
         View view = inflater.inflate(R.layout.fragment_no_favorites, viewGroup, false);
         return view;
     }
+
 }

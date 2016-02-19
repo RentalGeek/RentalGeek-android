@@ -3,9 +3,9 @@ package com.rentalgeek.android.mvp.map;
 import com.rentalgeek.android.pojos.Rental;
 
 public interface MapView {
-    public void zoomTo(double latitude, double longitude, int zoom);
 
-    public void setRentals(Rental[] rentals);
+    void zoomTo(double latitude, double longitude, int zoom);
+    void setRentals(Rental[] rentals);
+    void boundbox();
 
-    public void boundbox();
 }

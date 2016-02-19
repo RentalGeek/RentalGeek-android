@@ -8,8 +8,6 @@ import com.rentalgeek.android.ui.fragment.FragmentRoommateInvite;
 
 public class ActivityRoommateInvite extends GeekBaseActivity {
 
-    private static final String TAG = ActivityRoommateInvite.class.getSimpleName();
-
     public ActivityRoommateInvite() {
         super(true, true, true);
     }
@@ -29,4 +27,5 @@ public class ActivityRoommateInvite extends GeekBaseActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
         }
     }
+
 }

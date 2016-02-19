@@ -33,4 +33,5 @@ public class FragmentApprovedApplications extends FragmentBaseApplicationList {
             fetchItemsWithUrl(getActivity(), ApiManager.getApprovedApplicationsUrl());
         }
     }
+
 }

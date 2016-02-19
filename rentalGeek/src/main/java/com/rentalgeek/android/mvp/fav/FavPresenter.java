@@ -65,4 +65,5 @@ public class FavPresenter implements Presenter {
             }
         });
     }
+
 }

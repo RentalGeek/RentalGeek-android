@@ -130,7 +130,6 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
         container.setAdapter(adapter);
     }
 
-
     public void onEventMainThread(ClickRentalEvent event) {
         Bundle bundle = event.getBundle();
 

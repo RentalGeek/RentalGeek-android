@@ -30,7 +30,6 @@ public class SearchPresenter implements Presenter {
     @Override
     public void getRentalOfferings(Bundle bundle) {
         if (bundle != null) {
-
             String token = AppPreferences.getAuthToken();
             StringBuilder parameters = new StringBuilder();
 
@@ -77,7 +76,6 @@ public class SearchPresenter implements Presenter {
 
             //Need to replace first & with a blank
             String query = parameters.toString().replaceFirst("&", "");
-
             String url = ApiManager.getPropertySearchUrl(query);
 
             System.out.println(url);
@@ -93,13 +91,11 @@ public class SearchPresenter implements Presenter {
 
                 @Override
                 public void onSuccess(String response) {
-
                     try {
                         JSONObject json = new JSONObject(response);
                         JSONArray rentalOfferings = json.getJSONArray("rental_offerings");
 
                         Rental[] rentals = GeekGson.getInstance().fromJson(rentalOfferings.toString(), Rental[].class);
-
 
                         if (rentals != null && rentals.length > 0) {
 
@@ -129,7 +125,7 @@ public class SearchPresenter implements Presenter {
                 public void onAuthenticationFailed() {
                 }
             });
-
         }
     }
+
 }

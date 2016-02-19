@@ -27,4 +27,5 @@ public class ActivityNotifications extends GeekBaseActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
         }
     }
+
 }

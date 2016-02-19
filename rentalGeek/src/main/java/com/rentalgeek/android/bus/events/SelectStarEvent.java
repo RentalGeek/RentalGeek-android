@@ -1,8 +1,5 @@
 package com.rentalgeek.android.bus.events;
 
-/**
- * Created by Alan R 10/20/15.
- */
 public class SelectStarEvent {
 
     private int position;
@@ -14,4 +11,5 @@ public class SelectStarEvent {
     public int getPosition() {
         return position;
     }
+
 }

@@ -65,7 +65,6 @@ public abstract class StarPresenter {
         System.out.println(url);
 
         GlobalFunctions.postApiCall(null, url, params, token, new GeekHttpResponseHandler() {
-
             @Override
             public void onSuccess(String response) {
                 try {
@@ -96,9 +95,7 @@ public abstract class StarPresenter {
     private void unselectStar(final String rental_id, final int position) {
         if (rental_id == null || rental_id.isEmpty() || position < 0)
             return;
-
         else {
-
             String star_id = RentalCache.getInstance().get(rental_id).getStarId();
 
             String url = ApiManager.deleteRentalStar(star_id);
@@ -116,4 +113,5 @@ public abstract class StarPresenter {
             });
         }
     }
+
 }

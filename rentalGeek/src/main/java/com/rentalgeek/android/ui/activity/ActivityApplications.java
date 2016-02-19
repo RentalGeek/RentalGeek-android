@@ -8,9 +8,6 @@ import com.rentalgeek.android.ui.adapter.PageAdapter;
 import com.rentalgeek.android.ui.fragment.FragmentApprovedApplications;
 import com.rentalgeek.android.ui.fragment.FragmentPendingApplications;
 
-/**
- * Created by rajohns on 9/12/15.
- */
 public class ActivityApplications extends GeekBaseActivity implements Container<ViewPager> {
 
     ViewPager viewPager;

@@ -41,7 +41,6 @@ import butterknife.OnClick;
 public class FragmentPayment extends GeekBaseFragment implements Validator.ValidationListener {
 
     private static final String TAG = "FragmentPayment";
-
     private Validator validator;
     AppPrefes appPref;
 

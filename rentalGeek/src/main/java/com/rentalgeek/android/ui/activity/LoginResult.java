@@ -2,9 +2,6 @@ package com.rentalgeek.android.ui.activity;
 
 import android.content.Intent;
 
-/**
- * Created by Alan R on 10/21/15.
- */
 public class LoginResult {
 
     private Intent data;
@@ -28,4 +25,5 @@ public class LoginResult {
     public int getRequestCode() {
         return this.requestCode;
     }
+
 }

@@ -222,7 +222,6 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
         return applicationItems.size();
     }
 
-
     /**
      * Kind of a hack to prevent dynamic textviews from being re-added
      * when the recycler row is recycled. Settling for this because

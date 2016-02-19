@@ -36,31 +36,22 @@ public class RentalAdapter extends ArrayAdapter<Rental> {
     public View getView(int position, View view, ViewGroup parent) {
 
         ViewHolder viewHolder;
-
         Rental rental = getItem(position);
 
         if (view == null) {
             LayoutInflater inflater = LayoutInflater.from(RentalGeekApplication.context);
             view = inflater.inflate(rowLayoutResourceId, parent, false);
-
             viewHolder = new ViewHolder(view);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        //Set values
         if (rental.isStarred()) {
-            Picasso
-                    .with(getContext())
-                    .load(R.drawable.star_full)
-                    .into(viewHolder.star_imageview);
+            Picasso.with(getContext()).load(R.drawable.star_full).into(viewHolder.star_imageview);
 
         } else {
-            Picasso
-                    .with(getContext())
-                    .load(R.drawable.star_outline)
-                    .into(viewHolder.star_imageview);
+            Picasso.with(getContext()).load(R.drawable.star_outline).into(viewHolder.star_imageview);
         }
 
         viewHolder.position = position;
@@ -72,26 +63,18 @@ public class RentalAdapter extends ArrayAdapter<Rental> {
         String format = "%s\n%s, %s %s";
         viewHolder.address_textview.setText(String.format(format, rental.getAddress(), rental.getCity(), rental.getState(), rental.getZipcode()));
 
-        Picasso
-                .with(getContext())
-                .load(rental.getImageUrl())
-                .into(viewHolder.rental_imageview);
+        Picasso.with(getContext()).load(rental.getImageUrl()).into(viewHolder.rental_imageview);
 
         return view;
     }
 
 
     public static class ViewHolder implements StarView {
-        @InjectView(R.id.rental_imageview)
-        ImageView rental_imageview;
-        @InjectView(R.id.star_imageview)
-        ImageView star_imageview;
-        @InjectView(R.id.price)
-        TextView price_textview;
-        @InjectView(R.id.room_count)
-        TextView room_count_textview;
-        @InjectView(R.id.address)
-        TextView address_textview;
+        @InjectView(R.id.rental_imageview) ImageView rental_imageview;
+        @InjectView(R.id.star_imageview) ImageView star_imageview;
+        @InjectView(R.id.price) TextView price_textview;
+        @InjectView(R.id.room_count) TextView room_count_textview;
+        @InjectView(R.id.address) TextView address_textview;
         int position;
 
         public ViewHolder(View view) {
@@ -101,20 +84,14 @@ public class RentalAdapter extends ArrayAdapter<Rental> {
         @Override
         public void selectStar() {
             if (rental_imageview != null) {
-                Picasso
-                        .with(rental_imageview.getContext())
-                        .load(R.drawable.star_full)
-                        .into(star_imageview);
+                Picasso.with(rental_imageview.getContext()).load(R.drawable.star_full).into(star_imageview);
             }
         }
 
         @Override
         public void unselectStar() {
             if (rental_imageview != null) {
-                Picasso
-                        .with(rental_imageview.getContext())
-                        .load(R.drawable.star_outline)
-                        .into(star_imageview);
+                Picasso.with(rental_imageview.getContext()).load(R.drawable.star_outline).into(star_imageview);
             }
 
             AppEventBus.post(new RemoveItemEvent(position));
@@ -138,4 +115,5 @@ public class RentalAdapter extends ArrayAdapter<Rental> {
             AppEventBus.post(new ClickStarEvent(bundle));
         }
     }
+
 }

@@ -43,7 +43,6 @@ public class MapPresenter implements Presenter {
             GlobalFunctions.getApiCall(null, url, token, new GeekHttpResponseHandler() {
                 @Override
                 public void onSuccess(String response) {
-
                     try {
                         Log.i(TAG, response);
                         JSONObject json = new JSONObject(response);
@@ -85,15 +84,16 @@ public class MapPresenter implements Presenter {
                     return rentalMarker;
                 }
             })
-                    .toList()
-                    .subscribeOn(Schedulers.newThread())//Want to do work on a new thread
-                    .observeOn(AndroidSchedulers.mainThread())//Want to receive results from work on main thread since we're going to tamper UI
-                    .subscribe(new Action1<List<RentalMarker>>() {
-                        @Override
-                        public void call(List<RentalMarker> markers) {
-                            AppEventBus.post(new AddMarkersEvent(markers));
-                        }
-                    });
+                .toList()
+                .subscribeOn(Schedulers.newThread())//Want to do work on a new thread
+                .observeOn(AndroidSchedulers.mainThread())//Want to receive results from work on main thread since we're going to tamper UI
+                .subscribe(new Action1<List<RentalMarker>>() {
+                    @Override
+                    public void call(List<RentalMarker> markers) {
+                        AppEventBus.post(new AddMarkersEvent(markers));
+                    }
+                });
         }
     }
+
 }

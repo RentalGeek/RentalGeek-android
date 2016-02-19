@@ -32,7 +32,6 @@ public class LoginPresenter implements Presenter {
 
     @Override
     public void googleLogin(String fullname, String photoUrl, String id, String email) {
-
         RequestParams params = new RequestParams();
         params.put("provider[uid]", id);
         params.put("provider[provider]", "Google+");
@@ -77,7 +76,6 @@ public class LoginPresenter implements Presenter {
         GlobalFunctions.postApiCall(null, ApiManager.getAddProvider(""),
                 params, AppPreferences.getAuthToken(),
                 new GeekHttpResponseHandler() {
-
                     @Override
                     public void onStart() {
                         AppEventBus.post(new ShowProgressEvent(R.string.dialog_msg_loading));

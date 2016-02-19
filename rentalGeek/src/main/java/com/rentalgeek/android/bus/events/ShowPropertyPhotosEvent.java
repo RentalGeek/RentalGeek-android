@@ -4,9 +4,6 @@ import com.rentalgeek.android.pojos.PhotoDTO;
 
 import java.util.ArrayList;
 
-/**
- * Created by Alan R on 10/20/15.
- */
 public class ShowPropertyPhotosEvent {
 
     private ArrayList<PhotoDTO> propertyPhotos;
@@ -18,4 +15,5 @@ public class ShowPropertyPhotosEvent {
     public ArrayList<PhotoDTO> getPropertyPhotos() {
         return this.propertyPhotos;
     }
+
 }

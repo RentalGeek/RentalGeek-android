@@ -13,8 +13,6 @@ import com.rentalgeek.android.utils.OkAlert;
 
 public class ActivitySearch extends GeekBaseActivity {
 
-    private static final String TAG = ActivitySearch.class.getSimpleName();
-
     public ActivitySearch() {
         super(true, true, true);
     }

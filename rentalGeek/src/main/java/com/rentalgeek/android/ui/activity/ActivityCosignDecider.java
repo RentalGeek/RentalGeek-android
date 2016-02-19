@@ -32,4 +32,5 @@ public class ActivityCosignDecider extends GeekBaseActivity {
         super.onPause();
         hideProgressDialog();
     }
+
 }

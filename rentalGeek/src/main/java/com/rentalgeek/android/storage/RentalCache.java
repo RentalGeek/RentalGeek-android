@@ -5,9 +5,10 @@ import android.support.v4.util.LruCache;
 import com.rentalgeek.android.pojos.Rental;
 
 public class RentalCache {
+
     private static RentalCache instance;
 
-    private final LruCache<String, Rental> cache = new LruCache(2048);//2mb should be plenty...I think
+    private final LruCache<String, Rental> cache = new LruCache(2048);
 
     public static synchronized RentalCache getInstance() {
         if (instance == null) {
@@ -33,4 +34,5 @@ public class RentalCache {
             return cache.get(id);
         }
     }
+
 }

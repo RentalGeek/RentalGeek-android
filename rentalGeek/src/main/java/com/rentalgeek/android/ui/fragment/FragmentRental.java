@@ -270,4 +270,5 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
     public void onEventMainThread(UnSelectStarEvent event) {
         unselectStar();
     }
+
 }

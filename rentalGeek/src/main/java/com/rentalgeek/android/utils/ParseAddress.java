@@ -6,9 +6,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by alan on 10/2/15.
- */
 public class ParseAddress {
 
     private static final String TAG = ParseAddress.class.getSimpleName();
@@ -110,4 +107,5 @@ public class ParseAddress {
             return String.format("%s %s,%s,%s %s", street_number, street_name, city, state, zipcode);
         }
     }
+
 }

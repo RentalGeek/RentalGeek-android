@@ -37,7 +37,6 @@ import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ListUtils;
-import com.rentalgeek.android.utils.Loading;
 import com.rentalgeek.android.utils.OkAlert;
 
 import java.util.ArrayList;
@@ -76,7 +75,6 @@ public class ActivityRegistration extends GeekBaseActivity implements Validation
     CheckBox termsCheckbox;
 
     private Validator validator;
-    Loading load;
     AppPrefes appPref;
 
     @Override
@@ -86,7 +84,6 @@ public class ActivityRegistration extends GeekBaseActivity implements Validation
         ButterKnife.inject(this);
         validator = new Validator(this);
         validator.setValidationListener(this);
-        load = new Loading(ActivityRegistration.this);
         appPref = new AppPrefes(getApplicationContext(), "rentalgeek");
         getWindow().setBackgroundDrawableResource(R.drawable.splash_bg);
     }

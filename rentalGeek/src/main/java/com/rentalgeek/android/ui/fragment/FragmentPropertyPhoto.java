@@ -15,13 +15,9 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-/**
- * Created by rajohns on 10/3/15.
- */
 public class FragmentPropertyPhoto extends GeekBaseFragment {
 
-    @InjectView(R.id.photo_pager)
-    ViewPager photoPager;
+    @InjectView(R.id.photo_pager) ViewPager photoPager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

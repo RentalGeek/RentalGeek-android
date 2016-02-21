@@ -7,9 +7,6 @@ import android.widget.EditText;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.model.User;
 
-/**
- * Created by Alan R on 10/9/15.
- */
 public class UserFieldTextWatcher implements TextWatcher {
 
     private EditText editText;
@@ -38,4 +35,5 @@ public class UserFieldTextWatcher implements TextWatcher {
             user.set(tag, editable.toString());
         }
     }
+
 }

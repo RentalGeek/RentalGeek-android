@@ -9,10 +9,8 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-/**
- * Created by Alan R on 10/1/15.
- */
 public class ProfileFieldDateChange implements DatePicker.OnDateChangedListener {
+
     private DatePicker datePicker;
     private static DateTimeFormatter date_format = DateTimeFormat.forPattern("yyyy-MM-dd");
 
@@ -22,8 +20,9 @@ public class ProfileFieldDateChange implements DatePicker.OnDateChangedListener 
 
     @Override
     public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-        if (year == 0 || monthOfYear == 0 || dayOfMonth == 0)
+        if (year == 0 || monthOfYear == 0 || dayOfMonth == 0) {
             return;
+        }
 
         String tag = (String) datePicker.getTag();
 
@@ -34,4 +33,5 @@ public class ProfileFieldDateChange implements DatePicker.OnDateChangedListener 
             profile.set(tag, date_format.print(date));
         }
     }
+
 }

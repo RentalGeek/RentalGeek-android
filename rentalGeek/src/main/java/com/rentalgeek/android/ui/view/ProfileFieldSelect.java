@@ -7,9 +7,6 @@ import android.widget.Spinner;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.model.Profile;
 
-/**
- * Created by Alan R on 10/2/15.
- */
 public class ProfileFieldSelect extends ProfileFieldAbstractSelect {
 
     public ProfileFieldSelect(Spinner spinner) {
@@ -37,4 +34,5 @@ public class ProfileFieldSelect extends ProfileFieldAbstractSelect {
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
 }

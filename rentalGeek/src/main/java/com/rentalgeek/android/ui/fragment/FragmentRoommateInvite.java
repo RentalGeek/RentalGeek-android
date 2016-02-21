@@ -32,11 +32,8 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
 
     private static final String TAG = FragmentRoommateInvite.class.getSimpleName();
 
-    @InjectView(R.id.textViewInviteMessage)
-    TextView textViewInviteMessage;
-
-    @InjectView(R.id.layoutInviteButtons)
-    LinearLayout layoutInviteButtons;
+    @InjectView(R.id.textViewInviteMessage) TextView textViewInviteMessage;
+    @InjectView(R.id.layoutInviteButtons) LinearLayout layoutInviteButtons;
 
     protected int roommateGropuId;
     protected int roommateInviteId;
@@ -45,7 +42,6 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View v = inflater.inflate(R.layout.fragment_roommate_invite, container, false);
         ButterKnife.inject(this, v);
 
@@ -55,12 +51,7 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
         roommateInviteId = args.getInt(Common.KEY_ROOMMATE_INVITE_ID);
         roommateInviterId = args.getInt(Common.KEY_ROOMMATE_INVITER_ID);
         roommateInviterName = args.getString(Common.KEY_ROOMMATE_INVITER_NAME);
-
-        //if (SessionManager.Instance.getCurrentUser() != null)// && ApiManager.currentUser.roommate_group_id != null)
-        //fetchRoommateInvites(String.valueOf(roommateInviteId));
-
         return v;
-
     }
 
     @Override
@@ -83,7 +74,6 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
             textViewInviteMessage.setText(Html.fromHtml(RentalGeekApplication.getResourceString(R.string.fragment_roommateinvite_message, roommateInviterName)));
             layoutInviteButtons.setVisibility(View.VISIBLE);
         }
-
     }
 
     @OnClick(R.id.buttonAccept)
@@ -96,20 +86,15 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
         inviteAcceptDecline(false, roommateInviteId);
     }
 
-
     protected void inviteAcceptDecline(boolean isAccept, int inviteId) {
-
         RequestParams params = new RequestParams();
-
         params.put("roommate_invite[roommate_group_id]", String.valueOf(inviteId));
 
         try {
-
             String url = isAccept ? ApiManager.getRoommateInviteAccept(String.valueOf(inviteId)) : ApiManager.getRoommateInviteDeny(String.valueOf(inviteId));
 
             GlobalFunctions.postApiCall(activity, url, params, AppPreferences.getAuthToken(),
                     new GeekHttpResponseHandler() {
-
                         @Override
                         public void onStart() {
                             showProgressDialog(R.string.dialog_msg_loading);
@@ -123,7 +108,6 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
                         @Override
                         public void onSuccess(String content) {
                             try {
-                                String response = content;
                                 AppLogger.log(TAG, "response:" + content);
 
                                 RoommateInviteResponse roommateInvite = (new Gson()).fromJson(content, RoommateInviteResponse.class);
@@ -144,14 +128,6 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
 
                             try {
                                 ErrorObj errorObj = (new Gson()).fromJson(failureResponse, ErrorObj.class);
-
-//                                if (errorObj != null && errorObj.errors != null) {
-//                                    if (!ListUtils.isNullOrEmpty(errorObj.errors.email)) {
-//                                        OkAlert.show(getActivity(), "Email", errorObj.errors.email.get(0));
-//                                    }
-//
-//                                }
-
                             } catch (Exception e) {
                                 AppLogger.log(TAG, e);
                             }
@@ -168,4 +144,5 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
             AppLogger.log(TAG, e);
         }
     }
+
 }

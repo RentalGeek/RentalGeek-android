@@ -36,32 +36,32 @@ public class AutoCompleteAddressListener implements AdapterView.OnItemClickListe
             System.out.println(url);
 
             GlobalFunctions.getApiCall(null, url, null, new GeekHttpResponseHandler() {
-                        @Override
-                        public void onSuccess(String response) {
-                            ParseAddress.Address address = ParseAddress.parse(response);
+                    @Override
+                    public void onSuccess(String response) {
+                        ParseAddress.Address address = ParseAddress.parse(response);
 
-                            String prefix = (String) autoCompleteTextView.getTag();
+                        String prefix = (String) autoCompleteTextView.getTag();
 
-                            if (prefix != null && !prefix.isEmpty()) {
-                                String street_field = String.format("%s_street", prefix);
-                                String city_field = String.format("%s_city", prefix);
-                                String state_field = String.format("%s_state", prefix);
-                                String zipcode_field = String.format("%s_zipcode", prefix);
+                        if (prefix != null && !prefix.isEmpty()) {
+                            String street_field = String.format("%s_street", prefix);
+                            String city_field = String.format("%s_city", prefix);
+                            String state_field = String.format("%s_state", prefix);
+                            String zipcode_field = String.format("%s_zipcode", prefix);
 
-                                Profile profile = SessionManager.Instance.getDefaultProfile();
+                            Profile profile = SessionManager.Instance.getDefaultProfile();
 
-                                profile.set(street_field, String.format("%s %s", address.getStreetNumber(), address.getStreetName()));
-                                profile.set(city_field, address.getCity());
-                                profile.set(state_field, address.getState());
-                                profile.set(zipcode_field, address.getZipcode());
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Throwable ex, String response) {
-                            System.out.println(response);
+                            profile.set(street_field, String.format("%s %s", address.getStreetNumber(), address.getStreetName()));
+                            profile.set(city_field, address.getCity());
+                            profile.set(state_field, address.getState());
+                            profile.set(zipcode_field, address.getZipcode());
                         }
                     }
+
+                    @Override
+                    public void onFailure(Throwable ex, String response) {
+                        System.out.println(response);
+                    }
+                }
             );
         }
     }

@@ -16,6 +16,7 @@ import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
 
 public class ObscuredSharedPreferences implements SharedPreferences {
+
     public static final String USERNAME_PREF = "usernamePref";
     public static final String PASSWORD_PREF = "passwordPref";
 
@@ -201,4 +202,5 @@ public class ObscuredSharedPreferences implements SharedPreferences {
 
         return decryptedSet;
     }
+
 }

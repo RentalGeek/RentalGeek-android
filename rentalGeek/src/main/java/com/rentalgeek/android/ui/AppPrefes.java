@@ -5,9 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-/**
- * @author luttu
- */
 public class AppPrefes {
 
     private SharedPreferences appSharedPrefs;

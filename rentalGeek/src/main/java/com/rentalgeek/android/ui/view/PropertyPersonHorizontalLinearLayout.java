@@ -4,9 +4,6 @@ import android.content.Context;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-/**
- * Created by rajohns on 9/13/15.
- */
 public class PropertyPersonHorizontalLinearLayout extends LinearLayout {
 
     public PropertyPersonHorizontalLinearLayout(Context context) {

@@ -90,4 +90,5 @@ public class SearchOptionButton extends TextView {
     public void reset() {
         unselected();
     }
+
 }

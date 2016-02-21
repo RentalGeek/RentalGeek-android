@@ -1,17 +1,11 @@
 package com.rentalgeek.android.ui.fragment;
 
 import android.app.Activity;
-import android.content.res.Resources;
-import android.graphics.PorterDuff;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 
-import com.rentalgeek.android.R;
-import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.NonEvent;
 import com.rentalgeek.android.ui.dialog.DialogManager;
@@ -27,46 +21,10 @@ public class GeekBaseFragment extends Fragment {
         }
     }
 
-    public void nextfragment(Fragment fragment, boolean stack, int id) {
-
-        if (getActivity() == null) {
-            return;
-        }
-        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.setCustomAnimations(R.anim.one_, R.anim.two_, R.anim.three_, R.anim.four_);
-        ft.replace(id, fragment);
-        if (stack)
-            ft.addToBackStack(fragment.getClass().getName());
-        ft.commitAllowingStateLoss();
-    }
-
-    public void addfragment(Fragment fragment, boolean stack, int id) {
-
-        if (getActivity() == null) {
-            return;
-        }
-        FragmentTransaction ft = getActivity().getSupportFragmentManager()
-                .beginTransaction();
-        ft.setCustomAnimations(R.anim.one_, R.anim.two_, R.anim.three_, R.anim.four_);
-        ft.add(id, fragment);
-        if (stack)
-            ft.addToBackStack(fragment.getClass().getName());
-        ft.commitAllowingStateLoss();
-    }
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.activity = (AppCompatActivity) activity;
-    }
-
-    protected void changeColor(ImageView view, int colorId) {
-        Resources res = RentalGeekApplication.context.getResources();
-        if (view != null) {
-            final ImageView image = (ImageView) view;
-            final int newColor = res.getColor(colorId);
-            image.setColorFilter(newColor, PorterDuff.Mode.SRC_ATOP);
-        }
     }
 
     @SuppressWarnings("unchecked")

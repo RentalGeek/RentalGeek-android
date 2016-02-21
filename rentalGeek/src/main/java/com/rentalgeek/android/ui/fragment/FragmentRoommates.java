@@ -151,7 +151,6 @@ public class FragmentRoommates extends GeekBaseFragment {
         }
 
         layoutRoommates.setVisibility(View.VISIBLE);
-
     }
 
     protected void bindRoommateInvites(List<RoommateInvite> invites) {

@@ -7,8 +7,6 @@ import android.support.v4.app.FragmentActivity;
 
 public class Navigation {
 
-    private static final String TAG = "Navigation";
-
     public static void navigateActivity(FragmentActivity context, Class activity, Bundle args, boolean clearTop) {
         if (context == null) return;
         final Intent intent = new Intent(context, activity);
@@ -29,4 +27,5 @@ public class Navigation {
     public static void navigateActivity(FragmentActivity context, Class activity) {
         navigateActivity(context, activity, false);
     }
+
 }

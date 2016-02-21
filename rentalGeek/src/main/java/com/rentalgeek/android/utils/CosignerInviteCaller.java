@@ -14,10 +14,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/**
- * Created by rajohns on 9/17/15.
- *
- */
 public class CosignerInviteCaller {
 
     private Activity activity;

@@ -13,9 +13,6 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.pojos.CosignerInviteDTO;
 import com.rentalgeek.android.ui.fragment.FragmentMyCosigner;
 
-/**
- * Created by rajohns on 9/26/15.
- */
 public class CosignerInviteRow extends LinearLayout {
 
     public CosignerInviteRow(Context context) {

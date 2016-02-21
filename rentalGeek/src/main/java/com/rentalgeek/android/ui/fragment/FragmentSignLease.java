@@ -28,7 +28,6 @@ public class FragmentSignLease extends GeekBaseFragment {
 
     public static final String LEASE_ID = "leaseId";
     public static final String REQUESTING_FRAGMENT = "requestingFragment";
-
     private String requestingFragment;
 
     @InjectView(R.id.web_view) WebView webView;

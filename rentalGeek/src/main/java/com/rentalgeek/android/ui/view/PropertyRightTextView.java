@@ -7,9 +7,6 @@ import android.view.ViewGroup;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-/**
- * Created by rajohns on 9/13/15.
- */
 public class PropertyRightTextView extends TextView {
 
     public PropertyRightTextView(Context context) {

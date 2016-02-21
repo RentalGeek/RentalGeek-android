@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class GeekGson {
+
     private static Gson gson;
 
     public static Gson getInstance() {
@@ -14,4 +15,5 @@ public class GeekGson {
 
         return gson;
     }
+
 }

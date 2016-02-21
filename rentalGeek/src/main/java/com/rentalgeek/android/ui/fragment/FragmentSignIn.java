@@ -62,8 +62,7 @@ public class FragmentSignIn extends GeekBaseFragment {
     @TextRule(order = 5, minLength = 8, messageResId = R.string.password_min_length)
     EditText password_edittext;
 
-    @InjectView(R.id.create_account)
-    TextView create_account_textview;
+    @InjectView(R.id.create_account) TextView create_account_textview;
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -228,4 +227,5 @@ public class FragmentSignIn extends GeekBaseFragment {
             GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), getActivity(), 0);
         }
     }
+
 }

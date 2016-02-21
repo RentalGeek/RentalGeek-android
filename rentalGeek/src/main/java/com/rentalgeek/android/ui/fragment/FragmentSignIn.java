@@ -1,10 +1,13 @@
 package com.rentalgeek.android.ui.fragment;
 
+import android.app.Dialog;
 import android.content.IntentSender;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -13,11 +16,13 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.facebook.FacebookSdk;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.loopj.android.http.RequestParams;
 import com.mobsandgeeks.saripaar.annotation.Email;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.rentalgeek.android.R;
+import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.api.FacebookLogin;
 import com.rentalgeek.android.api.GoogleLogin;
 import com.rentalgeek.android.api.LinkedInLogin;
@@ -35,7 +40,10 @@ import com.rentalgeek.android.bus.events.ShowProgressEvent;
 import com.rentalgeek.android.bus.events.ShowRegistrationEvent;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.mvp.login.LoginPresenter;
+import com.rentalgeek.android.net.GeekHttpResponseHandler;
+import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.activity.LoginResult;
+import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.Constants;
 
@@ -151,6 +159,35 @@ public class FragmentSignIn extends GeekBaseFragment {
         AppEventBus.post(new ShowRegistrationEvent());
     }
 
+    @OnClick(R.id.forgot_email)
+    public void infoclick1() {
+        final Dialog dialog = new Dialog(getActivity(), R.style.MyDialog);
+
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.forgot_password);
+
+        Button submit = (Button) dialog
+            .findViewById(R.id.forgot_password_submit);
+        final EditText emailForgot = (EditText) dialog
+            .findViewById(R.id.ed_forgot_password);
+
+        submit.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                if (Validate(emailForgot)) {
+                    dialog.dismiss();
+                    callForgotPassword(emailForgot.getText().toString());
+                }
+
+            }
+
+        });
+
+        dialog.show();
+    }
+
     public void onEventMainThread(LoginResult event){
         super.onActivityResult(event.getRequestCode(), event.getResultCode(), event.getData());
         login.onActivityResult(getActivity(), event.getRequestCode(), event.getResultCode(), event.getData());
@@ -226,6 +263,69 @@ public class FragmentSignIn extends GeekBaseFragment {
             ConnectionResult result = event.getConnectionResult();
             GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), getActivity(), 0);
         }
+    }
+
+    // forgot password API call
+    private void callForgotPassword(String email) {
+        RequestParams params = new RequestParams();
+        params.put("user[email]", email);
+
+        String url = ApiManager.getApplicantPassword();
+
+        GlobalFunctions.postApiCall(getActivity(), url,
+            params, AppPreferences.getAuthToken(),
+            new GeekHttpResponseHandler() {
+
+                @Override
+                public void onStart() {
+                    showProgressDialog(R.string.dialog_msg_loading);
+                }
+
+                @Override
+                public void onFinish() {
+                    hideProgressDialog();
+                }
+
+                @Override
+                public void onSuccess(String content) {
+                    try {
+                        ForgotMailSentParse(content);
+                    } catch (Exception e) {
+                        AppLogger.log(TAG, e);
+                    }
+                }
+
+                @Override
+                public void onAuthenticationFailed() {
+
+                }
+            });
+    }
+
+    private void ForgotMailSentParse(String response) {
+        DialogManager.showCrouton(activity, "Verification email sent to your mail please check");
+    }
+
+    // email checking function
+    public boolean isValidEmail(CharSequence target) {
+        if (target == null) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
+    }
+
+    public boolean Validate(EditText emailForgot) {
+        if (!isValidEmail(emailForgot.getText().toString())) {
+            emailForgot.setError("Please enter a valid email");
+            return false;
+        } else if (emailForgot.getText().toString().equals("")) {
+            emailForgot.setError("Please enter a email");
+            return false;
+        } else {
+            return true;
+        }
+
     }
 
 }

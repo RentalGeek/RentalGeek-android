@@ -22,7 +22,6 @@ import butterknife.InjectView;
 
 public class FragmentRentalListView extends GeekBaseFragment implements RentalListView {
 
-    private static final String TAG = FragmentRentalListView.class.getSimpleName();
     private RentalAdapter adapter;
     private RentalListPresenter presenter;
 

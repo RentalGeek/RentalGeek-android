@@ -49,8 +49,8 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
         super.onCreate(bundle);
         presenter = new SearchPresenter();
 
-        bedBtns = new ArrayList<SearchOptionButton>();
-        bathBtns = new ArrayList<SearchOptionButton>();
+        bedBtns = new ArrayList<>();
+        bathBtns = new ArrayList<>();
     }
 
     @Override

@@ -1,5 +1,4 @@
 //include ':facebook'
-include ':justifiedTextViewmaster'
 //include ':luttuLibrary'
 include ':datetimepickerlibrary'
 include ':library'

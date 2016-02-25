@@ -6,8 +6,6 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 
-import com.activeandroid.ActiveAndroid;
-import com.activeandroid.Configuration;
 import com.crashlytics.android.Crashlytics;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.NonEvent;
@@ -44,15 +42,7 @@ public class RentalGeekApplication extends Application {
         mDefaultUEH = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(mCaughtExceptionHandler);
         AppEventBus.register(this);
-        initializeDB();
         AppSystem.Instance.checkGCMRegistration(this);
-    }
-
-
-    @SuppressWarnings("unchecked")
-    private void initializeDB() {
-        Configuration.Builder configurationBuilder = new Configuration.Builder(this);
-        ActiveAndroid.initialize(configurationBuilder.create());
     }
 
     public static void postUserNotification(int resId) {

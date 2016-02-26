@@ -1,5 +1,4 @@
 //include ':facebook'
 //include ':luttuLibrary'
-include ':library'
 include ':main'
 include ':rentalGeek'

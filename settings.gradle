@@ -1,4 +1,2 @@
-//include ':facebook'
-//include ':luttuLibrary'
 include ':main'
 include ':rentalGeek'

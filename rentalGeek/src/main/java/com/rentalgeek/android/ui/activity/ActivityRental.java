@@ -12,7 +12,6 @@ import com.rentalgeek.android.ui.fragment.FragmentRental;
 
 public class ActivityRental extends GeekBaseActivity {
 
-    private static final String TAG = ActivityRental.class.getSimpleName();
     private RentalView rentalView;
 
     public ActivityRental() {

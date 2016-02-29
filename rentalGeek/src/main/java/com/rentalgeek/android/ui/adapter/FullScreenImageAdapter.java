@@ -44,18 +44,18 @@ public class FullScreenImageAdapter extends PagerAdapter {
         final TextView loadingTextView = (TextView) view.findViewById(R.id.loading_text_view);
 
         Picasso.with(activity)
-                .load(photoUrls.get(position))
-                .into(photoImageView, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        loadingTextView.setVisibility(View.GONE);
-                    }
+            .load(photoUrls.get(position))
+            .into(photoImageView, new Callback() {
+                @Override
+                public void onSuccess() {
+                    loadingTextView.setVisibility(View.GONE);
+                }
 
-                    @Override
-                    public void onError() {
-                        loadingTextView.setText("Error loading image");
-                    }
-                });
+                @Override
+                public void onError() {
+                    loadingTextView.setText("Error loading image");
+                }
+            });
 
         container.addView(view);
 

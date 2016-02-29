@@ -536,7 +536,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
         String format = "user[profile_attributes][%s]";
 
         for (String field : profile.getFieldNames()) {
-
             Object value = profile.get(field);
 
             if (value != null && !value.toString().isEmpty()) {

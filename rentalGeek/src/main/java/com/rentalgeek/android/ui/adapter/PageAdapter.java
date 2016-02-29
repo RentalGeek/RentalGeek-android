@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PageAdapter extends FragmentPagerAdapter {
+
     private final List<Fragment> fragments = new ArrayList();
     private final List<String> fragmentTitles = new ArrayList<>();
 
@@ -34,4 +35,5 @@ public class PageAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int pos) {
         return fragmentTitles.get(pos);
     }
+
 }

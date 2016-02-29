@@ -81,22 +81,22 @@ public class FacebookLogin implements LoginInterface {
 
     private void getProfile() {
         GraphRequest request = GraphRequest.newMeRequest(
-                token,
-                new GraphRequest.GraphJSONObjectCallback() {
-                    @Override
-                    public void onCompleted(JSONObject object, GraphResponse response) {
-                        // Application code
-                        String data = response.toString();
-                        String name = object.optString("name");
-                        String email = object.optString("email");
+            token,
+            new GraphRequest.GraphJSONObjectCallback() {
+                @Override
+                public void onCompleted(JSONObject object, GraphResponse response) {
+                    // Application code
+                    String data = response.toString();
+                    String name = object.optString("name");
+                    String email = object.optString("email");
 
-                        Bundle bundle = new Bundle();
-                        bundle.putString(Constants.FULLNAME,name);
-                        bundle.putString(Constants.EMAIL,email);
+                    Bundle bundle = new Bundle();
+                    bundle.putString(Constants.FULLNAME,name);
+                    bundle.putString(Constants.EMAIL,email);
 
-                        AppEventBus.post(new FacebookLoginEvent(bundle));
-                    }
-                });
+                    AppEventBus.post(new FacebookLoginEvent(bundle));
+                }
+            });
 
         Bundle parameters = new Bundle();
         parameters.putString("fields","id,name,email");
@@ -129,4 +129,5 @@ public class FacebookLogin implements LoginInterface {
     public void setValidation(Object controller) {
 
     }
+
 }

@@ -8,8 +8,6 @@ import com.rentalgeek.android.ui.fragment.FragmentRoommates;
 
 public class ActivityRoommates extends GeekBaseActivity {
 
-    private static final String TAG = ActivityRoommates.class.getSimpleName();
-
     public ActivityRoommates() {
         super(true, true, true);
     }

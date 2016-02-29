@@ -172,17 +172,13 @@ public class FragmentSignIn extends GeekBaseFragment {
             .findViewById(R.id.ed_forgot_password);
 
         submit.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-
                 if (Validate(emailForgot)) {
                     dialog.dismiss();
                     callForgotPassword(emailForgot.getText().toString());
                 }
-
             }
-
         });
 
         dialog.show();
@@ -325,7 +321,6 @@ public class FragmentSignIn extends GeekBaseFragment {
         } else {
             return true;
         }
-
     }
 
 }

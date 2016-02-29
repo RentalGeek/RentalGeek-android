@@ -172,8 +172,8 @@ public class ActivityRegistration extends GeekBaseActivity implements Validation
     @Override
     public void onValidationSucceeded() {
         callRegisterApi(email_add_regis.getText().toString(),
-                password_regis.getText().toString(),
-                confirm_password_regis.getText().toString());
+            password_regis.getText().toString(),
+            confirm_password_regis.getText().toString());
     }
 
     public void toast(String message) {

@@ -43,12 +43,12 @@ public class GoogleLogin implements LoginInterface, GoogleApiClient.ConnectionCa
     public void setup(Activity context) {
         System.out.println("Google+ setup");
         googleApiClient = new GoogleApiClient.Builder(context)
-                            .addConnectionCallbacks(this)
-                            .addOnConnectionFailedListener(this)
-                            .addApi(Plus.API)
-                            .addScope(new Scope(Scopes.PLUS_ME))
-                            .addScope(new Scope(Scopes.EMAIL))
-                            .build();
+            .addConnectionCallbacks(this)
+            .addOnConnectionFailedListener(this)
+            .addApi(Plus.API)
+            .addScope(new Scope(Scopes.PLUS_ME))
+            .addScope(new Scope(Scopes.EMAIL))
+            .build();
 
         google_plus_btn = (SignInButton)context.findViewById(R.id.google_plus_login_btn);
 

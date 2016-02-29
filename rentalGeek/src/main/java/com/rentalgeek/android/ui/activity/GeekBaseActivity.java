@@ -366,16 +366,16 @@ public class GeekBaseActivity extends AppCompatActivity {
 
     public void onEventMainThread(ErrorAlertEvent event) {
         final AlertDialog errorDialog = new AlertDialog
-                .Builder(this)
-                .setTitle(event.getTitle())
-                .setMessage(event.getMessage())
-                .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                })
-                .create();
+            .Builder(this)
+            .setTitle(event.getTitle())
+            .setMessage(event.getMessage())
+            .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            })
+            .create();
         errorDialog.show();
     }
 

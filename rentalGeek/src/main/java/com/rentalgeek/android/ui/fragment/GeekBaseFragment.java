@@ -40,7 +40,6 @@ public class GeekBaseFragment extends Fragment {
         return null;
     }
 
-
     @Override
     public void onStop() {
         unregisterBus();
@@ -62,7 +61,6 @@ public class GeekBaseFragment extends Fragment {
 
     public void onEventMainThread(NonEvent event) {
     }
-
 
     protected void hideProgressDialog() {
         GeekProgressDialog.dismiss();

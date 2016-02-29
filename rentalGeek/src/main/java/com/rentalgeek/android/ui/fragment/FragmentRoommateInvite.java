@@ -94,51 +94,51 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
             String url = isAccept ? ApiManager.getRoommateInviteAccept(String.valueOf(inviteId)) : ApiManager.getRoommateInviteDeny(String.valueOf(inviteId));
 
             GlobalFunctions.postApiCall(activity, url, params, AppPreferences.getAuthToken(),
-                    new GeekHttpResponseHandler() {
-                        @Override
-                        public void onStart() {
-                            showProgressDialog(R.string.dialog_msg_loading);
-                        }
+                new GeekHttpResponseHandler() {
+                    @Override
+                    public void onStart() {
+                        showProgressDialog(R.string.dialog_msg_loading);
+                    }
 
-                        @Override
-                        public void onFinish() {
-                            hideProgressDialog();
-                        }
+                    @Override
+                    public void onFinish() {
+                        hideProgressDialog();
+                    }
 
-                        @Override
-                        public void onSuccess(String content) {
-                            try {
-                                AppLogger.log(TAG, "response:" + content);
+                    @Override
+                    public void onSuccess(String content) {
+                        try {
+                            AppLogger.log(TAG, "response:" + content);
 
-                                RoommateInviteResponse roommateInvite = (new Gson()).fromJson(content, RoommateInviteResponse.class);
-                                if (roommateInvite != null && roommateInvite.roommate_invite != null) {
-                                    SessionManager.Instance.getCurrentUser().setRoommateGroupId(String.valueOf(roommateInvite.roommate_invite.roommate_group_id));
-                                    activity.finish();
-                                } else {
-                                    DialogManager.showCrouton(activity, "Error with invite.");
-                                }
-                            } catch (Exception e) {
-                                AppLogger.log(TAG, e);
+                            RoommateInviteResponse roommateInvite = (new Gson()).fromJson(content, RoommateInviteResponse.class);
+                            if (roommateInvite != null && roommateInvite.roommate_invite != null) {
+                                SessionManager.Instance.getCurrentUser().setRoommateGroupId(String.valueOf(roommateInvite.roommate_invite.roommate_group_id));
+                                activity.finish();
+                            } else {
+                                DialogManager.showCrouton(activity, "Error with invite.");
                             }
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable ex, String failureResponse) {
+                        super.onFailure(ex, failureResponse);
+
+                        try {
+                            ErrorObj errorObj = (new Gson()).fromJson(failureResponse, ErrorObj.class);
+                        } catch (Exception e) {
+                            AppLogger.log(TAG, e);
                         }
 
-                        @Override
-                        public void onFailure(Throwable ex, String failureResponse) {
-                            super.onFailure(ex, failureResponse);
+                    }
 
-                            try {
-                                ErrorObj errorObj = (new Gson()).fromJson(failureResponse, ErrorObj.class);
-                            } catch (Exception e) {
-                                AppLogger.log(TAG, e);
-                            }
+                    @Override
+                    public void onAuthenticationFailed() {
 
-                        }
-
-                        @Override
-                        public void onAuthenticationFailed() {
-
-                        }
-                    });
+                    }
+                });
 
         } catch (Exception e) {
             AppLogger.log(TAG, e);

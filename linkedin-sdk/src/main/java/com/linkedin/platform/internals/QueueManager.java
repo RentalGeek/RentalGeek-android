@@ -17,6 +17,7 @@
 package com.linkedin.platform.internals;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -31,6 +32,10 @@ public class QueueManager {
     private QueueManager(Context context) {
         ctx = context.getApplicationContext();
         requestQueue = Volley.newRequestQueue(ctx);
+    }
+
+    public static void initQueueManager(@NonNull Context ctx) {
+        getInstance(ctx);
     }
 
     public static synchronized QueueManager getInstance(Context context) {

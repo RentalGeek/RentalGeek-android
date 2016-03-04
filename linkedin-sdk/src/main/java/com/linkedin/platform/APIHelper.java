@@ -27,7 +27,6 @@ import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.linkedin.platform.errors.LIApiError;
@@ -64,11 +63,15 @@ public class APIHelper {
     private static final String CONTENT_VALUE = "application/json";
     private static final String HEADER_SRC_VALUE = "msdk";
     private static final String HEADER_LI_FORMAT_VALUE = "json";
+    private static final String HEADER_LI_PLFM = "x-li-plfm";
+    private static final String HEADER_LI_PLFM_ANDROID = "ANDROID_SDK";
+
     private static APIHelper apiHelper;
 
     public static APIHelper getInstance(@NonNull Context ctx) {
         if (apiHelper == null) {
             apiHelper = new APIHelper();
+            QueueManager.initQueueManager(ctx);
         }
         return apiHelper;
     }
@@ -80,6 +83,8 @@ public class APIHelper {
         headers.put(HEADER_SRC, HEADER_SRC_VALUE);
         headers.put(HEADER_LI_FORMAT, HEADER_LI_FORMAT_VALUE);
         headers.put(HEADER_LI_VER, BuildConfig.MSDK_VERSION);
+        headers.put(HEADER_LI_PLFM, HEADER_LI_PLFM_ANDROID);
+
         return headers;
     }
 
@@ -154,7 +159,7 @@ public class APIHelper {
      * @param url         rest api endpoint to call. example: "https://api.linkedin.com/v1/people/~:(first-name,last-name,public-profile-url)"
      * @param apiListener
      */
-    public void getRequest(Context context, String url, ApiListener apiListener) {
+    public void getRequest(@NonNull Context context, String url, ApiListener apiListener) {
         request(context, Request.Method.GET, url, null, apiListener);
     }
 
@@ -165,7 +170,7 @@ public class APIHelper {
      * @param body
      * @param apiListener
      */
-    public void postRequest(Context context, String url, JSONObject body, ApiListener apiListener) {
+    public void postRequest(@NonNull Context context, String url, JSONObject body, ApiListener apiListener) {
         request(context, Request.Method.POST, url, body, apiListener);
     }
 
@@ -204,7 +209,7 @@ public class APIHelper {
      * @param body
      * @param apiListener
      */
-    public void putRequest(Context context, String url, String body, ApiListener apiListener) {
+    public void putRequest(@NonNull Context context, String url, String body, ApiListener apiListener) {
         try {
             JSONObject bodyObject = body != null ? new JSONObject(body) : null;
             putRequest(context, url, bodyObject, apiListener);
@@ -220,7 +225,7 @@ public class APIHelper {
      * @param url
      * @param apiListener
      */
-    public void deleteRequest(Context context, String url, ApiListener apiListener) {
+    public void deleteRequest(@NonNull Context context, String url, ApiListener apiListener) {
         request(context, Request.Method.DELETE, url, null, apiListener);
     }
 
@@ -228,7 +233,7 @@ public class APIHelper {
      * cancel any unsent api calls
      * @param context
      */
-    public void cancelCalls(Context context) {
+    public void cancelCalls(@NonNull Context context) {
         QueueManager.getInstance(context).getRequestQueue().cancelAll(context);
     }
 

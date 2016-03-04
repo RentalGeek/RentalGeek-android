@@ -36,6 +36,8 @@ import java.util.List;
  * When callback.onAuthSuccess() is called, calls to {@link com.linkedin.platform.APIHelper}
  * to retrieve LinkedIn data or calls to {@link com.linkedin.platform.DeepLinkHelper} can be
  * made to view LinkedIn profiles.
+ * {@link com.linkedin.platform.LISession#isValid()} should be used to validate the session before
+ * making api calls or deeplink calls
  *
  */
 public class LISessionManager {
@@ -137,7 +139,6 @@ public class LISessionManager {
      */
     public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
         // set access token
-        Log.d(TAG, "onActivityResult called requestCode=" + requestCode);
         if (authListener != null && requestCode == LI_SDK_AUTH_REQUEST_CODE) {
             // got result
             if (resultCode == Activity.RESULT_OK) {

@@ -16,7 +16,12 @@ public class AppStore {
             goToAppStore(activity);
             return;
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            builder = new AlertDialog.Builder(activity, AlertDialog.THEME_HOLO_LIGHT);
+        } else {
+            builder = new AlertDialog.Builder(activity);
+        }
         builder.setMessage(R.string.update_linkedin_app_message)
                 .setTitle(R.string.update_linkedin_app_title);
         builder.setPositiveButton(R.string.update_linkedin_app_download, new DialogInterface.OnClickListener() {

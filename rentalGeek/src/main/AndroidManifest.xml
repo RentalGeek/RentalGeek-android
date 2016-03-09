@@ -3,10 +3,6 @@
     package="com.rentalgeek.android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="21"/>
-
     <permission
         android:name="com.rentalgeek.android.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" >

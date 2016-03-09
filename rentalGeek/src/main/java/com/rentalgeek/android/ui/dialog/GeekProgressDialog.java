@@ -2,6 +2,7 @@ package com.rentalgeek.android.ui.dialog;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.Build;
 
 public class GeekProgressDialog {
 
@@ -12,8 +13,16 @@ public class GeekProgressDialog {
             progressDialog.dismiss();
         }
 
-        progressDialog = new ProgressDialog(context, ProgressDialog.THEME_HOLO_LIGHT);
+        int style;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            style = android.R.style.Theme_Material_Light_Dialog;
+        } else {
+            style = ProgressDialog.THEME_HOLO_LIGHT;
+        }
+
+        progressDialog = new ProgressDialog(context, style);
         progressDialog.setMessage(context.getResources().getString(messageResourceId));
+        progressDialog.setCancelable(false);
         progressDialog.show();
     }
 

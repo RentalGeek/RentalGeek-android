@@ -105,17 +105,6 @@ public class ApiManager {
         return String.format("%s/%s/%s", API_HOST, "rental_offerings", rental_id);
     }
 
-    //TODO remove this crap
-    public static String getStarredPrpoertiesUrl(String id) {
-        return id;
-    }
-
-    public static String getRentalStar(String rental_id) {
-        String url = API_HOST + "/starred_properties";
-        if (TextUtils.isEmpty(rental_id)) return url;
-        return String.format("%s/%s", url, rental_id);
-    }
-
     public static String deleteRentalStar(String star_id) {
         return String.format("%s/%s/%s", API_HOST, "starred_properties", star_id);
     }

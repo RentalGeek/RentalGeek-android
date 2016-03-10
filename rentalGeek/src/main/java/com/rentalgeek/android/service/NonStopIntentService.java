@@ -61,7 +61,6 @@ public abstract class NonStopIntentService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO Auto-generated method stub
         return null;
     }
 

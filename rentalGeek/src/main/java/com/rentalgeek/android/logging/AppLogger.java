@@ -69,7 +69,6 @@ public class AppLogger {
     public static void log(String message, LogLevel level) {
         if (level == LogLevel.ERROR) {
             Log.e(TAG, message);
-            //TODO: Send to ACRA or equivalent?
         } else
             log(TAG, message);
     }
@@ -78,7 +77,6 @@ public class AppLogger {
         if (loggingLevels.contains(level)) {
             if (level == LogLevel.ERROR) {
                 Log.e(tag, message);
-                //TODO: Send to ACRA or equivalent?
             } else {
                 log(tag, message);
             }
@@ -89,7 +87,6 @@ public class AppLogger {
         if (loggingLevelExists(levels)) {
             if (levels.contains(LogLevel.ERROR)) {
                 Log.e(tag, message);
-                //TODO: Send to ACRA or equivalent?
             } else {
                 log(tag, message);
             }

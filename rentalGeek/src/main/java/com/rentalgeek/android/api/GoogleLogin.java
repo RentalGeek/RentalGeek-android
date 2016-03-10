@@ -1,8 +1,12 @@
 package com.rentalgeek.android.api;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
@@ -28,15 +32,24 @@ public class GoogleLogin implements LoginInterface, GoogleApiClient.ConnectionCa
     @Override
     public void clicked(Activity context) {
         System.out.println("Google+ clicked");
-        if( googleApiClient != null && google_plus_btn != null ) {
+
+        int permissionCheck = ContextCompat.checkSelfPermission(context, Manifest.permission.GET_ACCOUNTS);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            // TODO: SHOW POP UP FOR GRANTING PERMISISON
+            Log.d("tagzzz", "Show popup saying they need to grant permission");
+            return;
+        }
+
+        Log.d("tagzzz", "Permission granted for CONTACTS");
+
+        if (googleApiClient != null && google_plus_btn != null) {
             shouldResolve = true;
             googleApiClient.disconnect();
             googleApiClient.connect();
             google_plus_btn.performClick();
-        }
-
-        else
+        } else {
             shouldResolve = false;
+        }
     }
 
     @Override
@@ -57,7 +70,7 @@ public class GoogleLogin implements LoginInterface, GoogleApiClient.ConnectionCa
     @Override
     public void onStart(Activity context) {
         System.out.println("Google+ onStart");
-        if( googleApiClient != null ) {
+        if (googleApiClient != null) {
             googleApiClient.connect();
         }
     }
@@ -65,7 +78,7 @@ public class GoogleLogin implements LoginInterface, GoogleApiClient.ConnectionCa
     @Override
     public void onStop(Activity context) {
         System.out.println("Google+ onStop");
-        if( googleApiClient != null ) {
+        if (googleApiClient != null) {
             googleApiClient.disconnect();
         }
     }
@@ -74,13 +87,13 @@ public class GoogleLogin implements LoginInterface, GoogleApiClient.ConnectionCa
     public void onActivityResult(Activity context,int requestCode, int resultCode,Intent data) {
         System.out.println("Google+ onActivityResult");
 
-        if( resultCode != Activity.RESULT_OK ) {
+        if (resultCode != Activity.RESULT_OK) {
             shouldResolve = false;
         }
 
         isResolving = false;
 
-        if( googleApiClient != null && ! googleApiClient.isConnecting() && ! googleApiClient.isConnected()) {
+        if (googleApiClient != null && ! googleApiClient.isConnecting() && ! googleApiClient.isConnected()) {
             googleApiClient.disconnect();
             googleApiClient.connect();
         }
@@ -98,7 +111,7 @@ public class GoogleLogin implements LoginInterface, GoogleApiClient.ConnectionCa
 
         Person currentUser = Plus.PeopleApi.getCurrentPerson(googleApiClient);
 
-        if ( currentUser != null) {
+        if (currentUser != null) {
             System.out.println("Google+ account found");
 
             String fullname = currentUser.getDisplayName();
@@ -116,7 +129,7 @@ public class GoogleLogin implements LoginInterface, GoogleApiClient.ConnectionCa
             googleBundle.putString(Constants.EMAIL,email);
             googleBundle.putString(Constants.ID,id);
 
-            if( googleApiClient != null ) {
+            if (googleApiClient != null) {
                 googleApiClient.disconnect();
             }
 
@@ -131,7 +144,7 @@ public class GoogleLogin implements LoginInterface, GoogleApiClient.ConnectionCa
     @Override
     public void onConnectionSuspended(int i) {
         System.out.println("Google+ connection suspended");
-        if( googleApiClient != null ) {
+        if (googleApiClient != null) {
             googleApiClient.disconnect();
             googleApiClient.connect();
         }
@@ -141,7 +154,7 @@ public class GoogleLogin implements LoginInterface, GoogleApiClient.ConnectionCa
     public void onConnectionFailed(ConnectionResult connectionResult) {
         System.out.println("Google+ connection failed");
 
-        if( ! isResolving && shouldResolve ) {
+        if (!isResolving && shouldResolve) {
             if (connectionResult.hasResolution()) {
                 isResolving = true;
                 AppEventBus.post(new GoogleResolutionEvent(connectionResult));

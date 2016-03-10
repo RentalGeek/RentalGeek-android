@@ -17,6 +17,7 @@ public class GeekProgressDialog {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             style = android.R.style.Theme_Material_Light_Dialog;
         } else {
+            //noinspection deprecation
             style = ProgressDialog.THEME_HOLO_LIGHT;
         }
 

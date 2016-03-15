@@ -3,10 +3,7 @@ package com.rentalgeek.android.api;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
@@ -21,6 +18,7 @@ import com.rentalgeek.android.bus.events.GoogleErrorEvent;
 import com.rentalgeek.android.bus.events.GoogleLoginEvent;
 import com.rentalgeek.android.bus.events.GoogleResolutionEvent;
 import com.rentalgeek.android.utils.Constants;
+import com.rentalgeek.android.utils.Permission;
 
 public class GoogleLogin implements LoginInterface, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
@@ -33,14 +31,9 @@ public class GoogleLogin implements LoginInterface, GoogleApiClient.ConnectionCa
     public void clicked(Activity context) {
         System.out.println("Google+ clicked");
 
-        int permissionCheck = ContextCompat.checkSelfPermission(context, Manifest.permission.GET_ACCOUNTS);
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            // TODO: SHOW POP UP FOR GRANTING PERMISISON
-            Log.d("tagzzz", "Show popup saying they need to grant permission");
+        if (!Permission.granted(context, Manifest.permission.GET_ACCOUNTS)) {
             return;
         }
-
-        Log.d("tagzzz", "Permission granted for CONTACTS");
 
         if (googleApiClient != null && google_plus_btn != null) {
             shouldResolve = true;

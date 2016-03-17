@@ -2,7 +2,6 @@ package com.rentalgeek.android.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,7 +80,6 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    Log.d("tagzzz", "pressed enter key");
                     dismissSearchEditText();
                     rentalView.hide();
 

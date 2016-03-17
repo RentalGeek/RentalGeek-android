@@ -16,6 +16,7 @@ import com.rentalgeek.android.bus.events.ShowProgressEvent;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
+import com.rentalgeek.android.ui.dialog.GeekProgressDialog;
 import com.rentalgeek.android.ui.fragment.FragmentSignIn;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.GeekGson;
@@ -84,6 +85,7 @@ public class LoginPresenter implements Presenter {
                     @Override
                     public void onFinish() {
                         AppEventBus.post(new HideProgressEvent());
+                        GeekProgressDialog.dismiss();
                     }
 
                     @Override

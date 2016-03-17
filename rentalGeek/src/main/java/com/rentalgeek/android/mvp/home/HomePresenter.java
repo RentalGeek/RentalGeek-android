@@ -14,6 +14,7 @@ import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.pojos.Rental;
 import com.rentalgeek.android.storage.RentalCache;
+import com.rentalgeek.android.ui.dialog.GeekProgressDialog;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.GeekGson;
 
@@ -52,6 +53,7 @@ public class HomePresenter implements Presenter {
             @Override
             public void onSuccess(String response) {
                 try {
+                    GeekProgressDialog.dismiss();
                     System.out.println(response);
 
                     JSONObject json = new JSONObject(response);
@@ -79,6 +81,7 @@ public class HomePresenter implements Presenter {
             @Override
             public void onAuthenticationFailed() {
                 System.out.println("Authentication failed.");
+                GeekProgressDialog.dismiss();
             }
 
             @Override
@@ -86,6 +89,7 @@ public class HomePresenter implements Presenter {
                 System.out.println(String.format("Error: %s", response));
                 String title = RentalGeekApplication.getResourceString(R.string.home);
                 String message = RentalGeekApplication.getResourceString(R.string.oops);
+                GeekProgressDialog.dismiss();
                 AppEventBus.post(new ErrorAlertEvent(title, message));
             }
         });
@@ -110,6 +114,7 @@ public class HomePresenter implements Presenter {
         } else {
             String title = RentalGeekApplication.getResourceString(R.string.home);
             String message = RentalGeekApplication.getResourceString(R.string.oops);
+            GeekProgressDialog.dismiss();
             AppEventBus.post(new ErrorAlertEvent(title, message));
         }
     }

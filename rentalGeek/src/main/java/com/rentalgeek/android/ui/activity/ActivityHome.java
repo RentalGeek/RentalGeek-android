@@ -97,6 +97,7 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
     @Override
     public void onResume() {
         super.onResume();
+        deselectAllMenuItems();
 
         if (shouldReload) {
             showProgressDialog(R.string.loading_rentals);

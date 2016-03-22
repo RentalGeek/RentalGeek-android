@@ -360,6 +360,13 @@ public class GeekBaseActivity extends AppCompatActivity {
         }
     }
 
+    protected void deselectAllMenuItems() {
+        Menu menu = navigationView.getMenu();
+        for (int i = 0; i < menu.size(); i++) {
+            menu.getItem(i).setChecked(false);
+        }
+    }
+
     public void onEventMainThread(ShowHomeEvent event) {
         Navigation.navigateActivity(this, ActivityHome.class, true);
     }

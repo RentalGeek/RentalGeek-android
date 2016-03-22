@@ -176,7 +176,6 @@ public class GeekBaseActivity extends AppCompatActivity {
     }
 
     private void setupToolbar() {
-
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         if (toolbar != null) {
@@ -263,7 +262,6 @@ public class GeekBaseActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 drawerLayout.closeDrawers();
 
-                // don't re-open the currently selected option
                 if (menuItem.isChecked()) {
                     return true;
                 }

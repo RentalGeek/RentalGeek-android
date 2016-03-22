@@ -86,7 +86,7 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
 
         public void setButtonEnabledness(ApplicationItem item) {
             if (!Boolean.TRUE.equals(item.getAccepted())) {
-                if (item.getUserId() != null && item.getUserId().toString().equals(SessionManager.Instance.getCurrentUser().id)) {
+                if (SessionManager.Instance.getCurrentUser() != null && item.getUserId() != null && item.getUserId().toString().equals(SessionManager.Instance.getCurrentUser().id)) {
                     disableButton();
                     return;
                 }

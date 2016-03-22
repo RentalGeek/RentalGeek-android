@@ -17,8 +17,8 @@ public class ActivityRoommates extends GeekBaseActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_with_fragment);
-
         setupNavigation();
+        setMenuItemSelected(R.id.roommates);
 
         if (savedInstanceState == null) {
             FragmentRoommates fragment = new FragmentRoommates();

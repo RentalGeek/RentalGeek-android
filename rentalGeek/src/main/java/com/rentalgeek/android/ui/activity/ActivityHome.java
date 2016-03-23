@@ -15,13 +15,13 @@ import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.bus.events.ClickRentalEvent;
 import com.rentalgeek.android.bus.events.ShowProfileCreationEvent;
+import com.rentalgeek.android.constants.IntentKey;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.mvp.home.HomePresenter;
 import com.rentalgeek.android.mvp.list.rental.RentalListView;
 import com.rentalgeek.android.mvp.map.MapView;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
-import com.rentalgeek.android.ui.Common;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.adapter.PageAdapter;
 import com.rentalgeek.android.ui.fragment.FragmentMap;
@@ -76,7 +76,7 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            boolean shouldDoSilentUpdate = extras.getBoolean(Common.KEY_DO_SILENT_UPDATE, false);
+            boolean shouldDoSilentUpdate = extras.getBoolean(IntentKey.DO_SILENT_UPDATE, false);
             if (shouldDoSilentUpdate) {
                 // silently fetch current user data in case persisted user data has gotten stale
                 silentUserDataUpdate();

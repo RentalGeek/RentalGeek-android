@@ -20,6 +20,7 @@ import com.rentalgeek.android.bus.events.SelectStarEvent;
 import com.rentalgeek.android.bus.events.ShowPropertyPhotosEvent;
 import com.rentalgeek.android.bus.events.ShowRentalEvent;
 import com.rentalgeek.android.bus.events.UnSelectStarEvent;
+import com.rentalgeek.android.constants.IntentKey;
 import com.rentalgeek.android.mvp.common.StarView;
 import com.rentalgeek.android.mvp.rental.RentalPresenter;
 import com.rentalgeek.android.mvp.rental.RentalView;
@@ -86,7 +87,7 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
 
         if (getArguments() != null) {
             Bundle args = getArguments();
-            rental_id = args.getString("RENTAL_ID");
+            rental_id = args.getString(IntentKey.RENTAL_ID);
         }
 
         presenter.getPropertyPhotos(rental_id);
@@ -109,7 +110,7 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
 
         if (getArguments() != null) {
             Bundle args = getArguments();
-            rental_id = args.getString("RENTAL_ID");
+            rental_id = args.getString(IntentKey.RENTAL_ID);
         }
 
         presenter.getRental(rental_id);
@@ -221,7 +222,7 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
     void onRentalClick() {
         if (!fullView) {
             Bundle bundle = new Bundle();
-            bundle.putString("RENTAL_ID", rental_id);
+            bundle.putString(IntentKey.RENTAL_ID, rental_id);
             AppEventBus.post(new ClickRentalEvent(bundle));
         } else {
             openPhotoGallery(0);
@@ -230,8 +231,8 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
 
     private void openPhotoGallery(int originalPhotoIndex) {
         Intent intent = new Intent(getActivity(), ActivityPropertyPhoto.class);
-        intent.putExtra(ActivityPropertyPhoto.PHOTO_URLS, photoUrls);
-        intent.putExtra(ActivityPropertyPhoto.ORIGINAL_POSITION, originalPhotoIndex);
+        intent.putExtra(IntentKey.PHOTO_URLS, photoUrls);
+        intent.putExtra(IntentKey.ORIGINAL_POSITION, originalPhotoIndex);
         getActivity().startActivity(intent);
     }
 

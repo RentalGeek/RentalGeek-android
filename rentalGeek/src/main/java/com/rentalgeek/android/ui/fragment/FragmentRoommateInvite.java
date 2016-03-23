@@ -17,10 +17,10 @@ import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.ErrorObj;
 import com.rentalgeek.android.backend.RoommateInviteResponse;
+import com.rentalgeek.android.constants.IntentKey;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
-import com.rentalgeek.android.ui.Common;
 import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 
@@ -47,10 +47,10 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
 
         Bundle args = getArguments();
 
-        roommateGropuId = args.getInt(Common.KEY_ROOMMATE_GROUP_ID);
-        roommateInviteId = args.getInt(Common.KEY_ROOMMATE_INVITE_ID);
-        roommateInviterId = args.getInt(Common.KEY_ROOMMATE_INVITER_ID);
-        roommateInviterName = args.getString(Common.KEY_ROOMMATE_INVITER_NAME);
+        roommateGropuId = args.getInt(IntentKey.ROOMMATE_GROUP_ID);
+        roommateInviteId = args.getInt(IntentKey.ROOMMATE_INVITE_ID);
+        roommateInviterId = args.getInt(IntentKey.ROOMMATE_INVITER_ID);
+        roommateInviterName = args.getString(IntentKey.ROOMMATE_INVITER_NAME);
         return v;
     }
 

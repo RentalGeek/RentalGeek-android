@@ -27,10 +27,10 @@ import com.rentalgeek.android.backend.ErrorArray;
 import com.rentalgeek.android.backend.LeaseResponse;
 import com.rentalgeek.android.backend.PaymentsBackend;
 import com.rentalgeek.android.backend.model.Lease;
+import com.rentalgeek.android.constants.IntentKey;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
-import com.rentalgeek.android.ui.Common;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityPaymentConfirmation;
 import com.rentalgeek.android.ui.dialog.DialogManager;
@@ -224,8 +224,8 @@ public class FragmentPayments extends GeekBaseFragment implements Validator.Vali
 
                         if (detail != null && detail.payment != null) {
                             Bundle args = new Bundle();
-                            args.putDouble(Common.KEY_TOTAL_DUE, currentLease.total_due);
-                            args.putInt(Common.KEY_LEASE_ID, currentLease.id);
+                            args.putDouble(IntentKey.TOTAL_DUE, currentLease.total_due);
+                            args.putInt(IntentKey.LEASE_ID, currentLease.id);
                             Navigation.navigateActivity(activity, ActivityPaymentConfirmation.class, args, false);
                         }
 

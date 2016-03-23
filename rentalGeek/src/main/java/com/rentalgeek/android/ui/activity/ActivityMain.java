@@ -13,8 +13,8 @@ import android.util.Log;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.LoginBackend;
+import com.rentalgeek.android.constants.IntentKey;
 import com.rentalgeek.android.ui.AppPrefes;
-import com.rentalgeek.android.ui.Common;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 
@@ -59,7 +59,7 @@ public class ActivityMain extends GeekBaseActivity {
                     if (persistedLogin != null) {
                         SessionManager.Instance.onUserLoggedIn(persistedLogin);
                         Bundle args = new Bundle();
-                        args.putBoolean(Common.KEY_DO_SILENT_UPDATE, true);
+                        args.putBoolean(IntentKey.DO_SILENT_UPDATE, true);
                         Navigation.navigateActivity(activity, ActivityHome.class, args, true);
                     } else {
                         Navigation.navigateActivity(activity, ActivityLogin.class, true);

@@ -15,6 +15,7 @@ import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.ClickRentalEvent;
 import com.rentalgeek.android.bus.events.ClickStarEvent;
 import com.rentalgeek.android.bus.events.RemoveItemEvent;
+import com.rentalgeek.android.constants.IntentKey;
 import com.rentalgeek.android.mvp.common.StarView;
 import com.rentalgeek.android.pojos.Rental;
 import com.squareup.picasso.Picasso;
@@ -101,7 +102,7 @@ public class RentalAdapter extends ArrayAdapter<Rental> {
         public void OnRentalClick() {
             String rental_id = (String) star_imageview.getTag();
             Bundle bundle = new Bundle();
-            bundle.putString("RENTAL_ID", rental_id);
+            bundle.putString(IntentKey.RENTAL_ID, rental_id);
             AppEventBus.post(new ClickRentalEvent(bundle));
         }
 
@@ -110,7 +111,7 @@ public class RentalAdapter extends ArrayAdapter<Rental> {
             String rental_id = (String) star_imageview.getTag();
             Bundle bundle = new Bundle();
             bundle = new Bundle();
-            bundle.putString("RENTAL_ID", rental_id);
+            bundle.putString(IntentKey.RENTAL_ID, rental_id);
             bundle.putInt("POSITION", position);
             AppEventBus.post(new ClickStarEvent(bundle));
         }

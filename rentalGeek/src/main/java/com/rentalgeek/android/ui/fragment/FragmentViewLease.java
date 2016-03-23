@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.LeaseResponse;
+import com.rentalgeek.android.constants.IntentKey;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.preference.AppPreferences;
@@ -21,8 +22,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class FragmentViewLease extends GeekBaseFragment {
-
-    public static final String LEASE_ID = "leaseId";
 
     @InjectView(R.id.web_view) WebView pdfWebView;
     @InjectView(R.id.error_text_view) TextView errorTextView;
@@ -33,7 +32,7 @@ public class FragmentViewLease extends GeekBaseFragment {
         View view = inflater.inflate(R.layout.fragment_lease, container, false);
         ButterKnife.inject(this, view);
 
-        int leaseId = getArguments().getInt(LEASE_ID);
+        int leaseId = getArguments().getInt(IntentKey.LEASE_ID);
 
         GlobalFunctions.getApiCall(getActivity(), ApiManager.getLease(Integer.toString(leaseId)), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
             @Override

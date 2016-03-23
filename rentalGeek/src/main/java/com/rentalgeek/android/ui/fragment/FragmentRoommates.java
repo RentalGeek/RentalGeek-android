@@ -21,10 +21,10 @@ import com.rentalgeek.android.backend.RoommateInviteResponse;
 import com.rentalgeek.android.backend.RoommateInvites;
 import com.rentalgeek.android.backend.model.RoommateGroup;
 import com.rentalgeek.android.backend.model.RoommateInvite;
+import com.rentalgeek.android.constants.IntentKey;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
-import com.rentalgeek.android.ui.Common;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.activity.ActivityRoommateInvite;
@@ -176,10 +176,10 @@ public class FragmentRoommates extends GeekBaseFragment {
 
             if (inviteIdx >= 0) {
                 Bundle args = new Bundle();
-                args.putInt(Common.KEY_ROOMMATE_GROUP_ID, invites.get(inviteIdx).roommate_group_id);
-                args.putInt(Common.KEY_ROOMMATE_INVITE_ID, invites.get(inviteIdx).id);
-                args.putInt(Common.KEY_ROOMMATE_INVITER_ID, invites.get(inviteIdx).inviter_id);
-                args.putString(Common.KEY_ROOMMATE_INVITER_NAME, invites.get(inviteIdx).inviter_name);
+                args.putInt(IntentKey.ROOMMATE_GROUP_ID, invites.get(inviteIdx).roommate_group_id);
+                args.putInt(IntentKey.ROOMMATE_INVITE_ID, invites.get(inviteIdx).id);
+                args.putInt(IntentKey.ROOMMATE_INVITER_ID, invites.get(inviteIdx).inviter_id);
+                args.putString(IntentKey.ROOMMATE_INVITER_NAME, invites.get(inviteIdx).inviter_name);
                 Navigation.navigateActivity(activity, ActivityRoommateInvite.class, args, false);
             }
         }

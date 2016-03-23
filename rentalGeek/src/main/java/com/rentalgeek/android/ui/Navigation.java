@@ -11,16 +11,18 @@ public class Navigation {
         if (context == null) return;
         final Intent intent = new Intent(context, activity);
         intent.putExtras(args);
-        if (clearTop)
+        if (clearTop) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        }
         context.startActivity(intent);
     }
 
     public static void navigateActivity(FragmentActivity activity, Class clazz, boolean clearTop) {
         if (activity == null || activity.getClass().equals(clazz)) return;
         final Intent intent = new Intent(activity, clazz);
-        if (clearTop)
+        if (clearTop) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        }
         activity.startActivity(intent);
     }
 

@@ -213,8 +213,9 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
     @Override
     public void onStart() {
         super.onStart();
-        if (googleApiClient != null)
+        if (googleApiClient != null) {
             googleApiClient.connect();
+        }
     }
 
     @Override
@@ -430,7 +431,6 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
         now = new DateTime(maxYear, maxMonth, maxDay, 0, 0);
 
         if (position == 0) {
-
             first_name.addTextChangedListener(new UserFieldTextWatcher(first_name));
             last_name.addTextChangedListener(new UserFieldTextWatcher(last_name));
             dob.init(maxYear, maxMonth, maxDay, new ProfileFieldDateChange(dob));

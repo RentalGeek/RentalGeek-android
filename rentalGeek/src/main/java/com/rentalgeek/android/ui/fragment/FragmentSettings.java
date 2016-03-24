@@ -36,12 +36,14 @@ public class FragmentSettings extends GeekBaseFragment {
     @InjectView(R.id.note_charge_textview) TextView noteChargeTextView;
     @InjectView(R.id.resubmit_button) Button resubmitButton;
 
+    private User currentUser;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         ButterKnife.inject(this, view);
 
-        User currentUser = SessionManager.Instance.getCurrentUser();
+        currentUser = SessionManager.Instance.getCurrentUser();
         if (currentUser.is_cosigner) {
             resubmitGeekScoreLinLayout.setVisibility(View.GONE);
         } else if (!currentUser.hasProfileId()) {
@@ -55,8 +57,9 @@ public class FragmentSettings extends GeekBaseFragment {
 
     @OnClick(R.id.resubmit_button)
     public void resubmitButtonTapped() {
+        boolean resubmitting = currentUser.hasProfileId();
         Intent intent = new Intent(activity, ActivityCreateProfile.class);
-        intent.putExtra(RESUBMITTING_PROFILE, true);
+        intent.putExtra(RESUBMITTING_PROFILE, resubmitting);
         startActivity(intent);
     }
 

@@ -12,6 +12,8 @@ import com.rentalgeek.android.ui.adapter.ProfileFormAdapter;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.ui.view.NonSwipeableViewPager;
 
+import static com.rentalgeek.android.constants.IntentKey.*;
+
 public class ActivityCreateProfile extends GeekBaseActivity {
 
     NonSwipeableViewPager mPager;
@@ -26,7 +28,13 @@ public class ActivityCreateProfile extends GeekBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_profile);
 
-        mAdapter = new ProfileFormAdapter(getSupportFragmentManager());
+        boolean resubmittingProfile = false;
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            resubmittingProfile = extras.getBoolean(RESUBMITTING_PROFILE);
+        }
+
+        mAdapter = new ProfileFormAdapter(getSupportFragmentManager(), resubmittingProfile);
 
         mPager = (NonSwipeableViewPager) findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);
@@ -58,7 +66,11 @@ public class ActivityCreateProfile extends GeekBaseActivity {
     }
 
     public void onEventMainThread(SubmitProfileEvent event) {
-        Navigation.navigateActivity(this, ActivityNeedPayment.class);
+        if (event.resubmitting) {
+            Navigation.navigateActivity(this, ActivityGeekScore.class);
+        } else {
+            Navigation.navigateActivity(this, ActivityNeedPayment.class);
+        }
     }
 
 }

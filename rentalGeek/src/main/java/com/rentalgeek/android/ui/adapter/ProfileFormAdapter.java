@@ -8,8 +8,11 @@ import com.rentalgeek.android.ui.fragment.FragmentProfileForm;
 
 public class ProfileFormAdapter extends FragmentPagerAdapter {
 
-    public ProfileFormAdapter(FragmentManager fm) {
+    private boolean resubmittingProfile = false;
+
+    public ProfileFormAdapter(FragmentManager fm, boolean resubmittingProfile) {
         super(fm);
+        this.resubmittingProfile = resubmittingProfile;
     }
 
     @Override
@@ -21,7 +24,7 @@ public class ProfileFormAdapter extends FragmentPagerAdapter {
             case 3:
             case 4:
             case 5:
-                return FragmentProfileForm.newInstance(position);
+                return FragmentProfileForm.newInstance(position, resubmittingProfile);
             default:
                 return null;
         }

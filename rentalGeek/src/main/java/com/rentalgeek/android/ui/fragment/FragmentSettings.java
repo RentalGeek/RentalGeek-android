@@ -1,6 +1,7 @@
 package com.rentalgeek.android.ui.fragment;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,11 +22,12 @@ import com.rentalgeek.android.ui.activity.ActivityLogin;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.ActionAlert;
 import com.rentalgeek.android.utils.OkAlert;
-import com.rentalgeek.android.utils.ResponseParser;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+
+import static com.rentalgeek.android.constants.IntentKey.*;
 
 public class FragmentSettings extends GeekBaseFragment {
 
@@ -53,36 +55,9 @@ public class FragmentSettings extends GeekBaseFragment {
 
     @OnClick(R.id.resubmit_button)
     public void resubmitButtonTapped() {
-        String profileId = SessionManager.Instance.getCurrentUser().profile_id;
-        GlobalFunctions.deleteApiCall(getActivity(), ApiManager.deleteProfile(profileId), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
-            @Override
-            public void onStart() {
-                super.onStart();
-                showProgressDialog(R.string.dialog_msg_loading);
-            }
-
-            @Override
-            public void onFinish() {
-                super.onFinish();
-                hideProgressDialog();
-            }
-
-            @Override
-            public void onSuccess(String content) {
-                super.onSuccess(content);
-                SessionManager.Instance.getCurrentUser().profile_id = null;
-                SessionManager.Instance.setDefaultProfile(null);
-                AppPreferences.removeProfile();
-                Navigation.navigateActivity(activity, ActivityCreateProfile.class);
-            }
-
-            @Override
-            public void onFailure(Throwable ex, String failureResponse) {
-                super.onFailure(ex, failureResponse);
-                ResponseParser.ErrorMsg errorMsg = new ResponseParser().humanizedErrorMsg(failureResponse);
-                OkAlert.show(getActivity(), errorMsg.title, errorMsg.msg);
-            }
-        });
+        Intent intent = new Intent(activity, ActivityCreateProfile.class);
+        intent.putExtra(RESUBMITTING_PROFILE, true);
+        startActivity(intent);
     }
 
     @OnClick(R.id.delete_button)

@@ -65,10 +65,14 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
+import static com.rentalgeek.android.constants.IntentKey.RESUBMITTING_PROFILE;
+import static com.rentalgeek.android.constants.IntentKey.PROFILE_POSITION;
+
 public class FragmentProfileForm extends GeekBaseFragment implements Validator.ValidationListener, GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = "FragmentProfileForm";
     private int position;
+    private boolean resubmittingProfile = false;
 
     @InjectView(R.id.layoutForm1) LinearLayout layoutForm1;
     @InjectView(R.id.layoutForm2) LinearLayout layoutForm2;
@@ -178,9 +182,10 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
 
     private SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
-    public static FragmentProfileForm newInstance(int pos) {
+    public static FragmentProfileForm newInstance(int pos, boolean resubmittingProfile) {
         Bundle bundle = new Bundle();
-        bundle.putInt("position", pos);
+        bundle.putInt(PROFILE_POSITION, pos);
+        bundle.putBoolean(RESUBMITTING_PROFILE, resubmittingProfile);
         FragmentProfileForm fragment = new FragmentProfileForm();
         fragment.setArguments(bundle);
         return fragment;
@@ -189,7 +194,11 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        position = getArguments() != null ? getArguments().getInt("position") : 0;
+        Bundle extras = getArguments();
+        if (extras != null) {
+            this.position = extras.getInt(PROFILE_POSITION);
+            this.resubmittingProfile = extras.getBoolean(RESUBMITTING_PROFILE);
+        }
     }
 
     @Override
@@ -661,7 +670,7 @@ public class FragmentProfileForm extends GeekBaseFragment implements Validator.V
                             LoginBackend user = GeekGson.getInstance().fromJson(content, LoginBackend.class);
                             SessionManager.Instance.onUserLoggedIn(user);
                             AppPreferences.removeProfile();
-                            AppEventBus.post(new SubmitProfileEvent());
+                            AppEventBus.post(new SubmitProfileEvent(resubmittingProfile));
                         } catch (Exception e) {
                             AppLogger.log(TAG, e);
                         }

@@ -2,7 +2,8 @@ package com.rentalgeek.android.constants;
 
 public class IntentKey {
 
-    public static final String SHOULD_DELETE_OLD_PROFILE = "com.rentalgeek.shouldDeleteOldProfile";
+    public static final String DELETE_OLD_PROFILE = "com.rentalgeek.shouldDeleteOldProfile";
+    public static final String PROFILE_POSITION = "com.rentalgeek.profilePosition";
     public static final String RENTAL_ID = "com.rentalgeek.rentalId";
     public static final String LEASE_ID = "com.rentalgeek.leaseId";
     public static final String REQUESTING_FRAGMENT = "com.rentalgeek.requestingFragment";

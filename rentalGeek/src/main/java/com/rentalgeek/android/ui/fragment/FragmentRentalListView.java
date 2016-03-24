@@ -11,7 +11,6 @@ import com.rentalgeek.android.bus.events.ClickStarEvent;
 import com.rentalgeek.android.bus.events.SelectStarEvent;
 import com.rentalgeek.android.bus.events.SetRentalsEvent;
 import com.rentalgeek.android.bus.events.UnSelectStarEvent;
-import com.rentalgeek.android.constants.IntentKey;
 import com.rentalgeek.android.mvp.list.rental.RentalListPresenter;
 import com.rentalgeek.android.mvp.list.rental.RentalListView;
 import com.rentalgeek.android.pojos.Rental;
@@ -19,6 +18,8 @@ import com.rentalgeek.android.ui.adapter.RentalAdapter;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+
+import static com.rentalgeek.android.constants.IntentKey.*;
 
 
 public class FragmentRentalListView extends GeekBaseFragment implements RentalListView {
@@ -58,8 +59,8 @@ public class FragmentRentalListView extends GeekBaseFragment implements RentalLi
     }
 
     public void onEventMainThread(ClickStarEvent event) {
-        if (event.getBundle() != null && event.getBundle().getString(IntentKey.RENTAL_ID) != null) {
-            String rental_id = event.getBundle().getString(IntentKey.RENTAL_ID);
+        if (event.getBundle() != null && event.getBundle().getString(RENTAL_ID) != null) {
+            String rental_id = event.getBundle().getString(RENTAL_ID);
             int position = event.getBundle().getInt("POSITION");
             presenter.select(rental_id, position);
         }

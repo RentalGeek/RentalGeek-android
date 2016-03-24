@@ -13,7 +13,6 @@ import com.google.gson.reflect.TypeToken;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.model.RoommatePayment;
-import com.rentalgeek.android.constants.IntentKey;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
@@ -30,6 +29,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
+import static com.rentalgeek.android.constants.IntentKey.*;
+
 
 public class FragmentPaymentConfirmation extends GeekBaseFragment {
 
@@ -43,8 +44,8 @@ public class FragmentPaymentConfirmation extends GeekBaseFragment {
         View v = inflater.inflate(R.layout.fragment_payment_confirmation, container, false);
         ButterKnife.inject(this, v);
 
-        int currentLeaseId = getArguments().getInt(IntentKey.LEASE_ID);
-        double amountPaid = getArguments().getDouble(IntentKey.TOTAL_DUE);
+        int currentLeaseId = getArguments().getInt(LEASE_ID);
+        double amountPaid = getArguments().getDouble(TOTAL_DUE);
 
         NumberFormat format = NumberFormat.getCurrencyInstance();
         textViewAmountPaid.setText(format.format(amountPaid));

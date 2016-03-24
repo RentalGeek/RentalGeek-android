@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
-import com.rentalgeek.android.constants.IntentKey;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.pojos.SignatureUrlDTO;
@@ -24,6 +23,8 @@ import com.rentalgeek.android.ui.preference.AppPreferences;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+
+import static com.rentalgeek.android.constants.IntentKey.*;
 
 public class FragmentSignLease extends GeekBaseFragment {
 
@@ -37,8 +38,8 @@ public class FragmentSignLease extends GeekBaseFragment {
         View view = inflater.inflate(R.layout.fragment_lease, container, false);
         ButterKnife.inject(this, view);
 
-        int leaseId = getArguments().getInt(IntentKey.LEASE_ID);
-        requestingFragment = getArguments().getString(IntentKey.REQUESTING_FRAGMENT);
+        int leaseId = getArguments().getInt(LEASE_ID);
+        requestingFragment = getArguments().getString(REQUESTING_FRAGMENT);
 
         GlobalFunctions.getApiCall(getActivity(), ApiManager.signLeaseUrl(leaseId), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
             @Override

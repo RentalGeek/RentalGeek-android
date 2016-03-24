@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.SessionManager;
-import com.rentalgeek.android.constants.IntentKey;
 import com.rentalgeek.android.pojos.ApplicationItem;
 import com.rentalgeek.android.pojos.RoommateDTO;
 import com.rentalgeek.android.ui.activity.ActivityRental;
@@ -32,6 +31,8 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+
+import static com.rentalgeek.android.constants.IntentKey.*;
 
 public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationListAdapter.ApplicationListViewHolder> {
 
@@ -67,7 +68,7 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
             Context context = v.getContext();
             ApplicationItem selectedItem = applicationItems.get(getAdapterPosition());
             Intent intent = new Intent(context, ActivityRental.class);
-            intent.putExtra(IntentKey.RENTAL_ID, selectedItem.getRentalOfferingId().toString());
+            intent.putExtra(RENTAL_ID, selectedItem.getRentalOfferingId().toString());
             context.startActivity(intent);
         }
 
@@ -100,14 +101,14 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
                 public void onClick(View v) {
                     if (signApproveButton.getText().equals(ApplicationItem.SIGN_LEASE)) {
                         Intent intent = new Intent(context, ActivitySignLease.class);
-                        intent.putExtra(IntentKey.LEASE_ID, item.getLeaseId());
-                        intent.putExtra(IntentKey.REQUESTING_FRAGMENT, requestingFragment);
+                        intent.putExtra(LEASE_ID, item.getLeaseId());
+                        intent.putExtra(REQUESTING_FRAGMENT, requestingFragment);
                         context.startActivity(intent);
                     } else if (signApproveButton.getText().equals(ApplicationItem.APPROVE)) {
                         fragment.applyToProperty(item.getRentalOfferingId());
                     } else if (signApproveButton.getText().equals(ApplicationItem.VIEW_LEASE)) {
                         Intent intent = new Intent(context, ActivityViewLease.class);
-                        intent.putExtra(IntentKey.LEASE_ID, item.getLeaseId());
+                        intent.putExtra(LEASE_ID, item.getLeaseId());
                         context.startActivity(intent);
                     }
                 }

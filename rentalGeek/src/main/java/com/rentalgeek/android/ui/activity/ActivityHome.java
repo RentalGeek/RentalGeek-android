@@ -15,7 +15,6 @@ import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.bus.events.ClickRentalEvent;
 import com.rentalgeek.android.bus.events.ShowProfileCreationEvent;
-import com.rentalgeek.android.constants.IntentKey;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.mvp.home.HomePresenter;
 import com.rentalgeek.android.mvp.list.rental.RentalListView;
@@ -34,6 +33,7 @@ import com.rentalgeek.android.utils.ObscuredSharedPreferences;
 
 import java.util.ArrayList;
 
+import static com.rentalgeek.android.constants.IntentKey.*;
 
 public class ActivityHome extends GeekBaseActivity implements Container<ViewPager> {
 
@@ -76,7 +76,7 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            boolean shouldDoSilentUpdate = extras.getBoolean(IntentKey.DO_SILENT_UPDATE, false);
+            boolean shouldDoSilentUpdate = extras.getBoolean(DO_SILENT_UPDATE, false);
             if (shouldDoSilentUpdate) {
                 // silently fetch current user data in case persisted user data has gotten stale
                 silentUserDataUpdate();

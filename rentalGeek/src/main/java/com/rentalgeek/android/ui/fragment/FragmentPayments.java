@@ -27,7 +27,6 @@ import com.rentalgeek.android.backend.ErrorArray;
 import com.rentalgeek.android.backend.LeaseResponse;
 import com.rentalgeek.android.backend.PaymentsBackend;
 import com.rentalgeek.android.backend.model.Lease;
-import com.rentalgeek.android.constants.IntentKey;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
@@ -42,6 +41,8 @@ import java.text.NumberFormat;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+
+import static com.rentalgeek.android.constants.IntentKey.*;
 
 
 public class FragmentPayments extends GeekBaseFragment implements Validator.ValidationListener {
@@ -224,8 +225,8 @@ public class FragmentPayments extends GeekBaseFragment implements Validator.Vali
 
                         if (detail != null && detail.payment != null) {
                             Bundle args = new Bundle();
-                            args.putDouble(IntentKey.TOTAL_DUE, currentLease.total_due);
-                            args.putInt(IntentKey.LEASE_ID, currentLease.id);
+                            args.putDouble(TOTAL_DUE, currentLease.total_due);
+                            args.putInt(LEASE_ID, currentLease.id);
                             Navigation.navigateActivity(activity, ActivityPaymentConfirmation.class, args, false);
                         }
 

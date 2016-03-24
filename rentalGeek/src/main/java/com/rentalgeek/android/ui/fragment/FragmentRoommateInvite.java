@@ -17,7 +17,6 @@ import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.ErrorObj;
 import com.rentalgeek.android.backend.RoommateInviteResponse;
-import com.rentalgeek.android.constants.IntentKey;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
@@ -27,6 +26,8 @@ import com.rentalgeek.android.ui.preference.AppPreferences;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+
+import static com.rentalgeek.android.constants.IntentKey.*;
 
 public class FragmentRoommateInvite extends GeekBaseFragment {
 
@@ -47,10 +48,10 @@ public class FragmentRoommateInvite extends GeekBaseFragment {
 
         Bundle args = getArguments();
 
-        roommateGropuId = args.getInt(IntentKey.ROOMMATE_GROUP_ID);
-        roommateInviteId = args.getInt(IntentKey.ROOMMATE_INVITE_ID);
-        roommateInviterId = args.getInt(IntentKey.ROOMMATE_INVITER_ID);
-        roommateInviterName = args.getString(IntentKey.ROOMMATE_INVITER_NAME);
+        roommateGropuId = args.getInt(ROOMMATE_GROUP_ID);
+        roommateInviteId = args.getInt(ROOMMATE_INVITE_ID);
+        roommateInviterId = args.getInt(ROOMMATE_INVITER_ID);
+        roommateInviterName = args.getString(ROOMMATE_INVITER_NAME);
         return v;
     }
 

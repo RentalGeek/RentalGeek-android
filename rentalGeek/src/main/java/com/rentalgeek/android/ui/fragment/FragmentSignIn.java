@@ -46,6 +46,7 @@ import com.rentalgeek.android.ui.activity.LoginResult;
 import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.Constants;
+import com.rentalgeek.android.utils.OkAlert;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -321,6 +322,10 @@ public class FragmentSignIn extends GeekBaseFragment {
         } else {
             return true;
         }
+    }
+
+    public void showNoMoreCosignerFunctionality() {
+        OkAlert.show(getActivity(), "No Longer Available", "Cosigners should currently use the website.");
     }
 
 }

@@ -151,8 +151,14 @@ public class LoginPresenter implements Presenter {
     private void parseResponse(String response) {
         System.out.println(response);
         LoginBackend detail = GeekGson.getInstance().fromJson(response,LoginBackend.class);
-        SessionManager.Instance.onUserLoggedIn(detail);
-        AppEventBus.post(new ShowHomeEvent());
+
+        if (detail.user.is_cosigner) {
+            this.view.showNoMoreCosignerFunctionality();
+        } else {
+            SessionManager.Instance.onUserLoggedIn(detail);
+            AppEventBus.post(new ShowHomeEvent());
+        }
+
     }
 
 }

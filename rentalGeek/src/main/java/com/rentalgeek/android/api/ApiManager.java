@@ -7,7 +7,6 @@ import com.rentalgeek.android.BuildConfig;
 
 public class ApiManager {
 
-    // Default host
     private static final String PROD = "http://api.rentalgeek.com/api/v1";
     private static final String STAGE = "http://api.staging.rentalgeek.com/api/v1";
 
@@ -24,7 +23,6 @@ public class ApiManager {
         return LINKEDIN_URL;
     }
 
-    // "api/"
     public static String getApplicants(String uid) {
         return API_HOST + "/users/" + uid;
     }

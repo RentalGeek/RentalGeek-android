@@ -7,8 +7,8 @@ import com.rentalgeek.android.BuildConfig;
 
 public class ApiManager {
 
-    private static final String PROD = "http://api.rentalgeek.com/api/v1";
-    private static final String STAGE = "http://api.staging.rentalgeek.com/api/v1";
+    private static final String PROD = "http://api.rentalgeek.com";
+    private static final String STAGE = "http://api.staging.rentalgeek.com";
 
     private static final String GOOGLE_MAPS = "https://maps.googleapis.com/maps/api/place/details/json";
     private static final String GOOGLE_MAPS_API_KEY = "AIzaSyDuVB1GHSKyz51m1w4VGs_XTyxVlK01INY";

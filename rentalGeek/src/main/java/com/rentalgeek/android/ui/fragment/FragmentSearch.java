@@ -208,7 +208,7 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
     }
 
     private void retrievePropertyManagersFromBackend() {
-        GlobalFunctions.getApiCall(getActivity(), ApiManager.propertyManagersUrl(), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
+        GlobalFunctions.getApiCall(ApiManager.propertyManagersUrl(), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
             @Override
             public void onStart() {
                 super.onStart();

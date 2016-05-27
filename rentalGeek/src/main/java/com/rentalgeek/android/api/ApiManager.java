@@ -28,7 +28,11 @@ public class ApiManager {
     }
 
     public static String getPropertySearchUrl() {
-        return API_HOST + "/api/v1/rental_offerings.json";
+        return API_HOST + "/api/v2/rental_offerings.json";
+    }
+
+    public static String loadMapPinData() {
+        return API_HOST + "/api/v2/rental_offerings?mapping_data=true";
     }
 
     public static String getPropertySearchUrl(String parameters) {
@@ -36,7 +40,7 @@ public class ApiManager {
     }
 
     public static String getFavoritesUrl() {
-        return API_HOST + "/api/v1/rental_offerings?starred=true";
+        return API_HOST + "/api/v2/rental_offerings?starred=true";
     }
 
     public static String getApplyUrl() {

@@ -35,7 +35,7 @@ public class AutoCompleteAddressListener implements AdapterView.OnItemClickListe
 
             System.out.println(url);
 
-            GlobalFunctions.getApiCall(null, url, null, new GeekHttpResponseHandler() {
+            GlobalFunctions.getApiCall(url, null, new GeekHttpResponseHandler() {
                     @Override
                     public void onSuccess(String response) {
                         ParseAddress.Address address = ParseAddress.parse(response);

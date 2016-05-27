@@ -89,7 +89,7 @@ public class FragmentPaymentConfirmation extends GeekBaseFragment {
     protected void fetchPaymentHistory(int leaseId) {
         String url = ApiManager.getLeaseRoommatePayments(String.valueOf(leaseId));
 
-        GlobalFunctions.getApiCall(activity, url, AppPreferences.getAuthToken(),
+        GlobalFunctions.getApiCall(url, AppPreferences.getAuthToken(),
             new GeekHttpResponseHandler() {
                 @Override
                 public void onStart() {

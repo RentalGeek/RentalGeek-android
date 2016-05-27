@@ -80,7 +80,7 @@ public class FragmentPayment extends GeekBaseFragment implements Validator.Valid
     }
 
     private void CheckPaymentf() {
-        GlobalFunctions.getApiCall(getActivity(), ApiManager.getApplicants(appPref.getData("Uid")),
+        GlobalFunctions.getApiCall(ApiManager.getApplicants(appPref.getData("Uid")),
                 AppPreferences.getAuthToken(),
                 new GeekHttpResponseHandler() {
                     @Override

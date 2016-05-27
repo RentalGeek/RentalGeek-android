@@ -24,20 +24,22 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.AddMarkersEvent;
+import com.rentalgeek.android.bus.events.MapRentalsEvent;
 import com.rentalgeek.android.bus.events.NoRentalsEvent;
 import com.rentalgeek.android.bus.events.SetRentalEvent;
-import com.rentalgeek.android.bus.events.SetRentalsEvent;
 import com.rentalgeek.android.bus.events.ShowRentalEvent;
 import com.rentalgeek.android.model.RentalMarker;
 import com.rentalgeek.android.mvp.map.MapPresenter;
 import com.rentalgeek.android.mvp.map.MapView;
 import com.rentalgeek.android.mvp.rental.RentalView;
+import com.rentalgeek.android.pojos.MapRental;
 import com.rentalgeek.android.pojos.Rental;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.adapter.PlaceAutocompleteAdapter;
 import com.rentalgeek.android.ui.view.AutoCompleteAddressListener;
 import com.rentalgeek.android.utils.OkAlert;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -133,12 +135,12 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
     }
 
     @Override
-    public void setRentals(Rental[] rentals) {
+    public void setRentals(ArrayList<MapRental> mapRentals) {
         if (map != null) {
             map.clear();
             markers.clear();
             markerRentalMap.clear();
-            presenter.addRentals(rentals);
+            presenter.addRentals(mapRentals);
         }
     }
 
@@ -186,9 +188,15 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
         imm.hideSoftInputFromWindow(locationAutoCompleteTextView.getWindowToken(), 0);
     }
 
-    public void onEventMainThread(SetRentalsEvent event) {
-        if (event.getRentals() != null) {
-            setRentals(event.getRentals());
+//    public void onEventMainThread(SetRentalsEvent event) {
+//        if (event.getRentals() != null) {
+//            setRentals(event.getRentals());
+//        }
+//    }
+
+    public void onEventMainThread(MapRentalsEvent event) {
+        if (event.getMapRentals() != null) {
+            setRentals(event.getMapRentals());
         }
     }
 
@@ -210,7 +218,7 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
             if (map != null) {
                 for (RentalMarker rentalMarker : event.getMarkers()) {
                     Marker mapMarker = map.addMarker(rentalMarker.getMarker());
-                    markerRentalMap.put(mapMarker.getId(), rentalMarker.getRental().getId());
+                    markerRentalMap.put(mapMarker.getId(), Integer.toString(rentalMarker.getRental().id));
                     markers.add(mapMarker);
                 }
 

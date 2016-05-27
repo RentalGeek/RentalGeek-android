@@ -134,7 +134,7 @@ public class FragmentPayments extends GeekBaseFragment implements Validator.Vali
     protected void fetchLeaseAmountDue(String leaseId) {
         String url = ApiManager.getLease(leaseId);
 
-        GlobalFunctions.getApiCall(activity, url, AppPreferences.getAuthToken(),
+        GlobalFunctions.getApiCall(url, AppPreferences.getAuthToken(),
             new GeekHttpResponseHandler() {
                 @Override
                 public void onStart() {

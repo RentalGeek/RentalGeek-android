@@ -47,7 +47,7 @@ public class FragmentMyCosigner extends GeekBaseFragment {
         View view = inflater.inflate(R.layout.fragment_my_cosigner, container, false);
         ButterKnife.inject(this, view);
 
-        GlobalFunctions.getApiCall(getActivity(), ApiManager.sentCosignerInvites(), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
+        GlobalFunctions.getApiCall(ApiManager.sentCosignerInvites(), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
             @Override
             public void onStart() {
                 super.onStart();

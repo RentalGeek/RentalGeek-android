@@ -332,7 +332,7 @@ public class FragmentRoommates extends GeekBaseFragment {
     }
 
     protected void fetchRoommateGroups(String groupId) {
-        GlobalFunctions.getApiCall(activity, ApiManager.getRoommateGroups(groupId), AppPreferences.getAuthToken(),
+        GlobalFunctions.getApiCall(ApiManager.getRoommateGroups(groupId), AppPreferences.getAuthToken(),
             new GeekHttpResponseHandler() {
                 @Override
                 public void onStart() {
@@ -373,7 +373,7 @@ public class FragmentRoommates extends GeekBaseFragment {
 
     protected void fetchRoommateInvites() {
         String url = ApiManager.getRoommateInvites(null);
-        GlobalFunctions.getApiCall(getActivity(), url, AppPreferences.getAuthToken(),
+        GlobalFunctions.getApiCall(url, AppPreferences.getAuthToken(),
             new GeekHttpResponseHandler() {
                 @Override
                 public void onStart() {

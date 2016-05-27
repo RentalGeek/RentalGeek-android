@@ -116,7 +116,7 @@ public class RentalPresenter extends StarPresenter implements Presenter {
             String url = ApiManager.getRental(rental_id);
             String token = AppPreferences.getAuthToken();
 
-            GlobalFunctions.getApiCall(null, url, token, new GeekHttpResponseHandler() {
+            GlobalFunctions.getApiCall(url, token, new GeekHttpResponseHandler() {
                 @Override
                 public void onSuccess(String response) {
 
@@ -141,7 +141,7 @@ public class RentalPresenter extends StarPresenter implements Presenter {
 
     @Override
     public void getPropertyPhotos(String rental_id) {
-        GlobalFunctions.getApiCall(null, ApiManager.propertyPhotos(rental_id), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
+        GlobalFunctions.getApiCall(ApiManager.propertyPhotos(rental_id), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
             @Override
             public void onSuccess(String content) {
                 super.onSuccess(content);

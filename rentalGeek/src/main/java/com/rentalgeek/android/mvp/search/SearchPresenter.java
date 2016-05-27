@@ -80,7 +80,7 @@ public class SearchPresenter implements Presenter {
 
             System.out.println(url);
 
-            GlobalFunctions.getApiCall(null, url, token, new GeekHttpResponseHandler() {
+            GlobalFunctions.getApiCall(url, token, new GeekHttpResponseHandler() {
                 @Override
                 public void onStart() {
                 }

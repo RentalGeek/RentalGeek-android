@@ -140,6 +140,10 @@ If you agree to share a Credit Report, we will also use this information to shar
     <string name="password_required">Password required</string>
     <string name="password_min_length">Password must be 8 characters</string>
 
+    <string name="manhattan_kansas_latitude">39.1865688</string>
+    <string name="manhattan_kansas_longitude">-96.594844</string>
+    <string name="manhattan_kansas_radius">5</string>
+
     <!--cosigner app-->
     <string-array name="months_array">
         <item> </item>

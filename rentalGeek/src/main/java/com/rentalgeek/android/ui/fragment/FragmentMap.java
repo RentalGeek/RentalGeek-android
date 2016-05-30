@@ -18,10 +18,8 @@ import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.rentalgeek.android.R;
-import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.AddMarkersEvent;
 import com.rentalgeek.android.bus.events.MapRentalsEvent;
@@ -145,20 +143,6 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
     }
 
     @Override
-    public void boundbox() {
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-
-        for (Marker marker : markers) {
-            builder.include(marker.getPosition());
-        }
-
-        int width = RentalGeekApplication.getScreenWidth();
-        int mapPadding = (int) RentalGeekApplication.getDimension(R.dimen.map_padding);
-
-        map.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), width, width, mapPadding));
-    }
-
-    @Override
     public void zoomTo(double latitude, double longitude, int zoom) {
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), zoom));
     }
@@ -188,12 +172,6 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
         imm.hideSoftInputFromWindow(locationAutoCompleteTextView.getWindowToken(), 0);
     }
 
-//    public void onEventMainThread(SetRentalsEvent event) {
-//        if (event.getRentals() != null) {
-//            setRentals(event.getRentals());
-//        }
-//    }
-
     public void onEventMainThread(MapRentalsEvent event) {
         if (event.getMapRentals() != null) {
             setRentals(event.getMapRentals());
@@ -222,7 +200,6 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
                     markers.add(mapMarker);
                 }
 
-                boundbox();
                 hideProgressDialog();
             }
         }

@@ -6,20 +6,39 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.ErrorAlertEvent;
+import com.rentalgeek.android.constants.JsonKey;
+import com.rentalgeek.android.constants.ManhattanKansas;
 import com.rentalgeek.android.pojos.MapRentalsManager;
 import com.rentalgeek.android.pojos.Rental;
 import com.rentalgeek.android.ui.dialog.GeekProgressDialog;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class HomePresenter implements Presenter {
 
-    private static final String TAG = HomePresenter.class.getSimpleName();
+    private ManhattanKansas manhattanKansas;
 
     // TODO: ONLY MAKE MAP API CALL WHEN ON MAP TAB FIRST LOAD, DON'T MAKE LIST API CALL UNTIL SWAPPING TABS TO LIST
+
+    public HomePresenter(ManhattanKansas manhattanKansas) {
+        this.manhattanKansas = manhattanKansas;
+    }
 
     @Override
     public void getRentalOfferings(String location) {
 
-        MapRentalsManager.getInstance().get();
+        Map<String, String> requestParams = new HashMap<>();
+        requestParams.put(JsonKey.LATITUDE, manhattanKansas.latitude());
+        requestParams.put(JsonKey.LONGITUDE, manhattanKansas.longitude());
+        requestParams.put(JsonKey.RADIUS, manhattanKansas.radius());
+        MapRentalsManager.getInstance().get(requestParams);
+
+
+
+
+
+
 //        String url = ApiManager.loadMapPinData();
 ////        if (!location.equals("")) {
 ////            url += "?search[location]=" + location;

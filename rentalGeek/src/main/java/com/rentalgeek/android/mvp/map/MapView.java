@@ -8,6 +8,5 @@ public interface MapView {
 
     void zoomTo(double latitude, double longitude, int zoom);
     void setRentals(ArrayList<MapRental> mapRentals);
-    void boundbox();
 
 }

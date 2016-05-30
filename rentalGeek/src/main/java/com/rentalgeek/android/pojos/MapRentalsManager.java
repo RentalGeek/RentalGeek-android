@@ -1,5 +1,8 @@
 package com.rentalgeek.android.pojos;
 
+import android.support.annotation.Nullable;
+
+import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.ErrorAlertEvent;
 import com.rentalgeek.android.bus.events.MapRentalsEvent;
@@ -8,6 +11,8 @@ import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.dialog.GeekProgressDialog;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.utils.GeekGson;
+
+import java.util.Map;
 
 public class MapRentalsManager {
 
@@ -23,26 +28,33 @@ public class MapRentalsManager {
         return INSTANCE;
     }
 
-    // TODO: ADD GET METHOD THAT ACCEPTS LAT,LNG,RADIUS (maybe let it accept requestparams argument instead of separate args)
-
-    public void get() {
+    public void get(@Nullable Map<String, String> requestParams) {
         if (mapRentals == null || mapRentals.all == null || mapRentals.all.size() == 0) {
-            makeNetworkCall();
+            makeNetworkCall(requestParams);
         } else {
             AppEventBus.post(new MapRentalsEvent(mapRentals.all));
         }
     }
 
-    public void get(boolean forceRefresh) {
+    public void get(@Nullable Map<String, String> requestParams, boolean forceRefresh) {
         if (forceRefresh) {
-            makeNetworkCall();
+            makeNetworkCall(requestParams);
         } else {
-            get();
+            get(requestParams);
         }
     }
 
-    private void makeNetworkCall() {
-        GlobalFunctions.getApiCall("zzz", AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
+    private void makeNetworkCall(@Nullable Map<String, String> requestParams) {
+
+        String appendedUrlParams = "";
+
+        if (requestParams != null) {
+            for (Map.Entry<String, String> entry : requestParams.entrySet()) {
+                appendedUrlParams += "&" + entry.getKey() + "=" + entry.getValue();
+            }
+        }
+
+        GlobalFunctions.getApiCall(ApiManager.loadMapPinData() + appendedUrlParams, AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
             @Override
             public void onSuccess(String content) {
                 mapRentals = GeekGson.getInstance().fromJson(content, MapRentals.class);

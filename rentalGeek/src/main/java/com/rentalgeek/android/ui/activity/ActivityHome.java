@@ -15,6 +15,7 @@ import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.bus.events.ClickRentalEvent;
 import com.rentalgeek.android.bus.events.ShowProfileCreationEvent;
+import com.rentalgeek.android.constants.ManhattanKansasImpl;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.mvp.home.HomePresenter;
 import com.rentalgeek.android.mvp.list.rental.RentalListView;
@@ -67,7 +68,7 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
             tabLayout.setupWithViewPager(viewPager);
         }
 
-        presenter = new HomePresenter();
+        presenter = new HomePresenter(new ManhattanKansasImpl(this.getApplicationContext()));
 
         // silently fetch cosigner invites to know which page to go to
         if (SessionManager.Instance.getCurrentUser() != null) {

@@ -16,6 +16,7 @@ import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.bus.events.ClickRentalEvent;
 import com.rentalgeek.android.bus.events.ShowProfileCreationEvent;
 import com.rentalgeek.android.constants.ManhattanKansasImpl;
+import com.rentalgeek.android.constants.TabPosition;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.mvp.home.HomePresenter;
 import com.rentalgeek.android.mvp.list.rental.RentalListView;
@@ -34,7 +35,7 @@ import com.rentalgeek.android.utils.ObscuredSharedPreferences;
 
 import java.util.ArrayList;
 
-import static com.rentalgeek.android.constants.IntentKey.*;
+import static com.rentalgeek.android.constants.IntentKey.DO_SILENT_UPDATE;
 
 public class ActivityHome extends GeekBaseActivity implements Container<ViewPager> {
 
@@ -95,6 +96,7 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
         shouldReload = false;
     }
 
+    // TODO: REMOVE ALL THIS SHOULDRELOAD LOGIC SOMEHOW AND SIMPLIFY
     @Override
     public void onResume() {
         super.onResume();
@@ -109,11 +111,11 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
                 @Override
                 public void run() {
                     if (extras == null) {
-                        presenter.getRentalOfferings("");
+                        presenter.getMapRentalOfferings();
                     } else {
                         ArrayList<String> rental_ids = extras.getStringArrayList("RENTALS");
                         if (rental_ids == null) {
-                            presenter.getRentalOfferings("");
+                            presenter.getMapRentalOfferings();
                         } else {
                             presenter.getRentalOfferings(extras);
                         }
@@ -129,6 +131,30 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
         adapter.addFragment((FragmentMap) mapView, "Map View");
         adapter.addFragment((FragmentRentalListView) rentalListView, "List View");
         container.setAdapter(adapter);
+
+        // TODO: KEEP WORKING THIS PATH TO ONLY MAKE LIST API CALL (MAPPING_DATA=FALSE OR LEAVE MAPPING_DATA OUT) WHEN CHANGING TABS TO LIST VIEW TAB
+            // DO SAME THING IN FRAGMENTRENTALLISTVIEW THAT I'M DOING IN FRAGMENTMAP WITH SETRENTALS ON THE EVENTBUS EVENT
+
+        // TODO: MAKE SURE NO HEAVY BURDEN TO MAKE THE GETLISTRNETALOFFERINGS CALL EVERY TIME TAB SWAPPED (SHOULD BE FINE SINCE CACHING)
+            // ALSO CONSIDER IF I SHOULD ALSO MAKE THE MAP PIN CALL EVERY TIME FOR CONSISTENCY
+        container.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == TabPosition.LIST) {
+                    presenter.getListRentalOfferings();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     public void onEventMainThread(ClickRentalEvent event) {

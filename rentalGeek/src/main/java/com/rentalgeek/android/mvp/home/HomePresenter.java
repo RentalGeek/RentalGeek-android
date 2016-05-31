@@ -8,6 +8,7 @@ import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.ErrorAlertEvent;
 import com.rentalgeek.android.constants.JsonKey;
 import com.rentalgeek.android.constants.ManhattanKansas;
+import com.rentalgeek.android.pojos.ListRentalsManager;
 import com.rentalgeek.android.pojos.MapRentalsManager;
 import com.rentalgeek.android.pojos.Rental;
 import com.rentalgeek.android.ui.dialog.GeekProgressDialog;
@@ -19,15 +20,17 @@ public class HomePresenter implements Presenter {
 
     private ManhattanKansas manhattanKansas;
 
-    // TODO: ONLY MAKE MAP API CALL WHEN ON MAP TAB FIRST LOAD, DON'T MAKE LIST API CALL UNTIL SWAPPING TABS TO LIST
-
     public HomePresenter(ManhattanKansas manhattanKansas) {
         this.manhattanKansas = manhattanKansas;
     }
 
     @Override
-    public void getRentalOfferings(String location) {
+    public void getMapRentalOfferings() {
+        getMapRentalOfferings("");
+    }
 
+    @Override
+    public void getMapRentalOfferings(String location) {
         Map<String, String> requestParams = new HashMap<>();
         requestParams.put(JsonKey.LATITUDE, manhattanKansas.latitude());
         requestParams.put(JsonKey.LONGITUDE, manhattanKansas.longitude());
@@ -111,6 +114,20 @@ public class HomePresenter implements Presenter {
 //                AppEventBus.post(new ErrorAlertEvent(title, message));
 //            }
 //        });
+    }
+
+    @Override
+    public void getListRentalOfferings() {
+        getListRentalOfferings("");
+    }
+
+    @Override
+    public void getListRentalOfferings(String location) {
+        Map<String, String> requestParams = new HashMap<>();
+        requestParams.put(JsonKey.LATITUDE, manhattanKansas.latitude());
+        requestParams.put(JsonKey.LONGITUDE, manhattanKansas.longitude());
+        requestParams.put(JsonKey.RADIUS, manhattanKansas.radius());
+        ListRentalsManager.getInstance().get(requestParams);
     }
 
     @Override

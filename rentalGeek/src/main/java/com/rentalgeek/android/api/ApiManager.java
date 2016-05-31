@@ -31,6 +31,10 @@ public class ApiManager {
         return API_HOST + "/api/v2/rental_offerings.json";
     }
 
+    public static String loadRentalListData() {
+        return API_HOST + "/api/v2/rental_offerings?mapping_data=false";
+    }
+
     public static String loadMapPinData() {
         return API_HOST + "/api/v2/rental_offerings?mapping_data=true";
     }

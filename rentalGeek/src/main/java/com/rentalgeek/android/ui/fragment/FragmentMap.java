@@ -87,7 +87,7 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
                     if (!location.equals("")) {
                         ActivityHome activityHome = (ActivityHome) getActivity();
                         showProgressDialog(R.string.loading_rentals);
-                        activityHome.presenter.getRentalOfferings(location);
+                        activityHome.presenter.getMapRentalOfferings(location);
                     }
 
                     return true;

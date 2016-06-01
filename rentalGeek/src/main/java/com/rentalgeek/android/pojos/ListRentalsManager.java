@@ -40,4 +40,14 @@ public class ListRentalsManager extends RentalsManager {
         return listRentals != null && listRentals.all != null && listRentals.all.size() != 0;
     }
 
+    public ListRental get(String rentalId) {
+        for (ListRental rental : listRentals.all) {
+            if (rental.id == Integer.parseInt(rentalId)) {
+                return rental;
+            }
+        }
+
+        return null;
+    }
+
 }

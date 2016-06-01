@@ -108,9 +108,8 @@ public class RentalAdapter extends ArrayAdapter<ListRental> {
 
         @OnClick(R.id.star_imageview)
         public void onStarClick() {
-            String rental_id = (String) star_imageview.getTag();
+            String rental_id = Integer.toString((Integer)star_imageview.getTag());
             Bundle bundle = new Bundle();
-            bundle = new Bundle();
             bundle.putString(RENTAL_ID, rental_id);
             bundle.putInt("POSITION", position);
             AppEventBus.post(new ClickStarEvent(bundle));

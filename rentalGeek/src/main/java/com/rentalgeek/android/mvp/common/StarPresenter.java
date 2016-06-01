@@ -10,7 +10,8 @@ import com.rentalgeek.android.bus.events.SelectStarEvent;
 import com.rentalgeek.android.bus.events.UnSelectStarEvent;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
-import com.rentalgeek.android.pojos.Rental;
+import com.rentalgeek.android.pojos.ListRental;
+import com.rentalgeek.android.pojos.ListRentalsManager;
 import com.rentalgeek.android.storage.RentalCache;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 
@@ -24,13 +25,12 @@ public abstract class StarPresenter {
         if (rental_id == null || rental_id.isEmpty() || position < 0)
             return;
         else {
-            boolean starred = RentalCache.getInstance().get(rental_id).isStarred();
-
-            if (!starred) {
+            ListRental selectedRental = ListRentalsManager.getInstance().get(rental_id);
+            if (selectedRental != null && selectedRental.starredPropertyId != null) {
+                unselectStar(rental_id, position);
+            } else {
                 String user_id = SessionManager.Instance.getCurrentUser().id;
                 selectStar(rental_id, user_id, position);
-            } else {
-                unselectStar(rental_id, position);
             }
         }
     }
@@ -68,19 +68,12 @@ public abstract class StarPresenter {
             @Override
             public void onSuccess(String response) {
                 try {
-
                     JSONObject resp_json = new JSONObject(response);
-
                     if (resp_json.has("starred_property")) {
-
                         JSONObject rental_json = resp_json.getJSONObject("starred_property");
-
                         if (rental_json.has("id")) {
-
-                            Rental rental = RentalCache.getInstance().get(rental_id);
-                            rental.setStarId(rental_json.getString("id"));
-                            rental.setStarred(true);
-
+                            ListRental rental = ListRentalsManager.getInstance().get(rental_id);
+                            rental.starredPropertyId = Integer.parseInt(rental_json.getString("id"));
                             AppEventBus.post(new SelectStarEvent(position));
                         }
                     }
@@ -96,18 +89,14 @@ public abstract class StarPresenter {
         if (rental_id == null || rental_id.isEmpty() || position < 0)
             return;
         else {
-            String star_id = RentalCache.getInstance().get(rental_id).getStarId();
-
+            String star_id = Integer.toString(ListRentalsManager.getInstance().get(rental_id).starredPropertyId);
             String url = ApiManager.deleteRentalStar(star_id);
             String token = AppPreferences.getAuthToken();
-
-            System.out.println(url);
-
             GlobalFunctions.deleteApiCall(null, url, token, new GeekHttpResponseHandler() {
                 @Override
                 public void onSuccess(String response) {
-                    Rental rental = RentalCache.getInstance().get(rental_id);
-                    rental.setStarred(false);
+                    ListRental rental = ListRentalsManager.getInstance().get(rental_id);
+                    rental.starredPropertyId = null;
                     AppEventBus.post(new UnSelectStarEvent(position));
                 }
             });

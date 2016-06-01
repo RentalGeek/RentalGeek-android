@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.bus.events.ClickRentalEvent;
-import com.rentalgeek.android.bus.events.ListRentalsEvent;
+import com.rentalgeek.android.bus.events.FavoriteRentalsEvent;
 import com.rentalgeek.android.bus.events.NoFavoritesEvent;
 import com.rentalgeek.android.mvp.fav.FavPresenter;
 import com.rentalgeek.android.mvp.list.rental.RentalListView;
@@ -49,9 +49,9 @@ public class ActivityFavoriteRentals extends GeekBaseActivity {
         presenter.getFavoriteRentals();
     }
 
-    public void onEventMainThread(ListRentalsEvent event) {
-        if (event.getListRentals() != null) {
-            rentalListView.setRentals(event.getListRentals());
+    public void onEventMainThread(FavoriteRentalsEvent event) {
+        if (event.getFavoriteRentals() != null) {
+            rentalListView.setRentals(event.getFavoriteRentals());
             hideProgressDialog();
         }
     }

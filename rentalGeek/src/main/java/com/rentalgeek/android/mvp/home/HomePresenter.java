@@ -35,7 +35,7 @@ public class HomePresenter implements Presenter {
         requestParams.put(JsonKey.LATITUDE, manhattanKansas.latitude());
         requestParams.put(JsonKey.LONGITUDE, manhattanKansas.longitude());
         requestParams.put(JsonKey.RADIUS, manhattanKansas.radius());
-        MapRentalsManager.getInstance().get(requestParams);
+        MapRentalsManager.getInstance().getAll(requestParams);
 
 
 
@@ -127,7 +127,7 @@ public class HomePresenter implements Presenter {
         requestParams.put(JsonKey.LATITUDE, manhattanKansas.latitude());
         requestParams.put(JsonKey.LONGITUDE, manhattanKansas.longitude());
         requestParams.put(JsonKey.RADIUS, manhattanKansas.radius());
-        ListRentalsManager.getInstance().get(requestParams);
+        ListRentalsManager.getInstance().getAll(requestParams);
     }
 
     @Override

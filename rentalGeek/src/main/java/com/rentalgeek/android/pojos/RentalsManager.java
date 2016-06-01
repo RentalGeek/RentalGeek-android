@@ -18,7 +18,7 @@ public abstract class RentalsManager {
     protected abstract String baseUrl();
     protected abstract boolean hasRentalsCached();
 
-    public void get(@Nullable Map<String, String> requestParams) {
+    public void getAll(@Nullable Map<String, String> requestParams) {
         if (hasRentalsCached()) {
             sendExistingRentals();
             GeekProgressDialog.dismiss();
@@ -27,11 +27,11 @@ public abstract class RentalsManager {
         }
     }
 
-    public void get(@Nullable Map<String, String> requestParams, boolean forceRefresh) {
+    public void getAll(@Nullable Map<String, String> requestParams, boolean forceRefresh) {
         if (forceRefresh) {
             makeNetworkCall(requestParams);
         } else {
-            get(requestParams);
+            getAll(requestParams);
         }
     }
 

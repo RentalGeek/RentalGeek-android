@@ -49,6 +49,7 @@ public class RentalAdapter extends ArrayAdapter<ListRental> {
             viewHolder = (ViewHolder) view.getTag();
         }
 
+        // TODO: WHY IS STARREDPROPERTY ID NULL IN GENERAL /RENTAL_OFFERINGS CALL BUT RENTAL_OFFERINGS/STARRED CALL RETURNS A STARRED PROPERTY
         if (rental.starredPropertyId != null) {
             Picasso.with(getContext()).load(R.drawable.star_full).into(viewHolder.star_imageview);
         } else {

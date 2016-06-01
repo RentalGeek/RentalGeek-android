@@ -23,6 +23,8 @@ public class FavPresenter implements Presenter {
         GlobalFunctions.getApiCall(url, token, new GeekHttpResponseHandler() {
 
             // TODO: MAKE A FAVORITESRENTALMANAGER OR SOMETHING AND MODEL AFTER LISTRENTALSMANAGER AND MAPRENTALSMANAGER
+            // TODO: THIS REALLY NEEDS ITS OWN FAVORITESRENTALSEVENT BECAUSE IT IS OVERWRITING MY MAIN LIST
+            // TODO: MAKE SURE CAN UNSTAR RENTALS
 
             @Override
             public void onSuccess(String response) {

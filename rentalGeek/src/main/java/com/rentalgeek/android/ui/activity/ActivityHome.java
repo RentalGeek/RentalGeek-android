@@ -132,11 +132,6 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
         adapter.addFragment((FragmentRentalListView) rentalListView, "List View");
         container.setAdapter(adapter);
 
-        // TODO: KEEP WORKING THIS PATH TO ONLY MAKE LIST API CALL (MAPPING_DATA=FALSE OR LEAVE MAPPING_DATA OUT) WHEN CHANGING TABS TO LIST VIEW TAB
-            // DO SAME THING IN FRAGMENTRENTALLISTVIEW THAT I'M DOING IN FRAGMENTMAP WITH SETRENTALS ON THE EVENTBUS EVENT
-
-        // TODO: MAKE SURE NO HEAVY BURDEN TO MAKE THE GETLISTRNETALOFFERINGS CALL EVERY TIME TAB SWAPPED (SHOULD BE FINE SINCE CACHING)
-            // ALSO CONSIDER IF I SHOULD ALSO MAKE THE MAP PIN CALL EVERY TIME FOR CONSISTENCY
         container.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

@@ -44,7 +44,7 @@ public class ApiManager {
     }
 
     public static String getFavoritesUrl() {
-        return API_HOST + "/api/v2/rental_offerings?starred=true";
+        return API_HOST + "/api/v2/rental_offerings/starred";
     }
 
     public static String getApplyUrl() {

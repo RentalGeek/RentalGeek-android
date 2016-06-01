@@ -21,6 +21,7 @@ public abstract class RentalsManager {
     public void get(@Nullable Map<String, String> requestParams) {
         if (hasRentalsCached()) {
             sendExistingRentals();
+            GeekProgressDialog.dismiss();
         } else {
             makeNetworkCall(requestParams);
         }

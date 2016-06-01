@@ -25,6 +25,7 @@ import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.adapter.PageAdapter;
+import com.rentalgeek.android.ui.dialog.GeekProgressDialog;
 import com.rentalgeek.android.ui.fragment.FragmentMap;
 import com.rentalgeek.android.ui.fragment.FragmentRentalListView;
 import com.rentalgeek.android.ui.preference.AppPreferences;
@@ -141,6 +142,7 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
             @Override
             public void onPageSelected(int position) {
                 if (position == TabPosition.LIST) {
+                    GeekProgressDialog.show(ActivityHome.this, R.string.loading_rentals);
                     presenter.getListRentalOfferings();
                 }
             }

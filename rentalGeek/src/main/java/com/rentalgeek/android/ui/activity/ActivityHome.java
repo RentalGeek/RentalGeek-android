@@ -97,7 +97,7 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
         shouldReload = false;
     }
 
-    // TODO: REMOVE ALL THIS SHOULDRELOAD LOGIC SOMEHOW AND SIMPLIFY
+    // TODO (MINOR): REMOVE ALL THIS SHOULDRELOAD LOGIC SOMEHOW AND SIMPLIFY
     @Override
     public void onResume() {
         super.onResume();

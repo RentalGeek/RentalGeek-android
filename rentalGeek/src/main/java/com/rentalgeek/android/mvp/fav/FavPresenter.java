@@ -2,6 +2,7 @@ package com.rentalgeek.android.mvp.fav;
 
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.bus.AppEventBus;
+import com.rentalgeek.android.bus.events.FavoriteErrorEvent;
 import com.rentalgeek.android.bus.events.FavoriteRentalsEvent;
 import com.rentalgeek.android.bus.events.NoFavoritesEvent;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
@@ -22,8 +23,8 @@ public class FavPresenter implements Presenter {
 
         GlobalFunctions.getApiCall(url, token, new GeekHttpResponseHandler() {
 
-            // TODO: MAKE A FAVORITESRENTALMANAGER OR SOMETHING AND MODEL AFTER LISTRENTALSMANAGER AND MAPRENTALSMANAGER
-            // TODO: UNSTAR FROM FAVORITES THEN WHEN COMING BACK TO LIST VIEW THE STAR IS STILL THERE UNTIL SCROLLING AND RE-SHOWING THAT CELL (BECAUSE LIST NEVER RELOADED WITH UPDATED MODEL)
+            // TODO (MINOR): MAKE A FAVORITESRENTALMANAGER OR SOMETHING AND MODEL AFTER LISTRENTALSMANAGER AND MAPRENTALSMANAGER
+            // TODO (MINOR): UNSTAR FROM FAVORITES THEN WHEN COMING BACK TO LIST VIEW THE STAR IS STILL THERE UNTIL SCROLLING AND RE-SHOWING THAT CELL (BECAUSE LIST NEVER RELOADED WITH UPDATED MODEL)
 
             @Override
             public void onSuccess(String response) {
@@ -34,6 +35,11 @@ public class FavPresenter implements Presenter {
                 } else {
                     AppEventBus.post(new NoFavoritesEvent());
                 }
+            }
+
+            @Override
+            public void onFailure(Throwable ex, String failureResponse) {
+                AppEventBus.post(new FavoriteErrorEvent());
             }
         });
     }

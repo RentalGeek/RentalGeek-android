@@ -1,10 +1,13 @@
 package com.rentalgeek.android.ui.activity;
 
+import android.support.v7.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.bus.events.ClickRentalEvent;
+import com.rentalgeek.android.bus.events.FavoriteErrorEvent;
 import com.rentalgeek.android.bus.events.FavoriteRentalsEvent;
 import com.rentalgeek.android.bus.events.NoFavoritesEvent;
 import com.rentalgeek.android.mvp.fav.FavPresenter;
@@ -17,6 +20,7 @@ public class ActivityFavoriteRentals extends GeekBaseActivity {
 
     private RentalListView rentalListView;
     private FavPresenter presenter;
+    private AlertDialog alerDialog;
 
     public ActivityFavoriteRentals() {
         super(true, true, true);
@@ -29,6 +33,17 @@ public class ActivityFavoriteRentals extends GeekBaseActivity {
         setContentView(R.layout.activity_with_fragment);
         setupNavigation();
         setMenuItemSelected(R.id.favorites);
+
+        alerDialog = new AlertDialog.Builder(this)
+            .setTitle("Error")
+            .setMessage("An error occurred fetching your favorites.")
+            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            }).create();
+
 
         presenter = new FavPresenter();
 
@@ -59,6 +74,13 @@ public class ActivityFavoriteRentals extends GeekBaseActivity {
     public void onEventMainThread(NoFavoritesEvent event) {
         getSupportFragmentManager().beginTransaction().replace(R.id.container, new FragmentNoFavorites()).commit();
         hideProgressDialog();
+    }
+
+    public void onEventMainThread(FavoriteErrorEvent event) {
+        hideProgressDialog();
+        if (!alerDialog.isShowing()) {
+            alerDialog.show();
+        }
     }
 
     public void onEventMainThread(ClickRentalEvent event) {

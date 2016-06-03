@@ -24,14 +24,14 @@ import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.AddMarkersEvent;
 import com.rentalgeek.android.bus.events.MapRentalsEvent;
 import com.rentalgeek.android.bus.events.NoRentalsEvent;
-import com.rentalgeek.android.bus.events.SetRentalEvent;
+import com.rentalgeek.android.bus.events.RentalDetailEvent;
 import com.rentalgeek.android.bus.events.ShowRentalEvent;
 import com.rentalgeek.android.model.RentalMarker;
 import com.rentalgeek.android.mvp.map.MapPresenter;
 import com.rentalgeek.android.mvp.map.MapView;
 import com.rentalgeek.android.mvp.rental.RentalView;
 import com.rentalgeek.android.pojos.MapRental;
-import com.rentalgeek.android.pojos.Rental;
+import com.rentalgeek.android.pojos.RentalDetail;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.adapter.PlaceAutocompleteAdapter;
 import com.rentalgeek.android.ui.view.AutoCompleteAddressListener;
@@ -178,11 +178,11 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
         }
     }
 
-    public void onEventMainThread(SetRentalEvent event) {
-        if (event.getRental() != null) {
-            Rental rental = event.getRental();
-            zoomTo(rental.getLatitude(), rental.getLongitude(), 15);
-            AppEventBus.post(new ShowRentalEvent(rental));
+    public void onEventMainThread(RentalDetailEvent event) {
+        if (event.getRentalDetail() != null) {
+            RentalDetail rentalDetail = event.getRentalDetail();
+            zoomTo(rentalDetail.latitude, rentalDetail.longitude, 15);
+            AppEventBus.post(new ShowRentalEvent(rentalDetail));
         }
     }
 

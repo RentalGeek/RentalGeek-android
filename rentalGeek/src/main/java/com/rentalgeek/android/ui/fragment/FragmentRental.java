@@ -24,7 +24,7 @@ import com.rentalgeek.android.mvp.common.StarView;
 import com.rentalgeek.android.mvp.rental.RentalPresenter;
 import com.rentalgeek.android.mvp.rental.RentalView;
 import com.rentalgeek.android.pojos.PhotoDTO;
-import com.rentalgeek.android.pojos.Rental;
+import com.rentalgeek.android.pojos.RentalDetail;
 import com.rentalgeek.android.ui.activity.ActivityPropertyPhoto;
 import com.rentalgeek.android.utils.ResponseParser;
 import com.squareup.picasso.Picasso;
@@ -35,7 +35,9 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-import static com.rentalgeek.android.constants.IntentKey.*;
+import static com.rentalgeek.android.constants.IntentKey.ORIGINAL_POSITION;
+import static com.rentalgeek.android.constants.IntentKey.PHOTO_URLS;
+import static com.rentalgeek.android.constants.IntentKey.RENTAL_ID;
 
 public class FragmentRental extends GeekBaseFragment implements RentalView, StarView {
 
@@ -146,27 +148,27 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
             return;
         }
 
-        Rental rental = event.getRental();
+        RentalDetail rental = event.getRental();
 
-        rental_id = rental.getId();
-        star_imageview.setTag(rental.getId());
-        price_textview.setText(String.format("$%d", rental.getMonthlyRent()));
-        room_count_textview.setText(String.format("%d BR, %d Bath", rental.getBedroomCount(), rental.getBathroomCount()));
-        address_textview.setText(String.format("%s\n%s, %s %s", rental.getAddress(), rental.getCity(), rental.getState(), rental.getZipcode()));
-        description_textview.setText(rental.getDescription());
+        rental_id = Integer.toString(rental.id);
+        star_imageview.setTag(Integer.toString(rental.id));
+        price_textview.setText(String.format("$%d", rental.rent));
+        room_count_textview.setText(String.format("%d BR, %d Bath", rental.bedroomCount, rental.bathroomCount));
+        address_textview.setText(String.format("%s\n%s, %s %s", rental.address, rental.city, rental.state, rental.zipcode));
+        description_textview.setText(rental.description);
 
         if (SessionManager.Instance.getCurrentUser().is_cosigner) {
             apply_btn.setText("APPROVE");
         }
 
-        if (rental.applied()) {
+        if (rental.alreadyApplied) {
             apply_btn.setText(SessionManager.Instance.applyApproveButtonText());
             apply_btn.setClickable(false);
         }
 
         StringBuilder amenities = new StringBuilder();
 
-        for (String amenity : rental.getAmenities()) {
+        for (String amenity : rental.amenities) {
             amenity = ResponseParser.humanize(amenity);
             amenities.append(String.format("\u2022 %s\n", amenity));
         }
@@ -174,10 +176,10 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
         amenities_textview.setText(amenities);
 
         Picasso.with(getActivity())
-            .load(rental.getImageUrl())
+            .load(rental.primaryPhotoUrl)
             .into(rental_imageview);
 
-        if (rental.isStarred()) {
+        if (rental.starred) {
             selectStar();
         } else {
             unselectStar();
@@ -185,6 +187,8 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
 
         show();
     }
+
+    // TODO: AM I STILL SHOWING ALL PROPERTY PHOTOS AT THE BOTTOM OF THE DETAIL SCREEN? IF NOT WHAT BROKE IT?
 
     public void onEventMainThread(ShowPropertyPhotosEvent event) {
         if (event == null || event.getPropertyPhotos() == null) {

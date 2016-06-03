@@ -1,24 +1,13 @@
 package com.rentalgeek.android.mvp.map;
 
-import android.util.Log;
-
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.AddMarkersEvent;
-import com.rentalgeek.android.bus.events.SetRentalEvent;
 import com.rentalgeek.android.model.RentalMarker;
-import com.rentalgeek.android.net.GeekHttpResponseHandler;
-import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.pojos.MapRental;
-import com.rentalgeek.android.pojos.Rental;
-import com.rentalgeek.android.storage.RentalCache;
-import com.rentalgeek.android.ui.preference.AppPreferences;
-import com.rentalgeek.android.utils.GeekGson;
+import com.rentalgeek.android.pojos.RentalDetailManager;
 import com.rentalgeek.android.utils.MarkerUtils;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,36 +22,51 @@ public class MapPresenter implements Presenter {
 
     private static final String TAG = MapPresenter.class.getSimpleName();
 
+    // TODO: STOP USING RENTALCACHE HERE AND MAKE MY OWN RENTAL MODEL OBJ THAT INCLUDES EVERYTHING AND MAKE A MANAGER FOR IT
+    // TODO: TAKE OUT ALL USES OF RENTAL AND MAKE THEM RENTALDETAIL, THEN DELETE RENTAL AND RENAME RENTALDETAIL TO RENTAL
+    // TODO: SUCCESS IS SENDING A SETRENTALEVENT BUT I SHOULD REFACTOR TO USE MY RENTALDETAILEVENT
+    // TODO: DO THIS REFACTOR FOR GETTING DETAIL FROM MAP PIN TAP AND ALSO LIST ROW TAP
+    // TODO: LOADING STATE FOR GETTING DETAIL INFO FOR BOTH MAP AND LIST TAPS
+
+    // TODO: (MINOR) CAN I REFACTOR TO PASS AN INT FOR ID INSTEAD OF A STRING
+
     @Override
     public void getRental(String rental_id) {
-        Rental rental = RentalCache.getInstance().get(rental_id);
 
-        if (rental == null) {
-            System.out.println("Not found in cache");
-            String url = ApiManager.getRental(rental_id);
-            String token = AppPreferences.getAuthToken();
 
-            GlobalFunctions.getApiCall(url, token, new GeekHttpResponseHandler() {
-                @Override
-                public void onSuccess(String response) {
-                    try {
-                        Log.i(TAG, response);
-                        JSONObject json = new JSONObject(response);
+        RentalDetailManager.getInstance().get(rental_id);
 
-                        if (json.has("rental_offering")) {
-                            JSONObject rental_json = json.getJSONObject("rental_offering");
-                            Rental rental = GeekGson.getInstance().fromJson(rental_json.toString(), Rental.class);
-                            RentalCache.getInstance().add(rental);
-                            AppEventBus.post(new SetRentalEvent(rental));
-                        }
-                    } catch (Exception e) {
-                        Log.e(TAG, e.getMessage());
-                    }
-                }
-            });
-        } else {
-            AppEventBus.post(new SetRentalEvent(rental));
-        }
+
+//        Rental rental = RentalCache.getInstance().get(rental_id);
+//
+//        if (rental == null) {
+//            System.out.println("Not found in cache");
+//            String url = ApiManager.getRental(rental_id);
+//            String token = AppPreferences.getAuthToken();
+//
+//            GlobalFunctions.getApiCall(url, token, new GeekHttpResponseHandler() {
+//                @Override
+//                public void onSuccess(String response) {
+//                    try {
+//                        Log.i(TAG, response);
+//                        JSONObject json = new JSONObject(response);
+//
+//                        if (json.has("rental_offering")) {
+//                            JSONObject rental_json = json.getJSONObject("rental_offering");
+//                            Rental rental = GeekGson.getInstance().fromJson(rental_json.toString(), Rental.class);
+//                            RentalCache.getInstance().add(rental);
+//
+//
+//                            AppEventBus.post(new SetRentalEvent(rental));
+//                        }
+//                    } catch (Exception e) {
+//                        Log.e(TAG, e.getMessage());
+//                    }
+//                }
+//            });
+//        } else {
+//            AppEventBus.post(new SetRentalEvent(rental));
+//        }
     }
 
     @Override

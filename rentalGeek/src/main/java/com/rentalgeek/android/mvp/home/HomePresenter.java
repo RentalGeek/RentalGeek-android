@@ -29,6 +29,8 @@ public class HomePresenter implements Presenter {
         getMapRentalOfferings("");
     }
 
+    // TODO: GET INITIAL CALL FROM MAP CENTER AND RADIUS INSTEAD OF HARDCODED VALUES ONCE I FIND THAT OUT
+
     @Override
     public void getMapRentalOfferings(String location) {
         Map<String, String> requestParams = new HashMap<>();

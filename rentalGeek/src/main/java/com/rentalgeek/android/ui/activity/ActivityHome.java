@@ -91,6 +91,9 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
 
     private void initializeFilterParams() {
         FilterParams.INSTANCE.params.put("max_price", Integer.toString(AppPreferences.getSearchMaxPrice()));
+        if (AppPreferences.getSelectedManagementCompanyId() != 0) {
+            FilterParams.INSTANCE.params.put("property_manager_id", Integer.toString(AppPreferences.getSelectedManagementCompanyId()));
+        }
     }
 
     @Override

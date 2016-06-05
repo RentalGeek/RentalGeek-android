@@ -42,6 +42,7 @@ public class AppPreferences {
     public static final String PREF_SEARCH_MAX_PRICE = "PREF_SEARCH_MAX_PRICE";
     public static final String PREF_SEARCH_SELECTED_BUTTONS = "PREF_SEARCH_SELECTED_BUTTONS";
     public static final String PREF_SEARCH_COMPANY_INDEX = "PREF_SEARCH_COMPANY_INDEX";
+    public static final String PREF_SEARCH_COMPANY_ID = "PREF_SEARCH_COMPANY_ID";
 
     public static void persistLogin(LoginBackend login) {
         final Context context = RentalGeekApplication.context;
@@ -83,6 +84,14 @@ public class AppPreferences {
         final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = tempSettings.edit();
         editor.putInt(PREF_SEARCH_COMPANY_INDEX, index);
+        editor.commit();
+    }
+
+    public static void putSelectedManagementCompanyId(int id) {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = tempSettings.edit();
+        editor.putInt(PREF_SEARCH_COMPANY_ID, id);
         editor.commit();
     }
 
@@ -170,6 +179,12 @@ public class AppPreferences {
         final Context context = RentalGeekApplication.context;
         final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
         return tempSettings.getInt(PREF_SEARCH_COMPANY_INDEX, 0);
+    }
+
+    public static int getSelectedManagementCompanyId() {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        return tempSettings.getInt(PREF_SEARCH_COMPANY_ID, 0);
     }
 
     public static ArrayList<Integer> getSearchSelectedButtons() {

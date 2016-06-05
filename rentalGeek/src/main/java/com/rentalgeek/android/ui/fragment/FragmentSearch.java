@@ -183,8 +183,15 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
             int selectedPropertyId = PropertyManagementCache.INSTANCE.getIdFromName(selectedPropertyManagementCompany);
             if (selectedPropertyId != PropertyManagementCache.ID_NOT_FOUND) {
                 bundle.putInt("MANAGEMENT_COMPANY_ID", selectedPropertyId);
+                AppPreferences.putSelectedManagementCompanyId(selectedPropertyId);
+                FilterParams.INSTANCE.params.put("property_manager_id", Integer.toString(selectedPropertyId));
             }
+        } else {
+            AppPreferences.putSelectedManagementCompanyId(0);
+            FilterParams.INSTANCE.params.remove("property_manager_id");
         }
+
+        // TODO: I THINK I CAN DROP ALL THESE "BUNDLE" VARIABLES BECAUSE THINK I STOPPED USING THEM
 
         bundle.putInt("MAX_PRICE", priceSeeker.getProgress());
         AppPreferences.putSearchMaxPrice(priceSeeker.getProgress());

@@ -12,7 +12,6 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.model.PropertyManager;
 import com.rentalgeek.android.backend.model.PropertyManagerRoot;
-import com.rentalgeek.android.mvp.search.SearchPresenter;
 import com.rentalgeek.android.mvp.search.SearchView;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
@@ -20,6 +19,7 @@ import com.rentalgeek.android.storage.PropertyManagementCache;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.ui.view.SearchOptionButton;
 import com.rentalgeek.android.ui.view.SimpleSpinner;
+import com.rentalgeek.android.utils.FilterParams;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,13 +41,11 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
     @InjectView(R.id.rent_range) TextView rentRangeTextView;
     @InjectView(R.id.management_company_spinner) SimpleSpinner managementCompanySpinner;
 
-    private SearchPresenter presenter;
     private static final String LOADING_TEXT = "Loading...";
 
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        presenter = new SearchPresenter();
 
         bedBtns = new ArrayList<>();
         bathBtns = new ArrayList<>();
@@ -190,11 +188,12 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
 
         bundle.putInt("MAX_PRICE", priceSeeker.getProgress());
         AppPreferences.putSearchMaxPrice(priceSeeker.getProgress());
+        FilterParams.INSTANCE.params.put("max_price", Integer.toString(priceSeeker.getProgress()));
         bathIds.addAll(bedIds);
         AppPreferences.putSelectedSearchButtons(bathIds);
         AppPreferences.putManagementCompanySelectionIndex(managementCompanySpinner.getSelectedItemPosition());
 
-        presenter.getRentalOfferings(bundle);
+        getActivity().finish();
     }
 
     private void setUpSpinner() {

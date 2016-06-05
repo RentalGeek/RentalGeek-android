@@ -4,11 +4,11 @@ import com.google.gson.annotations.SerializedName;
 
 public class MapRental {
 
-    public Integer id;
-    public Double latitude;
-    public Double longitude;
+    // TODO: DROP THE MAPRENTALS WRAPPER CLASS AND MAKE CONTAINER OBJECT
 
-    @SerializedName("bedroom_count")
-    public Integer bedroomCount;
+    @SerializedName("id") public Integer id;
+    @SerializedName("latitude") public Double latitude;
+    @SerializedName("longitude") public Double longitude;
+    @SerializedName("bedroom_count") public Integer bedroomCount;
 
 }

@@ -1,5 +1,6 @@
 package com.rentalgeek.android.pojos;
 
+// TODO: MOVE ALL USAGES OF THIS OVER TO RENTALDETAIL
 
 public class Rental {
 

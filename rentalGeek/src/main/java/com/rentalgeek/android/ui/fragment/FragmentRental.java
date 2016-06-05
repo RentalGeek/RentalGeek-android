@@ -188,8 +188,6 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
         show();
     }
 
-    // TODO: AM I STILL SHOWING ALL PROPERTY PHOTOS AT THE BOTTOM OF THE DETAIL SCREEN? IF NOT WHAT BROKE IT?
-
     public void onEventMainThread(ShowPropertyPhotosEvent event) {
         if (event == null || event.getPropertyPhotos() == null) {
             return;

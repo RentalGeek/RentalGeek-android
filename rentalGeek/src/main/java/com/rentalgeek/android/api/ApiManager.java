@@ -40,7 +40,7 @@ public class ApiManager {
     }
 
     public static String getPropertySearchUrl(String parameters) {
-        return API_HOST + "/api/v1/rental_offerings.json?" + parameters;
+        return API_HOST + "/api/v2/rental_offerings?" + parameters;
     }
 
     public static String getFavoritesUrl() {

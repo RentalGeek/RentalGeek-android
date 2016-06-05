@@ -3,9 +3,8 @@ package com.rentalgeek.android.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
@@ -14,6 +13,7 @@ import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.bus.events.ClickRentalEvent;
+import com.rentalgeek.android.bus.events.MapReadyEvent;
 import com.rentalgeek.android.bus.events.ShowProfileCreationEvent;
 import com.rentalgeek.android.constants.ManhattanKansasImpl;
 import com.rentalgeek.android.constants.TabPosition;
@@ -32,33 +32,34 @@ import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.ui.view.NonSwipeableViewPager;
 import com.rentalgeek.android.utils.Analytics;
 import com.rentalgeek.android.utils.CosignerInviteCaller;
+import com.rentalgeek.android.utils.FilterParams;
 import com.rentalgeek.android.utils.ObscuredSharedPreferences;
-
-import java.util.ArrayList;
 
 import static com.rentalgeek.android.constants.IntentKey.DO_SILENT_UPDATE;
 
 public class ActivityHome extends GeekBaseActivity implements Container<ViewPager> {
 
-    private static String TAG = ActivityHome.class.getSimpleName();
     public HomePresenter presenter;
     private MapView mapView;
     private RentalListView rentalListView;
-    private boolean shouldReload = false;
+    private boolean mapReady = false;
 
     public ActivityHome() {
         super(true, true, true);
     }
 
+    // TODO: INITIALIZE FILTERPARAMS WITH LAST SAVED STUFF TO APPPREFS
+
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
 
-        shouldReload = true;
         setContentView(R.layout.activity_with_tabs);
         inflateStub(R.id.stub, R.layout.pager_container);
         setTabs(true);
         setupNavigation();
+
+        initializeFilterParams();
 
         mapView = new FragmentMap();
         rentalListView = new FragmentRentalListView();
@@ -72,7 +73,6 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
 
         presenter = new HomePresenter(new ManhattanKansasImpl(this.getApplicationContext()));
 
-        // silently fetch cosigner invites to know which page to go to
         if (SessionManager.Instance.getCurrentUser() != null) {
             new CosignerInviteCaller(this, false).fetchCosignerInvites();
         }
@@ -81,48 +81,33 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
         if (extras != null) {
             boolean shouldDoSilentUpdate = extras.getBoolean(DO_SILENT_UPDATE, false);
             if (shouldDoSilentUpdate) {
-                // silently fetch current user data in case persisted user data has gotten stale
                 silentUserDataUpdate();
             }
         }
 
         disableDrawerGesture();
-
         Analytics.logUserLogin(this);
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        shouldReload = false;
+    private void initializeFilterParams() {
+        FilterParams.INSTANCE.params.put("max_price", Integer.toString(AppPreferences.getSearchMaxPrice()));
     }
 
-    // TODO (MINOR): REMOVE ALL THIS SHOULDRELOAD LOGIC SOMEHOW AND SIMPLIFY
     @Override
     public void onResume() {
         super.onResume();
         deselectAllMenuItems();
+        loadRentals();
+    }
 
-        if (shouldReload) {
-            showProgressDialog(R.string.loading_rentals);
-            final Bundle extras = getIntent().getExtras();
-
-            Handler handler = new Handler(Looper.getMainLooper());
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (extras == null) {
-                        presenter.getMapRentalOfferings();
-                    } else {
-                        ArrayList<String> rental_ids = extras.getStringArrayList("RENTALS");
-                        if (rental_ids == null) {
-                            presenter.getMapRentalOfferings();
-                        } else {
-                            presenter.getRentalOfferings(extras);
-                        }
-                    }
-                }
-            }, 3000);
+    private void loadRentals() {
+        GeekProgressDialog.show(this, R.string.loading_rentals);
+        if (selectedTab == TabPosition.MAP && mapReady) {
+            presenter.getMapRentalOfferings();
+            Log.d("tagzzz", "load map");
+        } else if (selectedTab == TabPosition.LIST) {
+            presenter.getListRentalOfferings();
+            Log.d("tagzzz", "load list");
         }
     }
 
@@ -141,10 +126,8 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
 
             @Override
             public void onPageSelected(int position) {
-                if (position == TabPosition.LIST) {
-                    GeekProgressDialog.show(ActivityHome.this, R.string.loading_rentals);
-                    presenter.getListRentalOfferings();
-                }
+                selectedTab = position;
+                loadRentals();
             }
 
             @Override
@@ -152,6 +135,15 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
 
             }
         });
+    }
+
+    public void onEventMainThread(MapReadyEvent event) {
+        GeekProgressDialog.show(this, R.string.loading_rentals);
+
+        // TODO: (NOW) USE THE FRAGMENT'S MAP TO SET THE LAT/LNG/RADIUS IN FILTERPARAMS
+
+        this.mapReady = true;
+        presenter.getMapRentalOfferings();
     }
 
     public void onEventMainThread(ClickRentalEvent event) {
@@ -185,7 +177,7 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
                         LoginBackend detail = new Gson().fromJson(content, LoginBackend.class);
                         SessionManager.Instance.onUserLoggedIn(detail);
                     } catch (Exception e) {
-                        AppLogger.log(TAG, e);
+                        AppLogger.log("tagzzz", e);
                     }
                 }
             });

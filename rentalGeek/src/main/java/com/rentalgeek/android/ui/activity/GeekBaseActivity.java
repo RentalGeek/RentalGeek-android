@@ -25,6 +25,7 @@ import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.ErrorAlertEvent;
 import com.rentalgeek.android.bus.events.ErrorCroutonEvent;
 import com.rentalgeek.android.bus.events.ShowHomeEvent;
+import com.rentalgeek.android.constants.TabPosition;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.dialog.DialogManager;
 import com.rentalgeek.android.ui.dialog.GeekProgressDialog;
@@ -37,6 +38,7 @@ public class GeekBaseActivity extends AppCompatActivity {
     protected TabLayout tabLayout;
     protected DrawerLayout drawerLayout;
     protected NavigationView navigationView;
+    protected int selectedTab = TabPosition.MAP;
 
     protected boolean showSlider;
     protected boolean showActionBar;

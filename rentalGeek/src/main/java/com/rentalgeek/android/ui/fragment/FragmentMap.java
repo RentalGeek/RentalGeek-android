@@ -22,6 +22,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.AddMarkersEvent;
+import com.rentalgeek.android.bus.events.MapReadyEvent;
 import com.rentalgeek.android.bus.events.MapRentalsEvent;
 import com.rentalgeek.android.bus.events.NoRentalsEvent;
 import com.rentalgeek.android.bus.events.RentalDetailEvent;
@@ -87,7 +88,10 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
                     if (!location.equals("")) {
                         ActivityHome activityHome = (ActivityHome) getActivity();
                         showProgressDialog(R.string.loading_rentals);
-                        activityHome.presenter.getMapRentalOfferings(location);
+
+                        // TODO: CONVERT LOCATION TO COORDS THEN PUT THOSE COORDS IN FILTERPARAMS THEN CALL GETMAPRENTALOFFERINGS
+
+//                        activityHome.presenter.getMapRentalOfferings(location);
                     }
 
                     return true;
@@ -130,6 +134,7 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
         this.map = map;
         this.map.setOnMarkerClickListener(this);
         this.map.setOnMapClickListener(this);
+        AppEventBus.post(new MapReadyEvent());
     }
 
     @Override

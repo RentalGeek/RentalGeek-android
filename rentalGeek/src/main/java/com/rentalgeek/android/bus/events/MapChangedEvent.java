@@ -1,5 +1,5 @@
 package com.rentalgeek.android.bus.events;
 
-public class MapReadyEvent {
+public class MapChangedEvent {
 
 }

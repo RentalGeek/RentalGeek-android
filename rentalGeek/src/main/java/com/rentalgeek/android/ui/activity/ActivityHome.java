@@ -13,7 +13,7 @@ import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.bus.events.ClickRentalEvent;
-import com.rentalgeek.android.bus.events.MapReadyEvent;
+import com.rentalgeek.android.bus.events.MapChangedEvent;
 import com.rentalgeek.android.bus.events.ShowProfileCreationEvent;
 import com.rentalgeek.android.constants.ManhattanKansasImpl;
 import com.rentalgeek.android.constants.TabPosition;
@@ -25,7 +25,6 @@ import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.Navigation;
 import com.rentalgeek.android.ui.adapter.PageAdapter;
-import com.rentalgeek.android.ui.dialog.GeekProgressDialog;
 import com.rentalgeek.android.ui.fragment.FragmentMap;
 import com.rentalgeek.android.ui.fragment.FragmentRentalListView;
 import com.rentalgeek.android.ui.preference.AppPreferences;
@@ -104,7 +103,7 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
     }
 
     private void loadRentals() {
-        GeekProgressDialog.show(this, R.string.loading_rentals);
+//        GeekProgressDialog.show(this, R.string.loading_rentals);
         if (selectedTab == TabPosition.MAP && mapReady) {
             presenter.getMapRentalOfferings();
             Log.d("tagzzz", "load map");
@@ -140,11 +139,8 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
         });
     }
 
-    public void onEventMainThread(MapReadyEvent event) {
-        GeekProgressDialog.show(this, R.string.loading_rentals);
-
-        // TODO: (NOW) USE THE FRAGMENT'S MAP TO SET THE LAT/LNG/RADIUS IN FILTERPARAMS
-
+    public void onEventMainThread(MapChangedEvent event) {
+//        GeekProgressDialog.show(this, R.string.loading_rentals);
         this.mapReady = true;
         presenter.getMapRentalOfferings();
     }

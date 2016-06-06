@@ -20,11 +20,7 @@ import rx.schedulers.Schedulers;
 
 public class MapPresenter implements Presenter {
 
-    private static final String TAG = MapPresenter.class.getSimpleName();
-
-    // TODO: STOP USING RENTALCACHE HERE AND MAKE MY OWN RENTAL MODEL OBJ THAT INCLUDES EVERYTHING AND MAKE A MANAGER FOR IT
-    // TODO: TAKE OUT ALL USES OF RENTAL AND MAKE THEM RENTALDETAIL, THEN DELETE RENTAL AND RENAME RENTALDETAIL TO RENTAL
-    // TODO: SUCCESS IS SENDING A SETRENTALEVENT BUT I SHOULD REFACTOR TO USE MY RENTALDETAILEVENT
+    // TODO: TAKE OUT ALL USES OF RENTAL AND MAKE THEM RENTALDETAIL
     // TODO: DO THIS REFACTOR FOR GETTING DETAIL FROM MAP PIN TAP AND ALSO LIST ROW TAP
     // TODO: LOADING STATE FOR GETTING DETAIL INFO FOR BOTH MAP AND LIST TAPS
 
@@ -32,41 +28,7 @@ public class MapPresenter implements Presenter {
 
     @Override
     public void getRental(String rental_id) {
-
-
         RentalDetailManager.getInstance().get(rental_id);
-
-
-//        Rental rental = RentalCache.getInstance().get(rental_id);
-//
-//        if (rental == null) {
-//            System.out.println("Not found in cache");
-//            String url = ApiManager.getRental(rental_id);
-//            String token = AppPreferences.getAuthToken();
-//
-//            GlobalFunctions.getApiCall(url, token, new GeekHttpResponseHandler() {
-//                @Override
-//                public void onSuccess(String response) {
-//                    try {
-//                        Log.i(TAG, response);
-//                        JSONObject json = new JSONObject(response);
-//
-//                        if (json.has("rental_offering")) {
-//                            JSONObject rental_json = json.getJSONObject("rental_offering");
-//                            Rental rental = GeekGson.getInstance().fromJson(rental_json.toString(), Rental.class);
-//                            RentalCache.getInstance().add(rental);
-//
-//
-//                            AppEventBus.post(new SetRentalEvent(rental));
-//                        }
-//                    } catch (Exception e) {
-//                        Log.e(TAG, e.getMessage());
-//                    }
-//                }
-//            });
-//        } else {
-//            AppEventBus.post(new SetRentalEvent(rental));
-//        }
     }
 
     @Override

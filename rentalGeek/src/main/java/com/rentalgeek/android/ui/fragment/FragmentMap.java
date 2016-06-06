@@ -17,16 +17,18 @@ import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.AddMarkersEvent;
-import com.rentalgeek.android.bus.events.MapReadyEvent;
+import com.rentalgeek.android.bus.events.MapChangedEvent;
 import com.rentalgeek.android.bus.events.MapRentalsEvent;
 import com.rentalgeek.android.bus.events.NoRentalsEvent;
 import com.rentalgeek.android.bus.events.RentalDetailEvent;
 import com.rentalgeek.android.bus.events.ShowRentalEvent;
+import com.rentalgeek.android.model.FetchArea;
 import com.rentalgeek.android.model.RentalMarker;
 import com.rentalgeek.android.mvp.map.MapPresenter;
 import com.rentalgeek.android.mvp.map.MapView;
@@ -36,6 +38,7 @@ import com.rentalgeek.android.pojos.RentalDetail;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.adapter.PlaceAutocompleteAdapter;
 import com.rentalgeek.android.ui.view.AutoCompleteAddressListener;
+import com.rentalgeek.android.utils.FilterParams;
 import com.rentalgeek.android.utils.OkAlert;
 
 import java.util.ArrayList;
@@ -43,13 +46,14 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback, MapView, OnMarkerClickListener, OnMapClickListener {
+public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback, MapView, OnMarkerClickListener, OnMapClickListener, GoogleMap.OnCameraChangeListener {
 
     private GoogleMap map;
     private MapPresenter presenter;
     private RentalView rentalView;
     private AutoCompleteTextView locationAutoCompleteTextView;
     private GoogleApiClient googleApiClient;
+    private HashMap<Integer, MapRental> alreadyShownPins = new HashMap<>();
 
     /*
      * Need this for onClick of marker...since google made Marker class final and can not be extended....dumb
@@ -134,17 +138,29 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
         this.map = map;
         this.map.setOnMarkerClickListener(this);
         this.map.setOnMapClickListener(this);
-        AppEventBus.post(new MapReadyEvent());
+        this.map.getUiSettings().setRotateGesturesEnabled(false);
+        this.map.getUiSettings().setTiltGesturesEnabled(false);
+        this.map.setOnCameraChangeListener(this);
+
+        // TODO: CONVERT ALL PARAMS KEYS TO HAVE CONSTANTS CLASS
+        // TODO: SAVE FETCHAREA INFO TO APPPREFS AND RE-USE LAST ONE ON NEXT APP LAUNCH
+        // TODO: (NOW) SHOW A NON OBSTRUCTING LOADING INDICATOR WHEN FETCHING NEW PINS OR LIST
     }
 
     @Override
     public void setRentals(ArrayList<MapRental> mapRentals) {
         if (map != null) {
-            map.clear();
-            markers.clear();
-            markerRentalMap.clear();
-            presenter.addRentals(mapRentals);
+            ArrayList<MapRental> rentalsToAdd = new ArrayList<>();
+            for (MapRental rental : mapRentals) {
+                if (alreadyShownPins.get(rental.id) == null) {
+                    rentalsToAdd.add(rental);
+                    alreadyShownPins.put(rental.id, rental);
+                }
+            }
+            presenter.addRentals(rentalsToAdd);
         }
+
+
     }
 
     @Override
@@ -208,6 +224,15 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
                 hideProgressDialog();
             }
         }
+    }
+
+    @Override
+    public void onCameraChange(CameraPosition cameraPosition) {
+        FetchArea fetchArea = new FetchArea(map);
+        FilterParams.INSTANCE.params.put("latitude", Double.toString(fetchArea.centerPoint.latitude));
+        FilterParams.INSTANCE.params.put("longitude", Double.toString(fetchArea.centerPoint.longitude));
+        FilterParams.INSTANCE.params.put("radius", Integer.toString(fetchArea.radiusInMiles));
+        AppEventBus.post(new MapChangedEvent());
     }
 
 }

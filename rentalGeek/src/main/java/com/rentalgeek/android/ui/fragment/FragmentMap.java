@@ -43,8 +43,10 @@ import com.rentalgeek.android.utils.OkAlert;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback, MapView, OnMarkerClickListener, OnMapClickListener, GoogleMap.OnCameraChangeListener {
 
@@ -62,7 +64,7 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
      * hashmap to see which rental to show.
      */
 
-    private HashMap<String, String> markerRentalMap = new HashMap<>();
+    private HashMap<Marker, String> markerRentalMap = new HashMap<>();
 
     /*
      * Since Google doesnt let us iterate through markers...
@@ -143,8 +145,11 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
         this.map.setOnCameraChangeListener(this);
 
         // TODO: CONVERT ALL PARAMS KEYS TO HAVE CONSTANTS CLASS
-        // TODO: SAVE FETCHAREA INFO TO APPPREFS AND RE-USE LAST ONE ON NEXT APP LAUNCH
+        // TODO: (NOW) SAVE FETCHAREA INFO TO APPPREFS AND RE-USE LAST ONE ON NEXT APP LAUNCH
         // TODO: (NOW) SHOW A NON OBSTRUCTING LOADING INDICATOR WHEN FETCHING NEW PINS OR LIST
+        // TODO: (NOW) WHAT IS UP WITH THESE WHITE SQUARES SHOWING FOR PINS AFTER A FILTER SOMETIMES (GOTTA BE RELATED TO MY REMOVAL OF OLD MARKERS SOMEHOW)
+            // appears to be an issue with google play services, might need to update
+        // TODO: WHEN CLICKING A PIN, THEN GOING TO FILTER, THEN WHEN COMES BACK TO MAP THE PIN SHEET SHOWS AT BOTTOM AGAIN
     }
 
     @Override
@@ -157,7 +162,21 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
                     alreadyShownPins.put(rental.id, rental);
                 }
             }
+
+            // loop through all alreadyShownPins and if one found that is not in mapRentals then remove it from map
+            ArrayList<String> rentalsToRemove = new ArrayList<>();
+
+            Iterator it = alreadyShownPins.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry pair = (Map.Entry)it.next();
+                if (!mapRentals.contains((MapRental)pair.getValue())) {
+                    rentalsToRemove.add((Integer.toString(((MapRental)pair.getValue()).id)));
+                    it.remove();
+                }
+            }
+
             presenter.addRentals(rentalsToAdd);
+            removeMarkers(rentalsToRemove);
         }
 
 
@@ -170,14 +189,10 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        String marker_id = marker.getId();
-        String rental_id = markerRentalMap.get(marker_id);
-
+        String rental_id = markerRentalMap.get(marker);
         presenter.getRental(rental_id);
-
         locationAutoCompleteTextView.clearFocus();
         dismissSearchEditText();
-
         return true;
     }
 
@@ -202,7 +217,6 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
     public void onEventMainThread(RentalDetailEvent event) {
         if (event.getRentalDetail() != null) {
             RentalDetail rentalDetail = event.getRentalDetail();
-            zoomTo(rentalDetail.latitude, rentalDetail.longitude, 15);
             AppEventBus.post(new ShowRentalEvent(rentalDetail));
         }
     }
@@ -217,11 +231,22 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
             if (map != null) {
                 for (RentalMarker rentalMarker : event.getMarkers()) {
                     Marker mapMarker = map.addMarker(rentalMarker.getMarker());
-                    markerRentalMap.put(mapMarker.getId(), Integer.toString(rentalMarker.getRental().id));
+                    markerRentalMap.put(mapMarker, Integer.toString(rentalMarker.getRental().id));
                     markers.add(mapMarker);
                 }
 
                 hideProgressDialog();
+            }
+        }
+    }
+
+    private void removeMarkers(ArrayList<String> rentalsToRemove) {
+        Iterator it = markerRentalMap.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            if (rentalsToRemove.contains((String)pair.getValue())) {
+                ((Marker)pair.getKey()).remove();
+                it.remove();
             }
         }
     }

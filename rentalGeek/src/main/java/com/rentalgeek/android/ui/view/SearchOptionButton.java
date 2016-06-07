@@ -61,10 +61,11 @@ public class SearchOptionButton extends TextView {
     public void pressed() {
         selected = !selected;
 
-        if (selected)
+        if (selected) {
             selected();
-        else
+        }  else {
             unselected();
+        }
     }
 
     private void unselected() {

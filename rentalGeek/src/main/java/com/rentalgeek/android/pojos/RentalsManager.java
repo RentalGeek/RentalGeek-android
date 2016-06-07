@@ -41,11 +41,6 @@ public abstract class RentalsManager {
             public void onFailure(Throwable ex, String failureResponse) {
                 AppEventBus.post(new ErrorAlertEvent("Error", "There was an error loading the rentals."));
             }
-
-            @Override
-            public void onFinish() {
-                GeekProgressDialog.dismiss();
-            }
         });
     }
 

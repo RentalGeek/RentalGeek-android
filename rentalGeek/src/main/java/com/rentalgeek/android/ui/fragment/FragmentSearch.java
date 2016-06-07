@@ -118,16 +118,19 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
         ButterKnife.reset(this);
     }
 
-    @OnClick({R.id.btn_bed0,
-            R.id.btn_bed1,
-            R.id.btn_bed2,
-            R.id.btn_bed3,
-            R.id.btn_bed4,
-            R.id.btn_bath1,
-            R.id.btn_bath2,
-            R.id.btn_bath3,
-            R.id.btn_bath4})
-    public void onSearchOptionClick(SearchOptionButton button) {
+    @OnClick({R.id.btn_bath1, R.id.btn_bath2, R.id.btn_bath3, R.id.btn_bath4})
+    public void bathButtonPressed(SearchOptionButton button) {
+        for (SearchOptionButton b : bathBtns) {
+            b.reset();
+        }
+        button.pressed();
+    }
+    
+    @OnClick({R.id.btn_bed0,R.id.btn_bed1, R.id.btn_bed2, R.id.btn_bed3, R.id.btn_bed4})
+    public void bedButtonPressed(SearchOptionButton button) {
+        for (SearchOptionButton b : bedBtns) {
+            b.reset();
+        }
         button.pressed();
     }
 
@@ -192,6 +195,7 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
         }
 
         // TODO: I THINK I CAN DROP ALL THESE "BUNDLE" VARIABLES BECAUSE THINK I STOPPED USING THEM
+        // TODO: (NOW) ONLY ALLOW SELECTING ONE BEDROOM AND ONE BATHROOM AT A TIME AND ADD TO FILTERPARAMS
 
         bundle.putInt("MAX_PRICE", priceSeeker.getProgress());
         AppPreferences.putSearchMaxPrice(priceSeeker.getProgress());

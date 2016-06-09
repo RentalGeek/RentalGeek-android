@@ -1,15 +1,15 @@
 package com.rentalgeek.android.ui.dialog;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.Build;
 
 public class GeekProgressDialog {
 
     private static ProgressDialog progressDialog;
 
-    public static void show(Context context, int messageResourceId) {
-        if (progressDialog != null) {
+    public static void show(Activity context, int messageResourceId) {
+        if (progressDialog != null && !context.isFinishing()) {
             progressDialog.dismiss();
         }
 

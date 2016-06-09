@@ -149,6 +149,7 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
         // TODO: (NOW) SHOW A NON OBSTRUCTING LOADING INDICATOR WHEN FETCHING NEW PINS OR LIST
         // TODO: (NOW) WHAT IS UP WITH THESE WHITE SQUARES SHOWING FOR PINS AFTER A FILTER SOMETIMES (GOTTA BE RELATED TO MY REMOVAL OF OLD MARKERS SOMEHOW)
             // appears to be an issue with google play services, might need to update
+            // but i'm not using .seticon what am i using
         // TODO: WHEN CLICKING A PIN, THEN GOING TO FILTER, THEN WHEN COMES BACK TO MAP THE PIN SHEET SHOWS AT BOTTOM AGAIN
     }
 
@@ -175,7 +176,7 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
                 }
             }
 
-            presenter.addRentals(rentalsToAdd);
+            presenter.addRentals(getActivity(), rentalsToAdd);
             removeMarkers(rentalsToRemove);
         }
 

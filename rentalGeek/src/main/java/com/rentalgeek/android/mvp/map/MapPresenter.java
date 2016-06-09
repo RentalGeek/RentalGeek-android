@@ -1,5 +1,7 @@
 package com.rentalgeek.android.mvp.map;
 
+import android.content.Context;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.rentalgeek.android.bus.AppEventBus;
@@ -32,10 +34,8 @@ public class MapPresenter implements Presenter {
     }
 
     @Override
-    public void addRentals(ArrayList<MapRental> mapRentals) {
-        if (mapRentals == null || mapRentals.size() == 0) {
-            return;
-        } else {
+    public void addRentals(final Context context, ArrayList<MapRental> mapRentals) {
+        if (mapRentals != null && mapRentals.size() != 0) {
             Observable<MapRental> setRentalObservable = Observable.from(mapRentals);
 
             setRentalObservable.filter(new Func1<MapRental, Boolean>() {
@@ -46,7 +46,7 @@ public class MapPresenter implements Presenter {
             }).map(new Func1<MapRental, RentalMarker>() {
                 @Override
                 public RentalMarker call(MapRental mapRental) {
-                    MarkerOptions marker = MarkerUtils.createRentalMarker(new LatLng(mapRental.latitude, mapRental.longitude), mapRental.bedroomCount);
+                    MarkerOptions marker = MarkerUtils.createRentalMarker(context, new LatLng(mapRental.latitude, mapRental.longitude), mapRental.bedroomCount);
 
                     RentalMarker rentalMarker = new RentalMarker();
                     rentalMarker.setRental(mapRental);

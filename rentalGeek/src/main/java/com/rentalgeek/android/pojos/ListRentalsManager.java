@@ -41,9 +41,11 @@ public class ListRentalsManager extends RentalsManager {
     }
 
     public ListRental get(String rentalId) {
-        for (ListRental rental : listRentals.all) {
-            if (rental.id == Integer.parseInt(rentalId)) {
-                return rental;
+        if (listRentals != null) {
+            for (ListRental rental : listRentals.all) {
+                if (rental.id == Integer.parseInt(rentalId)) {
+                    return rental;
+                }
             }
         }
 

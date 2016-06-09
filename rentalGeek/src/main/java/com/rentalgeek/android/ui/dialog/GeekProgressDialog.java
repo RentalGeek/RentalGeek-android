@@ -2,6 +2,8 @@ package com.rentalgeek.android.ui.dialog;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.os.Build;
 
 public class GeekProgressDialog {
@@ -28,10 +30,21 @@ public class GeekProgressDialog {
     }
 
     public static void dismiss() {
-        if (progressDialog != null && progressDialog.isShowing()) {
+        if (progressDialog != null && progressDialog.isShowing() && !scanForActivity(progressDialog.getContext()).isFinishing()) {
             progressDialog.dismiss();
             progressDialog = null;
         }
+    }
+
+    private static Activity scanForActivity(Context context) {
+        if (context == null) {
+            return null;
+        } else if (context instanceof Activity) {
+            return (Activity)context;
+        } else if (context instanceof ContextWrapper) {
+            return scanForActivity(((ContextWrapper)context).getBaseContext());
+        }
+        return null;
     }
 
 }

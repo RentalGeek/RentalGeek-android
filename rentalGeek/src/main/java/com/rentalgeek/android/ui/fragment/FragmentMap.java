@@ -11,7 +11,6 @@ import android.widget.AutoCompleteTextView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.Places;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
@@ -184,15 +183,9 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
     }
 
     @Override
-    public void zoomTo(double latitude, double longitude, int zoom) {
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), zoom));
-    }
-
-    @Override
     public boolean onMarkerClick(Marker marker) {
         String rental_id = markerRentalMap.get(marker);
         presenter.getRental(rental_id);
-        locationAutoCompleteTextView.clearFocus();
         dismissSearchEditText();
         return true;
     }

@@ -55,6 +55,7 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
     private RentalPresenter presenter;
     private boolean fullView = false;
     private String rental_id;
+    private boolean currentlyStarred = false;
     private final ArrayList<String> photoUrls = new ArrayList<>();
 
     @Override
@@ -151,6 +152,7 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
         RentalDetail rental = event.getRental();
 
         rental_id = Integer.toString(rental.id);
+        currentlyStarred = rental.starredPropertyId != null;
         star_imageview.setTag(Integer.toString(rental.id));
         price_textview.setText(String.format("$%d", rental.rent));
         room_count_textview.setText(String.format("%d BR, %d Bath", rental.bedroomCount, rental.bathroomCount));
@@ -179,7 +181,7 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
             .load(rental.primaryPhotoUrl)
             .into(rental_imageview);
 
-        if (rental.starred) {
+        if (rental.starredPropertyId != null) {
             selectStar();
         } else {
             unselectStar();
@@ -246,6 +248,7 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
                 .load(R.drawable.star_full)
                 .into(star_imageview);
         }
+        currentlyStarred = true;
     }
 
     @Override
@@ -255,11 +258,12 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
                 .load(R.drawable.star_outline)
                 .into(star_imageview);
         }
+        currentlyStarred = false;
     }
 
     @OnClick(R.id.star_image)
     public void star(View view) {
-        presenter.select(rental_id);
+        presenter.select(rental_id, currentlyStarred);
     }
 
     @OnClick(R.id.apply_btn)

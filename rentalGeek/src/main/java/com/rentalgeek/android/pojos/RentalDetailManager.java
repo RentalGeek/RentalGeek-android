@@ -26,12 +26,22 @@ public class RentalDetailManager {
         return INSTANCE;
     }
 
+    public RentalDetail getFromCache(String id) {
+        if (id != null) {
+            RentalDetail cachedRental = rentalDetails.get(id);
+            return cachedRental;
+        }
+
+        return null;
+    }
+
     public void get(String id) {
-        RentalDetail cachedRental = rentalDetails.get(id);
-        if (cachedRental != null) {
-            AppEventBus.post(new RentalDetailEvent(cachedRental));
-        } else {
-            getFromNetwork(id);
+        if (id != null) {
+            if (getFromCache(id) != null) {
+                AppEventBus.post(new RentalDetailEvent(getFromCache(id)));
+            } else {
+                getFromNetwork(id);
+            }
         }
     }
 

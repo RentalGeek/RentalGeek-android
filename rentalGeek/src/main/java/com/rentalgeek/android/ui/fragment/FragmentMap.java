@@ -1,6 +1,8 @@
 package com.rentalgeek.android.ui.fragment;
 
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -36,13 +38,13 @@ import com.rentalgeek.android.mvp.map.MapView;
 import com.rentalgeek.android.mvp.rental.RentalView;
 import com.rentalgeek.android.pojos.MapRental;
 import com.rentalgeek.android.pojos.RentalDetail;
-import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.adapter.PlaceAutocompleteAdapter;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.ui.view.AutoCompleteAddressListener;
 import com.rentalgeek.android.utils.FilterParams;
 import com.rentalgeek.android.utils.OkAlert;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -94,12 +96,18 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
 
                     String location = locationAutoCompleteTextView.getText().toString().trim();
                     if (!location.equals("")) {
-                        ActivityHome activityHome = (ActivityHome) getActivity();
-                        showProgressDialog(R.string.loading_rentals);
+                        Geocoder geocoder = new Geocoder(getActivity());
+                        try {
+                            List<Address> addresses = geocoder.getFromLocationName(location, 1);
+                            if (addresses.size() > 0) {
+                                double latitude= addresses.get(0).getLatitude();
+                                double longitude= addresses.get(0).getLongitude();
+                                map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 11));
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
-                        // TODO: (NOW) CONVERT LOCATION TO COORDS THEN PUT THOSE COORDS IN FILTERPARAMS THEN CALL GETMAPRENTALOFFERINGS, ALSO NEED TO MOVE CAMERA TO THOSE COORDS
-
-//                        activityHome.presenter.getMapRentalOfferings(location);
                     }
 
                     return true;

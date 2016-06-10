@@ -1,12 +1,13 @@
 package com.rentalgeek.android.pojos;
 
+import android.util.Log;
+
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.RentalDetailErrorEvent;
 import com.rentalgeek.android.bus.events.RentalDetailEvent;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
-import com.rentalgeek.android.ui.dialog.GeekProgressDialog;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 
 import java.util.HashMap;
@@ -57,11 +58,6 @@ public class RentalDetailManager {
             @Override
             public void onFailure(Throwable ex, String failureResponse) {
                 AppEventBus.post(new RentalDetailErrorEvent());
-            }
-
-            @Override
-            public void onFinish() {
-                GeekProgressDialog.dismiss();
             }
         });
     }

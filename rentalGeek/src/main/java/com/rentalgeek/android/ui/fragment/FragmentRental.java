@@ -16,7 +16,9 @@ import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.AppliedEvent;
 import com.rentalgeek.android.bus.events.ClickRentalEvent;
+import com.rentalgeek.android.bus.events.RefreshFilterDoneLoadingEvent;
 import com.rentalgeek.android.bus.events.RentalDetailErrorEvent;
+import com.rentalgeek.android.bus.events.RentalDetailEvent;
 import com.rentalgeek.android.bus.events.SelectStarEvent;
 import com.rentalgeek.android.bus.events.ShowPropertyPhotosEvent;
 import com.rentalgeek.android.bus.events.ShowRentalEvent;
@@ -27,6 +29,7 @@ import com.rentalgeek.android.mvp.rental.RentalView;
 import com.rentalgeek.android.pojos.PhotoDTO;
 import com.rentalgeek.android.pojos.RentalDetail;
 import com.rentalgeek.android.ui.activity.ActivityPropertyPhoto;
+import com.rentalgeek.android.ui.dialog.GeekProgressDialog;
 import com.rentalgeek.android.utils.OkAlert;
 import com.rentalgeek.android.utils.ResponseParser;
 import com.squareup.picasso.Picasso;
@@ -70,6 +73,8 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         View view = inflater.inflate(R.layout.fragment_rental, container, false);
         ButterKnife.inject(this, view);
+
+        GeekProgressDialog.show(getActivity(), R.string.loading_rentals);
 
         if (!fullView) {
             viewBelowImage.setVisibility(View.GONE);
@@ -147,6 +152,8 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
     }
 
     public void onEventMainThread(ShowRentalEvent event) {
+        AppEventBus.post(new RefreshFilterDoneLoadingEvent());
+        GeekProgressDialog.dismiss();
         if (event == null || event.getRental() == null) {
             return;
         }
@@ -283,6 +290,13 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
 
     public void onEventMainThread(UnSelectStarEvent event) {
         unselectStar();
+    }
+
+    public void onEventMainThread(RentalDetailEvent event) {
+        if (event.getRentalDetail() != null) {
+            RentalDetail rentalDetail = event.getRentalDetail();
+            AppEventBus.post(new ShowRentalEvent(rentalDetail));
+        }
     }
 
 }

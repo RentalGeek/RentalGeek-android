@@ -28,6 +28,7 @@ import com.rentalgeek.android.bus.events.AddMarkersEvent;
 import com.rentalgeek.android.bus.events.MapChangedEvent;
 import com.rentalgeek.android.bus.events.MapRentalsEvent;
 import com.rentalgeek.android.bus.events.NoRentalsEvent;
+import com.rentalgeek.android.bus.events.RefreshFilterLoadingEvent;
 import com.rentalgeek.android.bus.events.RentalDetailErrorEvent;
 import com.rentalgeek.android.bus.events.RentalDetailEvent;
 import com.rentalgeek.android.bus.events.ShowRentalEvent;
@@ -194,6 +195,7 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
     @Override
     public boolean onMarkerClick(Marker marker) {
         String rental_id = markerRentalMap.get(marker);
+        AppEventBus.post(new RefreshFilterLoadingEvent());
         presenter.getRental(rental_id);
         dismissSearchEditText();
         return true;

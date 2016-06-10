@@ -48,8 +48,6 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
         super(true, true, true);
     }
 
-    // TODO: INITIALIZE FILTERPARAMS WITH LAST SAVED STUFF TO APPPREFS
-
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);

@@ -17,8 +17,6 @@ public class HomePresenter implements Presenter {
         MapRentalsManager.getInstance().getAll();
     }
 
-    // TODO: GET INITIAL CALL FROM MAP CENTER AND RADIUS INSTEAD OF HARDCODED VALUES ONCE I FIND THAT OUT
-
     @Override
     public void getListRentalOfferings() {
         ListRentalsManager.getInstance().getAll();

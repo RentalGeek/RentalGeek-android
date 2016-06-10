@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class ListRental {
 
-    // TODO: DROP THE LISTRENTALS WRAPPER CLASS AND MAKE CONTAINER OBJECT
+    // TODO (MINOR): DROP THE LISTRENTALS WRAPPER CLASS AND MAKE CONTAINER OBJECT
 
     @SerializedName("id") public Integer id;
     @SerializedName("rent") public Integer rent;

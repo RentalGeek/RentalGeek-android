@@ -5,8 +5,6 @@ import java.util.Map;
 
 public enum FilterParams {
 
-    // TODO: GET ALL POSSIBLE PARAMS MENTIONED IN V2 REQUEST PARAMS WORKING
-
     INSTANCE;
 
     public Map<String, String> params = new HashMap<>();

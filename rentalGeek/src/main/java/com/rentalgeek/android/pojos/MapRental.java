@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class MapRental {
 
-    // TODO: DROP THE MAPRENTALS WRAPPER CLASS AND MAKE CONTAINER OBJECT
+    // TODO (MINOR): DROP THE MAPRENTALS WRAPPER CLASS AND MAKE CONTAINER OBJECT
 
     @SerializedName("id") public Integer id;
     @SerializedName("latitude") public Double latitude;

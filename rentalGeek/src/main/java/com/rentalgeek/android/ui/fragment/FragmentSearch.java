@@ -187,20 +187,10 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
             }
         }
 
-        Bundle bundle = new Bundle();
-
-        if (bedValues.size() != 0) {
-            bundle.putStringArrayList("BED_VALUES", bedValues);
-        }
-        if (bathValues.size() != 0) {
-            bundle.putStringArrayList("BATH_VALUES", bathValues);
-        }
-
         String selectedPropertyManagementCompany = managementCompanySpinner.getSelectedItem().toString();
         if (!selectedPropertyManagementCompany.equals("") && !selectedPropertyManagementCompany.equals(LOADING_TEXT)) {
             int selectedPropertyId = PropertyManagementCache.INSTANCE.getIdFromName(selectedPropertyManagementCompany);
             if (selectedPropertyId != PropertyManagementCache.ID_NOT_FOUND) {
-                bundle.putInt("MANAGEMENT_COMPANY_ID", selectedPropertyId);
                 AppPreferences.putSelectedManagementCompanyId(selectedPropertyId);
                 FilterParams.INSTANCE.params.put("property_manager_id", Integer.toString(selectedPropertyId));
             }
@@ -209,9 +199,6 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
             FilterParams.INSTANCE.params.remove("property_manager_id");
         }
 
-        // TODO: I THINK I CAN DROP ALL THESE "BUNDLE" VARIABLES BECAUSE THINK I STOPPED USING THEM
-
-        bundle.putInt("MAX_PRICE", priceSeeker.getProgress());
         AppPreferences.putSearchMaxPrice(priceSeeker.getProgress());
         FilterParams.INSTANCE.params.put("max_price", Integer.toString(priceSeeker.getProgress()));
         bathIds.addAll(bedIds);

@@ -151,7 +151,6 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
             this.map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 11.0f));
         }
 
-        // TODO: CONVERT ALL PARAMS KEYS TO HAVE CONSTANTS CLASS
         // TODO: (NOW) SHOW A NON OBSTRUCTING LOADING INDICATOR WHEN FETCHING NEW PINS OR LIST
         // TODO: WHEN CLICKING A PIN, THEN GOING TO FILTER, THEN WHEN COMES BACK TO MAP THE PIN SHEET SHOWS AT BOTTOM AGAIN
     }

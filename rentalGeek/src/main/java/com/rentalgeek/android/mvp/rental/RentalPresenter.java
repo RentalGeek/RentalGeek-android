@@ -85,13 +85,9 @@ public class RentalPresenter extends StarPresenter implements Presenter {
                             if (json.has("is_cosigner")) {
                                 boolean is_cosigner = json.getBoolean("is_cosigner");
 
-                                //Redirect to cosigner profile creation process
                                 if (is_cosigner) {
                                     AppEventBus.post(new ShowCosignApplicationEvent());
-                                }
-
-                                //Redirect to profile creation process
-                                else {
+                                } else {
                                     AppEventBus.post(new ShowProfileCreationEvent());
                                 }
                             }
@@ -104,48 +100,9 @@ public class RentalPresenter extends StarPresenter implements Presenter {
         });
     }
 
-    // TODO: REFACTOR GETTING DETAIL FROM A ROW CLICK LIKE I DID IN MAPPRESENTER FOR PIN CLICKS
-    // TODO: CHANGE ALL THESE SHOWRENTALEVENTS TO EVENT THAT TAKES RENTALDETAIL
-
     @Override
     public void getRental(String rental_id) {
-
-
-
         RentalDetailManager.getInstance().get(rental_id);
-
-
-
-
-
-//        Rental rental = RentalCache.getInstance().get(rental_id);
-//
-//        if (rental == null) {
-//            System.out.println("Not found in cache");
-//            String url = ApiManager.getRental(rental_id);
-//            String token = AppPreferences.getAuthToken();
-//
-//            GlobalFunctions.getApiCall(url, token, new GeekHttpResponseHandler() {
-//                @Override
-//                public void onSuccess(String response) {
-//
-//                    try {
-//                        JSONObject json = new JSONObject(response);
-//
-//                        if (json.has("rental_offering")) {
-//                            JSONObject rental_json = json.getJSONObject("rental_offering");
-//                            Rental rental = GeekGson.getInstance().fromJson(rental_json.toString(), Rental.class);
-//                            RentalCache.getInstance().add(rental);
-//                            AppEventBus.post(new ShowRentalEvent(rental));
-//                        }
-//                    } catch (Exception e) {
-//                        Log.e(TAG, e.getMessage());
-//                    }
-//                }
-//            });
-//        } else {
-//            AppEventBus.post(new ShowRentalEvent(rental));
-//        }
     }
 
     @Override

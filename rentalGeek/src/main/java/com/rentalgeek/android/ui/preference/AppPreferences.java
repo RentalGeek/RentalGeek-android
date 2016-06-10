@@ -47,6 +47,21 @@ public class AppPreferences {
     public static final String PREF_SEARCH_COMPANY_INDEX = "PREF_SEARCH_COMPANY_INDEX";
     public static final String PREF_SEARCH_COMPANY_ID = "PREF_SEARCH_COMPANY_ID";
 
+    public static final String PREF_MAP_CAM_LAT = "PREF_MAP_CAM_LAT";
+    public static final String PREF_MAP_CAM_LNG = "PREF_MAP_CAM_LNG";
+    public static final String PREF_MAP_CAM_RADIUS = "PREF_MAP_CAM_RADIUS";
+
+    private static SharedPreferences.Editor getEditor() {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        return tempSettings.edit();
+    }
+
+    private static SharedPreferences getSharedPrefs() {
+        final Context context = RentalGeekApplication.context;
+        return context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+    }
+
     public static void persistLogin(LoginBackend login) {
         final Context context = RentalGeekApplication.context;
         final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
@@ -136,6 +151,18 @@ public class AppPreferences {
         editor.commit();
     }
 
+    public static void putMapCameraLatitude(Double latitude) {
+        getEditor().putFloat(PREF_MAP_CAM_LAT, latitude.floatValue()).commit();
+    }
+
+    public static void putMapCameraLongitude(Double longitude) {
+        getEditor().putFloat(PREF_MAP_CAM_LNG, longitude.floatValue()).commit();
+    }
+
+    public static void putMapCameraRadius(int radius) {
+        getEditor().putInt(PREF_MAP_CAM_RADIUS, radius);
+    }
+
     public static void putProfilePage(String profile_page) {
         final Context context = RentalGeekApplication.context;
         final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
@@ -216,6 +243,18 @@ public class AppPreferences {
         final Context context = RentalGeekApplication.context;
         final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
         return tempSettings.getInt(PREF_SEARCH_BATH_COUNT, SharedPrefs.NO_SELECTION);
+    }
+
+    public static double getMapCameraLatitude() {
+        return getSharedPrefs().getFloat(PREF_MAP_CAM_LAT, 0);
+    }
+
+    public static double getMapCameraLongitude() {
+        return getSharedPrefs().getFloat(PREF_MAP_CAM_LNG, 0);
+    }
+
+    public static int getMapCameraRadius() {
+        return getSharedPrefs().getInt(PREF_MAP_CAM_RADIUS, 10);
     }
 
     public static ArrayList<Integer> getSearchSelectedButtons() {

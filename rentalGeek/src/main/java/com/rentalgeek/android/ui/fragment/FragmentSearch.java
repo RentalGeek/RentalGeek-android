@@ -210,7 +210,6 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
         }
 
         // TODO: I THINK I CAN DROP ALL THESE "BUNDLE" VARIABLES BECAUSE THINK I STOPPED USING THEM
-        // TODO: (NOW) REMEMBER BED/BATH AND OTHER STUFF ON APP START (GET FORM APP PREFS)
 
         bundle.putInt("MAX_PRICE", priceSeeker.getProgress());
         AppPreferences.putSearchMaxPrice(priceSeeker.getProgress());

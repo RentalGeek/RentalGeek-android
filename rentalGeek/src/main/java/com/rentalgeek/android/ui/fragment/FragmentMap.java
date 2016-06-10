@@ -11,6 +11,7 @@ import android.widget.AutoCompleteTextView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
@@ -36,6 +37,7 @@ import com.rentalgeek.android.pojos.MapRental;
 import com.rentalgeek.android.pojos.RentalDetail;
 import com.rentalgeek.android.ui.activity.ActivityHome;
 import com.rentalgeek.android.ui.adapter.PlaceAutocompleteAdapter;
+import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.ui.view.AutoCompleteAddressListener;
 import com.rentalgeek.android.utils.FilterParams;
 import com.rentalgeek.android.utils.OkAlert;
@@ -143,8 +145,13 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
         this.map.getUiSettings().setTiltGesturesEnabled(false);
         this.map.setOnCameraChangeListener(this);
 
+        double latitude = AppPreferences.getMapCameraLatitude();
+        double longitude = AppPreferences.getMapCameraLongitude();
+        if (latitude != 0 && longitude != 0) {
+            this.map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 11.0f));
+        }
+
         // TODO: CONVERT ALL PARAMS KEYS TO HAVE CONSTANTS CLASS
-        // TODO: (NOW) SAVE FETCHAREA INFO TO APPPREFS AND RE-USE LAST ONE ON NEXT APP LAUNCH
         // TODO: (NOW) SHOW A NON OBSTRUCTING LOADING INDICATOR WHEN FETCHING NEW PINS OR LIST
         // TODO: WHEN CLICKING A PIN, THEN GOING TO FILTER, THEN WHEN COMES BACK TO MAP THE PIN SHEET SHOWS AT BOTTOM AGAIN
     }
@@ -245,10 +252,17 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
     @Override
     public void onCameraChange(CameraPosition cameraPosition) {
         FetchArea fetchArea = new FetchArea(map);
-        FilterParams.INSTANCE.params.put("latitude", Double.toString(fetchArea.centerPoint.latitude));
-        FilterParams.INSTANCE.params.put("longitude", Double.toString(fetchArea.centerPoint.longitude));
-        FilterParams.INSTANCE.params.put("radius", Integer.toString(fetchArea.radiusInMiles));
+        persistMapCamera(fetchArea.centerPoint.latitude, fetchArea.centerPoint.longitude, fetchArea.radiusInMiles);
         AppEventBus.post(new MapChangedEvent());
+    }
+
+    private void persistMapCamera(double latitude, double longitude, int radius) {
+        FilterParams.INSTANCE.params.put("latitude", Double.toString(latitude));
+        FilterParams.INSTANCE.params.put("longitude", Double.toString(longitude));
+        FilterParams.INSTANCE.params.put("radius", Integer.toString(radius));
+        AppPreferences.putMapCameraLatitude(latitude);
+        AppPreferences.putMapCameraLongitude(longitude);
+        AppPreferences.putMapCameraRadius(radius);
     }
 
 }

@@ -27,20 +27,12 @@ public class ApiManager {
         return API_HOST + "/api/v1/users/" + uid;
     }
 
-    public static String getPropertySearchUrl() {
-        return API_HOST + "/api/v2/rental_offerings.json";
-    }
-
     public static String loadRentalListData() {
         return API_HOST + "/api/v2/rental_offerings?mapping_data=false";
     }
 
     public static String loadMapPinData() {
         return API_HOST + "/api/v2/rental_offerings?mapping_data=true";
-    }
-
-    public static String getPropertySearchUrl(String parameters) {
-        return API_HOST + "/api/v2/rental_offerings?" + parameters;
     }
 
     public static String getFavoritesUrl() {

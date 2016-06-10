@@ -22,7 +22,6 @@ import rx.schedulers.Schedulers;
 
 public class MapPresenter implements Presenter {
 
-    // TODO: (NOW) LOADING STATE FOR GETTING DETAIL INFO FOR BOTH MAP AND LIST TAPS
     // TODO: (MINOR) CAN I REFACTOR TO PASS AN INT FOR ID INSTEAD OF A STRING
 
     @Override

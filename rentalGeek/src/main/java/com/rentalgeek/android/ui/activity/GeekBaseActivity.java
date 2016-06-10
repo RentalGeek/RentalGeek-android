@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
+import android.widget.ProgressBar;
 
 import com.facebook.appevents.AppEventsLogger;
 import com.rentalgeek.android.R;
@@ -24,6 +25,8 @@ import com.rentalgeek.android.backend.model.User;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.ErrorAlertEvent;
 import com.rentalgeek.android.bus.events.ErrorCroutonEvent;
+import com.rentalgeek.android.bus.events.RefreshFilterDoneLoadingEvent;
+import com.rentalgeek.android.bus.events.RefreshFilterLoadingEvent;
 import com.rentalgeek.android.bus.events.ShowHomeEvent;
 import com.rentalgeek.android.constants.TabPosition;
 import com.rentalgeek.android.ui.Navigation;
@@ -43,6 +46,8 @@ public class GeekBaseActivity extends AppCompatActivity {
     protected boolean showSlider;
     protected boolean showActionBar;
     protected boolean authRequired;
+
+    private ProgressBar progressBar;
 
     public GeekBaseActivity(boolean showSlider, boolean showActionbar, boolean authRequired) {
         this.showSlider = showSlider;
@@ -183,6 +188,10 @@ public class GeekBaseActivity extends AppCompatActivity {
         if (toolbar != null) {
             if (showActionBar) {
                 setSupportActionBar(toolbar);
+                progressBar = (ProgressBar)findViewById(R.id.loading_spinner);
+                if (progressBar != null) {
+                    progressBar.setVisibility(View.GONE);
+                }
             } else {
                 toolbar.setVisibility(View.GONE);
             }
@@ -388,6 +397,18 @@ public class GeekBaseActivity extends AppCompatActivity {
 
     public void onEventMainThread(ErrorCroutonEvent event) {
         DialogManager.showCrouton(this,event.getMessage());
+    }
+
+    public void onEventMainThread(RefreshFilterLoadingEvent event) {
+        if (progressBar != null) {
+            progressBar.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void onEventMainThread(RefreshFilterDoneLoadingEvent event) {
+        if (progressBar != null) {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 
 }

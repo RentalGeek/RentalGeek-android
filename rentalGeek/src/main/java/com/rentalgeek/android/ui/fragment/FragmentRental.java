@@ -16,6 +16,7 @@ import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.AppliedEvent;
 import com.rentalgeek.android.bus.events.ClickRentalEvent;
+import com.rentalgeek.android.bus.events.RentalDetailErrorEvent;
 import com.rentalgeek.android.bus.events.SelectStarEvent;
 import com.rentalgeek.android.bus.events.ShowPropertyPhotosEvent;
 import com.rentalgeek.android.bus.events.ShowRentalEvent;
@@ -26,6 +27,7 @@ import com.rentalgeek.android.mvp.rental.RentalView;
 import com.rentalgeek.android.pojos.PhotoDTO;
 import com.rentalgeek.android.pojos.RentalDetail;
 import com.rentalgeek.android.ui.activity.ActivityPropertyPhoto;
+import com.rentalgeek.android.utils.OkAlert;
 import com.rentalgeek.android.utils.ResponseParser;
 import com.squareup.picasso.Picasso;
 
@@ -188,6 +190,10 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
         }
 
         show();
+    }
+
+    public void onEventMainThread(RentalDetailErrorEvent event) {
+        OkAlert.showUnknownError(getActivity());
     }
 
     public void onEventMainThread(ShowPropertyPhotosEvent event) {

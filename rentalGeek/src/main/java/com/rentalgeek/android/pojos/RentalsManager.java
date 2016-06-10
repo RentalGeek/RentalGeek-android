@@ -2,6 +2,8 @@ package com.rentalgeek.android.pojos;
 
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.ErrorAlertEvent;
+import com.rentalgeek.android.bus.events.RefreshFilterDoneLoadingEvent;
+import com.rentalgeek.android.bus.events.RefreshFilterLoadingEvent;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.ui.dialog.GeekProgressDialog;
@@ -31,6 +33,7 @@ public abstract class RentalsManager {
     }
 
     private void makeNetworkCall(String url) {
+        AppEventBus.post(new RefreshFilterLoadingEvent());
         GlobalFunctions.getApiCall(url, AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
             @Override
             public void onSuccess(String content) {
@@ -40,6 +43,11 @@ public abstract class RentalsManager {
             @Override
             public void onFailure(Throwable ex, String failureResponse) {
                 AppEventBus.post(new ErrorAlertEvent("Error", "There was an error loading the rentals."));
+            }
+
+            @Override
+            public void onFinish() {
+                AppEventBus.post(new RefreshFilterDoneLoadingEvent());
             }
         });
     }

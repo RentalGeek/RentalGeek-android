@@ -54,8 +54,6 @@ public class RentalDetailManager {
                 rentalDetails.put(Integer.toString(rentalDetail.id), rentalDetail);
             }
 
-            // TODO: HANDLE THE FAILURE EVENT IN CALLING ACTIVITY OR FRAGMENT
-
             @Override
             public void onFailure(Throwable ex, String failureResponse) {
                 AppEventBus.post(new RentalDetailErrorEvent());

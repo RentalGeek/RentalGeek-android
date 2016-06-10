@@ -26,6 +26,7 @@ import com.rentalgeek.android.bus.events.AddMarkersEvent;
 import com.rentalgeek.android.bus.events.MapChangedEvent;
 import com.rentalgeek.android.bus.events.MapRentalsEvent;
 import com.rentalgeek.android.bus.events.NoRentalsEvent;
+import com.rentalgeek.android.bus.events.RentalDetailErrorEvent;
 import com.rentalgeek.android.bus.events.RentalDetailEvent;
 import com.rentalgeek.android.bus.events.ShowRentalEvent;
 import com.rentalgeek.android.model.FetchArea;
@@ -96,7 +97,7 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
                         ActivityHome activityHome = (ActivityHome) getActivity();
                         showProgressDialog(R.string.loading_rentals);
 
-                        // TODO: CONVERT LOCATION TO COORDS THEN PUT THOSE COORDS IN FILTERPARAMS THEN CALL GETMAPRENTALOFFERINGS
+                        // TODO: (NOW) CONVERT LOCATION TO COORDS THEN PUT THOSE COORDS IN FILTERPARAMS THEN CALL GETMAPRENTALOFFERINGS, ALSO NEED TO MOVE CAMERA TO THOSE COORDS
 
 //                        activityHome.presenter.getMapRentalOfferings(location);
                     }
@@ -151,8 +152,7 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
             this.map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 11.0f));
         }
 
-        // TODO: (NOW) SHOW A NON OBSTRUCTING LOADING INDICATOR WHEN FETCHING NEW PINS OR LIST
-        // TODO: WHEN CLICKING A PIN, THEN GOING TO FILTER, THEN WHEN COMES BACK TO MAP THE PIN SHEET SHOWS AT BOTTOM AGAIN
+        // TODO: (MINOR) WHEN CLICKING A PIN, THEN GOING TO FILTER, THEN WHEN COMES BACK TO MAP THE PIN SHEET SHOWS AT BOTTOM AGAIN
     }
 
     @Override
@@ -214,6 +214,10 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
             RentalDetail rentalDetail = event.getRentalDetail();
             AppEventBus.post(new ShowRentalEvent(rentalDetail));
         }
+    }
+
+    public void onEventMainThread(RentalDetailErrorEvent event) {
+        OkAlert.showUnknownError(getActivity());
     }
 
     public void onEventMainThread(NoRentalsEvent event) {

@@ -12,10 +12,12 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.LoginBackend;
+import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.ClickRentalEvent;
 import com.rentalgeek.android.bus.events.LessThanMaxResultsReturnedEvent;
 import com.rentalgeek.android.bus.events.MapChangedEvent;
 import com.rentalgeek.android.bus.events.MaxResultsReturnedEvent;
+import com.rentalgeek.android.bus.events.RefreshFilterDoneLoadingEvent;
 import com.rentalgeek.android.bus.events.ShowProfileCreationEvent;
 import com.rentalgeek.android.constants.Search;
 import com.rentalgeek.android.constants.SharedPrefs;
@@ -115,7 +117,6 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
     }
 
     private void loadRentals() {
-//        GeekProgressDialog.show(this, R.string.loading_rentals);
         if (selectedTab == TabPosition.MAP && mapReady) {
             presenter.getMapRentalOfferings();
         } else if (selectedTab == TabPosition.LIST) {
@@ -139,6 +140,7 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
             @Override
             public void onPageSelected(int position) {
                 selectedTab = position;
+                AppEventBus.post(new RefreshFilterDoneLoadingEvent());
                 loadRentals();
             }
 
@@ -150,7 +152,6 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
     }
 
     public void onEventMainThread(MapChangedEvent event) {
-//        GeekProgressDialog.show(this, R.string.loading_rentals);
         this.mapReady = true;
         presenter.getMapRentalOfferings();
     }

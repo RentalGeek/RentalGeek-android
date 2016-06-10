@@ -166,9 +166,7 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
                 }
             }
 
-            // loop through all alreadyShownPins and if one found that is not in mapRentals then remove it from map
             ArrayList<String> rentalsToRemove = new ArrayList<>();
-
             Iterator it = alreadyShownPins.entrySet().iterator();
             while (it.hasNext()) {
                 Map.Entry pair = (Map.Entry)it.next();

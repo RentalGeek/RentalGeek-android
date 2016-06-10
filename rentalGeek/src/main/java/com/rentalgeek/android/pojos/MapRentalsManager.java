@@ -2,7 +2,10 @@ package com.rentalgeek.android.pojos;
 
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.bus.AppEventBus;
+import com.rentalgeek.android.bus.events.LessThanMaxResultsReturnedEvent;
 import com.rentalgeek.android.bus.events.MapRentalsEvent;
+import com.rentalgeek.android.bus.events.MaxResultsReturnedEvent;
+import com.rentalgeek.android.constants.Search;
 import com.rentalgeek.android.utils.GeekGson;
 
 public class MapRentalsManager extends RentalsManager {
@@ -22,7 +25,12 @@ public class MapRentalsManager extends RentalsManager {
     @Override
     protected void rentalsReceived(String response) {
         mapRentals = GeekGson.getInstance().fromJson(response, MapRentals.class);
-        AppEventBus.post(new MapRentalsEvent(mapRentals.all));
+        if (mapRentals.all.size() == Search.MAX_POSSIBLE_RESULTS) {
+            AppEventBus.post(new MaxResultsReturnedEvent());
+        } else {
+            AppEventBus.post(new LessThanMaxResultsReturnedEvent());
+        }
+        sendExistingRentals();
     }
 
     @Override

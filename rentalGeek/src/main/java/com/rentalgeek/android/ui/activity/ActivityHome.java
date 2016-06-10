@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
@@ -13,9 +13,11 @@ import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.backend.LoginBackend;
 import com.rentalgeek.android.bus.events.ClickRentalEvent;
+import com.rentalgeek.android.bus.events.LessThanMaxResultsReturnedEvent;
 import com.rentalgeek.android.bus.events.MapChangedEvent;
+import com.rentalgeek.android.bus.events.MaxResultsReturnedEvent;
 import com.rentalgeek.android.bus.events.ShowProfileCreationEvent;
-import com.rentalgeek.android.constants.ManhattanKansasImpl;
+import com.rentalgeek.android.constants.Search;
 import com.rentalgeek.android.constants.SharedPrefs;
 import com.rentalgeek.android.constants.TabPosition;
 import com.rentalgeek.android.logging.AppLogger;
@@ -43,6 +45,7 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
     private MapView mapView;
     private RentalListView rentalListView;
     private boolean mapReady = false;
+    private Toast maxResultsToast;
 
     public ActivityHome() {
         super(true, true, true);
@@ -59,6 +62,7 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
 
         initializeFilterParams();
 
+        maxResultsToast = Toast.makeText(this, "Only showing " + Search.MAX_POSSIBLE_RESULTS + " listings. Zoom in or filter to narrow your search.", Toast.LENGTH_SHORT);
         mapView = new FragmentMap();
         rentalListView = new FragmentRentalListView();
 
@@ -69,7 +73,7 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
             tabLayout.setupWithViewPager(viewPager);
         }
 
-        presenter = new HomePresenter(new ManhattanKansasImpl(this.getApplicationContext()));
+        presenter = new HomePresenter();
 
         if (SessionManager.Instance.getCurrentUser() != null) {
             new CosignerInviteCaller(this, false).fetchCosignerInvites();
@@ -114,10 +118,8 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
 //        GeekProgressDialog.show(this, R.string.loading_rentals);
         if (selectedTab == TabPosition.MAP && mapReady) {
             presenter.getMapRentalOfferings();
-            Log.d("tagzzz", "load map");
         } else if (selectedTab == TabPosition.LIST) {
             presenter.getListRentalOfferings();
-            Log.d("tagzzz", "load list");
         }
     }
 
@@ -165,6 +167,14 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
 
     public void onEventMainThread(ShowProfileCreationEvent event) {
         Navigation.navigateActivity(this, ActivityCreateProfile.class);
+    }
+
+    public void onEventMainThread(MaxResultsReturnedEvent event) {
+        maxResultsToast.show();
+    }
+
+    public void onEventMainThread(LessThanMaxResultsReturnedEvent event) {
+        maxResultsToast.cancel();
     }
 
     private void silentUserDataUpdate() {

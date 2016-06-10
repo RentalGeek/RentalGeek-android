@@ -24,7 +24,19 @@
         android:layout_height="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:background="?attr/colorPrimary"
-        style="@style/Widget.GeekApp.ActionBar"/>
+        style="@style/Widget.GeekApp.ActionBar">
+
+        <ProgressBar
+            android:id="@+id/loading_spinner"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:indeterminateDrawable="@drawable/progress"
+            android:visibility="gone"
+            />
+
+    </android.support.v7.widget.Toolbar>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"

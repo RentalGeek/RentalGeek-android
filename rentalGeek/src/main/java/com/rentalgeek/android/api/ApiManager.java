@@ -7,8 +7,8 @@ import com.rentalgeek.android.BuildConfig;
 
 public class ApiManager {
 
-    private static final String PROD = "http://api.rentalgeek.com/api/v1";
-    private static final String STAGE = "http://api.staging.rentalgeek.com/api/v1";
+    private static final String PROD = "http://api.rentalgeek.com";
+    private static final String STAGE = "http://api.staging.rentalgeek.com";
 
     private static final String GOOGLE_MAPS = "https://maps.googleapis.com/maps/api/place/details/json";
     private static final String GOOGLE_MAPS_API_KEY = "AIzaSyDuVB1GHSKyz51m1w4VGs_XTyxVlK01INY";
@@ -17,34 +17,34 @@ public class ApiManager {
 
     public static String API_HOST = BuildConfig.DEBUG ? STAGE : PROD;
 
-    public static String regis_link = API_HOST + "/users.json";
+    public static String regis_link = API_HOST + "/api/v1/users.json";
 
     public static String getLinkedInUrl() {
         return LINKEDIN_URL;
     }
 
     public static String getApplicants(String uid) {
-        return API_HOST + "/users/" + uid;
+        return API_HOST + "/api/v1/users/" + uid;
     }
 
-    public static String getPropertySearchUrl() {
-        return API_HOST + "/rental_offerings.json";
+    public static String loadRentalListData() {
+        return API_HOST + "/api/v2/rental_offerings?mapping_data=false";
     }
 
-    public static String getPropertySearchUrl(String parameters) {
-        return String.format("%s%s%s", API_HOST, "/rental_offerings.json?", parameters);
+    public static String loadMapPinData() {
+        return API_HOST + "/api/v2/rental_offerings?mapping_data=true";
     }
 
     public static String getFavoritesUrl() {
-        return String.format("%s/%s", API_HOST, "rental_offerings?starred=true");
+        return API_HOST + "/api/v2/rental_offerings/starred";
     }
 
     public static String getApplyUrl() {
-        return API_HOST + "/applications";
+        return API_HOST + "/api/v1/applications";
     }
 
     public static String propertyManagersUrl() {
-        return API_HOST + "/property_managers";
+        return API_HOST + "/api/v1/property_managers";
     }
 
     public static String getCosignerItemsUrl() {
@@ -60,7 +60,7 @@ public class ApiManager {
     }
 
     public static String cosignerInvitesUrl() {
-        return API_HOST + "/cosigner_invites";
+        return API_HOST + "/api/v1/cosigner_invites";
     }
 
     public static String sentCosignerInvites() {
@@ -72,23 +72,23 @@ public class ApiManager {
     }
 
     public static String propertyPhotos(String rentalOfferingId) {
-        return API_HOST + "/property_photos?rental_offering_id=" + rentalOfferingId;
+        return API_HOST + "/api/v1/property_photos?rental_offering_id=" + rentalOfferingId;
     }
 
     public static String cosignerProfilesUrl(String cosignerProfileId) {
-        return API_HOST + "/cosigner_profiles/" + cosignerProfileId;
+        return API_HOST + "/api/v1/cosigner_profiles/" + cosignerProfileId;
     }
 
     public static String specificUserUrl(String userId) {
-        return API_HOST + "/users/" + userId;
+        return API_HOST + "/api/v1/users/" + userId;
     }
 
     public static String deleteProfile(String userId) {
-        return API_HOST + "/profiles/" + userId;
+        return API_HOST + "/api/v1/profiles/" + userId;
     }
 
     public static String signLeaseUrl(int leaseId) {
-        return API_HOST + "/leases/" + leaseId + "/embedded_signature_url";
+        return API_HOST + "/api/v1/leases/" + leaseId + "/embedded_signature_url";
     }
 
     public static String getAcceptCosignerInviteUrl(int inviteId) {
@@ -100,95 +100,95 @@ public class ApiManager {
     }
 
     public static String getRental(String rental_id) {
-        return String.format("%s/%s/%s", API_HOST, "rental_offerings", rental_id);
+        return API_HOST + "/api/v1/rental_offerings/" + rental_id;
     }
 
     public static String deleteRentalStar(String star_id) {
-        return String.format("%s/%s/%s", API_HOST, "starred_properties", star_id);
+        return API_HOST + "/api/v1/starred_properties/" + star_id;
     }
 
     public static String postRentalStar() {
-        return API_HOST + "/starred_properties";
+        return API_HOST + "/api/v1/starred_properties";
     }
 
     public static String getAddProvider(String providerId) {
-        return API_HOST + "/sessions/add_providers";
+        return API_HOST + "/api/v1/sessions/add_providers";
     }
 
     public static String getApplicantPassword() {
-        return API_HOST + "/users/password";
+        return API_HOST + "/api/v1/users/password";
     }
 
     public static String getSignin() {
-        return API_HOST + "/users/sign_in.json";
+        return API_HOST + "/api/v1/users/sign_in.json";
     }
 
     public static String getSignOut() {
-        return API_HOST + "/users/sign_out.json";
+        return API_HOST + "/api/v1/users/sign_out.json";
     }
 
     public static String getTransactions() {
-        return API_HOST + "/transactions";
+        return API_HOST + "/api/v1/transactions";
     }
 
     public static String getPayments() {
-        return API_HOST + "/payments";
+        return API_HOST + "/api/v1/payments";
     }
 
     public static String getProfile(String id) {
-        String url = API_HOST + "/profiles";
+        String url = API_HOST + "/api/v1/profiles";
         if (TextUtils.isEmpty(id)) return url;
-        return String.format("%s/%s", url, id);
+        return url + "/" + id;
     }
 
     public static String getRoommateGroups(String id) {
-        String url = API_HOST + "/roommate_groups";
+        String url = API_HOST + "/api/v1/roommate_groups";
         if (TextUtils.isEmpty(id)) return url;
-        return String.format("%s/%s", url, id);
+        return url + "/" + id;
     }
 
     public static String getRoommateGroupRemoveUser(String groupId, String userId) {
-        String url = API_HOST + "/roommate_groups";
+        String url = API_HOST + "/api/v1/roommate_groups";
         if (TextUtils.isEmpty(groupId) || TextUtils.isEmpty(userId)) return null;
-        return String.format("%s/%s/remove_user?user_id=%s", url, groupId, userId);
+        return url + "/" + groupId + "/remove_user?user_id=" + userId;
     }
 
     public static String getRoommateInvites(String roommate_group_id) {
-        String url = API_HOST + "/roommate_invites";
+        String url = API_HOST + "/api/v1/roommate_invites";
         if (TextUtils.isEmpty(roommate_group_id)) return url;
-        return String.format("%s/%s", url, roommate_group_id);
+        return url + "/" + roommate_group_id;
     }
 
     public static String getRoommateInviteAccept(String inviteId) {
         if (TextUtils.isEmpty(inviteId)) return null;
-        String url = API_HOST + "/roommate_invites";
-        return String.format("%s/%s/accept", url, inviteId);
+        String url = API_HOST + "/api/v1/roommate_invites";
+        return url + "/" + inviteId + "/accept";
     }
 
     public static String getRoommateInviteDeny(String inviteId) {
         if (TextUtils.isEmpty(inviteId)) return null;
-        String url = API_HOST + "/roommate_invites";
-        return String.format("%s/%s/deny", url, inviteId);
+        String url = API_HOST + "/api/v1/roommate_invites";
+        return url + "/" + inviteId + "/deny";
     }
 
     public static String getLease(String leaseId) {
-        String url = API_HOST + "/leases";
+        String url = API_HOST + "/api/v1/leases";
         if (TextUtils.isEmpty(leaseId)) return null;
-        return String.format("%s/%s", url, leaseId);
+        return url + "/" + leaseId;
     }
 
     public static String getLeaseRoommatePayments(String leaseId) {
-        String url = API_HOST + "/leases";
+        String url = API_HOST + "/api/v1/leases";
         if (TextUtils.isEmpty(leaseId)) return null;
-        return String.format("%s/%s/roommate_payments", url, leaseId);
+        return url + "/" + leaseId + "/roommate_payments";
     }
 
     public static String postApplication() {
-        return String.format("%s/%s", API_HOST, "applications");
+        return API_HOST + "/api/v1/applications";
     }
 
     public static String getFullAddress(String place_id) {
-        return String.format("%s?placeid=%s&sensor=false&key=%s", GOOGLE_MAPS, place_id, GOOGLE_MAPS_API_KEY);
+        return GOOGLE_MAPS + "?placeid=" + place_id + "&sensor=false&key=" + GOOGLE_MAPS_API_KEY;
     }
 
 }

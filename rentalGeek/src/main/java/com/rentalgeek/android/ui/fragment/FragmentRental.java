@@ -16,6 +16,9 @@ import com.rentalgeek.android.api.SessionManager;
 import com.rentalgeek.android.bus.AppEventBus;
 import com.rentalgeek.android.bus.events.AppliedEvent;
 import com.rentalgeek.android.bus.events.ClickRentalEvent;
+import com.rentalgeek.android.bus.events.RefreshFilterDoneLoadingEvent;
+import com.rentalgeek.android.bus.events.RentalDetailErrorEvent;
+import com.rentalgeek.android.bus.events.RentalDetailEvent;
 import com.rentalgeek.android.bus.events.SelectStarEvent;
 import com.rentalgeek.android.bus.events.ShowPropertyPhotosEvent;
 import com.rentalgeek.android.bus.events.ShowRentalEvent;
@@ -24,8 +27,10 @@ import com.rentalgeek.android.mvp.common.StarView;
 import com.rentalgeek.android.mvp.rental.RentalPresenter;
 import com.rentalgeek.android.mvp.rental.RentalView;
 import com.rentalgeek.android.pojos.PhotoDTO;
-import com.rentalgeek.android.pojos.Rental;
+import com.rentalgeek.android.pojos.RentalDetail;
 import com.rentalgeek.android.ui.activity.ActivityPropertyPhoto;
+import com.rentalgeek.android.ui.dialog.GeekProgressDialog;
+import com.rentalgeek.android.utils.OkAlert;
 import com.rentalgeek.android.utils.ResponseParser;
 import com.squareup.picasso.Picasso;
 
@@ -35,7 +40,9 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-import static com.rentalgeek.android.constants.IntentKey.*;
+import static com.rentalgeek.android.constants.IntentKey.ORIGINAL_POSITION;
+import static com.rentalgeek.android.constants.IntentKey.PHOTO_URLS;
+import static com.rentalgeek.android.constants.IntentKey.RENTAL_ID;
 
 public class FragmentRental extends GeekBaseFragment implements RentalView, StarView {
 
@@ -53,6 +60,7 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
     private RentalPresenter presenter;
     private boolean fullView = false;
     private String rental_id;
+    private boolean currentlyStarred = false;
     private final ArrayList<String> photoUrls = new ArrayList<>();
 
     @Override
@@ -65,6 +73,8 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         View view = inflater.inflate(R.layout.fragment_rental, container, false);
         ButterKnife.inject(this, view);
+
+        GeekProgressDialog.show(getActivity(), R.string.loading_rentals);
 
         if (!fullView) {
             viewBelowImage.setVisibility(View.GONE);
@@ -142,31 +152,34 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
     }
 
     public void onEventMainThread(ShowRentalEvent event) {
+        AppEventBus.post(new RefreshFilterDoneLoadingEvent());
+        GeekProgressDialog.dismiss();
         if (event == null || event.getRental() == null) {
             return;
         }
 
-        Rental rental = event.getRental();
+        RentalDetail rental = event.getRental();
 
-        rental_id = rental.getId();
-        star_imageview.setTag(rental.getId());
-        price_textview.setText(String.format("$%d", rental.getMonthlyRent()));
-        room_count_textview.setText(String.format("%d BR, %d Bath", rental.getBedroomCount(), rental.getBathroomCount()));
-        address_textview.setText(String.format("%s\n%s, %s %s", rental.getAddress(), rental.getCity(), rental.getState(), rental.getZipcode()));
-        description_textview.setText(rental.getDescription());
+        rental_id = Integer.toString(rental.id);
+        currentlyStarred = rental.starredPropertyId != null;
+        star_imageview.setTag(Integer.toString(rental.id));
+        price_textview.setText(String.format("$%d", rental.rent));
+        room_count_textview.setText(String.format("%d BR, %d Bath", rental.bedroomCount, rental.bathroomCount));
+        address_textview.setText(String.format("%s\n%s, %s %s", rental.address, rental.city, rental.state, rental.zipcode));
+        description_textview.setText(rental.description);
 
         if (SessionManager.Instance.getCurrentUser().is_cosigner) {
             apply_btn.setText("APPROVE");
         }
 
-        if (rental.applied()) {
+        if (rental.alreadyApplied) {
             apply_btn.setText(SessionManager.Instance.applyApproveButtonText());
             apply_btn.setClickable(false);
         }
 
         StringBuilder amenities = new StringBuilder();
 
-        for (String amenity : rental.getAmenities()) {
+        for (String amenity : rental.amenities) {
             amenity = ResponseParser.humanize(amenity);
             amenities.append(String.format("\u2022 %s\n", amenity));
         }
@@ -174,16 +187,20 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
         amenities_textview.setText(amenities);
 
         Picasso.with(getActivity())
-            .load(rental.getImageUrl())
+            .load(rental.primaryPhotoUrl)
             .into(rental_imageview);
 
-        if (rental.isStarred()) {
+        if (rental.starredPropertyId != null) {
             selectStar();
         } else {
             unselectStar();
         }
 
         show();
+    }
+
+    public void onEventMainThread(RentalDetailErrorEvent event) {
+        OkAlert.showUnknownError(getActivity());
     }
 
     public void onEventMainThread(ShowPropertyPhotosEvent event) {
@@ -244,6 +261,7 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
                 .load(R.drawable.star_full)
                 .into(star_imageview);
         }
+        currentlyStarred = true;
     }
 
     @Override
@@ -253,11 +271,12 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
                 .load(R.drawable.star_outline)
                 .into(star_imageview);
         }
+        currentlyStarred = false;
     }
 
     @OnClick(R.id.star_image)
     public void star(View view) {
-        presenter.select(rental_id);
+        presenter.select(rental_id, currentlyStarred);
     }
 
     @OnClick(R.id.apply_btn)
@@ -271,6 +290,13 @@ public class FragmentRental extends GeekBaseFragment implements RentalView, Star
 
     public void onEventMainThread(UnSelectStarEvent event) {
         unselectStar();
+    }
+
+    public void onEventMainThread(RentalDetailEvent event) {
+        if (event.getRentalDetail() != null) {
+            RentalDetail rentalDetail = event.getRentalDetail();
+            AppEventBus.post(new ShowRentalEvent(rentalDetail));
+        }
     }
 
 }

@@ -1,17 +1,17 @@
 package com.rentalgeek.android.bus.events;
 
-import com.rentalgeek.android.pojos.Rental;
+import com.rentalgeek.android.pojos.RentalDetail;
 
 public class ShowRentalEvent {
 
-    private Rental rental;
+    private RentalDetail rentalDetail;
 
-    public ShowRentalEvent(Rental rental) {
-        this.rental = rental;
+    public ShowRentalEvent(RentalDetail rentalDetail) {
+        this.rentalDetail = rentalDetail;
     }
 
-    public Rental getRental() {
-        return this.rental;
+    public RentalDetail getRental() {
+        return this.rentalDetail;
     }
 
 }

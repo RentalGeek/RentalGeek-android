@@ -41,7 +41,7 @@ public class FragmentSignLease extends GeekBaseFragment {
         int leaseId = getArguments().getInt(LEASE_ID);
         requestingFragment = getArguments().getString(REQUESTING_FRAGMENT);
 
-        GlobalFunctions.getApiCall(getActivity(), ApiManager.signLeaseUrl(leaseId), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
+        GlobalFunctions.getApiCall(ApiManager.signLeaseUrl(leaseId), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
             @Override
             public void onStart() {
                 super.onStart();

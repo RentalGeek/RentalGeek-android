@@ -8,18 +8,20 @@ import android.widget.ListView;
 
 import com.rentalgeek.android.R;
 import com.rentalgeek.android.bus.events.ClickStarEvent;
+import com.rentalgeek.android.bus.events.ListRentalsEvent;
 import com.rentalgeek.android.bus.events.SelectStarEvent;
-import com.rentalgeek.android.bus.events.SetRentalsEvent;
 import com.rentalgeek.android.bus.events.UnSelectStarEvent;
 import com.rentalgeek.android.mvp.list.rental.RentalListPresenter;
 import com.rentalgeek.android.mvp.list.rental.RentalListView;
-import com.rentalgeek.android.pojos.Rental;
+import com.rentalgeek.android.pojos.ListRental;
 import com.rentalgeek.android.ui.adapter.RentalAdapter;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-import static com.rentalgeek.android.constants.IntentKey.*;
+import static com.rentalgeek.android.constants.IntentKey.RENTAL_ID;
 
 
 public class FragmentRentalListView extends GeekBaseFragment implements RentalListView {
@@ -53,9 +55,9 @@ public class FragmentRentalListView extends GeekBaseFragment implements RentalLi
     }
 
     @Override
-    public void setRentals(Rental[] rentals) {
+    public void setRentals(ArrayList<ListRental> listRentals) {
         adapter.clear();
-        adapter.addAll(rentals);
+        adapter.addAll(listRentals);
     }
 
     public void onEventMainThread(ClickStarEvent event) {
@@ -82,9 +84,9 @@ public class FragmentRentalListView extends GeekBaseFragment implements RentalLi
         viewHolder.unselectStar();
     }
 
-    public void onEventMainThread(SetRentalsEvent event) {
-        if (event.getRentals() != null) {
-            setRentals(event.getRentals());
+    public void onEventMainThread(ListRentalsEvent event) {
+        if (event.getListRentals() != null) {
+            setRentals(event.getListRentals());
         }
     }
 

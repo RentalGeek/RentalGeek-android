@@ -28,7 +28,7 @@ public class GlobalFunctions {
         getClient().post(url, params, handler);
     }
 
-    public static void getApiCall(final Context context, final String url, final String authToken, final GeekHttpResponseHandler handler) {
+    public static void getApiCall(final String url, final String authToken, final GeekHttpResponseHandler handler) {
         if (!TextUtils.isEmpty(authToken)) {
             getClient().addHeader("Authorization", String.format("Token token=%s", authToken));
         }

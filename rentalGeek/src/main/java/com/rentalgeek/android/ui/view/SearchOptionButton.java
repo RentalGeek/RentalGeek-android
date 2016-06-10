@@ -10,7 +10,7 @@ import com.rentalgeek.android.R;
 public class SearchOptionButton extends TextView {
 
     private String value;
-    private boolean selected = false;
+    public boolean selected = false;
     private int selected_bg;
     private int unselected_bg;
     private int selected_txt_color;
@@ -61,10 +61,11 @@ public class SearchOptionButton extends TextView {
     public void pressed() {
         selected = !selected;
 
-        if (selected)
+        if (selected) {
             selected();
-        else
+        }  else {
             unselected();
+        }
     }
 
     private void unselected() {

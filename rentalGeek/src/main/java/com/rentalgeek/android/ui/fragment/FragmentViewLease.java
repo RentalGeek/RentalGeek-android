@@ -35,7 +35,7 @@ public class FragmentViewLease extends GeekBaseFragment {
 
         int leaseId = getArguments().getInt(LEASE_ID);
 
-        GlobalFunctions.getApiCall(getActivity(), ApiManager.getLease(Integer.toString(leaseId)), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
+        GlobalFunctions.getApiCall(ApiManager.getLease(Integer.toString(leaseId)), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
             @Override
             public void onStart() {
                 super.onStart();

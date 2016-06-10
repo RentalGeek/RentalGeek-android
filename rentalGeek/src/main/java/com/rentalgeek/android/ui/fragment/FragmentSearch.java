@@ -12,7 +12,7 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.model.PropertyManager;
 import com.rentalgeek.android.backend.model.PropertyManagerRoot;
-import com.rentalgeek.android.mvp.search.SearchPresenter;
+import com.rentalgeek.android.constants.SharedPrefs;
 import com.rentalgeek.android.mvp.search.SearchView;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
@@ -20,6 +20,7 @@ import com.rentalgeek.android.storage.PropertyManagementCache;
 import com.rentalgeek.android.ui.preference.AppPreferences;
 import com.rentalgeek.android.ui.view.SearchOptionButton;
 import com.rentalgeek.android.ui.view.SimpleSpinner;
+import com.rentalgeek.android.utils.FilterParams;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,13 +42,11 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
     @InjectView(R.id.rent_range) TextView rentRangeTextView;
     @InjectView(R.id.management_company_spinner) SimpleSpinner managementCompanySpinner;
 
-    private SearchPresenter presenter;
     private static final String LOADING_TEXT = "Loading...";
 
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        presenter = new SearchPresenter();
 
         bedBtns = new ArrayList<>();
         bathBtns = new ArrayList<>();
@@ -120,17 +119,32 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
         ButterKnife.reset(this);
     }
 
-    @OnClick({R.id.btn_bed0,
-            R.id.btn_bed1,
-            R.id.btn_bed2,
-            R.id.btn_bed3,
-            R.id.btn_bed4,
-            R.id.btn_bath1,
-            R.id.btn_bath2,
-            R.id.btn_bath3,
-            R.id.btn_bath4})
-    public void onSearchOptionClick(SearchOptionButton button) {
-        button.pressed();
+    @OnClick({R.id.btn_bath1, R.id.btn_bath2, R.id.btn_bath3, R.id.btn_bath4})
+    public void bathButtonPressed(SearchOptionButton button) {
+        if (button.selected) {
+            button.reset();
+            FilterParams.INSTANCE.params.remove("bathrooms_count");
+            AppPreferences.putSearchBathCount(SharedPrefs.NO_SELECTION);
+        } else {
+            for (SearchOptionButton b : bathBtns) {
+                b.reset();
+            }
+            button.pressed();
+        }
+    }
+    
+    @OnClick({R.id.btn_bed0,R.id.btn_bed1, R.id.btn_bed2, R.id.btn_bed3, R.id.btn_bed4})
+    public void bedButtonPressed(SearchOptionButton button) {
+        if (button.selected) {
+            button.reset();
+            FilterParams.INSTANCE.params.remove("bedrooms_count");
+            AppPreferences.putSearchBedCount(SharedPrefs.NO_SELECTION);
+        } else {
+            for (SearchOptionButton b : bedBtns) {
+                b.reset();
+            }
+            button.pressed();
+        }
     }
 
     @OnClick(R.id.reset_search)
@@ -150,8 +164,6 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
 
     @OnClick(R.id.search_submit)
     public void onSubmitClick() {
-        showProgressDialog(R.string.search_rental);
-
         ArrayList<String> bathValues = new ArrayList<String>();
         ArrayList<Integer> bathIds = new ArrayList<>();
         ArrayList<String> bedValues = new ArrayList<String>();
@@ -160,6 +172,8 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
         for (SearchOptionButton button : bedBtns) {
             if (button.isSelected()) {
                 bedValues.add(button.getValue());
+                FilterParams.INSTANCE.params.put("bedrooms_count", button.getValue());
+                AppPreferences.putSearchBedCount(Integer.parseInt(button.getValue()));
                 bedIds.add(button.getId());
             }
         }
@@ -167,34 +181,31 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
         for (SearchOptionButton button : bathBtns) {
             if (button.isSelected()) {
                 bathValues.add(button.getValue());
+                FilterParams.INSTANCE.params.put("bathrooms_count", button.getValue());
+                AppPreferences.putSearchBathCount(Integer.parseInt(button.getValue()));
                 bathIds.add(button.getId());
             }
-        }
-
-        Bundle bundle = new Bundle();
-
-        if (bedValues.size() != 0) {
-            bundle.putStringArrayList("BED_VALUES", bedValues);
-        }
-        if (bathValues.size() != 0) {
-            bundle.putStringArrayList("BATH_VALUES", bathValues);
         }
 
         String selectedPropertyManagementCompany = managementCompanySpinner.getSelectedItem().toString();
         if (!selectedPropertyManagementCompany.equals("") && !selectedPropertyManagementCompany.equals(LOADING_TEXT)) {
             int selectedPropertyId = PropertyManagementCache.INSTANCE.getIdFromName(selectedPropertyManagementCompany);
             if (selectedPropertyId != PropertyManagementCache.ID_NOT_FOUND) {
-                bundle.putInt("MANAGEMENT_COMPANY_ID", selectedPropertyId);
+                AppPreferences.putSelectedManagementCompanyId(selectedPropertyId);
+                FilterParams.INSTANCE.params.put("property_manager_id", Integer.toString(selectedPropertyId));
             }
+        } else {
+            AppPreferences.putSelectedManagementCompanyId(0);
+            FilterParams.INSTANCE.params.remove("property_manager_id");
         }
 
-        bundle.putInt("MAX_PRICE", priceSeeker.getProgress());
         AppPreferences.putSearchMaxPrice(priceSeeker.getProgress());
+        FilterParams.INSTANCE.params.put("max_price", Integer.toString(priceSeeker.getProgress()));
         bathIds.addAll(bedIds);
         AppPreferences.putSelectedSearchButtons(bathIds);
         AppPreferences.putManagementCompanySelectionIndex(managementCompanySpinner.getSelectedItemPosition());
 
-        presenter.getRentalOfferings(bundle);
+        getActivity().finish();
     }
 
     private void setUpSpinner() {
@@ -208,7 +219,7 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
     }
 
     private void retrievePropertyManagersFromBackend() {
-        GlobalFunctions.getApiCall(getActivity(), ApiManager.propertyManagersUrl(), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
+        GlobalFunctions.getApiCall(ApiManager.propertyManagersUrl(), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
             @Override
             public void onStart() {
                 super.onStart();

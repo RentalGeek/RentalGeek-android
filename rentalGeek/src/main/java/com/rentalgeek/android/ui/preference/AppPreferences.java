@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.backend.LoginBackend;
+import com.rentalgeek.android.constants.SharedPrefs;
 import com.rentalgeek.android.utils.ObscuredSharedPreferences;
 
 import java.util.ArrayList;
@@ -40,8 +41,26 @@ public class AppPreferences {
     public static final String PREF_LAST_NAME = "PREF_LAST_NAME";
 
     public static final String PREF_SEARCH_MAX_PRICE = "PREF_SEARCH_MAX_PRICE";
+    public static final String PREF_SEARCH_BED_COUNT = "PREF_SEARCH_BED_COUNT";
+    public static final String PREF_SEARCH_BATH_COUNT = "PREF_SEARCH_BATH_COUNT";
     public static final String PREF_SEARCH_SELECTED_BUTTONS = "PREF_SEARCH_SELECTED_BUTTONS";
     public static final String PREF_SEARCH_COMPANY_INDEX = "PREF_SEARCH_COMPANY_INDEX";
+    public static final String PREF_SEARCH_COMPANY_ID = "PREF_SEARCH_COMPANY_ID";
+
+    public static final String PREF_MAP_CAM_LAT = "PREF_MAP_CAM_LAT";
+    public static final String PREF_MAP_CAM_LNG = "PREF_MAP_CAM_LNG";
+    public static final String PREF_MAP_CAM_RADIUS = "PREF_MAP_CAM_RADIUS";
+
+    private static SharedPreferences.Editor getEditor() {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        return tempSettings.edit();
+    }
+
+    private static SharedPreferences getSharedPrefs() {
+        final Context context = RentalGeekApplication.context;
+        return context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+    }
 
     public static void persistLogin(LoginBackend login) {
         final Context context = RentalGeekApplication.context;
@@ -86,6 +105,14 @@ public class AppPreferences {
         editor.commit();
     }
 
+    public static void putSelectedManagementCompanyId(int id) {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = tempSettings.edit();
+        editor.putInt(PREF_SEARCH_COMPANY_ID, id);
+        editor.commit();
+    }
+
     public static void putSelectedSearchButtons(ArrayList<Integer> selected_buttons) {
         final Context context = RentalGeekApplication.context;
         final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
@@ -106,6 +133,34 @@ public class AppPreferences {
         editor.putString(PREF_PROFILE, profile);
         editor.commit();
         System.out.println("Saved profile");
+    }
+
+    public static void putSearchBedCount(int bedCount) {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = tempSettings.edit();
+        editor.putInt(PREF_SEARCH_BED_COUNT, bedCount);
+        editor.commit();
+    }
+
+    public static void putSearchBathCount(int bathCount) {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = tempSettings.edit();
+        editor.putInt(PREF_SEARCH_BATH_COUNT, bathCount);
+        editor.commit();
+    }
+
+    public static void putMapCameraLatitude(Double latitude) {
+        getEditor().putFloat(PREF_MAP_CAM_LAT, latitude.floatValue()).commit();
+    }
+
+    public static void putMapCameraLongitude(Double longitude) {
+        getEditor().putFloat(PREF_MAP_CAM_LNG, longitude.floatValue()).commit();
+    }
+
+    public static void putMapCameraRadius(int radius) {
+        getEditor().putInt(PREF_MAP_CAM_RADIUS, radius);
     }
 
     public static void putProfilePage(String profile_page) {
@@ -170,6 +225,36 @@ public class AppPreferences {
         final Context context = RentalGeekApplication.context;
         final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
         return tempSettings.getInt(PREF_SEARCH_COMPANY_INDEX, 0);
+    }
+
+    public static int getSelectedManagementCompanyId() {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        return tempSettings.getInt(PREF_SEARCH_COMPANY_ID, 0);
+    }
+
+    public static int getSearchBedCount() {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        return tempSettings.getInt(PREF_SEARCH_BED_COUNT, SharedPrefs.NO_SELECTION);
+    }
+
+    public static int getSearchBathCount() {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        return tempSettings.getInt(PREF_SEARCH_BATH_COUNT, SharedPrefs.NO_SELECTION);
+    }
+
+    public static double getMapCameraLatitude() {
+        return getSharedPrefs().getFloat(PREF_MAP_CAM_LAT, 0);
+    }
+
+    public static double getMapCameraLongitude() {
+        return getSharedPrefs().getFloat(PREF_MAP_CAM_LNG, 0);
+    }
+
+    public static int getMapCameraRadius() {
+        return getSharedPrefs().getInt(PREF_MAP_CAM_RADIUS, 10);
     }
 
     public static ArrayList<Integer> getSearchSelectedButtons() {

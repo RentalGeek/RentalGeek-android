@@ -12,4 +12,5 @@
     <dimen name="profile_field_padding_left">5dp</dimen>
     <dimen name="edittext_field_label_text_size">18sp</dimen>
     <dimen name="profile_form_side_padding">20dp</dimen>
+    <dimen name="map_marker_diameter">24dp</dimen>
 </resources>

@@ -16,16 +16,16 @@ import com.rentalgeek.android.bus.events.ClickRentalEvent;
 import com.rentalgeek.android.bus.events.ClickStarEvent;
 import com.rentalgeek.android.bus.events.RemoveItemEvent;
 import com.rentalgeek.android.mvp.common.StarView;
-import com.rentalgeek.android.pojos.Rental;
+import com.rentalgeek.android.pojos.ListRental;
 import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-import static com.rentalgeek.android.constants.IntentKey.*;
+import static com.rentalgeek.android.constants.IntentKey.RENTAL_ID;
 
-public class RentalAdapter extends ArrayAdapter<Rental> {
+public class RentalAdapter extends ArrayAdapter<ListRental> {
 
     private int rowLayoutResourceId;
 
@@ -38,7 +38,7 @@ public class RentalAdapter extends ArrayAdapter<Rental> {
     public View getView(int position, View view, ViewGroup parent) {
 
         ViewHolder viewHolder;
-        Rental rental = getItem(position);
+        ListRental rental = getItem(position);
 
         if (view == null) {
             LayoutInflater inflater = LayoutInflater.from(RentalGeekApplication.context);
@@ -49,23 +49,22 @@ public class RentalAdapter extends ArrayAdapter<Rental> {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        if (rental.isStarred()) {
+        if (rental.starredPropertyId != null) {
             Picasso.with(getContext()).load(R.drawable.star_full).into(viewHolder.star_imageview);
-
         } else {
             Picasso.with(getContext()).load(R.drawable.star_outline).into(viewHolder.star_imageview);
         }
 
         viewHolder.position = position;
-        viewHolder.star_imageview.setTag(rental.getId());
-        viewHolder.price_textview.setText(String.format("$%d", rental.getMonthlyRent()));
+        viewHolder.star_imageview.setTag(rental.id);
+        viewHolder.price_textview.setText(String.format("$%d", rental.rent));
 
-        viewHolder.room_count_textview.setText(String.format("%d BR, %d Bath", rental.getBedroomCount(), rental.getBathroomCount()));
+        viewHolder.room_count_textview.setText(String.format("%d BR, %d Bath", rental.bedroomCount, rental.bathroomCount));
 
         String format = "%s\n%s, %s %s";
-        viewHolder.address_textview.setText(String.format(format, rental.getAddress(), rental.getCity(), rental.getState(), rental.getZipcode()));
+        viewHolder.address_textview.setText(String.format(format, rental.address, rental.city, rental.state, rental.zipcode));
 
-        Picasso.with(getContext()).load(rental.getImageUrl()).into(viewHolder.rental_imageview);
+        Picasso.with(getContext()).load(rental.primaryPhotoUrl).into(viewHolder.rental_imageview);
 
         return view;
     }
@@ -101,7 +100,7 @@ public class RentalAdapter extends ArrayAdapter<Rental> {
 
         @OnClick(R.id.rental_imageview)
         public void OnRentalClick() {
-            String rental_id = (String) star_imageview.getTag();
+            String rental_id = Integer.toString((Integer)star_imageview.getTag());
             Bundle bundle = new Bundle();
             bundle.putString(RENTAL_ID, rental_id);
             AppEventBus.post(new ClickRentalEvent(bundle));
@@ -109,9 +108,8 @@ public class RentalAdapter extends ArrayAdapter<Rental> {
 
         @OnClick(R.id.star_imageview)
         public void onStarClick() {
-            String rental_id = (String) star_imageview.getTag();
+            String rental_id = Integer.toString((Integer)star_imageview.getTag());
             Bundle bundle = new Bundle();
-            bundle = new Bundle();
             bundle.putString(RENTAL_ID, rental_id);
             bundle.putInt("POSITION", position);
             AppEventBus.post(new ClickStarEvent(bundle));

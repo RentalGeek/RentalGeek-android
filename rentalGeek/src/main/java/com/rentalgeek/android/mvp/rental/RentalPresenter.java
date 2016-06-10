@@ -12,15 +12,12 @@ import com.rentalgeek.android.bus.events.ShowCosignApplicationEvent;
 import com.rentalgeek.android.bus.events.ShowNeedPaymentEvent;
 import com.rentalgeek.android.bus.events.ShowProfileCreationEvent;
 import com.rentalgeek.android.bus.events.ShowPropertyPhotosEvent;
-import com.rentalgeek.android.bus.events.ShowRentalEvent;
 import com.rentalgeek.android.mvp.common.StarPresenter;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
 import com.rentalgeek.android.pojos.PropertyPhotosRootDTO;
-import com.rentalgeek.android.pojos.Rental;
-import com.rentalgeek.android.storage.RentalCache;
+import com.rentalgeek.android.pojos.RentalDetailManager;
 import com.rentalgeek.android.ui.preference.AppPreferences;
-import com.rentalgeek.android.utils.GeekGson;
 
 import org.json.JSONObject;
 
@@ -88,13 +85,9 @@ public class RentalPresenter extends StarPresenter implements Presenter {
                             if (json.has("is_cosigner")) {
                                 boolean is_cosigner = json.getBoolean("is_cosigner");
 
-                                //Redirect to cosigner profile creation process
                                 if (is_cosigner) {
                                     AppEventBus.post(new ShowCosignApplicationEvent());
-                                }
-
-                                //Redirect to profile creation process
-                                else {
+                                } else {
                                     AppEventBus.post(new ShowProfileCreationEvent());
                                 }
                             }
@@ -109,39 +102,12 @@ public class RentalPresenter extends StarPresenter implements Presenter {
 
     @Override
     public void getRental(String rental_id) {
-        Rental rental = RentalCache.getInstance().get(rental_id);
-
-        if (rental == null) {
-            System.out.println("Not found in cache");
-            String url = ApiManager.getRental(rental_id);
-            String token = AppPreferences.getAuthToken();
-
-            GlobalFunctions.getApiCall(null, url, token, new GeekHttpResponseHandler() {
-                @Override
-                public void onSuccess(String response) {
-
-                    try {
-                        JSONObject json = new JSONObject(response);
-
-                        if (json.has("rental_offering")) {
-                            JSONObject rental_json = json.getJSONObject("rental_offering");
-                            Rental rental = GeekGson.getInstance().fromJson(rental_json.toString(), Rental.class);
-                            RentalCache.getInstance().add(rental);
-                            AppEventBus.post(new ShowRentalEvent(rental));
-                        }
-                    } catch (Exception e) {
-                        Log.e(TAG, e.getMessage());
-                    }
-                }
-            });
-        } else {
-            AppEventBus.post(new ShowRentalEvent(rental));
-        }
+        RentalDetailManager.getInstance().get(rental_id);
     }
 
     @Override
     public void getPropertyPhotos(String rental_id) {
-        GlobalFunctions.getApiCall(null, ApiManager.propertyPhotos(rental_id), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
+        GlobalFunctions.getApiCall(ApiManager.propertyPhotos(rental_id), AppPreferences.getAuthToken(), new GeekHttpResponseHandler() {
             @Override
             public void onSuccess(String content) {
                 super.onSuccess(content);

@@ -16,6 +16,7 @@ import com.rentalgeek.android.bus.events.ClickRentalEvent;
 import com.rentalgeek.android.bus.events.MapChangedEvent;
 import com.rentalgeek.android.bus.events.ShowProfileCreationEvent;
 import com.rentalgeek.android.constants.ManhattanKansasImpl;
+import com.rentalgeek.android.constants.SharedPrefs;
 import com.rentalgeek.android.constants.TabPosition;
 import com.rentalgeek.android.logging.AppLogger;
 import com.rentalgeek.android.mvp.home.HomePresenter;
@@ -90,8 +91,17 @@ public class ActivityHome extends GeekBaseActivity implements Container<ViewPage
 
     private void initializeFilterParams() {
         FilterParams.INSTANCE.params.put("max_price", Integer.toString(AppPreferences.getSearchMaxPrice()));
+
         if (AppPreferences.getSelectedManagementCompanyId() != 0) {
             FilterParams.INSTANCE.params.put("property_manager_id", Integer.toString(AppPreferences.getSelectedManagementCompanyId()));
+        }
+
+        if (AppPreferences.getSearchBedCount() != SharedPrefs.NO_SELECTION) {
+            FilterParams.INSTANCE.params.put("bedrooms_count", Integer.toString(AppPreferences.getSearchBedCount()));
+        }
+
+        if (AppPreferences.getSearchBathCount() != SharedPrefs.NO_SELECTION) {
+            FilterParams.INSTANCE.params.put("bathrooms_count", Integer.toString(AppPreferences.getSearchBathCount()));
         }
     }
 

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.rentalgeek.android.RentalGeekApplication;
 import com.rentalgeek.android.backend.LoginBackend;
+import com.rentalgeek.android.constants.SharedPrefs;
 import com.rentalgeek.android.utils.ObscuredSharedPreferences;
 
 import java.util.ArrayList;
@@ -40,6 +41,8 @@ public class AppPreferences {
     public static final String PREF_LAST_NAME = "PREF_LAST_NAME";
 
     public static final String PREF_SEARCH_MAX_PRICE = "PREF_SEARCH_MAX_PRICE";
+    public static final String PREF_SEARCH_BED_COUNT = "PREF_SEARCH_BED_COUNT";
+    public static final String PREF_SEARCH_BATH_COUNT = "PREF_SEARCH_BATH_COUNT";
     public static final String PREF_SEARCH_SELECTED_BUTTONS = "PREF_SEARCH_SELECTED_BUTTONS";
     public static final String PREF_SEARCH_COMPANY_INDEX = "PREF_SEARCH_COMPANY_INDEX";
     public static final String PREF_SEARCH_COMPANY_ID = "PREF_SEARCH_COMPANY_ID";
@@ -117,6 +120,22 @@ public class AppPreferences {
         System.out.println("Saved profile");
     }
 
+    public static void putSearchBedCount(int bedCount) {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = tempSettings.edit();
+        editor.putInt(PREF_SEARCH_BED_COUNT, bedCount);
+        editor.commit();
+    }
+
+    public static void putSearchBathCount(int bathCount) {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = tempSettings.edit();
+        editor.putInt(PREF_SEARCH_BATH_COUNT, bathCount);
+        editor.commit();
+    }
+
     public static void putProfilePage(String profile_page) {
         final Context context = RentalGeekApplication.context;
         final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
@@ -185,6 +204,18 @@ public class AppPreferences {
         final Context context = RentalGeekApplication.context;
         final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
         return tempSettings.getInt(PREF_SEARCH_COMPANY_ID, 0);
+    }
+
+    public static int getSearchBedCount() {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        return tempSettings.getInt(PREF_SEARCH_BED_COUNT, SharedPrefs.NO_SELECTION);
+    }
+
+    public static int getSearchBathCount() {
+        final Context context = RentalGeekApplication.context;
+        final SharedPreferences tempSettings = context.getSharedPreferences(SHARED_PREFS_TEMP, Context.MODE_PRIVATE);
+        return tempSettings.getInt(PREF_SEARCH_BATH_COUNT, SharedPrefs.NO_SELECTION);
     }
 
     public static ArrayList<Integer> getSearchSelectedButtons() {

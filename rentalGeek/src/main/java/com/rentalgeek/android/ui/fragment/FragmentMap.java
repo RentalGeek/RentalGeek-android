@@ -146,9 +146,6 @@ public class FragmentMap extends GeekBaseFragment implements OnMapReadyCallback,
         // TODO: CONVERT ALL PARAMS KEYS TO HAVE CONSTANTS CLASS
         // TODO: (NOW) SAVE FETCHAREA INFO TO APPPREFS AND RE-USE LAST ONE ON NEXT APP LAUNCH
         // TODO: (NOW) SHOW A NON OBSTRUCTING LOADING INDICATOR WHEN FETCHING NEW PINS OR LIST
-        // TODO: (NOW) WHAT IS UP WITH THESE WHITE SQUARES SHOWING FOR PINS AFTER A FILTER SOMETIMES (GOTTA BE RELATED TO MY REMOVAL OF OLD MARKERS SOMEHOW)
-            // appears to be an issue with google play services, might need to update
-            // but i'm not using .seticon what am i using
         // TODO: WHEN CLICKING A PIN, THEN GOING TO FILTER, THEN WHEN COMES BACK TO MAP THE PIN SHEET SHOWS AT BOTTOM AGAIN
     }
 

@@ -12,6 +12,7 @@ import com.rentalgeek.android.R;
 import com.rentalgeek.android.api.ApiManager;
 import com.rentalgeek.android.backend.model.PropertyManager;
 import com.rentalgeek.android.backend.model.PropertyManagerRoot;
+import com.rentalgeek.android.constants.SharedPrefs;
 import com.rentalgeek.android.mvp.search.SearchView;
 import com.rentalgeek.android.net.GeekHttpResponseHandler;
 import com.rentalgeek.android.net.GlobalFunctions;
@@ -120,18 +121,30 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
 
     @OnClick({R.id.btn_bath1, R.id.btn_bath2, R.id.btn_bath3, R.id.btn_bath4})
     public void bathButtonPressed(SearchOptionButton button) {
-        for (SearchOptionButton b : bathBtns) {
-            b.reset();
+        if (button.selected) {
+            button.reset();
+            FilterParams.INSTANCE.params.remove("bathrooms_count");
+            AppPreferences.putSearchBathCount(SharedPrefs.NO_SELECTION);
+        } else {
+            for (SearchOptionButton b : bathBtns) {
+                b.reset();
+            }
+            button.pressed();
         }
-        button.pressed();
     }
     
     @OnClick({R.id.btn_bed0,R.id.btn_bed1, R.id.btn_bed2, R.id.btn_bed3, R.id.btn_bed4})
     public void bedButtonPressed(SearchOptionButton button) {
-        for (SearchOptionButton b : bedBtns) {
-            b.reset();
+        if (button.selected) {
+            button.reset();
+            FilterParams.INSTANCE.params.remove("bedrooms_count");
+            AppPreferences.putSearchBedCount(SharedPrefs.NO_SELECTION);
+        } else {
+            for (SearchOptionButton b : bedBtns) {
+                b.reset();
+            }
+            button.pressed();
         }
-        button.pressed();
     }
 
     @OnClick(R.id.reset_search)
@@ -151,8 +164,6 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
 
     @OnClick(R.id.search_submit)
     public void onSubmitClick() {
-        showProgressDialog(R.string.search_rental);
-
         ArrayList<String> bathValues = new ArrayList<String>();
         ArrayList<Integer> bathIds = new ArrayList<>();
         ArrayList<String> bedValues = new ArrayList<String>();
@@ -161,6 +172,8 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
         for (SearchOptionButton button : bedBtns) {
             if (button.isSelected()) {
                 bedValues.add(button.getValue());
+                FilterParams.INSTANCE.params.put("bedrooms_count", button.getValue());
+                AppPreferences.putSearchBedCount(Integer.parseInt(button.getValue()));
                 bedIds.add(button.getId());
             }
         }
@@ -168,6 +181,8 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
         for (SearchOptionButton button : bathBtns) {
             if (button.isSelected()) {
                 bathValues.add(button.getValue());
+                FilterParams.INSTANCE.params.put("bathrooms_count", button.getValue());
+                AppPreferences.putSearchBathCount(Integer.parseInt(button.getValue()));
                 bathIds.add(button.getId());
             }
         }
@@ -195,7 +210,7 @@ public class FragmentSearch extends GeekBaseFragment implements SearchView {
         }
 
         // TODO: I THINK I CAN DROP ALL THESE "BUNDLE" VARIABLES BECAUSE THINK I STOPPED USING THEM
-        // TODO: (NOW) ONLY ALLOW SELECTING ONE BEDROOM AND ONE BATHROOM AT A TIME AND ADD TO FILTERPARAMS
+        // TODO: (NOW) REMEMBER BED/BATH AND OTHER STUFF ON APP START (GET FORM APP PREFS)
 
         bundle.putInt("MAX_PRICE", priceSeeker.getProgress());
         AppPreferences.putSearchMaxPrice(priceSeeker.getProgress());

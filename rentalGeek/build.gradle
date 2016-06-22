@@ -40,8 +40,8 @@ android {
         applicationId "com.rentalgeek.android"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 1013
-        versionName '1.0.1.3'
+        versionCode 1014
+        versionName '1.0.2'
     }
     buildTypes {
         debug {
